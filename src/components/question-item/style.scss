@@ -1,0 +1,46 @@
+@import "../../containers/global/base.scss";
+
+.item-container{
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+
+.create-at{
+  float:right;
+  margin:15px 15px 0 0;
+  color:#ccc;
+  font-size: 12px;
+}
+
+.people{
+  position: absolute;
+  padding:15px 15px 5px 15px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 14px;
+  img {
+    float: left;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+}
+
+.title{
+  padding:40px 15px 5px 15px;
+  word-break:break-all; /*支持IE，chrome，FF不支持*/
+  word-wrap:break-word; /*支持IE，chrome，FF*/
+}
+
+.other{
+  width:100%;
+  // margin-left:10px;
+  // padding:0px 15px 10px 15px;
+  span, a{
+    display: inline-block;
+    padding:0px 0 15px 15px;
+    font-size: 14px;
+  }
+
+}

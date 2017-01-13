@@ -1,0 +1,61 @@
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
+
+@mixin respond-to($media) {
+  // 小屏幕
+  @if $media == sm {
+    @media only screen and (max-width: $screen-sm-min) { @content; }
+  }
+  // 中等屏幕
+  @else if $media == md {
+    @media only screen and (min-width: $screen-sm-min + 1) and (max-width: $screen-md-min - 1) { @content; }
+  }
+  // 大屏幕
+  @else if $media == lg {
+    @media only screen and (min-width: $screen-md-min) { @content; }
+  }
+}
+
+
+@mixin cursorHand {
+  cursor: hand;
+  cursor: pointer;
+}
+
+// 元素的内边距和边框不再会增加它的宽度
+@mixin boxSizing() {
+  -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+$light-gray: rgb(239, 239, 239);
+$blue: rgb(16, 180, 215);
+$red: rgb(222, 22, 22);
+$green: rgb(54, 200, 24);
+$gray: #959ba2;
+
+// 动画
+@mixin animaction($name, $duration: .2s, $iterationCount: 1, $delay: 0s) {
+  -webkit-animation-name: $name; // 动画名称
+  -webkit-animation-duration: $duration; // 动画持续时间
+  -webkit-animation-iteration-count: $iterationCount; // 动画次数
+  -webkit-animation-delay: $delay; // 延迟时间
+}
+
+:global{
+
+  // 淡出
+  @-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+
+  @-webkit-keyframes rotate {
+    from { -webkit-transform:rotate(0deg); }
+    to { -webkit-transform:rotate(360deg); }
+  }
+
+}

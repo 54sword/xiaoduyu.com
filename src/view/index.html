@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <%= htmlWebpackPlugin.options.meta %>
+  <!--
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+  -->
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+  <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.public_path %>64.png" type="image/png" />
+  <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.options.public_path %>512.png" />
+  <div id="wx_pic" style="display:none;"><img src='<%= htmlWebpackPlugin.options.public_path %>300.png' /></div>
+</head>
+<body>
+  <div id="app"><%= htmlWebpackPlugin.options.htmlDom %></div>
+  <script>
+    window.__initState__ = <%= htmlWebpackPlugin.options.reduxState %>
+  </script>
+</body>
+</html>

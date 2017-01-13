@@ -1,0 +1,23 @@
+@import "../global/base.scss";
+
+.question{
+  background-color: #fff;
+  padding:15px;
+  @include boxSizing();
+  a{
+    word-break:break-all;
+    word-wrap:break-word;
+  }
+}
+
+.answer{
+  background-color: #fff;
+  padding:15px;
+  border-top:1px solid #efefef;
+  border-bottom:1px solid #efefef;
+  @include boxSizing();
+}
+
+.share{
+  float:right;
+}

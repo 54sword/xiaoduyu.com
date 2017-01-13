@@ -1,0 +1,56 @@
+.share{
+
+  li{
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  a{
+    font-size: 13px;
+
+    .qrcode{
+      position: absolute;
+      display: none;
+      background-color: #fff;
+      padding:15px;
+      margin-left:-70px;
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, .1);
+      font-size: 13px;
+      text-align: center;
+      color: rgb(139, 139, 139);
+      border-radius: 3px;
+      margin-top: 10px;
+    }
+
+    &:hover .qrcode{
+      display: block;
+    }
+  }
+
+}
+
+.tips-weixin-share{
+  position: fixed;
+  width:100%;
+  height: 100%;
+  top:0px;
+  left:0px;
+  background-color: rgba(0, 0, 0, .8);
+  z-index: 999;
+  color:#fff;
+  text-align: center;
+
+  border-top: 10px solid #1c1c20;
+
+  div{
+    position: fixed;
+    top:0px;
+    width:100%;
+    height: 200px;
+    padding-top:40px;
+    background-image: url('./images/arrow@3x.png');
+    background-repeat: no-repeat;
+    background-position: right 13px top 0;
+    background-size: 50px;
+  }
+}

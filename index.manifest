@@ -1,0 +1,8 @@
+CACHE MANIFEST
+#version 1
+
+CACHE:
+  test.css
+
+NETWORK:
+	*

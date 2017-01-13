@@ -1,0 +1,36 @@
+.comment-item{
+
+  padding:15px 0 15px 0;
+  background:#fff;
+  border-bottom:1px solid #efefef;
+
+  > div{
+    padding-left:60px;
+  }
+
+  .avatar{
+    float:left;
+    margin-left:-45px;
+    width:35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+
+  .comment-item-footer{
+    span{
+      margin-right:10px;
+    }
+  }
+
+}
+
+.write-reply{
+  width: 100%;
+}
+
+.replys{
+  width: 100%;
+  .item{
+    width: 100%;
+  }
+}

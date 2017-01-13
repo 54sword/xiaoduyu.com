@@ -1,0 +1,42 @@
+
+
+.answerItem{
+  // padding:15px;
+  border-top:1px solid #efefef;
+}
+
+.create-at{
+  float:right;
+  margin:15px 15px 0 0;
+  color:#ccc;
+  font-size: 12px;
+}
+
+.people{
+  position: absolute;
+  padding-left:60px;
+  margin:15px 15px 15px 0;
+  height: 20px;
+  line-height: 20px;
+  font-size: 14px;
+  img{
+    float:left;
+    margin-left:-45px;
+    width:35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+}
+
+.detail{
+  word-break:break-all;
+  word-wrap:break-word;
+  padding:40px 15px 5px 60px;
+}
+
+.footer{
+  padding:0 0 15px 60px;
+  > span{
+    margin-right:10px;
+  }
+}

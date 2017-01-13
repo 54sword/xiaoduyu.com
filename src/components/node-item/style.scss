@@ -1,0 +1,56 @@
+@import "../../containers/global/base.scss";
+
+.item{
+  display: block;
+  background-color: #fff;
+  min-height: 50px;
+  padding:15px 15px 15px 80px;
+  border-bottom:1px solid #efefef;
+  color:#666;
+}
+
+.avatar{
+  position: absolute;
+  margin-left:-65px;
+  width: 50px;
+  height: 50px;
+  border-radius: 10%;
+  background-color: #efefef;
+}
+
+.name{
+  // color:#484848;
+  // font-weight: bold;
+}
+
+.brief{
+  font-size: 14px;
+  color:$gray;
+}
+
+.count{
+  font-size: 14px;
+  color:$gray;
+  span{
+    &:after{
+      color:#d8d8d8;
+      font-size: 9px;
+      margin:0 10px 0 10px;
+      content: '•';
+    }
+    &:last-child:after{
+      content: '';
+    }
+  }
+}
+
+.actions{
+  float:right;
+  a, input{
+    float:right;
+    margin-left:10px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 13px;
+  }
+}

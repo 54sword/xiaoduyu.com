@@ -1,0 +1,41 @@
+@import "../../../../containers/global/base.scss";
+
+
+.signup{
+  :global {
+    .captcha{
+      width:60% !important;
+    }
+    .captcha-button{
+      width:40% !important;
+      float:right;
+    }
+  }
+}
+
+.gender{
+  height: 30px;
+}
+
+.signin{
+
+  margin-top:10px;
+  padding-top: 10px;
+  border-top: 1px solid #efefef;
+
+  height: 40px;
+  line-height: 40px;
+
+  a{
+    float:right;
+    margin-top: 5px;
+    height: 30px;
+    line-height: 30px;
+    padding:0 20px 0 20px;
+    border:1px solid $blue;
+    border-radius: 3px;
+    color: $blue;
+    font-size: 13px;
+  }
+
+}

@@ -1,0 +1,30 @@
+.header{
+  padding:15px 0 15px 0;
+  width: 100%;
+  background-color: #fff;
+  text-align: center;
+  display: block;
+  img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+  }
+}
+
+.follow{
+  font-size: 12px;
+  b{
+    font-size: 14px;
+  }
+  > div{
+    display: inline-block;
+    width:33.333%;
+    padding:10px 0 10px 0;
+  }
+}
+
+.my-active{
+  > div{
+    padding:1rem 0 1rem 0;
+  }
+}

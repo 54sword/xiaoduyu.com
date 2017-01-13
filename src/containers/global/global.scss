@@ -1,0 +1,278 @@
+@import "./reset.scss";
+@import "./base.scss";
+
+html {
+  // font-family: PingFang-SC-Regular, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  // -webkit-font-smoothing: antialiased;
+  // -webkit-overflow-scrolling: touch;
+  // -webkit-text-size-adjust: 100%;
+  // -ms-text-size-adjust: 100%;
+}
+
+body {
+  padding:0px; margin:0px; background-color: #f5f5f5; color:#000;
+  font-size: 15px;
+  font-family: PingFang-SC-Regular, "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+}
+
+a{ text-decoration: none; color:#000; }
+a:active{ opacity: .65; }
+a:focus, input:focus { outline: none; }
+
+h1{ font-size: 40px; padding:0px; margin:0px; }
+h2{ font-size: 35px; padding:0px; margin:0px; }
+h3{ font-size: 30px; padding:0px; margin:0px; }
+h4{ font-size: 25px; padding:0px; margin:0px; }
+h5{ font-size: 20px; padding:0px; margin:0px; }
+h6{ font-size: 15px; padding:0px; margin:0px; }
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  -webkit-appearance: none;
+  @include boxSizing();
+}
+
+input[type="submit"]:enabled{
+}
+
+input[type="submit"]:disabled{
+  background-color: #333 !important;
+}
+
+:global {
+
+  .container{ max-width: 770px; margin: 0 auto; }
+
+  // colors
+  .light-gray{ color: rgb(239, 239, 239); }
+  .blue{ color: rgb(16, 180, 215); }
+  .red{ color: rgb(222, 22, 22); }
+  .green{ color: rgb(54, 200, 24); }
+
+  .center{ text-align: center; }
+
+  // input
+  .input, .textarea{
+    padding:10px;
+    min-height: 45px;
+    border:1px solid #d8d8d8;
+    border-radius:3px;
+  }
+  .textarea{ min-height: 145px; }
+
+  // button
+
+  .button,
+  .button-full{
+    font-size:15px;
+    height: 45px;
+    line-height: 45px;
+    padding:0 20px 0 20px;
+    border: none;
+    background-color: $blue;
+    color:#fff;
+    border-radius: 3px;
+
+    @include cursorHand();
+
+    &:hover,
+    &:active{
+      background-color: #333;
+    }
+  }
+
+
+
+  .button-full{
+    width:100%;
+    font-size: 14px;
+    height: 35px;
+    line-height: 35px;
+  }
+
+  .button－white{
+    @extend .button;
+    background-color: #fff;
+    color:$blue;
+    &:hover,
+    &:active{
+      background-color: #efefef;
+    }
+  }
+
+  // tabbar
+
+  .tabbar,
+  .tabbar-2,
+  .tabbar-3,
+  .tabbar-4,
+  .tabbar-5,
+  .tabbar-6{
+    width:100%;
+    background-color: #fff;
+
+    .active{
+      border-bottom:2px solid $blue;
+      @include boxSizing();
+    }
+
+    > div{
+      display: inline-block;
+      text-align: center;
+      border-bottom:2px solid #d8d8d8;
+      padding:10px 0 10px 0;
+      @include boxSizing();
+    }
+
+  }
+
+  .tabbar-2{
+    > div{ width:50%; }
+  }
+
+  .tabbar-3{
+    > div{ width:33.333%; }
+  }
+
+  .tabbar-4{
+    > div{ width:25%; }
+  }
+
+  .tabbar-5{
+    > div{ width:20%; }
+  }
+
+  .tabbar-6{
+    > div{ width:16.66%; }
+  }
+
+  // list
+
+  .list{
+    margin-top:10px;
+    background: #fff;
+    > a, > input, > textarea{
+      width:100%;
+      display: block;
+      min-height: 50px;
+      padding:0 15px 0 15px;
+      border: none;
+      border-bottom:1px solid $light-gray;
+      @include boxSizing();
+    }
+
+    > a{
+      line-height: 50px;
+      &:hover,
+      &:active{
+        background-color: #f9f9f9;
+        @include cursorHand();
+      }
+    }
+
+    > textarea{
+      min-height: 150px;
+      padding:15px;
+    }
+
+    .right{
+      float:right;
+      color:#999;
+      img{
+        float:right;
+      }
+    }
+
+    .arrow{
+      background-image: url(./images/arrow-right.png);
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 15px;
+      padding-right:35px;
+    }
+
+    .hook{
+      background-image: url(./images/green-hook.png);
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 15px;
+      padding-right:35px;
+    }
+
+    .avatar{
+      display: block;
+      padding:15px 35px 15px 15px;
+    }
+
+    .upload-avatar-button{
+      width:100%;
+      height: 50px;
+      line-height: 50px;
+      > div{
+        width:100%;
+      }
+      button{
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        border:none;
+        background-color: #fff;
+      }
+    }
+
+    .text{
+      background-color: #fff;
+      padding:15px;
+      @include boxSizing();
+    }
+
+
+    // div 有两个input的情况
+    > div{
+      input:nth-child(1){
+        width: 70%;
+        min-height: 50px;
+        padding:0 15px 0 15px;
+        border: none;
+        border-bottom:1px solid $light-gray;
+        @include boxSizing();
+      }
+      input:nth-child(2){
+        width: 30%;
+        height: 50px;
+        line-height: 50px;
+        border:none;
+        border-radius: 0px;
+        color:#fff;
+        background-color: $blue;
+        &:hover{
+          background-color: #333;
+          @include cursorHand();
+        }
+
+      }
+    }
+
+  }
+
+  .select{
+    width:100%;
+    height: 50px;
+    line-height: 50px;
+    text-indent: 20px;
+    border: none;
+    background-color: #fff;
+    border-radius: 0px;
+    background-image: url('./images/arrow-down.png');
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 20px 20px;
+    -webkit-appearance: none;
+  }
+
+}

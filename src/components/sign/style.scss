@@ -1,0 +1,120 @@
+@import "../../containers/global/base.scss";
+
+.signa{
+}
+
+.signLayer{
+  position: fixed;
+  width:100%;
+  width: 350px;
+  background-color: #fff;
+
+  z-index: 100;
+  padding:30px;
+
+  top: 50%;
+  left:50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  border-radius: 3px;
+
+  @include boxSizing();
+  input[type="text"],
+  input[type="password"],
+  input[type="submit"]{
+    width:100%;
+    margin-bottom:10px;
+  }
+
+  fieldset{
+    text-align: center;
+    border-top: 1px solid #e3e3e3;
+    margin-bottom: 10px;
+    legend{
+      font-size: 12px;
+      padding:0 5px 0 5px;
+      font-weight: bold;
+      color: #767676;
+    }
+  }
+
+
+}
+
+.closeButton{
+  float:right;
+  a{
+    float: left;
+    width: 30px;
+    height: 30px;
+    // background-image: url(./images/close.png);
+    background-size: 80%;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+}
+
+.social{
+  ul{
+    padding:0px;
+    margin:0px;
+    list-style-type: none;
+    li{
+      width:100%;
+      margin-bottom:10px;
+      a{
+        display: inline-block;
+        width:100%;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        background-color: rgb(207, 167, 58);
+        color:#fff;
+        border-radius: 3px;
+      }
+    }
+  }
+
+  .weibo{
+    background-color: #d52b2a;
+  }
+
+  .qq{
+    background-color: #00a9f1;
+  }
+}
+
+.signup{
+
+}
+.signin{
+  text-align: center;
+}
+
+.mark{
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .63);
+
+  z-index: 100;
+}
+
+/*
+.signLayer{
+
+  .captcha{
+    width:60% !important;
+  }
+
+  .get-captcha-button{
+    width:40% !important;
+    float:right;
+  }
+
+}
+*/
