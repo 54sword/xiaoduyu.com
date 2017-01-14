@@ -24,6 +24,7 @@ var development = {
     accessKey: '',
     secretKey: '',
     bucket: '',
+    // 七牛的资源地址
     url: ''
   }
 }

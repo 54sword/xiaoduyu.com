@@ -3,7 +3,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser';
 import compression from 'compression';
-import methodOverride from 'method-override';
+// import methodOverride from 'method-override';
 
 import webpack from 'webpack'
 import webpackConfig from '../webpack.development.config.js'
@@ -13,7 +13,7 @@ import config from '../config'
 
 const app = express();
 app.use(compression());
-app.use(methodOverride());
+// app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser('xiaoduyu'));
