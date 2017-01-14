@@ -188,9 +188,18 @@ const Media = (props) => {
 
   if (type === 'image') {
     media = <Image src={src} />;
+  } else if (type === 'youtube') {
+
+    let url = 'https://www.youtube.com/embed/' + src
+    media = <iframe src={url}></iframe>
+
   } else if (type === 'youku') {
-    let url = "http://player.youku.com/embed/" + src
-    media = <Iframe src={url} frameborder="0" border="0" width="auto" height="auto" position="" allowfullscreen></Iframe>
+
+    let url = 'https://player.youku.com/embed/' + src
+    media = <iframe src={url}></iframe>
+
+    // let url = "http://player.youku.com/embed/" + src
+    // media = <Iframe src={url} frameborder="0" border="0" width="auto" height="auto" position="" allowfullscreen></Iframe>
     /*
     if (Device.isMobileDevice()) {
       let url = "http://player.youku.com/embed/" + src
@@ -200,23 +209,23 @@ const Media = (props) => {
       media = <Embed src={url}></Embed>
     }
     */
-  } else if (type === 'tudou') {
-    let url = "http://www.tudou.com/programs/view/html5embed.action?code="+src
-    media = <Iframe src={url} allowtransparency="true" allowfullscreen="true" allowfullscreenInteractive="true" scrolling="no" border="0" frameborder="0" width="auto" height="auto" position=""></Iframe>
+  // } else if (type === 'tudou') {
+    // let url = "http://www.tudou.com/programs/view/html5embed.action?code="+src
+    // media = <Iframe src={url} allowtransparency="true" allowfullscreen="true" allowfullscreenInteractive="true" scrolling="no" border="0" frameborder="0" width="auto" height="auto" position=""></Iframe>
     // <iframe url={url} allowtransparency="true" allowfullscreen="true" allowfullscreenInteractive="true" scrolling="no" border="0" frameborder="0"></iframe>
   } else if (type === 'qq') {
 
-    let url = "http://v.qq.com/iframe/player.html?vid="+src+"&tiny=0&auto=0"
-    media = <Iframe frameborder="0" src={url} width="auto" height="auto" position="" allowfullscreen></Iframe>
-    /*
+    // let url = "https://v.qq.com/iframe/player.html?vid="+src+"&tiny=0&auto=0"
+    // media = <Iframe frameborder="0" src={url} width="auto" height="auto" position="" allowfullscreen></Iframe>
     if (Device.isMobileDevice()) {
-      let url = "http://v.qq.com/iframe/player.html?vid="+src+"&tiny=0&auto=0"
-      media = <Iframe frameborder="0" src={url} width="auto" height="auto" position="" allowfullscreen></Iframe>
+      let src = "https://v.qq.com/iframe/player.html?vid="+src+"&tiny=0&auto=0"
+      // let url = "https://v.qq.com/iframe/player.html?vid="+src+"&tiny=0&auto=0"
+      media = <Iframe src={url} width="auto" height="auto" position=""></Iframe>
     } else {
-      let url = "http://static.video.qq.com/TPout.swf?vid="+src+"&auto=0"
+      let url = "https://imgcache.qq.com/tencentvideo_v1/playerv3/TPout.swf?max_age=86400&v=20161117&vid="+src+"&auto=0"
+      // let url = "https://static.video.qq.com/TPout.swf?vid="+src+"&auto=0"
       media = <Embed src={url}></Embed>
     }
-    */
   }
 
   return media;
@@ -343,6 +352,7 @@ const renderers = {
     youku: (children, data, { key }) => <div data-youku={data.src}></div>,
     tudou: (children, data, { key }) => <div data-tudou={data.src}></div>,
     qq: (children, data, { key }) => <div data-qq={data.src}></div>,
+    youtube: (children, data, { key }) => <div data-youtube={data.src}></div>,
     image: (children, data, { key }) => <img src={data.src} />,
     // youku: (children, data, { key }) => <div><Embed src={`http://player.youku.com/player.php/sid/${data.src}/v.swf`}></Embed></div>,
     // tudou: (children, data, { key }) => <div><Iframe src={`http://www.tudou.com/programs/view/html5embed.action?code=${data.src}`} allowtransparency="true" allowfullscreen="true" allowfullscreenInteractive="true" scrolling="no" border="0" frameborder="0" width="auto" height="auto" position=""></Iframe></div>,
@@ -469,26 +479,38 @@ class MyEditor extends React.Component {
         alert('添加失败，可能是不支持该地址格式')
       }
 
-    } else if (url.indexOf('tudou.com') > -1) {
+    } else if (url.indexOf('youtube.com') > -1) {
 
-      let id = url.match(/\/albumplay\/([0-9a-zA-z\_\-]{1,})\/([0-9a-zA-z\_\-]{1,})\.html/) || []
-      id = id && id.length > 0 ? id[2] : ''
+        let id = url.match(/\/watch\?v\=([0-9a-zA-z\_\-]{1,})$/) || []
 
-      if (!id) {
-        id = url.match(/\/view\/([0-9a-zA-z\_]{1,})\//) || []
         id = id && id.length > 0 ? id[1] : ''
-      }
 
-      if (!id) {
-        id = url.match(/\/listplay\/([0-9a-zA-z\_\-]{1,})\/([0-9a-zA-z\_\-]{1,})(?=\.html|\/)/) || []
-        id = id && id.length > 0 ? id[2] : ''
-      }
+        if (id) {
+          this._promptForMedia('youtube', id)
+        } else {
+          alert('添加失败，可能是不支持该地址格式')
+        }
 
-      if (id) {
-        this._promptForMedia('tudou', id)
-      } else {
-        alert('添加失败，可能是不支持该地址格式')
-      }
+    // } else if (url.indexOf('tudou.com') > -1) {
+    //
+    //   let id = url.match(/\/albumplay\/([0-9a-zA-z\_\-]{1,})\/([0-9a-zA-z\_\-]{1,})\.html/) || []
+    //   id = id && id.length > 0 ? id[2] : ''
+    //
+    //   if (!id) {
+    //     id = url.match(/\/view\/([0-9a-zA-z\_]{1,})\//) || []
+    //     id = id && id.length > 0 ? id[1] : ''
+    //   }
+    //
+    //   if (!id) {
+    //     id = url.match(/\/listplay\/([0-9a-zA-z\_\-]{1,})\/([0-9a-zA-z\_\-]{1,})(?=\.html|\/)/) || []
+    //     id = id && id.length > 0 ? id[2] : ''
+    //   }
+    //
+    //   if (id) {
+    //     this._promptForMedia('tudou', id)
+    //   } else {
+    //     alert('添加失败，可能是不支持该地址格式')
+    //   }
 
     } else {
       alert('无效的地址')

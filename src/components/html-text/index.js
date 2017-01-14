@@ -72,6 +72,24 @@ const converVideo = (html) => {
     })
   }
 
+  // youtube
+  re = /\<div data\-youtube\=\"(.*?)\"\>\<\/div\>/g
+  voides = html.match(re)
+
+  if (voides && voides.length > 0) {
+
+    voides.map(div=>{
+
+      const id = div.split(re)[1]
+
+      let url = "https://www.youtube.com/embed/"+id
+      let media = `<iframe ref="iframe" src="${url}"></iframe>`
+
+      html = html.replace(div, media)
+    })
+
+  }
+
   return html
 
 }
