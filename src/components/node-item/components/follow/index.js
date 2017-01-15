@@ -37,12 +37,10 @@ class FollowNode extends Component {
     }
 
     return (
-      <input
-        className="button"
+      <a href="javascript:void(0)"
+        className={node.follow ? 'button-gray' : 'button-white'}
         onClick={this.follow}
-        type="submit"
-        value={node.follow ? "已加入" : "加入"}
-      />
+      >{node.follow ? "已加入" : "加入"}</a>
     )
   }
 

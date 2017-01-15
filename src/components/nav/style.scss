@@ -7,7 +7,10 @@
   height: 50px;
   line-height: 50px;
   width: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+  border-bottom:1px solid rgba(0,0,0,.08);
+  border-top:1px solid rgba(0,0,0,.08);
+  margin-top: -1px;
+  // box-shadow: 0 0 1px rgba(0, 0, 0, .2);
   // box-shadow: 0 0 6px rgba(0,0,0,.1);
   // box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
   z-index: 99;

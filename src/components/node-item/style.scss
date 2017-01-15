@@ -5,8 +5,10 @@
   background-color: #fff;
   min-height: 50px;
   padding:15px 15px 15px 80px;
-  border-bottom:1px solid #efefef;
+  // border-bottom:1px solid #efefef;
   color:#666;
+  margin-bottom: 10px;
+  border-radius: 3px;
 }
 
 .avatar{
@@ -20,22 +22,23 @@
 
 .name{
   // color:#484848;
-  // font-weight: bold;
+  font-weight: bold;
 }
 
 .brief{
   font-size: 14px;
-  color:$gray;
+  color:#555;
 }
 
 .count{
-  font-size: 14px;
-  color:$gray;
+  font-size: 12px;
+  color:#555;
+  // color:$gray;
   span{
     &:after{
       color:#d8d8d8;
       font-size: 9px;
-      margin:0 10px 0 10px;
+      margin:0 5px 0 5px;
       content: '•';
     }
     &:last-child:after{
@@ -47,10 +50,15 @@
 .actions{
   float:right;
   a, input{
-    float:right;
-    margin-left:10px;
-    height: 40px;
-    line-height: 40px;
-    font-size: 13px;
+    display: inline-block;
+    // float:right;
+    margin-left:5px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    padding:0 10px 0 10px;
+    border:none;
+    width: 45px !important;
+    text-align: center;
   }
 }

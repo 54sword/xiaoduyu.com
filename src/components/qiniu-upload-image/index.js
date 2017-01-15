@@ -20,6 +20,7 @@ class QiniuUploadImage extends React.Component {
       loading: false,
       files: [],
       token: '',
+      url: '',
       uploadKey: ''
     }
 
@@ -33,9 +34,9 @@ class QiniuUploadImage extends React.Component {
     const { getQiNiuToken } = this.props
 
     getQiNiuToken({
-      callback: (token) =>{
-        if (token) {
-          self.setState({ token: token })
+      callback: (data) =>{
+        if (data) {
+          self.setState({ token: data.token, url: data.url })
         }
       }
     })
@@ -46,6 +47,7 @@ class QiniuUploadImage extends React.Component {
 
     const self = this
     const { upload } = this.props
+    const { url } = this.state
 
     self.setState({ loading: true })
 
@@ -57,7 +59,7 @@ class QiniuUploadImage extends React.Component {
 
         if (e.percent == 100 && e.currentTarget.status && e.currentTarget.status == 200) {
 
-          upload(JSON.parse(e.currentTarget.response).key)
+          upload(url+'/'+JSON.parse(e.currentTarget.response).key)
 
           count = count + 1
 

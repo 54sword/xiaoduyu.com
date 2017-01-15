@@ -37,15 +37,15 @@ class NodeItem extends Component {
     const { node, me, isSignin, showSign } = this.props
 
     return (<div className={styles.item}>
+              <div className={styles.actions}>
 
-                <div className={styles.actions}>
-                  <FollowNode node={node} />
-                  {!isSignin ? <a href="javascript:void(0)" onClick={showSign} className="button－white">分享</a> :
-                    <Link to={`/write-question/${node._id}`} className="button">分享</Link>}
-                  {!isSignin ? <a href="javascript:void(0)" onClick={showSign} className="button－white">提问</a> :
-                    <Link to={`/write-question/${node._id}`} className="button">提问</Link>}
-                  {me._id && me.role == 100 ? <Link to={`/edit-communitie/${node._id}`}>编辑</Link> : null}
-                </div>
+                {/*!isSignin ? null :
+                  <Link to={`/write-question/${node._id}`} className="button-white">分享</Link>*/}
+                {!isSignin ? null :
+                  <Link to={`/write-question/${node._id}`} className="button-white">提问</Link>}
+                <FollowNode node={node} />
+                {me._id && me.role == 100 ? <Link to={`/edit-communitie/${node._id}`} className="button-white">编辑</Link> : null}
+              </div>
               <Link to={`/communities/${node._id}`}>
                 <img className={styles.avatar} src={node.avatar} />
                 <div className={styles.name}>{node.name}</div>

@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  padding:0px; margin:0px; background-color: #f5f5f5; color:#000;
+  padding:0px; margin:0px; background-color: #f6f6f6; color:#000;
   font-size: 15px;
   font-family: PingFang-SC-Regular, "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
@@ -70,8 +70,8 @@ input[type="submit"]:disabled{
   .button,
   .button-full{
     font-size:15px;
-    height: 45px;
-    line-height: 45px;
+    height: 40px;
+    line-height: 40px;
     padding:0 20px 0 20px;
     border: none;
     background-color: $blue;
@@ -95,10 +95,21 @@ input[type="submit"]:disabled{
     line-height: 35px;
   }
 
-  .button－white{
+  .button-white{
     @extend .button;
     background-color: #fff;
     color:$blue;
+    border:1px solid $blue;
+    &:hover,
+    &:active{
+      background-color: #efefef;
+    }
+  }
+
+  .button-gray{
+    @extend .button;
+    background-color: #fff;
+    color:#a6a6a6;
     &:hover,
     &:active{
       background-color: #efefef;
@@ -156,6 +167,7 @@ input[type="submit"]:disabled{
   .list{
     margin-top:10px;
     background: #fff;
+    border-radius: 3px;
     > a, > input, > textarea{
       width:100%;
       display: block;
