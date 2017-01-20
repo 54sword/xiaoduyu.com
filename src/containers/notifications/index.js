@@ -11,13 +11,16 @@ class Notifications extends Component {
   constructor(props) {
     super(props)
   }
-  
+
   render () {
     return (
       <div>
         <Nav />
         <Meta meta={{title: '通知'}} />
-        <NotificationList name={"index"} filters={{}} />
+        <div className="container">
+          <div className="container-head">消息通知</div>
+          <NotificationList name={"index"} filters={{}} />
+        </div>
       </div>
     )
   }

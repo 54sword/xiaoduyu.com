@@ -79,7 +79,6 @@ class LikeButton extends Component {
     return (
       <a href="javascript:void(0)" onClick={()=>{this.handleLike()}}>
         {like ? "取消赞" : '赞'}
-        {like_count && like_count > 0 ? like_count : null}
       </a>
     )
   }

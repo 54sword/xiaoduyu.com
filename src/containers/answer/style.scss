@@ -13,8 +13,8 @@
 .answer{
   background-color: #fff;
   padding:15px;
-  border-top:1px solid #efefef;
-  border-bottom:1px solid #efefef;
+  border-top:1px solid $light-gray;
+  // border-bottom:1px solid #efefef;
   @include boxSizing();
 }
 

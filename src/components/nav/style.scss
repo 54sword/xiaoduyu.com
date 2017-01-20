@@ -3,19 +3,18 @@
 .header{
   position: fixed;
   top:0;
-  background-color: #fff;
-  height: 50px;
-  line-height: 50px;
+  background-color: rgba(255, 255, 255, 1);
+  height: 48px;
+  line-height: 48px;
   width: 100%;
-  border-bottom:1px solid rgba(0,0,0,.08);
-  border-top:1px solid rgba(0,0,0,.08);
+  border-bottom:1px solid #f1f2f3;
+  border-top:1px solid #f1f2f3;
   margin-top: -1px;
   // box-shadow: 0 0 1px rgba(0, 0, 0, .2);
-  // box-shadow: 0 0 6px rgba(0,0,0,.1);
+  // box-shadow: 0 0 15px rgba(0,0,0,.07);
   // box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
   z-index: 99;
   > div{
-    max-width: 770px;
     margin:0 auto;
   }
 
@@ -32,7 +31,6 @@
     li{
       float:left;
       width:25%;
-
       a{
         display: block;
         height: 100%;
@@ -40,6 +38,7 @@
         text-align: center;
 
         &:hover{
+          text-decoration: none;
           // color: rgb(7, 128, 227);
           // background-color: #efefef;
         }
@@ -59,7 +58,7 @@
 }
 
 .placeholder{
-  height: 60px;
+  height: 58px;
   width: 100%;
 
   @include respond-to(sm) {
@@ -70,7 +69,7 @@
 
 @include respond-to(sm) {
   body{
-    padding-bottom: 50px !important;
+    padding-bottom: 48px !important;
   }
 }
 

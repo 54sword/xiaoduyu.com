@@ -12,6 +12,7 @@ import { getAccessToken, getProfile } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
+import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import CommentList from '../../components/comment-list'
 import HTMLText from '../../components/html-text'
@@ -76,14 +77,18 @@ class Answer extends React.Component {
 
     let question = answer ? answer.question_id : null
 
+    /*
+    <Subnav
+      middle="回复详情"
+      right={<a href='javascript:void(0);' onClick={this.addComment}>回复</a>}
+    />
+    */
+
     return (
       <div>
-        <Meta meta={{ title: answer.question_id.title + ' - ' + answer.user_id.nickname + '的答案' }} />
+        <Meta meta={{ title: answer.question_id.title + ' - ' + answer.user_id.nickname + '的回复' }} />
 
-        <Subnav
-          middle="回答"
-          right={<a href='javascript:void(0);' onClick={this.addComment}>添加评论</a>}
-        />
+        <Nav />
 
         <div className="container">
           <div className={styles.question}>

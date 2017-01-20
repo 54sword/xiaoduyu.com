@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Link, browserHistory } from 'react-router'
 
+import Device from '../../common/device'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
@@ -102,10 +103,10 @@ class WriteComment extends Component {
       content: comment.value,
       answerId,
       replyId: reply_id,
-      deviceId: 1,
+      deviceId: Device.getCurrentDeviceId(),
       callback: function(result) {
         if (result && result.success) {
-          alert('评论提交成功')
+          alert('回复提交成功')
           self.context.router.goBack()
         }
       }
@@ -115,10 +116,10 @@ class WriteComment extends Component {
 
   render() {
     return (<div>
-      <Meta meta={{title:'写评论'}} />
+      <Meta meta={{title:'编写回复'}} />
       <Subnav
         left="取消"
-        middle="写评论"
+        middle="编写回复"
         right={(<a href="javascript:void(0);" onClick={this.submitComment}>提交</a>)}
       />
       <div className="container">

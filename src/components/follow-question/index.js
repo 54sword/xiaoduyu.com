@@ -39,7 +39,7 @@ class FollowQuestion extends Component {
               </a>)
     } else {
       return (<a href="javascript:void(0)" onClick={this.follow}>
-                关注问题
+                关注
               </a>)
     }
 

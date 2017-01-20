@@ -11,6 +11,7 @@ import { getNodeListByName } from '../../reducers/nodes'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
+import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import QiniuUploadImage from '../../components/qiniu-upload-image'
 
@@ -102,10 +103,11 @@ class WriteNode extends Component {
       return (<div></div>)
     }
 
+    // <Subnav middle="创建社群" />
     return (
       <div>
         <Meta meta={{title:'创建社群'}} />
-        <Subnav middle="创建社群" />
+        <Nav />
         <div className="container">
 
           <div className="list">

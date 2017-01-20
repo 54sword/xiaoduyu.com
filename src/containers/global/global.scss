@@ -11,12 +11,18 @@ html {
 }
 
 body {
-  padding:0px; margin:0px; background-color: #f6f6f6; color:#000;
+  padding:0px;
+  margin:0px;
+  background-color: #f1f2f3;
+  color:#000;
   font-size: 15px;
   font-family: PingFang-SC-Regular, "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
 
 a{ text-decoration: none; color:#000; }
+a:hover{
+  text-decoration: underline;
+}
 a:active{ opacity: .65; }
 a:focus, input:focus { outline: none; }
 
@@ -46,7 +52,15 @@ input[type="submit"]:disabled{
 
 :global {
 
-  .container{ max-width: 770px; margin: 0 auto; }
+  .container{ max-width: 680px; margin: 0 auto; }
+
+  .container-head{
+    height: 40px;
+    line-height: 40px;
+    padding:0 15px 0 15px;
+    background: #ffffff;
+    border-bottom:1px solid $light-gray;
+  }
 
   // colors
   .light-gray{ color: rgb(239, 239, 239); }
@@ -82,7 +96,7 @@ input[type="submit"]:disabled{
 
     &:hover,
     &:active{
-      background-color: #333;
+      background-color: #268af6;
     }
   }
 
@@ -165,9 +179,9 @@ input[type="submit"]:disabled{
   // list
 
   .list{
-    margin-top:10px;
+    margin-bottom:10px;
     background: #fff;
-    border-radius: 3px;
+    // border-radius: 3px;
     > a, > input, > textarea{
       width:100%;
       display: block;

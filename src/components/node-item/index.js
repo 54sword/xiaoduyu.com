@@ -37,25 +37,33 @@ class NodeItem extends Component {
     const { node, me, isSignin, showSign } = this.props
 
     return (<div className={styles.item}>
-              <div className={styles.actions}>
 
-                {/*!isSignin ? null :
-                  <Link to={`/write-question/${node._id}`} className="button-white">分享</Link>*/}
+              <div className={styles.actions}>
                 {!isSignin ? null :
-                  <Link to={`/write-question/${node._id}`} className="button-white">提问</Link>}
+                  <Link to={`/write-question/${node._id}`}>分享</Link>}
+                {!isSignin ? null :
+                  <Link to={`/write-question/${node._id}`}>提问</Link>}
                 <FollowNode node={node} />
-                {me._id && me.role == 100 ? <Link to={`/edit-communitie/${node._id}`} className="button-white">编辑</Link> : null}
+                {me._id && me.role == 100 ? <Link to={`/edit-communitie/${node._id}`}>编辑</Link> : null}
               </div>
-              <Link to={`/communities/${node._id}`}>
-                <img className={styles.avatar} src={node.avatar} />
-                <div className={styles.name}>{node.name}</div>
-                <div className={styles.brief}>{node.brief}</div>
-                <div className={styles.count}>
-                  {node.question_count ? <span>{node.question_count} 个提问</span> : null}
-                  {node.comment_count ? <span>{node.comment_count} 个回答</span> : null}
-                  {node.follow_count ? <span>{node.follow_count} 位成员</span> : null}
+
+              <div>
+                <div className={styles.head}>
+                  <span>
+                    <Link to={`/communities/${node._id}`} className={styles.name}>
+                      <img className={styles.avatar} src={node.avatar} />
+                      {node.name}
+                    </Link>
+                  </span>
                 </div>
-              </Link>
+                <div className={styles.brief}>{node.brief}</div>
+                <div className={styles.info}>
+                  {node.follow_count ? <span>{node.follow_count} 位成员</span> : null}
+                  {node.question_count ? <span>{node.question_count} 个主题</span> : null}
+                  {node.answer_count ? <span>{node.answer_count} 个回复</span> : null}
+                </div>
+              </div>
+
             </div>)
   }
 

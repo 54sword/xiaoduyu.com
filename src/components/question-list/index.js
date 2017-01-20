@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
+import styles from './style.scss'
+
 // 依赖的外部功能
 import arriveFooter from '../../common/arrive-footer'
 
@@ -65,7 +67,7 @@ class QuestionsList extends Component {
     return (
       <div>
 
-        <div>
+        <div className={styles.list}>
           {data.map(question=>{
             return (<div key={question._id}><QuestionItem question={question} /></div>)
           })}

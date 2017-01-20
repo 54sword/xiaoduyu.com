@@ -84,7 +84,7 @@ class NotificationList extends Component {
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       关注了你的
                       <Link to={`/question/${notice.question_id._id}`}>{notice.question_id.title}</Link>
-                      提问
+                      主题
                       </div>
                     </div>)
                   break
@@ -95,7 +95,7 @@ class NotificationList extends Component {
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       回复了你的
                       <Link to={`/people/${notice.sender_id._id}`}>{notice.comment_id.reply_id.content}</Link>
-                      评论
+                      回复
                     </div>
                     <div className={styles.content}>{notice.comment_id.content}</div>
                     <div className={styles.footer}>
@@ -108,14 +108,16 @@ class NotificationList extends Component {
                   content = (<div>
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      评论了你的
+                      回复了你的
                       <Link to={`/answer/${notice.comment_id.answer_id._id}`}>{notice.comment_id.answer_id.content_html}</Link>
-                      回答
+                      回复
                     </div>
                     <div className={styles.content}>{notice.comment_id.content}</div>
+                    {/*
                     <div className={styles.footer}>
                       <Link to={`/write-comment/${notice.comment_id.answer_id._id}?reply_id=${notice.comment_id._id}`}>回复</Link>
                     </div>
+                    */}
                   </div>)
                   break
 
@@ -123,16 +125,18 @@ class NotificationList extends Component {
                   content = (<div>
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      回答了你的
+                      回复了你的
                       <Link to={`/question/${notice.answer_id.question_id._id}`}>{notice.answer_id.question_id.title}</Link>
-                      提问
+                      主题
                     </div>
                     <div className={styles.content}>
                       <HTMLText content={notice.answer_id.content_html} />
                     </div>
+                    {/*
                     <div className={styles.footer}>
                       <Link to={`/write-comment/${notice.answer_id._id}`}>回复</Link>
                     </div>
+                    */}
                   </div>)
                   break
 
@@ -142,7 +146,7 @@ class NotificationList extends Component {
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       赞了你的
                       <Link to={`/answer/${notice.answer_id._id}`}>{notice.answer_id.content_trim}</Link>
-                      回答
+                      回复
                     </div>
                   </div>)
                   break
@@ -153,7 +157,7 @@ class NotificationList extends Component {
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       赞了你的
                       <Link to={`/answer/${notice.comment_id.answer_id._id}`}>{notice.comment_id.content_trim}</Link>
-                      评论
+                      回复
                     </div>
                   </div>)
                   break

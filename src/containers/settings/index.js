@@ -10,6 +10,7 @@ import { getUserInfo } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
+import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 import { Countdown } from '../../common/date'
@@ -75,12 +76,14 @@ class Settings extends Component {
         </Link>)
     }
 
+    //<Subnav middle="设置" />
     return (
       <div>
         <Meta meta={{title: '设置'}} />
-        <Subnav middle="设置" />
-        <div className="container">
 
+        <Nav />
+        <div className="container">
+          
           <div className="list">
             <Link className="arrow avatar" to="/settings/avatar">
               头像

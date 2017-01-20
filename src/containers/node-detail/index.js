@@ -7,6 +7,7 @@ import { getNodeById } from '../../reducers/nodes'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
+import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import NodeItem from '../../components/node-item'
 import QuestionList from '../../components/question-list'
@@ -52,10 +53,12 @@ class NodeDetail extends Component {
       return (<div></div>)
     }
 
+    // <Subnav left="返回" middle="话题列表" />
+
     return (
       <div>
         <Meta meta={{title:node.name}} />
-        <Subnav left="返回" middle="话题列表" />
+        <Nav />
         <div className="container">
           <NodeItem node={node} />
         </div>

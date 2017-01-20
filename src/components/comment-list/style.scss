@@ -1,8 +1,10 @@
+@import "../../containers/global/base.scss";
+
 .comment-item{
 
   padding:15px 0 15px 0;
   background:#fff;
-  border-bottom:1px solid #efefef;
+  border-bottom:1px solid $light-gray;
 
   > div{
     padding-left:60px;
@@ -33,4 +35,9 @@
   .item{
     width: 100%;
   }
+}
+
+.nothing{
+  text-align: center;
+  padding:20px 0 20px 0;
 }

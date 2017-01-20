@@ -36,11 +36,12 @@ class FollowNode extends Component {
       return (<span></span>)
     }
 
+    // className={node.follow ? 'button-gray' : 'button-white'}
     return (
       <a href="javascript:void(0)"
-        className={node.follow ? 'button-gray' : 'button-white'}
-        onClick={this.follow}
-      >{node.follow ? "已加入" : "加入"}</a>
+        onClick={this.follow}>
+        {node.follow ? "已加入" : "+加入"}
+      </a>
     )
   }
 

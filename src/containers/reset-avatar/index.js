@@ -13,6 +13,7 @@ import { changeNickname, loadUserInfo, cropAvatar } from '../../actions/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
+import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import FileUpload from '../../components/file-upload'
 import Loading from '../../components/loading'
@@ -91,10 +92,12 @@ class ResetAvatar extends Component {
     const { me } = this.props
     const { fileUpload, uploadStatus } = this.state
 
+    // <Subnav middle="头像" />
     return (
       <div>
         <Meta meta={{title:'头像'}} />
-        <Subnav middle="头像" />
+
+        <Nav />
         {uploadStatus ? <Loading /> : null}
         <div className="container">
 

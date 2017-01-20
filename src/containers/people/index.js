@@ -11,6 +11,7 @@ import { getPeopleById } from '../../reducers/people'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
+import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import Tabbar from '../../components/tabbar'
 import FollowPeople from '../../components/follow-people'
@@ -90,10 +91,12 @@ class People extends React.Component {
       go -= 1
     }
 
+    // <Subnav middle={people.nickname} go={go} />
+
     return (
       <div>
         <Meta meta={{title:people.nickname}} />
-        <Subnav middle={people.nickname} go={go} />
+        <Nav />
         <div className="container">
           <div className={styles.header}>
             <div className={styles.actions}>
@@ -106,8 +109,8 @@ class People extends React.Component {
             <div>{people.brief}</div>
           </div>
           <div className={styles.tab}>
-            <Link className={!tabName ? "active" : null} to={`/people/${people._id}/asks?go=${go}`}>提问 {people.question_count > 0 ? people.question_count : null}</Link>
-            <Link className={tabName == 'answers' ? "active" : null} to={`/people/${people._id}/answers?go=${go}`}>回答 {people.answer_count > 0 ? people.answer_count : null}</Link>
+            <Link className={!tabName ? "active" : null} to={`/people/${people._id}/asks?go=${go}`}>主题 {people.question_count > 0 ? people.question_count : null}</Link>
+            <Link className={tabName == 'answers' ? "active" : null} to={`/people/${people._id}/answers?go=${go}`}>回复 {people.answer_count > 0 ? people.answer_count : null}</Link>
             <Link className={tabName == 'communities' ? "active" : null} to={`/people/${people._id}/communities?go=${go}`}>社群 {people.follow_node_count > 0 ? people.follow_node_count : null}</Link>
             <Link className={tabName == 'following' ? "active" : null} to={`/people/${people._id}/following?go=${go}`}>关注 {people.follow_people_count > 0 ? people.follow_people_count : null}</Link>
             <Link className={tabName == 'fans' ? "active" : null} to={`/people/${people._id}/fans?go=${go}`}>粉丝 {people.fans_count > 0 ? people.fans_count : null}</Link>

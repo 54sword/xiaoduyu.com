@@ -32,14 +32,14 @@
     width:20%;
     display: inline-block;
     text-align: center;
-    border-bottom:1px solid #e0e0e0;
+    // border-bottom:1px solid #e0e0e0;
     @include boxSizing();
     &:hover{
-      border-bottom:3px solid rgb(28, 160, 235);
+      border-bottom:3px solid $blue;
     }
   }
 
   :global .active{
-    border-bottom:3px solid rgb(28, 160, 235);
+    border-bottom:3px solid $blue;
   }
 }

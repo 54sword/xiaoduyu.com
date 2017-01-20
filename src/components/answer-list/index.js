@@ -16,7 +16,7 @@ import { getAnswerListByName } from '../../reducers/answer-list'
 
 import ListLoading from '../list-loading'
 import AnswerItem from '../answer-item'
-import CommentItem from '../comment-item'
+
 
 class AnswerList extends Component {
 
@@ -69,20 +69,14 @@ class AnswerList extends Component {
         <div className="container">
           <div className={styles.answers}>
             {answerList.data.map((answer)=>{
-              return (<div key={answer._id}>
-                <AnswerItem answer={answer} />
-                <div className={styles.comments}>
-                  {answer.comments && answer.comments.map(comment=>{
-                    return (<div key={comment._id}><CommentItem comment={comment} /></div>)
-                  })}
-                  {answer.comment_count && answer.comments.length < answer.comment_count ? <div>
-                    <Link to={`/answer/${answer._id}`}>还有 {answer.comment_count - answer.comments.length} 条评论，查看全部</Link>
-                    </div> : null}
-                </div>
-              </div>)
+              return (<div key={answer._id}><AnswerItem answer={answer} /></div>)
             })}
           </div>
-          <ListLoading loading={answerList.loading} more={answerList.more} handleLoad={this.triggerLoad} />
+
+          {answerList.data.length == 0 ?
+            <div className={styles.nothing}>目前尚无回复</div>
+          : <ListLoading loading={answerList.loading} more={answerList.more} handleLoad={this.triggerLoad} />}
+
         </div>
       </div>
     )

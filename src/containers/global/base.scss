@@ -30,11 +30,12 @@ $screen-lg-min: 1200px;
             box-sizing: border-box;
 }
 
-$light-gray: rgb(239, 239, 239);
-$blue: #204ff5;
+$light-gray: #eee;
+$blue: #0071eb;
 $red: rgb(222, 22, 22);
 $green: rgb(54, 200, 24);
 $gray: #959ba2;
+
 
 // 动画
 @mixin animaction($name, $duration: .2s, $iterationCount: 1, $delay: 0s) {

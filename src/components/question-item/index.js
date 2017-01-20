@@ -23,31 +23,43 @@ class QuestionsItem extends Component {
     const { question, displayCreateDate = true } = this.props
 
     return (
-      <div key={question._id} className={styles['item-container']}>
+      <div className={styles['item-container']}>
 
         <div>
-          {displayCreateDate ?
+          {/*displayCreateDate ?
             <span className={styles['create-at']}>
               {DateDiff(question.create_at)}
             </span>
-          : null}
+          : null*/}
           <Link to={`/people/${question.user_id._id}`}>
             <div className={styles.people}>
               <img src={question.user_id.avatar_url} />
+              {/*
               <span>{question.user_id.nickname}</span>
+              */}
             </div>
           </Link>
-          <Link to={`/question/${question._id}`}>
-            <div className={styles.title}>{question.title}</div>
-          </Link>
           <div className={styles.other}>
-            {question.answers_count > 0 ? <span>{question.answers_count} 个回答</span> : null}
-            {question.follow_count > 0 ? <span>{question.follow_count} 人关注了此问题</span> : null}
-            <FollowQuestion question={question} />
+            <div className={styles['other-right']}>
+              <FollowQuestion question={question} />
+            </div>
+            <div className={styles['other-info']}>
+              <span><Link to={`/people/${question.user_id._id}`}>{question.user_id.nickname}</Link></span>
+              <span><Link to={`/communities/${question.node_id._id}`}>{question.node_id.name}</Link></span>
+              {question.view_count > 0 ? <span>{question.view_count} 次浏览</span> : null}
+              {question.answers_count > 0 ? <span>{question.answers_count} 个回复</span> : null}
+              {question.follow_count > 0 ? <span>{question.follow_count} 人关注</span> : null}
+              {/*<span>{DateDiff(question.create_at)}</span>*/}
+            </div>
+          </div>
+          <div className={styles.title}>
+            <Link to={`/question/${question._id}`}>
+              {question.title}
+            </Link>
           </div>
         </div>
 
-        <div>
+        <div className={styles['answer-list']}>
           {question.answers.map(answer=>{
             return (<div key={answer._id}><AnswerItem answer={answer} summary={true} /></div>)
           })}

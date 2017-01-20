@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 
+import styles from './styles.scss'
+
 // import ReactDOM from 'react-dom'
 // import ReactSwipe from 'react-swipe'
 
@@ -66,15 +68,12 @@ class Home extends React.Component {
     return(<div>
       <Meta />
       <Nav />
-      <div className="swiper-container" id="lists">
-        <div className="swiper-wrapper">
-          <div className="swiper-slide">
-            <div className="container">
-            <QuestionList name={'home'} />
-            </div>
-          </div>
-        </div>
+
+      <div className="container">
+        <div className="container-head">最新动态</div>
+        <QuestionList name={'home'} />
       </div>
+
     </div>)
   }
 

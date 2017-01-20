@@ -2,9 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import { Link } from 'react-router'
 
+import { DateDiff } from '../../common/date'
+
 import styles from './style.scss'
 
 import Shell from '../../shell'
+import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import Meta from '../../components/meta'
 import AnswerList from '../../components/answer-list'
@@ -68,15 +71,19 @@ class QuestionDetail extends React.Component {
       return (<div></div>)
     }
 
+    /*
+    <Subnav
+      left="返回"
+      middle="主题详情"
+      right={isSignin ? (me._id != question.user_id._id ? <Link to={`/write-answer/${question._id}`}>回复</Link> : null) : <a href="javascript:void(0);" onClick={showSign}>回复</a>}
+    />
+    */
+
     return (
 
       <div>
 
-        <Subnav
-          left="返回"
-          middle="内容正文"
-          right={isSignin ? (me._id != question.user_id._id ? <Link to={`/write-answer/${question._id}`}>写答案</Link> : null) : <a href="javascript:void(0);" onClick={showSign}>写答案</a>}
-        />
+        <Nav />
 
         <Meta meta={{
           title:question.title,
@@ -86,36 +93,49 @@ class QuestionDetail extends React.Component {
         <div className="container">
 
           <div className={styles.question}>
-            <div className={styles.share}>
-              <Share title={question.title} url={this.props.location.pathname} />
+
+            <div className={styles.head}>
+              <span>
+                <Link to={`/people/${question.user_id._id}`}>
+                  <img className={styles['author-avatar']} src={question.user_id.avatar_url} />
+                  {question.user_id.nickname}
+                </Link>
+              </span>
+              <span>
+                <Link to={`/node/${question.node_id._id}`}>{question.node_id.name}</Link>
+              </span>
+              {question.view_count ? <span>{question.view_count} 浏览</span> : null}
+              {question.answers_count ? <span>{question.answers_count} 个回复</span> : null}
+              {question.follow_count ? <span>{question.follow_count} 人关注</span> : null}
+              <span>{DateDiff(question.create_at)}</span>
             </div>
-            <div className={styles.questionHeader}>
-              <Link to={`/people/${question.user_id._id}`}>
-                <img src={question.user_id.avatar_url} />
-                {question.user_id.nickname}
-              </Link>
-            </div>
-            <div className={styles.questionTitle}>
-              <h1>{question.title}</h1>
-            </div>
-            <div className={styles.questionDetail}>
-              <HTMLText content={question.content_html} />
-            </div>
+
+            <h1 className={styles.title}>
+              {question.title}
+            </h1>
+
+            {question.content_html ?
+              <div className={styles.detail}><HTMLText content={question.content_html} /></div>
+              :null}
           </div>
 
           <div className={styles.other}>
-            {question.answers_count ? <span>{question.answers_count} 个答案</span> : null}
-            {question.view_count ? <span>{question.view_count} 浏览</span> : null}
 
-            <FollowQuestion question={question} />
+            <div className={styles.actions}>
+              <FollowQuestion question={question} />
 
-            {isSignin ?
-              (me._id != question.user_id._id ? <Link to={`/write-answer/${question._id}`}>写答案</Link> : null) :
-              <a href="javascript:void(0);" onClick={showSign}>写答案</a>}
+              {isSignin ?
+                (me._id != question.user_id._id ? <Link to={`/write-answer/${question._id}`}>回复</Link> : null) :
+                <a href="javascript:void(0);" onClick={showSign}>回复</a>}
 
-            {me._id == question.user_id._id ?
-              <Link to={`/edit-question/${question._id}`}>编辑</Link> :
-              null}
+              {me._id == question.user_id._id ?
+                <Link to={`/edit-question/${question._id}`}>编辑</Link> :
+                null}
+            </div>
+
+            <div className={styles.share}>
+              <Share title={question.title} url={this.props.location.pathname} />
+            </div>
 
           </div>
 

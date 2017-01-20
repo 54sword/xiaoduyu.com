@@ -70,7 +70,9 @@ class CommentList extends Component {
           return (<div key={comment._id}><CommentsItem comment={comment} /></div>)
         })}
 
-        <ListLoading loading={loading} more={more} handleLoad={this.triggerLoad} />
+        {commentList.data.length == 0 ?
+          <div className={styles.nothing}>目前尚无回复</div>
+        : <ListLoading loading={loading} more={more} handleLoad={this.triggerLoad} />}
 
       </div>
 

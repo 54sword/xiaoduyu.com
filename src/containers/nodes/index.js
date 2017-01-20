@@ -31,6 +31,7 @@ class Nodes extends React.Component {
         <Meta meta={{ title: '社群' }} />
         <Nav />
         <div className="container">
+          <div className="container-head">所有社群</div>
           <NodeList name="communities-all" filters={{child:1}} />
         </div>
       </div>

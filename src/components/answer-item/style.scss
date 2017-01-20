@@ -1,27 +1,29 @@
+@import "../../containers/global/base.scss";
 
-
-.answerItem{
+.item{
+  padding:15px 15px 0px 65px;
   // padding:15px;
-  border-top:1px solid #efefef;
+  border-top:1px solid $light-gray;
 }
 
 .create-at{
-  float:right;
-  margin:15px 15px 0 0;
+  // float:right;
+  // margin:15px 15px 0 0;
   color:#ccc;
-  font-size: 12px;
+  // font-size: 12px;
 }
 
 .people{
   position: absolute;
-  padding-left:60px;
-  margin:15px 15px 15px 0;
+  // padding-left:60px;
+  // margin:15px 15px 15px 0;
   height: 20px;
   line-height: 20px;
   font-size: 14px;
   img{
     float:left;
-    margin-left:-45px;
+    margin-left:-50px;
+    margin-top:4px;
     width:35px;
     height: 35px;
     border-radius: 50%;
@@ -31,12 +33,87 @@
 .detail{
   word-break:break-all;
   word-wrap:break-word;
-  padding:40px 15px 5px 60px;
+  // padding:40px 15px 0px 60px;
+  a:hover{
+    text-decoration: underline;
+  }
 }
 
 .footer{
-  padding:0 0 15px 60px;
+
+  // padding:0 0 15px 60px;
+  /*
+  > span{
+    font-size: 12px;
+    margin-right:10px;
+    a{
+      color:#666;
+    }
+  }
+  */
+}
+
+.footer-info{
+
+  span{
+    font-size: 12px;
+    color:#cccccc;
+
+    &:after{
+      color:#d8d8d8;
+      font-size: 9px;
+      margin:0 5px 0 5px;
+      content: '•';
+    }
+
+    &:last-child:after{
+      content: '';
+    }
+
+    a{
+      color:#555;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+
+  }
+
+  /*
+  font-size: 12px;
   > span{
     margin-right:10px;
+    color:#d8d8d8;
+    > a{
+      color:#555;
+    }
+  }
+  */
+
+}
+
+.footer-action{
+  display: none;
+  float:right;
+  > span{
+    font-size: 12px;
+    margin-left:10px;
+    a{
+      color:#555;
+    }
+  }
+}
+
+.item:hover{
+  .footer-action{
+    display: block;
+  }
+}
+
+.comment-list{
+  padding-top:15px;
+  > div > div {
+    padding-left:50px;
+    padding-right:0px;
   }
 }

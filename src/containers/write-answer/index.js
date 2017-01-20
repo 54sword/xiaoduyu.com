@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import { browserHistory } from 'react-router'
 import { reactLocalStorage } from 'reactjs-localstorage'
 
+import Device from '../../common/device'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadQuestionById } from '../../actions/question'
@@ -95,12 +97,16 @@ class WriteAnswer extends React.Component {
       questionId: questionId,
       contentJSON: contentJSON,
       contentHTML: contentHTML,
-      deviceId: 1,
+      deviceId: Device.getCurrentDeviceId(),
       callback: function(result) {
 
         if (result && result.success) {
-          reactLocalStorage.set('answer-id', '')
-          reactLocalStorage.set('answer-content', '')
+
+          setTimeout(()=>{
+            reactLocalStorage.set('answer-id', '')
+            reactLocalStorage.set('answer-content', '')
+          }, 200)
+
           browserHistory.push('/question/'+questionId+'?subnav_back=/')
           return
         }
@@ -139,8 +145,8 @@ class WriteAnswer extends React.Component {
     }
 
     return (<div>
-      <Meta meta={{title: '编写答案'}} />
-      <Subnav left="取消" middle="编写答案" />
+      <Meta meta={{title: '编写回复'}} />
+      <Subnav left="取消" middle="编写回复" />
       <div className="container">
         <div>
           {content}

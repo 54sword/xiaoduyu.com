@@ -1,16 +1,14 @@
-.comment-item{
+@import "../../containers/global/base.scss";
 
-  padding:15px 0 15px 0;
+.item{
+
+  padding:15px 15px 15px 65px;
   background:#fff;
-  border-bottom:1px solid #efefef;
-
-  > div{
-    padding-left:60px;
-  }
+  border-top:1px solid $light-gray;
 
   .avatar{
     float:left;
-    margin-left:-45px;
+    margin-left:-50px;
     width:35px;
     height: 35px;
     border-radius: 50%;
@@ -20,6 +18,35 @@
     span{
       margin-right:10px;
     }
+  }
+
+}
+
+.head{
+  font-size: 12px;
+
+  span{
+    font-size: 12px;
+    color:#cccccc;
+
+    &:after{
+      color:#d8d8d8;
+      font-size: 9px;
+      margin:0 5px 0 5px;
+      content: '•';
+    }
+
+    &:last-child:after{
+      content: '';
+    }
+
+    a{
+      color:#555;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+
   }
 
 }

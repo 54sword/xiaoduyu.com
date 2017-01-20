@@ -24,21 +24,25 @@ class CommentItem extends Component {
     const { comment, isSignin, showSign, displayCreateDate = true, me } = this.props
 
       return (
-        <div className={styles['comment-item']} key={comment._id}>
-          {displayCreateDate ?
+        <div className={styles.item}>
+
+          {/*displayCreateDate ?
             <span className={styles['create-at']}>
               {DateDiff(comment.create_at)}
             </span>
-            : null}
-          <div>
-            <img className={styles.avatar} src={comment.user_id.avatar_url} />
-            <Link to={`/people/${comment.user_id._id}`}>{comment.user_id.nickname}</Link>
-            {comment.reply_id ?
-              <span> 回复了 <Link to={`/people/${comment.reply_id.user_id._id}`}>{comment.reply_id.user_id.nickname}</Link></span>
-              : null
-            }
+            : null*/}
+
+          <div className={styles.head}>
+            <span>
+              <img className={styles.avatar} src={comment.user_id.avatar_url} />
+              <Link to={`/people/${comment.user_id._id}`}>{comment.user_id.nickname}</Link>
+              {comment.reply_id ? ' 回复了 ' : null}
+              {comment.reply_id ? <Link to={`/people/${comment.reply_id.user_id._id}`}>{comment.reply_id.user_id.nickname}</Link> : null}
+            </span>
+            <span>{DateDiff(comment.create_at)}</span>
           </div>
           <div>{comment.content}</div>
+          {/*
           <div className={styles['comment-item-footer']}>
             <span>
               <LikeButton
@@ -59,6 +63,7 @@ class CommentItem extends Component {
               <span><Link to={`/edit-comment/${comment._id}`}>编辑</Link></span>
             : null}
           </div>
+          */}
         </div>
       )
   }

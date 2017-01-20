@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import { Link, browserHistory } from 'react-router'
 import { reactLocalStorage } from 'reactjs-localstorage'
 
+
+import Device from '../../common/device'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
@@ -97,14 +99,17 @@ class WriteQuestion extends React.Component {
       detail: contentStateJSON,
       detailHTML: contentHTML,
       nodeId: node._id,
-      device: 1,
+      device: Device.getCurrentDeviceId(),
       callback: function(err, question){
         if (!err) {
 
-          reactLocalStorage.set('question-title', '')
-          reactLocalStorage.set('question-content', '')
+          setTimeout(()=>{
+            reactLocalStorage.set('question-content', '')
+            reactLocalStorage.set('question-title', '')
+          }, 200)
 
-          browserHistory.push('question/'+question._id+'?subnav_back=/')
+          browserHistory.push('/question/'+question._id+'?subnav_back=/')
+
         }
       }
     })
@@ -125,7 +130,7 @@ class WriteQuestion extends React.Component {
       <div className="container">
         <div className={styles.addQuestion}>
           <div className={styles.questionTitle}>
-            <input className="input" ref="questionTitle" type="text" value={title} onChange={this.titleChange} placeholder="请输入标题"  />
+            <input className="input" ref="questionTitle" type="text" value={title} onChange={this.titleChange} placeholder={title? "" : "请输入标题"}  />
           </div>
           <div>
             {editor}

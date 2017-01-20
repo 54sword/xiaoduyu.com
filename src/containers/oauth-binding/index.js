@@ -11,6 +11,7 @@ import { getAccessToken } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
+import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 import { api_url } from '../../../config'
@@ -67,10 +68,12 @@ class OauthBinding extends Component {
 
     if (source == 'qq' || source == 'weibo') {
 
+      // <Subnav middle={title} />
+
       return (
         <div>
           <Meta meta={{title:title}} />
-          <Subnav middle={title} />
+          <Nav />
           <div className="container">
             <div className="list">
               {me[source] ?

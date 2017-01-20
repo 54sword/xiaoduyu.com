@@ -108,7 +108,7 @@ class QiniuUploadImage extends React.Component {
           uploadKey={this.state.uploadKey}
           onUpload={this.onUpload}>
           <div className={styles.buttonbox}>
-            <a href="javascript:void(0)">{name}</a>
+            <a href="javascript:void(0)" className="button-white">{name}</a>
           </div>
         </Qiniu>
       </div>

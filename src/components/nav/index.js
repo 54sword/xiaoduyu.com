@@ -32,7 +32,7 @@ class Navbar extends Component {
     return (
       <div>
         <div className={styles.header}>
-          <div>
+          <div className="container">
             <ul className={me ? null : "three"}>
               <li><IndexLink to="/" activeClassName={styles.active}>首页</IndexLink></li>
               <li><Link to="/communities" activeClassName={styles.active}>社群</Link></li>

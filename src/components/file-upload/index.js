@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { getAccessToken } from '../../reducers/user'
 // import { setLoadingDisplay } from '../../actions/loading'
 
-import { api_url } from '../../../config'
+import { api_url, api_verstion } from '../../../config'
 
 class FileUpload extends Component {
 
@@ -23,7 +23,7 @@ class FileUpload extends Component {
   }
 
   componentWillMount() {
-    
+
     const { accessToken } = this.props
 
     const { url, accept, beforeUpload, uploading, uploadSuccess, uploadError,
@@ -31,7 +31,7 @@ class FileUpload extends Component {
           } = this.props.options
 
     this.state.options = {
-      baseUrl: api_url + this.state.baseUrl[url],
+      baseUrl: api_url + '/' + api_verstion + this.state.baseUrl[url],
       param:{ fid:0 },
       requestHeaders: { 'AccessToken': accessToken },
       numberLimit: numberLimit || 1,

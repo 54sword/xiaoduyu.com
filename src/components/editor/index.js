@@ -587,7 +587,7 @@ class MyEditor extends React.Component {
                 {/*<FileUpload options={options}>上传图片</FileUpload>*/}
               </span>
               <span>
-                <button onClick={this.addVideo}>添加视频</button>
+                <a href="javascript:void(0)" className="button-white" onClick={this.addVideo}>添加视频</a>
               </span>
             </div>
 

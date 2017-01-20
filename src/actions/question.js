@@ -16,7 +16,7 @@ export function addQuestion({ title, detail, detailHTML, nodeId, device, callbac
         detail: detail,
         detail_html: detailHTML,
         node_id: nodeId,
-        device: device
+        device_id: device
       },
       headers: { AccessToken: accessToken },
       callback: (res)=>{

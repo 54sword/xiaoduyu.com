@@ -8,9 +8,10 @@ import { connect } from 'react-redux'
 import { loadNodes } from '../../actions/nodes'
 import { getAccessToken, getProfile } from '../../reducers/user'
 
-import Subnav from '../../components/subnav'
-import Meta from '../../components/meta'
 import Shell from '../../shell'
+import Meta from '../../components/meta'
+import Nav from '../../components/nav'
+import Subnav from '../../components/subnav'
 import NodeList from '../../components/node-list'
 
 class AllNode extends React.Component {
@@ -23,10 +24,11 @@ class AllNode extends React.Component {
 
     const { isSignin, me } = this.props
 
+    // <Subnav />
     return (
       <div>
         <Meta meta={{ title: '社群' }} />
-        <Subnav />
+        <Nav />
         <div className="container">
 
           <Tabs selectedIndex={0}>
