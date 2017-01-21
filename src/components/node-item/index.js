@@ -39,12 +39,10 @@ class NodeItem extends Component {
     return (<div className={styles.item}>
 
               <div className={styles.actions}>
-                {!isSignin ? null :
-                  <Link to={`/write-question/${node._id}`}>分享</Link>}
-                {!isSignin ? null :
-                  <Link to={`/write-question/${node._id}`}>提问</Link>}
-                <FollowNode node={node} />
+                {!isSignin ? null : <Link to={`/write-question/${node._id}`}>分享</Link>}
+                {!isSignin ? null : <Link to={`/write-question/${node._id}`}>提问</Link>}
                 {me._id && me.role == 100 ? <Link to={`/edit-communitie/${node._id}`}>编辑</Link> : null}
+                <FollowNode node={node} />
               </div>
 
               <div>

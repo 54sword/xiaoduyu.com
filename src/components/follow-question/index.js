@@ -34,13 +34,9 @@ class FollowQuestion extends Component {
     }
 
     if (question.follow) {
-      return (<a href="javascript:void(0)" onClick={this.cancelFollow}>
-                取消关注
-              </a>)
+      return (<a href="javascript:void(0)" className="black-20" onClick={this.cancelFollow}>已关注</a>)
     } else {
-      return (<a href="javascript:void(0)" onClick={this.follow}>
-                关注
-              </a>)
+      return (<a href="javascript:void(0)" onClick={this.follow}>关注</a>)
     }
 
   }

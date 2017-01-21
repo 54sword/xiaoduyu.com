@@ -107,7 +107,7 @@ class WriteAnswer extends React.Component {
             reactLocalStorage.set('answer-content', '')
           }, 200)
 
-          browserHistory.push('/question/'+questionId+'?subnav_back=/')
+          browserHistory.push('/topic/'+questionId+'?subnav_back=/')
           return
         }
 
@@ -159,7 +159,6 @@ class WriteAnswer extends React.Component {
   }
 
 }
-
 
 WriteAnswer.propTypes = {
   question: PropTypes.array.isRequired,

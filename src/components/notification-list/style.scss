@@ -1,17 +1,15 @@
 @import "../../containers/global/base.scss";
 
-.list{
+.item{
 
   > div{
     background-color: #fff;
     padding:15px;
-    // margin-bottom:10px;
-    // border-radius: 3px;
     border-bottom:1px solid $light-gray;
   }
 
   :global .new{
-    background:rgb(100, 228, 178);
+    background:rgb(216, 246, 250);
   }
 
   .create-at{
@@ -23,13 +21,13 @@
 
   .header{
     text-indent: 20px;
-    color: #999;
+    color: #909090;
     font-size: 13px;
 
     a{
       margin:0 5px;
       font-size: 13px;
-      color:#333;
+      color:#000;
     }
 
     .avatar{
@@ -43,10 +41,17 @@
   }
 
   .content{
-    padding:5px 0 0px 0;
+    margin-top:5px;
   }
 
   .footer{
     font-size: 14px;
+  }
+}
+
+.actions{
+  float:right;
+  a{
+    color:#555 !important;
   }
 }

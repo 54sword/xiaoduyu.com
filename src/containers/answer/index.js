@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { Link, browserHistory } from 'react-router'
 
+import { DateDiff } from '../../common/date'
+
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
@@ -17,6 +19,7 @@ import Subnav from '../../components/subnav'
 import CommentList from '../../components/comment-list'
 import HTMLText from '../../components/html-text'
 import Share from '../../components/share'
+import LikeButton from '../../components/like'
 
 
 class Answer extends React.Component {
@@ -67,7 +70,7 @@ class Answer extends React.Component {
 
   render () {
 
-    const { me } = this.props
+    const { me, isSignin, showSign } = this.props
 
     const [ answer ] = this.props.answer
 
@@ -86,36 +89,63 @@ class Answer extends React.Component {
 
     return (
       <div>
-        <Meta meta={{ title: answer.question_id.title + ' - ' + answer.user_id.nickname + '的回复' }} />
+        <Meta meta={{ title: answer.question_id.title + ' - ' + answer.user_id.nickname + '的评论' }} />
 
         <Nav />
 
         <div className="container">
           <div className={styles.question}>
-            <Link to={`/question/${question._id}`}>{question.title}</Link>
+            <Link to={`/topic/${question._id}`}>{question.title}</Link>
           </div>
         </div>
 
         <div className="container">
-          <div className={styles.answer}>
+          <div className={styles.item}>
 
-            <div>
+            <div className={styles.head}>
+              {/*
               <span className={styles.share}>
-                <Share
-                  title={answer.question_id.title + ' - ' + answer.user_id.nickname + '的答案'}
-                  url={this.props.location.pathname}
-                  />
+
               </span>
-              <img src={answer.user_id.avatar_url} />
-              <span>{answer.user_id.nickname} {answer.user_id.brief}</span>
+              */}
+              <span>
+                <Link to={`/people/${answer.user_id._id}`}>
+                  <img className={styles.avatar} src={answer.user_id.avatar_url} />
+                  {answer.user_id.nickname}
+                </Link>
+              </span>
+              <span>
+                {DateDiff(answer.create_at)}
+              </span>
+
+              {answer.like_count > 0 ? <span>{answer.like_count} 个赞</span> : null}
+
             </div>
 
             <div><HTMLText content={answer.content_html} /></div>
 
-            {me._id && answer.user_id._id ?
-              <div><Link to={`/edit-answer/${answer._id}`}>编辑</Link></div>
-              : null}
           </div>
+
+          <div className={styles.other}>
+
+            <div className={styles.actions}>
+
+              <LikeButton answer={answer} />
+
+              {isSignin ?
+                  <Link to={`/write-comment/${answer._id}`}>回复</Link> :
+                  <a href="javascript:void(0);" onClick={showSign}>回复</a>}
+
+              {me._id && answer.user_id._id ? <Link to={`/edit-answer/${answer._id}`}>编辑</Link> : null}
+            </div>
+
+            <Share
+              title={answer.question_id.title + ' - ' + answer.user_id.nickname + '的答案'}
+              url={this.props.location.pathname}
+              />
+
+          </div>
+
         </div>
 
         <CommentList name={answer._id} filters={{ answer_id: answer._id }} />

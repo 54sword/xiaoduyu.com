@@ -25,7 +25,7 @@
 
   span{
     font-size: 13px;
-    color:#999;
+    color:#555;
 
     &:after{
       color:#d8d8d8;
@@ -57,9 +57,9 @@
 }
 
 .brief{
-  font-size: 13px;
-  color:#555;
-  width:80%;
+  font-size: 14px;
+  // color:#555;
+  // width:80%;
   // margin-top:2px;
 }
 
@@ -85,7 +85,7 @@
   float:right;
   a{
     margin-left:10px;
-    font-size: 12px;
+    font-size: 13px;
     color:#555;
   }
 }

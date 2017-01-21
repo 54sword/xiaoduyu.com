@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
-import styles from './style.scss'
+// import styles from './style.scss'
 
 // 依赖的外部功能
 import arriveFooter from '../../common/arrive-footer'
@@ -55,7 +55,7 @@ class QuestionsList extends Component {
   */
 
   render () {
-    const { questionList, loadQuestionList } = this.props
+    const { displayDate = true, questionList, loadQuestionList } = this.props
 
     // 当没有数据的情况
     if (typeof questionList.data == "undefined") {
@@ -66,15 +66,10 @@ class QuestionsList extends Component {
 
     return (
       <div>
-
-        <div className={styles.list}>
-          {data.map(question=>{
-            return (<div key={question._id}><QuestionItem question={question} /></div>)
-          })}
-        </div>
-
+        {data.map(question=>{
+          return (<div key={question._id}><QuestionItem question={question} displayDate={displayDate} /></div>)
+        })}
         <ListLoading loading={loading} more={more} handleLoad={loadQuestionList} />
-
       </div>
     )
   }
@@ -97,6 +92,5 @@ const mapDispatchToProps = (dispatch, props) => {
     loadQuestionList: bindActionCreators(loadQuestionList, dispatch)
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionsList)

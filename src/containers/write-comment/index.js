@@ -50,8 +50,17 @@ class WriteComment extends Component {
     }))
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      questionId: ''
+    }
+    this.submitComment = this.submitComment.bind(this)
+  }
+
   componentDidMount() {
 
+    const that = this
     const { answerId } = this.props.params
     const { reply_id } = this.props.location.query
     const { loadAnswerById, loadCommentById } = this.props
@@ -62,28 +71,29 @@ class WriteComment extends Component {
     }
 
     loadAnswerById({ id: answerId, callback:(answer)=>{
+
       if (!answer) {
         browserHistory.push('/')
         return
       }
+
+      this.state.questionId = answer.question_id._id
 
       if (!reply_id) {
         return
       }
 
       loadCommentById({ id: reply_id, callback:(comment)=>{
+
         if (!comment) {
           browserHistory.push('/')
+          return
         }
+
       }})
 
     }})
 
-  }
-
-  constructor(props) {
-    super(props)
-    this.submitComment = this.submitComment.bind(this)
   }
 
   submitComment() {
@@ -93,6 +103,7 @@ class WriteComment extends Component {
     const { answerId } = this.props.params
     const { addComment } = this.props
     const { reply_id } = this.props.location.query
+    const { questionId } = this.state
 
     if (!comment.value) {
       comment.focus()
@@ -101,6 +112,7 @@ class WriteComment extends Component {
 
     addComment({
       content: comment.value,
+      questionId,
       answerId,
       replyId: reply_id,
       deviceId: Device.getCurrentDeviceId(),

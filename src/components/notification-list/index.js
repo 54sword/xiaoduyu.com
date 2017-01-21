@@ -50,7 +50,7 @@ class NotificationList extends Component {
     loadNotifications({ name, filters })
   }
 
-  render () {
+  render() {
 
     const { notification, loadNewNotifications } = this.props
 
@@ -62,7 +62,7 @@ class NotificationList extends Component {
 
     return (
         <div className="container">
-          <div className={styles.list}>
+          <div className={styles.item}>
             {notification.data.map(notice => {
 
               let content = null
@@ -73,7 +73,7 @@ class NotificationList extends Component {
                   content = (<div>
                       <div className={styles.header}>
                         <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                        关注了你
+                        {DateDiff(notice.create_at)} 关注了你
                       </div>
                     </div>)
                   break
@@ -82,8 +82,8 @@ class NotificationList extends Component {
                   content = (<div>
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      关注了你的
-                      <Link to={`/question/${notice.question_id._id}`}>{notice.question_id.title}</Link>
+                      {DateDiff(notice.create_at)} 关注了你的
+                      <Link to={`/topic/${notice.question_id._id}`}>{notice.question_id.title}</Link>
                       主题
                       </div>
                     </div>)
@@ -92,51 +92,47 @@ class NotificationList extends Component {
                 case 'reply':
                   content = (<div>
                     <div className={styles.header}>
+                      <div className={styles.actions}>
+                        <Link to={`/write-comment/${notice.comment_id.answer_id._id}?reply_id=${notice.comment_id._id}`}>回复</Link>
+                      </div>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      回复了你的
-                      <Link to={`/people/${notice.sender_id._id}`}>{notice.comment_id.reply_id.content}</Link>
+                      {DateDiff(notice.create_at)} 回复了你的
+                      <Link to={`/dialogue/${notice.sender_id._id}`}>{notice.comment_id.reply_id.content}</Link>
                       回复
                     </div>
                     <div className={styles.content}>{notice.comment_id.content}</div>
-                    <div className={styles.footer}>
-                      <Link to={`/write-comment/${notice.comment_id.answer_id._id}?reply_id=${notice.comment_id._id}`}>回复</Link>
-                    </div>
                   </div>)
                   break
 
                 case 'comment':
                   content = (<div>
                     <div className={styles.header}>
+                      <div className={styles.actions}>
+                        <Link to={`/write-comment/${notice.comment_id.answer_id._id}?reply_id=${notice.comment_id._id}`}>回复</Link>
+                      </div>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      回复了你的
-                      <Link to={`/answer/${notice.comment_id.answer_id._id}`}>{notice.comment_id.answer_id.content_html}</Link>
-                      回复
+                      {DateDiff(notice.create_at)} 回复了你的
+                      <Link to={`/comment/${notice.comment_id.answer_id._id}`}>{notice.comment_id.answer_id.content_html}</Link>
+                      评论
                     </div>
                     <div className={styles.content}>{notice.comment_id.content}</div>
-                    {/*
-                    <div className={styles.footer}>
-                      <Link to={`/write-comment/${notice.comment_id.answer_id._id}?reply_id=${notice.comment_id._id}`}>回复</Link>
-                    </div>
-                    */}
                   </div>)
                   break
 
                 case 'answer':
                   content = (<div>
                     <div className={styles.header}>
+                      <div className={styles.actions}>
+                        <Link to={`/write-comment/${notice.answer_id._id}`}>回复</Link>
+                      </div>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      回复了你的
-                      <Link to={`/question/${notice.answer_id.question_id._id}`}>{notice.answer_id.question_id.title}</Link>
+                      {DateDiff(notice.create_at)} 评论了你的
+                      <Link to={`/topic/${notice.answer_id.question_id._id}`}>{notice.answer_id.question_id.title}</Link>
                       主题
                     </div>
                     <div className={styles.content}>
                       <HTMLText content={notice.answer_id.content_html} />
                     </div>
-                    {/*
-                    <div className={styles.footer}>
-                      <Link to={`/write-comment/${notice.answer_id._id}`}>回复</Link>
-                    </div>
-                    */}
                   </div>)
                   break
 
@@ -144,9 +140,9 @@ class NotificationList extends Component {
                   content = (<div>
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      赞了你的
+                      {DateDiff(notice.create_at)} 赞了你的
                       <Link to={`/answer/${notice.answer_id._id}`}>{notice.answer_id.content_trim}</Link>
-                      回复
+                      评论
                     </div>
                   </div>)
                   break
@@ -155,7 +151,7 @@ class NotificationList extends Component {
                   content = (<div>
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      赞了你的
+                      {DateDiff(notice.create_at)} 赞了你的
                       <Link to={`/answer/${notice.comment_id.answer_id._id}`}>{notice.comment_id.content_trim}</Link>
                       回复
                     </div>
@@ -167,8 +163,8 @@ class NotificationList extends Component {
                   content = (<div>
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      回答了
-                      <Link to={`/question/${notice.question_id._id}`}>{notice.question_id.title}</Link>
+                      {DateDiff(notice.create_at)} 评论了
+                      <Link to={`/topic/${notice.question_id._id}`}>{notice.question_id.title}</Link>
                     </div>
                     <div className={styles.content}>
                       <Link to={`/answer/${notice.answer_id._id}`}>{notice.answer_id.content_trim}</Link>
@@ -179,7 +175,7 @@ class NotificationList extends Component {
 
               if (content) {
                 return (<div key={notice._id} className={notice.has_read ? "" : "new"}>
-                    <div className={styles['create-at']}>{DateDiff(notice.create_at)}</div>
+                    <div className={styles['create-at']}></div>
                     {content}
                   </div>)
               }

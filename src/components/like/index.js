@@ -73,13 +73,17 @@ class LikeButton extends Component {
     const { like_count, like } = answer || comment
 
     if (!isSignin) {
-      return (<a href="javascript:void(0)" onClick={showSign}>赞 {like_count && like_count > 0 ? like_count : null}</a>)
+      return (<span></span>)
+      // return (<a href="javascript:void(0)" onClick={showSign}>赞 {like_count && like_count > 0 ? like_count : null}</a>)
     }
 
     return (
-      <a href="javascript:void(0)" onClick={()=>{this.handleLike()}}>
-        {like ? "取消赞" : '赞'}
-      </a>
+      <a
+        href="javascript:void(0)"
+        className={like ? 'black-10' : ''}
+        onClick={()=>{this.handleLike()}}>
+        {like ? "已赞" : '赞'}
+        </a>
     )
   }
 }

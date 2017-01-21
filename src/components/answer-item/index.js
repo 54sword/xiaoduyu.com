@@ -23,7 +23,9 @@ class AnswerItem extends Component {
 
   render () {
 
-    let { answer, summary, isSignin, showSign, displayCreateDate = true, me } = this.props
+    let { answer, summary, isSignin, showSign, displayCreateDate = true, me,
+        displayLike = true, displayReply = true, displayDate = true
+        } = this.props
 
     return (
       <div className={styles.item}>
@@ -44,12 +46,12 @@ class AnswerItem extends Component {
 
           <div className={styles['footer-action']}>
 
-            <span>
-              <LikeButton answer={answer} />
-            </span>
-            {!isSignin && answer.comment_count == 0 ?
-              <span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>
-              : <span><Link to={`/write-comment/${answer._id}`}>回复</Link></span>}
+            {displayLike ? <span><LikeButton answer={answer} /></span> : null}
+            {displayReply ?
+              (!isSignin && answer.comment_count == 0 ?
+                <span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>
+                : <span><Link to={`/write-comment/${answer._id}`}>回复</Link></span>)
+              : null}
 
           </div>
 
@@ -57,26 +59,26 @@ class AnswerItem extends Component {
             <span><Link to={`/people/${answer.user_id._id}`}>{answer.user_id.nickname}</Link></span>
             {answer.comment_count > 0 ? <span>{answer.comment_count} 个回复</span> : null}
             {answer.like_count > 0 ? <span>{answer.like_count} 个赞</span> : null}
-            <span>{DateDiff(answer.create_at)}</span>
+            {displayDate ? <span>{DateDiff(answer.create_at)}</span> : null}
           </div>
 
         </div>
 
         <div className={styles.detail}>
           {summary ?
-            <Link to={`/answer/${answer._id}`}>{answer.content_summary}</Link> :
+            <Link to={`/comment/${answer._id}`}>{answer.content_summary}</Link> :
             <HTMLText content={answer.content_html} />}
         </div>
 
         <div className={styles['comment-list']}>
           {answer.comments && answer.comments.map(comment=>{
-            return (<div key={answer._id}><CommentItem comment={comment} /></div>)
+            return (<div key={comment._id}><CommentItem comment={comment} /></div>)
           })}
-          {/*answer.comment_count && answer.comments.length < answer.comment_count ? <div>
-            <Link to={`/answer/${answer._id}`}>还有 {answer.comment_count - answer.comments.length} 条评论，查看全部</Link>
-            </div> : null*/}
+          {answer.comment_count && answer.comments && answer.comments.length < answer.comment_count ?
+            <div className={styles['view-more-comment']}>
+              <Link to={`/comment/${answer._id}`}>还有 {answer.comment_count - answer.comments.length} 条回复，查看全部</Link>
+            </div> : null}
         </div>
-
 
       </div>
     )

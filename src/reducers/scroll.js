@@ -10,7 +10,7 @@ export default function scroll(state = initialState, action) {
       return state
 
     case 'SET_SCROLL_POSITION':
-      window.scrollTo(0, state[action.name] || 0);
+      window.scrollTo(0, state[action.name] || 0)
       return state
 
     default:

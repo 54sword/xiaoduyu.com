@@ -1,11 +1,12 @@
 
 import Ajax from '../common/ajax'
 
-export function addComment({ answerId, replyId, content, deviceId, callback = ()=>{} }) {
+export function addComment({ questionId, answerId, replyId, content, deviceId, callback = ()=>{} }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
     let list = getState().commentList[answerId] || null
+    let answerList = getState().answerList[questionId] || null
 
     Ajax({
       url: '/write-comment',
@@ -19,12 +20,53 @@ export function addComment({ answerId, replyId, content, deviceId, callback = ()
       headers: { AccessToken: accessToken },
       callback: (res) => {
 
+        if (!res || !res.success) {
+          callback(res)
+          return
+        }
+
+        Ajax({
+          url: '/comments',
+          type: 'get',
+          headers: { AccessToken: accessToken },
+          params: {
+            comment_id: res.data._id
+          },
+          callback: (result)=>{
+
+            if (result && result.success) {
+
+              if (list) {
+                list.data.unshift(result.data[0])
+                dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name, data: list })
+              }
+
+              if (answerList) {
+
+                answerList.data.map((answer, key)=>{
+                  if (answer._id == answerId) {
+                    answerList.data[key].comments.unshift(result.data[0])
+                  }
+                })
+
+                dispatch({ type: 'SET_ANSWER_LIST_BY_NAME', name: questionId, data: answerList })
+              }
+
+            }
+
+            callback(res)
+
+          }
+        })
+
+        /*
         if (list) {
-          list.more = true
+          // list.more = true
           dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name: answerId, data: list })
         }
 
         callback(res)
+        */
       }
     })
 
@@ -90,7 +132,7 @@ export function loadCommentById({ id, callback = ()=>{} }) {
         } else {
           callback(null)
         }
-        
+
       }
     })
 

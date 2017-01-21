@@ -26,44 +26,47 @@ class CommentItem extends Component {
       return (
         <div className={styles.item}>
 
-          {/*displayCreateDate ?
-            <span className={styles['create-at']}>
-              {DateDiff(comment.create_at)}
-            </span>
-            : null*/}
+          <div>
 
-          <div className={styles.head}>
-            <span>
-              <img className={styles.avatar} src={comment.user_id.avatar_url} />
-              <Link to={`/people/${comment.user_id._id}`}>{comment.user_id.nickname}</Link>
-              {comment.reply_id ? ' 回复了 ' : null}
-              {comment.reply_id ? <Link to={`/people/${comment.reply_id.user_id._id}`}>{comment.reply_id.user_id.nickname}</Link> : null}
-            </span>
-            <span>{DateDiff(comment.create_at)}</span>
+            <div className={styles.actions}>
+
+              <span>
+                <LikeButton
+                  comment={comment}
+                  likeCount={comment.like_count}
+                  likeStatus={comment.like}
+                  likeType={'comment'}
+                  targetId={comment._id}
+                />
+              </span>
+              <span>
+                {isSignin ?
+                  <Link to={`/write-comment/${comment.answer_id}?reply_id=${comment._id}`}>回复</Link>:
+                  <a href="javascript:void(0)" onClick={showSign}>回复</a>
+                }
+              </span>
+              {me && me._id == comment.user_id._id ?
+                <span><Link to={`/edit-comment/${comment._id}`}>编辑</Link></span>
+              : null}
+
+            </div>
+
+            <div className={styles.info}>
+              <span>
+                <img className={styles.avatar} src={comment.user_id.avatar_url} />
+                <Link to={`/people/${comment.user_id._id}`}>{comment.user_id.nickname}</Link>
+                {comment.reply_id ? ' 回复了 ' : null}
+                {comment.reply_id ? <Link to={`/people/${comment.reply_id.user_id._id}`}>{comment.reply_id.user_id.nickname}</Link> : null}
+              </span>
+              {comment.like_count > 0 ? <span>{comment.like_count} 个赞</span> : null}
+              <span>{DateDiff(comment.create_at)}</span>
+            </div>
+
           </div>
           <div>{comment.content}</div>
-          {/*
           <div className={styles['comment-item-footer']}>
-            <span>
-              <LikeButton
-                comment={comment}
-                likeCount={comment.like_count}
-                likeStatus={comment.like}
-                likeType={'comment'}
-                targetId={comment._id}
-              />
-            </span>
-            <span>
-              {isSignin ?
-                <Link to={`/write-comment/${comment.answer_id}?reply_id=${comment._id}`}>回复</Link>:
-                <a href="javascript:void(0)" onClick={showSign}>回复</a>
-              }
-            </span>
-            {me && me._id == comment.user_id._id ?
-              <span><Link to={`/edit-comment/${comment._id}`}>编辑</Link></span>
-            : null}
+
           </div>
-          */}
         </div>
       )
   }

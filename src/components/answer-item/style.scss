@@ -56,7 +56,7 @@
 .footer-info{
 
   span{
-    font-size: 12px;
+    font-size: 13px;
     color:#cccccc;
 
     &:after{
@@ -93,10 +93,10 @@
 }
 
 .footer-action{
-  display: none;
+  // display: none;
   float:right;
   > span{
-    font-size: 12px;
+    font-size: 13px;
     margin-left:10px;
     a{
       color:#555;
@@ -116,4 +116,10 @@
     padding-left:50px;
     padding-right:0px;
   }
+}
+
+.view-more-comment{
+  padding:15px 0 15px 0;
+  border-top:1px solid $light-gray;
+  font-size: 13px;
 }

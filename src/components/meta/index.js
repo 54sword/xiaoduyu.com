@@ -19,14 +19,15 @@ class Meta extends Component {
 
     if (this.props.meta) {
       meta = this.props.meta
-      meta.title += '-'+config.name
+      meta.title += ' - '+config.name
     }
 
     if (weixin.in) {
       document.title = meta.title
       var oHead = document.getElementsByTagName('body')[0]
       var oScript= document.createElement("iframe")
-      oScript.src= window.location.origin + "/favicon.png"
+      oScript.src = 'https://ojkahzhlx.qnssl.com/64.png'
+      // oScript.src = window.location.origin + "/favicon.png"
       oScript.style.display = 'none'
       oScript.onload = ()=> {
         setTimeout(()=>{ oHead.removeChild(oScript)}, 0)

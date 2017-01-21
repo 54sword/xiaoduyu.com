@@ -108,7 +108,7 @@ class WriteQuestion extends React.Component {
             reactLocalStorage.set('question-title', '')
           }, 200)
 
-          browserHistory.push('/question/'+question._id+'?subnav_back=/')
+          browserHistory.push('/topic/'+question._id+'?subnav_back=/')
 
         }
       }

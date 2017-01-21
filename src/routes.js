@@ -96,8 +96,8 @@ export default (history, user, logPageView = ()=>{}) =>{
 
     <Route path="/communities" component={Communities} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/communities/:id" component={CommunitiesDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/answer/:id" component={Answer} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/question/:id" component={QuestionDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/comment/:id" component={Answer} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/topic/:id" component={QuestionDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/write-question/:nodeId" component={WriteQuestion} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/edit-question/:id" component={EditQuestion} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/write-answer/:questionId" component={WriteAnswer} onLeave={triggerLeave} onEnter={requireAuth} />

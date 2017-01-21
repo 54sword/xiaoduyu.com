@@ -105,7 +105,7 @@ class QuestionDetail extends React.Component {
                 <Link to={`/node/${question.node_id._id}`}>{question.node_id.name}</Link>
               </span>
               {question.view_count ? <span>{question.view_count} 浏览</span> : null}
-              {question.answers_count ? <span>{question.answers_count} 个回复</span> : null}
+              {question.answers_count ? <span>{question.answers_count} 个评论</span> : null}
               {question.follow_count ? <span>{question.follow_count} 人关注</span> : null}
               <span>{DateDiff(question.create_at)}</span>
             </div>
@@ -125,8 +125,8 @@ class QuestionDetail extends React.Component {
               <FollowQuestion question={question} />
 
               {isSignin ?
-                (me._id != question.user_id._id ? <Link to={`/write-answer/${question._id}`}>回复</Link> : null) :
-                <a href="javascript:void(0);" onClick={showSign}>回复</a>}
+                (me._id != question.user_id._id ? <Link to={`/write-answer/${question._id}`}>评论</Link> : null) :
+                <a href="javascript:void(0);" onClick={showSign}>评论</a>}
 
               {me._id == question.user_id._id ?
                 <Link to={`/edit-question/${question._id}`}>编辑</Link> :

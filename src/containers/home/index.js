@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 
-import styles from './styles.scss'
+// import styles from './styles.scss'
 
 // import ReactDOM from 'react-dom'
 // import ReactSwipe from 'react-swipe'
@@ -36,12 +36,15 @@ class Home extends React.Component {
 
   constructor(props) {
     super(props)
+    /*
     this.state = {
       swiper: null,
       currentTab: 0,
       scrollPostion:{}
     }
+    */
   }
+
   /*
   componentDidMount() {
 
@@ -71,7 +74,7 @@ class Home extends React.Component {
 
       <div className="container">
         <div className="container-head">最新动态</div>
-        <QuestionList name={'home'} />
+        <QuestionList name={'home'} displayDate={false} />
       </div>
 
     </div>)

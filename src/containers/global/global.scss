@@ -63,10 +63,22 @@ input[type="submit"]:disabled{
   }
 
   // colors
-  .light-gray{ color: rgb(239, 239, 239); }
+  .light-gray{ color: rgb(239, 239, 239) !important; }
   .blue{ color: rgb(16, 180, 215); }
   .red{ color: rgb(222, 22, 22); }
   .green{ color: rgb(54, 200, 24); }
+
+  .black{ color: gba(0, 0, 0) !important; }
+  .black-10{ color: rgba(0, 0, 0, .1) !important; }
+  .black-20{ color: rgba(0, 0, 0, .2) !important; }
+  .black-30{ color: rgba(0, 0, 0, .3) !important; }
+  .black-40{ color: rgba(0, 0, 0, .4) !important; }
+  .black-50{ color: rgba(0, 0, 0, .5) !important; }
+  .black-60{ color: rgba(0, 0, 0, .6) !important; }
+  .black-70{ color: rgba(0, 0, 0, .7) !important; }
+  .black-80{ color: rgba(0, 0, 0, .8) !important; }
+  .black-90{ color: rgba(0, 0, 0, .9) !important; }
+
 
   .center{ text-align: center; }
 

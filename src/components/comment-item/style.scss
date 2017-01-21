@@ -14,16 +14,12 @@
     border-radius: 50%;
   }
 
-  .comment-item-footer{
-    span{
-      margin-right:10px;
-    }
-  }
-
 }
 
-.head{
-  font-size: 12px;
+
+
+
+.info{
 
   span{
     font-size: 12px;
@@ -49,6 +45,17 @@
 
   }
 
+}
+
+.actions{
+  float:right;
+  span{
+    margin-left:10px;
+  }
+  a{
+    font-size: 13px;
+    color:#555;
+  }
 }
 
 .create-at{

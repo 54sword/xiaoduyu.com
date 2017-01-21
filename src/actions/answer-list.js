@@ -19,12 +19,35 @@ export function addAnswer({ questionId, contentJSON, contentHTML, deviceId, call
       headers: { AccessToken: accessToken },
       callback: (res) => {
 
-        if (answerList) {
-          answerList.more = true
-          dispatch({ type: 'SET_ANSWER_LIST_BY_NAME', name: questionId, data: answerList })
+        if (!res || !res.success) {
+          callback('error')
+          return
         }
 
-        callback(res)
+        if (!answerList) {
+          callback(res)
+          return
+        }
+
+        Ajax({
+          url: '/answers',
+          params: {
+            answer_id: res.data._id
+          },
+          headers: { AccessToken: accessToken },
+          callback: (result) => {
+            if (answerList) {
+
+              if (result.success && result.data[0]) {
+                answerList.data.unshift(result.data[0])
+              }
+
+              dispatch({ type: 'SET_ANSWER_LIST_BY_NAME', name: questionId, data: answerList })
+            }
+            callback(res)
+
+          }
+        })
 
       }
     })
@@ -34,7 +57,7 @@ export function addAnswer({ questionId, contentJSON, contentHTML, deviceId, call
 
 export function updateAnswer({ id, contentJSON, contentHTML, callback }) {
   return (dispatch, getState) => {
-
+    
     let accessToken = getState().user.accessToken
     let state = getState().answerList
 
@@ -75,8 +98,7 @@ export function updateAnswer({ id, contentJSON, contentHTML, callback }) {
   }
 }
 
-
-export function loadAnswerById({ id, callback = () => {} }) {
+export const loadAnswerById = ({ id, callback = () => {} }) => {
   return (dispatch, getState) => {
 
     const accessToken = getState().user.accessToken
@@ -126,13 +148,13 @@ export function loadAnswerList({ name, filters = {}, callback = ()=>{} }) {
     }
 
     if (!answerList.filters) {
-      filters.lt_create_at = new Date().getTime()
-      filters.per_page = 20
+      filters.gt_create_at = 0
+      filters.per_page = 5
       answerList.filters = filters
     } else {
       filters = answerList.filters
       if (answerList.data[answerList.data.length - 1]) {
-        filters.lt_create_at = new Date(answerList.data[answerList.data.length - 1].create_at).getTime()
+        filters.gt_create_at = new Date(answerList.data[answerList.data.length - 1].create_at).getTime()
       }
     }
 
