@@ -70,7 +70,7 @@ class WriteNode extends Component {
     const { name, brief, description, node } = this.refs
     const { image } = this.state
 
-    if (!image) return alert('请上传社群封面')
+    // if (!image) return alert('请上传社群封面')
     if (!name.value) return name.focus()
     if (!brief.value) return brief.focus()
     if (!description.value) return description.focus()

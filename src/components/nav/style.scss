@@ -4,11 +4,11 @@
   position: fixed;
   top:0;
   background-color: rgba(255, 255, 255, 1);
-  height: 48px;
-  line-height: 48px;
+  height: 45px;
+  line-height: 45px;
   width: 100%;
-  border-bottom:1px solid #f1f2f3;
-  border-top:1px solid #f1f2f3;
+  border-bottom:1px solid #f0f0f0;
+  border-top:1px solid #f1f1f1;
   margin-top: -1px;
   // box-shadow: 0 0 1px rgba(0, 0, 0, .2);
   // box-shadow: 0 0 15px rgba(0,0,0,.07);
@@ -58,7 +58,7 @@
 }
 
 .placeholder{
-  height: 58px;
+  height: 55px;
   width: 100%;
 
   @include respond-to(sm) {

@@ -10,6 +10,28 @@ import { showSign } from '../../actions/sign'
 
 import FollowNode from './components/follow'
 
+
+const medium = ({ node, me, isSignin, showSign }) => {
+  return (<div className={styles.item}>
+
+            <div className={styles.right}>
+              {!isSignin ? <a href="javascript:void(0);" onClick={showSign}>分享</a> : <Link to={`/write-question/${node._id}?type=1`}>分享</Link>}
+              {!isSignin ? <a href="javascript:void(0);" onClick={showSign}>提问</a> : <Link to={`/write-question/${node._id}?type=2`}>提问</Link>}
+              {me._id && me.role == 100 ? <Link to={`/edit-communitie/${node._id}`}>编辑</Link> : null}
+              <FollowNode node={node} />
+            </div>
+
+            <div className={styles.left}>
+              <Link to={`/communities/${node._id}`} className={styles.name}>
+                {styles.avatar ? <img className={styles.avatar} src={node.avatar} /> : null}
+                {node.name}
+              </Link>
+              {node.brief}
+            </div>
+
+          </div>)
+}
+
 class NodeItem extends Component {
 
   constructor(props) {
@@ -33,36 +55,8 @@ class NodeItem extends Component {
   }
 
   render () {
-
     const { node, me, isSignin, showSign } = this.props
-
-    return (<div className={styles.item}>
-
-              <div className={styles.actions}>
-                {!isSignin ? null : <Link to={`/write-question/${node._id}`}>分享</Link>}
-                {!isSignin ? null : <Link to={`/write-question/${node._id}`}>提问</Link>}
-                {me._id && me.role == 100 ? <Link to={`/edit-communitie/${node._id}`}>编辑</Link> : null}
-                <FollowNode node={node} />
-              </div>
-
-              <div>
-                <div className={styles.head}>
-                  <span>
-                    <Link to={`/communities/${node._id}`} className={styles.name}>
-                      <img className={styles.avatar} src={node.avatar} />
-                      {node.name}
-                    </Link>
-                  </span>
-                </div>
-                <div className={styles.brief}>{node.brief}</div>
-                <div className={styles.info}>
-                  {node.follow_count ? <span>{node.follow_count} 位成员</span> : null}
-                  {node.question_count ? <span>{node.question_count} 个主题</span> : null}
-                  {node.answer_count ? <span>{node.answer_count} 个回复</span> : null}
-                </div>
-              </div>
-
-            </div>)
+    return medium({ node, me, isSignin, showSign })
   }
 
 }

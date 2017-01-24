@@ -27,8 +27,12 @@
       color:#fff;
       background: rgba(0,0,0,.4);
 
+      border-radius: 0px;
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
+
+      padding:0px;
+      border:none;
 
       &:hover{
         background: rgba(0,0,0,.6);

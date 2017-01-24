@@ -12,31 +12,18 @@ import Nav from '../../components/nav'
 import Meta from '../../components/meta'
 import Shell from '../../shell'
 import NodeList from '../../components/node-list'
-// import NodeItem from '../../components/node-item'
 
 import FollowNode from '../../components/node-item/components/follow'
 
 class Nodes extends React.Component {
 
   // 服务器预加载内容
-
   static loadData(option, callback) {
-
-    const tag = option.props.location.query.tag || ''
-
     option.store.dispatch(loadNodes({
       name: 'parent-node-list',
       filters: {child:-1},
       callback: (res)=>{
-
-        option.store.dispatch(loadNodes({
-          name: 'communities-' + tag,
-          filters: { child:1, parent_id: tag },
-          callback: (res)=>{
-            callback()
-          }
-        }))
-
+        callback()
       }
     }))
   }
@@ -44,8 +31,7 @@ class Nodes extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      edit: false,
-      tag: ''
+      edit: false
     }
     this.setEdit = this._edit.bind(this)
   }
@@ -64,8 +50,6 @@ class Nodes extends React.Component {
 
     const { nodeList, loadNodes } = this.props
 
-    // console.log(this.props.location.query.tag)
-
     if (!nodeList.data) {
       loadNodes({
         name: 'parent-node-list',
@@ -77,16 +61,10 @@ class Nodes extends React.Component {
 
   }
 
-  componentWillReceiveProps(props) {
-    this.setState({
-      tag: props.location.query.tag || ''
-    })
-  }
-
   render() {
 
     const { nodeList } = this.props
-    const { edit, tag } = this.state
+    const { edit } = this.state
 
     if (!nodeList.data) {
       return (<div></div>)
@@ -97,23 +75,15 @@ class Nodes extends React.Component {
         <Meta meta={{ title: '社群' }} />
         <Nav />
         <div className="container">
-          {/*
-          <div className="container-head">
-            社群
-          </div>
-          */}
-
           <div className="container-tabs">
             <div>
-              <Link to="/communities" className={tag == '' ? 'active' : ''}>全部</Link>
+              <a href="javascript:void(0)">所有</a>
               {nodeList.data.map((node)=>{
-                return (<Link to={`/communities?tag=${node._id}`} key={node._id} className={tag == node._id ? 'active' : ''}>{node.name}</Link>)
+                return (<a href="javascript:void(0)" key={node._id}>{node.name}</a>)
               })}
             </div>
           </div>
-
-
-          <NodeList name={`communities-${tag}`} filters={{ child:1, parent_id: tag }} />
+          <NodeList name="communities-all" filters={{child:1}} />
         </div>
       </div>
     )

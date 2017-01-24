@@ -1,11 +1,16 @@
 @import "../../containers/global/base.scss";
 
+
+
 .item{
-  // display: block;
+  width:100%;
+  display: inline-block;
   background-color: #fff;
-  min-height: 50px;
-  padding:15px 15px 15px 80px;
+  // background-color: #fff;
+  // min-height: 50px;
+  padding:15px 15px 15px 55px;
   border-bottom:1px solid $light-gray;
+  @include boxSizing();
   // color:#666;
   // margin-bottom: 10px;
   // border-radius: 3px;
@@ -13,87 +18,65 @@
 
 .avatar{
   position: absolute;
-  margin-left:-65px;
-  margin-top:3px;
-  width: 50px;
-  height: 50px;
-  border-radius: 10%;
+  margin-left:-40px;
+  margin-top:-3px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
   background-color: #efefef;
 }
 
-.info{
 
-  span{
-    font-size: 13px;
+
+
+
+
+.left{
+  width:60%;
+  display: inline-block;
+
+  color:#a19d9d;
+  font-size: 13px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  a {
+    display: inline-block;
+    font-size: 15px;
+    color:#000;
+    margin-right:10px;
+  }
+
+  .brief{
+    // float:left;
+    display: inline-block;
+    // width:60%;
     color:#555;
 
-    &:after{
-      color:#d8d8d8;
-      font-size: 9px;
-      margin:0 5px 0 5px;
-      content: '•';
-    }
-
-    &:last-child:after{
-      content: '';
-    }
-
-    a{
-      color:#555;
-      &:hover{
-        text-decoration: underline;
-      }
-    }
-
+    // letter-spacing:.5px;
   }
 
 }
 
-
-.name{
-  font-size: 15px;
-  color:#000 !important;
-  // font-weight: bold;
-}
-
-.brief{
-  font-size: 14px;
-  // color:#555;
-  // width:80%;
-  // margin-top:2px;
-}
-
-.count{
-  font-size: 12px;
-  color:#555;
-  // color:$gray;
-  span{
-    &:after{
-      color:#d8d8d8;
-      font-size: 9px;
-      margin:0 5px 0 5px;
-      content: '•';
-    }
-    &:last-child:after{
-      content: '';
-    }
-  }
-}
-
-.actions{
-  // display: none;
+.right{
   float:right;
+  // display: inline-block;
+  width:40%;
+  text-align: right;
   a{
     margin-left:10px;
-    font-size: 13px;
+    font-size: 12px;
     color:#555;
   }
 }
 
-.item{
 
-  &:hover .actions{
-    display: block;
+
+.footer{
+  width:100%;
+  a{
+    margin-right:10px;
+    font-size: 13px;
   }
-
 }

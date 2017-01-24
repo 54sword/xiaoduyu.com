@@ -100,9 +100,10 @@ class WriteQuestion extends React.Component {
       detailHTML: contentHTML,
       nodeId: node._id,
       device: Device.getCurrentDeviceId(),
+      type: this.props.location.query.type || 1,
       callback: function(err, question){
         if (!err) {
-
+          
           setTimeout(()=>{
             reactLocalStorage.set('question-content', '')
             reactLocalStorage.set('question-title', '')
@@ -110,6 +111,8 @@ class WriteQuestion extends React.Component {
 
           browserHistory.push('/topic/'+question._id+'?subnav_back=/')
 
+        } else {
+          alert(err)
         }
       }
     })

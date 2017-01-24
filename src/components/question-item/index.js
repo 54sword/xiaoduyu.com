@@ -54,7 +54,7 @@ class QuestionsItem extends Component {
                 summary={true}
                 displayLike={false}
                 displayReply={false}
-                displayDate={false}
+                displayDate={displayDate}
                 />
             </div>)
           })}

@@ -57,7 +57,7 @@ export function addAnswer({ questionId, contentJSON, contentHTML, deviceId, call
 
 export function updateAnswer({ id, contentJSON, contentHTML, callback }) {
   return (dispatch, getState) => {
-    
+
     let accessToken = getState().user.accessToken
     let state = getState().answerList
 

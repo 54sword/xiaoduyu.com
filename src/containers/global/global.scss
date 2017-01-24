@@ -52,7 +52,10 @@ input[type="submit"]:disabled{
 
 :global {
 
-  .container{ max-width: 680px; margin: 0 auto; }
+  .container{
+    max-width: 680px;
+    margin: 0 auto;
+  }
 
   .container-head{
     height: 40px;
@@ -60,6 +63,45 @@ input[type="submit"]:disabled{
     padding:0 15px 0 15px;
     background: #ffffff;
     border-bottom:1px solid $light-gray;
+
+    .right{
+      float:right;
+    }
+  }
+
+  .container-tabs{
+    background-color: #fff;
+    border-bottom:1px solid $light-gray;
+    height: 40px;
+
+    > div{
+      // position: absolute;
+      // text-align: right;
+      // margin-left:15px;
+      text-align: center;
+      > a{
+        // display: inline-block;
+        font-size: 14px;
+        height: 40px;
+        line-height: 40px;
+        // margin-right: 5px;
+        color:#000;
+        padding:0 15px 0 15px;
+        // margin-top:7px;
+        // border-radius: 5px;
+      }
+
+      :global .active{
+        // background-color:$blue;
+        // color:#fff;
+        color:$blue;
+        // font-weight: bold;
+        // border-bottom:1px solid #333;
+        // text-decoration: none;
+      }
+
+    }
+
   }
 
   // colors

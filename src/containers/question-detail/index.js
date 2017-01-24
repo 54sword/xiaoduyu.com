@@ -102,7 +102,7 @@ class QuestionDetail extends React.Component {
                 </Link>
               </span>
               <span>
-                <Link to={`/node/${question.node_id._id}`}>{question.node_id.name}</Link>
+                <Link to={`/communities/${question.node_id._id}`}>{question.node_id.name}</Link>
               </span>
               {question.view_count ? <span>{question.view_count} 浏览</span> : null}
               {question.answers_count ? <span>{question.answers_count} 个评论</span> : null}

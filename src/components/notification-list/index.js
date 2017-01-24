@@ -80,16 +80,18 @@ class NotificationList extends Component {
 
                 case 'follow-question':
                   content = (<div>
-                    <div className={styles.header}>
-                      <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      {DateDiff(notice.create_at)} 关注了你的
-                      <Link to={`/topic/${notice.question_id._id}`}>{notice.question_id.title}</Link>
-                      主题
+                      <div className={styles.header}>
+                        <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
+                        {DateDiff(notice.create_at)} 关注了你的
+                        <Link to={`/topic/${notice.question_id._id}`}>{notice.question_id.title}</Link>
+                        主题
                       </div>
                     </div>)
                   break
-
+                  
                 case 'reply':
+
+                  // {`/dialogue/${notice.sender_id._id}/${notice.comment_id.reply_id._id}`}
                   content = (<div>
                     <div className={styles.header}>
                       <div className={styles.actions}>
@@ -97,7 +99,7 @@ class NotificationList extends Component {
                       </div>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       {DateDiff(notice.create_at)} 回复了你的
-                      <Link to={`/dialogue/${notice.sender_id._id}`}>{notice.comment_id.reply_id.content}</Link>
+                      <Link to={`/comment/${notice.comment_id.answer_id._id}`}>{notice.comment_id.reply_id.content}</Link>
                       回复
                     </div>
                     <div className={styles.content}>{notice.comment_id.content}</div>

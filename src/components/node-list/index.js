@@ -47,15 +47,32 @@ class FollowNodesList extends Component {
     arriveFooter.remove(name)
   }
 
-  _triggerLoad(callback) {
+  componentWillReceiveProps(props) {
+
+    const that = this
+
+    if (this.props.name != props.name) {
+
+      this.setState({
+        name: props.name,
+        filters: props.filters
+      })
+
+      setTimeout(()=>{
+        that.triggerLoad(()=>{})
+      }, 10)
+
+    }
+  }
+
+  _triggerLoad(callback = ()=>{}) {
     const { loadNodes } = this.props
     const { name, filters } = this.state
 
     loadNodes({
       name,
       filters,
-      callback: function(err, result){
-      }
+      callback
     })
 
   }

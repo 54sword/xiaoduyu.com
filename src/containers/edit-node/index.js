@@ -100,7 +100,7 @@ class EditNode extends Component {
     const { image } = this.state
     const { id } = this.props.params
 
-    if (!image) return alert('请上传社群封面')
+    // if (!image) return alert('请上传社群封面')
     if (!name.value) return name.focus()
     if (!brief.value) return brief.focus()
     if (!description.value) return description.focus()

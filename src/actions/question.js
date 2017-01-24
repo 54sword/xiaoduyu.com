@@ -2,7 +2,7 @@
 import Ajax from '../common/ajax'
 
 // 添加问题
-export function addQuestion({ title, detail, detailHTML, nodeId, device, callback }) {
+export function addQuestion({ title, detail, detailHTML, nodeId, device, type, callback }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
@@ -16,7 +16,8 @@ export function addQuestion({ title, detail, detailHTML, nodeId, device, callbac
         detail: detail,
         detail_html: detailHTML,
         node_id: nodeId,
-        device_id: device
+        device_id: device,
+        type: type
       },
       headers: { AccessToken: accessToken },
       callback: (res)=>{
@@ -25,7 +26,7 @@ export function addQuestion({ title, detail, detailHTML, nodeId, device, callbac
           questionList.data.unshift(processQuestionList([res.data])[0])
           dispatch({ type: 'SET_QUESTION_LIST_BY_NAME', name: 'home', data: questionList })
         } else {
-          callback(true)
+          callback(res.error || true)
         }
       }
     })

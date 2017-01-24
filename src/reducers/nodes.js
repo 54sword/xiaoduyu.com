@@ -5,7 +5,6 @@ let initialState = {
   other: {
     data: []
   }
-  // main: []
 }
 
 export default function nodes(state = initialState, action) {
@@ -41,8 +40,6 @@ export default function nodes(state = initialState, action) {
 
       const { nodeId, status } = action
 
-      // console.log(status)
-
       for (let i in state) {
 
         let nodes = state[i]
@@ -52,23 +49,22 @@ export default function nodes(state = initialState, action) {
           if (nodes[n]._id == nodeId) {
             state[i].data[n].follow_count += status ? 1 : -1
             state[i].data[n].follow = status
-
-            console.log(state[i].data[n].follow)
           }
+
+          if (nodes[n].children && nodes[n].children.length > 0) {
+            nodes[n].children.map(function(node, key){
+              if (node._id == nodeId) {
+                state[i].data[n].children[key].follow_count += status ? 1 : -1
+                state[i].data[n].children[key].follow = status
+              }
+            })
+          }
+
         }
 
       }
 
       return merge({}, state, {})
-    /*
-    case 'ADD_NODES':
-      state['main'] = action.nodes
-      return merge({}, state, {})
-
-    case 'ADD_NODE':
-      state['other'].push(action.node)
-      return merge({}, state, {})
-    */
 
     default:
       return state

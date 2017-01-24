@@ -145,7 +145,7 @@ export function loadNodes({ name, filters = {}, callback = ()=>{} }) {
       }
 
       if (!filters.per_page) {
-        filters.per_page = 10
+        filters.per_page = 20
       }
 
       nodeList.filters = filters
