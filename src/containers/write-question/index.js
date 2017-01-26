@@ -103,7 +103,7 @@ class WriteQuestion extends React.Component {
       type: this.props.location.query.type || 1,
       callback: function(err, question){
         if (!err) {
-          
+
           setTimeout(()=>{
             reactLocalStorage.set('question-content', '')
             reactLocalStorage.set('question-title', '')

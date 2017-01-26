@@ -24,12 +24,12 @@ class NotificationList extends Component {
 
   componentWillMount() {
 
-    const { notification, loadNotifications, unredNotice, loadNewNotifications,
+    const { notification, loadNotifications, unreadNotice, loadNewNotifications,
       name, filters } = this.props
 
     if (!notification.data) {
       this.handleLoad()
-    } else if (unredNotice > 0) {
+    } else if (unreadNotice > 0) {
       loadNewNotifications({ name, filters })
     }
 
@@ -66,7 +66,8 @@ class NotificationList extends Component {
             {notification.data.map(notice => {
 
               let content = null
-              let avatar = <img src={notice.sender_id.avatar_url} className={styles.avatar} />
+              // let avatar = <img src={notice.sender_id.avatar_url} className={styles.avatar} />
+              let avatar = <i className="load-demand" data-load-demand={`<img class=${styles.avatar} src=${notice.sender_id.avatar_url} />`}></i>
 
               switch (notice.type) {
                 case 'follow-you':
@@ -88,7 +89,7 @@ class NotificationList extends Component {
                       </div>
                     </div>)
                   break
-                  
+
                 case 'reply':
 
                   // {`/dialogue/${notice.sender_id._id}/${notice.comment_id.reply_id._id}`}
@@ -192,16 +193,15 @@ class NotificationList extends Component {
   }
 }
 
-
 NotificationList.propTypes = {
-  unredNotice: PropTypes.number.isRequired,
+  unreadNotice: PropTypes.number.isRequired,
   loadNotifications: PropTypes.func.isRequired,
   loadNewNotifications: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
   return {
-    unredNotice: getUnreadNotice(state),
+    unreadNotice: getUnreadNotice(state),
     notification: getNotificationByName(state, props.name)
   }
 }

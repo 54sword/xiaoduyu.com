@@ -36,35 +36,7 @@ class Home extends React.Component {
 
   constructor(props) {
     super(props)
-    /*
-    this.state = {
-      swiper: null,
-      currentTab: 0,
-      scrollPostion:{}
-    }
-    */
   }
-
-  /*
-  componentDidMount() {
-
-    const self = this
-
-    this.state.swiper = new Swiper('#lists',{
-      eventTarget : 'container',
-      autoHeight: true,
-      onTouchStart: function(swiper){
-        self.state.scrollPostion[swiper.activeIndex] = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-        // self.state.scrollPostion[swiper.activeIndex] = $(document).scrollTop()
-      },
-      onSlideChangeEnd: function(swiper){
-        // $(document).scrollTop(self.state.scrollPostion[swiper.activeIndex] || 0)
-        window.scrollTo(0, self.state.scrollPostion[swiper.activeIndex] || 0)
-      }
-    })
-
-  }
-  */
 
   render() {
 
@@ -74,7 +46,7 @@ class Home extends React.Component {
 
       <div className="container">
         <div className="container-head">最新动态</div>
-        <QuestionList name={'home'} displayDate={false} />
+        <QuestionList name={'home'} displayDate={true} />
       </div>
 
     </div>)

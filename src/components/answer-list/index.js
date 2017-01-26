@@ -69,9 +69,6 @@ class AnswerList extends Component {
         <div className="container">
           <div className={styles.answers}>
             {answerList.data.map((answer)=>{
-
-              console.log(answer._id)
-
               return (<div key={answer._id}><AnswerItem answer={answer} /></div>)
             })}
           </div>

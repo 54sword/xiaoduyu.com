@@ -158,14 +158,14 @@ export function loadQuestionList({ name, filters = {}, callback = ()=>{} }) {
 
     if (!questionList.filters) {
 
-      if (!filters.lt_create_at) filters.lt_create_at = new Date().getTime()
+      if (!filters.lt_date) filters.lt_date = new Date().getTime()
       if (!filters.per_page) filters.per_page = 10
 
       questionList.filters = filters
     } else {
       filters = questionList.filters
       if (questionList.data[questionList.data.length - 1]) {
-        filters.lt_create_at = new Date(questionList.data[questionList.data.length - 1].create_at).getTime()
+        filters.lt_date = new Date(questionList.data[questionList.data.length - 1].sort_by_date).getTime()
       }
     }
 
@@ -184,6 +184,8 @@ export function loadQuestionList({ name, filters = {}, callback = ()=>{} }) {
     dispatch({ type: 'SET_QUESTION_LIST_BY_NAME', name, data: questionList })
 
     let headers = accessToken ? { 'AccessToken': accessToken } : null
+
+    filters.method = accessToken ? 'user_custom' : ''
 
     return Ajax({
       url: '/questions',

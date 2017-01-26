@@ -31,7 +31,7 @@ class QuestionsItem extends Component {
           <div className={styles.info}>
             <span>
               <Link to={`/people/${question.user_id._id}`}>
-                <img className={styles.avatar} src={question.user_id.avatar_url} />
+                <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src=${question.user_id.avatar_url} />`}></i>
                 {question.user_id.nickname}
               </Link>
             </span>

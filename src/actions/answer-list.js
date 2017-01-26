@@ -20,7 +20,7 @@ export function addAnswer({ questionId, contentJSON, contentHTML, deviceId, call
       callback: (res) => {
 
         if (!res || !res.success) {
-          callback('error')
+          callback(res)
           return
         }
 

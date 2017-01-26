@@ -14,9 +14,7 @@ const converVideo = (html) => {
   let voides = html.match(re)
 
   if (voides && voides.length > 0) {
-
     voides.map(div=>{
-
       const id = div.split(re)[1]
 
       let url = "http://player.youku.com/player.php/sid/"+id+"/v.swf"
@@ -27,10 +25,8 @@ const converVideo = (html) => {
         media = `<iframe ref="iframe" src="${url}"></iframe>`
       }
 
-      html = html.replace(div, media)
+      html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
     })
-
-
   }
 
   // tudou
@@ -46,12 +42,12 @@ const converVideo = (html) => {
       let url = "http://www.tudou.com/programs/view/html5embed.action?code="+id
       let media = `<iframe ref="iframe" src="${url}"></iframe>`
 
-      html = html.replace(div, media)
+      html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
     })
 
   }
 
-  // tudou
+  // qq
   re = /\<div data\-qq\=\"(.*?)\"\>\<\/div\>/g
   voides = html.match(re)
 
@@ -68,7 +64,7 @@ const converVideo = (html) => {
         media = `<iframe ref="iframe" src="${url}"></iframe>`
       }
 
-      html = html.replace(div, media)
+      html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
     })
   }
 
@@ -85,7 +81,18 @@ const converVideo = (html) => {
       let url = "https://www.youtube.com/embed/"+id
       let media = `<iframe ref="iframe" src="${url}"></iframe>`
 
-      html = html.replace(div, media)
+      html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
+    })
+
+  }
+
+  re = /\<img src\=\"(.*?)\"\>/g
+  let imgs = html.match(re)
+
+  if (imgs && imgs.length > 0) {
+
+    imgs.map(img=>{
+      html = html.replace(img, `<div class="load-demand" data-load-demand='${img}'></div>`)
     })
 
   }

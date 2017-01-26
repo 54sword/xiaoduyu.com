@@ -114,9 +114,11 @@ class WriteAnswer extends React.Component {
         if (result && !result.success) {
           if (result.error == 'Can not answer their own questions') {
             alert('自己不能回答自己的提问')
+          } else if (result.error == 'has been commented') {
+            alert('你已经评论过了')
+          } else {
+            alert('提交失败')
           }
-        } else {
-          console.log(err, result)
         }
 
       }

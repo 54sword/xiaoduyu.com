@@ -8,6 +8,7 @@ import { loadUnreadCount } from './actions/notification'
 
 import './common/arrive-footer'
 import './common/weixin'
+import './common/load-demand'
 
 const store = configureStore(window.__initState__)
 

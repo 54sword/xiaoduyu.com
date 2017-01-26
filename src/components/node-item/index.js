@@ -23,7 +23,7 @@ const medium = ({ node, me, isSignin, showSign }) => {
 
             <div className={styles.left}>
               <Link to={`/communities/${node._id}`} className={styles.name}>
-                {styles.avatar ? <img className={styles.avatar} src={node.avatar} /> : null}
+                <i className="load-demand" data-load-demand={`<img class=${styles.avatar} src=${node.avatar} />`}></i>
                 {node.name}
               </Link>
               {node.brief}

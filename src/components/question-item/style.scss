@@ -22,7 +22,13 @@
     margin:-1px 0 0 -55px;
     width: 40px;
     height: 40px;
+    background-color: #efefef;
     border-radius: 50%;
+    overflow: hidden;
+    img{
+      width: 40px;
+      height: 40px;
+    }
   }
 
   .right{

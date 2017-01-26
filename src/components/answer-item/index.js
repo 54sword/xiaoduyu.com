@@ -36,7 +36,8 @@ class AnswerItem extends Component {
         : null*/}
         <div className={styles.people}>
           <Link to={`/people/${answer.user_id._id}`}>
-            <img className="user-avatar" src={answer.user_id.avatar_url} />
+            <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src=${answer.user_id.avatar_url} />`}></i>
+            {/*<img className="user-avatar" src={answer.user_id.avatar_url} />*/}
             {/*answer.user_id.nickname*/}
           </Link>
           {answer.user_id.brief}

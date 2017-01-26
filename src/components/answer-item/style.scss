@@ -20,14 +20,36 @@
   height: 20px;
   line-height: 20px;
   font-size: 14px;
-  img{
-    float:left;
-    margin-left:-50px;
-    margin-top:4px;
-    width:35px;
-    height: 35px;
+
+  .avatar{
+    position: absolute;
+    margin:-1px 0 0 -55px;
+    width: 40px;
+    height: 40px;
+    background-color: #efefef;
     border-radius: 50%;
+    overflow: hidden;
+    img{
+      width: 40px;
+      height: 40px;
+    }
   }
+
+  /*
+  > span {
+
+    img{
+      float:left;
+      margin-left:-50px;
+      margin-top:4px;
+      width:35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+  }
+  */
+
 }
 
 .detail{
