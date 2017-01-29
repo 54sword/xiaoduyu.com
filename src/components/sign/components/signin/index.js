@@ -51,6 +51,8 @@ class Signin extends Component {
       $submit.value = '登录'
       $submit.disabled = false
 
+      // console.log(result)
+
       if (!result.success) {
         _self.setState({ error: result.error })
         return;

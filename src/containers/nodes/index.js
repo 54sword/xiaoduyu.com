@@ -30,10 +30,10 @@ class Nodes extends React.Component {
       callback: (res)=>{
 
         option.store.dispatch(loadNodes({
-          name: 'communities-' + tag,
+          name: 'node-' + tag,
           filters: { child:1, parent_id: tag },
           callback: (res)=>{
-            callback()
+            callback(res.success ? null : true)
           }
         }))
 
@@ -105,15 +105,14 @@ class Nodes extends React.Component {
 
           <div className="container-tabs">
             <div>
-              <Link to="/communities" className={tag == '' ? 'active' : ''}>全部</Link>
+              <Link to="/topics" className={tag == '' ? 'active' : ''}>全部</Link>
               {nodeList.data.map((node)=>{
-                return (<Link to={`/communities?tag=${node._id}`} key={node._id} className={tag == node._id ? 'active' : ''}>{node.name}</Link>)
+                return (<Link to={`/topics?tag=${node._id}`} key={node._id} className={tag == node._id ? 'active' : ''}>{node.name}</Link>)
               })}
             </div>
           </div>
 
-
-          <NodeList name={`communities-${tag}`} filters={{ child:1, parent_id: tag }} />
+          <NodeList name={`node-${tag}`} filters={{ child:1, parent_id: tag }} />
         </div>
       </div>
     )

@@ -46,7 +46,7 @@ class Home extends React.Component {
 
       <div className="container">
         <div className="container-head">最新动态</div>
-        <QuestionList name={'home'} displayDate={true} />
+        <QuestionList name={'home'} displayDate={false} filters={{method:'user_custom'}} />
       </div>
 
     </div>)

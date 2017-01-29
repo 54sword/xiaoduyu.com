@@ -9,8 +9,8 @@ export function hideSign() {
   return { type: 'HIDE_SIGN' }
 }
 
-export function addAccessToken(accessToken) {
-  return { type: 'ADD_ACCESS_TOKEN', accessToken }
+export function addAccessToken({ expires, access_token }) {
+  return { type: 'ADD_ACCESS_TOKEN', expires, access_token }
 }
 
 export function signout() {
@@ -31,7 +31,7 @@ export function signin(email, password, callback) {
       callback: (res) => {
         callback(res ? res.success : false, res)
         if (res.success) {
-          dispatch(addAccessToken(res.data.access_token))
+          dispatch(addAccessToken(res.data))
         }
       }
     })

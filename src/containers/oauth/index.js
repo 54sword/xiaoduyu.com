@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { addAccessToken } from '../../actions/user'
+import { addAccessToken } from '../../actions/sign'
 
 import Shell from '../../shell'
 
@@ -13,10 +13,10 @@ class Oauth extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { access_token } = this.props.location.query
+    const { access_token = '', expires = 0 } = this.props.location.query
     const { addAccessToken } = this.props
     if (access_token) {
-      addAccessToken(access_token)
+      addAccessToken({ access_token, expires })
       window.location.href = '/'
     }
   }

@@ -48,7 +48,7 @@ class Me extends Component {
           </div>
 
           <div className="list">
-            <Link className="arrow" to={`/people/${me._id}/communities`}>我加入的社群
+            <Link className="arrow" to={`/people/${me._id}/communities`}>我关注的话题
               <span className="right">{me.follow_node_count}</span>
             </Link>
             <Link className="arrow" to={`/people/${me._id}/following`}>我关注的人
@@ -61,8 +61,8 @@ class Me extends Component {
 
           {me._id && me.role == 100 ?
             <div className="list">
-              <Link className="arrow" to={`/all-communitie`}>管理社群</Link>
-              <Link className="arrow" to={`/add-communitie`}>添加新的社区</Link>
+              <Link className="arrow" to={`/all-topic`}>管理社群</Link>
+              <Link className="arrow" to={`/add-topic`}>添加新的社区</Link>
             </div>
           :null}
 

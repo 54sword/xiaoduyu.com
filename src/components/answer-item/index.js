@@ -40,9 +40,9 @@ class AnswerItem extends Component {
             {/*<img className="user-avatar" src={answer.user_id.avatar_url} />*/}
             {/*answer.user_id.nickname*/}
           </Link>
-          {answer.user_id.brief}
+          {/*answer.user_id.brief*/}
         </div>
-
+        
         <div className={styles.footer}>
 
           <div className={styles['footer-action']}>
@@ -67,7 +67,7 @@ class AnswerItem extends Component {
 
         <div className={styles.detail}>
           {summary ?
-            <Link to={`/comment/${answer._id}`}>{answer.content_summary}</Link> :
+            <Link to={`/answer/${answer._id}`}>{answer.content_summary}</Link> :
             <HTMLText content={answer.content_html} />}
         </div>
 
@@ -77,7 +77,7 @@ class AnswerItem extends Component {
           })}
           {answer.comment_count && answer.comments && answer.comments.length < answer.comment_count ?
             <div className={styles['view-more-comment']}>
-              <Link to={`/comment/${answer._id}`}>还有 {answer.comment_count - answer.comments.length} 条回复，查看全部</Link>
+              <Link to={`/answer/${answer._id}`}>还有 {answer.comment_count - answer.comments.length} 条回复，查看全部</Link>
             </div> : null}
         </div>
 

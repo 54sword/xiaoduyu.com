@@ -35,12 +35,12 @@ class FollowNode extends Component {
     if (!isSignin) {
       return (<span></span>)
     }
-    
+
     return (
       <a href="javascript:void(0)"
         className={node.follow ? 'black-10' : ''}
         onClick={this.follow}>
-        {node.follow ? "已加入" : "+加入"}
+        {node.follow ? "已关注" : "+关注"}
       </a>
     )
   }

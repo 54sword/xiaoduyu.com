@@ -4,11 +4,11 @@ import Ajax from '../common/ajax'
 function setUser(userinfo) {
   return { type: 'SET_USER', userinfo }
 }
-
+/*
 export function addAccessToken(accessToken) {
   return { type: 'ADD_ACCESS_TOKEN', accessToken }
 }
-
+*/
 // export function removeAccessToken(accessToken) {
 //   return { type: 'REMOVE_ACCESS_TOKEN' }
 // }

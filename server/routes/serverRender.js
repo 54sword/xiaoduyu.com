@@ -90,17 +90,18 @@ serverRender.route('*').get((req, res) => {
     history: []
   });
 
-  let accessToken = req.cookies['accessToken'] || null
+  let accessToken = req.cookies[config.auth_cookie_name] || null
+  let expires = req.cookies[''] || null
 
   authAccessToken(accessToken, (userinfo)=>{
 
     if (userinfo) {
-      store.dispatch({ type: 'ADD_ACCESS_TOKEN', accessToken })
+      store.dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken, expires: expires })
       // 如果获取到用户信息，那么说明token是有效的，因此将用户信息添加到store
       store.dispatch({ type: 'SET_USER', userinfo })
     } else {
       // 删除token
-      res.clearCookie('accessToken');
+      res.clearCookie(config.auth_cookie_name);
     }
 
     let routes = crateRoutes(history, userinfo ? userinfo : false);
@@ -114,17 +115,19 @@ serverRender.route('*').get((req, res) => {
       } else if (error) {
         res.send(500, error.message);
       } else if (!renderProps) {
-        res.status(404).send('Not found')
+        res.status(404);
+        res.render('../dist/not-found.ejs');
+        // .send('Not found<br ><a href="/">返回</a>')
       } else if (renderProps) {
 
         getReduxPromise(renderProps, store, (notFound) => {
 
           if (notFound) {
-            res.status(404).send('Not found')
+            res.status(404);
+            res.render('../dist/not-found.ejs');
+            // .send('Not found<br ><a href="/">返回</a>')
             return
           }
-
-          // console.log(store.getState())
 
           const reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
           const html = renderToString(

@@ -95,7 +95,13 @@ module.exports = {
       meta: '<%- meta %>',
       htmlDom: '<%- html %>',
       reduxState: '<%- reduxState %>'
-    })
+    }),
+
+    new HtmlwebpackPlugin({
+      filename: path.resolve(__dirname, 'dist/not-found.ejs'),
+      template: 'src/view/not-found.html',
+      public_path: config.public_path + '/',
+    }),
 
   ]
 

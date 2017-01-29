@@ -50,16 +50,16 @@ class QuestionDetail extends React.Component {
     super(props)
   }
 
-  componentWillMount() {
+  componentDidMount() {
 
     const { loadQuestionById } = this.props
     const { id } = this.props.params
 
-    let [ question ] = this.props.question
+    // let [ question ] = this.props.question
 
-    if (!question) {
+    // if (!question) {
       loadQuestionById({ id })
-    }
+    // }
 
   }
 
@@ -102,7 +102,7 @@ class QuestionDetail extends React.Component {
                 </Link>
               </span>
               <span>
-                <Link to={`/communities/${question.node_id._id}`}>{question.node_id.name}</Link>
+                <Link to={`/topic/${question.node_id._id}`}>{question.node_id.name}</Link>
               </span>
               {question.view_count ? <span>{question.view_count} 浏览</span> : null}
               {question.answers_count ? <span>{question.answers_count} 个评论</span> : null}
@@ -125,8 +125,8 @@ class QuestionDetail extends React.Component {
               <FollowQuestion question={question} />
 
               {isSignin ?
-                (me._id != question.user_id._id ? <Link to={`/write-answer/${question._id}`}>评论</Link> : null) :
-                <a href="javascript:void(0);" onClick={showSign}>评论</a>}
+                (me._id != question.user_id._id ? <Link to={`/write-answer/${question._id}`}>写答案</Link> : null) :
+                <a href="javascript:void(0);" onClick={showSign}>写答案</a>}
 
               {me._id == question.user_id._id ?
                 <Link to={`/edit-question/${question._id}`}>编辑</Link> :

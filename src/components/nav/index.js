@@ -35,7 +35,7 @@ class Navbar extends Component {
           <div className="container">
             <ul className={me ? null : "three"}>
               <li><IndexLink to="/" activeClassName={styles.active}>首页</IndexLink></li>
-              <li><Link to="/communities" activeClassName={styles.active}>社群</Link></li>
+              <li><Link to="/topics" activeClassName={styles.active}>话题</Link></li>
               {me ? <li>
                   <Link to="/notifications" activeClassName={styles.active}>
                     通知{unreadNotice > 0 ? <span className={styles['unread-notice']}>{unreadNotice}</span> : null}

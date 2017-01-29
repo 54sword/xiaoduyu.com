@@ -107,7 +107,7 @@ class WriteAnswer extends React.Component {
             reactLocalStorage.set('answer-content', '')
           }, 200)
 
-          browserHistory.push('/topic/'+questionId+'?subnav_back=/')
+          browserHistory.push('/question/'+questionId+'?subnav_back=/')
           return
         }
 
@@ -115,7 +115,7 @@ class WriteAnswer extends React.Component {
           if (result.error == 'Can not answer their own questions') {
             alert('自己不能回答自己的提问')
           } else if (result.error == 'has been commented') {
-            alert('你已经评论过了')
+            alert('你已经回答过了')
           } else {
             alert('提交失败')
           }
@@ -147,8 +147,8 @@ class WriteAnswer extends React.Component {
     }
 
     return (<div>
-      <Meta meta={{title: '编写回复'}} />
-      <Subnav left="取消" middle="编写回复" />
+      <Meta meta={{title: '编写答案'}} />
+      <Subnav left="取消" middle="编写答案" />
       <div className="container">
         <div>
           {content}

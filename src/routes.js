@@ -90,14 +90,14 @@ export default (history, user, logPageView = ()=>{}) =>{
     <Route path="/" component={Home} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/notifications" component={Notifications} onLeave={triggerLeave} onEnter={triggerEnter} />
 
-    <Route path="/add-communitie" component={WriteNode} onLeave={triggerLeave} onEnter={adminRequireAuth} />
-    <Route path="/edit-communitie/:id" component={EditNode} onLeave={triggerLeave} onEnter={adminRequireAuth} />
-    <Route path="/all-communitie" component={AllNode} onLeave={triggerLeave} onEnter={adminRequireAuth} />
+    <Route path="/add-topic" component={WriteNode} onLeave={triggerLeave} onEnter={adminRequireAuth} />
+    <Route path="/edit-topic/:id" component={EditNode} onLeave={triggerLeave} onEnter={adminRequireAuth} />
+    <Route path="/all-topic" component={AllNode} onLeave={triggerLeave} onEnter={adminRequireAuth} />
 
-    <Route path="/communities" component={Communities} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/communities/:id" component={CommunitiesDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/comment/:id" component={Answer} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/topic/:id" component={QuestionDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/topics" component={Communities} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/topic/:id" component={CommunitiesDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/answer/:id" component={Answer} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/question/:id" component={QuestionDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/write-question/:nodeId" component={WriteQuestion} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/edit-question/:id" component={EditQuestion} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/write-answer/:questionId" component={WriteAnswer} onLeave={triggerLeave} onEnter={requireAuth} />

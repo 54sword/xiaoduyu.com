@@ -17,7 +17,7 @@ const Shell = (_component) => {
     constructor(props) {
       super(props)
     }
-    
+
     render() {
       return (<div>
         <Sign />

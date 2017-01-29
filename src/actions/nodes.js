@@ -179,13 +179,16 @@ export function loadNodes({ name, filters = {}, callback = ()=>{} }) {
       callback: (res)=>{
 
         nodeList.loading = false
-        nodeList.more = res.data.length < nodeList.filters.per_page ? false : true
-        nodeList.data = nodeList.data.concat(res.data)
-        nodeList.filters = filters
-        nodeList.count = 0
+
+        if (res.success) {
+          nodeList.more = res.data.length < nodeList.filters.per_page ? false : true
+          nodeList.data = nodeList.data.concat(res.data)
+          nodeList.filters = filters
+          nodeList.count = 0
+        }
 
         dispatch({ type: 'SET_NODE_LIST_BY_NAME', name, data: nodeList })
-        callback()
+        callback(res)
       }
     })
 

@@ -35,7 +35,7 @@ class QuestionsItem extends Component {
                 {question.user_id.nickname}
               </Link>
             </span>
-            <span><Link to={`/communities/${question.node_id._id}`}>{question.node_id.name}</Link></span>
+            <span><Link to={`/topic/${question.node_id._id}`}>{question.node_id.name}</Link></span>
             {question.follow_count > 0 ? <span>{question.follow_count} 人关注</span> : null}
             {question.view_count > 0 ? <span>{question.view_count} 次浏览</span> : null}
             {displayDate ? <span>{DateDiff(question.create_at)}</span> : null}
@@ -43,7 +43,7 @@ class QuestionsItem extends Component {
         </div>
 
         <div className={styles.title}>
-          <Link to={`/topic/${question._id}`}>{question.title}</Link>
+          <Link to={`/question/${question._id}`}>{question.title}</Link>
         </div>
 
         <div className={styles['answer-list']}>
@@ -62,7 +62,7 @@ class QuestionsItem extends Component {
 
         {question.answers.length < question.answers_count ?
           <div className={styles['view-more-comment']}>
-            <Link to={`/topic/${question._id}#comments`}>还有 {question.answers_count - question.answers.length} 评论，查看全部</Link>
+            <Link to={`/question/${question._id}`}>还有 {question.answers_count - question.answers.length} 评论，查看全部</Link>
           </div>
           : null}
 

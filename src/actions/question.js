@@ -101,8 +101,18 @@ export function loadQuestionById({ id, callback = ()=>{} }) {
           return
         }
 
-        questionList.push(res.data[0])
-        dispatch({ type: 'ADD_QUESTION', questionList: questionList })
+        var exsit = false
+
+        questionList.map((item)=>{
+          if (item._id == res.data[0]._id) {
+            exsit = true
+          }
+        })
+        
+        if (!exsit) {
+          questionList.push(res.data[0])
+          dispatch({ type: 'ADD_QUESTION', questionList: questionList })
+        }
 
         callback(res.data[0])
       }
@@ -185,7 +195,7 @@ export function loadQuestionList({ name, filters = {}, callback = ()=>{} }) {
 
     let headers = accessToken ? { 'AccessToken': accessToken } : null
 
-    filters.method = accessToken ? 'user_custom' : ''
+    // filters.method = accessToken ? 'user_custom' : ''
 
     return Ajax({
       url: '/questions',

@@ -109,7 +109,7 @@ class WriteQuestion extends React.Component {
             reactLocalStorage.set('question-title', '')
           }, 200)
 
-          browserHistory.push('/topic/'+question._id+'?subnav_back=/')
+          browserHistory.push('/question/'+question._id+'?subnav_back=/')
 
         } else {
           alert(err)
@@ -129,7 +129,7 @@ class WriteQuestion extends React.Component {
 
     return (<div>
       <Meta meta={{title: '提问'}} />
-      <Subnav left="取消" middle={node ? `向 ${node.name} 社群提问` : '提问'} />
+      <Subnav left="取消" middle={node ? `在 ${node.name} 提问` : '提问'} />
       <div className="container">
         <div className={styles.addQuestion}>
           <div className={styles.questionTitle}>

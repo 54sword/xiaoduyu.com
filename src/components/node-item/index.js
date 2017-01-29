@@ -15,14 +15,14 @@ const medium = ({ node, me, isSignin, showSign }) => {
   return (<div className={styles.item}>
 
             <div className={styles.right}>
-              {!isSignin ? <a href="javascript:void(0);" onClick={showSign}>分享</a> : <Link to={`/write-question/${node._id}?type=1`}>分享</Link>}
               {!isSignin ? <a href="javascript:void(0);" onClick={showSign}>提问</a> : <Link to={`/write-question/${node._id}?type=2`}>提问</Link>}
-              {me._id && me.role == 100 ? <Link to={`/edit-communitie/${node._id}`}>编辑</Link> : null}
+              {!isSignin ? <a href="javascript:void(0);" onClick={showSign}>分享</a> : <Link to={`/write-question/${node._id}?type=1`}>分享</Link>}
+              {me._id && me.role == 100 ? <Link to={`/edit-topic/${node._id}`}>编辑</Link> : null}
               <FollowNode node={node} />
             </div>
 
             <div className={styles.left}>
-              <Link to={`/communities/${node._id}`} className={styles.name}>
+              <Link to={`/topic/${node._id}`} className={styles.name}>
                 <i className="load-demand" data-load-demand={`<img class=${styles.avatar} src=${node.avatar} />`}></i>
                 {node.name}
               </Link>

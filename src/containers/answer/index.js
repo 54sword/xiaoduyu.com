@@ -95,7 +95,7 @@ class Answer extends React.Component {
 
         <div className="container">
           <div className={styles.question}>
-            <Link to={`/topic/${question._id}`}>{question.title}</Link>
+            <Link to={`/question/${question._id}`}>{question.title}</Link>
           </div>
         </div>
 
@@ -133,8 +133,8 @@ class Answer extends React.Component {
               <LikeButton answer={answer} />
 
               {isSignin ?
-                  <Link to={`/write-comment/${answer._id}`}>回复</Link> :
-                  <a href="javascript:void(0);" onClick={showSign}>回复</a>}
+                  <Link to={`/write-comment/${answer._id}`}>评论</Link> :
+                  <a href="javascript:void(0);" onClick={showSign}>评论</a>}
 
               {me._id && answer.user_id._id ? <Link to={`/edit-answer/${answer._id}`}>编辑</Link> : null}
             </div>

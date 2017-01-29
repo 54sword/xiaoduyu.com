@@ -102,8 +102,8 @@ class EditAnswer extends React.Component {
     }
 
     return (<div>
-      <Meta meta={{title: '编写答案'}} />
-      <Subnav left="取消" middle="编写答案" />
+      <Meta meta={{title: '编辑答案'}} />
+      <Subnav left="取消" middle="编辑答案" />
       <div className="container">
         <div><Editor syncContent={this.syncContent} content={answer.content} /></div>
         <div>
