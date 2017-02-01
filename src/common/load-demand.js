@@ -35,7 +35,7 @@
       if (elements[i].innerHTML != '') {
         continue
       }
-      
+
       var y1 = getElementViewTop(elements[i])
 
       var y2 = y1 + elements[i].offsetHeight

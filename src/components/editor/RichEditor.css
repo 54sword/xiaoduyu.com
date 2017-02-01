@@ -2,6 +2,11 @@
 
 /* 内容样式 */
 
+.DraftEditor-root * {
+  -webkit-user-select: text;
+}
+
+
 .DraftEditor-root figure{
   margin:0;
 }

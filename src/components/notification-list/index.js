@@ -114,9 +114,9 @@ class NotificationList extends Component {
                         <Link to={`/write-comment/${notice.comment_id.answer_id._id}?reply_id=${notice.comment_id._id}`}>回复</Link>
                       </div>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-                      {DateDiff(notice.create_at)} 回复了你的
-                      <Link to={`/comment/${notice.comment_id.answer_id._id}`}>{notice.comment_id.answer_id.content_html}</Link>
-                      评论
+                      {DateDiff(notice.create_at)} 评论了你的
+                      <Link to={`/answer/${notice.comment_id.answer_id._id}`}>{notice.comment_id.answer_id.content_html}</Link>
+                      答案
                     </div>
                     <div className={styles.content}>{notice.comment_id.content}</div>
                   </div>)

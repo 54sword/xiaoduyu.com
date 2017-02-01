@@ -3,13 +3,11 @@ import ReactDOM from 'react-dom'
 import { Link, browserHistory } from 'react-router'
 import { reactLocalStorage } from 'reactjs-localstorage'
 
-
 import Device from '../../common/device'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
 
 import { addQuestion } from '../../actions/question'
 import { loadNodeById } from '../../actions/nodes'
@@ -39,12 +37,22 @@ class WriteQuestion extends React.Component {
       nodes: [],
       contentStateJSON: '',
       contentHTML: '',
-      title: '',
-      editor: <div></div>
+      editor: <div></div>,
     }
     this.submitQuestion = this.submitQuestion.bind(this)
     this.sync = this.sync.bind(this)
     this.titleChange = this._titleChange.bind(this)
+    this.handleContentChange = this.handleContentChange.bind(this)
+  }
+
+  handleContentChange(e) {
+      this.setState({content: e.target.value});
+  }
+
+  updateCode(newCode) {
+      this.setState({
+          code: newCode
+      });
   }
 
   componentWillMount() {
@@ -63,7 +71,7 @@ class WriteQuestion extends React.Component {
 
   _titleChange(event) {
     let { questionTitle } = this.refs
-    this.setState({title: questionTitle.value});
+    // this.setState({title: questionTitle.value});
     reactLocalStorage.set('question-title', questionTitle.value)
   }
 
@@ -76,9 +84,12 @@ class WriteQuestion extends React.Component {
   componentDidMount() {
     const questionContent = reactLocalStorage.get('question-content') || ''
     this.setState({
-      title: reactLocalStorage.get('question-title') || '',
+      // title: reactLocalStorage.get('question-title') || '',
       editor: <div><Editor syncContent={this.sync} content={questionContent} /></div>
     });
+
+    let { questionTitle } = this.refs
+    questionTitle.value = reactLocalStorage.get('question-title') || ''
   }
 
   submitQuestion() {
@@ -120,11 +131,18 @@ class WriteQuestion extends React.Component {
   }
 
   render() {
-    const { title, editor } = this.state
+    const { editor } = this.state
     const [ node ] = this.props.node
 
     if (!node) {
       return (<div></div>)
+    }
+
+    var editorStyle = {
+        overflow: 'auto',
+        width: '100%',
+        height: 200
+        // maxHeight: 200
     }
 
     return (<div>
@@ -133,11 +151,10 @@ class WriteQuestion extends React.Component {
       <div className="container">
         <div className={styles.addQuestion}>
           <div className={styles.questionTitle}>
-            <input className="input" ref="questionTitle" type="text" value={title} onChange={this.titleChange} placeholder={title? "" : "请输入标题"}  />
+            <input className="input" ref="questionTitle" type="text" onChange={this.titleChange} placeholder={"请输入标题"}  />
           </div>
-          <div>
-            {editor}
-          </div>
+
+          <div>{editor}</div>
 
           <div className={styles.submit}>
             <button className="button" onClick={this.submitQuestion}>提交</button>

@@ -18,14 +18,12 @@ import Device from '../../common/device'
 import Embed from '../../components/embed'
 import Iframe from '../../components/iframe'
 
-
 function getBlockStyle(block) {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
     default: return null;
   }
 }
-
 
 class StyleButton extends React.Component {
 
@@ -49,6 +47,7 @@ class StyleButton extends React.Component {
       </span>
     )
   }
+
 }
 
 const BLOCK_TYPES = [
@@ -360,6 +359,7 @@ const renderers = {
   },
 }
 
+
 class MyEditor extends React.Component {
 
   constructor(props) {
@@ -373,7 +373,8 @@ class MyEditor extends React.Component {
       editorState: content
         ? EditorState.createWithContent(convertFromRaw(JSON.parse(content)), decorator)
         : EditorState.createEmpty(),
-      rendered: null
+      rendered: null,
+      scrollY: 0
     }
 
     this.onChange = this._onChange.bind(this)
@@ -382,15 +383,46 @@ class MyEditor extends React.Component {
     this.addVideo = this._addVideo.bind(this)
     this.addImage = this._addImage.bind(this)
     this.handleKeyCommand = this._handleKeyCommand.bind(this)
+    this.timer = null
+    this.undo = this._undo.bind(this)
+    this.redo = this._redo.bind(this)
+    this.onKeyDown = this._onKeyDown.bind(this)
   }
 
   componentDidMount() {
+
+    const that = this
     this.onChange(this.state.editorState)
+
+    // let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+
+    // document.onkeydown = (event) => {
+    //   if (document.activeElement.className == 'public-DraftEditor-content') {
+    //     that.state.scrollY = (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0) - 50
+    //   }
+    // }
+
+    document.ontouchend = (event) => {
+      if (document.activeElement.className == 'public-DraftEditor-content') {
+        that.state.scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+      }
+    }
+
+    // this.refs.editor.focus()
+    // console.log(document.getElementsByTagName('public-DraftEditor-content')[0])
+  }
+
+  _onKeyDown(event) {
+    // alert('23')
+    // var e = event || window.event
+    // console.log(e.keyCode)
   }
 
   _onChange(editorState) {
+
     this.setState({ editorState })
 
+    const that = this
     const { syncContent } = this.state
     const { draftHtml } = this.refs
 
@@ -423,6 +455,23 @@ class MyEditor extends React.Component {
       }, 100)
 
     }
+
+
+    // let height = getElementViewTop(document.activeElement) + document.activeElement.offsetHeight
+
+    if (that.state.scrollY) {
+      window.scrollTo(0, that.state.scrollY)
+    }
+
+
+    // setTimeout(()=>{
+    //   EditorState.moveFocusToEnd(that.state.editorState)
+    // }, 100)
+
+    // that.state.editorState.focus()
+
+    // this.undo()
+    // EditorState.redo(editorState)
   }
 
   _toggleBlockType(blockType) {
@@ -547,12 +596,32 @@ class MyEditor extends React.Component {
 
   _handleKeyCommand(command) {
     const {editorState} = this.state;
+    const that = this
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       this.onChange(newState);
       return true;
     }
     return false;
+  }
+
+  _undo() {
+    const that = this
+    this.onChange(EditorState.undo(this.state.editorState))
+    setTimeout(()=>{
+      that.onChange(EditorState.redo(that.state.editorState))
+      that.state.editorState.focus()
+    })
+
+    // this.onChange(EditorState.redo(this.state.editorState))
+  }
+
+  _redo() {
+    // const that = this
+    this.onChange(EditorState.redo(this.state.editorState))
+    // setTimeout(()=>{
+    //   that.onChange(EditorState.undo(that.state.editorState))
+    // }, 100)
   }
 
   render() {
@@ -572,7 +641,7 @@ class MyEditor extends React.Component {
     */
 
     const upload = (imageName) => {
-      self.addImage('//oiy8zs2t8.qnssl.com/'+imageName)
+      self.addImage(imageName)
     }
 
     return(<div className={className}>
@@ -589,6 +658,17 @@ class MyEditor extends React.Component {
               <span>
                 <a href="javascript:void(0)" className="button-white" onClick={this.addVideo}>添加视频</a>
               </span>
+
+              {/*
+              <span>
+                <a href="javascript:void(0)" onClick={this.undo}>撤销</a>
+              </span>
+
+              <span>
+                <a href="javascript:void(0)" onClick={this.redo}>恢返回</a>
+              </span>
+              */}
+
             </div>
 
             <Controls
@@ -605,7 +685,9 @@ class MyEditor extends React.Component {
               handleKeyCommand={this.handleKeyCommand}
               placeholder="请输入正文"
               ref="editor"
+              spellCheck
             />
+
           </div>)
   }
 }

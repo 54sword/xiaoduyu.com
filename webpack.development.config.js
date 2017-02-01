@@ -5,8 +5,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 // var ManifestPlugin = require('webpack-manifest-plugin');
 // var config = require('./package').config;
 
-// var ROOT_PATH = path.resolve(__dirname);
-// var NODE_MODULES_PATH = path.resolve(ROOT_PATH, 'node_modules');
+var ROOT_PATH = path.resolve(__dirname);
+var NODE_MODULES_PATH = path.resolve(ROOT_PATH, 'node_modules');
 
 
 var config = require('./config')
@@ -27,8 +27,10 @@ module.exports = {
       'babel-polyfill',
       'redux',
       'react-redux',
-      // path.resolve(NODE_MODULES_PATH, 'swiper/dist/css/swiper.min.css'),
-      // path.resolve(NODE_MODULES_PATH, 'swiper/dist/js/swiper.js'),
+      // path.resolve(NODE_MODULES_PATH, 'wysihtml/parser_rules/simple.js'),
+      // path.resolve(NODE_MODULES_PATH, 'wysihtml/dist/wysihtml.toolbar.js'),
+      // path.resolve(NODE_MODULES_PATH, 'wysihtml/dist/wysihtml.all-commands.js'),
+      // path.resolve(NODE_MODULES_PATH, 'wysihtml/dist/wysihtml.js'),
       'webpack-hot-middleware/client?noInfo=true&reload=true',
     ]
   },
