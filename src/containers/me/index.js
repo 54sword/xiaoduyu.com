@@ -40,7 +40,7 @@ class Me extends Component {
 
           <div className="list">
             <Link className="arrow" to={`/people/${me._id}/asks`}>
-              我的提问 <span className="right">{me.question_count}</span>
+              我创建的所有主题 <span className="right">{me.question_count}</span>
             </Link>
             <Link className="arrow" to={`/people/${me._id}/answers`}>
               我编写的答案 <span className="right">{me.comment_total}</span>

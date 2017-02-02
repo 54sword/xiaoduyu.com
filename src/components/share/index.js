@@ -52,10 +52,12 @@ class Share extends Component {
   }
 
   componentDidMount() {
+    /*
     let params = new QueryString()
     this.setState({
       displayTips: params._s ? true : false
     })
+    */
   }
 
   _shareToWeibo() {
