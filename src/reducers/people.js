@@ -38,24 +38,19 @@ export default function peoples(state = initialState, action) {
 
       var { peopleId, followStatus, selfId } = action
 
-      // console.log(state)
-
       for (let i in state) {
         let peoples = state[i].data
-        for (let n = 0, max = peoples.length; n < max; n++) {
-
+        peoples.map((item)=>{
           // 更新用户粉丝数量和状态
-          if (peoples[n]._id == peopleId) {
-            state[i].data[n].fans_count += followStatus ? 1 : -1
-            state[i].data[n].follow = followStatus
+          if (item._id == peopleId) {
+            item.fans_count += followStatus ? 1 : -1
+            item.follow = followStatus
           }
-
           // 更新自己关注用户的累积
-          if (peoples[n]._id == selfId) {
-            state[i].data[n].follow_people_count += followStatus ? 1 : -1
+          if (item._id == selfId) {
+            item.follow_people_count += followStatus ? 1 : -1
           }
-
-        }
+        })
       }
 
       return merge({}, state, {})

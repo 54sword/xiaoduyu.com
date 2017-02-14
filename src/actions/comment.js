@@ -1,90 +1,59 @@
 
 import Ajax from '../common/ajax'
 
-export function addComment({ questionId, answerId, replyId, content, deviceId, callback = ()=>{} }) {
+export function addComment({
+  posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, callback
+}) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
-    let list = getState().commentList[answerId] || null
-    let answerList = getState().answerList[questionId] || null
+    let answerList = getState().comment[posts_id] || null
 
     Ajax({
       url: '/write-comment',
       type: 'post',
       data: {
-        answer_id : answerId,
-        reply_id : replyId,
-        content: content,
+        posts_id : posts_id,
+        parent_id: parent_id,
+        reply_id: reply_id,
+        content : contentJSON,
+        content_html: contentHTML,
         device_id : deviceId
       },
       headers: { AccessToken: accessToken },
       callback: (res) => {
+
+        // console.log(res);
 
         if (!res || !res.success) {
           callback(res)
           return
         }
 
-        Ajax({
-          url: '/comments',
-          type: 'get',
-          headers: { AccessToken: accessToken },
-          params: {
-            comment_id: res.data._id
-          },
-          callback: (result)=>{
-
-            if (result && result.success) {
-
-              if (list) {
-                list.data.unshift(result.data[0])
-                dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name, data: list })
-              }
-
-              if (answerList) {
-
-                answerList.data.map((answer, key)=>{
-                  if (answer._id == answerId) {
-                    answerList.data[key].comments.unshift(result.data[0])
-                  }
-                })
-
-                dispatch({ type: 'SET_ANSWER_LIST_BY_NAME', name: questionId, data: answerList })
-              }
-
-            }
-
-            callback(res)
-
-          }
-        })
-
-        /*
-        if (list) {
-          // list.more = true
-          dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name: answerId, data: list })
+        if (!answerList) {
+          callback(res)
+          return
         }
 
-        callback(res)
-        */
       }
     })
 
   }
 }
 
-export function updateComment({ id, content, callback = ()=>{} }) {
+export function updateComment({ id, contentJSON, contentHTML, callback }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
-    let state = getState().commentList
+    let state = getState().comment
 
     Ajax({
       url: '/update-comment',
       type: 'post',
       data: {
         id : id,
-        content: content
+        content : contentJSON,
+        content_html: contentHTML
       },
       headers: { AccessToken: accessToken },
       callback: (res) => {
@@ -96,7 +65,8 @@ export function updateComment({ id, content, callback = ()=>{} }) {
             if (data.length > 0) {
               for (let n = 0, max = data.length; n < max; n++) {
                 if (data[n]._id == id) {
-                  state[i].data[n].content = content
+                  state[i].data[n].content = contentJSON
+                  state[i].data[n].content_html = contentHTML
                 }
               }
             }
@@ -107,27 +77,34 @@ export function updateComment({ id, content, callback = ()=>{} }) {
         }
 
         callback(res)
+
       }
     })
 
   }
 }
 
-export function loadCommentById({ id, callback = ()=>{} }) {
+export const loadCommentById = ({ id, callback = () => {} }) => {
   return (dispatch, getState) => {
 
-    let accessToken = getState().user.accessToken
+    const accessToken = getState().user.accessToken
+
+    let data = {
+      comment_id: id,
+      per_page: 1,
+      draft: 1
+    }
+
+    let headers = accessToken ? { 'AccessToken': accessToken } : null
 
     Ajax({
       url: '/comments',
-      type: 'get',
-      headers: { AccessToken: accessToken },
-      params: {
-        comment_id: id
-      },
-      callback: (res)=>{
+      params: data,
+      headers,
+      callback: (res) => {
 
         if (res.success && res.data && res.data.length > 0) {
+          dispatch({ type: 'ADD_COMMENT', comment: res.data[0] })
           callback(res.data[0])
         } else {
           callback(null)
@@ -139,57 +116,73 @@ export function loadCommentById({ id, callback = ()=>{} }) {
   }
 }
 
-
-export const loadComments = ({ name, filters, callback=()=>{} }) => {
+export function loadCommentList({ name, filters = {}, callback = ()=>{} }) {
   return (dispatch, getState) => {
 
-    let accessToken = getState().user.accessToken
+    const accessToken = getState().user.accessToken
+    let answerList = getState().comment[name] || {}
 
-    let list = getState().commentList[name] || {}
+    if (typeof(answerList.more) != 'undefined' && !answerList.more ||
+      answerList.loading
+    ) {
+      callback()
+      return
+    }
 
-    if (typeof(list.more) != 'undefined' && !list.more || list.loading) return
+    if (!answerList.data) {
+      answerList.data = []
+    }
 
-    if (!list.filters) {
-      if (!filters.per_page) filters.per_page = 20
-      if (!filters.gt_create_at) filters.gt_create_at = 0
-      list.filters = filters
+    if (!answerList.filters) {
+      filters.gt_create_at = 0
+      filters.per_page = 5
+      answerList.filters = filters
     } else {
-      filters = list.filters
-      if (list.data[list.data.length - 1]) {
-        filters.gt_create_at = new Date(list.data[list.data.length - 1].create_at).getTime()
+      filters = answerList.filters
+      if (answerList.data[answerList.data.length - 1]) {
+        filters.gt_create_at = new Date(answerList.data[answerList.data.length - 1].create_at).getTime()
       }
     }
 
-    if (!list.data) list.data = []
-    if (!list.more) list.more = true
-    if (!list.loading) list.loading = true
+    if (!answerList.more) {
+      answerList.more = true
+    }
 
-    dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name, data: list })
+    if (!answerList.count) {
+      answerList.count = 0
+    }
+
+    if (!answerList.loading) {
+      answerList.loading = true
+    }
+
+    dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name, data: answerList })
+
+    let headers = accessToken ? { 'AccessToken': accessToken } : null
 
     Ajax({
       url: '/comments',
-      type: 'get',
-      headers: { AccessToken: accessToken },
       params: filters,
-      callback: (res)=>{
+      headers,
+      callback: (res) => {
 
-        if (res && !res.success) {
+        if (!res || !res.success) {
           callback(res)
           return
         }
 
-        list.loading = false
-        list.more = res.data.length < list.filters.per_page ? false : true
-        list.data = list.data.concat(res.data)
-        list.filters = filters
-        list.count = 0
+        let _answerList = res.data
 
-        dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name, data: list })
+        answerList.more = res.data.length < answerList.filters.per_page ? false : true
+        answerList.data = answerList.data.concat(_answerList)
+        answerList.filters = filters
+        answerList.count = 0
+        answerList.loading = false
 
+        dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name, data: answerList })
         callback(res)
-
       }
     })
 
-  }
+  };
 }

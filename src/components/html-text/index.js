@@ -96,6 +96,19 @@ const converVideo = (html) => {
     })
 
   }
+  
+  /*
+  re = /(http\:\/\/|https\:\/\/|www\.|\s)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|\>)/g
+  let links = html.match(re)
+
+  console.log(links)
+
+  if (links && links.length > 0) {
+    links.map(link=>{
+      html = html.replace(link, `<a href='${link}' target="_blank">${link}</a>`)
+    })
+  }
+  */
 
   return html
 

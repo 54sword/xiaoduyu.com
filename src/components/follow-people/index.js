@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { follow, unfollow } from '../../actions/people'
+import { follow, unfollow } from '../../actions/follow-people'
 import { getProfile } from '../../reducers/user'
 
 class FollowPeople extends Component {
@@ -14,7 +14,7 @@ class FollowPeople extends Component {
   }
 
   _triggerFollow(e) {
-
+    
     e.preventDefault()
 
     const { unfollow, follow, people } = this.props

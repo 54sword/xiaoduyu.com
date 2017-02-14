@@ -1,5 +1,6 @@
 
 import config from '../../config'
+import errors from '../../config/errors'
 import axios from 'axios'
 
 const AJAX = ({ url = '', type = 'get', params = {}, data = {}, headers = {}, callback = ()=>{} }) => {
@@ -29,11 +30,19 @@ const AJAX = ({ url = '', type = 'get', params = {}, data = {}, headers = {}, ca
 
   return axios(option).then(resp => {
     if (config.debug && console.debug) console.debug('返回: ', resp)
-    callback(resp.data)
+
+    let res = resp.data
+    if (res.error) res.error = errors[res.error] || '未知错误: '+res.error
+
+    callback(res)
   })
   .catch(function (error) {
     if (config.debug && console.debug) console.error('返回: ', error)
-    callback(error.response.data)
+
+    let res = error.response.data
+    if (res.error) res.error = errors[res.error] || '未知错误: '+res.error
+
+    callback(res)
   });
 }
 

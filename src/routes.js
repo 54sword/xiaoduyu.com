@@ -2,11 +2,14 @@ import React from 'react';
 import { Route, Router, Redirect, IndexRoute } from 'react-router';
 
 import Home from './containers/home/';
-import Communities from './containers/nodes'
-import CommunitiesDetail from './containers/node-detail'
-import WriteNode from './containers/write-node'
-import EditNode from './containers/edit-node'
-import AllNode from './containers/all-node'
+
+// topic
+import Topics from './containers/topics'
+import TopicsDetail from './containers/topics-detail'
+import WriteTopic from './containers/write-topic'
+import EditTopic from './containers/edit-topic'
+import AllTopics from './containers/all-topics'
+
 import Notifications from './containers/notifications'
 
 import Forgot from './containers/forgot'
@@ -21,22 +24,21 @@ import SettingsAvatar from './containers/reset-avatar'
 import SettingsEmail from './containers/reset-email'
 import BindingEmail from './containers/binding-email'
 
-import NotFound from './containers/not-found'
-import QuestionDetail from './containers/question-detail'
+import PostsDetaill from './containers/posts-detail'
 
-import Answer from './containers/answer'
+import Answer from './containers/comment'
 
-import WriteQuestion from './containers/write-question'
-import EditQuestion from './containers/edit-question'
-import WriteAnswer from './containers/write-answer'
-import EditAnswer from './containers/edit-answer'
+import WritePosts from './containers/write-posts'
+import EditPosts from './containers/edit-posts'
 import WriteComment from './containers/write-comment'
 import EditComment from './containers/edit-comment'
+// import WriteComment from './containers/write-comment'
+// import EditComment from './containers/edit-comment'
 
 import People from './containers/people'
-import PoepleAsks from './containers/people/components/asks'
-import PoepleAnswers from './containers/people/components/answers'
-import PoepleCommunities from './containers/people/components/communities'
+import PoeplePosts from './containers/people/components/posts'
+import PoepleComment from './containers/people/components/comments'
+import PoepleTopic from './containers/people/components/topics'
 import PoepleFollowing from './containers/people/components/following'
 import PoepleFans from './containers/people/components/fans'
 
@@ -85,33 +87,35 @@ export default (history, user, logPageView = ()=>{}) =>{
   const triggerLeave = (nextState, replaceState) => {
   }
 
-  // <Route path="*" component={NotFound} />
+  // <Route path="/edit-answer/:id" component={EditComment} onLeave={triggerLeave} onEnter={requireAuth} />
+
   return (<Router history={history} onUpdate={logPageView}>
     <Route path="/" component={Home} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/notifications" component={Notifications} onLeave={triggerLeave} onEnter={triggerEnter} />
 
-    <Route path="/add-topic" component={WriteNode} onLeave={triggerLeave} onEnter={adminRequireAuth} />
-    <Route path="/edit-topic/:id" component={EditNode} onLeave={triggerLeave} onEnter={adminRequireAuth} />
-    <Route path="/all-topic" component={AllNode} onLeave={triggerLeave} onEnter={adminRequireAuth} />
+    <Route path="/add-topic" component={WriteTopic} onLeave={triggerLeave} onEnter={adminRequireAuth} />
+    <Route path="/edit-topic/:id" component={EditTopic} onLeave={triggerLeave} onEnter={adminRequireAuth} />
+    <Route path="/all-topic" component={AllTopics} onLeave={triggerLeave} onEnter={adminRequireAuth} />
 
-    <Route path="/topics" component={Communities} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/topic/:id" component={CommunitiesDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/answer/:id" component={Answer} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/question/:id" component={QuestionDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/write-question/:nodeId" component={WriteQuestion} onLeave={triggerLeave} onEnter={requireAuth} />
-    <Route path="/edit-question/:id" component={EditQuestion} onLeave={triggerLeave} onEnter={requireAuth} />
-    <Route path="/write-answer/:questionId" component={WriteAnswer} onLeave={triggerLeave} onEnter={requireAuth} />
-    <Route path="/edit-answer/:id" component={EditAnswer} onLeave={triggerLeave} onEnter={requireAuth} />
-    <Route path="/write-comment/:answerId" component={WriteComment} onLeave={triggerLeave} onEnter={requireAuth} />
+    <Route path="/topics" component={Topics} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/topics/:id" component={TopicsDetail} onLeave={triggerLeave} onEnter={triggerEnter} />
+
+    <Route path="/comment/:id" component={Answer} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/posts/:id" component={PostsDetaill} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/write-posts/:nodeId" component={WritePosts} onLeave={triggerLeave} onEnter={requireAuth} />
+    <Route path="/edit-posts/:id" component={EditPosts} onLeave={triggerLeave} onEnter={requireAuth} />
+
+
+    <Route path="/write-comment" component={WriteComment} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/edit-comment/:id" component={EditComment} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/me" component={Me} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/forgot" component={Forgot} onLeave={triggerLeave} onEnter={triggerEnter} />
 
     <Route path="/people/:id" component={People} onLeave={triggerLeave} onEnter={triggerEnter}>
-      <IndexRoute component={PoepleAsks} onLeave={triggerLeave} onEnter={triggerEnter} />
-      <Redirect path="asks" to="/people/:id" />
-      <Route path="answers" component={PoepleAnswers} onLeave={triggerLeave} onEnter={triggerEnter} />
-      <Route path="communities" component={PoepleCommunities} onLeave={triggerLeave} onEnter={triggerEnter} />
+      <IndexRoute component={PoeplePosts} onLeave={triggerLeave} onEnter={triggerEnter} />
+      <Redirect path="posts" to="/people/:id" />
+      <Route path="comments" component={PoepleComment} onLeave={triggerLeave} onEnter={triggerEnter} />
+      <Route path="topics" component={PoepleTopic} onLeave={triggerLeave} onEnter={triggerEnter} />
       <Route path="following" component={PoepleFollowing} onLeave={triggerLeave} onEnter={triggerEnter} />
       <Route path="fans" component={PoepleFans} onLeave={triggerLeave} onEnter={triggerEnter} />
     </Route>

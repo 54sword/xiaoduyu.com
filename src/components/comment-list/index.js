@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import { Link } from 'react-router'
 
 import styles from './style.scss'
@@ -7,21 +8,25 @@ import arriveFooter from '../../common/arrive-footer'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { loadComments } from '../../actions/comment'
-import { getCommentListByName } from '../../reducers/comment-list'
+
 import { showSign } from '../../actions/sign'
 import { getAccessToken } from '../../reducers/user'
+import { loadCommentList } from '../../actions/comment'
+import { getCommentListByName } from '../../reducers/comment'
 
 import ListLoading from '../list-loading'
-import CommentsItem from '../comment-item'
+import AnswerItem from '../comment-item'
 
-class CommentList extends Component {
+
+class AnswerList extends Component {
 
   constructor(props) {
     super(props)
+
+    const { name, filters } = this.props
     this.state = {
-      name: this.props.name,
-      filters: this.props.filters
+      name: name,
+      filters: filters
     }
     this.triggerLoad = this._triggerLoad.bind(this)
   }
@@ -29,78 +34,74 @@ class CommentList extends Component {
   componentWillMount() {
 
     const self = this
-    const { loadComments } = this.props
+    const { loadCommentList, answerList } = this.props
 
-    if (!loadComments.data) {
+    if (!answerList.data) {
       self.triggerLoad()
     }
 
-    arriveFooter.add('comment', ()=>{
+    arriveFooter.add(this.state.name, ()=>{
       self.triggerLoad()
     })
 
   }
 
   componentWillUnmount() {
-    arriveFooter.remove('comment')
+    arriveFooter.remove(this.state.name)
   }
 
-  _triggerLoad() {
-
-    const { loadComments } = this.props
+  _triggerLoad(callback) {
+    const { loadCommentList } = this.props
     const { name, filters } = this.state
-
-    loadComments({ name, filters })
+    loadCommentList({ name, filters })
   }
 
-  render() {
+  render () {
 
-    const { commentList, isSignin, showSign } = this.props
+    let { answerList, isSignin, showSign } = this.props
 
-    if (!commentList.data) {
+    if (!answerList.data) {
       return (<div></div>)
     }
 
-    const { loading, more } = commentList
+    return (
+      <div name="comments">
+        <div className="container">
+          <div className={styles.answers}>
+            {answerList.data.map((answer)=>{
+              return (<div key={answer._id}><AnswerItem answer={answer} /></div>)
+            })}
+          </div>
 
-    return (<div>
-      <div className="container">
+          {answerList.data.length == 0 ?
+            <div className={styles.nothing}>目前尚无回复</div>
+          : <ListLoading loading={answerList.loading} more={answerList.more} handleLoad={this.triggerLoad} />}
 
-        {commentList.data.map(comment => {
-          return (<div key={comment._id}><CommentsItem comment={comment} /></div>)
-        })}
-
-        {commentList.data.length == 0 ?
-          <div className={styles.nothing}>目前尚无回复</div>
-        : <ListLoading loading={loading} more={more} handleLoad={this.triggerLoad} />}
-
+        </div>
       </div>
-
-    </div>)
+    )
   }
-
 }
 
-CommentList.propTypes = {
-  commentList: PropTypes.object.isRequired,
-  loadComments: PropTypes.func.isRequired,
-  isSignin: PropTypes.bool.isRequired,
+AnswerList.propTypes = {
+  answerList: PropTypes.object.isRequired,
+  loadCommentList: PropTypes.func.isRequired,
   showSign: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
+  const name = props.name
   return {
-    commentList: getCommentListByName(state, props.name),
-    isSignin: getAccessToken(state) ? true : false
+    answerList: getCommentListByName(state, name),
+    isSignin: getAccessToken(state)
   }
 }
 
 function mapDispatchToProps(dispatch, props) {
   return {
-    loadComments: bindActionCreators(loadComments, dispatch),
     showSign: bindActionCreators(showSign, dispatch),
+    loadCommentList: bindActionCreators(loadCommentList, dispatch)
   }
 }
 
-CommentList = connect(mapStateToProps, mapDispatchToProps)(CommentList)
-export default CommentList
+export default connect(mapStateToProps, mapDispatchToProps)(AnswerList)

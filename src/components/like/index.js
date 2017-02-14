@@ -20,8 +20,8 @@ class LikeButton extends Component {
 
     const self = this
     const { like, unlike } = this.props
-    const { comment, answer } = this.props
-    const target = comment || answer
+    const { comment, reply } = this.props
+    const target = comment || reply
     const status = target.like,
           count = target.like_count,
           targetId = target._id
@@ -29,8 +29,8 @@ class LikeButton extends Component {
 
     if (comment) {
       type = 'comment'
-    } else if (answer) {
-      type = 'answer'
+    } else if (reply) {
+      type = 'reply'
     }
 
     if (status) {
@@ -68,10 +68,10 @@ class LikeButton extends Component {
 
   render () {
 
-    const { answer, comment } = this.props
+    const { reply, comment } = this.props
     const { isSignin, showSign } = this.props
-    const { like_count, like } = answer || comment
-
+    const { like } = comment || reply
+    
     if (!isSignin) {
       return (<span></span>)
       // return (<a href="javascript:void(0)" onClick={showSign}>赞 {like_count && like_count > 0 ? like_count : null}</a>)

@@ -16,7 +16,7 @@ const serverRender = express.Router()
 
 import config from '../../config'
 
-function getReduxPromise(props, store, callback) {
+function getReduxPromise(props, store, userinfo, callback) {
 
   let comp = props.components[props.components.length - 1].WrappedComponent;
   comp = comp.defaultProps.component
@@ -25,7 +25,7 @@ function getReduxPromise(props, store, callback) {
 
     if (process.env.NODE_ENV == 'development') console.log('获取数据')
 
-    comp.loadData({ store, props }, (notFound)=>{
+    comp.loadData({ store, props, userinfo }, (notFound)=>{
       if (process.env.NODE_ENV == 'development') console.log('获取成功')
       callback(notFound)
     })
@@ -72,7 +72,7 @@ serverRender.route('*').get((req, res) => {
 
   const history = createMemoryHistory();
   const store = configureStore({
-    questionList: { other: { data: [] } },
+    posts: { other: { data: [] } },
     scroll: {},
     sign: {
       show: false
@@ -82,11 +82,10 @@ serverRender.route('*').get((req, res) => {
       unreadNotice: 0,
       accessToken: ''
     },
-    nodes: { other: { data: [] } },
+    topic: { other: { data: [] } },
     notification: {},
     people: { other: { data: [] } },
-    answerList: { other: { data: [] } },
-    commentList: { other: { data: [] } },
+    comment: { other: { data: [] } },
     history: []
   });
 
@@ -120,7 +119,7 @@ serverRender.route('*').get((req, res) => {
         // .send('Not found<br ><a href="/">返回</a>')
       } else if (renderProps) {
 
-        getReduxPromise(renderProps, store, (notFound) => {
+        getReduxPromise(renderProps, store, userinfo, (notFound) => {
 
           if (notFound) {
             res.status(404);

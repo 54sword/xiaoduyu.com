@@ -1,5 +1,6 @@
 import Ajax from '../common/ajax'
 
+
 export function like(data, callback=()=>{}) {
   return (dispatch, getState) => {
     let accessToken = getState().user.accessToken
@@ -15,13 +16,8 @@ export function like(data, callback=()=>{}) {
       headers: { AccessToken: accessToken },
       callback: (res) => {
 
-        if (data.type == 'answer') {
+        if (data.type == 'comment' || data.type == 'reply') {
           // 更新state中所有该answer id的数据
-          dispatch({ type: 'UPLOAD_ANSWER_LIKE_STATUS', id: data.target_id, status: true})
-          dispatch({ type: 'UPDATE_ANSWER_LIKE_IN_QUESTION', id: data.target_id, status: true})
-
-        } else if (data.type == 'comment') {
-          // 更新state中所有该 comment id的数据
           dispatch({ type: 'UPLOAD_COMMENT_LIKE_STATUS', id: data.target_id, status: true})
         }
 
@@ -46,11 +42,8 @@ export function unlike(data, callback=()=>{}) {
       headers: { AccessToken: accessToken },
       callback: (res) => {
 
-        if (data.type == 'answer') {
-          dispatch({ type: 'UPLOAD_ANSWER_LIKE_STATUS', id: data.target_id, status: false })
-          dispatch({ type: 'UPDATE_ANSWER_LIKE_IN_QUESTION', id: data.target_id, status: false })
-
-        } else if (data.type == 'comment') {
+        if (data.type == 'comment' || data.type == 'reply') {
+          // 更新state中所有该answer id的数据
           dispatch({ type: 'UPLOAD_COMMENT_LIKE_STATUS', id: data.target_id, status: false })
         }
 

@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
 import Shell from '../../../../shell'
-import PeopleList from '../../../../components/people-list'
+// import PeopleList from '../../../../components/people-list'
+import FollowPeopleList from '../../../../components/follow-people-list'
 
 import { loadPeopleById, loadFollowPeoples } from '../../../../actions/people'
 
@@ -21,7 +22,7 @@ class PeopleFollowing extends React.Component {
           callback('not found')
           return;
         }
-        dispatch(loadFollowPeoples({ name:'follow-people-' + id, filters:{ user_id: id }, callback:()=>{
+        dispatch(loadFollowPeoples({ name:'follow-people-' + id, filters:{ user_id: id, people_exsits: 1 }, callback:()=>{
           callback()
         }}))
       }
@@ -39,7 +40,7 @@ class PeopleFollowing extends React.Component {
 
     return (
       <div>
-        <PeopleList name={people._id} filters={{ user_id: people._id }} type={"follow-people"} />
+        <FollowPeopleList name={people._id} filters={{ user_id: people._id, people_exsits: 1 }} type={"follow-people"} />
       </div>
     )
 

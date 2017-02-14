@@ -48,6 +48,10 @@
     min-height: 15px;
   }
 
+  a{
+    color:$blue;
+  }
+
   @include respond-to(sm) {
     embed, iframe{
       width:100%;

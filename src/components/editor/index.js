@@ -347,7 +347,7 @@ const renderers = {
    */
   entities: {
     // key is the entity key value from raw
-    LINK: (children, data, { key }) => <Link key={key} to={data.url}>{children} </Link>,
+    LINK: (children, data, { key }) => <a href={data.url}>{data.title || data.url}</a>,
     youku: (children, data, { key }) => <div data-youku={data.src}></div>,
     tudou: (children, data, { key }) => <div data-tudou={data.src}></div>,
     qq: (children, data, { key }) => <div data-qq={data.src}></div>,
@@ -382,6 +382,7 @@ class MyEditor extends React.Component {
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style)
     this.addVideo = this._addVideo.bind(this)
     this.addImage = this._addImage.bind(this)
+    this.addLink = this._addLink.bind(this)
     this.handleKeyCommand = this._handleKeyCommand.bind(this)
     this.timer = null
     this.undo = this._undo.bind(this)
@@ -456,22 +457,10 @@ class MyEditor extends React.Component {
 
     }
 
-
-    // let height = getElementViewTop(document.activeElement) + document.activeElement.offsetHeight
-
     if (that.state.scrollY) {
       window.scrollTo(0, that.state.scrollY)
     }
 
-
-    // setTimeout(()=>{
-    //   EditorState.moveFocusToEnd(that.state.editorState)
-    // }, 100)
-
-    // that.state.editorState.focus()
-
-    // this.undo()
-    // EditorState.redo(editorState)
   }
 
   _toggleBlockType(blockType) {
@@ -490,6 +479,20 @@ class MyEditor extends React.Component {
         inlineStyle
       )
     )
+  }
+
+  _addLink() {
+
+
+    this._promptForMedia('LINK', {url:'xiaoduyu.com',title:'小度鱼'})
+
+    return
+
+    let url = prompt("请输入url地址","");
+
+    if (!url) {
+      return
+    }
   }
 
   _addVideo() {
@@ -658,8 +661,11 @@ class MyEditor extends React.Component {
               <span>
                 <a href="javascript:void(0)" className="button-white" onClick={this.addVideo}>添加视频</a>
               </span>
-
               {/*
+              <span>
+                <a href="javascript:void(0)" className="button-white" onClick={this.addLink}>添加链接</a>
+              </span>
+
               <span>
                 <a href="javascript:void(0)" onClick={this.undo}>撤销</a>
               </span>

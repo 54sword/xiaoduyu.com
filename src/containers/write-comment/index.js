@@ -1,51 +1,35 @@
 import React, { Component, PropTypes } from 'react'
-import { Link, browserHistory } from 'react-router'
+import ReactDOM from 'react-dom'
+import { browserHistory } from 'react-router'
+import { reactLocalStorage } from 'reactjs-localstorage'
 
 import Device from '../../common/device'
-import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { addComment, loadCommentById } from '../../actions/comment'
-import { loadAnswerById } from '../../actions/answer-list'
+import { loadPostsById } from '../../actions/posts'
+import { getPostsById } from '../../reducers/posts'
+import { addComment } from '../../actions/comment'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
+import Editor from '../../components/editor'
 
-class WriteComment extends Component {
+class WriteAnswer extends React.Component {
 
   static loadData(option, callback) {
 
-    const { answerId } = option.props.params
-    const { reply_id } = option.props.location.query
+    const { posts_id, parent_id, reply_id } = option.props.location.query
 
-    option.store.dispatch(loadAnswerById({
-      id: answerId,
-      callback: (answer)=>{
-
-        if (!answer) {
+    option.store.dispatch(loadPostsById({
+      id: posts_id,
+      callback: (question)=>{
+        if (!question) {
           callback('not found')
-          return
         } else {
-          if (!reply_id) {
-            callback()
-            return
-          }
-
-          option.store.dispatch(loadCommentById({
-            id: reply_id,
-            callback: (comment)=>{
-              if (!comment) {
-                callback('not found')
-              } else {
-                callback()
-              }
-            }
-          }))
-
+          callback()
         }
-
       }
     }))
   }
@@ -53,90 +37,126 @@ class WriteComment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      questionId: ''
+      contentJSON: '',
+      contentHTML: '',
+      content: <div></div>
     }
-    this.submitComment = this.submitComment.bind(this)
+    this.submitQuestion = this.submitQuestion.bind(this)
+    this.syncContent = this._syncContent.bind(this)
+  }
+
+  componentWillMount() {
+
+    let { posts_id } = this.props.location.query
+    let { loadPostsById } = this.props
+
+    const [ question ] = this.props.question
+
+    if (!question) {
+      loadPostsById({
+        id: posts_id,
+        callback: function(question){
+          if (!question) {
+            browserHistory.push('/')
+          }
+        }
+      })
+    }
+
   }
 
   componentDidMount() {
 
-    const that = this
-    const { answerId } = this.props.params
-    const { reply_id } = this.props.location.query
-    const { loadAnswerById, loadCommentById } = this.props
+    const { posts_id } = this.props.location.query
+    // let questionId = this.props.params.questionId
+    const [ question ] = this.props.question
 
-    if (!answerId) {
-      browserHistory.push('/')
-      return
+    const answerId = reactLocalStorage.get('answer-id') || ''
+    let answerContent = reactLocalStorage.get('answer-content') || ''
+
+    if (posts_id != answerId) {
+      answerContent = ''
     }
 
-    loadAnswerById({ id: answerId, callback:(answer)=>{
-
-      if (!answer) {
-        browserHistory.push('/')
-        return
-      }
-
-      this.state.questionId = answer.question_id._id
-
-      if (!reply_id) {
-        return
-      }
-
-      loadCommentById({ id: reply_id, callback:(comment)=>{
-
-        if (!comment) {
-          browserHistory.push('/')
-          return
-        }
-
-      }})
-
-    }})
+    this.setState({
+      content: <div><Editor syncContent={this.syncContent} content={answerContent} /></div>
+    });
 
   }
 
-  submitComment() {
+  submitQuestion() {
 
     const self = this
-    const { comment } = this.refs
-    const { answerId } = this.props.params
-    const { addComment } = this.props
-    const { reply_id } = this.props.location.query
-    const { questionId } = this.state
+    let { addComment } = this.props
+    let questionId = this.props.params.questionId
 
-    if (!comment.value) {
-      comment.focus()
+    const { posts_id, parent_id = '', reply_id = '' } = this.props.location.query
+
+    const { contentJSON, contentHTML } = this.state
+
+    if (!contentJSON) {
+      alert('不能提交空的答案')
       return
     }
 
     addComment({
-      content: comment.value,
-      questionId,
-      answerId,
-      replyId: reply_id,
+      posts_id,
+      parent_id,
+      reply_id,
+      contentJSON: contentJSON,
+      contentHTML: contentHTML,
       deviceId: Device.getCurrentDeviceId(),
       callback: function(result) {
+
         if (result && result.success) {
-          alert('回复提交成功')
-          self.context.router.goBack()
+
+          setTimeout(()=>{
+            reactLocalStorage.set('answer-id', '')
+            reactLocalStorage.set('answer-content', '')
+          }, 200)
+
+          browserHistory.push('/posts/'+questionId+'?subnav_back=/')
+          return
         }
+
+        if (result && !result.success) {
+          alert(result.error)
+        }
+
       }
     })
 
   }
 
+  _syncContent(contentJSON, contentHTML) {
+    this.state.contentJSON = contentJSON
+    this.state.contentHTML = contentHTML
+
+    let questionId = this.props.params.questionId
+
+    reactLocalStorage.set('answer-id', questionId)
+    reactLocalStorage.set('answer-content', contentJSON)
+  }
+
   render() {
+
+    const [ question ] = this.props.question
+    let questionId = this.props.params.questionId
+    const { content } = this.state
+
+    if (!question) {
+      return (<div></div>)
+    }
+
     return (<div>
-      <Meta meta={{title:'编写回复'}} />
-      <Subnav
-        left="取消"
-        middle="编写回复"
-        right={(<a href="javascript:void(0);" onClick={this.submitComment}>提交</a>)}
-      />
+      <Meta meta={{title: '编写答案'}} />
+      <Subnav left="取消" middle="编写答案" />
       <div className="container">
-        <div className={styles['write-reply']}>
-          <textarea ref="comment"></textarea>
+        <div>
+          {content}
+        </div>
+        <div>
+          <button className="button-full" onClick={this.submitQuestion}>提交</button>
         </div>
       </div>
     </div>)
@@ -144,28 +164,26 @@ class WriteComment extends Component {
 
 }
 
-WriteComment.contextTypes = {
-  router: PropTypes.object.isRequired
-}
-
-WriteComment.propTypes = {
+WriteAnswer.propTypes = {
+  question: PropTypes.array.isRequired,
   addComment: PropTypes.func.isRequired,
-  loadAnswerById: PropTypes.func.isRequired,
-  loadCommentById: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
-  return {}
+  let { posts_id } = props.location.query
+  return {
+    question: getPostsById(state, posts_id)
+  }
 }
 
 function mapDispatchToProps(dispatch, props) {
   return {
-    addComment: bindActionCreators(addComment, dispatch),
-    loadAnswerById: bindActionCreators(loadAnswerById, dispatch),
-    loadCommentById: bindActionCreators(loadCommentById, dispatch)
+    loadPostsById: bindActionCreators(loadPostsById, dispatch),
+    addComment: bindActionCreators(addComment, dispatch)
   }
 }
 
-WriteComment = connect(mapStateToProps, mapDispatchToProps)(WriteComment)
 
-export default Shell(WriteComment)
+WriteAnswer = connect(mapStateToProps, mapDispatchToProps)(WriteAnswer)
+
+export default Shell(WriteAnswer)

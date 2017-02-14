@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import { browserHistory } from 'react-router'
-
-import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -10,13 +9,14 @@ import { loadCommentById, updateComment } from '../../actions/comment'
 import Shell from '../../shell'
 import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
+import Editor from '../../components/editor'
 
-class EditComment extends Component {
+class EditAnswer extends React.Component {
 
   static loadData(option, callback) {
     const { id } = option.props.params
-    option.store.dispatch(loadCommentById({ id, callback: (comment)=>{
-      if (!comment) {
+    option.store.dispatch(loadCommentById({ id, callback: (answer)=>{
+      if (!answer) {
         callback('not found')
       } else {
         callback()
@@ -26,38 +26,33 @@ class EditComment extends Component {
 
   constructor(props) {
     super(props)
-
-    this.state = { comment: null }
+    this.state = {
+      answer: null,
+      contentJSON: '',
+      contentHTML: ''
+    }
     this.submit = this.submit.bind(this)
+    this.syncContent = this._syncContent.bind(this)
   }
 
-  componentDidMount() {
+  componentWillMount() {
 
     const self = this
-    const { id } = this.props.params
     const { loadCommentById } = this.props
+    const { id } = this.props.params
 
     loadCommentById({
       id,
-      callback: (comment) => {
+      callback: (answer) => {
 
-        if (comment) {
-          self.setState({
-            comment: comment
-          })
-        } else {
+        if (!answer) {
           browserHistory.push('/')
+        } else {
+          self.setState({
+            answer: answer
+          })
         }
 
-        /*
-        if (res && res.success && res.data.length > 0) {
-          self.setState({
-            comment: res.data[0]
-          })
-        } else {
-          browserHistory.push('/')
-        }
-        */
       }
     })
 
@@ -66,26 +61,26 @@ class EditComment extends Component {
   submit() {
 
     const self = this
-    const { comment } = this.state
-    const { updateComment } = this.props
+    let { updateComment } = this.props
+    const { contentJSON, contentHTML } = this.state
+    const { id } = this.props.params
 
-    if (!this.refs.comment.value) {
-      this.refs.comment.focus()
+    if (!contentJSON) {
+      alert('不能提交空的答案')
       return
     }
 
     updateComment({
-      content: this.refs.comment.value,
-      id: comment._id,
-      callback: function(res) {
+      id: id,
+      contentJSON: contentJSON,
+      contentHTML: contentHTML,
+      callback: function(result) {
 
-        if (!res && !res.success) {
-          alert('更新失败')
-        } else {
-          alert('更新成功')
-          // console.log(self.context.router)
+        if (result.success) {
+          // browserHistory.push('/answer/'+id+'?subnav_back=/')
           self.context.router.goBack()
-          // browserHistory.push(`/answer/${comment.answer_id}`)
+        } else {
+          alert('提交失败')
         }
 
       }
@@ -93,24 +88,26 @@ class EditComment extends Component {
 
   }
 
+  _syncContent(contentJSON, contentHTML) {
+    this.state.contentJSON = contentJSON
+    this.state.contentHTML = contentHTML
+  }
+
   render() {
 
-    const { comment } = this.state
+    const { answer } = this.state
 
-    if (!comment) {
+    if (!answer) {
       return (<div></div>)
     }
 
     return (<div>
-      <Meta meta={{title:'写评论'}} />
-      <Subnav
-        left="取消"
-        middle="写评论"
-        right={(<a href="javascript:void(0);" onClick={this.submit}>提交更新</a>)}
-        />
+      <Meta meta={{title: '编辑答案'}} />
+      <Subnav left="取消" middle="编辑答案" />
       <div className="container">
-        <div className={styles['write-reply']}>
-          <textarea ref="comment" defaultValue={comment.content}></textarea>
+        <div><Editor syncContent={this.syncContent} content={answer.content} /></div>
+        <div>
+          <button className="button-full" onClick={this.submit}>提交更新</button>
         </div>
       </div>
     </div>)
@@ -118,11 +115,12 @@ class EditComment extends Component {
 
 }
 
-EditComment.contextTypes = {
+EditAnswer.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-EditComment.propTypes = {
+
+EditAnswer.propTypes = {
   loadCommentById: PropTypes.func.isRequired,
   updateComment: PropTypes.func.isRequired
 }
@@ -139,6 +137,7 @@ function mapDispatchToProps(dispatch, props) {
   }
 }
 
-EditComment = connect(mapStateToProps, mapDispatchToProps)(EditComment)
 
-export default Shell(EditComment)
+EditAnswer = connect(mapStateToProps, mapDispatchToProps)(EditAnswer)
+
+export default Shell(EditAnswer)

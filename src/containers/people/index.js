@@ -15,6 +15,7 @@ import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import Tabbar from '../../components/tabbar'
 import FollowPeople from '../../components/follow-people'
+// import FollowPeopleList from '../../components/follow-people-list'
 
 function renderChildren(props) {
   const [ people ] = props.peoples
@@ -109,11 +110,31 @@ class People extends React.Component {
             <div>{people.brief}</div>
           </div>
           <div className={styles.tab}>
-            <Link className={!tabName ? "active" : null} to={`/people/${people._id}/asks?go=${go}`}>主题 {people.question_count > 0 ? people.question_count : null}</Link>
-            <Link className={tabName == 'answers' ? "active" : null} to={`/people/${people._id}/answers?go=${go}`}>回复 {people.answer_count > 0 ? people.answer_count : null}</Link>
-            <Link className={tabName == 'communities' ? "active" : null} to={`/people/${people._id}/communities?go=${go}`}>话题 {people.follow_node_count > 0 ? people.follow_node_count : null}</Link>
-            <Link className={tabName == 'following' ? "active" : null} to={`/people/${people._id}/following?go=${go}`}>关注 {people.follow_people_count > 0 ? people.follow_people_count : null}</Link>
-            <Link className={tabName == 'fans' ? "active" : null} to={`/people/${people._id}/fans?go=${go}`}>粉丝 {people.fans_count > 0 ? people.fans_count : null}</Link>
+            <Link
+              className={!tabName ? "active" : null}
+              to={`/people/${people._id}/posts?go=${go}`}>
+                主题 {people.question_count > 0 ? people.question_count : null}
+              </Link>
+            <Link
+              className={tabName == 'comments' ? "active" : null}
+              to={`/people/${people._id}/comments?go=${go}`}>
+              评论 {people.comment_count > 0 ? people.comment_count : null}
+              </Link>
+            <Link
+              className={tabName == 'topics' ? "active" : null}
+              to={`/people/${people._id}/topics?go=${go}`}>
+              话题 {people.follow_topic_count > 0 ? people.follow_topic_count : null}
+              </Link>
+            <Link
+              className={tabName == 'following' ? "active" : null}
+              to={`/people/${people._id}/following?go=${go}`}>
+              关注 {people.follow_people_count > 0 ? people.follow_people_count : null}
+              </Link>
+            <Link
+              className={tabName == 'fans' ? "active" : null}
+              to={`/people/${people._id}/fans?go=${go}`}>
+              粉丝 {people.fans_count > 0 ? people.fans_count : null}
+              </Link>
           </div>
         </div>
 

@@ -49,7 +49,7 @@ module.exports = {
       { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css') },
       {
         test: /\.scss$/i,
-        loader: ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=[name]_[local]__[hash:base64:5]!resolve-url!sass`),
+        loader: ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=${config.classScopedName}!resolve-url!sass`),
         include: path.resolve(__dirname, 'src')
       },
       { test: /\.(png|jpg|gif)$/, loader: 'url?limit=40000' },
@@ -96,6 +96,7 @@ module.exports = {
       filename: path.resolve(__dirname, 'dist/index.ejs'),
       template: 'src/view/index.html',
       public_path: config.public_path + '/',
+      cdn: config.qiniu.url + '/',
       meta: '<%- meta %>',
       htmlDom: '<%- html %>',
       reduxState: '<%- reduxState %>'
@@ -105,6 +106,7 @@ module.exports = {
       filename: path.resolve(__dirname, 'dist/not-found.ejs'),
       template: 'src/view/not-found.html',
       public_path: config.public_path + '/',
+      cdn: config.qiniu.url + '/'
     }),
 
   ]

@@ -19,19 +19,23 @@ import Shell from '../../shell'
 // 依赖组件
 import Nav from '../../components/nav'
 import Meta from '../../components/meta'
-import QuestionList from '../../components/question-list'
+import PostsList from '../../components/posts-list'
 
 // actions
-import { loadQuestionList } from '../../actions/question'
+import { loadPostsList } from '../../actions/posts'
 
 // 纯组件
 class Home extends React.Component {
 
   // 服务器预加载内容
   static loadData(option, callback) {
-    option.store.dispatch(loadQuestionList({ name:'home', callback:()=>{
+    if (option.userinfo) {
       callback()
-    }}))
+    } else {
+      option.store.dispatch(loadPostsList({ name:'home', callback:()=>{
+        callback()
+      }}))
+    }
   }
 
   constructor(props) {
@@ -46,7 +50,7 @@ class Home extends React.Component {
 
       <div className="container">
         <div className="container-head">最新动态</div>
-        <QuestionList name={'home'} displayDate={false} filters={{method:'user_custom'}} />
+        <PostsList name={'home'} displayDate={false} filters={{method:'user_custom'}} />
       </div>
 
     </div>)

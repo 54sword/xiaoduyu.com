@@ -1,17 +1,27 @@
-
-.write-reply{
-  width: 100%;
-  textarea{
-    padding:10px;
-    width:100%;
-    min-height: 250px;
-    border:none;
-  }
+.answerBrief{
+  width:100%;
+  height: 35px;
+  border:none;
+  border-bottom:1px solid #d8d8d8;
+  border-radius: 0px;
 }
 
-.replys{
+.answerDetail{
+  width:100%;
+  min-height: 150px;
+  border:none;
+  border-bottom:1px solid #d8d8d8;
+  border-radius: 0px;
+}
+
+.submit{
+  display: block;
   width: 100%;
-  .item{
-    width: 100%;
-  }
+  height: 45px;
+  text-align: center;
+  line-height: 45px;
+  background-color: #2cc5d3;
+  margin-top:10px;
+  color: #fff;
+  border: none;
 }

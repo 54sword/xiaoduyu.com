@@ -1,6 +1,6 @@
 {
   "name": "xiaoduyu",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "xiaoduyu",
   "scripts": {
     "dev": "NODE_ENV=development __NODE__=false webpack --progress --colors --config webpack.development.config.js && NODE_ENV=development __NODE__=true node server",
@@ -27,7 +27,8 @@
     "cross-env": "^3.1.3",
     "css-loader": "^0.24.0",
     "css-modules-require-hook": "^4.0.5",
-    "draft-js": "^0.10.0",
+    "draft-js": "0.10.0",
+    "draft-js-linkify-plugin": "^2.0.0-beta9",
     "editor": "github:lepture/editor",
     "ejs": "^2.5.1",
     "ejs-loader": "^0.3.0",
@@ -38,7 +39,6 @@
     "html-webpack-plugin": "^2.24.1",
     "ignore-loader": "^0.1.1",
     "node-sass": "^3.13.0",
-    "npm-install-webpack-plugin": "^4.0.4",
     "qrcode.react": "^0.6.1",
     "react": "^15.4.1",
     "react-cookie": "^1.0.4",
@@ -65,8 +65,7 @@
     "webpack-dev-middleware": "^1.8.4",
     "webpack-dev-server": "^1.15.0",
     "webpack-hot-middleware": "^2.13.2",
-    "webpack-manifest-plugin": "^1.1.0",
-    "draft-js": "0.10.0"
+    "webpack-manifest-plugin": "^1.1.0"
   },
   "devDependencies": {
     "glob": "^7.1.1",
