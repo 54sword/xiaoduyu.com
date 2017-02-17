@@ -14,11 +14,12 @@ import TopicList from '../../components/topic-list'
 import FollowNode from '../../components/topic-item/components/follow'
 
 class Topics extends React.Component {
-  
+
   // 服务器预加载内容
 
   static loadData(option, callback) {
 
+    // 登录的用户，不服务端加载
     if (option.userinfo) {
       callback(null)
     } else {
@@ -30,14 +31,10 @@ class Topics extends React.Component {
         filters: {child:-1},
         callback: (res)=>{
 
-          console.log(res);
-
           option.store.dispatch(loadTopics({
             name: 'node-' + tag,
             filters: { child:1, parent_id: tag },
             callback: (res)=>{
-
-              console.log(res);
 
               callback(res.success ? null : true)
             }
@@ -63,7 +60,7 @@ class Topics extends React.Component {
     this.setState({
       edit: this.state.edit ? false : true
     })
-
+    
   }
 
   componentDidMount() {
@@ -103,7 +100,7 @@ class Topics extends React.Component {
 
     return (
       <div>
-        <Meta meta={{ title: '社群' }} />
+        <Meta meta={{ title: '话题' }} />
         <Nav />
         <div className="container">
 

@@ -17,7 +17,6 @@ import { getCommentListByName } from '../../reducers/comment'
 import ListLoading from '../list-loading'
 import AnswerItem from '../comment-item'
 
-
 class AnswerList extends Component {
 
   constructor(props) {

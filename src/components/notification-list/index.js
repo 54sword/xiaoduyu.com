@@ -92,7 +92,6 @@ class NotificationList extends Component {
                   break
 
                 case 'reply':
-
                   content = (<div>
                     <div className={styles.header}>
                       <div className={styles.actions}>
@@ -128,13 +127,13 @@ class NotificationList extends Component {
                   </div>)
                   break
 
-                case 'like-answer':
+                case 'like-reply':
                   content = (<div>
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       {DateDiff(notice.create_at)} 赞了你的
-                      <Link to={`/answer/${notice.answer_id._id}`}>{notice.answer_id.content_trim}</Link>
-                      评论
+                      <Link to={`/answer/${notice.comment_id.parent_id._id}`}>{notice.comment_id.content_trim}</Link>
+                      回复
                     </div>
                   </div>)
                   break
@@ -144,22 +143,23 @@ class NotificationList extends Component {
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       {DateDiff(notice.create_at)} 赞了你的
-                      <Link to={`/answer/${notice.comment_id.answer_id._id}`}>{notice.comment_id.content_trim}</Link>
+                      <Link to={`/answer/${notice.comment_id._id}`}>{notice.comment_id.content_trim}</Link>
                       评论
                     </div>
                   </div>)
                   break
 
                 // 新的回答通知
-                case 'new-answer':
+                case 'new-comment':
                   content = (<div>
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       {DateDiff(notice.create_at)} 评论了
-                      <Link to={`/posts/${notice.question_id._id}`}>{notice.question_id.title}</Link>
+                      <Link to={`/posts/${notice.comment_id.posts_id._id}`}>{notice.comment_id.posts_id.title}</Link>
+                      {notice.comment_id.posts_id.type == 1 ?  '分享' : '提问'}
                     </div>
                     <div className={styles.content}>
-                      <Link to={`/answer/${notice.answer_id._id}`}>{notice.answer_id.content_trim}</Link>
+                      <Link to={`/answer/${notice.comment_id._id}`}>{notice.comment_id.content_trim}</Link>
                     </div>
                   </div>)
                   break

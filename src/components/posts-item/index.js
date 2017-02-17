@@ -14,7 +14,7 @@ class PostsItem extends Component {
   constructor(props) {
     super(props)
   }
-  
+
   render () {
     const { question, displayDate = true } = this.props
     return (

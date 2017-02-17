@@ -115,7 +115,7 @@ class WriteAnswer extends React.Component {
             reactLocalStorage.set('answer-content', '')
           }, 200)
 
-          browserHistory.push('/posts/'+questionId+'?subnav_back=/')
+          browserHistory.push('/posts/'+posts_id+'?subnav_back=/')
           return
         }
 

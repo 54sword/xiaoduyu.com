@@ -44,7 +44,6 @@ class AnswerItem extends Component {
         <div className={styles.footer}>
 
           <div className={styles['footer-action']}>
-
             {me._id == answer.user_id._id ? <span><Link to={`/edit-comment/${answer._id}`}>编辑</Link></span> : null}
             {displayLike ? <span><LikeButton comment={!answer.parent_id ? answer : null} reply={answer.parent_id ? answer : null} /></span> : null}
             {displayReply ?
@@ -52,16 +51,15 @@ class AnswerItem extends Component {
                 null
                 : <span><Link to={`/write-comment?posts_id=${answer.posts_id && answer.posts_id._id ? answer.posts_id._id : answer.posts_id}&parent_id=${answer.parent_id ? answer.parent_id : answer._id}${answer.parent_id ? `&reply_id=${answer._id}` : ''}`}>回复</Link></span>)
               : null}
-
           </div>
 
           <div className={styles['footer-info']}>
             <span>
               <Link to={`/people/${answer.user_id._id}`}>{answer.user_id.nickname}</Link>
-              {answer.reply_id ? ' 回复了 ' : null}
-              {answer.reply_id ? <Link to={`/people/${answer.reply_id.user_id._id}`}>{answer.reply_id.user_id.nickname}</Link> : null}
+              {answer.reply_id ? ` 回复了${answer.reply_id.user_id._id == answer.user_id._id ? '自己' : ' '}` : null}
+              {answer.reply_id && answer.reply_id.user_id._id != answer.user_id._id ? <Link to={`/people/${answer.reply_id.user_id._id}`}>{answer.reply_id.user_id.nickname}</Link> : null}
             </span>
-            {answer.comment_count > 0 ? <span>{answer.comment_count} 个回复</span> : null}
+            {answer.reply_count > 0 ? <span>{answer.reply_count} 个回复</span> : null}
             {answer.like_count > 0 ? <span>{answer.like_count} 个赞</span> : null}
             {displayDate ? <span>{DateDiff(answer.create_at)}</span> : null}
           </div>

@@ -6,6 +6,7 @@ import configureStore from './store/configureStore'
 import Root from './containers/root'
 import { loadUnreadCount } from './actions/notification'
 
+import './common/lang'
 import './common/arrive-footer'
 import './common/weixin'
 import './common/load-demand'

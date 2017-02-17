@@ -58,12 +58,7 @@ class ResetEmail extends Component {
           loadUserInfo({})
           self.context.router.goBack()
         } else {
-          if (result.error && result.error == 'captcha error') {
-            alert('验证码错误')
-          } else {
-            console.log(result)
-            alert('提交失败')
-          }
+          alert(result.error)
         }
       }
     })

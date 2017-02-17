@@ -83,7 +83,7 @@ class Settings extends Component {
 
         <Nav />
         <div className="container">
-          
+
           <div className="list">
             <Link className="arrow avatar" to="/settings/avatar">
               头像

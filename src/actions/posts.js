@@ -86,13 +86,12 @@ export function loadPostsById({ id, callback = ()=>{} }) {
 
     let accessToken = getState().user.accessToken
     let questionList = getState().posts['other'].data
-
     let headers = accessToken ? { 'AccessToken': accessToken } : null
 
     Ajax({
       url: '/posts',
       type: 'get',
-      params: { question_id: id, draft: 1 },
+      params: { posts_id: id, draft: 1 },
       headers,
       callback: (res) => {
 

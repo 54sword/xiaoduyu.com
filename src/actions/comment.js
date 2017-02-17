@@ -1,13 +1,11 @@
 
 import Ajax from '../common/ajax'
 
-export function addComment({
-  posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, callback
-}) {
+export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, callback }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
-    let answerList = getState().comment[posts_id] || null
+    let commentList = getState().comment[posts_id] || null
 
     Ajax({
       url: '/write-comment',
@@ -23,17 +21,22 @@ export function addComment({
       headers: { AccessToken: accessToken },
       callback: (res) => {
 
-        // console.log(res);
+        if (commentList && res.success && res.data) {
 
-        if (!res || !res.success) {
-          callback(res)
-          return
+          if (!parent_id) {
+            commentList.data.unshift(res.data)
+          } else if (parent_id) {
+            commentList.data.map(comment=>{
+              if (comment._id == parent_id) {
+                comment.reply.unshift(res.data)
+              }
+            })
+          }
+
+          dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name: posts_id, data: commentList })
         }
 
-        if (!answerList) {
-          callback(res)
-          return
-        }
+        callback(res)
 
       }
     })

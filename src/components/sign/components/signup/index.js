@@ -4,7 +4,7 @@ import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { signup } from '../../../../actions/sign'
+import { signin, signup } from '../../../../actions/sign'
 
 import CaptchaButton from '../../../captcha-button'
 
@@ -19,33 +19,16 @@ class Signup extends Component {
 
   singupFailed(data) {
 
-    let megs = {
-      nickname: {
-        'ok': ' ',
-        'blank error': '请输入昵称'
-      },
-      email: {
-        'ok': ' ',
-        'invalid error': '邮箱格式错误',
-        'blank error': '请输入你的电子邮箱',
-        'taken error': '邮箱已被注册'
-      },
-      password: {
-        'ok': ' ',
-        'invalid error': '密码格式错误',
-        'blank error': '请输入密码'
-      },
-      gender: {
-        'ok': ' ',
-        'invalid error': '请选择性别',
-        'blank error': '请选择性别'
-      }
-    }
+    this.refs['nickname-meg'].innerHTML = ''
+    this.refs['email-meg'].innerHTML = ''
+    this.refs['password-meg'].innerHTML = ''
+    this.refs['gender-meg'].innerHTML = ''
+    this.refs['captcha-meg'].innerHTML = ''
 
     for (let key in data) {
       let ref = this.refs[key+'-meg']
       if (ref) {
-        ref.innerHTML = megs[key][data[key]] || data[key]
+        ref.innerHTML = data[key] || ''
       }
     }
 
@@ -59,7 +42,7 @@ class Signup extends Component {
 
     let { nickname, email, password, male, female, captcha } = this.refs
 
-    const { signup } = this.props
+    const { signup, signin } = this.props
 
     if (!nickname.value) {
       nickname.focus()
@@ -69,11 +52,12 @@ class Signup extends Component {
       return
     } else if (!captcha.value) {
       captcha.focus()
+      return
     } else if (!password.value) {
       password.focus()
       return
     } else if (!male.checked && !female.checked) {
-      self.singupFailed({gender: 'blank error'})
+      self.singupFailed({ gender: '请选择性别' })
       return
     }
 
@@ -87,9 +71,17 @@ class Signup extends Component {
       captcha: captcha.value
     }, function(err, result){
       if (err) {
-        self.singupFailed(result.data);
+        self.singupFailed(result.error);
       } else if (!err && result.success) {
         alert('注册成功')
+
+        // 自动登录
+        signin(email.value, password.value, function(err, result){
+          setTimeout(()=>{
+            location.reload()
+          }, 100)
+        });
+
       }
     });
   }
@@ -113,6 +105,7 @@ class Signup extends Component {
         <div>
           <input type="text" className="input captcha" placeholder="请输入验证码" ref="captcha" />
           <CaptchaButton onClick={this.sendCaptcha} />
+          <div ref="captcha-meg"></div>
         </div>
         <div><input type="password" className="input" ref="password" placeholder="密码" /><div ref="password-meg"></div></div>
         <div className={styles.gender}>性别
@@ -121,7 +114,7 @@ class Signup extends Component {
           <div ref="gender-meg"></div>
         </div>
         <div><input type="submit" className="button" value="注册" onClick={this.submitSignup} /></div>
-        
+
         <div className={styles.signin}>
           已经有账号了？ <a href="javascript:void(0)" onClick={()=>{this.props.displayComponent('signin')}}>登录</a>
         </div>
@@ -133,7 +126,8 @@ class Signup extends Component {
 
 
 Signup.propTypes = {
-  signup: PropTypes.func.isRequired
+  signup: PropTypes.func.isRequired,
+  signin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -143,7 +137,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signup: bindActionCreators(signup, dispatch)
+    signup: bindActionCreators(signup, dispatch),
+    signin: bindActionCreators(signin, dispatch)
   }
 }
 

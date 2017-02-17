@@ -5,7 +5,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-// import { loadNodes } from '../../actions/nodes'
 import { getAccessToken, getProfile } from '../../reducers/user'
 
 import Shell from '../../shell'
