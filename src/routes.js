@@ -91,7 +91,7 @@ export default (history, user, logPageView = ()=>{}) =>{
 
   return (<Router history={history} onUpdate={logPageView}>
     <Route path="/" component={Home} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/notifications" component={Notifications} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/notifications" component={Notifications} onLeave={triggerLeave} onEnter={requireAuth} />
 
     <Route path="/add-topic" component={WriteTopic} onLeave={triggerLeave} onEnter={adminRequireAuth} />
     <Route path="/edit-topic/:id" component={EditTopic} onLeave={triggerLeave} onEnter={adminRequireAuth} />

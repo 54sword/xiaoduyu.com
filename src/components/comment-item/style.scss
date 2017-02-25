@@ -6,6 +6,9 @@
   border-top:1px solid $light-gray;
 }
 
+
+
+
 .create-at{
   // float:right;
   // margin:15px 15px 0 0;
@@ -33,7 +36,10 @@
       width: 40px;
       height: 40px;
     }
+
   }
+
+
 
   /*
   > span {
@@ -135,7 +141,7 @@
 .comment-list{
   padding-top:15px;
   > div > div {
-    // padding-left:55px;
+    padding-left:45px !important;
     padding-right:0px;
   }
 }
@@ -144,4 +150,27 @@
   padding:15px 0 15px 0;
   border-top:1px solid $light-gray;
   font-size: 13px;
+}
+
+
+.item{
+
+  @include respond-to(sm) {
+    padding-left:55px;
+  }
+
+  .avatar{
+    @include respond-to(sm) {
+      width: 35px;
+      height: 35px;
+      margin-left:-45px;
+    }
+    img{
+      @include respond-to(sm) {
+        width: 35px;
+        height: 35px;
+      }
+    }
+  }
+
 }

@@ -23,16 +23,16 @@ class AnswerItem extends Component {
   }
 
   _renderItem(oursProps) {
-
+    
     const that = this
 
-    let { answer, summary, displayCreateDate = true, me, displayLike = true, displayReply = true, displayDate = true } = oursProps
+    let { answer, summary, displayCreateDate = true, me, displayLike = true, displayReply = true, displayDate = true, style = '' } = oursProps
 
     let { isSignin, showSign } = this.props
 
     // {/*<span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>*/}
     return (
-      <div className={styles.item}>
+      <div className={styles.item + ' ' + styles.min}>
         <div className={styles.people}>
           {answer.user_id ?
           <Link to={`/people/${answer.user_id._id}`}>

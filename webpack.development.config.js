@@ -2,18 +2,14 @@ var webpack = require('webpack');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-// var ManifestPlugin = require('webpack-manifest-plugin');
-// var config = require('./package').config;
 
 var ROOT_PATH = path.resolve(__dirname);
 var NODE_MODULES_PATH = path.resolve(ROOT_PATH, 'node_modules');
-
 
 var config = require('./config')
 
 module.exports = {
 
-  // devtool: 'eval-source-map',
   devtool: '#inline-source-map',
   entry: {
     app: [
@@ -27,10 +23,12 @@ module.exports = {
       'babel-polyfill',
       'redux',
       'react-redux',
-      // path.resolve(NODE_MODULES_PATH, 'wysihtml/parser_rules/simple.js'),
-      // path.resolve(NODE_MODULES_PATH, 'wysihtml/dist/wysihtml.toolbar.js'),
-      // path.resolve(NODE_MODULES_PATH, 'wysihtml/dist/wysihtml.all-commands.js'),
-      // path.resolve(NODE_MODULES_PATH, 'wysihtml/dist/wysihtml.js'),
+      'react-ga',
+      'react-document-meta',
+      'react-cookie',
+      'react-tabs',
+      'axios',
+      'draft-js',
       'webpack-hot-middleware/client?noInfo=true&reload=true',
     ]
   },
@@ -102,5 +100,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     // new ManifestPlugin()
 
+    // new BundleAnalyzerPlugin()
+    // new OfflinePlugin()
   ]
 }

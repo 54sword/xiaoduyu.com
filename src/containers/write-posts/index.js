@@ -72,17 +72,21 @@ class WriteQuestion extends React.Component {
   _titleChange(event) {
     let { questionTitle } = this.refs
     // this.setState({title: questionTitle.value});
-    reactLocalStorage.set('question-title', questionTitle.value)
+    // reactLocalStorage.set('question-title', questionTitle.value)
   }
 
   sync(contentStateJSON, contentHTML) {
     this.state.contentStateJSON = contentStateJSON
     this.state.contentHTML = contentHTML
-    reactLocalStorage.set('question-content', contentStateJSON)
+
+    // console.log(contentStateJSON);
+
+    // reactLocalStorage.set('question-content', contentStateJSON)
   }
 
   componentDidMount() {
-    const questionContent = reactLocalStorage.get('question-content') || ''
+    let questionContent = reactLocalStorage.get('question-content') || ''
+
     this.setState({
       // title: reactLocalStorage.get('question-title') || '',
       editor: <div><Editor syncContent={this.sync} content={questionContent} /></div>

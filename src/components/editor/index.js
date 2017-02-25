@@ -185,7 +185,9 @@ const Media = (props) => {
 
   let media;
 
-  if (type === 'image') {
+  if (type === 'link') {
+    media = <a href={src}>{src}</a>;
+  } else if (type === 'image') {
     media = <Image src={src} />;
   } else if (type === 'youtube') {
 
@@ -267,7 +269,34 @@ const TokenSpan = (props) => {
   )
 }
 
+function findLinkEntities(contentBlock, callback, contentState) {
+
+  contentBlock.findEntityRanges(
+    (character) => {
+      const entityKey = character.getEntity();
+      return (
+        entityKey !== null &&
+        contentState.getEntity(entityKey).getType() === 'LINK'
+      );
+    },
+    callback
+  );
+}
+
+const Link = (props) => {
+  const {url} = props.contentState.getEntity(props.entityKey).getData();
+  return (
+    <a href={url} style={{ color: '#3b5998', textDecoration: 'underline' }}>
+      {props.children}
+    </a>
+  );
+};
+
 const decorator = new CompositeDecorator([
+  {
+    strategy: findLinkEntities,
+    component: Link,
+  },
   {
     strategy: getEntityStrategy('IMMUTABLE'),
     component: TokenSpan,
@@ -310,7 +339,7 @@ const renderers = {
     BOLD: (children, { key }) => <strong key={key}>{children}</strong>,
     ITALIC: (children, { key }) => <em key={key}>{children}</em>,
     UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
-    CODE: (children, { key }) => <span key={key}>{children}</span>,
+    CODE: (children, { key }) => <span key={key}>{children}</span>
   },
   /**
    * Blocks receive children and depth
@@ -347,12 +376,14 @@ const renderers = {
    */
   entities: {
     // key is the entity key value from raw
-    LINK: (children, data, { key }) => <a href={data.url}>{data.title || data.url}</a>,
-    youku: (children, data, { key }) => <div data-youku={data.src}></div>,
-    tudou: (children, data, { key }) => <div data-tudou={data.src}></div>,
-    qq: (children, data, { key }) => <div data-qq={data.src}></div>,
-    youtube: (children, data, { key }) => <div data-youtube={data.src}></div>,
-    image: (children, data, { key }) => <img src={data.src} />,
+    // link: (children, data, { key }) => <a href={data.src.url}>{data.src.title || data.src.url}</a>,
+
+    youku: (children, data, { key }) => <div key={key} data-youku={data.src}></div>,
+    tudou: (children, data, { key }) => <div key={key} data-tudou={data.src}></div>,
+    qq: (children, data, { key }) => <div key={key} data-qq={data.src}></div>,
+    youtube: (children, data, { key }) => <div key={key} data-youtube={data.src}></div>,
+    image: (children, data, { key }) => <img key={key} src={data.src} />,
+    LINK: (children, data, { key }) => <a key={key} href={data.url}>{children}</a>
     // youku: (children, data, { key }) => <div><Embed src={`http://player.youku.com/player.php/sid/${data.src}/v.swf`}></Embed></div>,
     // tudou: (children, data, { key }) => <div><Iframe src={`http://www.tudou.com/programs/view/html5embed.action?code=${data.src}`} allowtransparency="true" allowfullscreen="true" allowfullscreenInteractive="true" scrolling="no" border="0" frameborder="0" width="auto" height="auto" position=""></Iframe></div>,
     // qq: (children, data, { key }) => <div><Embed src={`http://static.video.qq.com/TPout.swf?vid=${data.src}&auto=0`}></Embed></div>,
@@ -372,7 +403,7 @@ class MyEditor extends React.Component {
       readOnly: readOnly || false,
       editorState: content
         ? EditorState.createWithContent(convertFromRaw(JSON.parse(content)), decorator)
-        : EditorState.createEmpty(),
+        : EditorState.createEmpty(decorator),
       rendered: null,
       scrollY: 0
     }
@@ -421,9 +452,12 @@ class MyEditor extends React.Component {
 
   _onChange(editorState) {
 
-    this.setState({ editorState })
-
     const that = this
+
+    this.setState({ editorState }, () => {
+      // setTimeout(() => that.refs.editor.focus(), 0);
+    })
+
     const { syncContent } = this.state
     const { draftHtml } = this.refs
 
@@ -481,10 +515,12 @@ class MyEditor extends React.Component {
     )
   }
 
+  /*
   _addLink() {
 
-
-    this._promptForMedia('LINK', {url:'xiaoduyu.com',title:'小度鱼'})
+    // {url:'xiaoduyu.com',title:'小度鱼'}
+    this._promptForMedia('link', '123123')
+    // this._promptForMedia('qq', '123123123')
 
     return
 
@@ -494,6 +530,7 @@ class MyEditor extends React.Component {
       return
     }
   }
+  */
 
   _addVideo() {
 
@@ -574,10 +611,41 @@ class MyEditor extends React.Component {
     this._promptForMedia('image', url)
   }
 
+  _addLink(e) {
+
+    const {editorState} = this.state;
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      let url = prompt("请输入url地址以http://或https://开头","");
+
+      if (!url) return
+
+      // const { editorState } = this.state;
+      const contentState = editorState.getCurrentContent();
+      const contentStateWithEntity = contentState.createEntity(
+        'LINK',
+        'MUTABLE',
+        {url: url}
+      );
+      const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+      const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
+
+
+      this.onChange(RichUtils.toggleLink(
+        newEditorState,
+        newEditorState.getSelection(),
+        entityKey
+      ));
+    } else {
+      alert('请先选取需要添加链接的文字内容')
+    }
+
+  }
+
   _promptForMedia(type, src) {
 
     const { editorState } = this.state;
-    const entityKey = Entity.create(type, 'IMMUTABLE', {src: src})
+    const entityKey = Entity.create(type, 'IMMUTABLE', { src: src })
 
     this.onChange(AtomicBlockUtils.insertAtomicBlock(
       editorState,
@@ -661,11 +729,11 @@ class MyEditor extends React.Component {
               <span>
                 <a href="javascript:void(0)" className="button-white" onClick={this.addVideo}>添加视频</a>
               </span>
-              {/*
+
               <span>
                 <a href="javascript:void(0)" className="button-white" onClick={this.addLink}>添加链接</a>
               </span>
-
+              {/*
               <span>
                 <a href="javascript:void(0)" onClick={this.undo}>撤销</a>
               </span>
@@ -682,6 +750,7 @@ class MyEditor extends React.Component {
               toggleBlockType={this.toggleBlockType}
               toggleInlineStyle={this.toggleInlineStyle}
             />
+
 
             <Editor
               blockRendererFn={mediaBlockRenderer}

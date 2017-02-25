@@ -30,6 +30,7 @@ const renderers = {
     ITALIC: (children, { key }) => <em key={key}>{children}</em>,
     UNDERLINE: (children, { key }) => <u key={key}>{children}</u>,
     CODE: (children, { key }) => <span key={key} style={stylesa.code}>{children}</span>,
+    LINK: (children, data, { key }) => <a href={data.src}>{data.src}</a>
   },
   /**
    * Blocks receive children and depth
@@ -66,11 +67,11 @@ const renderers = {
    */
   entities: {
     // key is the entity key value from raw
-    LINK: (children, data, { key }) => <Link key={key} to={data.url}>{children} </Link>,
+    // LINK: (children, data, { key }) => <Link key={key} to={data.url}>{children} </Link>,
     youku: (children, data, { key }) => <div><Embed src={`http://player.youku.com/player.php/sid/${data.src}/v.swf`}></Embed></div>,
     tudou: (children, data, { key }) => <div><Iframe src={`http://www.tudou.com/programs/view/html5embed.action?code=${data.src}`} allowtransparency="true" allowfullscreen="true" allowfullscreenInteractive="true" scrolling="no" border="0" frameborder="0" width="auto" height="auto" position=""></Iframe></div>,
     qq: (children, data, { key }) => <div><Embed src={`http://static.video.qq.com/TPout.swf?vid=${data.src}&auto=0`}></Embed></div>,
-  },
+  }
 }
 
 const JSONConvertToHtml = (json) => {

@@ -5,9 +5,8 @@ import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { loadNotifications, loadNewNotifications } from '../../actions/notification'
+import { loadNotifications } from '../../actions/notification'
 import { getNotificationByName } from '../../reducers/notification'
-import { getUnreadNotice } from '../../reducers/user'
 
 import arriveFooter from '../../common/arrive-footer'
 import { DateDiff } from '../../common/date'
@@ -24,13 +23,10 @@ class NotificationList extends Component {
 
   componentWillMount() {
 
-    const { notification, loadNotifications, unreadNotice, loadNewNotifications,
-      name, filters } = this.props
+    const { notification, name, filters } = this.props
 
     if (!notification.data) {
       this.handleLoad()
-    } else if (unreadNotice > 0) {
-      loadNewNotifications({ name, filters })
     }
 
     arriveFooter.add('notification', ()=>{
@@ -183,22 +179,19 @@ class NotificationList extends Component {
 }
 
 NotificationList.propTypes = {
-  unreadNotice: PropTypes.number.isRequired,
-  loadNotifications: PropTypes.func.isRequired,
-  loadNewNotifications: PropTypes.func.isRequired
+  notification: PropTypes.object.isRequired,
+  loadNotifications: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
   return {
-    unreadNotice: getUnreadNotice(state),
     notification: getNotificationByName(state, props.name)
   }
 }
 
 function mapDispatchToProps(dispatch, props) {
   return {
-    loadNotifications: bindActionCreators(loadNotifications, dispatch),
-    loadNewNotifications: bindActionCreators(loadNewNotifications, dispatch)
+    loadNotifications: bindActionCreators(loadNotifications, dispatch)
   }
 }
 

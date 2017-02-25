@@ -42,7 +42,7 @@ class PostsItem extends Component {
           <Link to={`/posts/${question._id}`}>{question.title}</Link>
         </div>
 
-        <div className={styles['answer-list']}>
+        <div className={styles['comment-list']}>
           {question.comment && question.comment.map(answer=>{
             return (<div key={answer._id}>
               <CommentItem
@@ -51,6 +51,7 @@ class PostsItem extends Component {
                 displayLike={false}
                 displayReply={false}
                 displayDate={displayDate}
+                style={"min"}
                 />
             </div>)
           })}

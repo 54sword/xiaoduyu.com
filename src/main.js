@@ -1,3 +1,5 @@
+// require('offline-plugin/runtime').install();
+
 import 'babel-polyfill';
 import React from 'react'
 import { browserHistory } from 'react-router'

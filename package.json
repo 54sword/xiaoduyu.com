@@ -68,7 +68,10 @@
     "webpack-manifest-plugin": "^1.1.0"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^4.0.1",
     "glob": "^7.1.1",
-    "qiniu": "^6.1.13"
+    "offline-plugin": "^4.6.1",
+    "qiniu": "^6.1.13",
+    "webpack-bundle-analyzer": "^2.3.0"
   }
 }

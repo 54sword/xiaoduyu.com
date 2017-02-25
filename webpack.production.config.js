@@ -4,12 +4,13 @@ var HtmlwebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+// var OfflinePlugin = require('offline-plugin');
 
 var ROOT_PATH = path.resolve(__dirname);
 var NODE_MODULES_PATH = path.resolve(ROOT_PATH, 'node_modules');
 
-// var config = require('./package').config;
 var config = require('./config')
+
 
 module.exports = {
 
@@ -19,13 +20,15 @@ module.exports = {
       'react',
       'react-dom',
       'react-router',
+      'babel-polyfill',
       'redux',
       'react-redux',
-      'babel-polyfill'
-      // path.resolve(NODE_MODULES_PATH, 'wysihtml/parser_rules/simple.js'),
-      // path.resolve(NODE_MODULES_PATH, 'wysihtml/dist/wysihtml.toolbar.js'),
-      // path.resolve(NODE_MODULES_PATH, 'wysihtml/dist/wysihtml.all-commands.js'),
-      // path.resolve(NODE_MODULES_PATH, 'wysihtml/dist/wysihtml.js')
+      'react-ga',
+      'react-document-meta',
+      'react-cookie',
+      'react-tabs',
+      'axios',
+      'draft-js'
     ]
   },
 
@@ -108,6 +111,18 @@ module.exports = {
       public_path: config.public_path + '/',
       cdn: config.qiniu.url + '/'
     }),
+
+    // new CopyWebpackPlugin([
+    //   { from: '/dist', ignore: '.*' }
+    // ]),
+
+    // new OfflinePlugin({
+    //   publicPath: '/dist/',
+    //   relativePaths: false,
+    //   AppCache: {
+    //     directory: ''
+    //   }
+    // })
 
   ]
 

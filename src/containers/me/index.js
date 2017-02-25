@@ -37,16 +37,16 @@ class Me extends Component {
             <img src={me.avatar_url.replace(/thumbnail/, "large")} />
             <div>{me.nickname}</div>
           </Link>
-          
+
           <div className="list">
             <Link className="arrow" to={`/people/${me._id}/posts`}>
-              我创建的帖子 <span className="right">{me.question_count}</span>
+              我创建的帖子 <span className="right">{me.posts_count}</span>
             </Link>
             <Link className="arrow" to={`/people/${me._id}/comments`}>
               我编写的评论 <span className="right">{me.comment_total}</span>
             </Link>
           </div>
-
+          
           <div className="list">
             <Link className="arrow" to={`/people/${me._id}/topics`}>我关注的话题
               <span className="right">{me.follow_node_count}</span>
