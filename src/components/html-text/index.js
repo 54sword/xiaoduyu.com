@@ -17,18 +17,19 @@ const converVideo = (html) => {
     voides.map(div=>{
       const id = div.split(re)[1]
 
-      let url = "http://player.youku.com/player.php/sid/"+id+"/v.swf"
-      let media = `<embed ref="embed" src="${url}"></embed>`
+      // let url = "http://player.youku.com/player.php/sid/"+id+"/v.swf"
+      // let media = `<embed ref="embed" src="${url}"></embed>`
 
-      if (Device.isMobileDevice()) {
-        url = "http://player.youku.com/embed/" + id
-        media = `<iframe ref="iframe" src="${url}"></iframe>`
-      }
+      // if (Device.isMobileDevice()) {
+      let url = "//player.youku.com/embed/" + id
+      let media = `<iframe ref="iframe" src="${url}"></iframe>`
+      // }
 
       html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
     })
   }
 
+  /*
   // tudou
   re = /\<div data\-tudou\=\"(.*?)\"\>\<\/div\>/g
   voides = html.match(re)
@@ -46,6 +47,7 @@ const converVideo = (html) => {
     })
 
   }
+  */
 
   // qq
   re = /\<div data\-qq\=\"(.*?)\"\>\<\/div\>/g
@@ -56,13 +58,13 @@ const converVideo = (html) => {
 
       const id = div.split(re)[1]
 
-      let url = "http://static.video.qq.com/TPout.swf?vid="+id+"&auto=0"
-      let media = `<embed ref="embed" src="${url}"></embed>`
+      // let url = "http://static.video.qq.com/TPout.swf?vid="+id+"&auto=0"
+      // let media = `<embed ref="embed" src="${url}"></embed>`
 
-      if (Device.isMobileDevice()) {
-        url = "http://v.qq.com/iframe/player.html?vid="+id+"&tiny=0&auto=0"
-        media = `<iframe ref="iframe" src="${url}"></iframe>`
-      }
+      // if (Device.isMobileDevice()) {
+        let url = "//v.qq.com/iframe/player.html?vid="+id+"&tiny=0&auto=0"
+        let media = `<iframe ref="iframe" src="${url}"></iframe>`
+      // }
 
       html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
     })
@@ -78,7 +80,7 @@ const converVideo = (html) => {
 
       const id = div.split(re)[1]
 
-      let url = "https://www.youtube.com/embed/"+id
+      let url = "//www.youtube.com/embed/"+id
       let media = `<iframe ref="iframe" src="${url}"></iframe>`
 
       html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
@@ -96,7 +98,7 @@ const converVideo = (html) => {
     })
 
   }
-  
+
   /*
   re = /(http\:\/\/|https\:\/\/|www\.|\s)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|\>)/g
   let links = html.match(re)

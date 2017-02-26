@@ -120,16 +120,16 @@ input[type="submit"]:disabled{
   .black-70{ color: rgba(0, 0, 0, .7) !important; }
   .black-80{ color: rgba(0, 0, 0, .8) !important; }
   .black-90{ color: rgba(0, 0, 0, .9) !important; }
-
-
+  
   .center{ text-align: center; }
 
   // input
   .input, .textarea{
     padding:10px;
-    min-height: 45px;
+    min-height: 40px;
     border:1px solid #d8d8d8;
     border-radius:3px;
+    @include boxSizing();
   }
   .textarea{ min-height: 145px; }
 

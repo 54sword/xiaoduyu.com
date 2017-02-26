@@ -85,20 +85,21 @@ class Share extends Component {
   render() {
 
     const { url, displayTips } = this.state
-
+    
     return (<div>
         <ul className={styles.share}>
-          <li>
-            <a href="javascript:void(0);" onClick={this.shareToWeiXin}>
-              微信
-              {weixin.in ? null :
-                <div className={styles.qrcode}>
-                  <QRCode value={`${url}&_s=weixin`} />
-                  <div>微信扫一扫，分享</div>
-                </div>
-                }
-            </a>
-          </li>
+          {weixin.in ? null:
+            <li>
+              <a href="javascript:void(0);" onClick={this.shareToWeiXin}>
+                微信
+                {weixin.in ? null :
+                  <div className={styles.qrcode}>
+                    <QRCode value={`${url}&_s=weixin`} />
+                    <div>微信扫一扫，分享</div>
+                  </div>
+                  }
+              </a>
+            </li>}
           <li><a href="javascript:void(0);" onClick={this.shareToWeibo}>微博</a></li>
           <li><a href="javascript:void(0);" onClick={this.shareToTwitter}>Twitter</a></li>
         </ul>

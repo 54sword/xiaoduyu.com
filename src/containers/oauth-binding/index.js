@@ -11,7 +11,7 @@ import { getAccessToken } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-import Nav from '../../components/nav'
+// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 import { api_url } from '../../../config'
@@ -60,7 +60,7 @@ class OauthBinding extends Component {
   }
 
   render() {
-
+    
     const { me, displayNotFoundPage } = this.props
     const { source } = this.props.params
 
@@ -68,12 +68,10 @@ class OauthBinding extends Component {
 
     if (source == 'qq' || source == 'weibo') {
 
-      // <Subnav middle={title} />
-
       return (
         <div>
           <Meta meta={{title:title}} />
-          <Nav />
+          <Subnav middle={title} />
           <div className="container">
             <div className="list">
               {me[source] ?

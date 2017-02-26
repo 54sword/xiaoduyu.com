@@ -10,7 +10,7 @@ import { resetPassword } from '../../actions/account'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-import Nav from '../../components/nav'
+// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 
@@ -68,12 +68,10 @@ class ResetPassword extends Component {
 
     const { user } = this.props
 
-    // <Subnav middle="修改密码" />
-
     return (
       <div>
         <Meta meta={{title:'修改密码'}} />
-        <Nav />
+        <Subnav middle="修改密码" />
         <div className="container">
 
           <div className="list">

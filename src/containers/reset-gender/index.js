@@ -9,7 +9,7 @@ import { resetGender, loadUserInfo } from '../../actions/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-import Nav from '../../components/nav'
+// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 class ResetGender extends Component {
@@ -46,12 +46,11 @@ class ResetGender extends Component {
   render() {
 
     const { user } = this.props
-
-    //<Subnav middle="修改性别" />
+    
     return (
       <div>
         <Meta meta={{ title:'修改性别' }} />
-        <Nav />
+        <Subnav middle="修改性别" />
         <div className="container">
           <div className="list">
             <a className={user.gender == 1 ? "hook" : ""} href="javascript:void(0)" onClick={()=>{ this.submitResetGender(true) }}>男</a>

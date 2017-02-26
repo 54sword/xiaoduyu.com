@@ -5,12 +5,12 @@
 
 .signLayer{
   position: fixed;
-  width:100%;
-  width: 350px;
+  width:90%;
+  max-width: 350px;
   background-color: #fff;
 
   z-index: 100;
-  padding:30px;
+  padding:15px;
 
   top: 50%;
   left:50%;
@@ -67,8 +67,8 @@
       a{
         display: inline-block;
         width:100%;
-        height: 45px;
-        line-height: 45px;
+        height: 40px;
+        line-height: 40px;
         text-align: center;
         background-color: rgb(207, 167, 58);
         color:#fff;

@@ -9,7 +9,7 @@ import ReactGA from 'react-ga'
 
 let logPageView = ()=>{}
 
-if (!debug) {
+if (GA) {
   ReactGA.initialize(GA)
   logPageView = () => {
     ReactGA.set({ page: window.location.pathname });

@@ -10,7 +10,7 @@ import { getCaptchaByEmail, resetEmail } from '../../actions/account'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-import Nav from '../../components/nav'
+// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import CaptchaButton from '../../components/captcha-button'
 
@@ -69,13 +69,11 @@ class ResetEmail extends Component {
 
     const { user } = this.props
 
-    // <Subnav middle="修改邮箱" />
-
     return (
       <div>
         <Meta meta={{title:'修改邮箱'}} />
 
-        <Nav />
+        <Subnav middle="修改邮箱" />
         <div className="container">
 
           <div className="list">
