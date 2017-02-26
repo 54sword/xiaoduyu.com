@@ -1,0 +1,50 @@
+
+/* CSS Reset */
+
+body, div, dl, dt, dd, ul, ol, li,
+h1, h2, h3, h4, h5, h6, pre, code,
+form, fieldset, legend, input, button,
+textarea, p, blockquote, th, td {
+  margin: 0;
+  padding: 0;
+}
+fieldset, img {
+  border: 0;
+}
+/* remember to define focus styles! */
+:focus {
+  outline: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+input, button, textarea,
+select, optgroup, option {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+body {
+  /*line-height: 1;*/
+}
+
+ol, ul {
+  list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+caption, th {
+  text-align: left;
+}
+sup, sub {
+  font-size: 100%;
+  vertical-align: baseline;
+}

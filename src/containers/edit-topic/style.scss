@@ -1,0 +1,43 @@
+
+.avatar{
+
+  width: 200px;
+  height: 200px;
+  margin:0 auto;
+  background-color: #efefef;
+  border-radius: 5px;
+  overflow: hidden;
+
+  img{
+    width:200px;
+    height: 200px;
+  }
+
+  :global .dropzone{
+    position: absolute;
+    margin-top:150px;
+    text-align: center;
+
+    a{
+      display: block;
+      width: 200px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      color:#fff;
+      background: rgba(0,0,0,.4);
+
+      border-radius: 0px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+
+      padding:0px;
+      border:none;
+
+      &:hover{
+        background: rgba(0,0,0,.6);
+      }
+    }
+  }
+
+}

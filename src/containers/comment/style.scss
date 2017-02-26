@@ -1,0 +1,72 @@
+@import "../global/base.scss";
+
+.question{
+  background-color: #fff;
+  padding:15px;
+  @include boxSizing();
+  a{
+    word-break:break-all;
+    word-wrap:break-word;
+  }
+}
+
+.item{
+  background-color: #fff;
+  padding:15px;
+  border-top:1px solid $light-gray;
+}
+
+.share{
+  float:right;
+}
+
+.head{
+
+  span{
+    font-size: 12px;
+    color:#cccccc;
+
+    &:after{
+      color:#d8d8d8;
+      font-size: 9px;
+      margin:0 5px 0 5px;
+      content: '•';
+    }
+
+    &:last-child:after{
+      content: '';
+    }
+
+    a{
+      color:#555;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+
+  }
+
+}
+
+.avatar{
+  float:right;
+  border-radius:50%;
+  width: 50px;
+  height: 50px;
+}
+
+.other{
+  padding:10px 15px 10px 15px;
+  border-top:1px solid $light-gray;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+
+.actions{
+  float:right;
+  a{
+    font-size: 13px;
+    color:#555;
+    margin-left:10px;
+  }
+}

@@ -1,0 +1,62 @@
+
+@import "../../containers/global/base.scss";
+
+.content{
+
+  line-height: 150%;
+
+  blockquote{
+    border-left:5px solid #c6c6c6;
+    padding:10px 10px 10px 10px;
+    background-color: #f4f4f4;
+    margin:15px 0 15px 0;
+  }
+
+  strong{
+    font-weight: bold;
+  }
+
+  pre{
+    padding:15px;
+    background-color: #f4f4f4;
+    margin:15px 0 15px 0;
+  }
+
+  ol{
+    list-style-type: decimal;
+    padding-left:20px;
+    margin:15px 0 15px 0;
+  }
+
+  ul{
+    list-style-type: disc;
+    padding-left:20px;
+    margin:15px 0 15px 0;
+  }
+
+  embed, iframe{
+    width:100%;
+    min-height: 420px;
+    border: none;
+  }
+
+  img{
+    width: 100%;
+  }
+
+  p{
+    min-height: 15px;
+  }
+
+  a{
+    color:$blue;
+  }
+
+  @include respond-to(sm) {
+    embed, iframe{
+      width:100%;
+      min-height: 216px;
+    }
+  }
+
+}
