@@ -13,13 +13,13 @@ var development = {
   // 端口
   port: 4000,
   // 网站地址
-  url: 'http://localhost:3000',
+  url: 'http://localhost:4000',
   // API 地址
   api_url: 'https://api.xiaoduyu.com',
   // api 版本路径
   api_verstion: 'api/v1',
   // 打包文件内用到的URL路径, 比如背景图等(可以设成http的地址, 比如: http://cdn.my.com)
-  public_path: 'http://localhost:3000',
+  public_path: 'http://localhost:4000',
   // css modules class 名称
   classScopedName: '[name]_[local]__[hash:base64:5]',
   // google analytics 例如：UA-00000000-1
@@ -42,17 +42,17 @@ var production = {
   description: '网络社区',
   auth_cookie_name: 'xiaoduyu',
   url: 'https://www.xiaoduyu.com',
-  port: 84,
+  port: 4000,
   api_url: 'https://api.xiaoduyu.com',
   api_verstion: 'api/v1',
-  public_path: '',
+  public_path: '.',
   classScopedName: '[hash:base64:5]',
   GA: '',
   qiniu: {
     accessKey: '',
     secretKey: '',
     bucket: '',
-    url: ''
+    url: '.'
   }
 }
 
