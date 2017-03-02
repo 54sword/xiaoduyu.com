@@ -10,7 +10,6 @@ import { loadPeopleById } from '../../../../actions/people'
 import { loadCommentList } from '../../../../actions/comment'
 import CommentList from '../../../../components/comment-list'
 
-
 class PeopleAnswers extends React.Component {
 
   // 服务器预加载内容
@@ -28,7 +27,7 @@ class PeopleAnswers extends React.Component {
           return;
         }
 
-        dispatch(loadCommentList({ name:id, filters:{user_id: id}, callback:()=>{
+        dispatch(loadCommentList({ name:id, filters:{ user_id: id, parent_exists: 0, sortBy: 'create_at', sort: -1 }, callback:()=>{
           callback()
         } }))
       }
@@ -46,7 +45,7 @@ class PeopleAnswers extends React.Component {
 
     return (
       <div>
-        <CommentList name={people._id} filters={{ user_id: people._id }} />
+        <CommentList name={people._id} filters={{ user_id: people._id, parent_exists: 0, sortBy: 'create_at', sort: -1 }} />
       </div>
     )
 

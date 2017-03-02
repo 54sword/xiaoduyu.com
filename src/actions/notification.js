@@ -60,26 +60,24 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
 
     let accessToken = getState().user.accessToken
     let unreadNotice = getState().user.unreadNotice
-    let list = getState().notification[name] || {}
+    let list = getState().notification[name] || null
 
-    if (typeof(list.more) != 'undefined' && !list.more || list.loading) return
-
-    list.loading = true
-    dispatch({ type: 'SET_NOTIFICATION_LIST_BY_NAME', name, data: list })
+    if (unreadNotice <= 0 || !list || !list.data) {
+      return
+    }
 
     Ajax({
       url: '/notifications',
       type: 'post',
       data: {
         per_page: 100,
-        gt_create_at: list.data[0].create_at,
+        gt_create_at: list.data[0] ? list.data[0].create_at : 0,
         access_token: accessToken
       },
       callback: (res)=>{
 
-        list.loading = false
-
         res.data.map(item=>{
+
           list.data.unshift(item)
           if (!item.has_read) {
             unreadNotice = unreadNotice - 1
@@ -92,6 +90,7 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
         callback(res)
       }
     })
+
 
   }
 }

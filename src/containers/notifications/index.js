@@ -4,7 +4,6 @@ import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadNewNotifications } from '../../actions/notification'
-import { getUnreadNotice } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Nav from '../../components/nav'
@@ -17,14 +16,14 @@ class Notifications extends Component {
     super(props)
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    const { loadNewNotifications } = this.props
+    loadNewNotifications({ name:'index', filters: {} })
+  }
 
-    const { unreadNotice, loadNewNotifications } = this.props
-
-    if (unreadNotice > 0) {
-      loadNewNotifications({ name:'index', filters: {} })
-    }
-
+  componentWillReceiveProps(props) {
+    const { loadNewNotifications } = this.props
+    loadNewNotifications({ name:'index', filters: {} })
   }
 
   render () {
@@ -43,13 +42,11 @@ class Notifications extends Component {
 
 
 Notifications.propTypes = {
-  unreadNotice: PropTypes.number.isRequired,
   loadNewNotifications: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
   return {
-    unreadNotice: getUnreadNotice(state)
   }
 }
 

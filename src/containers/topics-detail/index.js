@@ -17,7 +17,7 @@ class NodeDetail extends Component {
 
   static loadData(option, callback) {
     const { id } = option.props.params
-    option.store.dispatch(loadNodeById({ id, callback: (node)=>{
+    option.store.dispatch(loadTopicById({ id, callback: (node)=>{
       if (!node) {
         callback('not found')
       } else {
@@ -32,7 +32,7 @@ class NodeDetail extends Component {
 
   componentWillMount() {
 
-    const { loadNodeById } = this.props
+    const { loadTopicById } = this.props
     const { id } = this.props.params
     const [ node ] = this.props.node
 
@@ -40,7 +40,7 @@ class NodeDetail extends Component {
       return
     }
 
-    loadNodeById({ id, callback:()=>{
+    loadTopicById({ id, callback:()=>{
 
     }})
 
@@ -76,7 +76,7 @@ class NodeDetail extends Component {
 
 NodeDetail.propTypes = {
   node: PropTypes.array.isRequired,
-  loadNodeById: PropTypes.func.isRequired
+  loadTopicById: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -87,7 +87,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    loadNodeById: bindActionCreators(loadTopicById, dispatch)
+    loadTopicById: bindActionCreators(loadTopicById, dispatch)
   }
 }
 

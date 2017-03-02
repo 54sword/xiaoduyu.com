@@ -47,7 +47,7 @@ export function loadFollowPeoples({ name, filters = {}, callback = ()=>{} }) {
 
     let accessToken = getState().user.accessToken
 
-    let list = getState().notification[name] || {}
+    let list = getState().followPeople[name] || {}
 
     if (typeof(list.more) != 'undefined' && !list.more || list.loading) return
 
@@ -98,7 +98,7 @@ export function loadFans({ name, filters = {}, callback = ()=>{} }) {
 
     let accessToken = getState().user.accessToken
 
-    let list = getState().notification[name] || {}
+    let list = getState().followPeople[name] || {}
 
     if (typeof(list.more) != 'undefined' && !list.more || list.loading) return
 
