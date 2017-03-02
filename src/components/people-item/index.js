@@ -10,9 +10,9 @@ class PeopleItem extends Component {
   constructor(props) {
     super(props)
   }
-  
-  render () {
 
+  render () {
+    
     const { people } = this.props
 
     return (

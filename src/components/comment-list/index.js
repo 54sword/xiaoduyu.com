@@ -23,6 +23,7 @@ class AnswerList extends Component {
     super(props)
 
     const { name, filters } = this.props
+
     this.state = {
       name: name,
       filters: filters

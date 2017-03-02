@@ -113,7 +113,7 @@ class People extends React.Component {
             <Link
               className={!tabName ? "active" : null}
               to={`/people/${people._id}/posts?go=${go}`}>
-                帖子 {people.question_count > 0 ? people.question_count : null}
+                帖子 {people.posts_count > 0 ? people.posts_count : null}
               </Link>
             <Link
               className={tabName == 'comments' ? "active" : null}

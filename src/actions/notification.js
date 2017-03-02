@@ -60,12 +60,11 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
 
     let accessToken = getState().user.accessToken
     let unreadNotice = getState().user.unreadNotice
-    let list = getState().notification[name] || {}
+    let list = getState().notification[name] || null
 
-    if (typeof(list.more) != 'undefined' && !list.more || list.loading) return
-
-    list.loading = true
-    dispatch({ type: 'SET_NOTIFICATION_LIST_BY_NAME', name, data: list })
+    if (unreadNotice <= 0 || !list || !list.data || list.data.length == 0) {
+      return
+    }
 
     Ajax({
       url: '/notifications',
@@ -77,9 +76,8 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
       },
       callback: (res)=>{
 
-        list.loading = false
-
         res.data.map(item=>{
+
           list.data.unshift(item)
           if (!item.has_read) {
             unreadNotice = unreadNotice - 1
@@ -92,6 +90,7 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
         callback(res)
       }
     })
+
 
   }
 }

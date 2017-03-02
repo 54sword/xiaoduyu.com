@@ -111,7 +111,7 @@ export function loadTopicById({ id, callback = ()=>{} }) {
 
     Ajax({
       url: '/topic',
-      params: { node_id: id },
+      params: { topic_id: id },
       callback: (res)=>{
         if (res && res.success && res.data && res.data.length > 0) {
           dispatch({ type: 'ADD_NODE', node: res.data[0] })
