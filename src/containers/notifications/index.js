@@ -16,7 +16,7 @@ class Notifications extends Component {
     super(props)
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { loadNewNotifications } = this.props
     loadNewNotifications({ name:'index', filters: {} })
   }

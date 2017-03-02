@@ -62,7 +62,7 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
     let unreadNotice = getState().user.unreadNotice
     let list = getState().notification[name] || null
 
-    if (unreadNotice <= 0 || !list || !list.data || list.data.length == 0) {
+    if (unreadNotice <= 0 || !list || !list.data) {
       return
     }
 
@@ -71,7 +71,7 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
       type: 'post',
       data: {
         per_page: 100,
-        gt_create_at: list.data[0].create_at,
+        gt_create_at: list.data[0] ? list.data[0].create_at : 0,
         access_token: accessToken
       },
       callback: (res)=>{
