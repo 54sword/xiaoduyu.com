@@ -148,7 +148,7 @@ export function loadTopics({ name, filters = {}, callback = ()=>{} }) {
       }
 
       if (!filters.per_page) {
-        filters.per_page = 20
+        filters.per_page = 30
       }
 
       nodeList.filters = filters

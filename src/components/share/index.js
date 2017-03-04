@@ -42,13 +42,15 @@ class Share extends Component {
     this.state = {
       title: title,
       url: config.url + url,
-      displayTips: false
+      displayTips: false,
+      showQrcode: false
     }
 
     this.shareToWeibo = this._shareToWeibo.bind(this)
     this.shareToTwitter = this._shareToTwitter.bind(this)
     this.shareToWeiXin = this._shareToWeiXin.bind(this)
     this.showTips = this._showTips.bind(this)
+    this.showQRcode = this._showQRcode.bind(this)
   }
 
   componentDidMount() {
@@ -73,7 +75,15 @@ class Share extends Component {
   _shareToWeiXin() {
     if (weixin.in) {
       this.showTips(true)
+    } else {
+      this.showQRcode(true)
     }
+  }
+
+  _showQRcode(bl) {
+    this.setState({
+      showQrcode: bl
+    })
   }
 
   _showTips(bl) {
@@ -84,25 +94,24 @@ class Share extends Component {
 
   render() {
 
-    const { url, displayTips } = this.state
-    
+    const { url, displayTips, showQrcode } = this.state
+
     return (<div>
         <ul className={styles.share}>
           {weixin.in ? null:
-            <li>
-              <a href="javascript:void(0);" onClick={this.shareToWeiXin}>
-                微信
-                {weixin.in ? null :
-                  <div className={styles.qrcode}>
-                    <QRCode value={`${url}&_s=weixin`} />
-                    <div>微信扫一扫，分享</div>
-                  </div>
-                  }
-              </a>
-            </li>}
+            <li><a href="javascript:void(0);" onClick={this.shareToWeiXin}>微信</a></li>}
           <li><a href="javascript:void(0);" onClick={this.shareToWeibo}>微博</a></li>
           <li><a href="javascript:void(0);" onClick={this.shareToTwitter}>Twitter</a></li>
         </ul>
+
+        {showQrcode ? <div className={styles.mark} onClick={()=>{this.showQRcode(false)}}></div>: null}
+        {showQrcode ?
+          <div className={styles.qrcode}>
+            <QRCode value={`${url}&_s=weixin`} />
+            <div>微信扫一扫，分享</div>
+          </div>
+          :null}
+
         <div
           className={styles['tips-weixin-share']}
           style={{display:displayTips ? 'block' : 'none'}}

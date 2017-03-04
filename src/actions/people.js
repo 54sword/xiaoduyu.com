@@ -98,7 +98,7 @@ export function loadFollowPeoples({ name, filters = {}, callback = ()=>{} }) {
 
     if (!list.filters) {
       if (!filters.page) filters.page = 0
-      if (!filters.per_page) filters.per_page = 20
+      if (!filters.per_page) filters.per_page = 30
       list.filters = filters
     } else {
       filters = list.filters

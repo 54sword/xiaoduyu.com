@@ -138,7 +138,7 @@ export function loadCommentList({ name, filters = {}, callback = ()=>{} }) {
 
     if (!answerList.filters) {
       filters.gt_create_at = 0
-      filters.per_page = 5
+      filters.per_page = 30
       answerList.filters = filters
 
     } else {

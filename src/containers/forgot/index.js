@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { getProfile } from '../../reducers/user'
 import { sendEmailCaptcha, resetPasswordByCaptcha } from '../../actions/account'
 import { addCaptcha }  from '../../actions/captcha'
+import { signin } from '../../actions/sign'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
@@ -22,7 +23,7 @@ class Forgot extends Component {
 
   submitResetPassword() {
     const { email, captcha, newPassword, confirmNewPassword } = this.refs
-    const { resetPasswordByCaptcha } = this.props
+    const { resetPasswordByCaptcha, signin } = this.props
 
     if (!email.value) {
       email.focus()
@@ -48,13 +49,23 @@ class Forgot extends Component {
       alert('两次密码输入不一致')
       return
     }
-
+    
     resetPasswordByCaptcha({
       email: email.value,
       captcha: captcha.value,
       newPassword: newPassword.value,
-      callback: function(err, result) {
+      callback: function(result) {
 
+        if (result.success) {
+          alert('密码修改成功')
+
+          signin(email.value, newPassword.value, ()=>{
+            window.location.href = '/'
+          })
+
+        } else {
+          alert(result.error || '密码修改失败')
+        }
       }
     })
 
@@ -107,6 +118,7 @@ Forgot.propTypes = {
   user: PropTypes.object.isRequired,
   sendEmailCaptcha: PropTypes.func.isRequired,
   resetPasswordByCaptcha: PropTypes.func.isRequired,
+  signin: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -118,7 +130,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     sendEmailCaptcha: bindActionCreators(sendEmailCaptcha, dispatch),
-    resetPasswordByCaptcha: bindActionCreators(resetPasswordByCaptcha, dispatch)
+    resetPasswordByCaptcha: bindActionCreators(resetPasswordByCaptcha, dispatch),
+    signin: bindActionCreators(signin, dispatch)
   }
 }
 

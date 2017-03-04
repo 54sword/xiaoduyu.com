@@ -161,7 +161,7 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
     if (!questionList.filters) {
 
       if (!filters.lt_date) filters.lt_date = new Date().getTime()
-      if (!filters.per_page) filters.per_page = 10
+      if (!filters.per_page) filters.per_page = 30
 
       questionList.filters = filters
     } else {
