@@ -137,21 +137,21 @@ class WriteQuestion extends React.Component {
   render() {
     const { editor } = this.state
     const [ node ] = this.props.node
+    const type = this.props.location.query.type || 1
 
     if (!node) {
       return (<div></div>)
     }
 
-    var editorStyle = {
-        overflow: 'auto',
-        width: '100%',
-        height: 200
-        // maxHeight: 200
-    }
+    // var editorStyle = {
+    //     overflow: 'auto',
+    //     width: '100%',
+    //     height: 200
+    // }
 
     return (<div>
-      <Meta meta={{title: '提问'}} />
-      <Subnav left="取消" middle={node ? `在 ${node.name} 提问` : '提问'} />
+      <Meta meta={{title: `${type == 2 ? '提问' : '分享'}`}} />
+      <Subnav left="取消" middle={node ? `在 ${node.name} ${type == 2 ? '提问' : '分享'}` : ''} />
       <div className="container">
         <div className={styles.addPosts}>
           <div className={styles.questionTitle}>
