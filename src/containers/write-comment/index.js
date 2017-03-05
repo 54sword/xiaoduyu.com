@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router'
 import { reactLocalStorage } from 'reactjs-localstorage'
 
 import Device from '../../common/device'
+import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -152,7 +153,7 @@ class WriteAnswer extends React.Component {
       <Meta meta={{title: '编写答案'}} />
       <Subnav left="取消" middle="编写答案" />
       <div className="container">
-        <div>
+        <div className={styles.content}>
           {content}
         </div>
         <div>

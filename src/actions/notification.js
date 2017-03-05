@@ -13,7 +13,7 @@ export function loadNotifications({ name, filters = {}, callback = ()=>{} }) {
 
     if (!list.filters) {
       if (!filters.lt_create_at) filters.lt_create_at = new Date().getTime()
-      if (!filters.per_page) filters.per_page = 20
+      if (!filters.per_page) filters.per_page = 30
       list.filters = filters
     } else {
       filters = list.filters

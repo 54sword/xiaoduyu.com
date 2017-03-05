@@ -9,14 +9,15 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { signout } from '../../actions/sign'
 import { getProfile } from '../../reducers/user'
-import { changeNickname, loadUserInfo, cropAvatar } from '../../actions/user'
+import { loadUserInfo, resetAvatar } from '../../actions/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
 // import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
-import FileUpload from '../../components/file-upload'
-import Loading from '../../components/loading'
+// import FileUpload from '../../components/file-upload'
+// import Loading from '../../components/loading'
+import QiniuUploadImage from '../../components/qiniu-upload-image'
 
 
 class ResetAvatar extends Component {
@@ -27,13 +28,41 @@ class ResetAvatar extends Component {
       fileUpload: <div></div>,
       uploadStatus: false
     }
+    this.upload = this.upload.bind(this)
+  }
+
+  upload(url) {
+
+    const { resetAvatar, loadUserInfo } = this.props
+
+    const self = this
+
+    avatarPicker({
+      img: url,
+      selectAreaScale: 0.9,
+      previews: [],
+      imgLoadComplete: function() {},
+      done: function(p){
+
+        let avatar = url + "?imageMogr2/crop/!"+parseInt(p.width)+"x"+parseInt(p.height)+"a"+parseInt(p.x)+"a"+parseInt(p.y)+"/thumbnail/!200"
+
+        resetAvatar({
+          avatar: avatar,
+          callback: (result) => {
+            loadUserInfo({})
+          }
+        })
+
+      }
+    })
+
   }
 
   componentDidMount() {
 
     const self = this
-    const { cropAvatar, loadUserInfo } = this.props
-
+    const { loadUserInfo } = this.props
+    /*
     let options = {
       url: 'avatar',
       numberLimit: 1,
@@ -80,10 +109,14 @@ class ResetAvatar extends Component {
       }
 
     }
+    */
 
     this.setState({
-      fileUpload: <FileUpload options={options}>上传头像</FileUpload>
+      fileUpload: <QiniuUploadImage upload={this.upload} multiple={false} name={'上传头像'} />
+      // fileUpload: <FileUpload options={options}>上传头像</FileUpload>
     });
+
+    // this.upload()
 
   }
 
@@ -101,13 +134,11 @@ class ResetAvatar extends Component {
         <div className="container">
 
           <div className={styles.avatar}>
-            <img src={me.avatar_url.replace(/thumbnail/, "large")} />
+            <img src={me.avatar_url.replace('!50', "!200")} />
           </div>
 
           <div className="list">
-            <a className="center" href="javascript:void(0);">
-              <div className={styles['upload-button']}>{fileUpload}</div>
-            </a>
+            <span className={styles.upload}>{fileUpload}</span>
           </div>
 
         </div>
@@ -124,8 +155,9 @@ ResetAvatar.contextTypes = {
 
 ResetAvatar.propTypes = {
   me: PropTypes.object.isRequired,
-  cropAvatar: PropTypes.func.isRequired,
-  loadUserInfo: PropTypes.func.isRequired
+  // cropAvatar: PropTypes.func.isRequired,
+  loadUserInfo: PropTypes.func.isRequired,
+  resetAvatar: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -136,8 +168,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    cropAvatar: bindActionCreators(cropAvatar, dispatch),
-    loadUserInfo: bindActionCreators(loadUserInfo, dispatch)
+    // cropAvatar: bindActionCreators(cropAvatar, dispatch),
+    loadUserInfo: bindActionCreators(loadUserInfo, dispatch),
+    resetAvatar: bindActionCreators(resetAvatar, dispatch)
   }
 }
 

@@ -1,4 +1,5 @@
 
+import merge from 'lodash/merge'
 import Ajax from '../common/ajax'
 
 // 添加问题
@@ -15,7 +16,7 @@ export function addPosts({ title, detail, detailHTML, nodeId, device, type, call
         title: title,
         detail: detail,
         detail_html: detailHTML,
-        node_id: nodeId,
+        topic_id: nodeId,
         device_id: device,
         type: type
       },
@@ -135,6 +136,60 @@ const processPostsList = (list) => {
 
 }
 
+// 首页拉取新的帖子的时间
+let lastFetchAt = null
+
+// 获取新的主题
+export function loadNewPosts(dispatch, getState) {
+
+  let accessToken = getState().user.accessToken
+  let questionList = getState().posts['home'] || null
+
+  let filters = {
+    gt_date: lastFetchAt,
+    per_page: 30,
+    sortBy: 'create_at',
+    sort: -1
+  }
+
+  let headers = null
+  if (accessToken) {
+    headers = { 'AccessToken': accessToken }
+    filters.method = 'user_custom'
+  }
+
+  return Ajax({
+    url: '/posts',
+    params: filters,
+    headers,
+    callback: (res) => {
+
+      if (!res || !res.success || !res.data || res.data.length == 0) {
+        setTimeout(()=>{
+          loadNewPosts(dispatch, getState)
+        }, 1000 * 60)
+        return
+      }
+
+      lastFetchAt = res.data[0].create_at
+
+      res.data = processPostsList(res.data)
+
+      res.data.map((item)=>{
+        questionList.data.unshift(item)
+      })
+
+      dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: questionList })
+
+      setTimeout(()=>{
+        loadNewPosts(dispatch, getState)
+      }, 1000 * 60)
+
+    }
+  })
+
+}
+
 export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
   return (dispatch, getState) => {
 
@@ -144,14 +199,8 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
     if (typeof(questionList.more) != 'undefined' && !questionList.more ||
       questionList.loading
     ) {
-
       callback()
       return
-      return {
-        then:(callback) => {
-          callback()
-        }
-      }
     }
 
     if (!questionList.data) {
@@ -161,7 +210,7 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
     if (!questionList.filters) {
 
       if (!filters.lt_date) filters.lt_date = new Date().getTime()
-      if (!filters.per_page) filters.per_page = 10
+      if (!filters.per_page) filters.per_page = 30
 
       questionList.filters = filters
     } else {
@@ -187,6 +236,7 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
 
     let headers = accessToken ? { 'AccessToken': accessToken } : null
 
+
     return Ajax({
       url: '/posts',
       params: filters,
@@ -206,6 +256,15 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
 
         dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: questionList })
         callback(res)
+
+        // 首次加载首页的帖子以后，启动轮训获取新的帖子
+        if (name == 'home' && !lastFetchAt) {
+          lastFetchAt = new Date().getTime()
+          setTimeout(()=>{
+            loadNewPosts(dispatch, getState)
+          }, 1000 * 60)
+        }
+
       }
     })
 

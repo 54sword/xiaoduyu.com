@@ -1,17 +1,8 @@
 import Ajax from '../common/ajax'
-// import * as API from '../api/user'
 
 function setUser(userinfo) {
   return { type: 'SET_USER', userinfo }
 }
-/*
-export function addAccessToken(accessToken) {
-  return { type: 'ADD_ACCESS_TOKEN', accessToken }
-}
-*/
-// export function removeAccessToken(accessToken) {
-//   return { type: 'REMOVE_ACCESS_TOKEN' }
-// }
 
 export function removeAccessToken() {
   return { type: 'REMOVE_ACCESS_TOKEN' }
@@ -32,6 +23,21 @@ export function loadUserInfo({ accessToken = null, callback = ()=>{} }) {
         }
         callback(res)
       }
+    })
+
+  }
+}
+
+export function resetAvatar({ avatar, callback }) {
+  return (dispatch, getState) => {
+    let accessToken = getState().user.accessToken
+
+    Ajax({
+      url: '/reset-avatar',
+      type: 'post',
+      data: { avatar: avatar },
+      headers: { AccessToken: accessToken },
+      callback
     })
 
   }
@@ -64,7 +70,6 @@ export function resetGender({ gender, callback }) {
       callback
     })
 
-    // API.resetGender({ gender, accessToken, callback })
   }
 }
 
@@ -80,10 +85,10 @@ export function resetBrief({ brief, callback }) {
       callback
     })
 
-    // API.resetBrief({ brief, accessToken, callback })
   }
 }
 
+/*
 export function cropAvatar({ x, y, width, height, callback }) {
   return (dispatch, getState) => {
     let accessToken = getState().user.accessToken
@@ -96,6 +101,6 @@ export function cropAvatar({ x, y, width, height, callback }) {
       callback
     })
 
-    // API.cropAvatar({ x, y, width, height, accessToken, callback })
   }
 }
+*/

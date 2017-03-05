@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import { browserHistory } from 'react-router'
 
+import styles from './style.scss'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadCommentById, updateComment } from '../../actions/comment'
@@ -105,7 +107,7 @@ class EditAnswer extends React.Component {
       <Meta meta={{title: '编辑答案'}} />
       <Subnav left="取消" middle="编辑答案" />
       <div className="container">
-        <div><Editor syncContent={this.syncContent} content={answer.content} /></div>
+        <div className={styles.content}><Editor syncContent={this.syncContent} content={answer.content} /></div>
         <div>
           <button className="button-full" onClick={this.submit}>提交更新</button>
         </div>
