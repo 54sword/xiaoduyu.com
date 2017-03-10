@@ -16,7 +16,7 @@ app.use(compression());
 // app.use(methodOverride());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieParser('xiaoduyu'));
+app.use(cookieParser(config.auth_cookie_name));
 // app.use(favicon(`${__dirname}/../public/favicon.ico`));
 
 // 如果不是开发环境，那么启动热更新
@@ -44,7 +44,10 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname + '/../dist'))
 app.use(express.static(__dirname + '/../public'))
-app.use(express.static(__dirname + '/../xiaoduyu.com'))
+
+if (config.ssl_verification_path) {
+  app.use(express.static(__dirname + '/../../../var/www/xiaoduyu.com'))
+}
 
 app.use('/', ssrRouter);
 app.disable('x-powered-by');

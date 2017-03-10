@@ -1,18 +1,6 @@
 import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 
-// import styles from './styles.scss'
-
-// import ReactDOM from 'react-dom'
-// import ReactSwipe from 'react-swipe'
-
-// import 'swiper/dist/css/swiper.min.css'
-// 需要在改造该文件，让其在服务端不被运行
-// import 'swiper/dist/js/swiper.js'
-
-// import { bindActionCreators } from 'redux'
-// import { connect } from 'react-redux'
-
 // 外壳
 import Shell from '../../shell'
 
@@ -49,7 +37,10 @@ class Home extends React.Component {
       <Nav />
 
       <div className="container">
-        <div className="container-head">最新动态</div>
+        <div className="container-head">
+          最新动态
+          {/*<Link to="/topics" className="right">发布帖子</Link>*/}
+        </div>
         <PostsList name={'home'} displayDate={false} filters={{method:'user_custom'}} />
       </div>
 

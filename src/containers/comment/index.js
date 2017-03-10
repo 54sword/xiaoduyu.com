@@ -28,8 +28,8 @@ class Comment extends React.Component {
     const { id } = option.props.params
     option.store.dispatch(loadCommentById({
       id,
-      callback: (answer)=>{
-        if (!answer) {
+      callback: (comment)=>{
+        if (!comment) {
           callback('not found')
         } else {
           callback()
@@ -45,10 +45,10 @@ class Comment extends React.Component {
 
   _addComment() {
     const { isSignin, showSign } = this.props
-    const [ answer ] = this.props.answer
+    const [ comment ] = this.props.comment
 
     if (isSignin) {
-      browserHistory.push('/write-comment/'+answer._id)
+      browserHistory.push('/write-comment/'+comment._id)
     } else {
       showSign()
     }
@@ -57,10 +57,10 @@ class Comment extends React.Component {
   componentWillMount() {
 
     const self = this
-    const [ answer ] = this.props.answer
+    const [ comment ] = this.props.comment
     const { loadCommentById } = this.props
 
-    if (answer) return
+    if (comment) return
 
     let id = this.props.params.id
 
@@ -72,13 +72,13 @@ class Comment extends React.Component {
 
     const { me, isSignin, showSign } = this.props
 
-    const [ answer ] = this.props.answer
+    const [ comment ] = this.props.comment
 
-    if (!answer) {
+    if (!comment) {
       return(<div></div>)
     }
 
-    let posts = answer ? answer.posts_id : null
+    let posts = comment ? comment.posts_id : null
 
     /*
     <Subnav
@@ -89,7 +89,7 @@ class Comment extends React.Component {
 
     return (
       <div>
-        <Meta meta={{ title: posts.title + ' - ' + answer.user_id.nickname + '的评论' }} />
+        <Meta meta={{ title: posts.title + ' - ' + comment.user_id.nickname + '的评论' }} />
 
         <Nav />
 
@@ -104,20 +104,20 @@ class Comment extends React.Component {
 
             <div className={styles.head}>
               <span>
-                <Link to={`/people/${answer.user_id._id}`}>
-                  <img className={styles.avatar} src={answer.user_id.avatar_url} />
-                  {answer.user_id.nickname}
+                <Link to={`/people/${comment.user_id._id}`}>
+                  <img className={styles.avatar} src={comment.user_id.avatar_url} />
+                  {comment.user_id.nickname}
                 </Link>
               </span>
               <span>
-                {DateDiff(answer.create_at)}
+                {DateDiff(comment.create_at)}
               </span>
 
-              {answer.like_count && answer.like_count > 0 ? <span>{answer.like_count} 个赞</span> : null}
+              {comment.like_count && comment.like_count > 0 ? <span>{comment.like_count} 个赞</span> : null}
 
             </div>
 
-            <div><HTMLText content={answer.content_html} /></div>
+            <div><HTMLText content={comment.content_html} /></div>
 
           </div>
 
@@ -125,17 +125,17 @@ class Comment extends React.Component {
 
             <div className={styles.actions}>
 
-              <LikeButton comment={answer} />
+              <LikeButton comment={comment} />
 
               {isSignin ?
-                  <Link to={`/write-comment?posts_id=${answer.posts_id._id}&parent_id=${answer._id}`}>回复</Link> :
+                  <Link to={`/write-comment?posts_id=${comment.posts_id._id}&parent_id=${comment._id}`}>回复</Link> :
                   null}
 
-              {me._id && answer.user_id._id ? <Link to={`/edit-answer/${answer._id}`}>编辑</Link> : null}
+              {me._id && comment.user_id._id ? <Link to={`/edit-comment/${comment._id}`}>编辑</Link> : null}
             </div>
 
             <Share
-              title={posts.title + ' - ' + answer.user_id.nickname + '的答案'}
+              title={posts.title + ' - ' + comment.user_id.nickname + '的答案'}
               url={this.props.location.pathname}
               />
 
@@ -143,7 +143,7 @@ class Comment extends React.Component {
 
         </div>
 
-        <CommentList name={answer._id} filters={{ parent_id: answer._id, parent_exists: 1 }} />
+        <CommentList name={comment._id} filters={{ parent_id: comment._id, parent_exists: 1 }} />
 
       </div>
     )
@@ -152,7 +152,7 @@ class Comment extends React.Component {
 }
 
 Comment.propTypes = {
-  answer: PropTypes.array.isRequired,
+  comment: PropTypes.array.isRequired,
   loadCommentById: PropTypes.func.isRequired,
   isSignin: PropTypes.bool.isRequired,
   showSign: PropTypes.func.isRequired,
@@ -160,9 +160,9 @@ Comment.propTypes = {
 }
 
 function mapStateToProps(state, props) {
-  const answerId = props.params.id
+  const commentId = props.params.id
   return {
-    answer: getCommentById(state, answerId),
+    comment: getCommentById(state, commentId),
     isSignin: getAccessToken(state) ? true : false,
     me: getProfile(state)
   }

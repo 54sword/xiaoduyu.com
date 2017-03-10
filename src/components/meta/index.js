@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import DocumentMeta from 'react-document-meta'
 
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { getUnreadNotice } from '../../reducers/user'
+
 import config from '../../../config'
 import weixin from '../../common/weixin'
 
@@ -12,8 +16,10 @@ class Meta extends Component {
 
   render() {
 
+    const { unreadNotice } = this.props
+
     let meta = {
-      title: config.name,
+      title: (unreadNotice > 0 ? '('+unreadNotice+')' : '') + config.name,
       description: config.description
     }
 
@@ -41,4 +47,19 @@ class Meta extends Component {
   }
 }
 
-export default Meta
+Meta.propTypes = {
+  unreadNotice: PropTypes.number.isRequired
+}
+
+const mapStateToProps = (state) => {
+  return {
+    unreadNotice: getUnreadNotice(state)
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Meta)
