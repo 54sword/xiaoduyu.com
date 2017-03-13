@@ -17,7 +17,7 @@ import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import Editor from '../../components/editor'
 
-class WriteAnswer extends React.Component {
+class WriteComment extends React.Component {
 
   static loadData(option, callback) {
 
@@ -69,18 +69,17 @@ class WriteAnswer extends React.Component {
   componentDidMount() {
 
     const { posts_id } = this.props.location.query
-    // let questionId = this.props.params.questionId
     const [ question ] = this.props.question
 
-    const answerId = reactLocalStorage.get('answer-id') || ''
-    let answerContent = reactLocalStorage.get('answer-content') || ''
+    const commentId = reactLocalStorage.get('comment-id') || ''
+    let commentContent = reactLocalStorage.get('comment-content') || ''
 
-    if (posts_id != answerId) {
-      answerContent = ''
+    if (posts_id != commentId) {
+      commentContent = ''
     }
 
     this.setState({
-      content: <div><Editor syncContent={this.syncContent} content={answerContent} /></div>
+      content: <div><Editor syncContent={this.syncContent} content={commentContent} /></div>
     });
 
   }
@@ -89,7 +88,6 @@ class WriteAnswer extends React.Component {
 
     const self = this
     let { addComment } = this.props
-    let questionId = this.props.params.questionId
 
     const { posts_id, parent_id = '', reply_id = '' } = this.props.location.query
 
@@ -112,8 +110,8 @@ class WriteAnswer extends React.Component {
         if (result && result.success) {
 
           setTimeout(()=>{
-            reactLocalStorage.set('answer-id', '')
-            reactLocalStorage.set('answer-content', '')
+            reactLocalStorage.set('comment-id', '')
+            reactLocalStorage.set('comment-content', '')
           }, 200)
 
           browserHistory.push('/posts/'+posts_id+'?subnav_back=/')
@@ -133,16 +131,15 @@ class WriteAnswer extends React.Component {
     this.state.contentJSON = contentJSON
     this.state.contentHTML = contentHTML
 
-    let questionId = this.props.params.questionId
+    let { posts_id } = this.props.location.query
 
-    reactLocalStorage.set('answer-id', questionId)
-    reactLocalStorage.set('answer-content', contentJSON)
+    reactLocalStorage.set('comment-id', posts_id)
+    reactLocalStorage.set('comment-content', contentJSON)
   }
 
   render() {
 
     const [ question ] = this.props.question
-    let questionId = this.props.params.questionId
     const { content } = this.state
 
     if (!question) {
@@ -165,7 +162,7 @@ class WriteAnswer extends React.Component {
 
 }
 
-WriteAnswer.propTypes = {
+WriteComment.propTypes = {
   question: PropTypes.array.isRequired,
   addComment: PropTypes.func.isRequired,
 }
@@ -185,6 +182,6 @@ function mapDispatchToProps(dispatch, props) {
 }
 
 
-WriteAnswer = connect(mapStateToProps, mapDispatchToProps)(WriteAnswer)
+WriteComment = connect(mapStateToProps, mapDispatchToProps)(WriteComment)
 
-export default Shell(WriteAnswer)
+export default Shell(WriteComment)

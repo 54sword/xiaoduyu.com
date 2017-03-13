@@ -34,9 +34,9 @@ class AnswerList extends Component {
   componentWillMount() {
 
     const self = this
-    const { loadCommentList, answerList } = this.props
+    const { loadCommentList, commentList } = this.props
 
-    if (!answerList.data) {
+    if (!commentList.data) {
       self.triggerLoad()
     }
 
@@ -58,9 +58,9 @@ class AnswerList extends Component {
 
   render () {
 
-    let { answerList, isSignin, showSign } = this.props
+    let { commentList, isSignin, showSign } = this.props
 
-    if (!answerList.data) {
+    if (!commentList.data) {
       return (<div></div>)
     }
 
@@ -68,14 +68,14 @@ class AnswerList extends Component {
       <div name="comments">
         <div className="container">
           <div className={styles.answers}>
-            {answerList.data.map((answer)=>{
+            {commentList.data.map((answer)=>{
               return (<div key={answer._id}><AnswerItem answer={answer} /></div>)
             })}
           </div>
 
-          {answerList.data.length == 0 ?
+          {commentList.data.length == 0 ?
             <div className={styles.nothing}>目前尚无回复</div>
-          : <ListLoading loading={answerList.loading} more={answerList.more} handleLoad={this.triggerLoad} />}
+          : <ListLoading loading={commentList.loading} more={commentList.more} handleLoad={this.triggerLoad} />}
 
         </div>
       </div>
@@ -84,7 +84,7 @@ class AnswerList extends Component {
 }
 
 AnswerList.propTypes = {
-  answerList: PropTypes.object.isRequired,
+  commentList: PropTypes.object.isRequired,
   loadCommentList: PropTypes.func.isRequired,
   showSign: PropTypes.func.isRequired
 }
@@ -92,7 +92,7 @@ AnswerList.propTypes = {
 function mapStateToProps(state, props) {
   const name = props.name
   return {
-    answerList: getCommentListByName(state, name),
+    commentList: getCommentListByName(state, name),
     isSignin: getAccessToken(state)
   }
 }

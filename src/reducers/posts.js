@@ -19,7 +19,7 @@ export default function posts(state = initialState, action) {
       var { posts } = action
       state.other.data = posts
       return merge({}, state, {})
-
+      
     case 'SET_POSTS':
       return merge({}, action.state, {})
 
@@ -39,7 +39,7 @@ export default function posts(state = initialState, action) {
         }
       }
       return merge({}, state, {})
-
+    /*
     case 'UPDATE_ANSWER_LIKE_IN_POSTS':
       var { id, status } = action
 
@@ -59,6 +59,7 @@ export default function posts(state = initialState, action) {
         }
       }
       return merge({}, state, {})
+      */
 
     default:
       return state;

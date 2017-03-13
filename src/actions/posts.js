@@ -167,7 +167,7 @@ export function loadNewPosts(dispatch, getState) {
       if (!res || !res.success || !res.data || res.data.length == 0) {
         setTimeout(()=>{
           loadNewPosts(dispatch, getState)
-        }, 1000 * 60)
+        }, 1000 * 60 * 2)
         return
       }
 
@@ -183,7 +183,7 @@ export function loadNewPosts(dispatch, getState) {
 
       setTimeout(()=>{
         loadNewPosts(dispatch, getState)
-      }, 1000 * 60)
+      }, 1000 * 60 * 2)
 
     }
   })
@@ -262,7 +262,7 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
           lastFetchAt = new Date().getTime()
           setTimeout(()=>{
             loadNewPosts(dispatch, getState)
-          }, 1000 * 60)
+          }, 1000 * 60 * 2)
         }
 
       }

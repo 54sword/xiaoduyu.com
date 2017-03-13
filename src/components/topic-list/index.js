@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 
-import styles from './style.scss'
 import arriveFooter from '../../common/arrive-footer'
 
 import { bindActionCreators } from 'redux'
@@ -85,7 +84,7 @@ class FollowNodesList extends Component {
     }
 
     return (<div className="container">
-      <ul className={styles.list}>
+      <ul>
         {nodeList.data.map((node, index) => {
           return(<li key={node._id}><TopicItem node={node} /></li>)
         })}

@@ -52,7 +52,7 @@ module.exports = {
       { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css') },
       {
         test: /\.scss$/i,
-        loader: ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=${config.classScopedName}!resolve-url!sass`),
+        loader: ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=${config.class_scoped_name}!resolve-url!sass`),
         include: path.resolve(__dirname, 'src')
       },
       { test: /\.(png|jpg|gif)$/, loader: 'url?limit=40000' },

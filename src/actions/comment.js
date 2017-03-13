@@ -49,6 +49,7 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
 
     let accessToken = getState().user.accessToken
     let state = getState().comment
+    let posts = getState().posts
 
     Ajax({
       url: '/update-comment',
@@ -61,23 +62,45 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
       headers: { AccessToken: accessToken },
       callback: (res) => {
 
-        if (res && res.success) {
+        if (!res && !res.success) {
+          callback(res)
+          return
+        }
 
-          for (let i in state) {
-            let data = state[i].data
-            if (data.length > 0) {
-              for (let n = 0, max = data.length; n < max; n++) {
-                if (data[n]._id == id) {
-                  state[i].data[n].content = contentJSON
-                  state[i].data[n].content_html = contentHTML
-                }
+        for (let i in state) {
+          let data = state[i].data
+          if (data.length > 0) {
+            for (let n = 0, max = data.length; n < max; n++) {
+              if (data[n]._id == id) {
+                state[i].data[n].content = contentJSON
+                state[i].data[n].content_html = contentHTML
               }
             }
           }
-
-          dispatch({ type: 'SET_COMMENT', state })
-
         }
+
+        for (let i in posts) {
+          let data = posts[i].data
+          if (data.length > 0) {
+
+            data.map((item, key)=>{
+              item.comment.map((comment, index)=>{
+                if (comment._id == id) {
+                  posts[i].data[key].comment[index].content_html = contentHTML
+
+                  let text = contentHTML.replace(/<[^>]+>/g,"")
+                  if (text.length > 140) text = text.slice(0, 140)+'...'
+
+                  posts[i].data[key].comment[index].content_summary = text
+                }
+              })
+            })
+
+          }
+        }
+
+        dispatch({ type: 'SET_POSTS', state:posts })
+        dispatch({ type: 'SET_COMMENT', state })
 
         callback(res)
 

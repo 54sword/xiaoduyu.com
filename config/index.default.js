@@ -21,7 +21,7 @@ var development = {
   // 打包文件内用到的URL路径, 比如背景图等(可以设成http的地址, 比如: http://cdn.my.com)
   public_path: 'http://localhost:4000',
   // css modules class 名称
-  classScopedName: '[name]_[local]__[hash:base64:5]',
+  class_scoped_name: '[name]_[local]__[hash:base64:5]',
   // google analytics 例如：UA-00000000-1
   // 如果是空，则不启动
   GA: '',
@@ -46,14 +46,17 @@ var production = {
   api_url: 'https://api.xiaoduyu.com',
   api_verstion: 'api/v1',
   public_path: '.',
-  classScopedName: '[hash:base64:5]',
+  class_scoped_name: '[hash:base64:5]',
   GA: '',
   qiniu: {
     accessKey: '',
     secretKey: '',
     bucket: '',
     url: '.'
-  }
+  },
+  // https 用于域名的验证的路径 [选填]
+	// https://github.com/xdtianyu/scripts/blob/master/lets-encrypt/README-CN.md
+	ssl_verification_path: ''
 }
 
 module.exports = process.env.NODE_ENV == 'development' ? development : production

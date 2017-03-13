@@ -13,12 +13,12 @@ import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import Editor from '../../components/editor'
 
-class EditAnswer extends React.Component {
+class EditComment extends React.Component {
 
   static loadData(option, callback) {
     const { id } = option.props.params
-    option.store.dispatch(loadCommentById({ id, callback: (answer)=>{
-      if (!answer) {
+    option.store.dispatch(loadCommentById({ id, callback: (comment)=>{
+      if (!comment) {
         callback('not found')
       } else {
         callback()
@@ -29,7 +29,7 @@ class EditAnswer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      answer: null,
+      comment: null,
       contentJSON: '',
       contentHTML: ''
     }
@@ -45,13 +45,13 @@ class EditAnswer extends React.Component {
 
     loadCommentById({
       id,
-      callback: (answer) => {
+      callback: (comment) => {
 
-        if (!answer) {
+        if (!comment) {
           browserHistory.push('/')
         } else {
           self.setState({
-            answer: answer
+            comment: comment
           })
         }
 
@@ -79,7 +79,7 @@ class EditAnswer extends React.Component {
       callback: function(result) {
 
         if (result.success) {
-          // browserHistory.push('/answer/'+id+'?subnav_back=/')
+          // browserHistory.push('/comment/'+id+'?subnav_back=/')
           self.context.router.goBack()
         } else {
           alert('提交失败')
@@ -97,9 +97,9 @@ class EditAnswer extends React.Component {
 
   render() {
 
-    const { answer } = this.state
+    const { comment } = this.state
 
-    if (!answer) {
+    if (!comment) {
       return (<div></div>)
     }
 
@@ -107,7 +107,7 @@ class EditAnswer extends React.Component {
       <Meta meta={{title: '编辑答案'}} />
       <Subnav left="取消" middle="编辑答案" />
       <div className="container">
-        <div className={styles.content}><Editor syncContent={this.syncContent} content={answer.content} /></div>
+        <div className={styles.content}><Editor syncContent={this.syncContent} content={comment.content} /></div>
         <div>
           <button className="button-full" onClick={this.submit}>提交更新</button>
         </div>
@@ -117,12 +117,12 @@ class EditAnswer extends React.Component {
 
 }
 
-EditAnswer.contextTypes = {
+EditComment.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
 
-EditAnswer.propTypes = {
+EditComment.propTypes = {
   loadCommentById: PropTypes.func.isRequired,
   updateComment: PropTypes.func.isRequired
 }
@@ -140,6 +140,6 @@ function mapDispatchToProps(dispatch, props) {
 }
 
 
-EditAnswer = connect(mapStateToProps, mapDispatchToProps)(EditAnswer)
+EditComment = connect(mapStateToProps, mapDispatchToProps)(EditComment)
 
-export default Shell(EditAnswer)
+export default Shell(EditComment)
