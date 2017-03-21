@@ -13,12 +13,12 @@ export function loadUserInfo({ accessToken = null, callback = ()=>{} }) {
 
     accessToken = accessToken || getState().user.accessToken
 
-    Ajax({
+    return Ajax({
       url: '/user',
       type: 'post',
       headers: { AccessToken: accessToken },
       callback: (res) => {
-        if (res.success) {
+        if (res && res.success) {
           dispatch(setUser(res.data))
         }
         callback(res)
@@ -32,7 +32,7 @@ export function resetAvatar({ avatar, callback }) {
   return (dispatch, getState) => {
     let accessToken = getState().user.accessToken
 
-    Ajax({
+    return Ajax({
       url: '/reset-avatar',
       type: 'post',
       data: { avatar: avatar },
@@ -47,7 +47,7 @@ export function resetNickname({ nickname, callback }) {
   return (dispatch, getState) => {
     let accessToken = getState().user.accessToken
 
-    Ajax({
+    return Ajax({
       url: '/reset-nickname',
       type: 'post',
       data: { nickname: nickname },
@@ -62,7 +62,7 @@ export function resetGender({ gender, callback }) {
   return (dispatch, getState) => {
     let accessToken = getState().user.accessToken
 
-    Ajax({
+    return Ajax({
       url: '/reset-gender',
       type: 'post',
       data: { gender: gender },
@@ -77,7 +77,7 @@ export function resetBrief({ brief, callback }) {
   return (dispatch, getState) => {
     let accessToken = getState().user.accessToken
 
-    Ajax({
+    return Ajax({
       url: '/reset-brief',
       type: 'post',
       data: { brief: brief },

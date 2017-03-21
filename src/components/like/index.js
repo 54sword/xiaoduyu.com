@@ -9,7 +9,7 @@ import { showSign } from '../../actions/sign'
 import { getAccessToken } from '../../reducers/user'
 import { like, unlike } from '../../actions/like'
 
-class LikeButton extends Component {
+export class LikeButton extends Component {
 
   constructor(props) {
     super(props)
@@ -71,7 +71,7 @@ class LikeButton extends Component {
     const { reply, comment } = this.props
     const { isSignin, showSign } = this.props
     const { like } = comment || reply
-    
+
     if (!isSignin) {
       return (<span></span>)
       // return (<a href="javascript:void(0)" onClick={showSign}>赞 {like_count && like_count > 0 ? like_count : null}</a>)

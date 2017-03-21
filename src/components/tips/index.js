@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import styles from './style.scss'
 
-class Tips extends Component {
+
+class Tips extends React.Component {
 
   constructor(props) {
     super(props)

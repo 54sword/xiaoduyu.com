@@ -81,7 +81,7 @@ class Signin extends Component {
     }
 
     return (
-      <form onSubmit={this.signin}>
+      <form onSubmit={this.signin} className="signin">
         {error ? <div className={styles.error}>{error}</div> : null}
         <div><input type="text" className="input" ref="account" placeholder="邮箱" /></div>
         <div><input type="password" className="input"  ref="password" placeholder="密码" /></div>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 // import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
-class Loading extends Component {
+export class Loading extends Component {
 
   constructor(props) {
     super(props)
@@ -19,6 +19,7 @@ class Loading extends Component {
 
 }
 
+/*
 Loading.propTypes = {
 }
 
@@ -34,5 +35,5 @@ const mapDispatchToProps = (dispatch) => {
 
 // Loading = CSSModules(Loading, styles)
 Loading = connect(mapStateToProps,mapDispatchToProps)(Loading)
-
+*/
 export default Loading

@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { getUserInfo, getUnreadNotice } from '../../reducers/user'
 import { showSign } from '../../actions/sign'
 
-class Navbar extends Component {
+export class Navbar extends Component {
 
   constructor(props) {
     super(props)

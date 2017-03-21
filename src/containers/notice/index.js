@@ -31,7 +31,7 @@ class Notice extends Component {
       })
     }
   }
-
+  
   render () {
 
     const { titleList, name } = this.state

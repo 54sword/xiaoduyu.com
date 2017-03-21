@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { signout } from '../../actions/sign'
-import { getUserInfo } from '../../reducers/user'
+// import { getUserInfo } from '../../reducers/user'
 
 import { resetPassword } from '../../actions/account'
 
@@ -14,7 +14,7 @@ import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 
 
-class ResetPassword extends Component {
+export class ResetPassword extends Component {
 
   constructor(props) {
     super(props)
@@ -66,7 +66,7 @@ class ResetPassword extends Component {
 
   render() {
 
-    const { user } = this.props
+    // const { user } = this.props
 
     return (
       <div>
@@ -97,13 +97,13 @@ ResetPassword.contextTypes = {
 }
 
 ResetPassword.propTypes = {
-  user: PropTypes.object.isRequired,
+  // user: PropTypes.object.isRequired,
   resetPassword: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    user: getUserInfo(state)
+    // user: getUserInfo(state)
   }
 }
 

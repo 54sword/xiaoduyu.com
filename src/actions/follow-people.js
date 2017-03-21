@@ -5,7 +5,7 @@ export function follow({ peopleId, callback }) {
     let accessToken = getState().user.accessToken
     let selfId = getState().user.profile._id
 
-    Ajax({
+    return Ajax({
       url: '/add-follow',
       type: 'post',
       data: { access_token: accessToken, people_id: peopleId },
@@ -26,7 +26,7 @@ export function unfollow({ peopleId, callback }) {
     let accessToken = getState().user.accessToken
     let selfId = getState().user.profile._id
 
-    Ajax({
+    return Ajax({
       url: '/remove-follow',
       type: 'post',
       data: { access_token: accessToken, people_id: peopleId },
@@ -66,7 +66,7 @@ export function loadFollowPeoples({ name, filters = {}, callback = ()=>{} }) {
 
     dispatch({ type: 'SET_FOLLOW_PEOPLE_LIST_BY_NAME', name, data: list })
 
-    Ajax({
+    return Ajax({
       url: '/follow',
       type: 'get',
       params: filters,
@@ -117,7 +117,7 @@ export function loadFans({ name, filters = {}, callback = ()=>{} }) {
 
     dispatch({ type: 'SET_FOLLOW_PEOPLE_LIST_BY_NAME', name, data: list })
 
-    Ajax({
+    return Ajax({
       url: '/follow',
       // url: '/fetch-fans',
       type: 'get',

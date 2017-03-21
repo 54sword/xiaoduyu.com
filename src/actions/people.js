@@ -10,7 +10,7 @@ export function loadPeopleById({ id, callback = ()=>{} }) {
 
     let accessToken = getState().user.accessToken
 
-    Ajax({
+    return Ajax({
       url: '/people/'+id,
       type: 'get',
       headers: { AccessToken: accessToken },
@@ -51,7 +51,7 @@ export function follow({ peopleId, callback }) {
     let accessToken = getState().user.accessToken
     let selfId = getState().user.profile._id
 
-    Ajax({
+    return Ajax({
       url: '/add-follow',
       type: 'post',
       data: { access_token: accessToken, people_id: peopleId },
@@ -71,7 +71,7 @@ export function unfollow({ peopleId, callback }) {
     let accessToken = getState().user.accessToken
     let selfId = getState().user.profile._id
 
-    Ajax({
+    return Ajax({
       url: '/remove-follow',
       type: 'post',
       data: { access_token: accessToken, people_id: peopleId },
@@ -111,7 +111,7 @@ export function loadFollowPeoples({ name, filters = {}, callback = ()=>{} }) {
 
     dispatch({ type: 'SET_PEOPLE_LIST_BY_NAME', name, data: list })
 
-    Ajax({
+    return Ajax({
       // url: '/fetch-follow-peoples',
       url: '/follow',
       type: 'get',
@@ -163,7 +163,7 @@ export function loadFans({ name, filters = {}, callback = ()=>{} }) {
 
     dispatch({ type: 'SET_PEOPLE_LIST_BY_NAME', name, data: list })
 
-    Ajax({
+    return Ajax({
       url: '/follow',
       // url: '/fetch-fans',
       type: 'get',
@@ -216,7 +216,7 @@ export function loadPeopleByName({ name, filters = {}, callback = ()=>{} }) {
 
     dispatch({ type: 'SET_PEOPLE_LIST_BY_NAME', name, data: list })
 
-    Ajax({
+    return Ajax({
       url: '/fetch-fans',
       type: 'get',
       params: filters,

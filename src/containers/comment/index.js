@@ -22,7 +22,7 @@ import Share from '../../components/share'
 import LikeButton from '../../components/like'
 
 
-class Comment extends React.Component {
+export class Comment extends React.Component {
 
   static loadData(option, callback) {
     const { id } = option.props.params
@@ -77,7 +77,7 @@ class Comment extends React.Component {
     if (!comment) {
       return(<div></div>)
     }
-
+    
     let posts = comment ? comment.posts_id : null
 
     /*
@@ -136,7 +136,7 @@ class Comment extends React.Component {
 
             <Share
               title={posts.title + ' - ' + comment.user_id.nickname + '的答案'}
-              url={this.props.location.pathname}
+              url={this.props.location ? this.props.location.pathname : ''}
               />
 
           </div>

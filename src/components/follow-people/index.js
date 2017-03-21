@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { follow, unfollow } from '../../actions/follow-people'
 import { getProfile } from '../../reducers/user'
 
-class FollowPeople extends Component {
+export class FollowPeople extends Component {
 
   constructor(props) {
     super(props)
@@ -14,7 +14,7 @@ class FollowPeople extends Component {
   }
 
   _triggerFollow(e) {
-    
+
     e.preventDefault()
 
     const { unfollow, follow, people } = this.props

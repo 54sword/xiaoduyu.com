@@ -89,7 +89,7 @@ export function loadPostsById({ id, callback = ()=>{} }) {
     let questionList = getState().posts['other'].data
     let headers = accessToken ? { 'AccessToken': accessToken } : null
 
-    Ajax({
+    return Ajax({
       url: '/posts',
       type: 'get',
       params: { posts_id: id, draft: 1 },
@@ -235,7 +235,6 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
     dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: questionList })
 
     let headers = accessToken ? { 'AccessToken': accessToken } : null
-
 
     return Ajax({
       url: '/posts',

@@ -27,7 +27,7 @@ function QueryString() {
   }
 }
 
-class SubNav extends Component {
+export class SubNav extends Component {
 
   constructor(props) {
     super(props)
@@ -44,7 +44,6 @@ class SubNav extends Component {
     if (!hasHistory) {
       browserHistory.push('/')
     } else {
-
       if (typeof go != 'undefined' && !isNaN(go)) {
         this.context.router.go(go)
       } else {
@@ -59,7 +58,6 @@ class SubNav extends Component {
 
     const { left = '返回', middle = '', right = '' } = this.props
     let back = <a href="javascript:;" onClick={this.navigateBack}>{left}</a>
-
 
     if (typeof window == 'undefined' || typeof document == 'undefined') {
     } else {

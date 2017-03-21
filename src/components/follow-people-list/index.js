@@ -11,7 +11,7 @@ import { getPeopleListByName } from '../../reducers/follow-people'
 import PeopleItem from '../people-item'
 import ListLoading from '../list-loading'
 
-class PeopleList extends Component{
+export class FollowPeopleList extends Component{
 
   constructor(props) {
     super(props)
@@ -87,7 +87,7 @@ class PeopleList extends Component{
 
 }
 
-PeopleList.propTypes = {
+FollowPeopleList.propTypes = {
   loadFollowPeoples: PropTypes.func.isRequired,
   loadFans: PropTypes.func.isRequired,
   peopleList: PropTypes.object.isRequired
@@ -106,4 +106,4 @@ const mapDispatchToProps = (dispatch, props) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PeopleList)
+export default connect(mapStateToProps, mapDispatchToProps)(FollowPeopleList)

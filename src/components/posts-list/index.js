@@ -15,7 +15,7 @@ import { getPostsListByName } from '../../reducers/posts'
 import ListLoading from '../list-loading'
 import PostsItem from '../posts-item'
 
-class PostsList extends Component {
+export class PostsList extends Component {
 
   constructor(props) {
     super(props)
@@ -23,9 +23,9 @@ class PostsList extends Component {
 
   componentDidMount() {
 
-    const { questionList, loadPostsList, name, filters } = this.props
+    const { postsList, loadPostsList, name, filters } = this.props
 
-    if (!questionList.data) {
+    if (!postsList.data) {
       loadPostsList({ name, filters })
     }
 
@@ -55,19 +55,19 @@ class PostsList extends Component {
   */
 
   render () {
-    const { displayDate = true, questionList, loadPostsList } = this.props
+    const { displayDate = true, postsList, loadPostsList } = this.props
 
     // 当没有数据的情况
-    if (typeof questionList.data == "undefined") {
+    if (typeof postsList.data == "undefined") {
       return (<div></div>)
     }
 
-    const { data, loading, more } = questionList
+    const { data, loading, more } = postsList
 
     return (
       <div>
-        {data.map(question=>{
-          return (<div key={question._id}><PostsItem question={question} displayDate={displayDate} /></div>)
+        {data.map(posts=>{
+          return (<div key={posts._id}><PostsItem posts={posts} displayDate={displayDate} /></div>)
         })}
         <ListLoading loading={loading} more={more} handleLoad={loadPostsList} />
       </div>
@@ -77,13 +77,13 @@ class PostsList extends Component {
 }
 
 PostsList.propTypes = {
-  questionList:  PropTypes.object.isRequired
+  postsList:  PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, props) => {
   const { name } = props
   return {
-    questionList: getPostsListByName(state, name)
+    postsList: getPostsListByName(state, name)
   }
 }
 

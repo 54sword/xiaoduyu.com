@@ -10,12 +10,12 @@ import { getUserInfo } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-import Nav from '../../components/nav'
+// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 import { Countdown } from '../../common/date'
 
-class Settings extends Component {
+export class Settings extends Component {
 
   constructor(props) {
     super(props)
@@ -31,12 +31,13 @@ class Settings extends Component {
 
   render() {
 
-    const { user } = this.props
+
+    const { me } = this.props
 
     // 昵称
-    let resetNickname = <Link className="arrow" to="/settings/nickname">修改名字 <span className="right">{user.nickname}</span></Link>
+    let resetNickname = <Link className="arrow" to="/settings/nickname">修改名字 <span className="right">{me.nickname}</span></Link>
 
-    const countdown = Countdown(new Date(), user.nickname_reset_at)
+    const countdown = Countdown(new Date(), me.nickname_reset_at)
 
     let timer = ''
 
@@ -46,30 +47,30 @@ class Settings extends Component {
 
     // 上次修改的事件，要小于120天 // 1036800
     if (timer) {
-      resetNickname = <a className="arrow" href="javascript:void(0);">修改名字 <span className="right">{user.nickname} ({timer}后才能修改)</span></a>
+      resetNickname = <a className="arrow" href="javascript:void(0);">修改名字 <span className="right">{me.nickname} ({timer}后才能修改)</span></a>
     }
 
     // 邮箱
     let email = ''
 
     // 重置邮箱
-    if (user.email) {
+    if (me.email) {
       email = (<Link className="arrow" to="/settings/email">修改邮箱
-          <span className="right">{user.email}</span>
+          <span className="right">{me.email}</span>
         </Link>)
     }
 
     /*
     // 未验证码的邮箱
-    if (user.email && !user.email_verify) {
+    if (me.email && !me.email_verify) {
       email = (<Link className="arrow" to="/settings/verify-email">
           验证邮箱
-          <span className="right">{user.email}<em className="red"> 未验证</em></span>
+          <span className="right">{me.email}<em className="red"> 未验证</em></span>
         </Link>)
     }
     */
 
-    if (!user.email) {
+    if (!me.email) {
       email = (<Link className="arrow" to="/settings/binding-email">
           邮箱
           <span className="right">未绑定</span>
@@ -81,36 +82,36 @@ class Settings extends Component {
       <div>
         <Meta meta={{title: '设置'}} />
 
-        <Nav />
+        <Subnav middle="设置" />
         <div className="container">
 
           <div className="list">
             <Link className="arrow avatar" to="/settings/avatar">
               头像
               <span className="right">
-                <img src={user.avatar_url} className={styles.avatar} />
+                <img src={me.avatar_url} className={styles.avatar} />
               </span>
             </Link>
             {resetNickname}
             <Link className="arrow" to="/settings/gender">
-              性别 <span className="right">{user.gender == 1 ? '男' : '女'}</span>
+              性别 <span className="right">{me.gender == 1 ? '男' : '女'}</span>
             </Link>
             <Link className="arrow" to="/settings/brief">
-              个性签名<span className="right">{user.brief}</span>
+              个性签名<span className="right">{me.brief}</span>
             </Link>
           </div>
 
           <div className="list">
             {email}
-            {user.email ? <Link className="arrow" to="/settings/password">修改密码</Link> : null}
+            {me.email ? <Link className="arrow" to="/settings/password">修改密码</Link> : null}
           </div>
 
           <div className="list">
             <Link className="arrow" to="/oauth-binding/qq">
-              QQ<span className="right">{user.qq ? '已绑定' : '未绑定' }</span>
+              QQ<span className="right">{me.qq ? '已绑定' : '未绑定' }</span>
             </Link>
             <Link className="arrow" to="/oauth-binding/weibo">
-              微博<span className="right">{user.weibo ? '已绑定' : '未绑定' }</span>
+              微博<span className="right">{me.weibo ? '已绑定' : '未绑定' }</span>
             </Link>
           </div>
 
@@ -126,14 +127,15 @@ class Settings extends Component {
 
 }
 
+
 Settings.propTypes = {
-  user: PropTypes.object.isRequired,
+  me: PropTypes.object.isRequired,
   signout: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    user: getUserInfo(state)
+    me: getUserInfo(state)
   }
 }
 

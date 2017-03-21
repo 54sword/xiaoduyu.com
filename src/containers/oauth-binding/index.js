@@ -16,7 +16,7 @@ import Subnav from '../../components/subnav'
 
 import { api_url } from '../../../config'
 
-class OauthBinding extends Component {
+export class OauthBinding extends Component {
 
   constructor(props) {
     super(props)
@@ -60,7 +60,7 @@ class OauthBinding extends Component {
   }
 
   render() {
-    
+
     const { me, displayNotFoundPage } = this.props
     const { source } = this.props.params
 

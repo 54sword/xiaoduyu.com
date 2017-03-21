@@ -175,7 +175,7 @@ export function loadTopics({ name, filters = {}, callback = ()=>{} }) {
       headers = null
     }
 
-    Ajax({
+    return Ajax({
       url: '/topic',
       params: filters,
       headers,

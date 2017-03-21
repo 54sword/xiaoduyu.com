@@ -21,7 +21,7 @@ export function signout() {
 export function signin(email, password, callback) {
   return dispatch => {
 
-    Ajax({
+    return Ajax({
       url: '/signin',
       type: 'post',
       data: {
@@ -29,10 +29,11 @@ export function signin(email, password, callback) {
         password: password
       },
       callback: (res) => {
-        callback(res ? res.success : false, res)
-        if (res.success) {
+
+        if (res && res.success) {
           dispatch(addAccessToken(res.data))
         }
+        callback(res ? res.success : false, res)
       }
     })
 

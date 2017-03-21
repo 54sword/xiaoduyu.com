@@ -26,7 +26,7 @@ function renderChildren(props) {
   })
 }
 
-class People extends React.Component {
+export class People extends React.Component {
 
   constructor(props) {
     super(props)

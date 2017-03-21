@@ -8,60 +8,60 @@ import { connect } from 'react-redux'
 import { getProfile } from '../../reducers/user'
 import { showSign } from '../../actions/sign'
 
-import FollowNode from './components/follow'
+import FollowTopic from './components/follow'
 
 // 样式1
-const medium = ({ node, me, isSignin, showSign }) => {
+const medium = ({ topic, me, isSignin, showSign }) => {
   return (<div className={styles.item}>
 
             <div className={styles.right}>
-              {!isSignin ? null : <Link to={`/write-posts/${node._id}?type=2`}>提问</Link>}
-              {!isSignin ? null : <Link to={`/write-posts/${node._id}?type=1`}>分享</Link>}
-              {me._id && me.role == 100 ? <Link to={`/edit-topic/${node._id}`}>编辑</Link> : null}
-              <FollowNode node={node} />
+              {!isSignin ? null : <Link to={`/write-posts/${topic._id}?type=2`}>提问</Link>}
+              {!isSignin ? null : <Link to={`/write-posts/${topic._id}?type=1`}>分享</Link>}
+              {me._id && me.role == 100 ? <Link to={`/edit-topic/${topic._id}`}>编辑</Link> : null}
+              <FollowTopic topic={topic} />
             </div>
 
             <div className={styles.left}>
-              <Link to={`/topics/${node._id}`} className={styles.name}>
-                <i className="load-demand" data-load-demand={`<img class=${styles.avatar} src=${node.avatar} />`}></i>
-                {node.name}
+              <Link to={`/topics/${topic._id}`} className={styles.name}>
+                <i className="load-demand" data-load-demand={`<img class=${styles.avatar} src=${topic.avatar} />`}></i>
+                {topic.name}
               </Link>
-              {node.brief}
+              {topic.brief}
             </div>
 
           </div>)
 }
 
-class NodeItem extends Component {
+export class TopicItem extends Component {
 
   constructor(props) {
     super(props)
-    const { node } = this.props
+    const { topic } = this.props
     this.state = {
-      node: node
+      topic: topic
     }
     this.callback = this.callback.bind(this)
   }
 
   callback(status) {
-    const { node } = this.state
+    const { topic } = this.state
 
-    node.follow_count += status ? 1 : -1
-    node.follow = status
+    topic.follow_count += status ? 1 : -1
+    topic.follow = status
 
     this.setState({
-      node: node
+      topic: topic
     })
   }
 
   render () {
-    const { node, me, isSignin, showSign } = this.props
-    return medium({ node, me, isSignin, showSign })
+    const { topic, me, isSignin, showSign } = this.props
+    return medium({ topic, me, isSignin, showSign })
   }
 
 }
 
-NodeItem.propTypes = {
+TopicItem.propTypes = {
   me: PropTypes.object.isRequired,
   isSignin: PropTypes.bool.isRequired,
   showSign: PropTypes.func.isRequired
@@ -80,4 +80,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NodeItem)
+export default connect(mapStateToProps, mapDispatchToProps)(TopicItem)

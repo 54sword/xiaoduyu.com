@@ -60,15 +60,26 @@ const AJAX = ({ url = '', type = 'get', params = {}, data = {}, headers = {}, ca
 
   return axios(option).then(resp => {
     if (config.debug && console.debug) console.debug('返回: ', resp)
-    let res = resp.data
-    res = converterErrorInfo(res)
-    callback(res)
+
+    if (resp && resp.data) {
+      let res = resp.data
+      res = converterErrorInfo(res)
+      callback(res)
+    } else {
+      callback(null)
+    }
+
   })
   .catch(function (error) {
     if (config.debug && console.debug) console.error('返回: ', error)
-    let res = error.response.data
-    res = converterErrorInfo(res)
-    callback(res)
+    if (error && error.response && error.response.data) {
+      let res = error.response.data
+      res = converterErrorInfo(res)
+      callback(res)
+    } else {
+      callback(null)
+    }
+
   });
 }
 

@@ -30,7 +30,7 @@ export function loadNotifications({ name, filters = {}, callback = ()=>{} }) {
 
     dispatch({ type: 'SET_NOTIFICATION_LIST_BY_NAME', name, data: list })
 
-    Ajax({
+    return Ajax({
       url: '/notifications',
       type: 'post',
       data: merge({}, filters, { access_token: accessToken }),
@@ -202,7 +202,7 @@ export function loadUnreadCount() {
     let accessToken = getState().user.accessToken
 
     const run = () => {
-      
+
       Ajax({
         url: '/unread-notifications',
         type: 'get',

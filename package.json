@@ -1,12 +1,26 @@
 {
   "name": "xiaoduyu",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "xiaoduyu",
   "scripts": {
     "dev": "NODE_ENV=development __NODE__=false webpack --progress --colors --config webpack.development.config.js && NODE_ENV=development __NODE__=true node server",
     "build": "NODE_ENV=production __NODE__=true webpack --progress --colors --config webpack.production.config.js",
     "server": "NODE_ENV=production __NODE__=true node server",
-    "qiniu": "node upload-to-qiniu.js"
+    "qiniu": "node upload-to-qiniu.js",
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "jest": {
+    "testPathDirs": [
+      "<rootDir>/src"
+    ],
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^.+\\.(css|scss)$": "identity-obj-proxy",
+      "^.+\\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js"
+    }
   },
   "author": "sword <54sword@gmail.com>",
   "license": "MIT",
@@ -44,7 +58,7 @@
     "react-cookie": "^1.0.4",
     "react-css-modules": "^4.0.3",
     "react-document-meta": "^2.1.1",
-    "react-dom": "^15.3.1",
+    "react-dom": "^15.4.2",
     "react-fileupload": "^2.4.0",
     "react-ga": "^2.1.2",
     "react-qiniu": "^1.5.0",
@@ -68,10 +82,20 @@
     "webpack-manifest-plugin": "^1.1.0"
   },
   "devDependencies": {
+    "babel": "^6.3.26",
+    "babel-jest": "^6.0.1",
+    "babel-preset-airbnb": "^1.0.1",
     "copy-webpack-plugin": "^4.0.1",
+    "enzyme": "^2.0.0",
     "glob": "^7.1.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "15.1.1",
+    "jest-cli": "15.1.1",
+    "jsdom": "9.11.0",
+    "jsdom-global": "2.1.1",
     "offline-plugin": "^4.6.1",
     "qiniu": "^6.1.13",
+    "react-addons-test-utils": "^15.4.2",
     "webpack-bundle-analyzer": "^2.3.0"
   }
 }

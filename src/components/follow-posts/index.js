@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { follow, unfollow } from '../../actions/follow-question'
+import { follow, unfollow } from '../../actions/follow-posts'
 import { getProfile } from '../../reducers/user'
 
 
-class FollowQuestion extends Component {
+export class FollowPosts extends Component {
 
   constructor(props) {
     super(props)
@@ -15,9 +15,9 @@ class FollowQuestion extends Component {
   }
 
   follow() {
-    const { follow, question } = this.props
+    const { follow, posts } = this.props
     follow({
-      id: question._id,
+      id: posts._id,
       callback:(result)=>{
         if (result && result.error) {
           alert(result.error)
@@ -27,9 +27,9 @@ class FollowQuestion extends Component {
   }
 
   unfollow() {
-    const { unfollow, question } = this.props
+    const { unfollow, posts } = this.props
     unfollow({
-      id: question._id,
+      id: posts._id,
       callback:(result)=>{
         if (result && result.error) {
           alert(result.error)
@@ -39,15 +39,15 @@ class FollowQuestion extends Component {
   }
 
   render() {
-    const { peopleProfile, question } = this.props
+    const { me, posts } = this.props
 
     // 自己的问题，不能关注
-    if (!peopleProfile._id ||
-        question.user_id && question.user_id._id == peopleProfile._id) {
+    if (!me._id ||
+        posts.user_id && posts.user_id._id == me._id) {
       return(<span></span>)
     }
 
-    if (question.follow) {
+    if (posts.follow) {
       return (<a href="javascript:void(0)" className="black-20" onClick={this.unfollow}>已关注</a>)
     } else {
       return (<a href="javascript:void(0)" onClick={this.follow}>关注</a>)
@@ -56,16 +56,16 @@ class FollowQuestion extends Component {
   }
 }
 
-FollowQuestion.propTypes = {
-  question: PropTypes.object.isRequired,
-  peopleProfile: PropTypes.object.isRequired,
+FollowPosts.propTypes = {
+  posts: PropTypes.object.isRequired,
+  me: PropTypes.object.isRequired,
   follow: PropTypes.func.isRequired,
   unfollow: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
   return {
-    peopleProfile: getProfile(state)
+    me: getProfile(state)
   }
 }
 
@@ -76,4 +76,4 @@ function mapDispatchToProps(dispatch, props) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FollowQuestion)
+export default connect(mapStateToProps, mapDispatchToProps)(FollowPosts)

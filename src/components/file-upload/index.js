@@ -9,7 +9,7 @@ import { getAccessToken } from '../../reducers/user'
 
 import { api_url, api_verstion } from '../../../config'
 
-class FileUpload extends Component {
+export class FileUpload extends Component {
 
   constructor(props) {
     super(props)
@@ -97,6 +97,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-FileUpload = connect(mapStateToProps, mapDispatchToProps)(FileUpload)
-
-export default FileUpload
+export default connect(mapStateToProps, mapDispatchToProps)(FileUpload)

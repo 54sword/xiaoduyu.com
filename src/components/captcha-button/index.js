@@ -29,7 +29,7 @@ class CaptchaButton extends Component {
       self.setState({ loading: true })
 
       sendCaptcha(data, function(result){
-        
+
         if (result && !result.success) {
           self.setState({ loading: false })
           alert(result.error)
@@ -39,7 +39,7 @@ class CaptchaButton extends Component {
         self.setState({ countdown: 60 })
 
         let run = () =>{
-
+          
           if (!self._reactInternalInstance) {
             return
           }
@@ -62,9 +62,12 @@ class CaptchaButton extends Component {
   render() {
 
     const { countdown } = this.state
-
+    // type="submit"
     return (
-      <input type="submit" className="button captcha-button" value={countdown > 0 ? `发送成功 (${countdown})` : "获取验证码"} onClick={this.getCaptcha} />
+      <a href="javascript:void(0)"
+        className="captcha-button"
+        onClick={this.getCaptcha}
+        >{countdown > 0 ? `发送成功 (${countdown})` : "获取验证码"}</a>
     )
   }
 

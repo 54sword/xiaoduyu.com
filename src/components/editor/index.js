@@ -391,7 +391,7 @@ const renderers = {
 }
 
 
-class MyEditor extends React.Component {
+export class MyEditor extends React.Component {
 
   constructor(props) {
     super(props)
@@ -762,7 +762,7 @@ class MyEditor extends React.Component {
               ref="editor"
               spellCheck
             />
-
+            
           </div>)
   }
 }

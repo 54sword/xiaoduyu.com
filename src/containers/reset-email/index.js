@@ -14,7 +14,7 @@ import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import CaptchaButton from '../../components/captcha-button'
 
-class ResetEmail extends Component {
+export class ResetEmail extends Component {
 
   constructor(props) {
     super(props)
