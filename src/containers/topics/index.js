@@ -60,7 +60,7 @@ class Topics extends React.Component {
     this.setState({
       edit: this.state.edit ? false : true
     })
-    
+
   }
 
   componentDidMount() {

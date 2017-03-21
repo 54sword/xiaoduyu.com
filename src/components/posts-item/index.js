@@ -9,44 +9,44 @@ import styles from './style.scss'
 import FollowPosts from '../follow-posts'
 import CommentItem from '../comment-item'
 
-class PostsItem extends Component {
+export class PostsItem extends Component {
 
   constructor(props) {
     super(props)
   }
 
   render () {
-    const { question, displayDate = true } = this.props
+    const { posts, displayDate = true } = this.props
     return (
       <div className={styles.item}>
-
+      
         <div className={styles.head}>
           <div className={styles.right}>
-            <FollowPosts question={question} />
+            <FollowPosts posts={posts} />
           </div>
           <div className={styles.info}>
             <span>
-              <Link to={`/people/${question.user_id._id}`}>
-                <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src=${question.user_id.avatar_url} />`}></i>
-                {question.user_id.nickname}
+              <Link to={`/people/${posts.user_id._id}`}>
+                <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src=${posts.user_id.avatar_url} />`}></i>
+                {posts.user_id.nickname}
               </Link>
             </span>
-            <span><Link to={`/topics/${question.topic_id._id}`}>{question.topic_id.name}</Link></span>
-            {question.follow_count > 0 ? <span>{question.follow_count} 人关注</span> : null}
-            {question.view_count > 0 ? <span>{question.view_count} 次浏览</span> : null}
-            {displayDate ? <span>{DateDiff(question.create_at)}</span> : null}
+            <span><Link to={`/topics/${posts.topic_id._id}`}>{posts.topic_id.name}</Link></span>
+            {posts.follow_count > 0 ? <span>{posts.follow_count} 人关注</span> : null}
+            {posts.view_count > 0 ? <span>{posts.view_count} 次浏览</span> : null}
+            {displayDate ? <span>{DateDiff(posts.create_at)}</span> : null}
           </div>
         </div>
 
         <div className={styles.title}>
-          <Link to={`/posts/${question._id}`}>{question.title}</Link>
+          <Link to={`/posts/${posts._id}`}>{posts.title}</Link>
         </div>
 
         <div className={styles['comment-list']}>
-          {question.comment && question.comment.map(answer=>{
-            return (<div key={answer._id}>
+          {posts.comment && posts.comment.map(comment=>{
+            return (<div key={comment._id}>
               <CommentItem
-                answer={answer}
+                comment={comment}
                 summary={true}
                 displayLike={false}
                 displayReply={false}
@@ -57,9 +57,9 @@ class PostsItem extends Component {
           })}
         </div>
 
-        {question.comment && question.comment.length < question.comment_count ?
+        {posts.comment && posts.comment.length < posts.comment_count ?
           <div className={styles['view-more-comment']}>
-            <Link to={`/posts/${question._id}`}>还有 {question.comment_count - question.comment.length} 评论，查看全部</Link>
+            <Link to={`/posts/${posts._id}`}>还有 {posts.comment_count - posts.comment.length} 评论，查看全部</Link>
           </div>
           : null}
 

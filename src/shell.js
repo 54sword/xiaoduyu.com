@@ -28,7 +28,7 @@ const Shell = (_component) => {
     // 组件加载完成
     componentDidMount() {
       // 设置滚动条位置
-      this.props.setScrollPosition(this.props.location.pathname)
+      this.props.setScrollPosition(this.props.location ? this.props.location.pathname : '')
     }
 
     // 更新组件
@@ -39,7 +39,7 @@ const Shell = (_component) => {
     // 组件被卸载
     componentWillUnmount() {
       // 储存滚动条位置
-      this.props.saveScrollPosition(this.props.location.pathname)
+      this.props.saveScrollPosition(this.props.location ? this.props.location.pathname : '')
       this.props.addHistory()
     }
 

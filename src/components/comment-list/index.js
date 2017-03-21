@@ -9,15 +9,15 @@ import arriveFooter from '../../common/arrive-footer'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { showSign } from '../../actions/sign'
+// import { showSign } from '../../actions/sign'
 import { getAccessToken } from '../../reducers/user'
 import { loadCommentList } from '../../actions/comment'
 import { getCommentListByName } from '../../reducers/comment'
 
 import ListLoading from '../list-loading'
-import AnswerItem from '../comment-item'
+import CommentItem from '../comment-item'
 
-class AnswerList extends Component {
+export class CommentList extends Component {
 
   constructor(props) {
     super(props)
@@ -58,7 +58,7 @@ class AnswerList extends Component {
 
   render () {
 
-    let { commentList, isSignin, showSign } = this.props
+    let { commentList } = this.props
 
     if (!commentList.data) {
       return (<div></div>)
@@ -67,41 +67,40 @@ class AnswerList extends Component {
     return (
       <div name="comments">
         <div className="container">
-          <div className={styles.answers}>
-            {commentList.data.map((answer)=>{
-              return (<div key={answer._id}><AnswerItem answer={answer} /></div>)
+          <div className={styles.comments}>
+            {commentList.data.map((comment)=>{
+              return (<div key={comment._id}><CommentItem comment={comment} /></div>)
             })}
           </div>
 
           {commentList.data.length == 0 ?
             <div className={styles.nothing}>目前尚无回复</div>
           : <ListLoading loading={commentList.loading} more={commentList.more} handleLoad={this.triggerLoad} />}
-
         </div>
       </div>
     )
   }
 }
 
-AnswerList.propTypes = {
+CommentList.propTypes = {
   commentList: PropTypes.object.isRequired,
   loadCommentList: PropTypes.func.isRequired,
-  showSign: PropTypes.func.isRequired
+  // showSign: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
   const name = props.name
   return {
-    commentList: getCommentListByName(state, name),
-    isSignin: getAccessToken(state)
+    commentList: getCommentListByName(state, name)
+    // isSignin: getAccessToken(state)
   }
 }
 
 function mapDispatchToProps(dispatch, props) {
   return {
-    showSign: bindActionCreators(showSign, dispatch),
+    // showSign: bindActionCreators(showSign, dispatch),
     loadCommentList: bindActionCreators(loadCommentList, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnswerList)
+export default connect(mapStateToProps, mapDispatchToProps)(CommentList)

@@ -12,7 +12,7 @@ import Meta from '../../components/meta'
 // import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
-class ResetGender extends Component {
+export class ResetGender extends Component {
 
   constructor(props) {
     super(props)
@@ -22,9 +22,9 @@ class ResetGender extends Component {
   submitResetGender(isMale) {
 
     const self = this
-    const { user, resetGender, loadUserInfo } = this.props
+    const { me, resetGender, loadUserInfo } = this.props
 
-    if (isMale && user.gender == 1 || !isMale && user.gender == 0) {
+    if (isMale && me.gender == 1 || !isMale && me.gender == 0) {
       return
     }
 
@@ -45,16 +45,16 @@ class ResetGender extends Component {
 
   render() {
 
-    const { user } = this.props
-    
+    const { me } = this.props
+
     return (
       <div>
         <Meta meta={{ title:'修改性别' }} />
         <Subnav middle="修改性别" />
         <div className="container">
           <div className="list">
-            <a className={user.gender == 1 ? "hook" : ""} href="javascript:void(0)" onClick={()=>{ this.submitResetGender(true) }}>男</a>
-            <a className={user.gender == 0 ? "hook" : ""} href="javascript:void(0)" onClick={()=>{ this.submitResetGender(false) }}>女</a>
+            <a className={me.gender == 1 ? "hook" : ""} href="javascript:void(0)" onClick={()=>{ this.submitResetGender(true) }}>男</a>
+            <a className={me.gender == 0 ? "hook" : ""} href="javascript:void(0)" onClick={()=>{ this.submitResetGender(false) }}>女</a>
           </div>
         </div>
       </div>
@@ -69,14 +69,14 @@ ResetGender.contextTypes = {
 }
 
 ResetGender.propTypes = {
-  user: PropTypes.object.isRequired,
+  me: PropTypes.object.isRequired,
   resetGender: PropTypes.func.isRequired,
   loadUserInfo: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    user: getUserInfo(state)
+    me: getUserInfo(state)
   }
 }
 

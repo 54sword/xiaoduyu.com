@@ -20,7 +20,7 @@ import Subnav from '../../components/subnav'
 import QiniuUploadImage from '../../components/qiniu-upload-image'
 
 
-class ResetAvatar extends Component {
+export class ResetAvatar extends Component {
 
   constructor(props) {
     super(props)
@@ -124,6 +124,10 @@ class ResetAvatar extends Component {
 
     const { me } = this.props
     const { fileUpload, uploadStatus } = this.state
+
+    if (!me._id) {
+      return (<span></span>)
+    }
 
     return (
       <div>

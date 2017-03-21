@@ -3,7 +3,6 @@ import { Link } from 'react-router'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getProfile } from '../../reducers/user'
 import { sendEmailCaptcha, resetPasswordByCaptcha } from '../../actions/account'
 import { addCaptcha }  from '../../actions/captcha'
 import { signin } from '../../actions/sign'
@@ -13,7 +12,7 @@ import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import CaptchaButton from '../../components/captcha-button'
 
-class Forgot extends Component {
+export class Forgot extends Component {
 
   constructor(props) {
     super(props)
@@ -49,7 +48,7 @@ class Forgot extends Component {
       alert('两次密码输入不一致')
       return
     }
-    
+
     resetPasswordByCaptcha({
       email: email.value,
       captcha: captcha.value,
@@ -84,8 +83,6 @@ class Forgot extends Component {
 
   render() {
 
-    const { user } = this.props
-
     return (
       <div>
         <Meta meta={{title:'忘记密码'}} />
@@ -115,7 +112,6 @@ class Forgot extends Component {
 }
 
 Forgot.propTypes = {
-  user: PropTypes.object.isRequired,
   sendEmailCaptcha: PropTypes.func.isRequired,
   resetPasswordByCaptcha: PropTypes.func.isRequired,
   signin: PropTypes.func.isRequired
@@ -123,7 +119,6 @@ Forgot.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: getProfile(state)
   }
 }
 

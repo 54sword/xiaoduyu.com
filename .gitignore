@@ -27,4 +27,7 @@ node_modules
 psd
 dist
 config/index.js
+config/test.js
+src/__mocks__
+# src/**/*/__tests__
 *.DS_Store

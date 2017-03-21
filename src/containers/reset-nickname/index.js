@@ -13,7 +13,7 @@ import Meta from '../../components/meta'
 // import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
-class ResetNickname extends Component {
+export class ResetNickname extends Component {
 
   constructor(props) {
     super(props)
@@ -53,7 +53,7 @@ class ResetNickname extends Component {
 
   render() {
 
-    const { user } = this.props
+    const { me } = this.props
 
     return (
       <div>
@@ -63,7 +63,7 @@ class ResetNickname extends Component {
         <div className="container">
 
           <div className="list">
-            <input type="text" defaultValue={user.nickname} ref="nickname"></input>
+            <input type="text" defaultValue={me.nickname} ref="nickname"></input>
           </div>
 
           <div className="list">
@@ -83,14 +83,14 @@ ResetNickname.contextTypes = {
 }
 
 ResetNickname.propTypes = {
-  user: PropTypes.object.isRequired,
+  me: PropTypes.object.isRequired,
   resetNickname: PropTypes.func.isRequired,
   loadUserInfo: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    user: getUserInfo(state)
+    me: getUserInfo(state)
   }
 }
 

@@ -17,7 +17,6 @@ class Tabbar extends Component {
     this.setState({
       index: key
     })
-
     tabs[key].callback()
   }
 

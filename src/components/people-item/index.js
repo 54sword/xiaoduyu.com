@@ -12,12 +12,12 @@ class PeopleItem extends Component {
   }
 
   render () {
-    
+
     const { people } = this.props
 
     return (
       <Link to={`/people/${people._id}`}>
-        <div className={styles['people-item']}>
+        <div className={styles.item}>
           <span className={styles.follow}>
             <FollowButton people={people} />
           </span>

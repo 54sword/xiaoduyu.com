@@ -10,7 +10,7 @@ import Nav from '../../components/nav'
 import Meta from '../../components/meta'
 import NotificationList from '../../components/notification-list'
 
-class Notifications extends Component {
+export class Notifications extends Component {
 
   constructor(props) {
     super(props)

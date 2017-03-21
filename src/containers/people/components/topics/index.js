@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 
 import Shell from '../../../../shell'
-import NodeList from '../../../../components/topic-list'
+import TopicList from '../../../../components/topic-list'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadPeopleById } from '../../../../actions/people'
 import { loadTopics } from '../../../../actions/topic'
 
-class PeopleCommunities extends React.Component {
+export class PeopleTopics extends React.Component {
 
   // 服务器预加载内容
   static loadData(option, callback) {
@@ -42,7 +42,7 @@ class PeopleCommunities extends React.Component {
 
     return (
       <div>
-        <NodeList name={people._id} filters={{ people_id: people._id, child: 1 }} />
+        <TopicList name={people._id} filters={{ people_id: people._id, child: 1 }} />
       </div>
     )
 
@@ -50,4 +50,4 @@ class PeopleCommunities extends React.Component {
 
 }
 
-export default Shell(PeopleCommunities)
+export default Shell(PeopleTopics)

@@ -8,14 +8,13 @@ import styles from './style.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { showSign } from '../../actions/sign'
-import { getAccessToken, getProfile } from '../../reducers/user'
+// import { showSign } from '../../actions/sign'
+import { getProfile } from '../../reducers/user'
 
-import CommentItem from '../comment-item'
 import LikeButton from '../../components/like'
 import HTMLText from '../../components/html-text'
 
-class AnswerItem extends Component {
+export class CommentItem extends Component {
 
   constructor(props) {
     super(props)
@@ -23,20 +22,20 @@ class AnswerItem extends Component {
   }
 
   _renderItem(oursProps) {
-    
+
     const that = this
 
-    let { answer, summary, displayCreateDate = true, me, displayLike = true, displayReply = true, displayDate = true, style = '' } = oursProps
+    let { comment, summary = false, me, displayLike = true, displayReply = true, displayDate = true, style = '' } = oursProps
 
-    let { isSignin, showSign } = this.props
+    // let { showSign } = this.props
 
     // {/*<span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>*/}
     return (
       <div className={styles.item + ' ' + styles.min}>
         <div className={styles.people}>
-          {answer.user_id ?
-          <Link to={`/people/${answer.user_id._id}`}>
-            <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src=${answer.user_id.avatar_url} />`}></i>
+          {comment.user_id ?
+          <Link to={`/people/${comment.user_id._id}`}>
+            <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src=${comment.user_id.avatar_url} />`}></i>
           </Link>
           : null}
         </div>
@@ -44,47 +43,40 @@ class AnswerItem extends Component {
         <div className={styles.footer}>
 
           <div className={styles['footer-action']}>
-            {me._id == answer.user_id._id ? <span><Link to={`/edit-comment/${answer._id}`}>编辑</Link></span> : null}
-            {displayLike ? <span><LikeButton comment={!answer.parent_id ? answer : null} reply={answer.parent_id ? answer : null} /></span> : null}
-            {displayReply ?
-              (!isSignin ?
-                null
-                : <span><Link to={`/write-comment?posts_id=${answer.posts_id && answer.posts_id._id ? answer.posts_id._id : answer.posts_id}&parent_id=${answer.parent_id ? answer.parent_id : answer._id}${answer.parent_id ? `&reply_id=${answer._id}` : ''}`}>回复</Link></span>)
+            {me._id == comment.user_id._id ? <span><Link to={`/edit-comment/${comment._id}`}>编辑</Link></span> : null}
+            {displayLike && me._id ? <span><LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} /></span> : null}
+            {displayReply && me._id ?
+              <span><Link to={`/write-comment?posts_id=${comment.posts_id && comment.posts_id._id ? comment.posts_id._id : comment.posts_id}&parent_id=${comment.parent_id ? comment.parent_id : comment._id}${comment.parent_id ? `&reply_id=${comment._id}` : ''}`}>回复</Link></span>
               : null}
           </div>
 
           <div className={styles['footer-info']}>
             <span>
-              <Link to={`/people/${answer.user_id._id}`}>{answer.user_id.nickname}</Link>
-              {answer.reply_id ? ` 回复了${answer.reply_id.user_id._id == answer.user_id._id ? '自己' : ' '}` : null}
-              {answer.reply_id && answer.reply_id.user_id._id != answer.user_id._id ? <Link to={`/people/${answer.reply_id.user_id._id}`}>{answer.reply_id.user_id.nickname}</Link> : null}
+              <Link to={`/people/${comment.user_id._id}`}>{comment.user_id.nickname}</Link>
+              {comment.reply_id ? ` 回复了${comment.reply_id.user_id._id == comment.user_id._id ? '自己' : ' '}` : null}
+              {comment.reply_id && comment.reply_id.user_id._id != comment.user_id._id ? <Link to={`/people/${comment.reply_id.user_id._id}`}>{comment.reply_id.user_id.nickname}</Link> : null}
             </span>
-            {answer.reply_count > 0 ? <span>{answer.reply_count} 个回复</span> : null}
-            {answer.like_count > 0 ? <span>{answer.like_count} 个赞</span> : null}
-            {displayDate ? <span>{DateDiff(answer.create_at)}</span> : null}
+            {comment.reply_count > 0 ? <span>{comment.reply_count} 个回复</span> : null}
+            {comment.like_count > 0 ? <span>{comment.like_count} 个赞</span> : null}
+            {displayDate ? <span>{DateDiff(comment.create_at)}</span> : null}
           </div>
 
         </div>
 
         <div className={styles.detail}>
           {summary ?
-            <Link to={`/comment/${answer._id}`}>{answer.content_summary}</Link> :
-            <HTMLText content={answer.content_html} />}
+            <Link to={`/comment/${comment._id}`}>{comment.content_summary}</Link> :
+            <HTMLText content={comment.content_html} />}
         </div>
 
         <div className={styles['comment-list']}>
-          {answer.reply && answer.reply.map(comment=>{
-
-            let answer = comment
-            let reply = that.renderItem({ answer, summary, isSignin, showSign, displayCreateDate, me,
-                displayLike, displayReply, displayDate
-                })
-
+          {comment.reply && comment.reply.map(comment=>{
+            let reply = that.renderItem({ comment, summary, me, displayLike, displayReply, displayDate })
             return (<div key={comment._id}>{reply}</div>)
           })}
-          {answer.reply_count && answer.reply && answer.reply.length < answer.reply_count ?
+          {comment.reply_count && comment.reply && comment.reply.length < comment.reply_count ?
             <div className={styles['view-more-comment']}>
-              <Link to={`/comment/${answer._id}`}>还有 {answer.reply_count - answer.reply.length} 条回复，查看全部</Link>
+              <Link to={`/comment/${comment._id}`}>还有 {comment.reply_count - comment.reply.length} 条回复，查看全部</Link>
             </div> : null}
         </div>
 
@@ -95,38 +87,27 @@ class AnswerItem extends Component {
 
 
   render () {
-
-    /*
-    let { answer, summary, isSignin, showSign, displayCreateDate = true, me,
-        displayLike = true, displayReply = true, displayDate = true
-        } = this.props
-    */
-
-
-
     return this.renderItem(this.props)
-
   }
 }
 
-AnswerItem.propTypes = {
-  answer: PropTypes.object.isRequired,
-  showSign: PropTypes.func.isRequired,
+CommentItem.propTypes = {
+  comment: PropTypes.object.isRequired,
+  // showSign: PropTypes.func.isRequired,
   me: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, props) {
   const name = props.name
   return {
-    isSignin: getAccessToken(state),
     me: getProfile(state)
   }
 }
 
 function mapDispatchToProps(dispatch, props) {
   return {
-    showSign: bindActionCreators(showSign, dispatch),
+    // showSign: bindActionCreators(showSign, dispatch),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnswerItem)
+export default connect(mapStateToProps, mapDispatchToProps)(CommentItem)

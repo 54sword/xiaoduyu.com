@@ -9,16 +9,16 @@ import Shell from '../../shell'
 import Meta from '../../components/meta'
 import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
-import NodeItem from '../../components/topic-item'
+import TopicItem from '../../components/topic-item'
 import PostsList from '../../components/posts-list'
 
 
-class NodeDetail extends Component {
+export class TopicDetail extends Component {
 
   static loadData(option, callback) {
     const { id } = option.props.params
-    option.store.dispatch(loadTopicById({ id, callback: (node)=>{
-      if (!node) {
+    option.store.dispatch(loadTopicById({ id, callback: (topic)=>{
+      if (!topic) {
         callback('not found')
       } else {
         callback()
@@ -34,9 +34,9 @@ class NodeDetail extends Component {
 
     const { loadTopicById } = this.props
     const { id } = this.props.params
-    const [ node ] = this.props.node
+    const [ topic ] = this.props.topic
 
-    if (node) {
+    if (topic) {
       return
     }
 
@@ -47,9 +47,9 @@ class NodeDetail extends Component {
   }
 
   render() {
-    let [ node ] = this.props.node
+    let [ topic ] = this.props.topic
 
-    if (!node) {
+    if (!topic) {
       return (<div></div>)
     }
 
@@ -57,15 +57,15 @@ class NodeDetail extends Component {
 
     return (
       <div>
-        <Meta meta={{title:node.name}} />
+        <Meta meta={{title:topic.name}} />
         <Nav />
         <div className="container">
-          <NodeItem node={node} />
+          <TopicItem topic={topic} />
         </div>
         <div className="container">
           <PostsList
-            name={`communities-${node._id}`}
-            filters={{ topic_id: node._id }}
+            name={`communities-${topic._id}`}
+            filters={{ topic_id: topic._id }}
           />
         </div>
       </div>
@@ -74,14 +74,14 @@ class NodeDetail extends Component {
 
 }
 
-NodeDetail.propTypes = {
-  node: PropTypes.array.isRequired,
+TopicDetail.propTypes = {
+  topic: PropTypes.array.isRequired,
   loadTopicById: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, props) => {
   return {
-    node: getTopicById(state, props.params.id)
+    topic: getTopicById(state, props.params.id)
   }
 }
 
@@ -91,6 +91,6 @@ const mapDispatchToProps = (dispatch, props) => {
   }
 }
 
-NodeDetail = connect(mapStateToProps, mapDispatchToProps)(NodeDetail)
+TopicDetail = connect(mapStateToProps, mapDispatchToProps)(TopicDetail)
 
-export default Shell(NodeDetail)
+export default Shell(TopicDetail)

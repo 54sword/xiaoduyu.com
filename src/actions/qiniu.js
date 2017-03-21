@@ -6,7 +6,7 @@ export function getQiNiuToken({ callback }) {
 
     let accessToken = getState().user.accessToken
 
-    Ajax({
+    return Ajax({
       url: '/get-qiniu-token',
       type: 'post',
       headers: { AccessToken: accessToken },

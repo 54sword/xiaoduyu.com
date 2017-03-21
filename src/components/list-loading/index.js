@@ -13,7 +13,7 @@ class ListLoading extends React.PureComponent {
     const { loading, more, handleLoad = ()=>{} } = this.props
 
     let dom
-    
+
     if (loading && more) {
       dom = '正在加载...'
     } else if (!loading && more) {

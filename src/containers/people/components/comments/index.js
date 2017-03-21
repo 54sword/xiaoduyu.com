@@ -10,7 +10,7 @@ import { loadPeopleById } from '../../../../actions/people'
 import { loadCommentList } from '../../../../actions/comment'
 import CommentList from '../../../../components/comment-list'
 
-class PeopleAnswers extends React.Component {
+export class PeoplePosts extends React.Component {
 
   // 服务器预加载内容
   static loadData(option, callback) {
@@ -53,4 +53,4 @@ class PeopleAnswers extends React.Component {
 
 }
 
-export default Shell(PeopleAnswers)
+export default Shell(PeoplePosts)

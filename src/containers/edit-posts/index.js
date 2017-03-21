@@ -114,13 +114,13 @@ class EditQuestion extends React.Component {
 
   render() {
     const { title, editor, question, loading } = this.state
-
+    
     if (!question) {
       return (<div></div>)
     }
 
     const { node_id } = question
-    
+
     return (<div>
       <Meta meta={{title: '编辑帖子'}} />
       <Subnav left="取消" middle={'编辑帖子'} />

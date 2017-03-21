@@ -15,6 +15,7 @@ export default function user(state = initialState, action) {
 
     case 'ADD_ACCESS_TOKEN':
       state.accessToken = action.access_token
+      state.expires = action.expires
       let expires = action.expires || null
       let option = { path: '/' }
 
@@ -24,7 +25,7 @@ export default function user(state = initialState, action) {
       }
 
       cookie.save(auth_cookie_name, state.accessToken, option)
-      return state
+      return merge({}, state, {})
 
     case 'REMOVE_ACCESS_TOKEN':
       state.accessToken = ''

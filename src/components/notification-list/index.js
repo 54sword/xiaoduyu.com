@@ -14,7 +14,7 @@ import { DateDiff } from '../../common/date'
 import ListLoading from '../list-loading'
 import HTMLText from '../html-text'
 
-class NotificationList extends Component {
+export class NotificationList extends Component {
 
   constructor(props) {
     super(props)
@@ -22,7 +22,7 @@ class NotificationList extends Component {
   }
 
   componentWillMount() {
-
+    
     const { notification, name, filters } = this.props
 
     if (!notification.data) {
@@ -128,7 +128,7 @@ class NotificationList extends Component {
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       {DateDiff(notice.create_at)} 赞了你的
-                      <Link to={`/answer/${notice.comment_id.parent_id._id}`}>{notice.comment_id.content_trim}</Link>
+                      <Link to={`/comment/${notice.comment_id.parent_id._id}`}>{notice.comment_id.content_trim}</Link>
                       回复
                     </div>
                   </div>)
@@ -139,7 +139,7 @@ class NotificationList extends Component {
                     <div className={styles.header}>
                       <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
                       {DateDiff(notice.create_at)} 赞了你的
-                      <Link to={`/answer/${notice.comment_id._id}`}>{notice.comment_id.content_trim}</Link>
+                      <Link to={`/comment/${notice.comment_id._id}`}>{notice.comment_id.content_trim}</Link>
                       评论
                     </div>
                   </div>)
@@ -155,7 +155,7 @@ class NotificationList extends Component {
                       {notice.comment_id.posts_id.type == 1 ?  '分享' : '提问'}
                     </div>
                     <div className={styles.content}>
-                      <Link to={`/answer/${notice.comment_id._id}`}>{notice.comment_id.content_trim}</Link>
+                      <Link to={`/comment/${notice.comment_id._id}`}>{notice.comment_id.content_trim}</Link>
                     </div>
                   </div>)
                   break
@@ -195,6 +195,6 @@ function mapDispatchToProps(dispatch, props) {
   }
 }
 
-NotificationList = connect(mapStateToProps, mapDispatchToProps)(NotificationList)
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationList)
 
-export default NotificationList
+// export default NotificationList

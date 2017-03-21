@@ -7,7 +7,7 @@ import FollowPeopleList from '../../../../components/follow-people-list'
 
 import { loadPeopleById, loadFans } from '../../../../actions/people'
 
-class PeopleFans extends React.Component {
+export class PeopleFans extends React.Component {
 
   // 服务器预加载内容
   static loadData(option, callback) {

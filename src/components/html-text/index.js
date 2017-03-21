@@ -116,7 +116,7 @@ const converVideo = (html) => {
 
 }
 
-class HTMLText extends Component {
+export class HTMLText extends Component {
 
   constructor(props) {
     super(props)

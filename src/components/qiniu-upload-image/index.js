@@ -11,7 +11,7 @@ import { getQiNiuToken } from '../../actions/qiniu'
 
 import Loading from '../../components/loading'
 
-class QiniuUploadImage extends React.Component {
+export class QiniuUploadImage extends React.Component {
 
   constructor (props) {
     super(props)

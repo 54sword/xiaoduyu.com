@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { loadPeopleById } from '../../../../actions/people'
 import { loadPostsList } from '../../../../actions/posts'
 
-class PeoplePosts extends React.Component {
+export class PeoplePosts extends React.Component {
 
   // 服务器预加载内容
   static loadData(option, callback) {
@@ -38,10 +38,6 @@ class PeoplePosts extends React.Component {
   }
 
   render() {
-
-    // console.log(this)
-
-    // return (<div>11111</div>)
 
     const { people } = this.props
 

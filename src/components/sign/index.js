@@ -10,13 +10,13 @@ import { getSignStatus } from '../../reducers/sign'
 import Signin from './components/signin'
 import Signup from './components/signup'
 
-class Sign extends Component {
+export class Sign extends Component {
 
   constructor(props) {
     super(props)
 
     this.state = {
-      displayComponent: 'signin'
+      displayComponent: this.props.type || 'signin'
     }
 
     this.displayComponent = this._displayComponent.bind(this)
@@ -28,10 +28,9 @@ class Sign extends Component {
     })
   }
 
-
   render () {
 
-    const { display, hideSign, addCaptcha } = this.props
+    const { display, hideSign } = this.props
     const { displayComponent } = this.state
 
     if (!display) {

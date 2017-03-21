@@ -11,11 +11,7 @@ import Shell from '../../shell'
 import Nav from '../../components/nav'
 import Meta from '../../components/meta'
 
-class Me extends Component {
-
-  // static loadData(option, callback) {
-  //   callback()
-  // }
+export class Me extends Component {
 
   constructor(props) {
     super(props)

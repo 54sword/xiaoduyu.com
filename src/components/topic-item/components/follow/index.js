@@ -6,22 +6,22 @@ import { connect } from 'react-redux'
 import { followTopic, unfollowTopic } from '../../../../actions/topic'
 import { getAccessToken } from '../../../../reducers/user'
 
-class FollowNode extends Component {
+export class FollowTopic extends Component {
 
   constructor(props) {
     super(props)
     this.follow = this._follow.bind(this)
   }
-  
+
   _follow(e) {
 
     e.preventDefault()
 
-    const { node, unfollowTopic, followTopic } = this.props
-    const handleFollow = node.follow ? unfollowTopic : followTopic
+    const { topic, unfollowTopic, followTopic } = this.props
+    const handleFollow = topic.follow ? unfollowTopic : followTopic
 
     handleFollow({
-      id: node._id,
+      id: topic._id,
       callback: (err, result) => {}
     })
 
@@ -29,7 +29,7 @@ class FollowNode extends Component {
 
   render() {
 
-    const { node, isSignin } = this.props
+    const { topic, isSignin } = this.props
 
     // 没有登录情况下不显示
     if (!isSignin) {
@@ -38,17 +38,16 @@ class FollowNode extends Component {
 
     return (
       <a href="javascript:void(0)"
-        className={node.follow ? 'black-10' : ''}
+        className={topic.follow ? 'black-10' : ''}
         onClick={this.follow}>
-        {node.follow ? "已关注" : "+关注"}
+        {topic.follow ? "已关注" : "+关注"}
       </a>
     )
   }
 
 }
 
-
-FollowNode.propTypes = {
+FollowTopic.propTypes = {
   isSignin: PropTypes.bool.isRequired,
   followTopic: PropTypes.func.isRequired,
   unfollowTopic: PropTypes.func.isRequired
@@ -67,4 +66,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(FollowNode)
+export default connect(mapStateToProps,mapDispatchToProps)(FollowTopic)
