@@ -1,6 +1,6 @@
 {
   "name": "xiaoduyu",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "xiaoduyu",
   "scripts": {
     "dev": "NODE_ENV=development __NODE__=false webpack --progress --colors --config webpack.development.config.js && NODE_ENV=development __NODE__=true node server",
@@ -8,6 +8,9 @@
     "server": "NODE_ENV=production __NODE__=true node server",
     "qiniu": "node upload-to-qiniu.js",
     "test": "jest"
+  },
+  "engines": {
+    "node": ">=6"
   },
   "jest": {
     "testPathDirs": [
