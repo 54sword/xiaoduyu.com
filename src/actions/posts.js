@@ -125,11 +125,15 @@ export function loadPostsById({ id, callback = ()=>{} }) {
 const processPostsList = (list) => {
 
   list.map(function(posts){
-    posts.comment.map(function(comment){
-      let text = comment.content_html.replace(/<[^>]+>/g,"")
-      if (text.length > 140) text = text.slice(0, 140)+'...'
-      comment.content_summary = text
-    })
+
+    if (posts.comment) {
+      posts.comment.map(function(comment){
+        let text = comment.content_html.replace(/<[^>]+>/g,"")
+        if (text.length > 140) text = text.slice(0, 140)+'...'
+        comment.content_summary = text
+      })
+    }
+
   })
 
   return list
@@ -190,11 +194,15 @@ export function loadNewPosts(dispatch, getState) {
 
 }
 
-export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
+export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart = false }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
     let questionList = getState().posts[name] || {}
+
+    if (restart) {
+      questionList = {}
+    }
 
     if (typeof(questionList.more) != 'undefined' && !questionList.more ||
       questionList.loading

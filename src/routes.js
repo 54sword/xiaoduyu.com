@@ -32,8 +32,6 @@ import WritePosts from './containers/write-posts'
 import EditPosts from './containers/edit-posts'
 import WriteComment from './containers/write-comment'
 import EditComment from './containers/edit-comment'
-// import WriteComment from './containers/write-comment'
-// import EditComment from './containers/edit-comment'
 
 import People from './containers/people'
 import PoeplePosts from './containers/people/components/posts'
@@ -41,6 +39,7 @@ import PoepleComment from './containers/people/components/comments'
 import PoepleTopic from './containers/people/components/topics'
 import PoepleFollowing from './containers/people/components/following'
 import PoepleFans from './containers/people/components/fans'
+import PoepleFollowPosts from './containers/people/components/follow-posts'
 
 import Oauth from './containers/oauth'
 import OauthBinding from './containers/oauth-binding'
@@ -102,7 +101,7 @@ export default (history, user, logPageView = ()=>{}) =>{
 
     <Route path="/comment/:id" component={Answer} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/posts/:id" component={PostsDetaill} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/write-posts/:nodeId" component={WritePosts} onLeave={triggerLeave} onEnter={requireAuth} />
+    <Route path="/write-posts/:id" component={WritePosts} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/edit-posts/:id" component={EditPosts} onLeave={triggerLeave} onEnter={requireAuth} />
 
 
@@ -118,6 +117,7 @@ export default (history, user, logPageView = ()=>{}) =>{
       <Route path="topics" component={PoepleTopic} onLeave={triggerLeave} onEnter={triggerEnter} />
       <Route path="following" component={PoepleFollowing} onLeave={triggerLeave} onEnter={triggerEnter} />
       <Route path="fans" component={PoepleFans} onLeave={triggerLeave} onEnter={triggerEnter} />
+      <Route path="follow/posts" component={PoepleFollowPosts} onLeave={triggerLeave} onEnter={triggerEnter} />
     </Route>
 
     <Route path="/settings" component={Settings} onLeave={triggerLeave} onEnter={requireAuth} />

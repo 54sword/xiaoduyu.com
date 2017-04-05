@@ -19,6 +19,7 @@ export class PostsList extends Component {
 
   constructor(props) {
     super(props)
+    this.loadDate = this.loadDate.bind(this)
   }
 
   componentDidMount() {
@@ -26,11 +27,11 @@ export class PostsList extends Component {
     const { postsList, loadPostsList, name, filters } = this.props
 
     if (!postsList.data) {
-      loadPostsList({ name, filters })
+      this.loadDate()
     }
 
     arriveFooter.add(name, ()=>{
-      loadPostsList({ name, filters })
+      this.loadDate()
     })
   }
 
@@ -39,20 +40,21 @@ export class PostsList extends Component {
     arriveFooter.remove(name)
   }
 
-  /*
+  loadDate() {
+    const { name, filters, loadPostsList } = this.props
+    loadPostsList({ name, filters })
+  }
+
   componentWillReceiveProps(props) {
 
-    if (props.update != this.props.update) {
+    if (props.timestamp != this.props.timestamp) {
+      const { loadPostsList } = this.props
 
-      const { resetNewQuestionList, loadQuestions } = this.props
+      console.log(props.filters);
 
-      // console.log(props.update + '|' + this.props.update)
-
-      resetNewQuestionList({ name: props.name, filters: props.filters })
-      loadQuestions()
+      loadPostsList({ name: props.name, filters: props.filters, restart: true })
     }
   }
-  */
 
   render () {
     const { displayDate = true, postsList, loadPostsList } = this.props

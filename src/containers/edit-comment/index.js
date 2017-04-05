@@ -7,6 +7,7 @@ import styles from './style.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadCommentById, updateComment } from '../../actions/comment'
+import { getProfile } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
@@ -17,7 +18,16 @@ class EditComment extends React.Component {
 
   static loadData(option, callback) {
     const { id } = option.props.params
+    
+    const me = getProfile(option.store.getState())
+
     option.store.dispatch(loadCommentById({ id, callback: (comment)=>{
+
+      if (!me._id || comment.user_id._id != me._id) {
+        callback(403, 'wrong_token')
+        return
+      }
+
       if (!comment) {
         callback('not found')
       } else {

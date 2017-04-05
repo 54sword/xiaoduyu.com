@@ -17,13 +17,15 @@ export class PostsItem extends Component {
 
   render () {
     const { posts, displayDate = true } = this.props
+
     return (
       <div className={styles.item}>
-      
+
         <div className={styles.head}>
           <div className={styles.right}>
             <FollowPosts posts={posts} />
           </div>
+          {typeof posts.user_id == 'object' ?
           <div className={styles.info}>
             <span>
               <Link to={`/people/${posts.user_id._id}`}>
@@ -36,7 +38,9 @@ export class PostsItem extends Component {
             {posts.view_count > 0 ? <span>{posts.view_count} 次浏览</span> : null}
             {displayDate ? <span>{DateDiff(posts.create_at)}</span> : null}
           </div>
+          : null}
         </div>
+
 
         <div className={styles.title}>
           <Link to={`/posts/${posts._id}`}>{posts.title}</Link>
@@ -48,8 +52,8 @@ export class PostsItem extends Component {
               <CommentItem
                 comment={comment}
                 summary={true}
-                displayLike={false}
-                displayReply={false}
+                displayLike={true}
+                displayReply={true}
                 displayDate={displayDate}
                 style={"min"}
                 />

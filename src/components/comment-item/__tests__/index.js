@@ -21,7 +21,8 @@ import styles from '../style.scss'
 
 let props = {
   comment: {},
-  me: {}
+  me: {},
+  showSign: ()=>{}
 }
 
 describe('<CommentItem />', ()=>{
@@ -76,10 +77,10 @@ describe('<CommentItem />', ()=>{
     expect(wrapper.contains(<span>{DateDiff(comment.create_at)}</span>)).toBe(false);
   })
 
-  it('应该没有 赞', function() {
-    let wrapper = shallow(<CommentItem {...props} />)
-    expect(wrapper.contains(<LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} />)).toBe(false);
-  })
+  // it('应该没有 赞', function() {
+  //   let wrapper = shallow(<CommentItem {...props} />)
+  //   expect(wrapper.contains(<LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} />)).toBe(false);
+  // })
 
   it('应该有 回复链接', function() {
     props.displayReply = true

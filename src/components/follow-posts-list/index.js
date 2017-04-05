@@ -5,10 +5,10 @@ import arriveFooter from '../../common/arrive-footer'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { loadFollowPeoples, loadFans } from '../../actions/follow-people'
+import { loadFollowPosts } from '../../actions/follow-people'
 import { getPeopleListByName } from '../../reducers/follow-people'
 
-import PeopleItem from '../people-item'
+import PostsItem from '../posts-item'
 import ListLoading from '../list-loading'
 
 export class FollowPeopleList extends Component{
@@ -21,7 +21,6 @@ export class FollowPeopleList extends Component{
     this.state = {
       name: name,
       filters: filters,
-      type: type // 关注 follow-people 或 粉丝 fans
     }
 
     this.triggerLoad = this._triggerLoad.bind(this)
@@ -49,15 +48,15 @@ export class FollowPeopleList extends Component{
   }
 
   _triggerLoad(callback) {
-    const { loadFollowPeoples, loadFans } = this.props
+    const { loadFollowPosts } = this.props
     const { name, filters, type } = this.state
 
-    const handle = type == 'follow-people' ? loadFollowPeoples : loadFans
-
-    handle({
-      name: type + '-' + name,
+    loadFollowPosts({
+      name: name,
       filters: filters,
-      callback: (err, callback) => {
+      callback: (err, result) => {
+        console.log(err);
+        console.log(result);
       }
     })
 
@@ -70,13 +69,13 @@ export class FollowPeopleList extends Component{
     if (!peopleList.data) {
       return (<div></div>)
     }
-    
+
     const { data, loading, more } = peopleList
 
     return (<div className="container">
       {data.map(people=>{
         return (<div key={people._id}>
-            <PeopleItem people={type == 'fans' ? people.user_id : people.people_id} />
+            <PostsItem posts={people.posts_id} />
           </div>)
       })}
 
@@ -88,21 +87,19 @@ export class FollowPeopleList extends Component{
 }
 
 FollowPeopleList.propTypes = {
-  loadFollowPeoples: PropTypes.func.isRequired,
-  loadFans: PropTypes.func.isRequired,
+  loadFollowPosts: PropTypes.func.isRequired,
   peopleList: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, props) => {
   return {
-    peopleList: getPeopleListByName(state, props.type + '-' +props.name)
+    peopleList: getPeopleListByName(state, props.name)
   }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    loadFollowPeoples: bindActionCreators(loadFollowPeoples, dispatch),
-    loadFans: bindActionCreators(loadFans, dispatch)
+    loadFollowPosts: bindActionCreators(loadFollowPosts, dispatch)
   }
 }
 

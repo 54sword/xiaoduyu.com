@@ -148,6 +148,14 @@ const Controls = (props) => {
           style={type.style}
         />
       )}
+
+      <span>
+        <a href="javascript:void(0)" className="button-white">添加视频</a>
+      </span>
+      <span>
+        <a href="javascript:void(0)" className="button-white">添加链接</a>
+      </span>
+
     </div>
   );
 };
@@ -724,25 +732,13 @@ export class MyEditor extends React.Component {
             <div className={styles['media-tools']}>
               <span>
                 <QiniuUploadImage upload={upload} />
-                {/*<FileUpload options={options}>上传图片</FileUpload>*/}
               </span>
               <span>
                 <a href="javascript:void(0)" className="button-white" onClick={this.addVideo}>添加视频</a>
               </span>
-
               <span>
                 <a href="javascript:void(0)" className="button-white" onClick={this.addLink}>添加链接</a>
               </span>
-              {/*
-              <span>
-                <a href="javascript:void(0)" onClick={this.undo}>撤销</a>
-              </span>
-
-              <span>
-                <a href="javascript:void(0)" onClick={this.redo}>恢返回</a>
-              </span>
-              */}
-
             </div>
 
             <Controls
@@ -762,7 +758,7 @@ export class MyEditor extends React.Component {
               ref="editor"
               spellCheck
             />
-            
+
           </div>)
   }
 }

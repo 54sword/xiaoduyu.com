@@ -56,8 +56,9 @@ export class ResetPassword extends Component {
           if (!result.success) {
             alert(result.error)
           } else {
-            alert('密码修改成功')
-            self.context.router.goBack()
+            alert('密码修改成功，请重新登录')
+            window.location.href = '/'
+            // self.context.router.goBack()
           }
         }
       })

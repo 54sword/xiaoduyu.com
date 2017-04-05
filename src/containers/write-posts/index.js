@@ -18,12 +18,12 @@ import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import Editor from '../../components/editor'
 
-class WriteQuestion extends React.Component {
+class WritePosts extends React.Component {
 
   static loadData(option, callback) {
-    const { nodeId } = option.props.params
-    option.store.dispatch(loadTopicById({ id: nodeId, callback: (node)=>{
-      if (!node) {
+    const { id } = option.props.params
+    option.store.dispatch(loadTopicById({ id: id, callback: (topic)=>{
+      if (!topic) {
         callback('not found')
       } else {
         callback()
@@ -46,21 +46,21 @@ class WriteQuestion extends React.Component {
   }
 
   handleContentChange(e) {
-      this.setState({content: e.target.value});
+    this.setState({content: e.target.value});
   }
 
-  updateCode(newCode) {
-      this.setState({
-          code: newCode
-      });
-  }
+  // updateCode(newCode) {
+  //   this.setState({
+  //     code: newCode
+  //   });
+  // }
 
   componentWillMount() {
-    const { nodeId } = this.props.params
+    const { id } = this.props.params
     const { loadTopicById } = this.props
 
     loadTopicById({
-      id: nodeId,
+      id: id,
       callback: (result)=>{
         if (!result) {
           browserHistory.push('/')
@@ -70,9 +70,8 @@ class WriteQuestion extends React.Component {
   }
 
   _titleChange(event) {
-    let { questionTitle } = this.refs
-    // this.setState({title: questionTitle.value});
-    // reactLocalStorage.set('question-title', questionTitle.value)
+    let { title } = this.refs
+    reactLocalStorage.set('posts-title', title.value)
   }
 
   sync(contentStateJSON, contentHTML) {
@@ -80,48 +79,46 @@ class WriteQuestion extends React.Component {
     this.state.contentHTML = contentHTML
 
     // console.log(contentStateJSON);
-
-    // reactLocalStorage.set('question-content', contentStateJSON)
+    reactLocalStorage.set('posts-content', contentStateJSON)
   }
 
   componentDidMount() {
-    let questionContent = reactLocalStorage.get('question-content') || ''
+    let content = reactLocalStorage.get('posts-content') || ''
 
     this.setState({
-      // title: reactLocalStorage.get('question-title') || '',
-      editor: <div><Editor syncContent={this.sync} content={questionContent} /></div>
+      editor: <div><Editor syncContent={this.sync} content={content} /></div>
     });
 
-    let { questionTitle } = this.refs
-    questionTitle.value = reactLocalStorage.get('question-title') || ''
+    let { title } = this.refs
+    title.value = reactLocalStorage.get('posts-title') || ''
   }
 
   submitQuestion() {
 
     let self = this
-    let { questionTitle } = this.refs
+    let { title } = this.refs
     let { addPosts } = this.props
     const { contentStateJSON, contentHTML } = this.state
-    const [ node ] = this.props.node
+    const [ topic ] = this.props.topic
 
-    if (!questionTitle.value) {
-      questionTitle.focus()
+    if (!title.value) {
+      title.focus()
       return
     }
 
     addPosts({
-      title: questionTitle.value,
+      title: title.value,
       detail: contentStateJSON,
       detailHTML: contentHTML,
-      nodeId: node._id,
+      nodeId: topic._id,
       device: Device.getCurrentDeviceId(),
       type: this.props.location.query.type || 1,
       callback: function(err, question){
         if (!err) {
 
           setTimeout(()=>{
-            reactLocalStorage.set('question-content', '')
-            reactLocalStorage.set('question-title', '')
+            reactLocalStorage.set('posts-content', '')
+            reactLocalStorage.set('posts-title', '')
           }, 200)
 
           browserHistory.push('/posts/'+question._id+'?subnav_back=/')
@@ -136,26 +133,20 @@ class WriteQuestion extends React.Component {
 
   render() {
     const { editor } = this.state
-    const [ node ] = this.props.node
+    const [ topic ] = this.props.topic
     const type = this.props.location.query.type || 1
 
-    if (!node) {
+    if (!topic) {
       return (<div></div>)
     }
 
-    // var editorStyle = {
-    //     overflow: 'auto',
-    //     width: '100%',
-    //     height: 200
-    // }
-
     return (<div>
       <Meta meta={{title: `${type == 2 ? '提问' : '分享'}`}} />
-      <Subnav left="取消" middle={node ? `在 ${node.name} ${type == 2 ? '提问' : '分享'}` : ''} />
+      <Subnav left="取消" middle={topic ? `在 ${topic.name} ${type == 2 ? '提问' : '分享'}` : ''} />
       <div className="container">
         <div className={styles.addPosts}>
           <div className={styles.questionTitle}>
-            <input className="input" ref="questionTitle" type="text" onChange={this.titleChange} placeholder={"请输入标题"}  />
+            <input className="input" ref="title" type="text" onChange={this.titleChange} placeholder={"请输入标题"}  />
           </div>
 
           <div>{editor}</div>
@@ -170,15 +161,15 @@ class WriteQuestion extends React.Component {
 
 }
 
-WriteQuestion.propTypes = {
+WritePosts.propTypes = {
   addPosts: PropTypes.func.isRequired,
-  node: PropTypes.array.isRequired,
+  topic: PropTypes.array.isRequired,
   loadTopicById: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state, props) {
   return {
-    node: getTopicById(state, props.params.nodeId)
+    topic: getTopicById(state, props.params.id)
   }
 }
 
@@ -189,6 +180,6 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-WriteQuestion = connect(mapStateToProps, mapDispatchToProps)(WriteQuestion)
+WritePosts = connect(mapStateToProps, mapDispatchToProps)(WritePosts)
 
-export default Shell(WriteQuestion)
+export default Shell(WritePosts)

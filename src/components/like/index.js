@@ -70,19 +70,19 @@ export class LikeButton extends Component {
 
     const { reply, comment } = this.props
     const { isSignin, showSign } = this.props
-    const { like } = comment || reply
+    const like = comment || reply
 
     if (!isSignin) {
-      return (<span></span>)
-      // return (<a href="javascript:void(0)" onClick={showSign}>赞 {like_count && like_count > 0 ? like_count : null}</a>)
+      // return (<span></span>)
+      return (<a href="javascript:void(0)" onClick={showSign}>赞 {like.like_count && like.like_count > 0 ? like.like_count : null}</a>)
     }
 
     return (
       <a
         href="javascript:void(0)"
-        className={like ? 'black-10' : ''}
+        className={like.like ? 'black-10' : ''}
         onClick={()=>{this.handleLike()}}>
-        {like ? "已赞" : '赞'}
+        {like.like ? "已赞" : '赞'}
         </a>
     )
   }

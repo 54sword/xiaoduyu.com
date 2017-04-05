@@ -8,20 +8,30 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { updatePostsById, loadPostsById } from '../../actions/posts'
+import { getProfile } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import Editor from '../../components/editor'
 
-class EditQuestion extends React.Component {
+class EditPosts extends React.Component {
 
   static loadData(option, callback) {
     const { id } = option.props.params
+
+    const me = getProfile(option.store.getState())
+
     option.store.dispatch(loadPostsById({
       id,
-      callback: (question)=>{
-        if (!question) {
+      callback: (posts)=>{
+
+        if (!me._id || posts.user_id._id != me._id) {
+          callback(403, 'wrong_token')
+          return
+        }
+
+        if (!posts) {
           callback('not found')
         } else {
           callback()
@@ -114,7 +124,7 @@ class EditQuestion extends React.Component {
 
   render() {
     const { title, editor, question, loading } = this.state
-    
+
     if (!question) {
       return (<div></div>)
     }
@@ -142,11 +152,11 @@ class EditQuestion extends React.Component {
 
 }
 
-EditQuestion.contextTypes = {
+EditPosts.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-EditQuestion.propTypes = {
+EditPosts.propTypes = {
   loadPostsById: PropTypes.func.isRequired,
   updatePostsById: PropTypes.func.isRequired
 }
@@ -163,6 +173,6 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-EditQuestion = connect(mapStateToProps, mapDispatchToProps)(EditQuestion)
+EditPosts = connect(mapStateToProps, mapDispatchToProps)(EditPosts)
 
-export default Shell(EditQuestion)
+export default Shell(EditPosts)

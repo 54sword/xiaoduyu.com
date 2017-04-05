@@ -44,6 +44,9 @@ export class Me extends Component {
           </div>
 
           <div className="list">
+            <Link className="arrow" to={`/people/${me._id}/follow/posts`}>我关注的帖子
+              <span className="right">{me.follow_posts_count}</span>
+            </Link>
             <Link className="arrow" to={`/people/${me._id}/topics`}>我关注的话题
               <span className="right">{me.follow_node_count}</span>
             </Link>

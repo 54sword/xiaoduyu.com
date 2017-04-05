@@ -8,7 +8,7 @@ import styles from './style.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-// import { showSign } from '../../actions/sign'
+import { showSign } from '../../actions/sign'
 import { getProfile } from '../../reducers/user'
 
 import LikeButton from '../../components/like'
@@ -27,7 +27,7 @@ export class CommentItem extends Component {
 
     let { comment, summary = false, me, displayLike = true, displayReply = true, displayDate = true, style = '' } = oursProps
 
-    // let { showSign } = this.props
+    let { showSign } = this.props
 
     // {/*<span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>*/}
     return (
@@ -44,10 +44,10 @@ export class CommentItem extends Component {
 
           <div className={styles['footer-action']}>
             {me._id == comment.user_id._id ? <span><Link to={`/edit-comment/${comment._id}`}>编辑</Link></span> : null}
-            {displayLike && me._id ? <span><LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} /></span> : null}
+            <span><LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} /></span>
             {displayReply && me._id ?
               <span><Link to={`/write-comment?posts_id=${comment.posts_id && comment.posts_id._id ? comment.posts_id._id : comment.posts_id}&parent_id=${comment.parent_id ? comment.parent_id : comment._id}${comment.parent_id ? `&reply_id=${comment._id}` : ''}`}>回复</Link></span>
-              : null}
+              : <span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>}
           </div>
 
           <div className={styles['footer-info']}>
@@ -93,7 +93,7 @@ export class CommentItem extends Component {
 
 CommentItem.propTypes = {
   comment: PropTypes.object.isRequired,
-  // showSign: PropTypes.func.isRequired,
+  showSign: PropTypes.func.isRequired,
   me: PropTypes.object.isRequired
 }
 
@@ -106,7 +106,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch, props) {
   return {
-    // showSign: bindActionCreators(showSign, dispatch),
+    showSign: bindActionCreators(showSign, dispatch)
   }
 }
 

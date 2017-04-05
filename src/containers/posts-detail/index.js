@@ -127,7 +127,7 @@ export class PostsDetail extends React.Component {
 
               {isSignin ?
                 (me._id != posts.user_id._id ? <Link to={`/write-comment?posts_id=${posts._id}`}>评论</Link> : null)
-                : null}
+                : <a href="javascript:void(0)" onClick={showSign}>评论</a>}
 
               {me._id == posts.user_id._id ?
                 <Link to={`/edit-posts/${posts._id}`}>编辑</Link> :

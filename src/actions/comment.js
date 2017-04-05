@@ -154,7 +154,7 @@ export function loadCommentList({ name, filters = {}, callback = ()=>{} }) {
       callback()
       return
     }
-
+    
     if (!commentList.data) {
       commentList.data = []
     }

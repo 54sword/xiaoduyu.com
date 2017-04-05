@@ -17,10 +17,10 @@ describe('<LikeButton />', ()=>{
     unlike: () => {}
   }
 
-  it('应该没有赞按钮', function() {
-    const wrapper = shallow(<LikeButton {...props} />)
-    expect(wrapper.contains(<span></span>)).toBe(true);
-  })
+  // it('应该没有赞按钮', function() {
+  //   const wrapper = shallow(<LikeButton {...props} />)
+  //   expect(wrapper.contains(<span></span>)).toBe(true);
+  // })
 
   it('应该有赞按钮', function() {
 

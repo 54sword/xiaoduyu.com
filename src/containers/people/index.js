@@ -116,6 +116,11 @@ export class People extends React.Component {
                 帖子 {people.posts_count > 0 ? people.posts_count : null}
               </Link>
             <Link
+              className={tabName == 'follow/posts' ? "active" : null}
+              to={`/people/${people._id}/follow/posts?go=${go}`}>
+                关注的帖子 {people.follow_posts_count > 0 ? people.follow_posts_count : null}
+              </Link>
+            <Link
               className={tabName == 'comments' ? "active" : null}
               to={`/people/${people._id}/comments?go=${go}`}>
               评论 {people.comment_count > 0 ? people.comment_count : null}
@@ -128,7 +133,7 @@ export class People extends React.Component {
             <Link
               className={tabName == 'following' ? "active" : null}
               to={`/people/${people._id}/following?go=${go}`}>
-              关注 {people.follow_people_count > 0 ? people.follow_people_count : null}
+              关注的人 {people.follow_people_count > 0 ? people.follow_people_count : null}
               </Link>
             <Link
               className={tabName == 'fans' ? "active" : null}

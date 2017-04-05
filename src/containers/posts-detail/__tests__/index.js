@@ -18,7 +18,7 @@ import styles from '../style.scss'
 
 import { signin } from '../../../actions/sign'
 import { loadUserInfo } from '../../../actions/user'
-import { loadPostsById } from '../../../actions/posts'
+import { loadPostsById, loadPostsList } from '../../../actions/posts'
 
 describe('<PostsDetail />', ()=>{
 
@@ -29,7 +29,7 @@ describe('<PostsDetail />', ()=>{
 
   let props = {
     params: {
-      id: '58c182f3662018842b3ab484'
+      // id: '58c182f3662018842b3ab484'
     }
   }
 
@@ -54,12 +54,18 @@ describe('<PostsDetail />', ()=>{
   })
 
   it('应该可以获取到帖子', ()=>{
-    const action = bindActionCreators(loadPostsById, dispatch)
+    const action = bindActionCreators(loadPostsList, dispatch)
     return action({
-      id: props.params.id,
+      name: 'test',
+      filters: { page: 1, per_page: 1 },
       callback: (result) => {
-        posts = result
-        expect(result ? true : false).toEqual(true);
+
+        if (result && result.success) {
+          posts = result.data[0]
+          props.params.id = posts._id
+        }
+
+        expect(result && result.success ? true : false).toEqual(true);
       }
     })
   })

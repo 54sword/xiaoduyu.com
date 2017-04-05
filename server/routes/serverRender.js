@@ -25,9 +25,9 @@ function getReduxPromise(props, store, userinfo, callback) {
 
     if (process.env.NODE_ENV == 'development') console.log('获取数据')
 
-    comp.loadData({ store, props, userinfo }, (notFound)=>{
+    comp.loadData({ store, props, userinfo }, (notFound, desc)=>{
       if (process.env.NODE_ENV == 'development') console.log('获取成功')
-      callback(notFound)
+      callback(notFound, desc)
     })
 
   } else {
@@ -119,9 +119,14 @@ serverRender.route('*').get((req, res) => {
         // .send('Not found<br ><a href="/">返回</a>')
       } else if (renderProps) {
 
-        getReduxPromise(renderProps, store, userinfo, (notFound) => {
+        getReduxPromise(renderProps, store, userinfo, (notFound, desc) => {
 
-          if (notFound) {
+          if (notFound && notFound == 403) {
+            res.status(403);
+            res.redirect('/notice?notice='+desc)
+            return
+
+          } else if (notFound) {
             res.status(404);
             res.render('../dist/not-found.ejs');
             // .send('Not found<br ><a href="/">返回</a>')

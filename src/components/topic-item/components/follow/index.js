@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { followTopic, unfollowTopic } from '../../../../actions/topic'
 import { getAccessToken } from '../../../../reducers/user'
+import { showSign } from '../../../../actions/sign'
 
 export class FollowTopic extends Component {
 
@@ -29,17 +30,12 @@ export class FollowTopic extends Component {
 
   render() {
 
-    const { topic, isSignin } = this.props
-
-    // 没有登录情况下不显示
-    if (!isSignin) {
-      return (<span></span>)
-    }
+    const { topic, isSignin, showSign } = this.props
 
     return (
       <a href="javascript:void(0)"
         className={topic.follow ? 'black-10' : ''}
-        onClick={this.follow}>
+        onClick={isSignin ? this.follow : showSign}>
         {topic.follow ? "已关注" : "+关注"}
       </a>
     )
@@ -48,9 +44,12 @@ export class FollowTopic extends Component {
 }
 
 FollowTopic.propTypes = {
+  topic: PropTypes.object.isRequired,
+
   isSignin: PropTypes.bool.isRequired,
   followTopic: PropTypes.func.isRequired,
-  unfollowTopic: PropTypes.func.isRequired
+  unfollowTopic: PropTypes.func.isRequired,
+  showSign: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
@@ -62,7 +61,8 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return {
     followTopic: bindActionCreators(followTopic, dispatch),
-    unfollowTopic: bindActionCreators(unfollowTopic, dispatch)
+    unfollowTopic: bindActionCreators(unfollowTopic, dispatch),
+    showSign: bindActionCreators(showSign, dispatch)
   }
 }
 
