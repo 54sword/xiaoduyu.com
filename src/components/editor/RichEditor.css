@@ -2,6 +2,11 @@
 
 /* 内容样式 */
 
+
+.DraftEditor-root{
+  padding:10px;
+}
+
 .DraftEditor-root * {
   -webkit-user-select: text;
 }
@@ -11,7 +16,9 @@
   margin:0;
 }
 
-.DraftEditor-root img,
+.DraftEditor-root img{
+  max-width: 100%;
+}
 .DraftEditor-root embed,
 .DraftEditor-root iframe{
   width:100%;
@@ -49,6 +56,8 @@
   cursor: text;
   font-size: 15px;
   /*margin-top: 10px;*/
+  overflow: scroll;
+
 }
 
 .RichEditor-editor .public-DraftEditorPlaceholder-root,
@@ -58,7 +67,7 @@
 }
 
 .RichEditor-editor .public-DraftEditor-content {
-  /*min-height: 100px;*/
+  min-height: 300px;
 }
 
 .RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {

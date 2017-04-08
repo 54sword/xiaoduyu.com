@@ -1,17 +1,13 @@
 
 import React, { PropTypes } from 'react'
 import ReactDOM from 'react-dom'
-
 import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js'
 
 import redraft from 'redraft'
 
-// import FileUpload from '../../components/file-upload'
 import QiniuUploadImage from '../../components/qiniu-upload-image'
 
-import styles from './style.scss'
-
-import './Draft.css'
+import 'draft-js/dist/Draft.css'
 import './RichEditor.css'
 
 import Device from '../../common/device'
@@ -115,6 +111,7 @@ const InlineStyleControls = (props) => {
   );
 };
 
+// 编辑器控制器
 const Controls = (props) => {
 
   const { editorState } = props
@@ -149,12 +146,11 @@ const Controls = (props) => {
         />
       )}
 
-      <span>
-        <a href="javascript:void(0)" className="button-white">添加视频</a>
+      <span className="RichEditor-styleButton">
+        <QiniuUploadImage upload={props.addImage} name="图片" />
       </span>
-      <span>
-        <a href="javascript:void(0)" className="button-white">添加链接</a>
-      </span>
+      <span href="javascript:void(0)" className="RichEditor-styleButton" onClick={props.addVideo}>视频</span>
+      <span href="javascript:void(0)" className="RichEditor-styleButton" onClick={props.addLink}>链接</span>
 
     </div>
   );
@@ -164,10 +160,13 @@ const Controls = (props) => {
 
 function mediaBlockRenderer(block) {
 
+  // ----
+  // console.log(block);
+
   if (block.getType() === 'atomic') {
     return {
       component: Media,
-      editable: false,
+      editable: true,
     };
   }
   return null;
@@ -399,6 +398,8 @@ const renderers = {
 }
 
 
+
+
 export class MyEditor extends React.Component {
 
   constructor(props) {
@@ -407,8 +408,8 @@ export class MyEditor extends React.Component {
     const { syncContent, content, readOnly } = this.props
 
     this.state = {
-      syncContent: syncContent || null, // 编辑器改变的时候，调给外部组件使用
-      readOnly: readOnly || false,
+      syncContent: syncContent, // 编辑器改变的时候，调给外部组件使用
+      readOnly: readOnly,
       editorState: content
         ? EditorState.createWithContent(convertFromRaw(JSON.parse(content)), decorator)
         : EditorState.createEmpty(decorator),
@@ -441,12 +442,13 @@ export class MyEditor extends React.Component {
     //     that.state.scrollY = (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0) - 50
     //   }
     // }
-
+    /*
     document.ontouchend = (event) => {
       if (document.activeElement.className == 'public-DraftEditor-content') {
         that.state.scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
       }
     }
+    */
 
     // this.refs.editor.focus()
     // console.log(document.getElementsByTagName('public-DraftEditor-content')[0])
@@ -499,9 +501,9 @@ export class MyEditor extends React.Component {
 
     }
 
-    if (that.state.scrollY) {
-      window.scrollTo(0, that.state.scrollY)
-    }
+    // if (that.state.scrollY) {
+    //   window.scrollTo(0, that.state.scrollY)
+    // }
 
   }
 
@@ -659,7 +661,13 @@ export class MyEditor extends React.Component {
       editorState,
       entityKey,
       ' '
-    ));
+    ))
+
+    // this.onChange(RichUtils.toggleInlineStyle(
+    //   editorState,
+    //   entityKey
+    // ))
+
     /*
     this.setState({
       editorState: AtomicBlockUtils.insertAtomicBlock(
@@ -706,47 +714,28 @@ export class MyEditor extends React.Component {
   render() {
 
     const { editorState, readOnly, rendered } = this.state
-    const self = this
+    // const self = this
 
-    let className = 'RichEditor-editor';
+    // let className = 'RichEditor-editor';
 
-    /*
-    const options = {
-      url: 'image',
-      uploadSuccess: (resp) => {
-        self.addImage(resp.image.middle)
-      }
-    }
-    */
+    // const upload = (imageName) => {
+    //   self.addImage(imageName)
+    // }
 
-    const upload = (imageName) => {
-      self.addImage(imageName)
-    }
-
-    return(<div className={className}>
+    return(<div className="RichEditor-editor">
 
             <div ref="draftHtml" style={{display:'none'}}>
               {rendered}
-            </div>
-
-            <div className={styles['media-tools']}>
-              <span>
-                <QiniuUploadImage upload={upload} />
-              </span>
-              <span>
-                <a href="javascript:void(0)" className="button-white" onClick={this.addVideo}>添加视频</a>
-              </span>
-              <span>
-                <a href="javascript:void(0)" className="button-white" onClick={this.addLink}>添加链接</a>
-              </span>
             </div>
 
             <Controls
               editorState={editorState}
               toggleBlockType={this.toggleBlockType}
               toggleInlineStyle={this.toggleInlineStyle}
+              addVideo={this.addVideo}
+              addLink={this.addLink}
+              addImage={this.addImage}
             />
-
 
             <Editor
               blockRendererFn={mediaBlockRenderer}
@@ -763,5 +752,10 @@ export class MyEditor extends React.Component {
   }
 }
 
+MyEditor.defaultProps = {
+  syncContent: null,
+  content: '',
+  readOnly: false
+}
 
 export default MyEditor

@@ -29,7 +29,6 @@ export class CommentItem extends Component {
 
     let { showSign } = this.props
 
-    // {/*<span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>*/}
     return (
       <div className={styles.item + ' ' + styles.min}>
         <div className={styles.people}>

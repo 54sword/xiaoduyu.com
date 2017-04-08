@@ -77,7 +77,7 @@ export class Comment extends React.Component {
     if (!comment) {
       return(<div></div>)
     }
-    
+
     let posts = comment ? comment.posts_id : null
 
     /*

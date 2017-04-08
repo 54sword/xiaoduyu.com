@@ -142,7 +142,7 @@ export class ResetAvatar extends Component {
           </div>
 
           <div className="list">
-            <span className={styles.upload}>{fileUpload}</span>
+            <a href="javascript:void(0)" className={styles.upload}>{fileUpload}</a>
           </div>
 
         </div>
