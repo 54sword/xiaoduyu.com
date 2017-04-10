@@ -7,7 +7,9 @@
 }
 
 
-
+.min-height{
+  min-height: 100px;
+}
 
 .create-at{
   // float:right;
@@ -62,6 +64,20 @@
   word-break:break-all;
   word-wrap:break-word;
   // padding:40px 15px 0px 60px;
+  a{
+    .abstract-image{
+
+      > div{
+        float: left;
+        height: 100px;
+        width: 180px;
+        background-color: #efefef;
+        background-size: cover;
+        margin:0 10px 0 0;
+        background-position: center;
+      }
+    }
+  }
   a:hover{
     text-decoration: underline;
   }

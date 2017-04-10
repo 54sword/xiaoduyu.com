@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import arriveFooter from '../../common/arrive-footer'
@@ -70,7 +71,7 @@ export class FollowPeopleList extends Component{
     if (!peopleList.data) {
       return (<div></div>)
     }
-    
+
     const { data, loading, more } = peopleList
 
     return (<div className="container">

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 
 import { DateDiff } from '../../common/date'
@@ -41,9 +41,15 @@ export class PostsItem extends Component {
           : null}
         </div>
 
-
         <div className={styles.title}>
           <Link to={`/posts/${posts._id}`}>{posts.title}</Link>
+        </div>
+
+        <div className={[styles.content + (posts.images && posts.images.length > 0 ? ' '+styles['min-height'] : '') ]}>
+          {posts.images && posts.images.length > 0 ?
+            <span className={[styles['abstract-image'] + " load-demand"]} data-load-demand={`<div style="background-image:url(${posts.images[0]})"></div>`}></span>
+            : null}
+          {posts.content_summary}
         </div>
 
         <div className={styles['comment-list']}>

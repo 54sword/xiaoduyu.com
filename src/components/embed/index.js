@@ -1,22 +1,24 @@
 "use strict";
 var React = require("react");
-var Embed = React.createClass({
-    displayName: "embed",
 
-    propTypes: {
-        src: React.PropTypes.string.isRequired
-    },
+class Embed extends React.Component {
+// var Embed = React.createClass({
+    // displayName: "embed"
 
-    getDefaultProps:function(){
-      return {
-      }
-    },
+    // propTypes: {
+    //     src: React.PropTypes.string.isRequired
+    // }
+    //
+    // getDefaultProps (){
+    //   return {
+    //   }
+    // }
 
-    shouldComponentUpdate: function(nextProps) {
+    shouldComponentUpdate(nextProps) {
       return this.props.src !== nextProps.src;
-    },
+    }
 
-    render: function() {
+    render() {
 
 /*
 allowFullScreen="true"
@@ -27,14 +29,15 @@ type="application/x-shockwave-flash"
  */
 
         return (
-            <embed
-            ref="embed"
-            src={this.props.src}
-            ></embed>
+            <embed ref="embed" src={this.props.src}></embed>
         )
 
 
     }
-});
+}
 
-module.exports = Embed;
+Embed.propTypes = {
+  src: React.PropTypes.string.isRequired
+}
+
+module.exports = Embed

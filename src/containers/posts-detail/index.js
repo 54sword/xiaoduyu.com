@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import { Link } from 'react-router'
 
@@ -56,11 +57,11 @@ export class PostsDetail extends React.Component {
     const { loadPostsById } = this.props
     const { id } = this.props.params
 
-    // let [ posts ] = this.props.posts
+    let [ posts ] = this.props.posts
 
-    // if (!posts) {
+    if (!posts) {
       loadPostsById({ id })
-    // }
+    }
 
   }
 

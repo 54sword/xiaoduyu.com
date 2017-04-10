@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import { DateDiff } from '../../common/date'
@@ -62,9 +63,16 @@ export class CommentItem extends Component {
 
         </div>
 
-        <div className={styles.detail}>
+        <div className={[styles.detail + (comment.images && comment.images.length > 0 ? ' '+styles['min-height'] : '') ]}>
           {summary ?
-            <Link to={`/comment/${comment._id}`}>{comment.content_summary}</Link> :
+            <Link to={`/comment/${comment._id}`}>
+
+              {comment.images && comment.images.length > 0 ?
+                <span className={[styles['abstract-image'] + " load-demand"]} data-load-demand={`<div style="background-image:url(${comment.images[0]})"></div>`}></span>
+                : null}
+
+              {comment.content_summary}
+            </Link> :
             <HTMLText content={comment.content_html} />}
         </div>
 

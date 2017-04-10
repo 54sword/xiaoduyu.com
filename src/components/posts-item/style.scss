@@ -13,7 +13,32 @@
   font-size: 15px;
   word-break:break-all; /*支持IE，chrome，FF不支持*/
   word-wrap:break-word; /*支持IE，chrome，FF*/
-  color:#333;
+}
+
+.min-height{
+  min-height: 100px;
+}
+
+.content{
+  font-size: 13px;
+
+  word-break:break-all; /*支持IE，chrome，FF不支持*/
+  word-wrap:break-word; /*支持IE，chrome，FF*/
+
+  color:rgb(88, 88, 88);
+
+  .abstract-image{
+
+    > div{
+      float: left;
+      height: 100px;
+      width: 180px;
+      background-color: #efefef;
+      background-size: cover;
+      margin:0 10px 0 0;
+      background-position: center;
+    }
+  }
 }
 
 .head{

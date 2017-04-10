@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 // import favicon from 'serve-favicon';
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser';
@@ -46,7 +47,7 @@ app.use(express.static(__dirname + '/../dist'))
 app.use(express.static(__dirname + '/../public'))
 
 if (config.ssl_verification_path) {
-  app.use(express.static(__dirname + '/../../../var/www/xiaoduyu.com'))
+  app.use(express.static(path.join(__dirname, config.ssl_verification_path)));
 }
 
 app.use('/', ssrRouter);

@@ -35,8 +35,6 @@ export function addPosts({ title, detail, detailHTML, nodeId, device, type, call
   }
 }
 
-
-// 添加问题
 export function updatePostsById({ id, title, detail, detailHTML, callback }) {
   return (dispatch, getState) => {
 
@@ -121,13 +119,41 @@ export function loadPostsById({ id, callback = ()=>{} }) {
 }
 
 
+const abstractImages = (str) => {
+
+  let images = []
+
+  var imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/i;
+  var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+
+  images = imgReg.exec(str);
+
+  if (images && images.length > 0) {
+    images.map((item, index) => {
+      images[index] = item.match(srcReg)[1];
+    })
+  }
+
+  return images
+
+}
+
 // 加工问题列表
 const processPostsList = (list) => {
 
   list.map(function(posts){
 
+    posts.images = abstractImages(posts.content_html)
+
+    let text = posts.content_html.replace(/<[^>]+>/g,"")
+    if (text.length > 100) text = text.slice(0, 100)+'...'
+    posts.content_summary = text
+
     if (posts.comment) {
       posts.comment.map(function(comment){
+
+        comment.images = abstractImages(comment.content_html)
+
         let text = comment.content_html.replace(/<[^>]+>/g,"")
         if (text.length > 140) text = text.slice(0, 140)+'...'
         comment.content_summary = text

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import { browserHistory } from 'react-router'
 
@@ -18,7 +19,7 @@ class EditComment extends React.Component {
 
   static loadData(option, callback) {
     const { id } = option.props.params
-    
+
     const me = getProfile(option.store.getState())
 
     option.store.dispatch(loadCommentById({ id, callback: (comment)=>{

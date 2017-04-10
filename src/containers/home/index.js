@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { reactLocalStorage } from 'reactjs-localstorage'
 
@@ -15,6 +16,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { loadPostsList } from '../../actions/posts'
+import { getPostsListByName } from '../../reducers/posts'
 import { getProfile } from '../../reducers/user'
 
 // 纯组件
@@ -63,6 +65,7 @@ export class Home extends React.Component {
   onChange(id) {
 
     const { name, filters, commentsSort } = this.state
+    const { postsList } = this.props
 
     let condition = ''
     let commentsSortId = 1
@@ -74,6 +77,12 @@ export class Home extends React.Component {
       }
     })
 
+    reactLocalStorage.set('comments_sort_id', commentsSortId)
+
+    if (postsList.filters && typeof postsList.filters.comments_sort != 'undefined' && condition == postsList.filters.comments_sort) {
+      return
+    }
+
     if (condition) {
       filters.comments_sort = condition
       filters.include_comments = 1
@@ -81,8 +90,6 @@ export class Home extends React.Component {
       delete filters.comments_sort
       delete filters.include_comments
     }
-
-    reactLocalStorage.set('comments_sort_id', commentsSortId)
 
     this.setState({
       commentsSortId: commentsSortId,
@@ -130,18 +137,19 @@ export class Home extends React.Component {
 
 
 Home.propTypes = {
-  me: PropTypes.object.isRequired
+  me: PropTypes.object.isRequired,
+  postsList: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
-    me: getProfile(state)
+    me: getProfile(state),
+    postsList: getPostsListByName(state, 'home')
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // showSign: bindActionCreators(showSign, dispatch)
   }
 }
 

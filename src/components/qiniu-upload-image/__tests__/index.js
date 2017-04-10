@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 // import { Link } from 'react-router'
 import { Provider } from 'react-redux'
@@ -28,7 +28,7 @@ describe('<QiniuUploadImage />', function() {
       expect(res).toEqual(true);
     })
   })
-  
+
   it('应该没有上传按钮', function() {
     wrapper = mount(<Provider store={store}><QiniuUploadImage /></Provider>)
     expect(wrapper.contains(<span></span>)).toBe(true)

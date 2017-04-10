@@ -19,7 +19,7 @@ export default function posts(state = initialState, action) {
       var { posts } = action
       state.other.data = posts
       return merge({}, state, {})
-      
+
     case 'SET_POSTS':
       return merge({}, action.state, {})
 
@@ -39,6 +39,27 @@ export default function posts(state = initialState, action) {
         }
       }
       return merge({}, state, {})
+
+    case 'UPDATE_POSTS_COMMENT_LIKE_STATUS':
+      var { id, status } = action
+
+      for (let i in state) {
+        let data = state[i].data
+
+        data.map(post=>{
+
+          post.comment.map(comment=>{
+            if (comment._id == id) {
+              comment.like_count += status ? 1 : -1
+              comment.like = status
+            }
+          })
+
+        })
+
+      }
+      return merge({}, state, {})
+
     /*
     case 'UPDATE_ANSWER_LIKE_IN_POSTS':
       var { id, status } = action

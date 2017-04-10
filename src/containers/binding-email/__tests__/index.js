@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 // https://github.com/airbnb/enzyme/issues/341
 import 'jsdom-global/register'
@@ -28,7 +28,7 @@ describe('<BindingEmail />', ()=>{
   }
 
   let wrapper = null
-  
+
   it('应该有 邮箱输入框', function() {
     wrapper = mount(<Provider store={store}><BindingEmail /></Provider>, contextTypes)
     expect(wrapper.contains(<input type="text" placeholder="请输入你要绑定的邮箱" ref="email" />))

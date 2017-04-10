@@ -1,5 +1,5 @@
 
-import React, { PropTypes } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js'
 
@@ -166,22 +166,22 @@ function mediaBlockRenderer(block) {
   if (block.getType() === 'atomic') {
     return {
       component: Media,
-      editable: true,
+      editable: false,
     };
   }
   return null;
 }
 
 const Audio = (props) => {
-  return <audio controls src={props.src} style={styles.media} />;
+  return <audio controls src={props.src} />;
 };
 
 const Image = (props) => {
-  return <img src={props.src} style={styles.media} />;
+  return <img src={props.src} />;
 };
 
 const Video = (props) => {
-  return <video controls src={props.src} style={styles.media} />;
+  return <video controls src={props.src} />;
 };
 
 const Media = (props) => {

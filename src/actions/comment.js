@@ -50,7 +50,7 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
     let accessToken = getState().user.accessToken
     let state = getState().comment
     let posts = getState().posts
-
+    
     return Ajax({
       url: '/update-comment',
       type: 'post',
@@ -62,7 +62,7 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
       headers: { AccessToken: accessToken },
       callback: (res) => {
 
-        if (!res && !res.success) {
+        if (!res || !res.success) {
           callback(res)
           return
         }
@@ -84,6 +84,9 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
           if (data.length > 0) {
 
             data.map((item, key)=>{
+
+              console.log(item.comment);
+
               item.comment.map((comment, index)=>{
                 if (comment._id == id) {
                   posts[i].data[key].comment[index].content_html = contentHTML
@@ -154,7 +157,7 @@ export function loadCommentList({ name, filters = {}, callback = ()=>{} }) {
       callback()
       return
     }
-    
+
     if (!commentList.data) {
       commentList.data = []
     }
