@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { reactLocalStorage } from 'reactjs-localstorage'
 
+import styles from './style.scss'
+
 // 外壳
 import Shell from '../../shell'
 
@@ -10,12 +12,13 @@ import Shell from '../../shell'
 import Nav from '../../components/nav'
 import Meta from '../../components/meta'
 import PostsList from '../../components/posts-list'
+import Footer from '../../components/footer'
 
 // actions
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { loadPostsList } from '../../actions/posts'
+import { loadPostsList, showNewPosts } from '../../actions/posts'
 import { getPostsListByName } from '../../reducers/posts'
 import { getProfile } from '../../reducers/user'
 
@@ -102,13 +105,16 @@ export class Home extends React.Component {
   render() {
 
     const { name, filters, timestamp, commentsSort, commentsSortId } = this.state
-    const { me } = this.props
+    const { me, newPostsList, showNewPosts } = this.props
 
     return(<div>
       <Meta />
       <Nav />
 
       <div className="container">
+        {newPostsList.data && newPostsList.data.length > 0 ?
+          <a href="javascript:void(0)" className={styles.tips} onClick={showNewPosts}>有 {newPostsList.data.length} 篇新帖子</a>
+          : null}
         <div className="container-head">
           最新动态
           {me._id ?
@@ -128,6 +134,7 @@ export class Home extends React.Component {
           timestamp={timestamp}
           filters={filters}
           />
+        <Footer />
       </div>
 
     </div>)
@@ -138,18 +145,22 @@ export class Home extends React.Component {
 
 Home.propTypes = {
   me: PropTypes.object.isRequired,
-  postsList: PropTypes.object.isRequired
+  postsList: PropTypes.object.isRequired,
+  newPostsList: PropTypes.object.isRequired,
+  showNewPosts: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     me: getProfile(state),
-    postsList: getPostsListByName(state, 'home')
+    postsList: getPostsListByName(state, 'home'),
+    newPostsList: getPostsListByName(state, 'new')
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    showNewPosts: bindActionCreators(showNewPosts, dispatch)
   }
 }
 

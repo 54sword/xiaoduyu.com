@@ -7,6 +7,12 @@ import { render } from 'react-dom'
 import configureStore from './store/configureStore'
 import Root from './containers/root'
 import { loadUnreadCount } from './actions/notification'
+import { loadNewPosts } from './actions/posts'
+import { setOnlineUserCount } from './actions/website'
+
+import config from '../config'
+
+import io from 'socket.io-client'
 
 import './common/lang'
 import './common/arrive-footer'
@@ -22,6 +28,25 @@ if (me._id) {
   // 启动轮询查询未读通知
   store.dispatch(loadUnreadCount())
 }
+
+let socket = io.connect(config.api_url);
+socket.on("connect", function(){
+
+  this.on("online-user-count", function(count){
+    store.dispatch(setOnlineUserCount(count))
+  })
+
+  this.on("notiaction", function(addresseeIds){
+    if (me && addresseeIds.indexOf(me._id) != -1) {
+      store.dispatch(loadUnreadCount())
+    }
+  })
+
+  this.on("new-posts", function(){
+    store.dispatch(loadNewPosts())
+  })
+})
+
 
 // 使ios支持 :active
 // html{ -webkit-tap-highlight-color: transparent; }

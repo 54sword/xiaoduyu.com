@@ -24,8 +24,8 @@ export function addPosts({ title, detail, detailHTML, nodeId, device, type, call
       callback: (res)=>{
         if (res && res.success) {
           callback(false, res.data)
-          questionList.data.unshift(processPostsList([res.data])[0])
-          dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name: 'home', data: questionList })
+          // questionList.data.unshift(processPostsList([res.data])[0])
+          // dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name: 'home', data: questionList })
         } else {
           callback(res.error || true)
         }
@@ -170,54 +170,93 @@ const processPostsList = (list) => {
 let lastFetchAt = null
 
 // 获取新的主题
-export function loadNewPosts(dispatch, getState) {
+export function loadNewPosts() {
+  return (dispatch, getState) => {
 
-  let accessToken = getState().user.accessToken
-  let questionList = getState().posts['home'] || null
+    let accessToken = getState().user.accessToken
+    let postsList = getState().posts['home'] || null
+    let newPostsList = getState().posts['new'] || null
+    let me = getState().user.profile || null
 
-  let filters = {
-    gt_date: lastFetchAt,
-    per_page: 30,
-    sortBy: 'create_at',
-    sort: -1
-  }
-
-  let headers = null
-  if (accessToken) {
-    headers = { 'AccessToken': accessToken }
-    filters.method = 'user_custom'
-  }
-
-  return Ajax({
-    url: '/posts',
-    params: filters,
-    headers,
-    callback: (res) => {
-
-      if (!res || !res.success || !res.data || res.data.length == 0) {
-        setTimeout(()=>{
-          loadNewPosts(dispatch, getState)
-        }, 1000 * 60 * 2)
-        return
-      }
-
-      lastFetchAt = res.data[0].create_at
-
-      res.data = processPostsList(res.data)
-
-      res.data.map((item)=>{
-        questionList.data.unshift(item)
-      })
-
-      dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: questionList })
-
-      setTimeout(()=>{
-        loadNewPosts(dispatch, getState)
-      }, 1000 * 60 * 2)
-
+    if (!postsList) {
+      return
     }
-  })
 
+    if (!lastFetchAt) {
+      lastFetchAt = new Date().getTime() - 2000 //postsList.data[0].create_at
+    }
+
+    let filters = {
+      gt_create_at: lastFetchAt,
+      per_page: 100,
+      postsSort: 'create_at:-1'
+    }
+
+    let headers = null
+    if (accessToken) {
+      headers = { 'AccessToken': accessToken }
+      filters.method = 'user_custom'
+    }
+
+    return Ajax({
+      url: '/posts',
+      params: filters,
+      headers,
+      callback: (res) => {
+
+        if (!res || !res.success || !res.data || res.data.length == 0) {
+          return
+        }
+
+        // lastFetchAt = res.data[res.data.length - 1].create_at
+        // lastFetchAt = newPostsList && newPostsList.data.length > 0 ? newPostsList.data[newPostsList.data.length -1].create_at : res.data[0].create_at
+
+        res.data = processPostsList(res.data)
+
+        // for (let i = 0, max = res.data.length; i < max; i++) {
+        //   if (res.data[i].user_id._id == me._id) {
+        //     res.data.splice(i,1)
+        //   }
+        // }
+        //
+        // console.log();
+
+        dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name:'new', data: { data: res.data } })
+
+      }
+    })
+
+  }
+
+}
+
+
+// 显示新的帖子
+export function showNewPosts() {
+  return (dispatch, getState) => {
+
+    let homeList = getState().posts['home']
+    let newList = getState().posts['new']
+
+    // newList.data.map((item)=>{
+    //   homeList.data.unshift(item)
+    // })
+
+    let i = newList.data.length
+    while (i--) {
+      homeList.data.unshift(newList.data[i])
+    }
+
+    lastFetchAt = newList.data[0].create_at
+
+    window.scrollTo(0, 0)
+    dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name:'home', data: homeList })
+    
+    setTimeout(()=>{
+      dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name:'new', data: { data: [] } })
+    }, 100)
+
+  }
 }
 
 export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart = false }) {
@@ -291,12 +330,12 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart =
         callback(res)
 
         // 首次加载首页的帖子以后，启动轮训获取新的帖子
-        if (name == 'home' && !lastFetchAt) {
-          lastFetchAt = new Date().getTime()
-          setTimeout(()=>{
-            loadNewPosts(dispatch, getState)
-          }, 1000 * 60 * 2)
-        }
+        // if (name == 'home' && !lastFetchAt) {
+        //   lastFetchAt = new Date().getTime()
+        //   setTimeout(()=>{
+        //     loadNewPosts(dispatch, getState)
+        //   }, 1000 * 60 * 2)
+        // }
 
       }
     })

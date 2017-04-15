@@ -29,7 +29,7 @@ export class PostsItem extends Component {
           <div className={styles.info}>
             <span>
               <Link to={`/people/${posts.user_id._id}`}>
-                <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src=${posts.user_id.avatar_url} />`}></i>
+                <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src="${posts.user_id.avatar_url}${posts.user_id.avatar_url.indexOf('thumbnail') != -1 ? '/quality/90' : ''}" />`}></i>
                 {posts.user_id.nickname}
               </Link>
             </span>
@@ -47,7 +47,7 @@ export class PostsItem extends Component {
 
         <div className={[styles.content + (posts.images && posts.images.length > 0 ? ' '+styles['min-height'] : '') ]}>
           {posts.images && posts.images.length > 0 ?
-            <span className={[styles['abstract-image'] + " load-demand"]} data-load-demand={`<div style="background-image:url(${posts.images[0]})"></div>`}></span>
+            <span className={[styles['abstract-image'] + " load-demand"]} data-load-demand={`<div style="background-image:url(${posts.images[0]}?imageMogr2/thumbnail/!200)"></div>`}></span>
             : null}
           {posts.content_summary}
         </div>

@@ -47,12 +47,8 @@ export class PostsList extends Component {
   }
 
   componentWillReceiveProps(props) {
-
     if (props.timestamp != this.props.timestamp) {
       const { loadPostsList } = this.props
-
-      console.log(props.filters);
-
       loadPostsList({ name: props.name, filters: props.filters, restart: true })
     }
   }

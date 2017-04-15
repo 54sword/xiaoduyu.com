@@ -35,7 +35,7 @@ export class CommentItem extends Component {
         <div className={styles.people}>
           {comment.user_id ?
           <Link to={`/people/${comment.user_id._id}`}>
-            <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src=${comment.user_id.avatar_url} />`}></i>
+            <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src="${comment.user_id.avatar_url}${comment.user_id.avatar_url.indexOf('thumbnail') != -1 ? '/quality/90' : ''}" />`}></i>
           </Link>
           : null}
         </div>
@@ -68,7 +68,7 @@ export class CommentItem extends Component {
             <Link to={`/comment/${comment._id}`}>
 
               {comment.images && comment.images.length > 0 ?
-                <span className={[styles['abstract-image'] + " load-demand"]} data-load-demand={`<div style="background-image:url(${comment.images[0]})"></div>`}></span>
+                <span className={[styles['abstract-image'] + " load-demand"]} data-load-demand={`<div style="background-image:url(${comment.images[0]}?imageMogr2/thumbnail/!200)"></div>`}></span>
                 : null}
 
               {comment.content_summary}

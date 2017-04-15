@@ -115,10 +115,11 @@ serverRender.route('*').get((req, res) => {
         res.send(500, error.message);
       } else if (!renderProps) {
         res.status(404);
-        res.render('../dist/not-found.ejs');
-        // .send('Not found<br ><a href="/">返回</a>')
+        res.redirect('/not-found');
+        // res.render('../dist/not-found.ejs');
+        // res.send('Not found<br ><a href="/">返回</a>')
       } else if (renderProps) {
-
+        
         getReduxPromise(renderProps, store, userinfo, (notFound, desc) => {
 
           if (notFound && notFound == 403) {
@@ -128,8 +129,9 @@ serverRender.route('*').get((req, res) => {
 
           } else if (notFound) {
             res.status(404);
-            res.render('../dist/not-found.ejs');
-            // .send('Not found<br ><a href="/">返回</a>')
+            res.redirect('/not-found');
+            // res.render('../dist/not-found.ejs');
+            // res.send('Not found<br ><a href="/">返回</a>')
             return
           }
 

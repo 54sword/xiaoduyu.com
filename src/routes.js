@@ -46,6 +46,8 @@ import OauthBinding from './containers/oauth-binding'
 
 import Notice from './containers/notice'
 
+import NotFound from './containers/not-found'
+
 
 export default (history, user, logPageView = ()=>{}) =>{
 
@@ -78,15 +80,8 @@ export default (history, user, logPageView = ()=>{}) =>{
     triggerEnter(nextState, replaceState)
   }
 
-
-  const triggerEnter = (nextState, replaceState) => {
-    // console.log(nextState)
-  }
-
-  const triggerLeave = (nextState, replaceState) => {
-  }
-
-  // <Route path="/edit-answer/:id" component={EditComment} onLeave={triggerLeave} onEnter={requireAuth} />
+  const triggerEnter = (nextState, replaceState) => {}
+  const triggerLeave = (nextState, replaceState) => {}
 
   return (<Router history={history} onUpdate={logPageView}>
     <Route path="/" component={Home} onLeave={triggerLeave} onEnter={triggerEnter} />
@@ -133,5 +128,7 @@ export default (history, user, logPageView = ()=>{}) =>{
     <Route path="/oauth-binding/:source" component={OauthBinding} onLeave={triggerLeave} onEnter={triggerEnter} />
 
     <Route path="/notice" component={Notice} onLeave={triggerLeave} onEnter={triggerEnter} />
+
+    <Route path="/not-found" component={NotFound} onLeave={triggerLeave} onEnter={triggerEnter} />
   </Router>)
 }
