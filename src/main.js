@@ -14,6 +14,9 @@ import config from '../config'
 
 import io from 'socket.io-client'
 
+// import 'mobi.css/dist/mobi.min.css'
+
+
 import './common/lang'
 import './common/arrive-footer'
 import './common/weixin'
@@ -42,8 +45,8 @@ socket.on("connect", function(){
     }
   })
 
-  this.on("new-posts", function(){
-    store.dispatch(loadNewPosts())
+  this.on("new-posts", function(timestamp){
+    store.dispatch(loadNewPosts(timestamp))
   })
 })
 

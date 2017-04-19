@@ -14,10 +14,10 @@ import FollowTopic from './components/follow'
 // 样式1
 const medium = ({ topic, me, isSignin, showSign }) => {
   return (<div className={styles.item}>
-
+            
             <div className={styles.right}>
-              {!isSignin ? null : <Link to={`/write-posts/${topic._id}?type=2`}>提问</Link>}
-              {!isSignin ? null : <Link to={`/write-posts/${topic._id}?type=1`}>分享</Link>}
+              {/*!isSignin ? null : <Link to={`/write-posts/${topic._id}?type=2`}>提问</Link>*/}
+              {/*!isSignin ? null : <Link to={`/write-posts/${topic._id}?type=1`}>分享</Link>*/}
               {me._id && me.role == 100 ? <Link to={`/edit-topic/${topic._id}`}>编辑</Link> : null}
               <FollowTopic topic={topic} />
             </div>

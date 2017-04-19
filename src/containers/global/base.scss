@@ -1,3 +1,32 @@
+//breakpoint
+$screen-sm-min: 480px;
+$screen-xs-max: ($screen-sm-min - 1);
+$screen-md-min: 768px;
+$screen-sm-max: ($screen-md-min - 1);
+$screen-lg-min: 992px;
+$screen-md-max: ($screen-lg-min - 1);
+$screen-xl-min: 1200px;
+$screen-lg-max: ($screen-xl-min - 1);
+
+@mixin respond-to($point) {
+  @if $point == xl {
+    @media (min-width: $screen-xl-min) { @content; }
+  }
+  @else if $point == lg {
+    @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) { @content; }
+  }
+  @else if $point == md {
+    @media (min-width: $screen-md-min) and (max-width: $screen-md-max) { @content; }
+  }
+  @else if $point == sm {
+    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) { @content; }
+  }
+  @else if $point == xs {
+    @media (max-width: $screen-xs-max) { @content; }
+  }
+}
+
+/*
 $screen-sm-min: 768px;
 $screen-md-min: 992px;
 $screen-lg-min: 1200px;
@@ -16,6 +45,7 @@ $screen-lg-min: 1200px;
     @media only screen and (min-width: $screen-md-min) { @content; }
   }
 }
+*/
 
 
 @mixin cursorHand {
@@ -28,6 +58,12 @@ $screen-lg-min: 1200px;
   -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
             box-sizing: border-box;
+}
+
+@mixin ellipses() {
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
 }
 
 $light-gray: #f3f3f3;

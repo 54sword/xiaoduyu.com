@@ -1,3 +1,23 @@
+@import "../global/base.scss";
+
+.talk{
+  background-image: url(./images/talk.png);
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 0 center;
+  padding-left:20px;
+}
+
+.ask{
+  @extend .talk;
+  background-image: url(./images/ask.png);
+}
+
+.write{
+  @extend .talk;
+  background-image: url(./images/write.png);
+}
+
 .tips{
   position: fixed;
   top:70px;
@@ -9,4 +29,22 @@
   text-align: center;
   padding:5px 10px 5px 10px;
   border-radius: 50px;
+}
+
+.posts-type{
+  background-color: #fff;
+  margin-bottom:10px;
+  > a{
+    display: inline-block;
+    width:33.33%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-right:1px solid #efefef;
+    @include boxSizing();
+  }
+
+  a:last-of-type{
+    border:none;
+  }
 }

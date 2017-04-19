@@ -21,6 +21,7 @@ import { connect } from 'react-redux'
 import { loadPostsList, showNewPosts } from '../../actions/posts'
 import { getPostsListByName } from '../../reducers/posts'
 import { getProfile } from '../../reducers/user'
+import { showSign } from '../../actions/sign'
 
 // 纯组件
 export class Home extends React.Component {
@@ -30,7 +31,7 @@ export class Home extends React.Component {
     if (option.userinfo) {
       callback()
     } else {
-      option.store.dispatch(loadPostsList({ name:'home', callback:()=>{
+      option.store.dispatch(loadPostsList({ name:'home', filters:{ weaken:1 }, callback:()=>{
         callback()
       }}))
     }
@@ -42,6 +43,7 @@ export class Home extends React.Component {
       name: 'home',
       filters: {
         method:'user_custom',
+        weaken: 1
       },
       // 评论排序偏好id
       commentsSortId: 1,
@@ -82,9 +84,20 @@ export class Home extends React.Component {
 
     reactLocalStorage.set('comments_sort_id', commentsSortId)
 
-    if (postsList.filters && typeof postsList.filters.comments_sort != 'undefined' && condition == postsList.filters.comments_sort) {
+
+
+    if (postsList.filters
+        && typeof postsList.filters.comments_sort != 'undefined'
+        && condition == postsList.filters.comments_sort
+        || postsList.filters
+        && typeof postsList.filters.comments_sort == 'undefined'
+        && !condition
+      ) {
       return
     }
+
+    console.log(postsList.filters);
+    console.log(id);
 
     if (condition) {
       filters.comments_sort = condition
@@ -105,7 +118,7 @@ export class Home extends React.Component {
   render() {
 
     const { name, filters, timestamp, commentsSort, commentsSortId } = this.state
-    const { me, newPostsList, showNewPosts } = this.props
+    const { me, newPostsList, showNewPosts, showSign } = this.props
 
     return(<div>
       <Meta />
@@ -115,12 +128,23 @@ export class Home extends React.Component {
         {newPostsList.data && newPostsList.data.length > 0 ?
           <a href="javascript:void(0)" className={styles.tips} onClick={showNewPosts}>有 {newPostsList.data.length} 篇新帖子</a>
           : null}
+        {me._id ?
+          <div className={styles['posts-type']}>
+            <Link to="/write-posts"><span className={styles.talk}>说说</span></Link>
+            <Link to="/write-posts?type=2"><span className={styles.ask}>提问</span></Link>
+            <Link to="/write-posts?type=3"><span className={styles.write}>写文章</span></Link>
+          </div>
+          : <div className={styles['posts-type']}>
+              <a href="javascript:void(0)" onClick={showSign}><span className={styles.talk}>说说</span></a>
+              <a href="javascript:void(0)" onClick={showSign}><span className={styles.ask}>提问</span></a>
+              <a href="javascript:void(0)" onClick={showSign}><span className={styles.write}>写文章</span></a>
+            </div>}
         <div className="container-head">
           最新动态
           {me._id ?
             <div className="right">
               评论显示偏好：
-              <select onChange={(e)=>{ this.onChange(e.target.value) }} value={commentsSortId}>
+              <select className="select" onChange={(e)=>{ this.onChange(e.target.value) }} value={commentsSortId}>
                 {commentsSort.map((item, index)=>{
                   return (<option key={index} value={item.id}>{item.name}</option>)
                 })}
@@ -147,7 +171,8 @@ Home.propTypes = {
   me: PropTypes.object.isRequired,
   postsList: PropTypes.object.isRequired,
   newPostsList: PropTypes.object.isRequired,
-  showNewPosts: PropTypes.func.isRequired
+  showNewPosts: PropTypes.func.isRequired,
+  showSign: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -160,7 +185,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    showNewPosts: bindActionCreators(showNewPosts, dispatch)
+    showNewPosts: bindActionCreators(showNewPosts, dispatch),
+    showSign: bindActionCreators(showSign, dispatch)
   }
 }
 

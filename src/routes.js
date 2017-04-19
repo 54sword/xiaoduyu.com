@@ -96,6 +96,7 @@ export default (history, user, logPageView = ()=>{}) =>{
 
     <Route path="/comment/:id" component={Answer} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/posts/:id" component={PostsDetaill} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/write-posts" component={WritePosts} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/write-posts/:id" component={WritePosts} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/edit-posts/:id" component={EditPosts} onLeave={triggerLeave} onEnter={requireAuth} />
 

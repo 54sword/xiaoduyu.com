@@ -3,7 +3,7 @@ import merge from 'lodash/merge'
 import Ajax from '../common/ajax'
 
 // 添加问题
-export function addPosts({ title, detail, detailHTML, nodeId, device, type, callback }) {
+export function addPosts({ title, detail, detailHTML, topicId, device, type, callback }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
@@ -16,7 +16,7 @@ export function addPosts({ title, detail, detailHTML, nodeId, device, type, call
         title: title,
         detail: detail,
         detail_html: detailHTML,
-        topic_id: nodeId,
+        topic_id: topicId,
         device_id: device,
         type: type
       },
@@ -170,7 +170,7 @@ const processPostsList = (list) => {
 let lastFetchAt = null
 
 // 获取新的主题
-export function loadNewPosts() {
+export function loadNewPosts(timestamp) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
@@ -183,7 +183,7 @@ export function loadNewPosts() {
     }
 
     if (!lastFetchAt) {
-      lastFetchAt = new Date().getTime() - 2000 //postsList.data[0].create_at
+      lastFetchAt = timestamp //postsList.data[0].create_at
     }
 
     let filters = {
@@ -203,6 +203,8 @@ export function loadNewPosts() {
       params: filters,
       headers,
       callback: (res) => {
+
+        // console.log(res);
 
         if (!res || !res.success || !res.data || res.data.length == 0) {
           return
@@ -251,7 +253,7 @@ export function showNewPosts() {
 
     window.scrollTo(0, 0)
     dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name:'home', data: homeList })
-    
+
     setTimeout(()=>{
       dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name:'new', data: { data: [] } })
     }, 100)

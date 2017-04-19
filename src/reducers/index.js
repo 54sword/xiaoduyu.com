@@ -11,6 +11,7 @@ import posts from './posts'
 import topic from './topic'
 import comment from './comment'
 import website from './website'
+import postsTypes from './posts-types'
 
 export default combineReducers({
   scroll,
@@ -23,5 +24,6 @@ export default combineReducers({
   topic,
   posts,
   comment,
-  website
+  website,
+  postsTypes
 })

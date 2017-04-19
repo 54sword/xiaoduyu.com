@@ -13,7 +13,8 @@ html {
 body {
   padding:0px;
   margin:0px;
-  background-color: #f0f3f5; //#f1f2f3;
+  // background-color: #FFF;
+  background-color: #eaedf0; //#f1f2f3;
   color:#000;
   font-size: 15px;
   font-family: PingFang-SC-Regular, "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
@@ -120,7 +121,7 @@ input[type="submit"]:disabled{
   .black-70{ color: rgba(0, 0, 0, .7) !important; }
   .black-80{ color: rgba(0, 0, 0, .8) !important; }
   .black-90{ color: rgba(0, 0, 0, .9) !important; }
-  
+
   .center{ text-align: center; }
 
   // input
@@ -341,17 +342,14 @@ input[type="submit"]:disabled{
   }
 
   .select{
-    width:100%;
-    height: 50px;
-    line-height: 50px;
-    text-indent: 20px;
+    padding-right:16px;
     border: none;
     background-color: #fff;
     border-radius: 0px;
     background-image: url('./images/arrow-down.png');
     background-repeat: no-repeat;
-    background-position: right 20px center;
-    background-size: 20px 20px;
+    background-position: right center;
+    background-size: 12px 12px;
     -webkit-appearance: none;
   }
 

@@ -405,7 +405,7 @@ export class MyEditor extends React.Component {
   constructor(props) {
     super(props)
 
-    const { syncContent, content, readOnly } = this.props
+    const { syncContent, content, readOnly, placeholder } = this.props
 
     this.state = {
       syncContent: syncContent, // 编辑器改变的时候，调给外部组件使用
@@ -414,7 +414,8 @@ export class MyEditor extends React.Component {
         ? EditorState.createWithContent(convertFromRaw(JSON.parse(content)), decorator)
         : EditorState.createEmpty(decorator),
       rendered: null,
-      scrollY: 0
+      placeholder: placeholder || '请输入正文'
+      // scrollY: 0,
     }
 
     this.onChange = this._onChange.bind(this)
@@ -713,7 +714,7 @@ export class MyEditor extends React.Component {
 
   render() {
 
-    const { editorState, readOnly, rendered } = this.state
+    const { editorState, readOnly, rendered, placeholder } = this.state
     // const self = this
 
     // let className = 'RichEditor-editor';
@@ -743,7 +744,7 @@ export class MyEditor extends React.Component {
               blockStyleFn={getBlockStyle}
               onChange={this.onChange}
               handleKeyCommand={this.handleKeyCommand}
-              placeholder="请输入正文"
+              placeholder={placeholder}
               ref="editor"
               spellCheck
             />

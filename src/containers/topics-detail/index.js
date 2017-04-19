@@ -25,7 +25,7 @@ export class TopicDetail extends Component {
       }
     }}))
   }
-
+  
   constructor(props) {
     super(props)
   }
