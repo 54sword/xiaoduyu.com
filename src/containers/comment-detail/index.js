@@ -134,8 +134,11 @@ export class Comment extends React.Component {
           <div className="container-head">回复</div>
           <CommentList name={comment._id} filters={{ parent_id: comment._id, parent_exists: 1, per_page: 100 }} />
 
-          <div className="container-head">添加回复</div>
-          <CommentEditor posts_id={comment.posts_id._id} parent_id={comment._id} reply_id={comment._id} />
+          {isSignin ? <div>
+            <div className="container-head">添加回复</div>
+            <CommentEditor posts_id={comment.posts_id._id} parent_id={comment._id} reply_id={comment._id} />
+            </div>
+            : null}
 
         </div>
 
