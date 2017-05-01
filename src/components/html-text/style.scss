@@ -4,6 +4,8 @@
 .content{
 
   line-height: 150%;
+  word-break: break-all;
+  word-wrap: break-word;
 
   blockquote{
     border-left:5px solid #c6c6c6;

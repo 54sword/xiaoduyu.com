@@ -92,7 +92,7 @@ describe('<PostsDetail />', ()=>{
   it('应该有 评论列表', ()=>{
     expect(wrapper.contains(<CommentList
       name={props.params.id}
-      filters={{ posts_id: props.params.id, parent_exists: 0 }}
+      filters={{ posts_id: props.params.id, parent_exists: 0, per_page:100 }}
     />)).toBe(true);
   })
 

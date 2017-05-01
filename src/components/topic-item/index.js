@@ -14,7 +14,7 @@ import FollowTopic from './components/follow'
 // 样式1
 const medium = ({ topic, me, isSignin, showSign }) => {
   return (<div className={styles.item}>
-            
+
             <div className={styles.right}>
               {/*!isSignin ? null : <Link to={`/write-posts/${topic._id}?type=2`}>提问</Link>*/}
               {/*!isSignin ? null : <Link to={`/write-posts/${topic._id}?type=1`}>分享</Link>*/}

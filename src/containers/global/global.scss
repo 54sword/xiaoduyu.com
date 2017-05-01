@@ -64,6 +64,9 @@ input[type="submit"]:disabled{
     padding:0 15px 0 15px;
     background: #ffffff;
     border-bottom:1px solid $light-gray;
+    border-top-right-radius:3px;
+    border-top-left-radius:3px;
+    font-size: 13px;
 
     .right{
       float:right;

@@ -5,13 +5,11 @@ import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { signout } from '../../actions/sign'
-// import { getUserInfo } from '../../reducers/user'
 
 import { resetPassword } from '../../actions/account'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 

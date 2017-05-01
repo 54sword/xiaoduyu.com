@@ -56,7 +56,7 @@
     "node-sass": "^3.13.0",
     "prop-types": "^15.5.4",
     "qrcode.react": "^0.6.1",
-    "react": "15.5.0",
+    "react": "15.5.4",
     "react-cookie": "^1.0.4",
     "react-create-class": "^1.0.0",
     "react-css-modules": "^4.0.3",
@@ -100,6 +100,7 @@
     "offline-plugin": "^4.6.1",
     "qiniu": "^6.1.13",
     "react-addons-test-utils": "^15.4.2",
+    "react-headroom": "^2.1.5",
     "webpack-bundle-analyzer": "^2.3.0"
   }
 }

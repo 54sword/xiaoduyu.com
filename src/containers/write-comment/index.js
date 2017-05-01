@@ -17,6 +17,7 @@ import Shell from '../../shell'
 import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import Editor from '../../components/editor'
+import CommentEditor from '../../components/comment-editor'
 
 class WriteComment extends React.Component {
 
@@ -26,8 +27,8 @@ class WriteComment extends React.Component {
 
     option.store.dispatch(loadPostsById({
       id: posts_id,
-      callback: (question)=>{
-        if (!question) {
+      callback: (posts)=>{
+        if (!posts) {
           callback('not found')
         } else {
           callback()
@@ -52,13 +53,13 @@ class WriteComment extends React.Component {
     let { posts_id } = this.props.location.query
     let { loadPostsById } = this.props
 
-    const [ question ] = this.props.question
+    const [ posts ] = this.props.posts
 
-    if (!question) {
+    if (!posts) {
       loadPostsById({
         id: posts_id,
-        callback: function(question){
-          if (!question) {
+        callback: function(posts){
+          if (!posts) {
             browserHistory.push('/')
           }
         }
@@ -70,7 +71,7 @@ class WriteComment extends React.Component {
   componentDidMount() {
 
     const { posts_id } = this.props.location.query
-    const [ question ] = this.props.question
+    const [ posts ] = this.props.posts
 
     const commentId = reactLocalStorage.get('comment-id') || ''
     let commentContent = reactLocalStorage.get('comment-content') || ''
@@ -131,7 +132,7 @@ class WriteComment extends React.Component {
   _syncContent(contentJSON, contentHTML) {
     this.state.contentJSON = contentJSON
     this.state.contentHTML = contentHTML
-
+    
     let { posts_id } = this.props.location.query
 
     reactLocalStorage.set('comment-id', posts_id)
@@ -140,38 +141,40 @@ class WriteComment extends React.Component {
 
   render() {
 
-    const [ question ] = this.props.question
+    const [ posts ] = this.props.posts
     const { content } = this.state
+    const { posts_id = '', parent_id = '', reply_id = '' } = this.props.location.query
 
-    if (!question) {
+
+    if (!posts) {
       return (<div></div>)
     }
 
     return (<div>
-      <Meta meta={{title: '编写答案'}} />
-      <Subnav left="取消" middle="编写答案" />
-      <div className="container">
-        <div className={styles.content}>
-          {content}
-        </div>
-        <div>
-          <button className="button-full" onClick={this.submitQuestion}>提交</button>
-        </div>
-      </div>
+      <Meta meta={{title: '写回复'}} />
+      <Subnav left="取消" middle="写回复" />
+      <CommentEditor
+        posts_id={posts_id}
+        parent_id={parent_id}
+        reply_id={reply_id}
+        successCallback={()=>{
+          browserHistory.push('/posts/'+posts_id+'?subnav_back=/')
+        }}
+        />
     </div>)
   }
 
 }
 
 WriteComment.propTypes = {
-  question: PropTypes.array.isRequired,
+  posts: PropTypes.array.isRequired,
   addComment: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state, props) {
   let { posts_id } = props.location.query
   return {
-    question: getPostsById(state, posts_id)
+    posts: getPostsById(state, posts_id)
   }
 }
 

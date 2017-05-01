@@ -114,6 +114,80 @@
 }
 
 .RichEditor-activeButton {
-  background-color: #5890ff !important;
+  background-color: #e3efff !important;
   color:#fff !important;
+}
+
+
+.RichEditor-controls .title,
+.RichEditor-controls .blockquote,
+.RichEditor-controls .ul,
+.RichEditor-controls .ol,
+.RichEditor-controls .code-block,
+.RichEditor-controls .bold,
+.RichEditor-controls .italic,
+.RichEditor-controls .underline,
+.RichEditor-controls .image,
+.RichEditor-controls .link,
+.RichEditor-controls .video{
+  width:15px;
+  height: 15px;
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.RichEditor-controls .title{
+  background-image: url(./images/editor-icon_03.png);
+}
+
+.RichEditor-controls .blockquote{
+  background-image: url(./images/editor-icon_06.png);
+}
+
+.RichEditor-controls .code-block{
+  background-image: url(./images/editor-icon_07.png);
+}
+
+.RichEditor-controls .bold{
+  background-image: url(./images/editor-icon_04.png);
+}
+
+.RichEditor-controls .italic{
+  background-image: url(./images/editor-icon_05.png);
+}
+
+.RichEditor-controls .underline{
+  background-image: url(./images/editor-icon_08.png);
+}
+
+.RichEditor-controls .ol{
+  background-image: url(./images/editor-icon_13.png);
+}
+
+
+
+.RichEditor-controls .ul{
+  background-image: url(./images/editor-icon_12.png);
+}
+
+.RichEditor-controls .image{
+  background-image: url(./images/editor-icon_10.png);
+}
+
+.RichEditor-controls .image .dropzone{
+  width: 25px !important;
+  height: 25px !important;
+  margin:-5px 0 0 -5px;
+  /*background-color: #333;*/
+}
+
+
+.RichEditor-controls .video{
+  background-image: url(./images/editor-icon_09.png);
+}
+
+
+.RichEditor-controls .link{
+  background-image: url(./images/editor-icon_11.png);
 }

@@ -167,7 +167,7 @@ export function loadFollowPosts({ name, filters = {}, callback = ()=>{} }) {
     if (!list.data) list.data = []
     if (!list.more) list.more = true
     if (!list.loading) list.loading = true
-    
+
     dispatch({ type: 'SET_FOLLOW_PEOPLE_LIST_BY_NAME', name, data: list })
 
     return Ajax({
@@ -177,8 +177,6 @@ export function loadFollowPosts({ name, filters = {}, callback = ()=>{} }) {
       params: filters,
       headers: { AccessToken: accessToken },
       callback: (res)=>{
-
-        console.log(res);
 
         if (res && !res.success) {
           callback(res)

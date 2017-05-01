@@ -10,7 +10,6 @@ import arriveFooter from '../../common/arrive-footer'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-// import { showSign } from '../../actions/sign'
 import { getAccessToken } from '../../reducers/user'
 import { loadCommentList } from '../../actions/comment'
 import { getCommentListByName } from '../../reducers/comment'
@@ -41,14 +40,14 @@ export class CommentList extends Component {
       self.triggerLoad()
     }
 
-    arriveFooter.add(this.state.name, ()=>{
-      self.triggerLoad()
-    })
+    // arriveFooter.add(this.state.name, ()=>{
+    //   self.triggerLoad()
+    // })
 
   }
 
   componentWillUnmount() {
-    arriveFooter.remove(this.state.name)
+    // arriveFooter.remove(this.state.name)
   }
 
   _triggerLoad(callback) {
@@ -76,7 +75,11 @@ export class CommentList extends Component {
 
           {commentList.data.length == 0 ?
             <div className={styles.nothing}>目前尚无回复</div>
-          : <ListLoading loading={commentList.loading} more={commentList.more} handleLoad={this.triggerLoad} />}
+          : <ListLoading
+              loading={commentList.loading}
+              more={commentList.more}
+              handleLoad={this.triggerLoad}
+              />}
         </div>
       </div>
     )
@@ -85,21 +88,18 @@ export class CommentList extends Component {
 
 CommentList.propTypes = {
   commentList: PropTypes.object.isRequired,
-  loadCommentList: PropTypes.func.isRequired,
-  // showSign: PropTypes.func.isRequired
+  loadCommentList: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
   const name = props.name
   return {
     commentList: getCommentListByName(state, name)
-    // isSignin: getAccessToken(state)
   }
 }
 
 function mapDispatchToProps(dispatch, props) {
   return {
-    // showSign: bindActionCreators(showSign, dispatch),
     loadCommentList: bindActionCreators(loadCommentList, dispatch)
   }
 }

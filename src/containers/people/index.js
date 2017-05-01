@@ -78,7 +78,7 @@ export class People extends React.Component {
     const { setCurrentTab } = this
 
     const { id } = this.props.params
-
+    
     let { go } = this.props.location.query
 
     if (!people) {

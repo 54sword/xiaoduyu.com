@@ -12,16 +12,16 @@ import { loadTopics } from '../../../../actions/topic'
 export class PeopleTopics extends React.Component {
 
   // 服务器预加载内容
-  static loadData(option, callback) {
+  static loadData({ store, props }, callback) {
 
-    const { id } = option.props.params
-    const { dispatch } = option.store
+    const { id } = props.params
+    const { dispatch } = store
 
     dispatch(loadPeopleById({
       id,
       callback:(people)=>{
         if (!people) {
-          callback('not found')
+          callback(404)
           return;
         }
         dispatch(loadTopics({name:id, filters:{ people_id: id, child: 1 }, callback:()=>{

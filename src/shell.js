@@ -1,8 +1,5 @@
-import React, { Component, PropTypes } from 'react'
-// import ReactDOM from 'react-dom'
-// import cookie from 'react-cookie'
-// import DocumentMeta from 'react-document-meta'
-
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { setScrollPosition, saveScrollPosition } from './actions/scroll'
@@ -17,7 +14,7 @@ const Shell = (_component) => {
     constructor(props) {
       super(props)
     }
-
+    
     render() {
       return (<div>
         <Sign />
@@ -33,14 +30,13 @@ const Shell = (_component) => {
 
     // 更新组件
     componentDidUpdate() {
-      // console.log('组件被更新了')
     }
 
     // 组件被卸载
     componentWillUnmount() {
       // 储存滚动条位置
       this.props.saveScrollPosition(this.props.location ? this.props.location.pathname : '')
-      this.props.addHistory()
+      this.props.addHistory(this.props.location ? this.props.location.pathname : '')
     }
 
   }

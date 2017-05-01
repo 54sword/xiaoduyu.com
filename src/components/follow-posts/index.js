@@ -15,7 +15,8 @@ export class FollowPosts extends Component {
     this.unfollow = this.unfollow.bind(this)
   }
 
-  follow() {
+  follow(e) {
+    e.stopPropagation()
     const { follow, posts } = this.props
     follow({
       id: posts._id,
@@ -27,7 +28,8 @@ export class FollowPosts extends Component {
     })
   }
 
-  unfollow() {
+  unfollow(e) {
+    e.stopPropagation()
     const { unfollow, posts } = this.props
     unfollow({
       id: posts._id,

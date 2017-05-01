@@ -2,6 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 import { reactLocalStorage } from 'reactjs-localstorage'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+import { loadPostsList, showNewPosts } from '../../actions/posts'
+import { getPostsListByName } from '../../reducers/posts'
+import { getProfile } from '../../reducers/user'
+import { showSign } from '../../actions/sign'
+
 
 import styles from './style.scss'
 
@@ -14,39 +22,52 @@ import Meta from '../../components/meta'
 import PostsList from '../../components/posts-list'
 import Footer from '../../components/footer'
 
-// actions
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 
-import { loadPostsList, showNewPosts } from '../../actions/posts'
-import { getPostsListByName } from '../../reducers/posts'
-import { getProfile } from '../../reducers/user'
-import { showSign } from '../../actions/sign'
+let defaultProps = {
+  filters: {
+    weaken: 1,
+    method: 'user_custom'
+  },
+  name: 'home'
+}
 
 // 纯组件
 export class Home extends React.Component {
 
   // 服务器预加载内容
-  static loadData(option, callback) {
-    if (option.userinfo) {
+  static loadData({ store }, callback) {
+
+    const { filters, name } = defaultProps
+    const me = getProfile(store.getState())
+
+    if (me._id) {
       callback()
-    } else {
-      option.store.dispatch(loadPostsList({ name:'home', filters:{ weaken:1 }, callback:()=>{
-        callback()
-      }}))
+      return
     }
+
+    filters.comments_sort = 'create_at:-1'
+    filters.include_comments = 1
+    
+    store.dispatch(loadPostsList({
+      name,
+      filters,
+      callback: ()=>{
+        callback()
+      }
+    }))
+
   }
 
   constructor(props) {
     super(props)
+
+    const { filters, name } = defaultProps
+
     this.state = {
-      name: 'home',
-      filters: {
-        method:'user_custom',
-        weaken: 1
-      },
+      name: name,
+      filters: filters,
       // 评论排序偏好id
-      commentsSortId: 1,
+      commentsSortId: 2,
       // 评论排序数组
       commentsSort: [
         { id: 1, condition: '', name: '不显示' },
@@ -56,24 +77,24 @@ export class Home extends React.Component {
       ]
     }
 
-    this.onChange = this.onChange.bind(this)
+    this.chooseCommentsSort = this.chooseCommentsSort.bind(this)
   }
 
   componentDidMount() {
     const { me } = this.props
     if (me._id) {
-      const consition = reactLocalStorage.get('comments_sort_id') || 1
-      this.onChange(consition)
+      const consition = reactLocalStorage.get('comments_sort_id') || 2
+      this.chooseCommentsSort(consition)
     }
   }
 
-  onChange(id) {
+  chooseCommentsSort(id) {
 
     const { name, filters, commentsSort } = this.state
     const { postsList } = this.props
 
-    let condition = ''
-    let commentsSortId = 1
+    let condition = 'create_at:-1'
+    let commentsSortId = 2
 
     commentsSort.map(item=>{
       if (item.id == id) {
@@ -84,8 +105,6 @@ export class Home extends React.Component {
 
     reactLocalStorage.set('comments_sort_id', commentsSortId)
 
-
-
     if (postsList.filters
         && typeof postsList.filters.comments_sort != 'undefined'
         && condition == postsList.filters.comments_sort
@@ -93,11 +112,11 @@ export class Home extends React.Component {
         && typeof postsList.filters.comments_sort == 'undefined'
         && !condition
       ) {
+        this.setState({
+          commentsSortId: commentsSortId
+        })
       return
     }
-
-    console.log(postsList.filters);
-    console.log(id);
 
     if (condition) {
       filters.comments_sort = condition
@@ -144,7 +163,7 @@ export class Home extends React.Component {
           {me._id ?
             <div className="right">
               评论显示偏好：
-              <select className="select" onChange={(e)=>{ this.onChange(e.target.value) }} value={commentsSortId}>
+              <select className="select" onChange={(e)=>{ this.chooseCommentsSort(e.target.value) }} value={commentsSortId}>
                 {commentsSort.map((item, index)=>{
                   return (<option key={index} value={item.id}>{item.name}</option>)
                 })}
@@ -157,6 +176,13 @@ export class Home extends React.Component {
           displayDate={false}
           timestamp={timestamp}
           filters={filters}
+          commentOption={{
+            displayReply: false,
+            displayDate: false,
+            summary: true,
+            displayLike: false,
+            displayEdit: false
+          }}
           />
         <Footer />
       </div>
@@ -167,6 +193,10 @@ export class Home extends React.Component {
 }
 
 
+
+
+Home.defaultProps = defaultProps
+
 Home.propTypes = {
   me: PropTypes.object.isRequired,
   postsList: PropTypes.object.isRequired,
@@ -175,10 +205,11 @@ Home.propTypes = {
   showSign: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
+
   return {
     me: getProfile(state),
-    postsList: getPostsListByName(state, 'home'),
+    postsList: getPostsListByName(state, defaultProps.name),
     newPostsList: getPostsListByName(state, 'new')
   }
 }

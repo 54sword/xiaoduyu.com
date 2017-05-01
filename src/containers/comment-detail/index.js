@@ -22,19 +22,16 @@ import HTMLText from '../../components/html-text'
 import Share from '../../components/share'
 import LikeButton from '../../components/like'
 
+import CommentEditor from '../../components/comment-editor'
 
 export class Comment extends React.Component {
 
-  static loadData(option, callback) {
-    const { id } = option.props.params
-    option.store.dispatch(loadCommentById({
+  static loadData({ store, props }, callback) {
+    const { id } = props.params
+    store.dispatch(loadCommentById({
       id,
       callback: (comment)=>{
-        if (!comment) {
-          callback('not found')
-        } else {
-          callback()
-        }
+        callback(comment ? null : 404)
       }
     }))
   }
@@ -72,7 +69,6 @@ export class Comment extends React.Component {
   render () {
 
     const { me, isSignin, showSign } = this.props
-
     const [ comment ] = this.props.comment
 
     if (!comment) {
@@ -80,13 +76,6 @@ export class Comment extends React.Component {
     }
 
     let posts = comment ? comment.posts_id : null
-
-    /*
-    <Subnav
-      middle="回复详情"
-      right={<a href='javascript:void(0);' onClick={this.addComment}>回复</a>}
-    />
-    */
 
     return (
       <div>
@@ -136,15 +125,19 @@ export class Comment extends React.Component {
             </div>
 
             <Share
-              title={posts.title + ' - ' + comment.user_id.nickname + '的答案'}
+              title={posts.title + ' - ' + comment.user_id.nickname + '的评论'}
               url={this.props.location ? this.props.location.pathname : ''}
               />
 
           </div>
 
-        </div>
+          <div className="container-head">回复</div>
+          <CommentList name={comment._id} filters={{ parent_id: comment._id, parent_exists: 1, per_page: 100 }} />
 
-        <CommentList name={comment._id} filters={{ parent_id: comment._id, parent_exists: 1 }} />
+          <div className="container-head">添加回复</div>
+          <CommentEditor posts_id={comment.posts_id._id} parent_id={comment._id} reply_id={comment._id} />
+
+        </div>
 
       </div>
     )

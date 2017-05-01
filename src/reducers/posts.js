@@ -1,11 +1,6 @@
 import merge from 'lodash/merge'
 
-
-let initialState = {
-  other: {
-    data: []
-  }
-}
+let initialState = {}
 
 export default function posts(state = initialState, action) {
   switch (action.type) {
@@ -15,10 +10,10 @@ export default function posts(state = initialState, action) {
       state[name] = data
       return merge({}, state, {})
 
-    case 'ADD_POSTS':
-      var { posts } = action
-      state.other.data = posts
-      return merge({}, state, {})
+    // case 'ADD_POSTS':
+    //   var { posts } = action
+    //   state.other.data = posts
+    //   return merge({}, state, {})
 
     case 'SET_POSTS':
       return merge({}, action.state, {})

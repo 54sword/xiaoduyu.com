@@ -38,8 +38,8 @@ class StyleButton extends React.Component {
     }
 
     return (
-      <span className={className} onMouseDown={this.onToggle}>
-        {this.props.label}
+      <span className={className + ' ' + this.props.className} onMouseDown={this.onToggle}>
+        {/*this.props.label*/}
       </span>
     )
   }
@@ -53,11 +53,11 @@ const BLOCK_TYPES = [
   // {label: 'H4', style: 'header-four'},
   // {label: 'H5', style: 'header-five'},
   // {label: 'H6', style: 'header-six'},
-  // {label: 'Title', style: 'header-five'},
-  {label: 'Blockquote', style: 'blockquote'},
-  {label: 'UL', style: 'unordered-list-item'},
-  {label: 'OL', style: 'ordered-list-item'},
-  {label: 'Code Block', style: 'code-block'},
+  { className: 'title', label: 'Title', style: 'header-five'},
+  { className: 'blockquote', label: 'Blockquote', style: 'blockquote'},
+  { className: 'ul', label: 'ul', style: 'unordered-list-item'},
+  { className: 'ol', label: 'ol', style: 'ordered-list-item'},
+  { className: 'code-block', label: 'code', style: 'code-block'}
 ]
 
 const BlockStyleControls = (props) => {
@@ -77,6 +77,7 @@ const BlockStyleControls = (props) => {
           active={type.style === blockType}
           label={type.label}
           onToggle={props.onToggle}
+          className={type.className}
           style={type.style}
         />
       )}
@@ -88,9 +89,9 @@ const BlockStyleControls = (props) => {
 // -----
 
 var INLINE_STYLES = [
-  {label: '加粗', style: 'BOLD'},
-  {label: '斜体', style: 'ITALIC'},
-  {label: '下划线', style: 'UNDERLINE'}
+  { className:"bold", label: 'bold', style: 'BOLD'},
+  { className:"italic", label: 'italic', style: 'ITALIC'},
+  { className:"underline", label: 'underline', style: 'UNDERLINE'}
   // {label: 'Monospace', style: 'CODE'}
 ]
 
@@ -104,6 +105,7 @@ const InlineStyleControls = (props) => {
           active={currentStyle.has(type.style)}
           label={type.label}
           onToggle={props.onToggle}
+          className={type.className}
           style={type.style}
         />
       )}
@@ -132,6 +134,7 @@ const Controls = (props) => {
           active={type.style === blockType}
           label={type.label}
           onToggle={props.toggleBlockType}
+          className={type.className}
           style={type.style}
         />
       )}
@@ -142,15 +145,16 @@ const Controls = (props) => {
           active={currentStyle.has(type.style)}
           label={type.label}
           onToggle={props.toggleInlineStyle}
+          className={type.className}
           style={type.style}
         />
       )}
 
-      <span className="RichEditor-styleButton">
-        <QiniuUploadImage upload={props.addImage} name="图片" />
+      <span className="RichEditor-styleButton image">
+        <QiniuUploadImage upload={props.addImage} name=" " />
       </span>
-      <span href="javascript:void(0)" className="RichEditor-styleButton" onClick={props.addVideo}>视频</span>
-      <span href="javascript:void(0)" className="RichEditor-styleButton" onClick={props.addLink}>链接</span>
+      <span href="javascript:void(0)" className="RichEditor-styleButton video" onClick={props.addVideo}></span>
+      <span href="javascript:void(0)" className="RichEditor-styleButton link" onClick={props.addLink}></span>
 
     </div>
   );
@@ -259,7 +263,7 @@ function getEntityStrategy(mutability) {
 function getDecoratedStyle(mutability) {
   switch (mutability) {
     case 'IMMUTABLE': return styles.immutable;
-    case 'MUTABLE': return styles.mutable;
+    // case 'MUTABLE': return styles.mutable;
     case 'SEGMENTED': return styles.segmented;
     default: return null;
   }
@@ -319,7 +323,7 @@ const decorator = new CompositeDecorator([
 ])
 
 // -----
-
+/*
 const stylesa = {
   code: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
@@ -334,6 +338,7 @@ const stylesa = {
     padding: 20,
   }
 };
+*/
 
 const addBreaklines = (children) => children.map(child => [child, <br />]);
 
@@ -382,19 +387,14 @@ const renderers = {
    * Entities receive children and the entity data
    */
   entities: {
-    // key is the entity key value from raw
-    // link: (children, data, { key }) => <a href={data.src.url}>{data.src.title || data.src.url}</a>,
-
     youku: (children, data, { key }) => <div key={key} data-youku={data.src}></div>,
     tudou: (children, data, { key }) => <div key={key} data-tudou={data.src}></div>,
     qq: (children, data, { key }) => <div key={key} data-qq={data.src}></div>,
     youtube: (children, data, { key }) => <div key={key} data-youtube={data.src}></div>,
     image: (children, data, { key }) => <img key={key} src={data.src} />,
+    // IMAGE: (children, data, { key }) => <img key={key} src={data.src} />,
     LINK: (children, data, { key }) => <a key={key} href={data.url}>{children}</a>
-    // youku: (children, data, { key }) => <div><Embed src={`http://player.youku.com/player.php/sid/${data.src}/v.swf`}></Embed></div>,
-    // tudou: (children, data, { key }) => <div><Iframe src={`http://www.tudou.com/programs/view/html5embed.action?code=${data.src}`} allowtransparency="true" allowfullscreen="true" allowfullscreenInteractive="true" scrolling="no" border="0" frameborder="0" width="auto" height="auto" position=""></Iframe></div>,
-    // qq: (children, data, { key }) => <div><Embed src={`http://static.video.qq.com/TPout.swf?vid=${data.src}&auto=0`}></Embed></div>,
-  },
+  }
 }
 
 
@@ -414,8 +414,7 @@ export class MyEditor extends React.Component {
         ? EditorState.createWithContent(convertFromRaw(JSON.parse(content)), decorator)
         : EditorState.createEmpty(decorator),
       rendered: null,
-      placeholder: placeholder || '请输入正文'
-      // scrollY: 0,
+      placeholder: placeholder
     }
 
     this.onChange = this._onChange.bind(this)
@@ -428,46 +427,18 @@ export class MyEditor extends React.Component {
     this.timer = null
     this.undo = this._undo.bind(this)
     this.redo = this._redo.bind(this)
-    this.onKeyDown = this._onKeyDown.bind(this)
   }
 
   componentDidMount() {
-
-    const that = this
     this.onChange(this.state.editorState)
-
-    // let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-
-    // document.onkeydown = (event) => {
-    //   if (document.activeElement.className == 'public-DraftEditor-content') {
-    //     that.state.scrollY = (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0) - 50
-    //   }
-    // }
-    /*
-    document.ontouchend = (event) => {
-      if (document.activeElement.className == 'public-DraftEditor-content') {
-        that.state.scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
-      }
-    }
-    */
-
-    // this.refs.editor.focus()
-    // console.log(document.getElementsByTagName('public-DraftEditor-content')[0])
-  }
-
-  _onKeyDown(event) {
-    // alert('23')
-    // var e = event || window.event
-    // console.log(e.keyCode)
+    this.props.getEditor(this.refs.editor)
   }
 
   _onChange(editorState) {
 
     const that = this
 
-    this.setState({ editorState }, () => {
-      // setTimeout(() => that.refs.editor.focus(), 0);
-    })
+    this.setState({ editorState }, () => {})
 
     const { syncContent } = this.state
     const { draftHtml } = this.refs
@@ -492,7 +463,6 @@ export class MyEditor extends React.Component {
 
         if (!_html) {
           syncContent('', '')
-          // syncContent(JSON.stringify({}), html)
           return
         }
 
@@ -501,10 +471,6 @@ export class MyEditor extends React.Component {
       }, 100)
 
     }
-
-    // if (that.state.scrollY) {
-    //   window.scrollTo(0, that.state.scrollY)
-    // }
 
   }
 
@@ -526,26 +492,9 @@ export class MyEditor extends React.Component {
     )
   }
 
-  /*
-  _addLink() {
-
-    // {url:'xiaoduyu.com',title:'小度鱼'}
-    this._promptForMedia('link', '123123')
-    // this._promptForMedia('qq', '123123123')
-
-    return
-
-    let url = prompt("请输入url地址","");
-
-    if (!url) {
-      return
-    }
-  }
-  */
-
   _addVideo() {
 
-    let url = prompt("请输入视频地址，目前支持优酷、腾讯、土豆","");
+    let url = prompt("请输入视频地址，目前支持优酷、腾讯视频","");
 
     if (!url) {
       return
@@ -664,22 +613,6 @@ export class MyEditor extends React.Component {
       ' '
     ))
 
-    // this.onChange(RichUtils.toggleInlineStyle(
-    //   editorState,
-    //   entityKey
-    // ))
-
-    /*
-    this.setState({
-      editorState: AtomicBlockUtils.insertAtomicBlock(
-        editorState,
-        entityKey,
-        ' '
-      )
-    });
-
-    this.onChange(this.state.editorState);
-    */
   }
 
   _handleKeyCommand(command) {
@@ -700,28 +633,15 @@ export class MyEditor extends React.Component {
       that.onChange(EditorState.redo(that.state.editorState))
       that.state.editorState.focus()
     })
-
-    // this.onChange(EditorState.redo(this.state.editorState))
   }
 
   _redo() {
-    // const that = this
     this.onChange(EditorState.redo(this.state.editorState))
-    // setTimeout(()=>{
-    //   that.onChange(EditorState.undo(that.state.editorState))
-    // }, 100)
   }
 
   render() {
-
     const { editorState, readOnly, rendered, placeholder } = this.state
-    // const self = this
-
-    // let className = 'RichEditor-editor';
-
-    // const upload = (imageName) => {
-    //   self.addImage(imageName)
-    // }
+    const { displayControls } = this.props
 
     return(<div className="RichEditor-editor">
 
@@ -729,14 +649,16 @@ export class MyEditor extends React.Component {
               {rendered}
             </div>
 
-            <Controls
-              editorState={editorState}
-              toggleBlockType={this.toggleBlockType}
-              toggleInlineStyle={this.toggleInlineStyle}
-              addVideo={this.addVideo}
-              addLink={this.addLink}
-              addImage={this.addImage}
-            />
+            {displayControls ?
+              <Controls
+                editorState={editorState}
+                toggleBlockType={this.toggleBlockType}
+                toggleInlineStyle={this.toggleInlineStyle}
+                addVideo={this.addVideo}
+                addLink={this.addLink}
+                addImage={this.addImage}
+              />
+              : null}
 
             <Editor
               blockRendererFn={mediaBlockRenderer}
@@ -754,9 +676,12 @@ export class MyEditor extends React.Component {
 }
 
 MyEditor.defaultProps = {
+  displayControls: true,
   syncContent: null,
   content: '',
-  readOnly: false
+  readOnly: false,
+  getEditor: (editor)=>{},
+  placeholder: '请输入正文'
 }
 
 export default MyEditor

@@ -11,7 +11,6 @@ import { resetNickname, loadUserInfo } from '../../actions/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 export class ResetNickname extends Component {

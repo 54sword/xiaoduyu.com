@@ -34,6 +34,7 @@ describe('<QiniuUploadImage />', function() {
     expect(wrapper.contains(<span></span>)).toBe(true)
   })
 
+  /*
   it('应该有上传按钮', function() {
     const action = bindActionCreators(getQiNiuToken, dispatch)
     return action({
@@ -43,5 +44,6 @@ describe('<QiniuUploadImage />', function() {
       }
     })
   })
+  */
 
 })

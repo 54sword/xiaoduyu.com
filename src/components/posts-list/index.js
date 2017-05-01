@@ -54,7 +54,7 @@ export class PostsList extends Component {
   }
 
   render () {
-    const { displayDate = true, postsList, loadPostsList } = this.props
+    const { displayDate = true, postsList, loadPostsList, commentOption = {} } = this.props
 
     // 当没有数据的情况
     if (typeof postsList.data == "undefined") {
@@ -66,7 +66,7 @@ export class PostsList extends Component {
     return (
       <div>
         {data.map(posts=>{
-          return (<div key={posts._id}><PostsItem posts={posts} displayDate={displayDate} /></div>)
+          return (<div key={posts._id}><PostsItem posts={posts} displayDate={displayDate} commentOption={commentOption} /></div>)
         })}
         <ListLoading loading={loading} more={more} handleLoad={loadPostsList} />
       </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 
 import { DateDiff } from '../../common/date'
 
@@ -9,12 +9,12 @@ import styles from './style.scss'
 
 import Shell from '../../shell'
 import Nav from '../../components/nav'
-import Subnav from '../../components/subnav'
 import Meta from '../../components/meta'
 import CommentList from '../../components/comment-list'
 import FollowPosts from '../../components/follow-posts'
 import HTMLText from '../../components/html-text'
 import Share from '../../components/share'
+import CommentEditor from '../../components/comment-editor'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -23,23 +23,25 @@ import { getPostsById } from '../../reducers/posts'
 import { loadCommentList } from '../../actions/comment'
 import { showSign } from '../../actions/sign'
 import { getAccessToken, getProfile } from '../../reducers/user'
+import { findHistory } from '../../reducers/history'
 
 export class PostsDetail extends React.Component {
 
-  static loadData(option, callback) {
-    const { id } = option.props.params
+  static loadData({ store, props }, callback) {
+    const { id } = props.params
 
-    option.store.dispatch(loadPostsById({
+    store.dispatch(loadPostsById({
       id,
-      callback: (posts)=>{
-        if (!posts) {
-          callback('not found')
+      callback: (topic)=>{
+
+        if (!topic) {
+          callback(404)
           return
         }
 
-        option.store.dispatch(loadCommentList({
+        store.dispatch(loadCommentList({
           name: id,
-          filters:{ posts_id: id, parent_exists: 0 },
+          filters:{ posts_id: topic._id, parent_exists: 0, per_page: 100 },
           callback: () => {
             callback()
           }
@@ -50,38 +52,33 @@ export class PostsDetail extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      editor: null
+    }
   }
 
   componentDidMount() {
 
-    const { loadPostsById } = this.props
+    const { loadPostsById, inHistory } = this.props
     const { id } = this.props.params
 
     let [ posts ] = this.props.posts
 
-    if (!posts) {
-      loadPostsById({ id })
+    if (!posts || !inHistory) {
+      loadPostsById({ id, callback:(t)=>{}})
     }
 
   }
 
   render () {
+
+    const that = this
     let { isSignin, showSign, me } = this.props
     let [ posts ] = this.props.posts
 
     if (!posts) {
-      return (<div></div>)
+      return (<div>加载中...</div>)
     }
-
-    /*
-    <Subnav
-      left="返回"
-      middle="主题详情"
-      right={isSignin ? (me._id != posts.user_id._id ? <Link to={`/write-answer/${posts._id}`}>回复</Link> : null) : <a href="javascript:void(0);" onClick={showSign}>回复</a>}
-    />
-    */
-
-    // <a href="javascript:void(0);" onClick={showSign}>评论</a>
 
     return (
 
@@ -126,8 +123,9 @@ export class PostsDetail extends React.Component {
             <div className={styles.actions}>
               <FollowPosts posts={posts} />
 
+              {/*<Link to={`/write-comment?posts_id=${posts._id}`}>评论</Link>*/}
               {isSignin ?
-                (me._id != posts.user_id._id ? <Link to={`/write-comment?posts_id=${posts._id}`}>评论</Link> : null)
+                (me._id != posts.user_id._id ? <a href="javascript:void(0)" onClick={()=>{ that.state.editor.focus() }}>评论</a> : null)
                 : <a href="javascript:void(0)" onClick={showSign}>评论</a>}
 
               {me._id == posts.user_id._id ?
@@ -142,14 +140,23 @@ export class PostsDetail extends React.Component {
           </div>
 
           {posts.comment_count > 0 ?
-            <div className="container-head">{posts.comment_count} 条讨论</div>
+            <div className="container-head" style={{border:'none'}}>{posts.comment_count} 条讨论</div>
             : null}
 
           <CommentList
             name={this.props.params.id}
-            filters={{ posts_id: this.props.params.id, parent_exists: 0 }}
+            filters={{ posts_id: this.props.params.id, parent_exists: 0, per_page:100 }}
           />
 
+          {isSignin ?
+            <div>
+              <div className="container-head">添加一条新评论</div>
+              <CommentEditor posts_id={posts._id} getEditor={(editor)=>{ that.setState({ editor }) }}
+              />
+            </div>
+          : null}
+
+          <br /><br />
         </div>
 
       </div>
@@ -162,7 +169,8 @@ PostsDetail.propTypes = {
   posts: PropTypes.array.isRequired,
   showSign: PropTypes.func.isRequired,
   isSignin: PropTypes.bool.isRequired,
-  me: PropTypes.object.isRequired
+  me: PropTypes.object.isRequired,
+  inHistory: PropTypes.bool.isRequired
 }
 
 function mapStateToProps(state, props) {
@@ -170,6 +178,7 @@ function mapStateToProps(state, props) {
   return {
     posts: getPostsById(state, id),
     isSignin: getAccessToken(state) ? true : false,
+    inHistory: findHistory(state, props.location ? props.location.pathname : ''),
     me: getProfile(state)
   }
 }

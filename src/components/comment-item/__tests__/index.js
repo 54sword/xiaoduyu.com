@@ -49,6 +49,12 @@ describe('<CommentItem />', ()=>{
     })
   })
 
+  /*
+  it('应该有 `.detail` ', function() {
+    let wrapper = shallow(<CommentItem {...props} />)
+    expect(wrapper.find('.detail').length).toBe(1);
+  })
+
   it('应该没有  查看评论 `summary` 链接', function() {
     let wrapper = shallow(<CommentItem {...props} />)
     expect(wrapper.contains(<Link to={`/comment/${comment._id}`}>{comment.content_summary}</Link>)).toBe(false);
@@ -77,10 +83,10 @@ describe('<CommentItem />', ()=>{
     expect(wrapper.contains(<span>{DateDiff(comment.create_at)}</span>)).toBe(false);
   })
 
-  // it('应该没有 赞', function() {
-  //   let wrapper = shallow(<CommentItem {...props} />)
-  //   expect(wrapper.contains(<LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} />)).toBe(false);
-  // })
+  it('应该没有 赞', function() {
+    let wrapper = shallow(<CommentItem {...props} />)
+    expect(wrapper.contains(<LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} />)).toBe(false);
+  })
 
   it('应该有 回复链接', function() {
     props.displayReply = true
@@ -110,5 +116,6 @@ describe('<CommentItem />', ()=>{
     let wrapper = shallow(<CommentItem {...props} />)
     expect(wrapper.find('.comment-list .item').length).toBe(comment.reply.length);
   })
+  */
 
 })

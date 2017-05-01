@@ -56,8 +56,8 @@ export class FollowPeopleList extends Component{
       name: name,
       filters: filters,
       callback: (err, result) => {
-        console.log(err);
-        console.log(result);
+        // console.log(err);
+        // console.log(result);
       }
     })
 

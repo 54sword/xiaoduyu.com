@@ -9,7 +9,6 @@ import { getProfile } from '../../reducers/user'
 import { resetBrief, loadUserInfo } from '../../actions/user'
 
 import Meta from '../../components/meta'
-// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import Shell from '../../shell'
 
