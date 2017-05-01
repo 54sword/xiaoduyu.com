@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 import { Link } from 'react-router'
 import { Provider } from 'react-redux'
@@ -38,7 +38,7 @@ describe('<Sign />', ()=>{
   it('应该包含 `.signin`', function() {
     expect(wrapper.find('.signin').length).toBe(1);
   })
-  
+
   it('应该包含 `.signup`', function() {
     wrapper.find('.signup a').simulate('click');
     expect(wrapper.find('.signup').length).toBe(1);

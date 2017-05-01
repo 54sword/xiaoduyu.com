@@ -196,31 +196,27 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
   }
 }
 
+let loading = false
+
 // 加载未读通知数量
 export function loadUnreadCount() {
   return (dispatch, getState) => {
+
     let accessToken = getState().user.accessToken
 
-    const run = () => {
+    if (loading && accessToken) return
 
-      Ajax({
-        url: '/unread-notifications',
-        type: 'get',
-        headers: { AccessToken: accessToken },
-        callback: (result) => {
-          dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice: result.data })
+    loading = true
 
-          setTimeout(function(){
-            run()
-          }, 1000 * 60)
-        }
-      })
-
-    }
-
-    setTimeout(()=>{
-      run()
-    }, 1000 * 5)
+    return Ajax({
+      url: '/unread-notifications',
+      type: 'get',
+      headers: { AccessToken: accessToken },
+      callback: (result) => {
+        loading = false
+        dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice: result.data })
+      }
+    })
 
   }
 }

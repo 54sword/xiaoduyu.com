@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 
 // https://github.com/airbnb/enzyme/issues/341
@@ -16,7 +16,7 @@ describe('<Tabbar />', function() {
   const wrapper = shallow(<Tabbar tabs={tabs} />)
 
   it('应该渲染出tab', function() {
-    
+
     tabs.map((tab)=>{
       expect(wrapper.contains(<div dangerouslySetInnerHTML={{__html:tab.title}} />)).toBe(true)
     })

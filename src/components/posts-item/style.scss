@@ -1,36 +1,37 @@
 @import "../../containers/global/base.scss";
 
 .item{
+  position: relative;
+  min-height: 78px;
   background-color: #fff;
-  padding:15px 15px 2px 70px;
-  border-bottom:1px solid $light-gray;
+  padding:15px 15px 15px 75px;
+  margin-bottom: 10px;
+  border-radius:3px;
+
+  @include boxSizing();
+  &:hover{
+    background-color: #f9f9f9;
+    @include cursorHand;
+  }
 }
 
-
-
-
-.title{
-  font-size: 15px;
-  word-break:break-all; /*支持IE，chrome，FF不支持*/
-  word-wrap:break-word; /*支持IE，chrome，FF*/
-  color:#333;
-}
 
 .head{
-
   font-size: 12px;
+  z-index: 999;
 
   .avatar{
     position: absolute;
-    margin:-1px 0 0 -55px;
-    width: 40px;
-    height: 40px;
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 45px;
     background-color: #efefef;
     border-radius: 50%;
     overflow: hidden;
     img{
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
     }
   }
 
@@ -46,7 +47,7 @@
     width:100%;
 
     span{
-      color:#cccccc;
+      color:#a4a4a4;
 
       &:after{
         color:#d8d8d8;
@@ -58,49 +59,66 @@
       &:last-child:after{
         content: '';
       }
-
-      a{
-        color:#555;
-      }
-
     }
 
   }
 
 }
 
-.comment-list{
-  margin-top:15px;
-  > div > div {
-    padding-left:45px !important;
-    padding-right:0px;
+.title{
+  padding:3px 0 3px 0;
+  font-size: 15px;
+  word-break:break-all;
+  word-wrap:break-word;
+}
+
+.content{
+  font-size: 13px;
+  word-break:break-all;
+  word-wrap:break-word;
+  color:#444444;
+  line-height: 160%;
+
+  .abstract-image{
+
+    > div{
+
+      display: inline-block;
+      height: 100px;
+      width: 180px;
+      margin-right:5px;
+
+      > div{
+        display: inline-block;
+        float: left;
+        height: 100px;
+        width: 180px;
+        background-color: #efefef;
+        background-size: cover;
+        margin:0 10px 0 0;
+        background-position: center;
+        border-radius: 3px;
+        margin:5px 5px 0 0;
+      }
+
+    }
+
   }
+}
+
+.comment-main{
+  background-color: #fff;
+  font-size: 14px;
+  margin-bottom:10px;
+  border-radius:3px;
+  > div > div > div > div{
+    padding-left:120px;
+    border:none;
+  }
+
 }
 
 .view-more-comment{
-  padding:15px 0 15px 0;
-  border-top:1px solid $light-gray;
+  padding:15px 0 15px 75px;
   font-size: 13px;
-}
-
-.item{
-
-  @include respond-to(sm) {
-    padding-left:55px;
-  }
-
-  .avatar{
-    @include respond-to(sm) {
-      width: 35px;
-      height: 35px;
-      margin-left:-45px;
-    }
-    img{
-      @include respond-to(sm) {
-        width: 35px;
-        height: 35px;
-      }
-    }
-  }
-
 }

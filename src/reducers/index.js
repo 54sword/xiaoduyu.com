@@ -10,6 +10,8 @@ import followPeople from './follow-people'
 import posts from './posts'
 import topic from './topic'
 import comment from './comment'
+import website from './website'
+import postsTypes from './posts-types'
 
 export default combineReducers({
   scroll,
@@ -21,5 +23,7 @@ export default combineReducers({
   followPeople,
   topic,
   posts,
-  comment
+  comment,
+  website,
+  postsTypes
 })

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import avatarPicker from '../../common/avatar-picker'
@@ -13,10 +14,7 @@ import { loadUserInfo, resetAvatar } from '../../actions/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
-// import FileUpload from '../../components/file-upload'
-// import Loading from '../../components/loading'
 import QiniuUploadImage from '../../components/qiniu-upload-image'
 
 
@@ -62,61 +60,11 @@ export class ResetAvatar extends Component {
 
     const self = this
     const { loadUserInfo } = this.props
-    /*
-    let options = {
-      url: 'avatar',
-      numberLimit: 1,
-      uploadSuccess : function(resp){
-
-        avatarPicker({
-          img: resp.data,
-          selectAreaScale: 0.9,
-          previews: [],
-          imgLoadComplete: function() {
-
-            self.setState({
-              uploadStatus: false
-            })
-
-          },
-          done: function(area){
-            cropAvatar({
-              x: area.x,
-              y: area.y,
-              width: area.width,
-              height: area.height,
-              callback: function(){
-                loadUserInfo({})
-              }
-            })
-          }
-        })
-
-      },
-
-      beforeUpload: () => {
-        self.setState({
-          uploadStatus: true
-        })
-      },
-
-      uploadFail: (resp)=>{
-        console.log(resp)
-        alert('上传失败')
-        self.setState({
-          uploadStatus: false
-        })
-      }
-
-    }
-    */
 
     this.setState({
       fileUpload: <QiniuUploadImage upload={this.upload} multiple={false} name={'上传头像'} />
-      // fileUpload: <FileUpload options={options}>上传头像</FileUpload>
     });
 
-    // this.upload()
 
   }
 
@@ -142,7 +90,7 @@ export class ResetAvatar extends Component {
           </div>
 
           <div className="list">
-            <span className={styles.upload}>{fileUpload}</span>
+            <a href="javascript:void(0)" className={styles.upload}>{fileUpload}</a>
           </div>
 
         </div>
@@ -159,7 +107,6 @@ ResetAvatar.contextTypes = {
 
 ResetAvatar.propTypes = {
   me: PropTypes.object.isRequired,
-  // cropAvatar: PropTypes.func.isRequired,
   loadUserInfo: PropTypes.func.isRequired,
   resetAvatar: PropTypes.func.isRequired
 }
@@ -172,7 +119,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // cropAvatar: bindActionCreators(cropAvatar, dispatch),
     loadUserInfo: bindActionCreators(loadUserInfo, dispatch),
     resetAvatar: bindActionCreators(resetAvatar, dispatch)
   }

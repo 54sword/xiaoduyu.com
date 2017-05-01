@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link, browserHistory } from 'react-router'
 
 import { bindActionCreators } from 'redux'
@@ -12,7 +13,7 @@ import Subnav from '../../components/subnav'
 import CaptchaButton from '../../components/captcha-button'
 
 export class BindingEmail extends Component {
-  
+
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)

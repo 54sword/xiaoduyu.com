@@ -1,7 +1,8 @@
 import Ajax from '../common/ajax'
 // import * as API from '../api/sign'
 
-export function showSign() {
+export function showSign(e) {
+  if (e) e.stopPropagation()
   return { type: 'SHOW_SIGN' }
 }
 

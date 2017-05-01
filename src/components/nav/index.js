@@ -1,6 +1,8 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import { Link, IndexLink } from 'react-router'
+// import Headroom from 'react-headroom'
 
 import styles from './style.scss'
 
@@ -45,8 +47,7 @@ export class Navbar extends Component {
             </ul>
           </div>
         </div>
-        <div className={styles.placeholder}>
-        </div>
+        <div className={styles.placeholder}></div>
       </div>
     )
   }

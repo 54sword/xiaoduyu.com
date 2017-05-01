@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import styles from './style.scss'
@@ -10,7 +11,6 @@ import { getUserInfo } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 import { Countdown } from '../../common/date'
@@ -23,10 +23,8 @@ export class Settings extends Component {
   }
 
   handleSignout() {
-    // if (window.confirm('确认退出？')) {
     this.props.signout()
     location.href = '/'
-    // }
   }
 
   render() {

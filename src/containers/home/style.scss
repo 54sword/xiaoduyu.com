@@ -1,0 +1,56 @@
+@import "../global/base.scss";
+
+.talk{
+  background-image: url(./images/talk.png);
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 0 center;
+  padding-left:20px;
+}
+
+.ask{
+  @extend .talk;
+  background-image: url(./images/ask.png);
+}
+
+.write{
+  @extend .talk;
+  background-image: url(./images/write.png);
+}
+
+.tips{
+  position: fixed;
+  top:70px;
+  left:50%;
+  background-color: rgb(0, 140, 255);
+  color:#fff;
+  width:120px;
+  margin:0 0 0 -70px;
+  text-align: center;
+  padding:5px 10px 5px 10px;
+  border-radius: 50px;
+  z-index: 99;
+}
+
+.posts-type{
+  background-color: #fff;
+  margin-bottom:10px;
+  border-radius: 3px;
+  > a{
+    display: inline-block;
+    width:33.33%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-right:1px solid $light-gray;
+    @include boxSizing();
+    &:hover{
+      background-color: rgb(249, 249, 249);
+      text-decoration: none;
+    }
+  }
+
+  a:last-of-type{
+    border:none;
+  }
+}

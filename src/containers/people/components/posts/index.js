@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 import Shell from '../../../../shell'
@@ -12,17 +12,17 @@ import { loadPostsList } from '../../../../actions/posts'
 export class PeoplePosts extends React.Component {
 
   // 服务器预加载内容
-  static loadData(option, callback) {
+  static loadData({ store, props }, callback) {
 
-    const { id } = option.props.params
-    const { dispatch } = option.store
+    const { id } = props.params
+    const { dispatch } = store
 
     dispatch(loadPeopleById({
       id,
       callback:(people)=>{
-
+        
         if (!people) {
-          callback('not found')
+          callback(404)
           return;
         }
 

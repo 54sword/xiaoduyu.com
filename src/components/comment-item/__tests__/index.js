@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { Link } from 'react-router'
 import { shallow, mount, render } from 'enzyme'
 
@@ -21,7 +21,8 @@ import styles from '../style.scss'
 
 let props = {
   comment: {},
-  me: {}
+  me: {},
+  showSign: ()=>{}
 }
 
 describe('<CommentItem />', ()=>{
@@ -46,6 +47,12 @@ describe('<CommentItem />', ()=>{
         }
       }
     })
+  })
+
+  /*
+  it('应该有 `.detail` ', function() {
+    let wrapper = shallow(<CommentItem {...props} />)
+    expect(wrapper.find('.detail').length).toBe(1);
   })
 
   it('应该没有  查看评论 `summary` 链接', function() {
@@ -109,5 +116,6 @@ describe('<CommentItem />', ()=>{
     let wrapper = shallow(<CommentItem {...props} />)
     expect(wrapper.find('.comment-list .item').length).toBe(comment.reply.length);
   })
+  */
 
 })

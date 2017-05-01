@@ -8,7 +8,7 @@
   height: 45px;
   line-height: 45px;
   width: 100%;
-  // border-bottom:1px solid #f0f0f0;
+  // border-bottom:1px solid #ebebeb;
   // border-top:1px solid #f1f1f1;
   // margin-top: -1px;
   // box-shadow: 0 0 1px rgba(0, 0, 0, .2);
@@ -18,8 +18,12 @@
   > div{
     margin:0 auto;
   }
-  
+
   @include respond-to(sm) {
+    top: auto;
+    bottom:0;
+  }
+  @include respond-to(xs) {
     top: auto;
     bottom:0;
   }
@@ -65,10 +69,19 @@
   @include respond-to(sm) {
     display: none;
   }
+  @include respond-to(xs) {
+    display: none;
+  }
 
 }
 
 @include respond-to(sm) {
+  body{
+    padding-bottom: 48px !important;
+  }
+}
+
+@include respond-to(xs) {
   body{
     padding-bottom: 48px !important;
   }

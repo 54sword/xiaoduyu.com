@@ -1,0 +1,120 @@
+@import "../../containers/global/base.scss";
+
+.node-selector{
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+}
+
+.topics-container{
+  position: relative;
+  width:600px;
+  margin:30px auto 0 auto;
+  padding:20px;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 5px;
+  @include boxSizing();
+
+  @include respond-to(sm){
+    width:90%;
+    margin:5%;
+  }
+  @include respond-to(xs){
+    width:90%;
+    margin:5%;
+  }
+
+  .close{
+    float:right;
+    width:16px;
+    height:16px;
+    background-image: url('../../containers/global/images/close.png');
+    background-size: cover;
+    opacity: .5;
+    @include cursorHand();
+    &:hover{
+      opacity: .3;
+    }
+  }
+
+  .head{
+    color:#999999;
+    margin-top:10px;
+  }
+
+  .topic{
+    display: inline-block;
+    margin:10px 20px 0 0;
+    &:hover{
+      @include cursorHand();
+      color: $blue;
+    }
+  }
+
+  .active{
+    @extend .topic;
+    color: $blue;
+  }
+
+}
+
+.mask{
+  position: fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .25);
+  // z-index: 9;
+}
+
+
+.title{
+  position: relative;
+  display: table;
+  width:100%;
+  margin-bottom:10px;
+
+  > div{
+    position: relative;
+    display: table-cell;
+    background-color: #fff;
+    border-right:1px solid #efefef;
+    padding:0 15px 0 15px;
+    width: 1%;
+
+    @include ellipses();
+    @include boxSizing();
+    @include cursorHand();
+    &:hover{
+      color:$blue;
+    }
+
+  }
+
+  > input{
+    position: relative;
+    display: table-cell;
+    width: 100%;
+    height: 40px;
+    border-radius: 0px;
+    border:0px;
+  }
+
+}
+
+
+.submit{
+
+  button{
+    margin-top:10px;
+    width:100%;
+  }
+
+}

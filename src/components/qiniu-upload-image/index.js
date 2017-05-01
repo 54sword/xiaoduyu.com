@@ -1,12 +1,11 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Qiniu from 'react-qiniu'
 
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-// import { getProfile } from '../../reducers/account'
-// import { updateProfile } from '../../actions/account'
 import { getQiNiuToken } from '../../actions/qiniu'
 
 import Loading from '../../components/loading'
@@ -46,7 +45,7 @@ export class QiniuUploadImage extends React.Component {
   _onUpload(files) {
 
     const self = this
-    const { upload } = this.props
+    const { upload, onUpload } = this.props
     const { url } = this.state
 
     self.setState({ loading: true })
@@ -55,7 +54,15 @@ export class QiniuUploadImage extends React.Component {
 
     files.map(function (f) {
 
+      if (f.type == '') {
+        alert('上传图片格式错误')
+        self.setState({ loading: false, progress: '' })
+        return
+      }
+
       f.onprogress = function(e) {
+
+        onUpload(e)
 
         if (e.percent == 100 && e.currentTarget.status && e.currentTarget.status == 200) {
 
@@ -84,7 +91,8 @@ export class QiniuUploadImage extends React.Component {
   }
 
   _onDrop(files) {
-    // console.log(files)
+    const { onDrop } = this.props
+    onDrop(files)
   }
 
   render() {
@@ -94,11 +102,11 @@ export class QiniuUploadImage extends React.Component {
     }
 
     const { loading, token } = this.state
-    const { multiple = true, name = '上传图片' } = this.props
+    const { multiple, name, displayLoading } = this.props
 
     return (
       <div>
-        {loading ? <Loading /> : null}
+        {displayLoading && loading ? <Loading /> : null}
         <Qiniu
           onDrop={this.onDrop}
           size={100}
@@ -107,13 +115,20 @@ export class QiniuUploadImage extends React.Component {
           token={this.state.token}
           uploadKey={this.state.uploadKey}
           onUpload={this.onUpload}>
-          <div className={styles.buttonbox}>
-            <a href="javascript:void(0)" className="button-white">{name}</a>
-          </div>
+            {name}
         </Qiniu>
       </div>
     );
   }
+}
+
+QiniuUploadImage.defaultProps = {
+  displayLoading: true,
+  name: '上传图片',
+  multiple: true,
+  upload: (s)=>{},
+  onDrop: (files)=>{},
+  onUpload: (file)=>{}
 }
 
 QiniuUploadImage.propTypes = {

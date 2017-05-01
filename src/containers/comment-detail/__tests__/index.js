@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 import { Link } from 'react-router'
 import { Provider } from 'react-redux'
@@ -13,7 +13,7 @@ import 'jsdom-global/register'
 import Comment from '../index'
 import styles from '../style.scss'
 
-import { loadCommentById } from '../../../actions/comment'
+import { loadCommentById, loadCommentList } from '../../../actions/comment'
 import { signin } from '../../../actions/sign'
 import { loadUserInfo } from '../../../actions/user'
 
@@ -24,7 +24,7 @@ describe('<Comment />', ()=>{
 
   let props = {
     params: {
-      id: '58b93bccd068dc3e713b5c0e'
+      id: ''
     }
   }
 
@@ -50,23 +50,31 @@ describe('<Comment />', ()=>{
   })
 
   it('应该可以获取评论`', function() {
-    const action = bindActionCreators(loadCommentById, dispatch)
+    const action = bindActionCreators(loadCommentList, dispatch)
     return action({
-      id: props.params.id,
+      name: 'test',
+      filters: { page:1, per_page: 1 },
       callback: (result) => {
-        comment = result
-        expect(result ? true : false).toEqual(true);
+
+        if (result && result.success) {
+          comment = result.data[0]
+          props.params.id = comment._id
+        }
+
+        expect(result && result.success ? true : false).toEqual(true);
       }
     })
   })
 
   it('应该有 帖子的标题', function() {
+    if (!comment) return
     let posts = comment.posts_id
     wrapper = mount(<Provider store={store}><Comment {...props} /></Provider>)
     expect(wrapper.contains(<Link to={`/posts/${posts._id}`}>{posts.title}</Link>)).toBe(true);
   })
 
   it('应该有 作者链接', function() {
+    if (!comment) return
     expect(wrapper.contains(<Link to={`/people/${comment.user_id._id}`}>
       <img className={styles.avatar} src={comment.user_id.avatar_url} />
       {comment.user_id.nickname}
@@ -75,11 +83,13 @@ describe('<Comment />', ()=>{
   })
 
   it('应该有 回复链接', function() {
+    if (!comment) return
     expect(wrapper.contains(<Link to={`/write-comment?posts_id=${comment.posts_id._id}&parent_id=${comment._id}`}>回复</Link>))
     .toBe(true);
   })
 
   it('应该有 编辑链接', function() {
+    if (!comment) return
     expect(wrapper.contains(<Link to={`/edit-comment/${comment._id}`}>编辑</Link>))
     .toBe(me._id && comment.user_id._id ? true : false);
   })

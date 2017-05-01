@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import { bindActionCreators } from 'redux'
@@ -10,7 +11,6 @@ import { getCaptchaByEmail, resetEmail } from '../../actions/account'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 import CaptchaButton from '../../components/captcha-button'
 

@@ -1,0 +1,13 @@
+.content{
+
+  :global {
+    .RichEditor-editor .public-DraftEditor-content {
+      min-height: 150px;
+    }
+  }
+
+}
+
+.submit{
+  margin-top: 10px;
+}

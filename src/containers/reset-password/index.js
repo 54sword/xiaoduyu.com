@@ -1,16 +1,15 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { signout } from '../../actions/sign'
-// import { getUserInfo } from '../../reducers/user'
 
 import { resetPassword } from '../../actions/account'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-// import Nav from '../../components/nav'
 import Subnav from '../../components/subnav'
 
 
@@ -56,8 +55,9 @@ export class ResetPassword extends Component {
           if (!result.success) {
             alert(result.error)
           } else {
-            alert('密码修改成功')
-            self.context.router.goBack()
+            alert('密码修改成功，请重新登录')
+            window.location.href = '/'
+            // self.context.router.goBack()
           }
         }
       })

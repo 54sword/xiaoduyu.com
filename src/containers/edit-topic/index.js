@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import avatarPicker from '../../common/avatar-picker'
@@ -8,19 +9,27 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadTopicById, loadTopics, updateTopicById } from '../../actions/topic'
 import { getTopicListByName, getTopicById } from '../../reducers/topic'
+import { getProfile } from '../../reducers/user'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import QiniuUploadImage from '../../components/qiniu-upload-image'
 
-class EditNode extends Component {
+class EditTopic extends Component {
+  
+  static loadData({ store, props }, callback) {
+    const { id } = props.params
 
-  static loadData(option, callback) {
-    const { id } = option.props.params
-    option.store.dispatch(loadTopicById({ id, callback: (node)=>{
-      if (!node) {
-        callback('not found')
+    const me = getProfile(store.getState())
+
+    if (!me._id || me.role != 100) {
+      return callback(403)
+    }
+
+    store.dispatch(loadTopicById({ id, callback: (topic)=>{
+      if (!topic) {
+        callback(404)
       } else {
         callback()
       }
@@ -179,11 +188,11 @@ class EditNode extends Component {
 
 }
 
-EditNode.contextTypes = {
+EditTopic.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-EditNode.propTypes = {
+EditTopic.propTypes = {
   node: PropTypes.array.isRequired,
   nodes: PropTypes.object.isRequired,
   loadTopics: PropTypes.func.isRequired,
@@ -206,6 +215,6 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-EditNode = connect(mapStateToProps, mapDispatchToProps)(EditNode)
+EditTopic = connect(mapStateToProps, mapDispatchToProps)(EditTopic)
 
-export default Shell(EditNode)
+export default Shell(EditTopic)

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 import styles from './style.scss'
@@ -22,7 +23,7 @@ export class NotificationList extends Component {
   }
 
   componentWillMount() {
-    
+
     const { notification, name, filters } = this.props
 
     if (!notification.data) {

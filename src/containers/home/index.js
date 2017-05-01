@@ -1,5 +1,17 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
+import { reactLocalStorage } from 'reactjs-localstorage'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+import { loadPostsList, showNewPosts } from '../../actions/posts'
+import { getPostsListByName } from '../../reducers/posts'
+import { getProfile } from '../../reducers/user'
+import { showSign } from '../../actions/sign'
+
+
+import styles from './style.scss'
 
 // 外壳
 import Shell from '../../shell'
@@ -8,40 +20,171 @@ import Shell from '../../shell'
 import Nav from '../../components/nav'
 import Meta from '../../components/meta'
 import PostsList from '../../components/posts-list'
+import Footer from '../../components/footer'
 
-// actions
-import { loadPostsList } from '../../actions/posts'
+
+let defaultProps = {
+  filters: {
+    weaken: 1,
+    method: 'user_custom'
+  },
+  name: 'home'
+}
 
 // 纯组件
-class Home extends React.Component {
+export class Home extends React.Component {
 
   // 服务器预加载内容
-  static loadData(option, callback) {
-    if (option.userinfo) {
+  static loadData({ store }, callback) {
+
+    const { filters, name } = defaultProps
+    const me = getProfile(store.getState())
+
+    if (me._id) {
       callback()
-    } else {
-      option.store.dispatch(loadPostsList({ name:'home', callback:()=>{
-        callback()
-      }}))
+      return
     }
+
+    filters.comments_sort = 'create_at:-1'
+    filters.include_comments = 1
+    
+    store.dispatch(loadPostsList({
+      name,
+      filters,
+      callback: ()=>{
+        callback()
+      }
+    }))
+
   }
 
   constructor(props) {
     super(props)
+
+    const { filters, name } = defaultProps
+
+    this.state = {
+      name: name,
+      filters: filters,
+      // 评论排序偏好id
+      commentsSortId: 2,
+      // 评论排序数组
+      commentsSort: [
+        { id: 1, condition: '', name: '不显示' },
+        { id: 2, condition: 'create_at:-1', name: '最新' },
+        { id: 3, condition: 'reply_count:-1,like_count:-1,create_at:-1', name: '回复最多' },
+        { id: 4, condition: 'like_count:-1,reply_count:-1,create_at:-1', name: '点赞最多' }
+      ]
+    }
+
+    this.chooseCommentsSort = this.chooseCommentsSort.bind(this)
+  }
+
+  componentDidMount() {
+    const { me } = this.props
+    if (me._id) {
+      const consition = reactLocalStorage.get('comments_sort_id') || 2
+      this.chooseCommentsSort(consition)
+    }
+  }
+
+  chooseCommentsSort(id) {
+
+    const { name, filters, commentsSort } = this.state
+    const { postsList } = this.props
+
+    let condition = 'create_at:-1'
+    let commentsSortId = 2
+
+    commentsSort.map(item=>{
+      if (item.id == id) {
+        commentsSortId = item.id
+        condition = item.condition
+      }
+    })
+
+    reactLocalStorage.set('comments_sort_id', commentsSortId)
+
+    if (postsList.filters
+        && typeof postsList.filters.comments_sort != 'undefined'
+        && condition == postsList.filters.comments_sort
+        || postsList.filters
+        && typeof postsList.filters.comments_sort == 'undefined'
+        && !condition
+      ) {
+        this.setState({
+          commentsSortId: commentsSortId
+        })
+      return
+    }
+
+    if (condition) {
+      filters.comments_sort = condition
+      filters.include_comments = 1
+    } else {
+      delete filters.comments_sort
+      delete filters.include_comments
+    }
+
+    this.setState({
+      commentsSortId: commentsSortId,
+      timestamp: new Date().getTime(),
+      filters
+    })
+
   }
 
   render() {
+
+    const { name, filters, timestamp, commentsSort, commentsSortId } = this.state
+    const { me, newPostsList, showNewPosts, showSign } = this.props
 
     return(<div>
       <Meta />
       <Nav />
 
       <div className="container">
+        {newPostsList.data && newPostsList.data.length > 0 ?
+          <a href="javascript:void(0)" className={styles.tips} onClick={showNewPosts}>有 {newPostsList.data.length} 篇新帖子</a>
+          : null}
+        {me._id ?
+          <div className={styles['posts-type']}>
+            <Link to="/write-posts"><span className={styles.talk}>说说</span></Link>
+            <Link to="/write-posts?type=2"><span className={styles.ask}>提问</span></Link>
+            <Link to="/write-posts?type=3"><span className={styles.write}>写文章</span></Link>
+          </div>
+          : <div className={styles['posts-type']}>
+              <a href="javascript:void(0)" onClick={showSign}><span className={styles.talk}>说说</span></a>
+              <a href="javascript:void(0)" onClick={showSign}><span className={styles.ask}>提问</span></a>
+              <a href="javascript:void(0)" onClick={showSign}><span className={styles.write}>写文章</span></a>
+            </div>}
         <div className="container-head">
           最新动态
-          {/*<Link to="/topics" className="right">发布帖子</Link>*/}
+          {me._id ?
+            <div className="right">
+              评论显示偏好：
+              <select className="select" onChange={(e)=>{ this.chooseCommentsSort(e.target.value) }} value={commentsSortId}>
+                {commentsSort.map((item, index)=>{
+                  return (<option key={index} value={item.id}>{item.name}</option>)
+                })}
+              </select>
+            </div>
+            : null}
         </div>
-        <PostsList name={'home'} displayDate={false} filters={{method:'user_custom'}} />
+        <PostsList
+          name={name}
+          displayDate={false}
+          timestamp={timestamp}
+          filters={filters}
+          commentOption={{
+            displayReply: false,
+            displayDate: false,
+            summary: true,
+            displayLike: false,
+            displayEdit: false
+          }}
+          />
+        <Footer />
       </div>
 
     </div>)
@@ -49,5 +192,35 @@ class Home extends React.Component {
 
 }
 
+
+
+
+Home.defaultProps = defaultProps
+
+Home.propTypes = {
+  me: PropTypes.object.isRequired,
+  postsList: PropTypes.object.isRequired,
+  newPostsList: PropTypes.object.isRequired,
+  showNewPosts: PropTypes.func.isRequired,
+  showSign: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state, props) => {
+
+  return {
+    me: getProfile(state),
+    postsList: getPostsListByName(state, defaultProps.name),
+    newPostsList: getPostsListByName(state, 'new')
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showNewPosts: bindActionCreators(showNewPosts, dispatch),
+    showSign: bindActionCreators(showSign, dispatch)
+  }
+}
+
+Home = connect(mapStateToProps,mapDispatchToProps)(Home)
 
 export default Shell(Home)

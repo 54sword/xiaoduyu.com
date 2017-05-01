@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react'
-
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadTopicById } from '../../actions/topic'
@@ -25,7 +25,7 @@ export class TopicDetail extends Component {
       }
     }}))
   }
-
+  
   constructor(props) {
     super(props)
   }

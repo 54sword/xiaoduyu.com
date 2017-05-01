@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 import { Provider } from 'react-redux'
 import { bindActionCreators } from 'redux'

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
 // import styles from './style.scss'
@@ -19,6 +20,7 @@ export class PostsList extends Component {
 
   constructor(props) {
     super(props)
+    this.loadDate = this.loadDate.bind(this)
   }
 
   componentDidMount() {
@@ -26,11 +28,11 @@ export class PostsList extends Component {
     const { postsList, loadPostsList, name, filters } = this.props
 
     if (!postsList.data) {
-      loadPostsList({ name, filters })
+      this.loadDate()
     }
 
     arriveFooter.add(name, ()=>{
-      loadPostsList({ name, filters })
+      this.loadDate()
     })
   }
 
@@ -39,23 +41,20 @@ export class PostsList extends Component {
     arriveFooter.remove(name)
   }
 
-  /*
+  loadDate() {
+    const { name, filters, loadPostsList } = this.props
+    loadPostsList({ name, filters })
+  }
+
   componentWillReceiveProps(props) {
-
-    if (props.update != this.props.update) {
-
-      const { resetNewQuestionList, loadQuestions } = this.props
-
-      // console.log(props.update + '|' + this.props.update)
-
-      resetNewQuestionList({ name: props.name, filters: props.filters })
-      loadQuestions()
+    if (props.timestamp != this.props.timestamp) {
+      const { loadPostsList } = this.props
+      loadPostsList({ name: props.name, filters: props.filters, restart: true })
     }
   }
-  */
 
   render () {
-    const { displayDate = true, postsList, loadPostsList } = this.props
+    const { displayDate = true, postsList, loadPostsList, commentOption = {} } = this.props
 
     // 当没有数据的情况
     if (typeof postsList.data == "undefined") {
@@ -67,7 +66,7 @@ export class PostsList extends Component {
     return (
       <div>
         {data.map(posts=>{
-          return (<div key={posts._id}><PostsItem posts={posts} displayDate={displayDate} /></div>)
+          return (<div key={posts._id}><PostsItem posts={posts} displayDate={displayDate} commentOption={commentOption} /></div>)
         })}
         <ListLoading loading={loading} more={more} handleLoad={loadPostsList} />
       </div>

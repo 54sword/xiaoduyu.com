@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 // https://github.com/airbnb/enzyme/issues/341
 import 'jsdom-global/register'
@@ -35,7 +35,7 @@ describe('<ResetEmail />', ()=>{
 
   let wrapper = null
   // let me = null
-  
+
   it('应该有 新的邮箱的输入框', function() {
     wrapper = mount(<Provider store={store}><ResetEmail {...props} /></Provider>, contextTypes)
     expect(wrapper.contains(<input type="text" placeholder="请输入新的邮箱" ref="newEmail" />))

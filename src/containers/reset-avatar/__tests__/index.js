@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { shallow, mount, render } from 'enzyme'
 // https://github.com/airbnb/enzyme/issues/341
 import 'jsdom-global/register'

@@ -1,26 +1,27 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
 import Shell from '../../../../shell'
 // import PeopleList from '../../../../components/people-list'
 import FollowPeopleList from '../../../../components/follow-people-list'
 
-import { loadPeopleById, loadFans } from '../../../../actions/people'
+import { loadPeopleById } from '../../../../actions/people'
+import { loadFans } from '../../../../actions/follow-people'
 
 export class PeopleFans extends React.Component {
 
   // 服务器预加载内容
-  static loadData(option, callback) {
+  static loadData({ store, props }, callback) {
 
-    const { id } = option.props.params
-    const { dispatch } = option.store
+    const { id } = props.params
+    const { dispatch } = store
 
     dispatch(loadPeopleById({
       id,
       callback:(people)=>{
         if (!people) {
-          callback('not found')
-          return;
+          callback(404)
+          return
         }
         dispatch(loadFans({ name:'fans-'+id, filters:{ people_id: id }, callback:()=>{
           callback()

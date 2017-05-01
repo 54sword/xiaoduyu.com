@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 import { Link } from 'react-router'
 import { Provider } from 'react-redux'
@@ -60,6 +60,7 @@ describe('<TopicItem />', function() {
     expect(wrapper.find('.item').length).toBe(1)
   })
 
+  /*
   it('应该有 提问链接', ()=>{
     expect(wrapper.contains(<Link to={`/write-posts/${topic._id}?type=2`}>提问</Link>)).toBe(true)
   })
@@ -67,6 +68,7 @@ describe('<TopicItem />', function() {
   it('应该有 分享链接', ()=>{
     expect(wrapper.contains(<Link to={`/write-posts/${topic._id}?type=1`}>分享</Link>)).toBe(true)
   })
+  */
 
   it('应该有／没有 编辑链接', ()=>{
     expect(wrapper.contains(<Link to={`/edit-topic/${topic._id}`}>编辑</Link>)).toBe(me.role == 100 ? true : false)

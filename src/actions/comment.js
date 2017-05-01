@@ -5,7 +5,7 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
-    let commentList = getState().comment[posts_id] || null
+    let commentState = getState().comment
 
     return Ajax({
       url: '/write-comment',
@@ -21,19 +21,25 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
       headers: { AccessToken: accessToken },
       callback: (res) => {
 
-        if (commentList && res.success && res.data) {
+        if (res.success && res.data) {
+          for (let i in commentState) {
+            // 评论 和 回复
+            if (!parent_id && i == posts_id ||
+              parent_id && i == parent_id) {
+              commentState[i].data.push(res.data)
+            }
 
-          if (!parent_id) {
-            commentList.data.unshift(res.data)
-          } else if (parent_id) {
-            commentList.data.map(comment=>{
-              if (comment._id == parent_id) {
-                comment.reply.unshift(res.data)
+            commentState[i].data.map(item=>{
+              if (item._id == parent_id) {
+                item.reply.push(res.data)
+                item.reply_count += 1
               }
             })
+
           }
 
-          dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name: posts_id, data: commentList })
+          dispatch({ type: 'SET_COMMENT', state: commentState })
+          alert('添加成功')
         }
 
         callback(res)
@@ -43,6 +49,9 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 
   }
 }
+
+
+
 
 export function updateComment({ id, contentJSON, contentHTML, callback }) {
   return (dispatch, getState) => {
@@ -62,7 +71,7 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
       headers: { AccessToken: accessToken },
       callback: (res) => {
 
-        if (!res && !res.success) {
+        if (!res || !res.success) {
           callback(res)
           return
         }
@@ -84,6 +93,11 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
           if (data.length > 0) {
 
             data.map((item, key)=>{
+
+              if (!item.comment) {
+                return
+              }
+
               item.comment.map((comment, index)=>{
                 if (comment._id == id) {
                   posts[i].data[key].comment[index].content_html = contentHTML

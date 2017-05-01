@@ -1,29 +1,29 @@
-import React, { Component, PropTypes } from 'react'
-import ReactDOM from 'react-dom'
-import { Link, browserHistory } from 'react-router'
-import { reactLocalStorage } from 'reactjs-localstorage'
-
-import Device from '../../common/device'
-import styles from './style.scss'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { browserHistory } from 'react-router'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { addPosts } from '../../actions/posts'
-import { loadTopicById } from '../../actions/topic'
-import { getTopicById } from '../../reducers/topic'
+import { getPostsTypeById } from '../../reducers/posts-types'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
-import Subnav from '../../components/subnav'
-import Editor from '../../components/editor'
+import Nav from '../../components/nav'
+import PostsEditor from '../../components/posts-editor'
 
-class WriteQuestion extends React.Component {
+class WritePosts extends React.Component {
 
   static loadData(option, callback) {
-    const { nodeId } = option.props.params
-    option.store.dispatch(loadTopicById({ id: nodeId, callback: (node)=>{
-      if (!node) {
+    const { id } = option.props.params
+
+    if (!id) {
+      callback()
+      return
+    }
+
+    option.store.dispatch(loadTopicById({ id: id, callback: (topic)=>{
+      if (!topic) {
         callback('not found')
       } else {
         callback()
@@ -33,162 +33,51 @@ class WriteQuestion extends React.Component {
 
   constructor(props) {
     super(props)
+
+    let type = this.props.location.query.type || 1
+
     this.state = {
-      nodes: [],
-      contentStateJSON: '',
-      contentHTML: '',
-      editor: <div></div>,
+      type: this.props.getPostsTypeById(type)
     }
-    this.submitQuestion = this.submitQuestion.bind(this)
-    this.sync = this.sync.bind(this)
-    this.titleChange = this._titleChange.bind(this)
-    this.handleContentChange = this.handleContentChange.bind(this)
-  }
 
-  handleContentChange(e) {
-      this.setState({content: e.target.value});
-  }
-
-  updateCode(newCode) {
-      this.setState({
-          code: newCode
-      });
+    this.successCallback = this.successCallback.bind(this)
   }
 
   componentWillMount() {
-    const { nodeId } = this.props.params
-    const { loadTopicById } = this.props
-
-    loadTopicById({
-      id: nodeId,
-      callback: (result)=>{
-        if (!result) {
-          browserHistory.push('/')
-        }
-      }
-    })
   }
 
-  _titleChange(event) {
-    let { questionTitle } = this.refs
-    // this.setState({title: questionTitle.value});
-    // reactLocalStorage.set('question-title', questionTitle.value)
-  }
-
-  sync(contentStateJSON, contentHTML) {
-    this.state.contentStateJSON = contentStateJSON
-    this.state.contentHTML = contentHTML
-
-    // console.log(contentStateJSON);
-
-    // reactLocalStorage.set('question-content', contentStateJSON)
-  }
-
-  componentDidMount() {
-    let questionContent = reactLocalStorage.get('question-content') || ''
-
-    this.setState({
-      // title: reactLocalStorage.get('question-title') || '',
-      editor: <div><Editor syncContent={this.sync} content={questionContent} /></div>
-    });
-
-    let { questionTitle } = this.refs
-    questionTitle.value = reactLocalStorage.get('question-title') || ''
-  }
-
-  submitQuestion() {
-
-    let self = this
-    let { questionTitle } = this.refs
-    let { addPosts } = this.props
-    const { contentStateJSON, contentHTML } = this.state
-    const [ node ] = this.props.node
-
-    if (!questionTitle.value) {
-      questionTitle.focus()
-      return
-    }
-
-    addPosts({
-      title: questionTitle.value,
-      detail: contentStateJSON,
-      detailHTML: contentHTML,
-      nodeId: node._id,
-      device: Device.getCurrentDeviceId(),
-      type: this.props.location.query.type || 1,
-      callback: function(err, question){
-        if (!err) {
-
-          setTimeout(()=>{
-            reactLocalStorage.set('question-content', '')
-            reactLocalStorage.set('question-title', '')
-          }, 200)
-
-          browserHistory.push('/posts/'+question._id+'?subnav_back=/')
-
-        } else {
-          alert(err)
-        }
-      }
-    })
-
+  successCallback(posts) {
+    browserHistory.push('/posts/'+posts._id+'?subnav_back=/')
   }
 
   render() {
-    const { editor } = this.state
-    const [ node ] = this.props.node
-    const type = this.props.location.query.type || 1
-
-    if (!node) {
-      return (<div></div>)
-    }
-
-    // var editorStyle = {
-    //     overflow: 'auto',
-    //     width: '100%',
-    //     height: 200
-    // }
+    const { type } = this.state
 
     return (<div>
-      <Meta meta={{title: `${type == 2 ? '提问' : '分享'}`}} />
-      <Subnav left="取消" middle={node ? `在 ${node.name} ${type == 2 ? '提问' : '分享'}` : ''} />
-      <div className="container">
-        <div className={styles.addPosts}>
-          <div className={styles.questionTitle}>
-            <input className="input" ref="questionTitle" type="text" onChange={this.titleChange} placeholder={"请输入标题"}  />
-          </div>
-
-          <div>{editor}</div>
-
-          <div className={styles.submit}>
-            <button className="button" onClick={this.submitQuestion}>提交</button>
-          </div>
-        </div>
-      </div>
+      <Meta meta={{ title: type.name }} />
+      <Nav />
+      <PostsEditor type={type._id} successCallback={this.successCallback} />
     </div>)
   }
 
 }
 
-WriteQuestion.propTypes = {
-  addPosts: PropTypes.func.isRequired,
-  node: PropTypes.array.isRequired,
-  loadTopicById: PropTypes.func.isRequired,
+WritePosts.propTypes = {
 }
 
 function mapStateToProps(state, props) {
   return {
-    node: getTopicById(state, props.params.nodeId)
+    getPostsTypeById: (id)=>{
+      return getPostsTypeById(state, id)
+    }
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    addPosts: bindActionCreators(addPosts, dispatch),
-    loadTopicById: bindActionCreators(loadTopicById, dispatch)
   }
 }
 
-WriteQuestion = connect(mapStateToProps, mapDispatchToProps)(WriteQuestion)
+WritePosts = connect(mapStateToProps, mapDispatchToProps)(WritePosts)
 
-export default Shell(WriteQuestion)
+export default Shell(WritePosts)

@@ -3,236 +3,124 @@ import merge from 'lodash/merge'
 import Ajax from '../common/ajax'
 
 // 添加问题
-export function addPosts({ title, detail, detailHTML, nodeId, device, type, callback }) {
+export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
-    let questionList = getState().posts['home']
-
-    Ajax({
+    
+    return Ajax({
       url: '/add-posts',
       type:'post',
       data: {
-        title: title,
-        detail: detail,
-        detail_html: detailHTML,
-        topic_id: nodeId,
-        device_id: device,
-        type: type
+        title: title, detail: detail, detail_html: detailHTML,
+        topic_id: topicId, device_id: device, type: type
       },
       headers: { AccessToken: accessToken },
-      callback: (res)=>{
-        if (res && res.success) {
-          callback(false, res.data)
-          questionList.data.unshift(processPostsList([res.data])[0])
-          dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name: 'home', data: questionList })
-        } else {
-          callback(res.error || true)
-        }
-      }
+      callback
     })
 
   }
 }
 
-
-// 添加问题
-export function updatePostsById({ id, title, detail, detailHTML, callback }) {
+export function updatePostsById({ id, typeId, topicId, title, content, contentHTML, callback = ()=>{} }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
     let state = getState().posts
 
-    Ajax({
+    return Ajax({
       url: '/update-posts',
       type:'post',
       data: {
-        id: id,
-        title: title,
-        content: detail,
-        content_html: detailHTML
+        id: id, type: typeId, title: title,
+        topic_id: topicId, content: content, content_html: contentHTML
       },
       headers: { AccessToken: accessToken },
       callback: (res)=>{
 
-        if (res && res.success) {
-
-          for (let i in state) {
-            let data = state[i].data
-            if (data.length > 0) {
-              for (let n = 0, max = data.length; n < max; n++) {
-                if (data[n]._id == id) {
-                  state[i].data[n].title = title
-                  state[i].data[n].content = detail
-                  state[i].data[n].content_html = detailHTML
-                }
-              }
-            }
-          }
-
-          dispatch({ type: 'SET_POSTS', state })
-
-        }
-
-        callback(res)
-      }
-    })
-
-  }
-}
-
-
-export function loadPostsById({ id, callback = ()=>{} }) {
-  return (dispatch, getState) => {
-
-    let accessToken = getState().user.accessToken
-    let questionList = getState().posts['other'].data
-    let headers = accessToken ? { 'AccessToken': accessToken } : null
-
-    return Ajax({
-      url: '/posts',
-      type: 'get',
-      params: { posts_id: id, draft: 1 },
-      headers,
-      callback: (res) => {
-
-        if (!res || !res.success || res.data.length == 0) {
-          callback(null)
+        if (!res || !res.success) {
+          callback(res)
           return
         }
 
-        var exsit = false
+        loadPostsList({
+          name: id,
+          filters: { id: id, per_page: 1 },
+          callback: (result)=>{
 
-        questionList.map((item)=>{
-          if (item._id == res.data[0]._id) {
-            exsit = true
+            if (!result || !result.success || !result.data || result.data.length == 0) {
+              return callback(res)
+            }
+
+            let posts = result.data[0]
+
+            for (let i in state) {
+              let data = state[i].data
+              if (data.length > 0) {
+                for (let n = 0, max = data.length; n < max; n++) {
+                  if (data[n]._id == id) {
+                    state[i].data[n] = posts
+                  }
+                }
+              }
+            }
+
+            dispatch({ type: 'SET_POSTS', state })
+            callback(res)
           }
-        })
+        })(dispatch, getState)
 
-        if (!exsit) {
-          questionList.push(res.data[0])
-          dispatch({ type: 'ADD_POSTS', posts: questionList })
-        }
-
-        callback(res.data[0])
       }
     })
+
   }
 }
 
-
-// 加工问题列表
-const processPostsList = (list) => {
-
-  list.map(function(posts){
-    posts.comment.map(function(comment){
-      let text = comment.content_html.replace(/<[^>]+>/g,"")
-      if (text.length > 140) text = text.slice(0, 140)+'...'
-      comment.content_summary = text
-    })
-  })
-
-  return list
-
-}
-
-// 首页拉取新的帖子的时间
-let lastFetchAt = null
-
-// 获取新的主题
-export function loadNewPosts(dispatch, getState) {
-
-  let accessToken = getState().user.accessToken
-  let questionList = getState().posts['home'] || null
-
-  let filters = {
-    gt_date: lastFetchAt,
-    per_page: 30,
-    sortBy: 'create_at',
-    sort: -1
-  }
-
-  let headers = null
-  if (accessToken) {
-    headers = { 'AccessToken': accessToken }
-    filters.method = 'user_custom'
-  }
-
-  return Ajax({
-    url: '/posts',
-    params: filters,
-    headers,
-    callback: (res) => {
-
-      if (!res || !res.success || !res.data || res.data.length == 0) {
-        setTimeout(()=>{
-          loadNewPosts(dispatch, getState)
-        }, 1000 * 60 * 2)
-        return
-      }
-
-      lastFetchAt = res.data[0].create_at
-
-      res.data = processPostsList(res.data)
-
-      res.data.map((item)=>{
-        questionList.data.unshift(item)
-      })
-
-      dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: questionList })
-
-      setTimeout(()=>{
-        loadNewPosts(dispatch, getState)
-      }, 1000 * 60 * 2)
-
-    }
-  })
-
-}
-
-export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
+export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart = false }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
-    let questionList = getState().posts[name] || {}
+    let postsList = getState().posts[name] || {}
 
-    if (typeof(questionList.more) != 'undefined' && !questionList.more ||
-      questionList.loading
-    ) {
+    if (restart) {
+      postsList = {}
+    }
+
+    if (typeof(postsList.more) != 'undefined' && !postsList.more || postsList.loading) {
       callback()
       return
     }
 
-    if (!questionList.data) {
-      questionList.data = []
+    if (!postsList.data) {
+      postsList.data = []
     }
 
-    if (!questionList.filters) {
+    if (!postsList.filters) {
 
       if (!filters.lt_date) filters.lt_date = new Date().getTime()
       if (!filters.per_page) filters.per_page = 30
 
-      questionList.filters = filters
+      postsList.filters = filters
     } else {
-      filters = questionList.filters
-      if (questionList.data[questionList.data.length - 1]) {
-        filters.lt_date = new Date(questionList.data[questionList.data.length - 1].sort_by_date).getTime()
+      filters = postsList.filters
+      if (postsList.data[postsList.data.length - 1]) {
+        filters.lt_date = new Date(postsList.data[postsList.data.length - 1].sort_by_date).getTime()
       }
     }
 
-    if (!questionList.more) {
-      questionList.more = true
+    if (!postsList.more) {
+      postsList.more = true
     }
 
-    if (!questionList.count) {
-      questionList.count = 0
+    if (!postsList.count) {
+      postsList.count = 0
     }
 
-    if (!questionList.loading) {
-      questionList.loading = true
+    if (!postsList.loading) {
+      postsList.loading = true
     }
 
-    dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: questionList })
+    dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: postsList })
 
     let headers = accessToken ? { 'AccessToken': accessToken } : null
 
@@ -247,25 +135,143 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{} }) {
           return
         }
 
-        questionList.more = res.data.length < questionList.filters.per_page ? false : true
-        questionList.data = questionList.data.concat(processPostsList(res.data))
-        questionList.filters = filters
-        questionList.count = 0
-        questionList.loading = false
+        postsList.more = res.data.length < postsList.filters.per_page ? false : true
+        postsList.data = postsList.data.concat(processPostsList(res.data))
+        postsList.filters = filters
+        postsList.count = 0
+        postsList.loading = false
 
-        dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: questionList })
+        dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: postsList })
         callback(res)
-
-        // 首次加载首页的帖子以后，启动轮训获取新的帖子
-        if (name == 'home' && !lastFetchAt) {
-          lastFetchAt = new Date().getTime()
-          setTimeout(()=>{
-            loadNewPosts(dispatch, getState)
-          }, 1000 * 60 * 2)
-        }
-
       }
     })
 
-  };
+  }
+}
+
+export function loadPostsById({ id, callback = ()=>{} }) {
+  return (dispatch, getState) => {
+    return loadPostsList({
+      name: id,
+      filters: { posts_id: id, per_page: 1, draft: 1 },
+      restart: true,
+      callback: (result)=>{
+        if (!result || !result.success || !result.data || result.data.length == 0) {
+          return callback(result)
+        }
+        callback(result.data[0])
+      }
+    })(dispatch, getState)
+  }
+}
+
+
+const abstractImages = (str) => {
+
+  let images = []
+
+  var imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
+  var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+
+  var result = [];
+  var img ;
+  while(img = imgReg.exec(str)){
+    result.push(img[0]);//这里的下标是匹配结果，跟你说的下标不是一回事
+  }
+
+  if (result && result.length > 0) {
+    result.map((item, index) => {
+      images[index] = item.match(srcReg)[1];
+    })
+  }
+
+  return images
+
+}
+
+// 加工问题列表
+const processPostsList = (list) => {
+
+  list.map(function(posts){
+
+    posts.images = abstractImages(posts.content_html)
+
+    let text = posts.content_html.replace(/<[^>]+>/g,"")
+    if (text.length > 80) text = text.slice(0, 80)+'...'
+    posts.content_summary = text
+
+    if (posts.comment) {
+      posts.comment.map(function(comment){
+
+        comment.images = abstractImages(comment.content_html)
+
+        let text = comment.content_html.replace(/<[^>]+>/g,"")
+        if (text.length > 50) text = text.slice(0, 50)+'...'
+        comment.content_summary = text
+
+      })
+    }
+
+  })
+
+  return list
+
+}
+
+// 首页拉取新的帖子的时间
+let lastFetchAt = null
+
+// 获取新的主题
+export function loadNewPosts(timestamp) {
+  return (dispatch, getState) => {
+
+    let accessToken = getState().user.accessToken
+    let postsList = getState().posts['home'] || null
+    let newPostsList = getState().posts['new'] || null
+    let me = getState().user.profile || null
+
+    if (!postsList) return
+    if (!lastFetchAt) lastFetchAt = timestamp
+
+    let filters = {
+      gt_create_at: lastFetchAt,
+      per_page: 100,
+      postsSort: 'create_at:-1'
+    }
+
+    if (accessToken) {
+      filters.method = 'user_custom'
+    }
+
+    return loadPostsList({
+      name: 'new',
+      filters: filters
+    })(dispatch, getState)
+  }
+
+}
+
+
+// 显示新的帖子
+export function showNewPosts() {
+  return (dispatch, getState) => {
+
+    let homeList = getState().posts['home']
+    let newList = getState().posts['new']
+
+    let i = newList.data.length
+    while (i--) {
+      homeList.data.unshift(newList.data[i])
+    }
+
+    lastFetchAt = newList.data[0].create_at
+
+    window.scrollTo(0, 0)
+    dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name:'home', data: homeList })
+
+    setTimeout(()=>{
+      dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name:'new', data: { data: [] } })
+    }, 100)
+
+  }
 }

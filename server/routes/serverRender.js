@@ -1,45 +1,52 @@
-import { RouterContext, match } from 'react-router'
-import crateRoutes from '../../src/routes'
-import createMemoryHistory from 'history/lib/createMemoryHistory'
 import express from 'express'
-import configureStore from '../../src/store/configureStore'
-import { renderToString } from 'react-dom/server'
-// renderToStaticMarkup
-import { Provider } from 'react-redux'
 import React from 'react'
-// import path from 'path';
-// import fs from 'fs';
+import { renderToString } from 'react-dom/server'
+import { Provider } from 'react-redux'
+import { RouterContext, match } from 'react-router'
+import createMemoryHistory from 'history/lib/createMemoryHistory'
 import axios from 'axios'
 import DocumentMeta from 'react-document-meta'
+
+import configureStore from '../../src/store/configureStore'
+import crateRoutes from '../../src/routes'
 
 const serverRender = express.Router()
 
 import config from '../../config'
 
-function getReduxPromise(props, store, userinfo, callback) {
+// 在服务端加载数据
+function loadData(props, store, userinfo, callback) {
 
-  let comp = props.components[props.components.length - 1].WrappedComponent;
-  comp = comp.defaultProps.component
+  // 壳组件，每个 container 组件，都是套在壳组件里面
+  let shellComponent = props.components[props.components.length - 1].WrappedComponent
+  // 容器组件，组装 components 里面各种小组件
+  let containerComponent = shellComponent.defaultProps.component
 
-  if (comp.loadData) {
-
-    if (process.env.NODE_ENV == 'development') console.log('获取数据')
-
-    comp.loadData({ store, props, userinfo }, (notFound)=>{
-      if (process.env.NODE_ENV == 'development') console.log('获取成功')
-      callback(notFound)
-    })
-
-  } else {
+  // 如果有服务器预加载，那么执行回调
+  if (!containerComponent.loadData) {
     callback()
+    return
   }
+
+  if (process.env.NODE_ENV == 'development') {
+    console.log('开始获取数据')
+  }
+
+  containerComponent.loadData({ store, props }, (notFound, desc)=>{
+
+    if (process.env.NODE_ENV == 'development') {
+      console.log('获取成功')
+    }
+
+    callback(notFound, desc)
+  })
 
 }
 
 const authAccessToken = (accessToken, callback)=> {
 
   if (!accessToken) {
-    callback(false)
+    callback(null)
     return
   }
 
@@ -64,76 +71,89 @@ const authAccessToken = (accessToken, callback)=> {
   })
   .catch(function (error) {
     callback(null)
-  });
+  })
 
 }
 
 serverRender.route('*').get((req, res) => {
 
-  const history = createMemoryHistory();
-  const store = configureStore({
-    posts: { other: { data: [] } },
-    scroll: {},
-    sign: {
-      show: false
-    },
-    user: {
-      profile: {},
-      unreadNotice: 0,
-      accessToken: ''
-    },
-    topic: { other: { data: [] } },
-    notification: {},
-    people: { other: { data: [] } },
-    comment: { other: { data: [] } },
-    history: []
-  });
-
-  let accessToken = req.cookies[config.auth_cookie_name] || null
-  let expires = req.cookies[''] || null
+  const accessToken = req.cookies[config.auth_cookie_name] || null,
+        expires = req.cookies[''] || null,
+        history = createMemoryHistory(),
+        // store = configureStore()
+        store = configureStore({
+          scroll: {},
+          sign: { show: false },
+          user: { profile: {}, unreadNotice: 0, accessToken: '' },
+          notification: {},
+          people: { other: { data: [] } },
+          history: [],
+          followPeople: {},
+          topic: { other: { data: [] } },
+          posts: {},
+          comment: { other: { data: [] } },
+          website: { onlineUserCount: 0 },
+          postsTypes:
+           {
+            '1': {
+              _id: 1,
+              name: '说说',
+              title: '请输入标题',
+              content: '如果标题已表达完整内容，则正文可以为空' },
+            '2': { _id: 2, name: '提问', title: '请输入问题的标题', content: '请输入问题的描述' },
+            '3': {
+              _id: 3,
+              name: '写文章',
+              title: '请输入文章的标题',
+              content: '请输入正文，正文内容不能少于300字'
+            }
+          }
+        })
 
   authAccessToken(accessToken, (userinfo)=>{
 
     if (userinfo) {
-      store.dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken, expires: expires })
       // 如果获取到用户信息，那么说明token是有效的，因此将用户信息添加到store
+      store.dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken, expires: expires })
       store.dispatch({ type: 'SET_USER', userinfo })
     } else {
-      // 删除token
-      res.clearCookie(config.auth_cookie_name);
+      // 如果无效，则删除token
+      res.clearCookie(config.auth_cookie_name)
     }
 
-    let routes = crateRoutes(history, userinfo ? userinfo : false);
+    let routes = crateRoutes(history, userinfo ? userinfo : null)
 
-    if (process.env.NODE_ENV == 'development') console.log('请求:' + req.originalUrl)
+    if (process.env.NODE_ENV == 'development') console.log('请求地址:' + req.originalUrl)
 
     match({ routes, location: req.originalUrl }, (error, redirectLocation, renderProps) => {
 
       if (redirectLocation) {
         res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+
       } else if (error) {
         res.send(500, error.message);
+
       } else if (!renderProps) {
         res.status(404);
-        res.render('../dist/not-found.ejs');
-        // .send('Not found<br ><a href="/">返回</a>')
+        res.redirect('/not-found');
+
       } else if (renderProps) {
 
-        getReduxPromise(renderProps, store, userinfo, (notFound) => {
+        loadData(renderProps, store, userinfo, (httpStatusCode, desc) => {
 
-          if (notFound) {
+          if (httpStatusCode && httpStatusCode == 403) {
+            res.status(403);
+            res.redirect('/notice?notice='+desc)
+            return
+
+          } else if (httpStatusCode) {
             res.status(404);
-            res.render('../dist/not-found.ejs');
-            // .send('Not found<br ><a href="/">返回</a>')
+            res.redirect('/not-found');
             return
           }
 
-          const reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
-          const html = renderToString(
-            <Provider store={store}>
-              {<RouterContext {...renderProps} />}
-            </Provider>
-          );
+          let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
+          const html = renderToString(<Provider store={store}>{<RouterContext {...renderProps} />}</Provider>)
 
           // 获取页面的meta，嵌套到模版中
           let meta = DocumentMeta.renderAsHTML()
@@ -145,10 +165,10 @@ serverRender.route('*').get((req, res) => {
         })
 
       }
-    });
+    })
 
   })
 
-});
+})
 
 export default serverRender;
