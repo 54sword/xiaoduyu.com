@@ -18,5 +18,10 @@ export function getLastHistory(state) {
 
 
 export function findHistory(state, page) {
+
+  if (state.history.length == 0) {
+    return true
+  }
+
   return state.history.indexOf(page) != -1 ? true : false
 }

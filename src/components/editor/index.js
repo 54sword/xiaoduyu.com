@@ -197,7 +197,7 @@ const Media = (props) => {
   let media;
 
   if (type === 'link') {
-    media = <a href={src}>{src}</a>;
+    media = <a href={src} target="_blank" rel="nofollow">{src}</a>;
   } else if (type === 'image') {
     media = <Image src={src} />;
   } else if (type === 'youtube') {
@@ -261,13 +261,17 @@ function getEntityStrategy(mutability) {
 }
 
 function getDecoratedStyle(mutability) {
+
+  return null;
+
   switch (mutability) {
-    case 'IMMUTABLE': return styles.immutable;
+    // case 'IMMUTABLE': return styles.immutable;
     // case 'MUTABLE': return styles.mutable;
-    case 'SEGMENTED': return styles.segmented;
+    // case 'SEGMENTED': return styles.segmented;
     default: return null;
   }
 }
+
 
 const TokenSpan = (props) => {
   const style = getDecoratedStyle(
@@ -393,7 +397,7 @@ const renderers = {
     youtube: (children, data, { key }) => <div key={key} data-youtube={data.src}></div>,
     image: (children, data, { key }) => <img key={key} src={data.src} />,
     // IMAGE: (children, data, { key }) => <img key={key} src={data.src} />,
-    LINK: (children, data, { key }) => <a key={key} href={data.url}>{children}</a>
+    LINK: (children, data, { key }) => <a key={key} href={data.url} target="_blank" rel="nofollow">{children}</a>
   }
 }
 
@@ -411,8 +415,8 @@ export class MyEditor extends React.Component {
       syncContent: syncContent, // 编辑器改变的时候，调给外部组件使用
       readOnly: readOnly,
       editorState: content
-        ? EditorState.createWithContent(convertFromRaw(JSON.parse(content)), decorator)
-        : EditorState.createEmpty(decorator),
+        ? EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
+        : EditorState.createEmpty(),
       rendered: null,
       placeholder: placeholder
     }
