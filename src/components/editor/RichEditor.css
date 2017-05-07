@@ -23,17 +23,23 @@
 .DraftEditor-root iframe{
   width:100%;
   border:none;
-  background-color: #efefef;
 }
 
 .DraftEditor-root embed, .DraftEditor-root iframe{
-  height: 460px;
+  min-height: 460px;
 }
+
+
 
 @media only screen and (max-width: 768px) {
   .DraftEditor-root embed, .DraftEditor-root iframe{
-    height: 216px;
+    min-height: 216px;
   }
+}
+
+
+.DraftEditor-root iframe[src^="//music.163.com"] {
+  min-height: auto;
 }
 
 
@@ -129,7 +135,8 @@
 .RichEditor-controls .underline,
 .RichEditor-controls .image,
 .RichEditor-controls .link,
-.RichEditor-controls .video{
+.RichEditor-controls .video,
+.RichEditor-controls .music{
   width:15px;
   height: 15px;
   background-size: 80%;
@@ -190,4 +197,8 @@
 
 .RichEditor-controls .link{
   background-image: url(./images/editor-icon_11.png);
+}
+
+.RichEditor-controls .music{
+  background-image: url(./images/music.png);
 }

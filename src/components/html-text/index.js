@@ -13,9 +13,18 @@ const converVideo = (html) => {
   let re = /\<div data\-youku\=\"(.*?)\"\>\<\/div\>/g
   let voides = html.match(re)
 
+  // console.log(voides);
+
   if (voides && voides.length > 0) {
+
+    // console.log(voides);
+
     voides.map(div=>{
+
       const id = div.split(re)[1]
+
+
+
 
       // let url = "http://player.youku.com/player.php/sid/"+id+"/v.swf"
       // let media = `<embed ref="embed" src="${url}"></embed>`
@@ -95,6 +104,34 @@ const converVideo = (html) => {
 
     imgs.map(img=>{
       html = html.replace(img, `<div class="load-demand" data-load-demand='${img}'></div>`)
+    })
+
+  }
+
+
+
+  re = /\<div data\-163musicsong\=\"(.*?)\"\>/g
+  let musics = html.match(re)
+
+  if (musics && musics.length > 0) {
+
+    musics.map(div=>{
+      const id = div.split(re)[1]
+      let url = "//music.163.com/outchain/player?type=2&id="+id+"&auto=1&height=66"
+      html = html.replace(div, `<iframe type="music" ref="iframe" src="${url}" height="86"></iframe>`)
+    })
+
+  }
+  
+  re = /\<div data\-163musicplaylist\=\"(.*?)\"\>/g
+  musics = html.match(re)
+
+  if (musics && musics.length > 0) {
+
+    musics.map(div=>{
+      const id = div.split(re)[1]
+      let url = "//music.163.com/outchain/player?type=0&id="+id+"&auto=1&height=430"
+      html = html.replace(div, `<iframe type="music" ref="iframe" src="${url}" height="450"></iframe>`)
     })
 
   }

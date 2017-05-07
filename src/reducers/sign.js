@@ -1,4 +1,3 @@
-// import cookie from 'react-cookie'
 
 let initialState = {
   show: false
@@ -24,14 +23,6 @@ export default function sign(state = initialState, action) {
 
 }
 
-// export function isSignin(state) {
-//   return state.sign.accessToken != '' ? true : false
-// }
-
 export function getSignStatus(state) {
   return state.sign.show
 }
-
-// export function getAccessToken(state) {
-//   return state.sign.accessToken || ''
-// }

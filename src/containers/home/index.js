@@ -174,6 +174,7 @@ export class Home extends React.Component {
         <PostsList
           name={name}
           displayDate={false}
+          displayFollow={true}
           timestamp={timestamp}
           filters={filters}
           commentOption={{

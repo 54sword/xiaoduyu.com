@@ -49,7 +49,7 @@ class WritePosts extends React.Component {
   successCallback(posts) {
     browserHistory.push('/posts/'+posts._id+'?subnav_back=/')
   }
-
+  
   render() {
     const { type } = this.state
 

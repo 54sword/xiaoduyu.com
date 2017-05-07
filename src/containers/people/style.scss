@@ -26,17 +26,43 @@
   width:100%;
   background-color: #fff;
   margin-bottom:10px;
+  text-align: center;
+
   a{
+    font-size: 13px;
     height: 50px;
     line-height: 50px;
     width: 16.666%;
     display: inline-block;
     text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     // border-bottom:1px solid #e0e0e0;
     @include boxSizing();
     &:hover{
       border-bottom:3px solid $blue;
     }
+
+    @include respond-to(xs) {
+      width:auto;
+      padding:0 8px 0 8px;
+    }
+
+    span {
+
+      margin-left:5px;
+
+      @include respond-to(sm) {
+        display: none;
+        background-color: #333;
+      }
+      @include respond-to(xs) {
+        display: none;
+        background-color: #333;
+      }
+    }
+
   }
 
   :global .active{

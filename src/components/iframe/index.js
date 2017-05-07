@@ -19,7 +19,7 @@ class Iframe extends React.Component {
     }
 
     render () {
-
+      const { src, width = 'auto', height = 'auto' } = this.props
 /*
 allowFullScreen="true"
 quality="high"
@@ -30,7 +30,7 @@ allowfullscreen
  */
 
         return (
-            <iframe ref="iframe" src={this.props.src}></iframe>
+          <iframe ref="iframe" src={src} height={width} height={height}></iframe>
         )
 
 

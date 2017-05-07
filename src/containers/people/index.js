@@ -78,7 +78,7 @@ export class People extends React.Component {
     const { setCurrentTab } = this
 
     const { id } = this.props.params
-    
+
     let { go } = this.props.location.query
 
     if (!people) {
@@ -114,32 +114,32 @@ export class People extends React.Component {
             <Link
               className={!tabName ? "active" : null}
               to={`/people/${people._id}/posts?go=${go}`}>
-                帖子 {people.posts_count > 0 ? people.posts_count : null}
+                帖子<span>{people.posts_count > 0 ? people.posts_count : null}</span>
               </Link>
             <Link
               className={tabName == 'follow/posts' ? "active" : null}
               to={`/people/${people._id}/follow/posts?go=${go}`}>
-                关注的帖子 {people.follow_posts_count > 0 ? people.follow_posts_count : null}
+                关注的帖子<span>{people.follow_posts_count > 0 ? people.follow_posts_count : null}</span>
               </Link>
             <Link
               className={tabName == 'comments' ? "active" : null}
               to={`/people/${people._id}/comments?go=${go}`}>
-              评论 {people.comment_count > 0 ? people.comment_count : null}
+              评论<span>{people.comment_count > 0 ? people.comment_count : null}</span>
               </Link>
             <Link
               className={tabName == 'topics' ? "active" : null}
               to={`/people/${people._id}/topics?go=${go}`}>
-              话题 {people.follow_topic_count > 0 ? people.follow_topic_count : null}
+              话题<span>{people.follow_topic_count > 0 ? people.follow_topic_count : null}</span>
               </Link>
             <Link
               className={tabName == 'following' ? "active" : null}
               to={`/people/${people._id}/following?go=${go}`}>
-              关注的人 {people.follow_people_count > 0 ? people.follow_people_count : null}
+              关注的人<span>{people.follow_people_count > 0 ? people.follow_people_count : null}</span>
               </Link>
             <Link
               className={tabName == 'fans' ? "active" : null}
               to={`/people/${people._id}/fans?go=${go}`}>
-              粉丝 {people.fans_count > 0 ? people.fans_count : null}
+              粉丝<span>{people.fans_count > 0 ? people.fans_count : null}</span>
               </Link>
           </div>
         </div>

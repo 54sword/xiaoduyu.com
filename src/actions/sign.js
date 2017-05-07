@@ -1,12 +1,24 @@
 import Ajax from '../common/ajax'
-// import * as API from '../api/sign'
 
 export function showSign(e) {
+
   if (e) e.stopPropagation()
-  return { type: 'SHOW_SIGN' }
+
+  return dispatch => {
+    
+    document.onkeydown = function(e){
+      var keyNum = window.event ? e.keyCode :e.which;
+      if (keyNum == 27) {
+        dispatch(hideSign())
+      }
+    }
+
+    dispatch({ type: 'SHOW_SIGN' })
+  }
 }
 
 export function hideSign() {
+  document.onkeydown = null
   return { type: 'HIDE_SIGN' }
 }
 
