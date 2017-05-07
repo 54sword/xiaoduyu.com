@@ -43,12 +43,16 @@ export default function posts(state = initialState, action) {
 
         data.map(post=>{
 
-          post.comment.map(comment=>{
-            if (comment._id == id) {
-              comment.like_count += status ? 1 : -1
-              comment.like = status
-            }
-          })
+          if (post.comment && post.comment.length) {
+
+            post.comment.map(comment=>{
+              if (comment._id == id) {
+                comment.like_count += status ? 1 : -1
+                comment.like = status
+              }
+            })
+
+          }
 
         })
 

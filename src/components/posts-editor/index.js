@@ -104,7 +104,7 @@ class WritePosts extends React.Component {
 
 
   submit() {
-    
+
     let self = this
     let { title } = this.refs
     let { addPosts, updatePostsById } = this.props
@@ -161,9 +161,6 @@ class WritePosts extends React.Component {
       device: Device.getCurrentDeviceId(),
       type: type._id,
       callback: function(res){
-
-        self.setState({ loading: false })
-
         if (res && res.success) {
 
           setTimeout(()=>{
@@ -171,8 +168,14 @@ class WritePosts extends React.Component {
             reactLocalStorage.set('posts-title', '')
           }, 200)
 
-          successCallback(res.data)
+
+          setTimeout(()=>{
+            self.setState({ loading: false })
+            successCallback(res.data)
+          }, 1500)
+
         } else {
+          self.setState({ loading: false })
           alert(res.error)
         }
       }
@@ -190,7 +193,7 @@ class WritePosts extends React.Component {
   }
 
   render() {
-    const { editor, topic, type, displayTopicsContainer } = this.state
+    const { editor, topic, type, displayTopicsContainer, loading } = this.state
     const { topicList } = this.props
 
     let parentTopicList = []
@@ -251,7 +254,7 @@ class WritePosts extends React.Component {
           <div>{editor}</div>
 
           <div className={styles.submit}>
-            <button className="button" onClick={this.submit}>提交</button>
+            <button className="button" onClick={this.submit}>{loading ? '提交中...' : '提交'}</button>
           </div>
         </div>
       </div>

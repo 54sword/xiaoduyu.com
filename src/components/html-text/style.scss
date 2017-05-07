@@ -42,6 +42,10 @@
     min-height: 420px;
     border: none;
   }
+  
+  iframe[src^="//music.163.com"] {
+    min-height: auto;
+  }
 
   img{
     max-width: 100%;
