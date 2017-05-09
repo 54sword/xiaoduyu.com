@@ -68,36 +68,6 @@ export function updatePostsById({ id, typeId, topicId, title, content, contentHT
           }
         })(dispatch, getState)
 
-        /*
-        loadPostsList({
-          name: id,
-          filters: { posts_id: id, per_page: 1, draft: 1 },
-          restart: true,
-          callback: (result)=>{
-
-            if (!result || !result.success || !result.data || result.data.length == 0) {
-              return callback(res)
-            }
-
-            let posts = result.data[0]
-
-            for (let i in state) {
-              let data = state[i].data
-              if (data.length > 0) {
-                for (let n = 0, max = data.length; n < max; n++) {
-                  if (data[n]._id == id) {
-                    state[i].data[n] = posts
-                  }
-                }
-              }
-            }
-
-            dispatch({ type: 'SET_POSTS', state })
-            callback(res)
-          }
-        })(dispatch, getState)
-        */
-
       }
     })
 
@@ -125,7 +95,7 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart =
 
     if (!postsList.filters) {
 
-      if (!filters.lt_date) filters.lt_date = new Date().getTime()
+      // if (!filters.lt_date) filters.lt_date = new Date().getTime()
       if (!filters.per_page) filters.per_page = 30
 
       postsList.filters = filters

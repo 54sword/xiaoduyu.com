@@ -5,6 +5,7 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 // var OfflinePlugin = require('offline-plugin');
+// var CompressionPlugin = require("compression-webpack-plugin");
 
 var ROOT_PATH = path.resolve(__dirname);
 var NODE_MODULES_PATH = path.resolve(ROOT_PATH, 'node_modules');
@@ -104,6 +105,14 @@ module.exports = {
       htmlDom: '<%- html %>',
       reduxState: '<%- reduxState %>'
     }),
+
+    // new CompressionPlugin({
+    //   asset: "[path].gz[query]",
+    //   algorithm: "gzip",
+    //   test: /\.js$|\.css$|\.html$/,
+    //   threshold: 10240,
+    //   minRatio: 0.8
+    // })
 
     // new HtmlwebpackPlugin({
     //   filename: path.resolve(__dirname, 'dist/not-found.ejs'),

@@ -2,7 +2,8 @@
 import merge from 'lodash/merge'
 
 let initialState = {
-  onlineUserCount: 0
+  onlineUserCount: 0,
+  goBack: true
 }
 
 export default function website(state = initialState, action) {
@@ -13,6 +14,11 @@ export default function website(state = initialState, action) {
       state.onlineUserCount = action.count
       return merge({}, state, {})
 
+
+    case 'SET_GO_BACK':
+      state.goBack = action.goBack
+      return merge({}, state, {})
+
     default:
       return state
   }
@@ -21,4 +27,9 @@ export default function website(state = initialState, action) {
 
 export function getOnlineUserCount(state) {
   return state.website.onlineUserCount
+}
+
+
+export function getGoBack(state) {
+  return state.website.goBack
 }

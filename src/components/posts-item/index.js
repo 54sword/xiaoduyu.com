@@ -9,6 +9,8 @@ import styles from './style.scss'
 import FollowPosts from '../follow-posts'
 import CommentItem from '../comment-item'
 
+import Keydown from '../../common/keydown'
+
 export class PostsItem extends PureComponent {
 
   constructor(props) {
@@ -28,12 +30,23 @@ export class PostsItem extends PureComponent {
       commentOption = {}
     } = this.props
 
+    const that = this
+
     return (<div>
 
       {/* posts */}
       <div
         className={styles.item}
-        onClick={()=>{ browserHistory.push(`/posts/${posts._id}`) }}
+        onClick={(e)=>{
+
+          let keyList = Keydown.getKeyList()
+
+          if (keyList.indexOf(91) != -1) {
+            window.open(`/posts/${posts._id}`)
+          } else {
+            that.refs.title.handleClick(e)
+          }
+        }}
         style={{ margin: posts.comment && posts.comment.length ? "0px" : ''}}>
 
         <div className={styles.head}>
@@ -63,7 +76,7 @@ export class PostsItem extends PureComponent {
         </div>
 
         <div className={styles.title}>
-          <Link to={`/posts/${posts._id}`}>{posts.title}</Link>
+          <Link to={`/posts/${posts._id}`} ref="title" onClick={this.stopPropagation}>{posts.title}</Link>
         </div>
 
         <div className={styles.content}>

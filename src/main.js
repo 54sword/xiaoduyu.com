@@ -19,6 +19,7 @@ import io from 'socket.io-client'
 
 import './common/lang'
 import './common/arrive-footer'
+import './common/keydown'
 import './common/weixin'
 import './common/load-demand'
 

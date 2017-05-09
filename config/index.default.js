@@ -45,7 +45,7 @@ var production = {
   port: 4000,
   api_url: 'https://api.xiaoduyu.com',
   api_verstion: 'api/v1',
-  public_path: '.',
+  public_path: 'http://localhost:4000',
   class_scoped_name: '[hash:base64:5]',
   GA: '',
   qiniu: {

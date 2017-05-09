@@ -92,7 +92,7 @@ serverRender.route('*').get((req, res) => {
           topic: { other: { data: [] } },
           posts: {},
           comment: { other: { data: [] } },
-          website: { onlineUserCount: 0 },
+          website: { onlineUserCount: 0, goBack: true },
           postsTypes:
            {
             '1': {
