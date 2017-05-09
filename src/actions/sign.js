@@ -1,25 +1,29 @@
 import Ajax from '../common/ajax'
+import Keydown from '../common/keydown'
 
 export function showSign(e) {
 
   if (e) e.stopPropagation()
 
   return dispatch => {
-    
-    document.onkeydown = function(e){
-      var keyNum = window.event ? e.keyCode :e.which;
-      if (keyNum == 27) {
+
+    Keydown.add('sign', (keyList)=>{
+      if (keyList.indexOf(27) != -1) {
         dispatch(hideSign())
       }
-    }
+    })
 
+    dispatch({ type: 'SET_GO_BACK', goBack: false })
     dispatch({ type: 'SHOW_SIGN' })
   }
 }
 
 export function hideSign() {
-  document.onkeydown = null
-  return { type: 'HIDE_SIGN' }
+  return dispatch => {
+    Keydown.remove('sign')
+    dispatch({ type: 'SET_GO_BACK', goBack: true })
+    dispatch({ type: 'HIDE_SIGN' })
+  }
 }
 
 export function addAccessToken({ expires, access_token }) {
