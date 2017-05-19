@@ -108,8 +108,6 @@ const converVideo = (html) => {
 
   }
 
-
-
   re = /\<div data\-163musicsong\=\"(.*?)\"\>/g
   let musics = html.match(re)
 
@@ -117,12 +115,12 @@ const converVideo = (html) => {
 
     musics.map(div=>{
       const id = div.split(re)[1]
-      let url = "//music.163.com/outchain/player?type=2&id="+id+"&auto=1&height=66"
+      let url = "//music.163.com/outchain/player?type=2&id="+id+"&auto=0&height=66"
       html = html.replace(div, `<iframe type="music" ref="iframe" src="${url}" height="86"></iframe>`)
     })
 
   }
-  
+
   re = /\<div data\-163musicplaylist\=\"(.*?)\"\>/g
   musics = html.match(re)
 
@@ -130,7 +128,7 @@ const converVideo = (html) => {
 
     musics.map(div=>{
       const id = div.split(re)[1]
-      let url = "//music.163.com/outchain/player?type=0&id="+id+"&auto=1&height=430"
+      let url = "//music.163.com/outchain/player?type=0&id="+id+"&auto=0&height=430"
       html = html.replace(div, `<iframe type="music" ref="iframe" src="${url}" height="450"></iframe>`)
     })
 

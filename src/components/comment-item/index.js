@@ -42,7 +42,7 @@ export class CommentItem extends Component {
     } = oursProps
 
     let { showSign } = this.props
-
+    // summary ? styles['click-item'] :
     return (<div>
       <div
         className={summary ? styles['click-item'] : styles.item}
@@ -64,6 +64,7 @@ export class CommentItem extends Component {
               : null}
           </div>
 
+
           <div className={styles.head}>
             <span>
               <Link to={`/people/${comment.user_id._id}`} onClick={this.stopPropagation}>
@@ -71,11 +72,11 @@ export class CommentItem extends Component {
                 <b>{comment.user_id.nickname}</b>
               </Link>
               {comment.reply_id ? ` 回复了${comment.reply_id.user_id._id == comment.user_id._id ? '自己' : ' '}` : null}
-              {comment.reply_id && comment.reply_id.user_id._id != comment.user_id._id ? <Link to={`/people/${comment.reply_id.user_id._id}`} onClick={this.stopPropagation}>{comment.reply_id.user_id.nickname}</Link> : null}
+              {comment.reply_id && comment.reply_id.user_id._id != comment.user_id._id ? <Link to={`/people/${comment.reply_id.user_id._id}`} onClick={this.stopPropagation}><b>{comment.reply_id.user_id.nickname}</b></Link> : null}
             </span>
             {displayDate ? <span>{DateDiff(comment.create_at)}</span> : null}
-            {comment.reply_count ? <span>{comment.reply_count} 个回复</span> : null}
-            {comment.like_count ? <span>{comment.like_count} 个赞</span> : null}
+            {comment.reply_count ? <span>{comment.reply_count}个回复</span> : null}
+            {comment.like_count ? <span>{comment.like_count}个赞</span> : null}
           </div>
 
         <div className={styles.detail}>
@@ -95,16 +96,18 @@ export class CommentItem extends Component {
 
       </div>
 
-      <div className={styles['comment-list']}>
-        {comment.reply && comment.reply.map(comment=>{
-          let reply = that.renderItem({ comment, summary, me, displayLike, displayReply, displayDate })
-          return (<div key={comment._id}>{reply}</div>)
-        })}
-        {comment.reply_count && comment.reply && comment.reply.length < comment.reply_count ?
-          <div className={styles['view-more-comment']}>
-            <Link to={`/comment/${comment._id}`} onClick={this.stopPropagation}>还有 {comment.reply_count - comment.reply.length} 条回复，查看全部</Link>
-          </div> : null}
-      </div>
+      {comment.reply && comment.reply.length > 0 ?
+        <div className={styles['comment-list']}>
+          {comment.reply && comment.reply.map(comment=>{
+            let reply = that.renderItem({ comment, summary, me, displayLike, displayReply, displayDate })
+            return (<div key={comment._id}>{reply}</div>)
+          })}
+          {comment.reply_count && comment.reply && comment.reply.length < comment.reply_count ?
+            <div className={styles['view-more-comment']}>
+              <Link to={`/comment/${comment._id}`} onClick={this.stopPropagation}>还有 {comment.reply_count - comment.reply.length} 条回复，查看全部</Link>
+            </div> : null}
+        </div>
+        : null}
 
     </div>)
 

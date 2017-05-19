@@ -1,4 +1,5 @@
 @import "./reset.scss";
+// @import 'mobi.css/dist/mobi.min.css';
 @import "./base.scss";
 
 html {
@@ -13,20 +14,22 @@ html {
 body {
   padding: 0px;
   margin: 0px;
-  background-color: #eaedf0;
-  color: #000;
-  font-size: 15px;
-  font-family: PingFang-SC-Regular, "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+  background-color: #e9ebee;//#eaedf0;
+  color: #23232b;
+  font-size: 14px;
+  // -webkit-font-smoothing: antialiased;
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+  // font-family: PingFang-SC-Regular, "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
 
-a{ text-decoration: none; color:#000; }
+a{ text-decoration: none; color:#23232b; }
 a:hover{
-  text-decoration: underline;
+  text-decoration: none;
 }
-a:active{ opacity: .65; }
+// a:active{ opacity: .65; }
 a:focus, input:focus { outline: none; }
 
-h1{ font-size: 40px; padding:0px; margin:0px; }
+h1{ font-size: 40px; padding:0px; margin:0px; line-height: 25px; }
 h2{ font-size: 35px; padding:0px; margin:0px; }
 h3{ font-size: 30px; padding:0px; margin:0px; }
 h4{ font-size: 25px; padding:0px; margin:0px; }
@@ -53,22 +56,28 @@ input[type="submit"]:disabled{
 :global {
 
   .container{
-    max-width: 680px;
+    max-width:590px !important;
     margin: 0 auto;
+    padding:0 !important;
   }
 
   .container-head{
-    height: 40px;
-    line-height: 40px;
-    padding:0 15px 0 15px;
-    background: #ffffff;
+    padding:8px 20px 8px 20px;
+    background-color: #fff;
     border-bottom:1px solid $light-gray;
-    border-top-right-radius:3px;
-    border-top-left-radius:3px;
     font-size: 13px;
-
     .right{
       float:right;
+    }
+  }
+
+  .container-footer{
+    padding:8px 20px 8px 20px;
+    background-color: #fff;
+    border-top:1px solid $light-gray;
+    margin-bottom:10px;
+    a{
+      font-size:13px !important;
     }
   }
 
@@ -78,29 +87,17 @@ input[type="submit"]:disabled{
     height: 40px;
 
     > div{
-      // position: absolute;
-      // text-align: right;
-      // margin-left:15px;
       text-align: center;
       > a{
-        // display: inline-block;
         font-size: 14px;
         height: 40px;
         line-height: 40px;
-        // margin-right: 5px;
         color:#000;
         padding:0 15px 0 15px;
-        // margin-top:7px;
-        // border-radius: 5px;
       }
 
       :global .active{
-        // background-color:$blue;
-        // color:#fff;
         color:$blue;
-        // font-weight: bold;
-        // border-bottom:1px solid #333;
-        // text-decoration: none;
       }
 
     }
@@ -147,7 +144,7 @@ input[type="submit"]:disabled{
     border: none;
     background-color: $blue;
     color:#fff;
-    border-radius: 3px;
+    // border-radius: 3px;
 
     @include cursorHand();
 

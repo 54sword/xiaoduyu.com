@@ -99,7 +99,7 @@ export class PostsDetail extends React.Component {
               <span>
                 <Link to={`/people/${posts.user_id._id}`}>
                   <img className={styles['author-avatar']} src={posts.user_id.avatar_url} />
-                  {posts.user_id.nickname}
+                  <b>{posts.user_id.nickname}</b>
                 </Link>
               </span>
               <span><Link to={`/topics/${posts.topic_id._id}`}>{posts.topic_id.name}</Link></span>

@@ -84,7 +84,7 @@ export class Comment extends React.Component {
         <Nav />
 
         <div className="container">
-          <div className={styles.question}>
+          <div className={styles.posts}>
             <Link to={`/posts/${posts._id}`}>{posts.title}</Link>
           </div>
         </div>
@@ -96,7 +96,7 @@ export class Comment extends React.Component {
               <span>
                 <Link to={`/people/${comment.user_id._id}`}>
                   <img className={styles.avatar} src={comment.user_id.avatar_url} />
-                  {comment.user_id.nickname}
+                  <b>{comment.user_id.nickname}</b>
                 </Link>
               </span>
               <span>
@@ -111,7 +111,7 @@ export class Comment extends React.Component {
 
           </div>
 
-          <div className={styles.other}>
+          <div className="container-footer">
 
             <div className={styles.actions}>
 
@@ -131,7 +131,7 @@ export class Comment extends React.Component {
 
           </div>
 
-          <div className="container-head">回复</div>
+          {comment.reply_count > 0 ? <div className="container-head">回复</div> : null}
           <CommentList name={comment._id} filters={{ parent_id: comment._id, parent_exists: 1, per_page: 100 }} />
 
           {isSignin ? <div>

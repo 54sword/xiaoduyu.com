@@ -26,19 +26,19 @@ export class Navbar extends Component {
     let meTab = null
 
     if (me) {
-      meTab = <li><Link to="/me" activeClassName={styles.active}>{me.nickname}</Link></li>
+      meTab = <li className="unit"><Link to="/me" activeClassName={styles.active}>{me.nickname}</Link></li>
     } else {
-      meTab = <li><a href="javascript:void(0)" onClick={showSign}>我的</a></li>
+      meTab = <li className="unit"><a href="javascript:void(0)" onClick={showSign}>我的</a></li>
     }
 
     return (
       <div>
-        <div className={styles.header}>
+        <div className={styles.header + " flex-center"}>
           <div className="container">
             <ul className={me ? null : "three"}>
-              <li><IndexLink to="/" activeClassName={styles.active}>首页</IndexLink></li>
-              <li><Link to="/topics" activeClassName={styles.active}>话题</Link></li>
-              {me ? <li>
+              <li className="unit"><IndexLink to="/" activeClassName={styles.active}>首页</IndexLink></li>
+              <li className="unit"><Link to="/topics" activeClassName={styles.active}>话题</Link></li>
+              {me ? <li className="unit">
                   <Link to="/notifications" activeClassName={styles.active}>
                     通知{unreadNotice > 0 ? <span className={styles['unread-notice']}>{unreadNotice}</span> : null}
                   </Link>

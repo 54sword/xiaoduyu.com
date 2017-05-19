@@ -35,14 +35,15 @@
 .posts-type{
   background-color: #fff;
   margin-bottom:10px;
-  border-radius: 3px;
+  // border-radius: 3px;
   > a{
     display: inline-block;
     width:33.33%;
     height: 40px;
     line-height: 40px;
     text-align: center;
-    border-right:1px solid $light-gray;
+    border-right:1px solid #eaedf0;
+    font-size:13px;
     @include boxSizing();
     &:hover{
       background-color: rgb(249, 249, 249);

@@ -47,7 +47,7 @@ export class Home extends React.Component {
 
     filters.comments_sort = 'create_at:-1'
     filters.include_comments = 1
-    
+
     store.dispatch(loadPostsList({
       name,
       filters,
@@ -139,6 +139,12 @@ export class Home extends React.Component {
     const { name, filters, timestamp, commentsSort, commentsSortId } = this.state
     const { me, newPostsList, showNewPosts, showSign } = this.props
 
+    // <div className={styles['posts-type']}>
+    //     <a href="javascript:void(0)" onClick={showSign}><span className={styles.talk}>说说</span></a>
+    //     <a href="javascript:void(0)" onClick={showSign}><span className={styles.ask}>提问</span></a>
+    //     <a href="javascript:void(0)" onClick={showSign}><span className={styles.write}>写文章</span></a>
+    //   </div>
+
     return(<div>
       <Meta />
       <Nav />
@@ -153,11 +159,9 @@ export class Home extends React.Component {
             <Link to="/write-posts?type=2"><span className={styles.ask}>提问</span></Link>
             <Link to="/write-posts?type=3"><span className={styles.write}>写文章</span></Link>
           </div>
-          : <div className={styles['posts-type']}>
-              <a href="javascript:void(0)" onClick={showSign}><span className={styles.talk}>说说</span></a>
-              <a href="javascript:void(0)" onClick={showSign}><span className={styles.ask}>提问</span></a>
-              <a href="javascript:void(0)" onClick={showSign}><span className={styles.write}>写文章</span></a>
-            </div>}
+          : null}
+
+
         <div className="container-head">
           最新动态
           {me._id ?
@@ -171,6 +175,7 @@ export class Home extends React.Component {
             </div>
             : null}
         </div>
+        
         <PostsList
           name={name}
           displayDate={false}

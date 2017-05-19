@@ -72,9 +72,9 @@ export class CommentList extends Component {
               return (<div key={comment._id}><CommentItem comment={comment} /></div>)
             })}
           </div>
-
+          {/*<div className={styles.nothing}>目前尚无回复</div>*/}
           {commentList.data.length == 0 ?
-            <div className={styles.nothing}>目前尚无回复</div>
+            null
           : <ListLoading
               loading={commentList.loading}
               more={commentList.more}

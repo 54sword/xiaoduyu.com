@@ -31,10 +31,8 @@ export class PostsItem extends PureComponent {
     } = this.props
 
     const that = this
-
-    return (<div>
-
-      {/* posts */}
+    // style={{ margin: posts.comment && posts.comment.length ? "0px" : ''}}
+    return (<div className={styles.box}>
       <div
         className={styles.item}
         onClick={(e)=>{
@@ -47,7 +45,7 @@ export class PostsItem extends PureComponent {
             that.refs.title.handleClick(e)
           }
         }}
-        style={{ margin: posts.comment && posts.comment.length ? "0px" : ''}}>
+        >
 
         <div className={styles.head}>
 
@@ -66,10 +64,12 @@ export class PostsItem extends PureComponent {
                   <b>{posts.user_id.nickname}</b>
                 </Link>
               </span>
-              {displayTopic ? <span><Link to={`/topics/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span> : null}
-              {posts.view_count ? <span>{posts.view_count} 次浏览</span> : null}
-              {posts.follow_count ? <span>{posts.follow_count} 人关注</span> : null}
-              {displayDate ? <span>{DateDiff(posts.create_at)}</span> : null}
+              <div>
+                {displayTopic ? <span><Link to={`/topics/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span> : null}
+                {posts.view_count ? <span>{posts.view_count}次浏览</span> : null}
+                {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
+                {displayDate ? <span>{DateDiff(posts.create_at)}</span> : null}
+              </div>
             </div>
             : null}
 
@@ -82,12 +82,19 @@ export class PostsItem extends PureComponent {
         <div className={styles.content}>
           {posts.content_summary}
           {posts.images && posts.images.length ?
+            <div className={styles.images}>
+              {posts.images.map(image=>{
+                return (<div key={image} className="load-demand" data-load-demand={`<img src="${image}?imageMogr2/thumbnail/!200" />`}></div>)
+              })}
+            </div>
+            : null}
+          {/*posts.images && posts.images.length ?
             <div className={styles['abstract-image']}>
               {posts.images.map(image=>{
                 return (<div key={image} className="load-demand" data-load-demand={`<div style="background-image:url(${image}?imageMogr2/thumbnail/!200)"></div>`}></div>)
               })}
             </div>
-            : null}
+            : null*/}
         </div>
 
       </div>
