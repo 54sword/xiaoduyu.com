@@ -36,7 +36,7 @@ export class Navbar extends Component {
       <div>
         <div styleName="header">
           <div className="container">
-            <ul>
+            <ul className={me ? null : "three"}>
               <li styleName="logo"><IndexLink to="/" activeClassName={styles.active}>小度鱼</IndexLink></li>
               <li><Link to="/topics" activeClassName={styles.active}>话题</Link></li>
               {me ? <li>
