@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
-// import styles from './style.scss'
-
 // 依赖的外部功能
 import arriveFooter from '../../common/arrive-footer'
 
@@ -66,9 +64,20 @@ export class PostsList extends Component {
     return (
       <div>
         {data.map(posts=>{
-          return (<div key={posts._id}><PostsItem posts={posts} displayFollow={displayFollow} displayDate={displayDate} commentOption={commentOption} /></div>)
+          return (<div key={posts._id}>
+              <PostsItem
+              posts={posts}
+              displayFollow={displayFollow}
+              displayDate={displayDate}
+              commentOption={commentOption}
+              />
+            </div>)
         })}
-        <ListLoading loading={loading} more={more} handleLoad={loadPostsList} />
+        <ListLoading
+          loading={loading}
+          more={more}
+          handleLoad={loadPostsList}
+          />
       </div>
     )
   }

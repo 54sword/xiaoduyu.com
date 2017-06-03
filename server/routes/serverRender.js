@@ -8,6 +8,7 @@ import axios from 'axios'
 import DocumentMeta from 'react-document-meta'
 
 import configureStore from '../../src/store/configureStore'
+import { getInitialState } from '../../src/reducers'
 import crateRoutes from '../../src/routes'
 
 const serverRender = express.Router()
@@ -80,35 +81,7 @@ serverRender.route('*').get((req, res) => {
   const accessToken = req.cookies[config.auth_cookie_name] || null,
         expires = req.cookies[''] || null,
         history = createMemoryHistory(),
-        // store = configureStore()
-        store = configureStore({
-          scroll: {},
-          sign: { show: false },
-          user: { profile: {}, unreadNotice: 0, accessToken: '' },
-          notification: {},
-          people: { other: { data: [] } },
-          history: [],
-          followPeople: {},
-          topic: { other: { data: [] } },
-          posts: {},
-          comment: { other: { data: [] } },
-          website: { onlineUserCount: 0, goBack: true },
-          postsTypes:
-           {
-            '1': {
-              _id: 1,
-              name: '说说',
-              title: '请输入标题',
-              content: '如果标题已表达完整内容，则正文可以为空' },
-            '2': { _id: 2, name: '提问', title: '请输入问题的标题', content: '请输入问题的描述' },
-            '3': {
-              _id: 3,
-              name: '写文章',
-              title: '请输入文章的标题',
-              content: '请输入正文，正文内容不能少于300字'
-            }
-          }
-        })
+        store = configureStore(getInitialState())
 
   authAccessToken(accessToken, (userinfo)=>{
 

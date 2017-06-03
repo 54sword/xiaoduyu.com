@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link, browserHistory } from 'react-router'
 
-import { DateDiff } from '../../common/date'
-
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
@@ -29,27 +28,19 @@ export class CommentItem extends Component {
   _renderItem(oursProps) {
 
     const that = this
+    let { me, showSign } = this.props
 
-    let {
-      comment,
-      summary = false,
-      me,
-      displayLike = true,
-      displayReply = true,
-      displayDate = true,
-      displayEdit = true,
-      style = ''
-    } = oursProps
+    let { comment, summary, displayLike, displayReply, displayDate, displayEdit } = oursProps
 
-    let { showSign } = this.props
-    // summary ? styles['click-item'] :
-    return (<div>
+
+
+    return (<div styleName="box">
       <div
-        className={summary ? styles['click-item'] : styles.item}
+        styleName={summary ? "click-item" : "item"}
         onClick={summary ? ()=>{ browserHistory.push(`/comment/${comment._id}`) } : null}
         >
 
-          <div className={styles['footer-action']}>
+          <div styleName="footer-action">
             {displayEdit && me._id == comment.user_id._id ? <span><Link to={`/edit-comment/${comment._id}`} onClick={this.stopPropagation}>编辑</Link></span> : null}
             {displayLike ? <span><LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} /></span> : null}
             {displayReply ?
@@ -64,27 +55,26 @@ export class CommentItem extends Component {
               : null}
           </div>
 
-
-          <div className={styles.head}>
+          <div styleName="head">
             <span>
               <Link to={`/people/${comment.user_id._id}`} onClick={this.stopPropagation}>
-                <i className={[styles.avatar + " load-demand"]} data-load-demand={`<img src="${comment.user_id.avatar_url}" />`}></i>
+                <i styleName="avatar" className="load-demand" data-load-demand={`<img src="${comment.user_id.avatar_url}" />`}></i>
                 <b>{comment.user_id.nickname}</b>
               </Link>
               {comment.reply_id ? ` 回复了${comment.reply_id.user_id._id == comment.user_id._id ? '自己' : ' '}` : null}
               {comment.reply_id && comment.reply_id.user_id._id != comment.user_id._id ? <Link to={`/people/${comment.reply_id.user_id._id}`} onClick={this.stopPropagation}><b>{comment.reply_id.user_id.nickname}</b></Link> : null}
             </span>
-            {displayDate ? <span>{DateDiff(comment.create_at)}</span> : null}
+            {displayDate ? <span>{comment._create_at}</span> : null}
             {comment.reply_count ? <span>{comment.reply_count}个回复</span> : null}
             {comment.like_count ? <span>{comment.like_count}个赞</span> : null}
           </div>
 
-        <div className={styles.detail}>
+        <div styleName="detail">
           {summary ?
             <Link to={`/comment/${comment._id}`} onClick={this.stopPropagation}>
               {comment.content_summary}
               {comment.images && comment.images.length ?
-                <div className={styles['abstract-image']}>
+                <div styleName="abstract-image">
                   {comment.images.map(image=>{
                     return (<div key={image} className="load-demand" data-load-demand={`<div style="background-image:url(${image}?imageMogr2/thumbnail/!200)"></div>`}></div>)
                   })}
@@ -97,13 +87,13 @@ export class CommentItem extends Component {
       </div>
 
       {comment.reply && comment.reply.length > 0 ?
-        <div className={styles['comment-list']}>
+        <div styleName="comment-list">
           {comment.reply && comment.reply.map(comment=>{
             let reply = that.renderItem({ comment, summary, me, displayLike, displayReply, displayDate })
             return (<div key={comment._id}>{reply}</div>)
           })}
           {comment.reply_count && comment.reply && comment.reply.length < comment.reply_count ?
-            <div className={styles['view-more-comment']}>
+            <div styleName="view-more-comment">
               <Link to={`/comment/${comment._id}`} onClick={this.stopPropagation}>还有 {comment.reply_count - comment.reply.length} 条回复，查看全部</Link>
             </div> : null}
         </div>
@@ -119,8 +109,16 @@ export class CommentItem extends Component {
 
 }
 
-CommentItem.propTypes = {
+CommentItem.defaultProps = {
   comment: PropTypes.object.isRequired,
+  summary: false,
+  displayLike: true,
+  displayReply: true,
+  displayDate: true,
+  displayEdit: true,
+}
+
+CommentItem.propTypes = {
   showSign: PropTypes.func.isRequired,
   me: PropTypes.object.isRequired
 }
@@ -137,5 +135,7 @@ function mapDispatchToProps(dispatch, props) {
     showSign: bindActionCreators(showSign, dispatch)
   }
 }
+
+CommentItem = CSSModules(CommentItem, styles)
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentItem)

@@ -13,7 +13,7 @@
 
   height: 40px;
   line-height: 40px;
-  
+
 
   a{
     float:right;
@@ -27,4 +27,12 @@
     font-size: 13px;
   }
 
+}
+
+.captcha-image{
+  position: relative;
+  float:right;
+  margin-top:-45px;
+  margin-right:10px;
+  z-index: 99999;
 }

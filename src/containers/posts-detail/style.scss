@@ -1,20 +1,31 @@
 @import "../global/base.scss";
 
 .posts{
-  padding:15px 20px 15px 20px;
+  // padding:15px 20px 15px 20px;
   background-color: #fff;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  position: relative;
 }
 
 .head{
 
-  margin-bottom:10px;
+
+
+  padding:10px 20px 10px 20px;
+
+  // margin-bottom:10px;
 
   .author-avatar{
-    float:right;
+    position: absolute;
+    left:100%;
+    top:20px;
+    // float:right;
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    margin-left:40px;
+    margin-left:-70px;
+    // margin-top:-40px;
   }
 
   span{
@@ -38,27 +49,28 @@
 }
 
 .title{
-  margin:5px 0 0px 0;
-  font-size: 22px;
+  padding:20px 85px 0px 20px;
+  font-size: 24px;
   word-break:break-all;
   word-wrap:break-word;
+  line-height: 130%;
 }
 
 .detail{
+
   width: 100%;
-  margin-top: 10px;
-  padding-top: 10px;
+  // margin-top: 10px;
+  padding: 20px;
   border-top:1px solid $light-gray;
+  @include boxSizing();
 }
 
 .other{
   padding:10px 20px 10px 20px;
-  background-color: #fff;
+  // background-color: #fff;
   border-top:1px solid $light-gray;
   margin-bottom:10px;
-  a{
-    font-size:12px !important;
-  }
+  background-color: rgba(255, 255, 255, .6);
 }
 
 .actions{

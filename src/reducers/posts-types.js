@@ -20,7 +20,7 @@ let initialState = {
   }
 }
 
-export default function postsTypes(state = initialState, action) {
+export default function postsTypes(state = initialState, action = {}) {
 
   switch (action.type) {
     default:

@@ -1,7 +1,7 @@
 
 let initialState = {}
 
-export default function scroll(state = initialState, action) {
+export default function scroll(state = initialState, action = {}) {
 
   switch (action.type) {
 

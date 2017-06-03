@@ -61,29 +61,35 @@ export class CommentList extends Component {
     let { commentList } = this.props
 
     if (!commentList.data) {
-      return (<div></div>)
+      return (<div className={styles.loading}>加载中...</div>)
     }
 
     return (
-      <div name="comments">
+      <div>
         <div className="container">
           <div className={styles.comments}>
             {commentList.data.map((comment)=>{
               return (<div key={comment._id}><CommentItem comment={comment} /></div>)
             })}
+            {commentList.data.length == 0 ?
+              null
+            : <ListLoading
+                loading={commentList.loading}
+                more={commentList.more}
+                handleLoad={this.triggerLoad}
+                />}
           </div>
           {/*<div className={styles.nothing}>目前尚无回复</div>*/}
-          {commentList.data.length == 0 ?
-            null
-          : <ListLoading
-              loading={commentList.loading}
-              more={commentList.more}
-              handleLoad={this.triggerLoad}
-              />}
+
         </div>
       </div>
     )
   }
+}
+
+CommentList.defaultProps = {
+  name: PropTypes.string.isRequired,
+  filters: PropTypes.object.isRequired
 }
 
 CommentList.propTypes = {

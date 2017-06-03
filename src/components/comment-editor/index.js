@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import { reactLocalStorage } from 'reactjs-localstorage'
+import { reactLocalStorage } from 'reactjs-localstorage'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -10,6 +10,7 @@ import Device from '../../common/device'
 
 import Editor from '../editor'
 
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 class CommentEditor extends React.Component {
@@ -20,7 +21,8 @@ class CommentEditor extends React.Component {
       contentJSON: '',
       contentHTML: '',
       content: <div></div>,
-      editor: null
+      editor: null,
+      showFooter: false
     }
     this.submit = this.submit.bind(this)
     this.syncContent = this.syncContent.bind(this)
@@ -29,7 +31,16 @@ class CommentEditor extends React.Component {
   componentDidMount() {
 
     const self = this
-    const { content, parent_id, getEditor } = this.props
+    let { content, parent_id, posts_id, reply_id, getEditor } = this.props
+
+    let commentId = reply_id || posts_id
+
+    let _commentId = reactLocalStorage.get('comment-id')
+    let commentContent = reactLocalStorage.get('comment-content')
+
+    if (_commentId == commentId && !content) {
+      content = commentContent
+    }
 
     this.setState({
       content: <div>
@@ -119,30 +130,43 @@ class CommentEditor extends React.Component {
 
   syncContent(contentJSON, contentHTML) {
 
-    let { postsId } = this.props
+    let { posts_id, reply_id } = this.props
 
     this.state.contentJSON = contentJSON
     this.state.contentHTML = contentHTML
 
-    // reactLocalStorage.set('comment-id', postsId)
-    // reactLocalStorage.set('comment-content', contentJSON)
+    if (!this.state.showFooter && contentJSON) {
+      this.setState({
+        showFooter: true
+      })
+    }
+
+    if (this.state.showFooter) {
+      reactLocalStorage.set('comment-id', reply_id || posts_id)
+      reactLocalStorage.set('comment-content', contentJSON)
+    }
+
   }
 
   render() {
 
-    const { content } = this.state
+    const { content, showFooter } = this.state
 
     return (<div>
-      <div className="container">
-        <div className={styles.content}>{content}</div>
-        <div className={styles.submit}>
-          <button className="button-full" onClick={this.submit}>提交</button>
-        </div>
+      <div className="container" styleName="box">
+        <div styleName="content">{content}</div>
+        {showFooter ?
+          <div styleName="footer">
+            <button className="button" onClick={this.submit}>提交</button>
+          </div>
+          : null}
       </div>
     </div>)
   }
 
 }
+
+CommentEditor = CSSModules(CommentEditor, styles)
 
 CommentEditor.defaultProps = {
   _id: '',
@@ -173,5 +197,7 @@ function mapDispatchToProps(dispatch, props) {
 
 
 CommentEditor = connect(mapStateToProps, mapDispatchToProps)(CommentEditor)
+
+
 
 export default CommentEditor

@@ -22,11 +22,9 @@ const keydown = (function(){
   }
 
   const onkeyup = (e)=>{
-
     for (let i in listenList) {
       listenList[i](keyList)
     }
-
     keyList = []
   }
 

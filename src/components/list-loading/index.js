@@ -10,7 +10,7 @@ class ListLoading extends React.PureComponent {
 
   render () {
 
-    const { loading, more, handleLoad = ()=>{} } = this.props
+    const { loading, more, handleLoad } = this.props
 
     let dom
 
@@ -19,21 +19,18 @@ class ListLoading extends React.PureComponent {
     } else if (!loading && more) {
       dom = <a href="javascript:void(0)" className={styles.more} onClick={handleLoad}>点击加载更多</a>
     } else if (!more) {
-
       return (<span></span>)
-
-      // if (!displayMore) {
-      //   return (<span></span>)
-      // }
-
-      // dom = '没有更多'
     }
-
-
 
     return (<div className={styles.box}>{dom}</div>)
   }
 
+}
+
+ListLoading.defaultProps = {
+  loading: false,
+  more: false,
+  handleLoad: ()=>{}
 }
 
 export default ListLoading

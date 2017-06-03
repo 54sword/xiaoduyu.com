@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
+import CSSModules from 'react-css-modules'
+import styles from './style.scss'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadTopics } from '../../actions/topic'
@@ -100,7 +103,7 @@ class Topics extends React.Component {
       <div>
         <Meta meta={{ title: '话题' }} />
         <Nav />
-        <div className="container">
+        <div className="container" styleName="box">
 
           <div className="container-tabs">
             <div>
@@ -119,6 +122,7 @@ class Topics extends React.Component {
 
 }
 
+Topics = CSSModules(Topics, styles)
 
 Topics.propTypes = {
   nodeList: PropTypes.object.isRequired,
@@ -138,5 +142,7 @@ const mapDispatchToProps = (dispatch, props) => {
 }
 
 Topics = connect(mapStateToProps, mapDispatchToProps)(Topics)
+
+
 
 export default Shell(Topics)

@@ -2,7 +2,7 @@ import merge from 'lodash/merge'
 
 let initialState = {}
 
-export default function posts(state = initialState, action) {
+export default function posts(state = initialState, action = {}) {
   switch (action.type) {
 
     case 'SET_POSTS_LIST_BY_NAME':
@@ -58,7 +58,16 @@ export default function posts(state = initialState, action) {
 
       }
       return merge({}, state, {})
-
+    case 'UPDATE_POSTS_VIEW':
+      var { id } = action
+      for (let i in state) {
+        state[i].data.map(item => {
+          if (item._id == id) {
+            item.view_count += 1
+          }
+        })
+      }
+      return merge({}, state, {})
     /*
     case 'UPDATE_ANSWER_LIKE_IN_POSTS':
       var { id, status } = action

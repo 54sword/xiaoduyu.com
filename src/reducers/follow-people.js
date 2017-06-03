@@ -4,7 +4,7 @@ import merge from 'lodash/merge'
 let initialState = {
 }
 
-export default function followPeople(state = initialState, action) {
+export default function followPeople(state = initialState, action = {}) {
   switch (action.type) {
 
     case 'SET_FOLLOW_PEOPLE':

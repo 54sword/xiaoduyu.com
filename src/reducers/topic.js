@@ -7,7 +7,7 @@ let initialState = {
   }
 }
 
-export default function topic(state = initialState, action) {
+export default function topic(state = initialState, action = {}) {
 
   switch (action.type) {
 

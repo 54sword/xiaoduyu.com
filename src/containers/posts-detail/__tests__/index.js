@@ -38,8 +38,8 @@ describe('<PostsDetail />', ()=>{
 
   it('应该可以正常登录', ()=>{
     const action = bindActionCreators(signin, dispatch)
-    return action(testConfig.email, testConfig.password, (res, result)=>{
-      expect(res).toEqual(true)
+    return action({ email: testConfig.email, password: testConfig.password }, (res, result)=>{
+      expect(result.success).toEqual(true)
     })
   })
 
@@ -75,8 +75,8 @@ describe('<PostsDetail />', ()=>{
     wrapper = mount(<Provider store={store}><PostsDetail {...props} /></Provider>)
 
     expect(wrapper.contains(<Link to={`/people/${posts.user_id._id}`}>
-      <img className={styles['author-avatar']} src={posts.user_id.avatar_url} />
-      {posts.user_id.nickname}
+      <img className={styles["author-avatar"]} src={posts.user_id.avatar_url} />
+      <b>{posts.user_id.nickname}</b>
     </Link>)).toBe(true);
   })
 

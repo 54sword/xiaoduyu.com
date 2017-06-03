@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { Link, IndexLink } from 'react-router'
 // import Headroom from 'react-headroom'
 
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
@@ -26,28 +27,28 @@ export class Navbar extends Component {
     let meTab = null
 
     if (me) {
-      meTab = <li className="unit"><Link to="/me" activeClassName={styles.active}>{me.nickname}</Link></li>
+      meTab = <li><Link to="/me" activeClassName={styles.active}>{me.nickname}</Link></li>
     } else {
-      meTab = <li className="unit"><a href="javascript:void(0)" onClick={showSign}>我的</a></li>
+      meTab = <li><a href="javascript:void(0)" onClick={showSign}>我的</a></li>
     }
 
     return (
       <div>
-        <div className={styles.header + " flex-center"}>
+        <div styleName="header">
           <div className="container">
-            <ul className={me ? null : "three"}>
-              <li className="unit"><IndexLink to="/" activeClassName={styles.active}>首页</IndexLink></li>
-              <li className="unit"><Link to="/topics" activeClassName={styles.active}>话题</Link></li>
-              {me ? <li className="unit">
+            <ul>
+              <li styleName="logo"><IndexLink to="/" activeClassName={styles.active}>小度鱼</IndexLink></li>
+              <li><Link to="/topics" activeClassName={styles.active}>话题</Link></li>
+              {me ? <li>
                   <Link to="/notifications" activeClassName={styles.active}>
-                    通知{unreadNotice > 0 ? <span className={styles['unread-notice']}>{unreadNotice}</span> : null}
+                    通知{unreadNotice > 0 ? <span styleName="unread-notice">{unreadNotice}</span> : null}
                   </Link>
                 </li> : null}
               {meTab}
             </ul>
           </div>
         </div>
-        <div className={styles.placeholder}></div>
+        <div styleName="placeholder"></div>
       </div>
     )
   }
@@ -71,5 +72,7 @@ const mapDispatchToProps = (dispatch) => {
     showSign: bindActionCreators(showSign, dispatch)
   }
 }
+
+Navbar = CSSModules(Navbar, styles)
 
 export default connect(mapStateToProps,mapDispatchToProps)(Navbar)

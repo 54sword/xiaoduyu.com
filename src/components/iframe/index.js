@@ -30,7 +30,7 @@ allowfullscreen
  */
 
         return (
-          <iframe ref="iframe" src={src} height={width} height={height}></iframe>
+          <iframe ref="iframe" src={src} width={width} height={height}></iframe>
         )
 
 

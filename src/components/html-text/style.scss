@@ -3,9 +3,10 @@
 
 .content{
 
-  line-height: 150%;
+  line-height: 180%;
   word-break: break-all;
   word-wrap: break-word;
+  
 
   blockquote{
     border-left:5px solid #c6c6c6;
@@ -42,13 +43,14 @@
     min-height: 420px;
     border: none;
   }
-  
+
   iframe[src^="//music.163.com"] {
     min-height: auto;
   }
 
   img{
     max-width: 100%;
+    margin:10px 0 10px 0;
   }
 
   p{

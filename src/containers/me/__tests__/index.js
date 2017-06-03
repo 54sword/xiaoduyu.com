@@ -27,8 +27,8 @@ describe('<Comment />', ()=>{
 
   it('应该可以正常登录', ()=>{
     const action = bindActionCreators(signin, dispatch)
-    return action(testConfig.email, testConfig.password, (res, result)=>{
-      expect(res).toEqual(true)
+    return action({ email: testConfig.email, password: testConfig.password }, (res, result)=>{
+      expect(result.success).toEqual(true)
     })
   })
 

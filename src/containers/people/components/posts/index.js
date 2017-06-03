@@ -20,7 +20,7 @@ export class PeoplePosts extends React.Component {
     dispatch(loadPeopleById({
       id,
       callback:(people)=>{
-        
+
         if (!people) {
           callback(404)
           return;
