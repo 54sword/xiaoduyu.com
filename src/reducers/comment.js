@@ -7,7 +7,7 @@ let initialState = {
   }
 }
 
-export default function comment(state = initialState, action) {
+export default function comment(state = initialState, action = {}) {
   switch (action.type) {
 
     case 'SET_COMMENT_LIST_BY_NAME':

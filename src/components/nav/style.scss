@@ -4,20 +4,15 @@
   position: fixed;
   left:0;
   top:0;
-  // background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 1);
   height: 45px;
   line-height: 45px;
   width: 100%;
-  // border-bottom:1px solid #ebebeb;
-  // border-top:1px solid #f1f1f1;
-  // margin-top: -1px;
-  // box-shadow: 0 0 1px rgba(0, 0, 0, .2);
-  // box-shadow: 0 0 5px rgba(0,0,0,.07);
-
-  -webkit-backdrop-filter: blur(18px);
-  background-color: hsla(255, 255, 255, .8)!important;
-
+  border-bottom:1px solid #eaedf0;
+  border-top:1px solid #eaedf0;
+  margin-top:-1px;
   z-index: 99;
+
   > div{
     margin:0 auto;
   }
@@ -37,13 +32,16 @@
     margin:0px;
 
     li{
-      float:left;
+      // float:right;
+      display: inline-block;
+      // float:left;
       width:25%;
       a{
         display: block;
         height: 100%;
         width: 100%;
         text-align: center;
+        font-size: 14px;
 
         &:hover{
           text-decoration: none;
@@ -52,6 +50,10 @@
         }
       }
     }
+  }
+
+  .logo{
+    float:left;
   }
 
   :global .three{

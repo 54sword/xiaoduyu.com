@@ -10,7 +10,7 @@ import { getPostsListByName } from '../../reducers/posts'
 import { getProfile } from '../../reducers/user'
 import { showSign } from '../../actions/sign'
 
-
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 // 外壳
@@ -47,7 +47,7 @@ export class Home extends React.Component {
 
     filters.comments_sort = 'create_at:-1'
     filters.include_comments = 1
-    
+
     store.dispatch(loadPostsList({
       name,
       filters,
@@ -70,7 +70,7 @@ export class Home extends React.Component {
       commentsSortId: 2,
       // 评论排序数组
       commentsSort: [
-        { id: 1, condition: '', name: '不显示' },
+        // { id: 1, condition: '', name: '不显示' },
         { id: 2, condition: 'create_at:-1', name: '最新' },
         { id: 3, condition: 'reply_count:-1,like_count:-1,create_at:-1', name: '回复最多' },
         { id: 4, condition: 'like_count:-1,reply_count:-1,create_at:-1', name: '点赞最多' }
@@ -85,6 +85,8 @@ export class Home extends React.Component {
     if (me._id) {
       const consition = reactLocalStorage.get('comments_sort_id') || 2
       this.chooseCommentsSort(consition)
+    } else {
+      this.chooseCommentsSort()
     }
   }
 
@@ -139,30 +141,43 @@ export class Home extends React.Component {
     const { name, filters, timestamp, commentsSort, commentsSortId } = this.state
     const { me, newPostsList, showNewPosts, showSign } = this.props
 
+    // <div className={styles['posts-type']}>
+    //     <a href="javascript:void(0)" onClick={showSign}><span className={styles.talk}>说说</span></a>
+    //     <a href="javascript:void(0)" onClick={showSign}><span className={styles.ask}>提问</span></a>
+    //     <a href="javascript:void(0)" onClick={showSign}><span className={styles.write}>写文章</span></a>
+    //   </div>
+
     return(<div>
       <Meta />
       <Nav />
 
       <div className="container">
+
         {newPostsList.data && newPostsList.data.length > 0 ?
-          <a href="javascript:void(0)" className={styles.tips} onClick={showNewPosts}>有 {newPostsList.data.length} 篇新帖子</a>
+          <a href="javascript:void(0)" styleName="tips" onClick={showNewPosts}>有 {newPostsList.data.length} 篇新帖子</a>
           : null}
+
         {me._id ?
-          <div className={styles['posts-type']}>
-            <Link to="/write-posts"><span className={styles.talk}>说说</span></Link>
-            <Link to="/write-posts?type=2"><span className={styles.ask}>提问</span></Link>
-            <Link to="/write-posts?type=3"><span className={styles.write}>写文章</span></Link>
+          <div styleName="posts-type">
+            <Link to="/write-posts"><span styleName="talk">说说</span></Link>
+            <Link to="/write-posts?type=2"><span styleName="ask">提问</span></Link>
+            <Link to="/write-posts?type=3"><span styleName="write">写文章</span></Link>
           </div>
-          : <div className={styles['posts-type']}>
-              <a href="javascript:void(0)" onClick={showSign}><span className={styles.talk}>说说</span></a>
-              <a href="javascript:void(0)" onClick={showSign}><span className={styles.ask}>提问</span></a>
-              <a href="javascript:void(0)" onClick={showSign}><span className={styles.write}>写文章</span></a>
-            </div>}
+          : null}
+
         <div className="container-head">
           最新动态
+          {/*
+          <div className={styles.category}>
+            <a href="#">全部</a>
+            <a href="#">说说</a>
+            <a href="#">提问</a>
+            <a href="#">文章</a>
+          </div>
+          */}
           {me._id ?
             <div className="right">
-              评论显示偏好：
+              评论：
               <select className="select" onChange={(e)=>{ this.chooseCommentsSort(e.target.value) }} value={commentsSortId}>
                 {commentsSort.map((item, index)=>{
                   return (<option key={index} value={item.id}>{item.name}</option>)
@@ -171,20 +186,24 @@ export class Home extends React.Component {
             </div>
             : null}
         </div>
-        <PostsList
-          name={name}
-          displayDate={false}
-          displayFollow={true}
-          timestamp={timestamp}
-          filters={filters}
-          commentOption={{
-            displayReply: false,
-            displayDate: false,
-            summary: true,
-            displayLike: false,
-            displayEdit: false
-          }}
-          />
+
+        <div styleName="posts-list">
+          <PostsList
+            name={name}
+            displayDate={false}
+            displayFollow={true}
+            timestamp={timestamp}
+            filters={filters}
+            commentOption={{
+              displayReply: false,
+              displayDate: false,
+              summary: true,
+              displayLike: false,
+              displayEdit: false
+            }}
+            />
+        </div>
+
         <Footer />
       </div>
 
@@ -194,7 +213,7 @@ export class Home extends React.Component {
 }
 
 
-
+Home = CSSModules(Home, styles)
 
 Home.defaultProps = defaultProps
 
@@ -207,7 +226,6 @@ Home.propTypes = {
 }
 
 const mapStateToProps = (state, props) => {
-
   return {
     me: getProfile(state),
     postsList: getPostsListByName(state, defaultProps.name),

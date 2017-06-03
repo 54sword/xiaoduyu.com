@@ -1,12 +1,13 @@
 
 import Ajax from '../common/ajax'
+import { DateDiff } from '../common/date'
 
 export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, callback }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
     let commentState = getState().comment
-
+    
     return Ajax({
       url: '/write-comment',
       type: 'post',
@@ -103,7 +104,7 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
                   posts[i].data[key].comment[index].content_html = contentHTML
 
                   let text = contentHTML.replace(/<[^>]+>/g,"")
-                  if (text.length > 140) text = text.slice(0, 140)+'...'
+                  if (text.length > 200) text = text.slice(0, 200)+'...'
 
                   posts[i].data[key].comment[index].content_summary = text
                 }
@@ -154,6 +155,18 @@ export const loadCommentById = ({ id, callback = () => {} }) => {
     })
 
   }
+}
+
+const processCommentList = (list) => {
+  list.map(item=>{
+    item._create_at = DateDiff(item.create_at)
+    if (item.reply) {
+      item.reply.map(item=>{
+        item._create_at = DateDiff(item.create_at)
+      })
+    }
+  })
+  return list
 }
 
 export function loadCommentList({ name, filters = {}, callback = ()=>{} }) {
@@ -214,7 +227,7 @@ export function loadCommentList({ name, filters = {}, callback = ()=>{} }) {
         let _commentList = res.data
 
         commentList.more = res.data.length < commentList.filters.per_page ? false : true
-        commentList.data = commentList.data.concat(_commentList)
+        commentList.data = commentList.data.concat(processCommentList(_commentList))
         commentList.filters = filters
         commentList.count = 0
         commentList.loading = false

@@ -5,8 +5,8 @@
   height: 40px;
   line-height: 40px;
   font-size: 14px;
-  color:#aaaaaa;
-  margin-bottom: 10px;
+  border-top: 1px solid $light-gray;
+  background-color: #fff;
 }
 
 .more{
@@ -14,8 +14,6 @@
   width:100%;
   height: 40px;
   line-height: 40px;
-  background-color: #fff;
-  border-radius: 3px;
   &:hover{
     background-color: #f9f9f9;
   }

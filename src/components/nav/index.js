@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import { Link, IndexLink } from 'react-router'
 // import Headroom from 'react-headroom'
 
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
@@ -33,21 +34,21 @@ export class Navbar extends Component {
 
     return (
       <div>
-        <div className={styles.header}>
+        <div styleName="header">
           <div className="container">
             <ul className={me ? null : "three"}>
-              <li><IndexLink to="/" activeClassName={styles.active}>首页</IndexLink></li>
+              <li styleName="logo"><IndexLink to="/" activeClassName={styles.active}>小度鱼</IndexLink></li>
               <li><Link to="/topics" activeClassName={styles.active}>话题</Link></li>
               {me ? <li>
                   <Link to="/notifications" activeClassName={styles.active}>
-                    通知{unreadNotice > 0 ? <span className={styles['unread-notice']}>{unreadNotice}</span> : null}
+                    通知{unreadNotice > 0 ? <span styleName="unread-notice">{unreadNotice}</span> : null}
                   </Link>
                 </li> : null}
               {meTab}
             </ul>
           </div>
         </div>
-        <div className={styles.placeholder}></div>
+        <div styleName="placeholder"></div>
       </div>
     )
   }
@@ -71,5 +72,7 @@ const mapDispatchToProps = (dispatch) => {
     showSign: bindActionCreators(showSign, dispatch)
   }
 }
+
+Navbar = CSSModules(Navbar, styles)
 
 export default connect(mapStateToProps,mapDispatchToProps)(Navbar)

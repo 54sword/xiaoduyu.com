@@ -4,7 +4,7 @@ import merge from 'lodash/merge'
 let initialState = {
 }
 
-export default function notification(state = initialState, action) {
+export default function notification(state = initialState, action = {}) {
   switch (action.type) {
 
     case 'SET_NOTIFICATION_LIST_BY_NAME':

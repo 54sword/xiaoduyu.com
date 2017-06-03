@@ -14,7 +14,7 @@ describe('<Iframe />', ()=>{
   const wrapper = shallow(<Iframe {...props} />)
 
   it('应该包含 embed', function() {
-    expect(wrapper.contains(<iframe ref="iframe" src={props.src}></iframe>)).toBe(true);
+    expect(wrapper.contains(<iframe ref="iframe" src={props.src} width="auto" height="auto"></iframe>)).toBe(true);
   })
 
 })

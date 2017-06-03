@@ -3,7 +3,7 @@ let initialState = {
   show: false
 }
 
-export default function sign(state = initialState, action) {
+export default function sign(state = initialState, action = {}) {
 
   switch (action.type) {
 

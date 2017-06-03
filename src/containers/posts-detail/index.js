@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import { Link, browserHistory } from 'react-router'
+import { reactLocalStorage } from 'reactjs-localstorage'
 
-import { DateDiff } from '../../common/date'
-
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 import Shell from '../../shell'
@@ -18,7 +18,7 @@ import CommentEditor from '../../components/comment-editor'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { loadPostsById } from '../../actions/posts'
+import { loadPostsById, addViewById } from '../../actions/posts'
 import { getPostsById } from '../../reducers/posts'
 import { loadCommentList } from '../../actions/comment'
 import { showSign } from '../../actions/sign'
@@ -59,13 +59,25 @@ export class PostsDetail extends React.Component {
 
   componentDidMount() {
 
-    const { loadPostsById, inHistory } = this.props
+    const { loadPostsById, addViewById } = this.props
     const { id } = this.props.params
+    // let [ posts ] = this.props.posts
 
-    let [ posts ] = this.props.posts
+    let viewPosts = reactLocalStorage.get('view-posts') || ''
+    let lastViewPostsAt = reactLocalStorage.get('last-viewed-posts-at') || new Date().getTime()
 
-    if (!posts || !inHistory) {
-      loadPostsById({ id, callback:(t)=>{}})
+    // 如果超过1小时，那么浏览数据清零
+    if (new Date().getTime() - lastViewPostsAt > 3600000) viewPosts = ''
+
+    viewPosts = viewPosts.split(',')
+
+    if (!viewPosts[0]) viewPosts = []
+
+    if (viewPosts.indexOf(id) == -1) {
+      viewPosts.push(id)
+      reactLocalStorage.set('view-posts', viewPosts.join(','))
+      reactLocalStorage.set('last-viewed-posts-at', new Date().getTime())
+      addViewById({ id: id })
     }
 
   }
@@ -93,37 +105,36 @@ export class PostsDetail extends React.Component {
 
         <div className="container">
 
-          <div className={styles.posts}>
+          <div styleName="posts">
 
-            <div className={styles.head}>
+            <h1 styleName="title">
+              {posts.title}
+            </h1>
+
+            <div styleName="head">
               <span>
                 <Link to={`/people/${posts.user_id._id}`}>
-                  <img className={styles['author-avatar']} src={posts.user_id.avatar_url} />
-                  {posts.user_id.nickname}
+                  <img styleName="author-avatar" src={posts.user_id.avatar_url} />
+                  <b>{posts.user_id.nickname}</b>
                 </Link>
               </span>
               <span><Link to={`/topics/${posts.topic_id._id}`}>{posts.topic_id.name}</Link></span>
               {posts.view_count ? <span>{posts.view_count} 浏览</span> : null}
               {posts.answers_count ? <span>{posts.answers_count} 个评论</span> : null}
               {posts.follow_count ? <span>{posts.follow_count} 人关注</span> : null}
-              <span>{DateDiff(posts.create_at)}</span>
+              <span>{posts._create_at}</span>
             </div>
 
-            <h1 className={styles.title}>
-              {posts.title}
-            </h1>
-
             {posts.content_html ?
-              <div className={styles.detail}><HTMLText content={posts.content_html} /></div>
+              <div styleName="detail"><HTMLText content={posts.content_html} /></div>
               :null}
           </div>
 
-          <div className={styles.other}>
+          <div className="container-footer">
 
-            <div className={styles.actions}>
+            <div styleName="actions">
               <FollowPosts posts={posts} />
 
-              {/*<Link to={`/write-comment?posts_id=${posts._id}`}>评论</Link>*/}
               {isSignin ?
                 (me._id != posts.user_id._id ? <a href="javascript:void(0)" onClick={()=>{ that.state.editor.focus() }}>评论</a> : null)
                 : <a href="javascript:void(0)" onClick={showSign}>评论</a>}
@@ -133,7 +144,7 @@ export class PostsDetail extends React.Component {
                 null}
             </div>
 
-            <div className={styles.share}>
+            <div>
               <Share title={posts.title} url={this.props.location ? this.props.location.pathname : ''} />
             </div>
 
@@ -164,13 +175,15 @@ export class PostsDetail extends React.Component {
   }
 }
 
+PostsDetail = CSSModules(PostsDetail, styles)
+
 PostsDetail.propTypes = {
   loadPostsById: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
   showSign: PropTypes.func.isRequired,
   isSignin: PropTypes.bool.isRequired,
   me: PropTypes.object.isRequired,
-  inHistory: PropTypes.bool.isRequired
+  addViewById: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
@@ -178,7 +191,6 @@ function mapStateToProps(state, props) {
   return {
     posts: getPostsById(state, id),
     isSignin: getAccessToken(state) ? true : false,
-    inHistory: findHistory(state, props.location ? props.location.pathname : ''),
     me: getProfile(state)
   }
 }
@@ -186,10 +198,13 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch, props) {
   return {
     loadPostsById: bindActionCreators(loadPostsById, dispatch),
-    showSign: bindActionCreators(showSign, dispatch)
+    showSign: bindActionCreators(showSign, dispatch),
+    addViewById: bindActionCreators(addViewById, dispatch)
   }
 }
 
 PostsDetail = connect(mapStateToProps, mapDispatchToProps)(PostsDetail)
+
+
 
 export default Shell(PostsDetail)

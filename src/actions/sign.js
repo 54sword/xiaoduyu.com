@@ -35,21 +35,19 @@ export function signout() {
 }
 
 // 登录
-export function signin(email, password, callback) {
+export function signin(data, callback = ()=>{}) {
   return dispatch => {
 
     return Ajax({
       url: '/signin',
       type: 'post',
-      data: {
-        email: email,
-        password: password
-      },
+      data: data,
       callback: (res) => {
 
         if (res && res.success) {
           dispatch(addAccessToken(res.data))
         }
+
         callback(res ? res.success : false, res)
       }
     })

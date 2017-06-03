@@ -2,6 +2,8 @@
 // import merge from 'lodash/merge'
 import Ajax from '../common/ajax'
 
+import { DateDiff } from '../common/date'
+
 // 添加问题
 export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
   return (dispatch, getState) => {
@@ -163,6 +165,22 @@ export function loadPostsById({ id, callback = ()=>{} }) {
   }
 }
 
+export function addViewById({ id, callback = ()=>{ } }) {
+  return (dispatch, getState) => {
+
+    return Ajax({
+      url: '/view-posts',
+      params: { posts_id: id },
+      callback: (result) => {
+        if (result && result.success) {
+          dispatch({ type: 'UPDATE_POSTS_VIEW', id: id })
+        }
+        callback(result)
+      }
+    })
+  }
+}
+
 
 const abstractImages = (str) => {
 
@@ -195,16 +213,20 @@ const processPostsList = (list) => {
     posts.images = abstractImages(posts.content_html)
 
     let text = posts.content_html.replace(/<[^>]+>/g,"")
-    if (text.length > 80) text = text.slice(0, 80)+'...'
+    if (text.length > 140) text = text.slice(0, 140)+'...'
     posts.content_summary = text
+
+    posts._create_at = DateDiff(posts.create_at)
 
     if (posts.comment) {
       posts.comment.map(function(comment){
 
         comment.images = abstractImages(comment.content_html)
 
+        comment._create_at = DateDiff(comment.create_at)
+
         let text = comment.content_html.replace(/<[^>]+>/g,"")
-        if (text.length > 50) text = text.slice(0, 50)+'...'
+        if (text.length > 140) text = text.slice(0, 140)+'...'
         comment.content_summary = text
 
       })

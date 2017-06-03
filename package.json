@@ -53,6 +53,7 @@
     "history": "^3.0.0",
     "html-webpack-plugin": "^2.24.1",
     "ignore-loader": "^0.1.1",
+    "mobi.css": "^2.0.0-beta.1",
     "node-sass": "^3.13.0",
     "prop-types": "^15.5.4",
     "qrcode.react": "^0.6.1",

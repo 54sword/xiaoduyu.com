@@ -7,7 +7,7 @@ let initialState = {
   }
 }
 
-export default function peoples(state = initialState, action) {
+export default function peoples(state = initialState, action = {}) {
   switch (action.type) {
 
     case 'SET_PEOPLE_LIST_BY_NAME':
