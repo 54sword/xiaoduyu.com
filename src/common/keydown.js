@@ -20,7 +20,7 @@ const keydown = (function(){
       keyList.push(keyNum)
     }
   }
-
+  
   const onkeyup = (e)=>{
     for (let i in listenList) {
       listenList[i](keyList)

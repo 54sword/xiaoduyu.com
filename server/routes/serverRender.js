@@ -10,6 +10,7 @@ import DocumentMeta from 'react-document-meta'
 import configureStore from '../../src/store/configureStore'
 import { getInitialState } from '../../src/reducers'
 import crateRoutes from '../../src/routes'
+import { loadUserInfo } from '../../src/actions/user'
 
 const serverRender = express.Router()
 
@@ -44,54 +45,22 @@ function loadData(props, store, userinfo, callback) {
 
 }
 
-const authAccessToken = (accessToken, callback)=> {
-
-  if (!accessToken) {
-    callback(null)
-    return
-  }
-
-  let option = {
-    url: config.api_url + '/' + config.api_verstion + '/user',
-    method: 'post',
-    data: {
-      access_token: accessToken
-    }
-  }
-
-  axios(option).then(resp => {
-
-    const result = resp.data
-
-    if (result.success) {
-      callback(result.data)
-    } else {
-      callback(null)
-    }
-
-  })
-  .catch(function (error) {
-    callback(null)
-  })
-
-}
-
 serverRender.route('*').get((req, res) => {
 
-  const accessToken = req.cookies[config.auth_cookie_name] || null,
-        expires = req.cookies[''] || null,
+  let accessToken = req.cookies[config.auth_cookie_name] || null,
+        // expires = req.cookies[''] || null,
         history = createMemoryHistory(),
         store = configureStore(getInitialState())
 
-  authAccessToken(accessToken, (userinfo)=>{
+  const start = (userinfo)=> {
 
     if (userinfo) {
       // 如果获取到用户信息，那么说明token是有效的，因此将用户信息添加到store
-      store.dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken, expires: expires })
-      store.dispatch({ type: 'SET_USER', userinfo })
+      store.dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken })
     } else {
       // 如果无效，则删除token
       res.clearCookie(config.auth_cookie_name)
+      res.clearCookie('expires')
     }
 
     let routes = crateRoutes(history, userinfo ? userinfo : null)
@@ -113,7 +82,7 @@ serverRender.route('*').get((req, res) => {
       } else if (renderProps) {
 
         loadData(renderProps, store, userinfo, (httpStatusCode, desc) => {
-
+          
           if (httpStatusCode && httpStatusCode == 403) {
             res.status(403);
             res.redirect('/notice?notice='+desc)
@@ -140,7 +109,18 @@ serverRender.route('*').get((req, res) => {
       }
     })
 
-  })
+  }
+
+  if (accessToken && accessToken != 'undefined') {
+    store.dispatch(loadUserInfo({
+      accessToken: accessToken,
+      callback: (result) => {
+        start(result && result.success ? result.data : false)
+      }
+    }))
+  } else {
+    start(false)
+  }
 
 })
 

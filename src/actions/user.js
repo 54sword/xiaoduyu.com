@@ -87,20 +87,3 @@ export function resetBrief({ brief, callback }) {
 
   }
 }
-
-/*
-export function cropAvatar({ x, y, width, height, callback }) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
-
-    Ajax({
-      url: '/crop-avatar',
-      type: 'post',
-      data: { x: x, y: y, width: width, height: height },
-      headers: { AccessToken: accessToken },
-      callback
-    })
-
-  }
-}
-*/

@@ -43,8 +43,9 @@ export class Sign extends Component {
 
         <div className={styles.social}>
           <ul>
-            <li><a href="http://api.xiaoduyu.com/oauth/weibo" className={styles.weibo}>微博</a></li>
-            <li><a href="http://api.xiaoduyu.com/oauth/qq" className={styles.qq}>QQ</a></li>
+            <li><a href="http://api.xiaoduyu.com/oauth/weibo" className={styles.weibo}>使用微博登录</a></li>
+            <li><a href="http://api.xiaoduyu.com/oauth/qq" className={styles.qq}>使用 QQ 登录</a></li>
+            <li><a href="http://api.xiaoduyu.com/oauth/github" className={styles.github}>使用 GitHub 登录</a></li>
           </ul>
         </div>
 

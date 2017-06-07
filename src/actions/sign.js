@@ -1,5 +1,8 @@
 import Ajax from '../common/ajax'
 import Keydown from '../common/keydown'
+import cookie from 'react-cookie'
+import { auth_cookie_name } from '../../config'
+
 
 export function showSign(e) {
 
@@ -31,7 +34,11 @@ export function addAccessToken({ expires, access_token }) {
 }
 
 export function signout() {
-  return { type: 'REMOVE_ACCESS_TOKEN' }
+  return dispatch => {
+    cookie.remove(auth_cookie_name, { path: '/' })
+    cookie.remove('expires', { path: '/' })
+    return { type: 'REMOVE_ACCESS_TOKEN' }
+  }
 }
 
 // 登录
@@ -46,6 +53,17 @@ export function signin(data, callback = ()=>{}) {
 
         if (res && res.success) {
           dispatch(addAccessToken(res.data))
+
+          const { access_token, expires } = res.data
+
+          let option = { path: '/' }
+
+          if (expires) {
+            option.expires = new Date(expires)
+            cookie.save('expires', expires, option)
+          }
+
+          cookie.save(auth_cookie_name, access_token, option)
         }
 
         callback(res ? res.success : false, res)

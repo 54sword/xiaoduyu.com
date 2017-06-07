@@ -4,14 +4,16 @@
   position: fixed;
   left:0;
   top:0;
-  background-color: rgba(255, 255, 255, 1);
+  // background: linear-gradient(to bottom, #fff, #fcfcfc);
+  background-color: rgba(255,255,255,1);
   height: 45px;
   line-height: 45px;
   width: 100%;
-  border-bottom:1px solid #eaedf0;
-  border-top:1px solid #eaedf0;
-  margin-top:-1px;
+  // border-bottom:1px solid #e1e3e8;
+  // border-top:1px solid #e1e3e8;
+  // margin-top:-1px;
   z-index: 99;
+  box-shadow: 0 0 3px #cdcfd3;
 
   > div{
     margin:0 auto;
