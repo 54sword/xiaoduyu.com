@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ReactDOM from 'react-dom'
 import { Link, browserHistory } from 'react-router'
 
 import { bindActionCreators } from 'redux'
@@ -50,7 +49,6 @@ export class SubNav extends Component {
       } else {
         this.context.router.goBack()
       }
-
     }
 
   }

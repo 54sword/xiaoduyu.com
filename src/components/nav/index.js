@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import { Link, IndexLink } from 'react-router'
 // import Headroom from 'react-headroom'
+import config from '../../../config'
 
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
@@ -37,7 +38,7 @@ export class Navbar extends Component {
         <div styleName="header">
           <div className="container">
             <ul className={me ? null : "three"}>
-              <li styleName="logo"><IndexLink to="/" activeClassName={styles.active}>小度鱼</IndexLink></li>
+              <li styleName="logo"><IndexLink to="/" activeClassName={styles.active}>{config.name}</IndexLink></li>
               <li><Link to="/topics" activeClassName={styles.active}>话题</Link></li>
               {me ? <li>
                   <Link to="/notifications" activeClassName={styles.active}>

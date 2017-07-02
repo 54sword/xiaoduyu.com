@@ -42,7 +42,7 @@ export class ResetNickname extends Component {
         if (!res.success) {
           alert(res.error)
         } else {
-          alert('昵称修改成功')
+          alert('提交成功')
           loadUserInfo({})
           self.context.router.goBack()
         }
@@ -57,17 +57,17 @@ export class ResetNickname extends Component {
 
     return (
       <div>
-        <Meta meta={{title:'修改名字'}} />
+        <Meta meta={{title:'名字'}} />
 
-        <Subnav middle="修改名字" />
+        <Subnav middle="名字" />
         <div className="container">
 
           <div className="list">
-            <input type="text" defaultValue={me.nickname} ref="nickname"></input>
+            <input type="text" defaultValue={me.nickname} ref="nickname" placeholder="请输入你的名字"></input>
           </div>
 
           <div className="list">
-            <a className="center" href="javascript:void(0);" onClick={this.submitResetPassword}>确认修改</a>
+            <a className="center" href="javascript:void(0);" onClick={this.submitResetPassword}>提交</a>
           </div>
 
         </div>

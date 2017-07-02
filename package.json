@@ -67,7 +67,6 @@
     "react-ga": "^2.1.2",
     "react-qiniu": "^1.5.0",
     "react-redux": "^4.4.5",
-    "react-router": "^2.7.0",
     "react-tabs": "^0.8.2",
     "reactjs-localstorage": "^0.0.5",
     "redraft": "^0.7.0",
@@ -103,6 +102,7 @@
     "qiniu": "^6.1.13",
     "react-addons-test-utils": "^15.4.2",
     "react-headroom": "^2.1.5",
-    "webpack-bundle-analyzer": "^2.3.0"
+    "webpack-bundle-analyzer": "^2.3.0",
+    "react-router": "2.7.0"
   }
 }

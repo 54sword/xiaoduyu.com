@@ -76,7 +76,7 @@ class Signup extends Component {
         alert('注册成功')
 
         // 自动登录
-        signin(email.value, password.value, function(err, result){
+        signin({ email: email.value, password: password.value }, function(err, result){
           setTimeout(()=>{
             location.reload()
           }, 100)

@@ -91,15 +91,10 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart =
       return
     }
 
-    if (!postsList.data) {
-      postsList.data = []
-    }
+    if (!postsList.data) postsList.data = []
 
     if (!postsList.filters) {
-
-      // if (!filters.lt_date) filters.lt_date = new Date().getTime()
       if (!filters.per_page) filters.per_page = 30
-
       postsList.filters = filters
     } else {
       filters = postsList.filters
@@ -108,17 +103,9 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart =
       }
     }
 
-    if (!postsList.more) {
-      postsList.more = true
-    }
-
-    if (!postsList.count) {
-      postsList.count = 0
-    }
-
-    if (!postsList.loading) {
-      postsList.loading = true
-    }
+    if (!postsList.more) postsList.more = true
+    if (!postsList.count) postsList.count = 0
+    if (!postsList.loading) postsList.loading = true
 
     dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: postsList })
 

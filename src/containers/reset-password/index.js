@@ -30,20 +30,9 @@ export class ResetPassword extends Component {
     const { resetPassword } = this.props
     const { currentPassword, newPassword, confirmNewPassword } = this.refs
 
-    if (!currentPassword.value) {
-      currentPassword.focus()
-      return
-    }
-
-    if (!newPassword.value) {
-      newPassword.focus()
-      return
-    }
-
-    if (!confirmNewPassword.value) {
-      confirmNewPassword.focus()
-      return
-    }
+    if (!currentPassword.value) return currentPassword.focus()
+    if (!newPassword.value) return newPassword.focus()
+    if (!confirmNewPassword.value) return confirmNewPassword.focus()
 
     if (newPassword.value != confirmNewPassword.value) {
       alert('新密码两次输入不相同')

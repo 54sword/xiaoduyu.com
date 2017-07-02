@@ -46,8 +46,8 @@ export class PostsItem extends PureComponent {
       <div styleName="item" onClick={this.clickPostsItem}>
 
         <div styleName="head">
-
-          {displayFollow ? <div styleName="right"><FollowPosts posts={posts} /></div> : null}
+          
+          {/*displayFollow ? <div styleName="right"><FollowPosts posts={posts} /></div> : null*/}
 
           {typeof posts.user_id == 'object' ?
             <div styleName="info">
@@ -81,7 +81,7 @@ export class PostsItem extends PureComponent {
           {posts.images && posts.images.length ?
             <div styleName="images">
               {posts.images.map(image=>{
-                return (<div key={image} className="load-demand" data-load-demand={`<img src="${image}?imageMogr2/thumbnail/!200" />`}></div>)
+                return (<div key={image} className="load-demand" data-load-demand={`<img src="${image}?imageMogr2/auto-orient/thumbnail/!200" />`}></div>)
               })}
             </div>
             : null}

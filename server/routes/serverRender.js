@@ -82,7 +82,7 @@ serverRender.route('*').get((req, res) => {
       } else if (renderProps) {
 
         loadData(renderProps, store, userinfo, (httpStatusCode, desc) => {
-          
+
           if (httpStatusCode && httpStatusCode == 403) {
             res.status(403);
             res.redirect('/notice?notice='+desc)

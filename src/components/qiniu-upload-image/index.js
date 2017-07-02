@@ -63,27 +63,19 @@ export class QiniuUploadImage extends React.Component {
       f.onprogress = function(e) {
 
         onUpload(e)
-
+        
         if (e.percent == 100 && e.currentTarget.status && e.currentTarget.status == 200) {
+
+          // 上传完成
 
           upload(url+'/'+JSON.parse(e.currentTarget.response).key)
 
           count = count + 1
 
-          // console.log(count + ' - ' + files.length)
-
           if (count >= files.length) {
             self.setState({ loading: false })
           }
 
-          /*
-          self.setState({
-            preview: f.preview,
-            avatarUrl: 'http://houseimg.huarenmatch.com/'+JSON.parse(e.currentTarget.response).key,
-            showCropper: true,
-            loading: false
-          })
-          */
         }
       }
 
@@ -114,6 +106,7 @@ export class QiniuUploadImage extends React.Component {
           accept="image/*"
           token={this.state.token}
           uploadKey={this.state.uploadKey}
+          maxSize="1Mb"
           onUpload={this.onUpload}>
             {name}
         </Qiniu>

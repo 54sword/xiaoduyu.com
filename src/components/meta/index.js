@@ -23,7 +23,7 @@ export class Meta extends Component {
       title: (unreadNotice > 0 ? '('+unreadNotice+')' : '') + config.name,
       description: config.description
     }
-
+    
     if (this.props.meta) {
       meta = this.props.meta
       meta.title += ' - '+config.name
