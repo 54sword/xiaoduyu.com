@@ -16,12 +16,14 @@ export class LikeButton extends Component {
     this.handleLike = this.handleLike.bind(this)
   }
 
-  handleLike() {
+  handleLike(e) {
+
+    e.stopPropagation()
 
     const self = this
     const { like, unlike } = this.props
-    const { comment, reply } = this.props
-    const target = comment || reply
+    const { comment, reply, posts } = this.props
+    const target = comment || reply || posts
     const status = target.like,
           count = target.like_count,
           targetId = target._id
@@ -31,6 +33,8 @@ export class LikeButton extends Component {
       type = 'comment'
     } else if (reply) {
       type = 'reply'
+    } else {
+      type = 'posts'
     }
 
     if (status) {
@@ -68,20 +72,20 @@ export class LikeButton extends Component {
 
   render () {
 
-    const { reply, comment } = this.props
+    const { reply, comment, posts } = this.props
     const { isSignin, showSign } = this.props
-    const like = comment || reply
+    const like = comment || reply || posts
 
     if (!isSignin) {
       // return (<span></span>)
       return (<a href="javascript:void(0)" onClick={showSign}>赞 {like.like_count && like.like_count > 0 ? like.like_count : null}</a>)
     }
-
+    
     return (
       <a
         href="javascript:void(0)"
         className={like.like ? 'black-10' : ''}
-        onClick={()=>{this.handleLike()}}>
+        onClick={(e)=>{this.handleLike(e)}}>
         {like.like ? "已赞" : '赞'}
         </a>
     )

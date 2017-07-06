@@ -62,7 +62,7 @@ export class Home extends React.Component {
     super(props)
 
     const { filters, name } = defaultProps
-
+    
     this.state = {
       name: name,
       filters: filters,
