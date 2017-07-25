@@ -80,7 +80,7 @@ export class LikeButton extends Component {
       // return (<span></span>)
       return (<a href="javascript:void(0)" onClick={showSign}>赞 {like.like_count && like.like_count > 0 ? like.like_count : null}</a>)
     }
-    
+
     return (
       <a
         href="javascript:void(0)"

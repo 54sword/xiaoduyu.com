@@ -52,12 +52,14 @@ serverRender.route('*').get((req, res) => {
         history = createMemoryHistory(),
         store = configureStore(getInitialState())
 
-  const start = (userinfo)=> {
+  const start = (result)=> {
+
+    let userinfo = result && result.success ? result.data : null
 
     if (userinfo) {
       // 如果获取到用户信息，那么说明token是有效的，因此将用户信息添加到store
       store.dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken })
-    } else {
+    } else if (result && !result.success) {
       // 如果无效，则删除token
       res.clearCookie(config.auth_cookie_name)
       res.clearCookie('expires')
@@ -114,9 +116,7 @@ serverRender.route('*').get((req, res) => {
   if (accessToken && accessToken != 'undefined') {
     store.dispatch(loadUserInfo({
       accessToken: accessToken,
-      callback: (result) => {
-        start(result && result.success ? result.data : false)
-      }
+      callback: start
     }))
   } else {
     start(false)
