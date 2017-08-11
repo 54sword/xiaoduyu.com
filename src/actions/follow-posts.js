@@ -4,7 +4,7 @@ export function follow({ id, callback = ()=>{} }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
-    
+
     Ajax({
       url: '/add-follow',
       type: 'post',

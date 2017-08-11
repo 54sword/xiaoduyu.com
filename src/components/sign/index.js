@@ -10,6 +10,8 @@ import { getSignStatus } from '../../reducers/sign'
 import Signin from './components/signin'
 import Signup from './components/signup'
 
+import { api_url } from '../../../config'
+
 export class Sign extends Component {
 
   constructor(props) {
@@ -43,9 +45,9 @@ export class Sign extends Component {
 
         <div className={styles.social}>
           <ul>
-            <li><a href="http://api.xiaoduyu.com/oauth/weibo" className={styles.weibo}>使用微博登录</a></li>
-            <li><a href="http://api.xiaoduyu.com/oauth/qq" className={styles.qq}>使用 QQ 登录</a></li>
-            <li><a href="http://api.xiaoduyu.com/oauth/github" className={styles.github}>使用 GitHub 登录</a></li>
+            <li><a href={`${api_url}/oauth/weibo`} className={styles.weibo}>使用微博登录</a></li>
+            <li><a href={`${api_url}/oauth/qq`} className={styles.qq}>使用 QQ 登录</a></li>
+            <li><a href={`${api_url}/oauth/github`} className={styles.github}>使用 GitHub 登录</a></li>
           </ul>
         </div>
 
