@@ -84,7 +84,7 @@ export class PostsItem extends PureComponent {
           {posts.images && posts.images.length ?
             <div styleName="images">
               {posts.images.map(image=>{
-                return (<div key={image} className="load-demand" data-load-demand={`<img src="${image}?imageMogr2/auto-orient/thumbnail/!200" />`}></div>)
+                return (<div key={image} className="load-demand" data-load-demand={`<img src="${image}" />`}></div>)
               })}
             </div>
             : null}
