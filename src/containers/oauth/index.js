@@ -18,9 +18,6 @@ class Oauth extends React.PureComponent {
     const { access_token = '', expires = 0 } = this.props.location.query
     const { addAccessToken } = this.props
 
-    // console.log(access_token);
-    // console.log(expires);
-
     if (access_token) {
       addAccessToken({ access_token, expires })
 

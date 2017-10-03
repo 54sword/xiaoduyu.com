@@ -32,7 +32,7 @@ export function unbindingWeibo({ callback }) {
 export function unbindingGithub({ callback }) {
   return (dispatch, getState) => {
     let accessToken = getState().user.accessToken
-    
+
     Ajax({
       url: '/unbinding-github',
       type:'post',

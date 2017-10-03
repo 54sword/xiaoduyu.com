@@ -7,10 +7,12 @@ import createMemoryHistory from 'history/lib/createMemoryHistory'
 import axios from 'axios'
 import DocumentMeta from 'react-document-meta'
 
+
 import configureStore from '../../src/store/configureStore'
 import { getInitialState } from '../../src/reducers'
 import crateRoutes from '../../src/routes'
 import { loadUserInfo } from '../../src/actions/user'
+import { exchangeNewToken } from '../../src/actions/token'
 
 const serverRender = express.Router()
 
@@ -45,10 +47,12 @@ function loadData(props, store, userinfo, callback) {
 
 }
 
+
+
 serverRender.route('*').get((req, res) => {
 
   let accessToken = req.cookies[config.auth_cookie_name] || null,
-        // expires = req.cookies[''] || null,
+        expires = req.cookies['expires'] || 0,
         history = createMemoryHistory(),
         store = configureStore(getInitialState())
 
@@ -58,7 +62,8 @@ serverRender.route('*').get((req, res) => {
 
     if (userinfo) {
       // 如果获取到用户信息，那么说明token是有效的，因此将用户信息添加到store
-      store.dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken })
+      // res.cookie(config.auth_cookie_name, accessToken, { path: '/', httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 })
+      store.dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken, expires: expires })
     } else if (result && !result.success) {
       // 如果无效，则删除token
       res.clearCookie(config.auth_cookie_name)
@@ -66,7 +71,7 @@ serverRender.route('*').get((req, res) => {
     }
 
     let routes = crateRoutes(history, userinfo ? userinfo : null)
-
+    
     if (process.env.NODE_ENV == 'development') console.log('请求地址:' + req.originalUrl)
 
     match({ routes, location: req.originalUrl }, (error, redirectLocation, renderProps) => {
@@ -113,10 +118,55 @@ serverRender.route('*').get((req, res) => {
 
   }
 
+  /*
+  const handleExchangeNewToken = () => {
+    // 如果token失效，去换取新的token
+    store.dispatch(exchangeNewToken({
+      accessToken,
+      callback: (result) => {
+
+        if (result && !result.success) return start(result)
+
+        accessToken = result.data.access_token
+
+        expires = new Date().getTime() + 1000*60*24
+
+        res.cookie('expires', expires, { path: '/', httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 })
+        res.cookie(config.auth_cookie_name, accessToken, { path: '/', httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 })
+
+        store.dispatch(loadUserInfo({
+          accessToken: accessToken,
+          callback: start
+        }))
+
+      }
+    }))
+  }
+  */
+
+  /*
+  // 已经过了有效期
+  if (expires && parseInt(expires) < new Date().getTime()
+    // parseInt(expires) - new Date().getTime() < 1000 * 60 * 60 * 4
+    ) {
+    handleExchangeNewToken()
+    return
+  }
+  */
+
   if (accessToken && accessToken != 'undefined') {
     store.dispatch(loadUserInfo({
       accessToken: accessToken,
       callback: start
+      /*
+      callback: (result)=>{
+        if (result && !result.success) {
+          handleExchangeNewToken()
+        } else {
+          start(result)
+        }
+      }
+      */
     }))
   } else {
     start(false)

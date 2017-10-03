@@ -23,8 +23,11 @@ export class Settings extends Component {
   }
 
   handleSignout() {
-    this.props.signout()
-    location.href = '/'
+    this.props.signout({
+      callback: ()=>{
+        location.href = '/'
+      }
+    })
   }
 
   render() {
