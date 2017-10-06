@@ -100,10 +100,13 @@ const converVideo = (html) => {
   re = /\<img src\=\"(.*?)\"\>/g
   let imgs = html.match(re)
 
+  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+
   if (imgs && imgs.length > 0) {
 
     imgs.map(img=>{
-      html = html.replace(img, `<div class="load-demand" data-load-demand='${img}'></div>`)
+      let i = img.match(srcReg)[1]
+      html = html.replace(img, `<div class="load-demand" data-load-demand="<img src=\'${i}?imageMogr2/auto-orient/thumbnail/!590\' />"></div>`)
     })
 
   }

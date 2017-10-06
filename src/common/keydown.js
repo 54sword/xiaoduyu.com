@@ -6,22 +6,23 @@ const keydown = (function(){
   // 如果是服务器，那么就不存在 window 和 document 全局变量，因此不继续执行
   if (typeof window == 'undefined' || typeof document == 'undefined') {
     return {
-      add: (name, fn)=>{},
-      remove: (name)=>{}
+      add: (name, fn) => {},
+      remove: (name) => {},
+      getKeyList: () => {}
     }
   }
 
-  let keyList = []
-  let listenList = {}
+  let keyList = [],
+      listenList = {}
 
   const onkeydown = (e)=>{
-    var keyNum = window.event ? e.keyCode :e.which;
+    const keyNum = window.event ? e.keyCode :e.which;
     if (keyList.indexOf(keyNum) == -1) {
       keyList.push(keyNum)
     }
   }
 
-  const onkeyup = (e)=>{
+  const onkeyup = ()=>{
     for (let i in listenList) {
       listenList[i](keyList)
     }
@@ -35,17 +36,18 @@ const keydown = (function(){
     window.addEventListener('keydown', onkeydown, false)
     window.addEventListener('keyup', onkeyup, false)
   }
+  
+  // window.onfocus = ()=>{}
+  window.onblur = onkeyup
+  // window.onpopstate = ()=>{
+  //   keyList.push('back')
+  //   onkeyup()
+  // }
 
   return {
-    add: (id, callback) => {
-      listenList[id] = callback
-    },
-    remove: (id) => {
-      delete listenList[id]
-    },
-    getKeyList: () => {
-      return keyList
-    }
+    add: (id, callback) => listenList[id] = callback,
+    remove: (id) => delete listenList[id],
+    getKeyList: () => keyList
   }
 
 }())

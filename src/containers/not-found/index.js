@@ -21,10 +21,10 @@ export class NotFound extends React.Component {
     return(<div>
       <Meta />
       <Nav />
-
+      
       <div className={styles.page}>
         <p>该页面不存在</p>
-        <Link href="/">返回首页</Link>
+        <Link to="/">返回首页</Link>
       </div>
 
     </div>)

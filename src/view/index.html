@@ -13,8 +13,10 @@
   <meta content="telephone=no,email=no" name="format-detection" />
   -->
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+  <!--
   <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.cdn %>64.png" type="image/png" />
   <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.options.cdn %>512.png" />
+  -->
 </head>
 <body>
   <!--[if lt IE 8]>
@@ -27,7 +29,6 @@
 		您的浏览器版本较低，可能存在安全风险，请升级到最新IE浏览器。亦可下载 <a href="http://se.360.cn/" target="_blank">360安全浏览器</a> 或 <a href="https://chrome.google.com/" target="_blank">Google Chrome</a>
 	</div>
   <![endif]-->
-  <div id="wx_pic" style="display:none;"><img src='<%= htmlWebpackPlugin.options.cdn %>300.png' alt="小度鱼" /></div>
   <div id="app"><%= htmlWebpackPlugin.options.htmlDom %></div>
   <script>window.__initState__ = <%= htmlWebpackPlugin.options.reduxState %></script>
 </body>

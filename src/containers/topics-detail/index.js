@@ -18,11 +18,7 @@ export class TopicDetail extends Component {
   static loadData(option, callback) {
     const { id } = option.props.params
     option.store.dispatch(loadTopicById({ id, callback: (topic)=>{
-      if (!topic) {
-        callback('not found')
-      } else {
-        callback()
-      }
+      callback(topic ? null : 404)
     }}))
   }
 

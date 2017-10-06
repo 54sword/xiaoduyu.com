@@ -9,7 +9,7 @@ export function addPosts({ title, detail, detailHTML, topicId, device, type, cal
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
-
+    
     return Ajax({
       url: '/add-posts',
       type:'post',
@@ -91,15 +91,10 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart =
       return
     }
 
-    if (!postsList.data) {
-      postsList.data = []
-    }
+    if (!postsList.data) postsList.data = []
 
     if (!postsList.filters) {
-
-      // if (!filters.lt_date) filters.lt_date = new Date().getTime()
       if (!filters.per_page) filters.per_page = 30
-
       postsList.filters = filters
     } else {
       filters = postsList.filters
@@ -108,17 +103,9 @@ export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart =
       }
     }
 
-    if (!postsList.more) {
-      postsList.more = true
-    }
-
-    if (!postsList.count) {
-      postsList.count = 0
-    }
-
-    if (!postsList.loading) {
-      postsList.loading = true
-    }
+    if (!postsList.more) postsList.more = true
+    if (!postsList.count) postsList.count = 0
+    if (!postsList.loading) postsList.loading = true
 
     dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: postsList })
 
@@ -190,9 +177,10 @@ const abstractImages = (str) => {
   var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
 
   var result = [];
-  var img ;
-  while(img = imgReg.exec(str)){
-    result.push(img[0]);//这里的下标是匹配结果，跟你说的下标不是一回事
+  var img;
+  while (img = imgReg.exec(str)) {
+    let _img = img[0].split('?')[0] + '?imageMogr2/auto-orient/thumbnail/!200/format/jpg'
+    result.push(_img); //这里的下标是匹配结果，跟你说的下标不是一回事
   }
 
   if (result && result.length > 0) {

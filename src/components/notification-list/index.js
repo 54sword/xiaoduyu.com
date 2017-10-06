@@ -88,6 +88,17 @@ export class NotificationList extends Component {
                     </div>)
                   break
 
+                case 'like-posts':
+                  content = (<div>
+                      <div className={styles.header}>
+                        <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
+                        {DateDiff(notice.create_at)} 赞了你的
+                        <Link to={`/posts/${notice.posts_id._id}`}>{notice.posts_id.title}</Link>
+                        {notice.posts_id.type == 1 ?  '分享' : '提问'}
+                      </div>
+                    </div>)
+                  break
+
                 case 'reply':
                   content = (<div>
                     <div className={styles.header}>

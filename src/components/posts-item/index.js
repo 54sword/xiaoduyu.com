@@ -47,7 +47,7 @@ export class PostsItem extends PureComponent {
 
         <div styleName="head">
 
-          {displayFollow ? <div styleName="right"><FollowPosts posts={posts} /></div> : null}
+          {/*displayFollow ? <div styleName="right"><FollowPosts posts={posts} /></div> : null*/}
 
           {typeof posts.user_id == 'object' ?
             <div styleName="info">
@@ -61,12 +61,15 @@ export class PostsItem extends PureComponent {
                   <b>{posts.user_id.nickname}</b>
                 </Link>
               </span>
+
               <div>
                 {displayTopic ? <span><Link to={`/topics/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span> : null}
                 {posts.view_count ? <span>{posts.view_count}次浏览</span> : null}
+                {posts.like_count ? <span>{posts.like_count} 个赞</span> : null}
                 {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
                 {displayDate ? <span>{posts._create_at}</span> : null}
               </div>
+
             </div>
             : null}
 
@@ -81,7 +84,7 @@ export class PostsItem extends PureComponent {
           {posts.images && posts.images.length ?
             <div styleName="images">
               {posts.images.map(image=>{
-                return (<div key={image} className="load-demand" data-load-demand={`<img src="${image}?imageMogr2/thumbnail/!200" />`}></div>)
+                return (<div key={image} className="load-demand" data-load-demand={`<img src="${image}" />`}></div>)
               })}
             </div>
             : null}
@@ -91,11 +94,13 @@ export class PostsItem extends PureComponent {
 
       {/* comment */}
       {posts.comment && posts.comment.length ?
-        (posts.comment.map(comment=>{
+        <div styleName="comment-list">
+        {posts.comment.map(comment=>{
           return (<div key={comment._id}>
             <CommentItem comment={comment} {...commentOption} style={"min"} />
           </div>)
-        }))
+        })}
+        </div>
         : null}
 
         {posts.comment && posts.comment.length < posts.comment_count ?

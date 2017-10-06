@@ -24,15 +24,13 @@ export class CommentItem extends Component {
   stopPropagation(e) {
     e.stopPropagation();
   }
-
+  
   _renderItem(oursProps) {
 
     const that = this
     let { me, showSign } = this.props
 
     let { comment, summary, displayLike, displayReply, displayDate, displayEdit } = oursProps
-
-
 
     return (<div styleName="box">
       <div
@@ -89,7 +87,7 @@ export class CommentItem extends Component {
       {comment.reply && comment.reply.length > 0 ?
         <div styleName="comment-list">
           {comment.reply && comment.reply.map(comment=>{
-            let reply = that.renderItem({ comment, summary, me, displayLike, displayReply, displayDate })
+            let reply = that.renderItem({ comment, summary, me, displayLike, displayReply, displayDate, displayEdit })
             return (<div key={comment._id}>{reply}</div>)
           })}
           {comment.reply_count && comment.reply && comment.reply.length < comment.reply_count ?

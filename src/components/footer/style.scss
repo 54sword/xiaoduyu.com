@@ -1,8 +1,12 @@
 .footer{
   text-align: center;
-  height: 30px;
-  line-height: 30px;
+  // height: 30px;
+  // line-height: 30px;
   font-size:12px;
-  border-top:1px solid #efefef;
   margin-bottom: 30px;
+  margin-top:20px;
+  li{
+    display: inline-block;
+    padding:0 10px 0 10px;
+  }
 }

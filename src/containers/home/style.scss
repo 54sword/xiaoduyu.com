@@ -32,6 +32,26 @@
   z-index: 99;
 }
 
+.tab-bar{
+  text-align: center;
+  background-color: #fff;
+  border-bottom: 1px solid #efefef;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  height: 40px;
+  @include boxSizing();
+  > a{
+    height: 37px;
+    line-height: 40px;
+    display: inline-block;
+    padding:0 20px 0 20px;
+  }
+  .tab-bar-active{
+    color: #0071eb;
+    border-bottom: 3px solid #0071eb;
+  }
+}
+
 .posts-type{
   background-color: #fff;
   margin-bottom:10px;
@@ -39,7 +59,8 @@
   overflow: hidden;
   > a{
     display: inline-block;
-    width:33.33%;
+    width: 100%;
+    // width:33.33%;
     height: 40px;
     line-height: 40px;
     text-align: center;

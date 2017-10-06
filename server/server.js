@@ -51,6 +51,29 @@ if (config.ssl_verification_path) {
 }
 
 app.use('/', ssrRouter);
+
+app.use('/api', (function(){
+
+  var router = express.Router();
+  
+  router.post('/sign-in', (req, res)=>{
+    let accessToken = req.body.access_token || null;
+    if (!accessToken) return res.send({ success: false })
+
+    // let expires = req.body.expires;
+    res.cookie(config.auth_cookie_name, accessToken, { path: '/', httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 })
+    res.send({ success: true })
+  })
+
+  router.post('/sign-out', (req, res)=>{
+    res.clearCookie(config.auth_cookie_name)
+    res.send({ success: true })
+  })
+
+  return router
+
+}()));
+
 app.disable('x-powered-by');
 
 const server = app.listen(config.port, () => {

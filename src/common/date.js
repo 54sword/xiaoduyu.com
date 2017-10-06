@@ -3,7 +3,7 @@ export function Countdown(nowDate, endDate) {
   var lastDate = Math.ceil(new Date(endDate).getTime()/1000)
   var now = Math.ceil(new Date(nowDate).getTime()/1000)
 
-  var timeCount = 3600 - (now - lastDate)
+  var timeCount = (3600 * 24 * 30) - (now - lastDate)
 
   var days = parseInt( timeCount / (3600*24) )
   var hours = parseInt( (timeCount - (3600*24*days)) / 3600 )

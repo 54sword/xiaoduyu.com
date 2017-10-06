@@ -21,7 +21,7 @@
     }
 
     div:nth-child(1) {
-      float:left;
+      display: inline-block;
       width:20%;
       padding-left:15px;
       -webkit-box-sizing: border-box;
@@ -38,7 +38,7 @@
     }
 
     div:nth-child(2) {
-      float:left;
+      display: inline-block;
       width:60%;
       text-align: center;
       -webkit-box-sizing: border-box;
@@ -47,7 +47,7 @@
     }
 
     div:nth-child(3) {
-      float:left;
+      display: inline-block;
       width:20%;
       text-align: right;
       padding-right:15px;

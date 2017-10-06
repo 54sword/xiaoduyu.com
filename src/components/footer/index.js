@@ -20,7 +20,11 @@ export class Footer extends Component {
 
     return (
       <div className={styles.footer}>
-        当前在线人数: {onlineUserCount}
+        <ul>
+          <li><a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源代地址</a></li>
+          <li>© {new Date().getFullYear()} 小度鱼</li>
+          <li>当前{onlineUserCount}人在线</li>
+        </ul>
       </div>
     )
   }

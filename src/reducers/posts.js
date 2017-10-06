@@ -58,6 +58,22 @@ export default function posts(state = initialState, action = {}) {
 
       }
       return merge({}, state, {})
+
+    case 'UPDATE_POSTS_LIKE_STATUS':
+      var { id, status } = action
+
+      for (let i in state) {
+        let data = state[i].data
+        data.map(post=>{
+          if (post._id == id) {
+            post.like_count += status ? 1 : -1
+            post.like = status
+          }
+        })
+      }
+
+      return merge({}, state, {})
+
     case 'UPDATE_POSTS_VIEW':
       var { id } = action
       for (let i in state) {

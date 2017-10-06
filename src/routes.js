@@ -13,6 +13,7 @@ import Notifications from './containers/notifications'
 import Forgot from './containers/forgot'
 
 import Me from './containers/me'
+import ImproveProfile from './containers/improve-profile'
 import Settings from './containers/settings'
 import SettingsNickname from './containers/reset-nickname'
 import SettingsGender from './containers/reset-gender'
@@ -43,8 +44,17 @@ import OauthBinding from './containers/oauth-binding'
 
 import Notice from './containers/notice'
 import NotFound from './containers/not-found'
+import Privacy from './containers/privacy'
 
 export default (history, user, logPageView = ()=>{}) =>{
+
+  // 检查个人资料是否完整，
+  const checkProfile = (nextState, replaceState) => {
+    if (user && user.nickname == '') {
+      return false
+    }
+    return true
+  }
 
   // 验证是否登录
   const requireAuth = (nextState, replaceState) => {
@@ -57,7 +67,18 @@ export default (history, user, logPageView = ()=>{}) =>{
       })
     }
 
-    triggerEnter(nextState, replaceState)
+    if (user && !checkProfile(user) &&
+      nextState.location.pathname != '/improve-profile' &&
+      nextState.location.pathname != '/settings/nickname' &&
+      nextState.location.pathname != '/settings/avatar'
+      ) {
+      return replaceState({
+        pathname: '/improve-profile',
+        query: {},
+        state: { nextPathname: nextState.location.pathname }
+      })
+    }
+
   }
 
   const requireAuthAdmin = (nextState, replaceState) => {
@@ -70,10 +91,23 @@ export default (history, user, logPageView = ()=>{}) =>{
       })
     }
 
-    triggerEnter(nextState, replaceState)
   }
 
-  const triggerEnter = (nextState, replaceState) => {}
+  const triggerEnter = (nextState, replaceState) => {
+
+    if (user && !checkProfile(user) &&
+      nextState.location.pathname != '/improve-profile' &&
+      nextState.location.pathname != '/settings/nickname' &&
+      nextState.location.pathname != '/settings/avatar'
+    ) {
+      return replaceState({
+        pathname: '/improve-profile',
+        query: {},
+        state: { nextPathname: nextState.location.pathname }
+      })
+    }
+
+  }
   const triggerLeave = (nextState, replaceState) => {}
 
   return (<Router history={history} onUpdate={logPageView}>
@@ -108,6 +142,7 @@ export default (history, user, logPageView = ()=>{}) =>{
       <Route path="follow/posts" component={PoepleFollowPosts} onLeave={triggerLeave} onEnter={triggerEnter} />
     </Route>
 
+    <Route path="/improve-profile" component={ImproveProfile} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/settings" component={Settings} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/settings/nickname" component={SettingsNickname} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/settings/gender" component={SettingsGender} onLeave={triggerLeave} onEnter={requireAuth} />
@@ -116,12 +151,13 @@ export default (history, user, logPageView = ()=>{}) =>{
     <Route path="/settings/avatar" component={SettingsAvatar} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/settings/email" component={SettingsEmail} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/settings/binding-email" component={BindingEmail} onLeave={triggerLeave} onEnter={requireAuth} />
-
+    
     <Route path="/oauth" component={Oauth} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/oauth-binding/:source" component={OauthBinding} onLeave={triggerLeave} onEnter={triggerEnter} />
 
     <Route path="/notice" component={Notice} onLeave={triggerLeave} onEnter={triggerEnter} />
 
     <Route path="/not-found" component={NotFound} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/privacy" component={Privacy} onLeave={triggerLeave} onEnter={triggerEnter} />
   </Router>)
 }

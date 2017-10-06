@@ -1,12 +1,11 @@
 
 import merge from 'lodash/merge'
-import cookie from 'react-cookie'
-import { auth_cookie_name } from '../../config'
 
 let initialState = {
   profile: {},
   unreadNotice: 0,
-  accessToken: ''
+  accessToken: '',
+  expires: 0
 }
 
 export default function user(state = initialState, action = {}) {
@@ -15,21 +14,12 @@ export default function user(state = initialState, action = {}) {
 
     case 'ADD_ACCESS_TOKEN':
       state.accessToken = action.access_token
-      state.expires = action.expires
-      let expires = action.expires || null
-      let option = { path: '/' }
-
-      if (expires) {
-        option.expires = new Date(action.expires)
-        cookie.save('expires', expires, option)
-      }
-
-      cookie.save(auth_cookie_name, state.accessToken, option)
+      state.expires = parseInt(action.expires)
       return merge({}, state, {})
-
+      
     case 'REMOVE_ACCESS_TOKEN':
       state.accessToken = ''
-      cookie.remove(auth_cookie_name, { path: '/' })
+      state.expires = 0
       return state
 
     case 'SET_USER':

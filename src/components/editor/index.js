@@ -1,7 +1,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js'
+import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator, Modifier } from 'draft-js'
 
 import redraft from 'redraft'
 
@@ -597,9 +597,12 @@ export class MyEditor extends React.Component {
   */
 
   render() {
+    const self = this
     const { editorState, readOnly, rendered, placeholder } = this.state
     const { displayControls } = this.props
 
+
+    {/* stripPastedStyles=true 清除复制文本样式*/}
     return(<div className="RichEditor-editor">
 
             <div ref="draftHtml" style={{display:'none'}}>
@@ -626,6 +629,7 @@ export class MyEditor extends React.Component {
               handleKeyCommand={this.handleKeyCommand}
               placeholder={placeholder}
               ref="editor"
+              stripPastedStyles={true}
               spellCheck
             />
 

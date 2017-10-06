@@ -15,6 +15,7 @@ import FollowPosts from '../../components/follow-posts'
 import HTMLText from '../../components/html-text'
 import Share from '../../components/share'
 import CommentEditor from '../../components/comment-editor'
+import LikeButton from '../../components/like'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -120,6 +121,7 @@ export class PostsDetail extends React.Component {
               </span>
               <span><Link to={`/topics/${posts.topic_id._id}`}>{posts.topic_id.name}</Link></span>
               {posts.view_count ? <span>{posts.view_count} 浏览</span> : null}
+              {posts.like_count ? <span>{posts.like_count} 个赞</span> : null}
               {posts.answers_count ? <span>{posts.answers_count} 个评论</span> : null}
               {posts.follow_count ? <span>{posts.follow_count} 人关注</span> : null}
               <span>{posts._create_at}</span>
@@ -133,6 +135,9 @@ export class PostsDetail extends React.Component {
           <div className="container-footer">
 
             <div styleName="actions">
+
+              <LikeButton posts={posts} />
+
               <FollowPosts posts={posts} />
 
               {isSignin ?

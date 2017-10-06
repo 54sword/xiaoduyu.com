@@ -9,6 +9,7 @@ import Root from './containers/root'
 import { loadUnreadCount } from './actions/notification'
 import { loadNewPosts } from './actions/posts'
 import { setOnlineUserCount } from './actions/website'
+import { exchangeTokenTimer } from './actions/token'
 
 import config from '../config'
 
@@ -23,38 +24,63 @@ import './common/keydown'
 import './common/weixin'
 import './common/load-demand'
 
+
+
 const store = configureStore(window.__initState__)
 
 // 用于判断是否登录
 const me = store.getState().user.profile
 
 if (me._id) {
+  // 开启兑换新token的定时器
+  // store.dispatch(exchangeTokenTimer())
   // 启动轮询查询未读通知
   store.dispatch(loadUnreadCount())
 }
 
-let socket = io.connect(config.api_url);
-socket.on("connect", function(){
 
-  this.on("online-user-count", function(count){
-    store.dispatch(setOnlineUserCount(count))
+
+const startSocket = () => {
+
+  let socket = io.connect(config.api_url);
+
+  socket.on("connect", function(){
+
+    this.on("online-user-count", function(count){
+      store.dispatch(setOnlineUserCount(count))
+    })
+
+    this.on("notiaction", function(addresseeIds){
+      if (me && addresseeIds.indexOf(me._id) != -1) {
+        store.dispatch(loadUnreadCount())
+      }
+    })
+
+    this.on("new-posts", function(timestamp){
+      store.dispatch(loadNewPosts(timestamp))
+    })
+
   })
 
-  this.on("notiaction", function(addresseeIds){
-    if (me && addresseeIds.indexOf(me._id) != -1) {
-      store.dispatch(loadUnreadCount())
-    }
-  })
+  // 如果断开了连接，尝试重新连接
+  socket.on('disconnect', function(){
+    startSocket()
+  });
 
-  this.on("new-posts", function(timestamp){
-    store.dispatch(loadNewPosts(timestamp))
-  })
-})
+}
+
+startSocket()
+
 
 
 // 使ios支持 :active
 // html{ -webkit-tap-highlight-color: transparent; }
 document.addEventListener("touchstart", function() {},false);
+
+// 处理微信 WXWebviw 内核，第一次打开页面的时候，url地址参数被窜该 underfine 的问题
+if (window.__wxjs_is_wkwebview) {
+  browserHistory.push(window.location.pathname + '' + window.location.search)
+}
 
 render(
   <Root store={store} history={browserHistory} signinStatus={me._id ? me : null} />,

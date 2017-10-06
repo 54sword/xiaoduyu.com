@@ -11,9 +11,11 @@ let logPageView = ()=>{}
 
 if (GA) {
   ReactGA.initialize(GA)
-  logPageView = () => {
-    ReactGA.set({ page: window.location.pathname });
-    ReactGA.pageview(window.location.pathname);
+  logPageView = (userinfo) => {
+    let option = { page: window.location.pathname }
+    if (userinfo && userinfo._id) option.userId = userinfo._id
+    ReactGA.set(option)
+    ReactGA.pageview(window.location.pathname)
   }
 }
 
@@ -22,7 +24,7 @@ export default class Root extends React.PureComponent {
     const { store, history, signinStatus } = this.props
     return (
       <Provider store={store}>
-        {createRouter(history, signinStatus, logPageView)}
+        {createRouter(history, signinStatus, ()=>{ logPageView(signinStatus) })}
       </Provider>
     )
   }

@@ -15,21 +15,7 @@
 + 功能丰富，支持富文本编辑器，头像上传与裁剪，支持邮箱、微博、QQ注册登录，等等
 + 包含组件测试 (jest + enzyme)
 
-## 开发部署
-不保证 Windows 系统的兼容性
-
-	1. 安装 Node.js 大于6的版本 [必须]
-	2. git clone git@github.com:54sword/xiaoduyu.com.git
-	3. cd xiaoduyu.com
-	4. npm install
-	5. 在 ./node_modules/react-qiniu/index.js 第33行，增加一行如下代码
-		if (typeof window == 'undefined' || typeof document == 'undefined') { return {} }
-	6. cp config/index.default.js config/index.js 请根据需要修改 config/index.js 配置文件
-	7. npm run dev
-	8. 访问 http://localhost:4000
-	9. 完成
-
-## 发布部署
+## 安装部署
 不保证 Windows 系统的兼容性
 
 	1. 安装 Node.js 大于6的版本 [必须]
@@ -40,23 +26,9 @@
 		if (typeof window == 'undefined' || typeof document == 'undefined') { return {} }
 	6. cp config/index.default.js config/index.js 请根据需要修改 config/index.js 配置文件
 	7. npm run build
-	8. npm run server
+	8. NODE_ENV=production __NODE__=true node server
 	9. 访问 http://localhost:4000
 	10. 完成
-
-## 运行测试
-不保证 Windows 系统的兼容性
-
-	1. 安装 Node.js 大于6的版本 [必须]
-	2. git clone git@github.com:54sword/xiaoduyu.com.git
-	3. cd xiaoduyu.com
-	4. npm install
-	5. 在 ./node_modules/react-qiniu/index.js 第33行，增加一行如下代码
-		if (typeof window == 'undefined' || typeof document == 'undefined') { return {} }
-	6. cp config/index.default.js config/index.js 请根据需要修改 config/index.js 配置文件
-	7. cp config/test.default.js config/test.js 请根据需要修改 config/test.js 配置文件
-	8. npm test
-	9. 完成
 
 ## 开源协议
 MIT

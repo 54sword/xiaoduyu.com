@@ -7,7 +7,7 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 
     let accessToken = getState().user.accessToken
     let commentState = getState().comment
-    
+
     return Ajax({
       url: '/write-comment',
       type: 'post',
@@ -78,42 +78,43 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
         }
 
         for (let i in state) {
-          let data = state[i].data
-          if (data.length > 0) {
-            for (let n = 0, max = data.length; n < max; n++) {
-              if (data[n]._id == id) {
-                state[i].data[n].content = contentJSON
-                state[i].data[n].content_html = contentHTML
-              }
+
+          state[i].data.map(item=>{
+            if (item._id == id) {
+              item.content = contentJSON
+              item.content_html = contentHTML
             }
-          }
+
+            item.reply.map(item=>{
+              if (item._id == id) {
+                item.content = contentJSON
+                item.content_html = contentHTML
+              }
+            })
+
+          })
+
         }
 
         for (let i in posts) {
-          let data = posts[i].data
-          if (data.length > 0) {
 
-            data.map((item, key)=>{
+          posts[i].data.map(item=>{
 
-              if (!item.comment) {
-                return
+            item.comment.map((comment, index)=>{
+              if (comment._id == id) {
+                item.comment[index].content_html = contentHTML
+
+                let text = contentHTML.replace(/<[^>]+>/g,"")
+                if (text.length > 200) text = text.slice(0, 200)+'...'
+
+                item.comment[index].content_summary = text
               }
-
-              item.comment.map((comment, index)=>{
-                if (comment._id == id) {
-                  posts[i].data[key].comment[index].content_html = contentHTML
-
-                  let text = contentHTML.replace(/<[^>]+>/g,"")
-                  if (text.length > 200) text = text.slice(0, 200)+'...'
-
-                  posts[i].data[key].comment[index].content_summary = text
-                }
-              })
             })
 
-          }
-        }
+          })
 
+        }
+        
         dispatch({ type: 'SET_POSTS', state:posts })
         dispatch({ type: 'SET_COMMENT', state })
 

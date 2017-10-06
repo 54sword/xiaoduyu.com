@@ -23,8 +23,11 @@ export class Settings extends Component {
   }
 
   handleSignout() {
-    this.props.signout()
-    location.href = '/'
+    this.props.signout({
+      callback: ()=>{
+        location.href = '/'
+      }
+    })
   }
 
   render() {
@@ -110,6 +113,9 @@ export class Settings extends Component {
             </Link>
             <Link className="arrow" to="/oauth-binding/weibo">
               微博<span className="right">{me.weibo ? '已绑定' : '未绑定' }</span>
+            </Link>
+            <Link className="arrow" to="/oauth-binding/github">
+              GitHub<span className="right">{me.github ? '已绑定' : '未绑定' }</span>
             </Link>
           </div>
 
