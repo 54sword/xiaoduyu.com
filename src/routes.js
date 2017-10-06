@@ -44,6 +44,7 @@ import OauthBinding from './containers/oauth-binding'
 
 import Notice from './containers/notice'
 import NotFound from './containers/not-found'
+import Privacy from './containers/privacy'
 
 export default (history, user, logPageView = ()=>{}) =>{
 
@@ -150,12 +151,13 @@ export default (history, user, logPageView = ()=>{}) =>{
     <Route path="/settings/avatar" component={SettingsAvatar} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/settings/email" component={SettingsEmail} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/settings/binding-email" component={BindingEmail} onLeave={triggerLeave} onEnter={requireAuth} />
-
+    
     <Route path="/oauth" component={Oauth} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/oauth-binding/:source" component={OauthBinding} onLeave={triggerLeave} onEnter={triggerEnter} />
 
     <Route path="/notice" component={Notice} onLeave={triggerLeave} onEnter={triggerEnter} />
 
     <Route path="/not-found" component={NotFound} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/privacy" component={Privacy} onLeave={triggerLeave} onEnter={triggerEnter} />
   </Router>)
 }

@@ -26,7 +26,8 @@ import Footer from '../../components/footer'
 let defaultProps = {
   filters: {
     weaken: 1,
-    method: 'user_custom'
+    include_comments: 1,
+    // method: 'user_custom'
   },
   name: 'home'
 }
@@ -45,8 +46,8 @@ export class Home extends React.Component {
       return
     }
 
-    filters.comments_sort = 'create_at:-1'
-    filters.include_comments = 1
+    filters.comments_sort = 'like_count:-1,reply_count:-1,create_at:-1'
+    filters.include_comments = 4
 
     store.dispatch(loadPostsList({
       name,
@@ -62,7 +63,7 @@ export class Home extends React.Component {
     super(props)
 
     const { filters, name } = defaultProps
-    
+
     this.state = {
       name: name,
       filters: filters,
@@ -83,7 +84,7 @@ export class Home extends React.Component {
   componentDidMount() {
     const { me } = this.props
     if (me._id) {
-      const consition = reactLocalStorage.get('comments_sort_id') || 2
+      const consition = reactLocalStorage.get('comments_sort_id') || 4
       this.chooseCommentsSort(consition)
     } else {
       this.chooseCommentsSort()
@@ -95,8 +96,8 @@ export class Home extends React.Component {
     const { name, filters, commentsSort } = this.state
     const { postsList } = this.props
 
-    let condition = 'create_at:-1'
-    let commentsSortId = 2
+    let condition = 'like_count:-1,reply_count:-1,create_at:-1'
+    let commentsSortId = 4
 
     commentsSort.map(item=>{
       if (item.id == id) {
@@ -136,10 +137,36 @@ export class Home extends React.Component {
 
   }
 
+  componentWillReceiveProps(props) {
+
+    if (props) {
+      const taba = this.props.location.query.tab || ''
+      const tabb = props.location.query.tab || ''
+
+      if ( taba != tabb ) {
+        this.setState({
+          timestamp: new Date().getTime()
+        })
+      }
+
+    }
+
+  }
+
   render() {
 
-    const { name, filters, timestamp, commentsSort, commentsSortId } = this.state
+    let { name, filters, timestamp, commentsSort, commentsSortId } = this.state
     const { me, newPostsList, showNewPosts, showSign } = this.props
+
+    const { tab = '' } = this.props.location.query
+
+    if (tab == 'follow') {
+      filters.method = 'user_custom'
+      filters.device = 'ios'
+    } else {
+      delete filters.method
+      delete filters.device
+    }
 
     // <div className={styles['posts-type']}>
     //     <a href="javascript:void(0)" onClick={showSign}><span className={styles.talk}>说说</span></a>
@@ -157,24 +184,37 @@ export class Home extends React.Component {
           <a href="javascript:void(0)" styleName="tips" onClick={showNewPosts}>有 {newPostsList.data.length} 篇新帖子</a>
           : null}
 
-        {me._id ?
+        {/*me._id ?
           <div styleName="posts-type">
             <Link to="/write-posts"><span styleName="talk">说说</span></Link>
             <Link to="/write-posts?type=2"><span styleName="ask">提问</span></Link>
             <Link to="/write-posts?type=3"><span styleName="write">写文章</span></Link>
           </div>
+          : null*/}
+
+        {me._id ?
+          <div styleName="posts-type">
+            <Link to="/write-posts"><span>发布话题</span></Link>
+          </div>
           : null}
 
-        <div className="container-head">
-          最新动态
-          {/*
+        {me._id ?
+          <div styleName="tab-bar">
+            <Link styleName={tab == '' ? 'tab-bar-active' : null} to="/">发现</Link>
+            <Link styleName={tab == 'follow' ? 'tab-bar-active' : null} to="/?tab=follow">关注</Link>
+          </div>
+          : null}
+
+        {/*
+        <div styleName="tab-bar">
+
           <div className={styles.category}>
             <a href="#">全部</a>
             <a href="#">说说</a>
             <a href="#">提问</a>
             <a href="#">文章</a>
           </div>
-          */}
+
           {me._id ?
             <div className="right">
               评论：
@@ -186,10 +226,11 @@ export class Home extends React.Component {
             </div>
             : null}
         </div>
+        */}
 
-        <div styleName="posts-list">
+        <div styleName={me._id ? 'posts-list' : ''}>
           <PostsList
-            name={name}
+            name={name + tab}
             displayDate={false}
             displayFollow={true}
             timestamp={timestamp}

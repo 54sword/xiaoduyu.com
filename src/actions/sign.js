@@ -1,7 +1,7 @@
 import Ajax from '../common/ajax'
 import Keydown from '../common/keydown'
 import cookie from 'react-cookie'
-import { url, auth_cookie_name } from '../../config'
+import { domain_name, auth_cookie_name } from '../../config'
 
 
 export function showSign(e) {
@@ -35,9 +35,9 @@ export function addAccessToken({ expires, access_token }) {
 
 export function signout({ callback = ()=>{} }) {
   return dispatch => {
-    
+
     return Ajax({
-      api_url: url,
+      api_url: domain_name,
       url: '/sign-out',
       type: 'post',
       callback: () => {
@@ -64,7 +64,7 @@ export function signin(data, callback = ()=>{}) {
         if (res && res.success) {
 
           return Ajax({
-            api_url: url,
+            api_url: domain_name,
             url: '/sign-in',
             type: 'post',
             data: {
