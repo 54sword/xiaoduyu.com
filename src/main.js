@@ -42,7 +42,7 @@ if (me._id) {
 
 const startSocket = () => {
 
-  let socket = io.connect(config.api_url);
+  let socket = io.connect(config.domain_name)
 
   socket.on("connect", function(){
 

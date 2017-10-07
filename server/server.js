@@ -50,13 +50,12 @@ if (config.ssl_verification_path) {
   app.use(express.static(path.join(__dirname, config.ssl_verification_path)));
 }
 
-app.use('/', ssrRouter);
 
-app.use('/api', (function(){
+app.use('/sign', (function(){
 
   var router = express.Router();
-  
-  router.post('/sign-in', (req, res)=>{
+
+  router.post('/in', (req, res)=>{
     let accessToken = req.body.access_token || null;
     if (!accessToken) return res.send({ success: false })
 
@@ -65,7 +64,7 @@ app.use('/api', (function(){
     res.send({ success: true })
   })
 
-  router.post('/sign-out', (req, res)=>{
+  router.post('/out', (req, res)=>{
     res.clearCookie(config.auth_cookie_name)
     res.send({ success: true })
   })
@@ -73,6 +72,8 @@ app.use('/api', (function(){
   return router
 
 }()));
+
+app.use('/', ssrRouter);
 
 app.disable('x-powered-by');
 
