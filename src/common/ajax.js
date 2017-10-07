@@ -41,7 +41,7 @@ const AJAX = ({ api_url = '', url = '', type = 'get', params = {}, data = {}, he
   }
 
   if (!api_url) option.url = config.api_url + '/' + config.api_verstion + url
-  if (api_url) option.url = api_url + '/api' + url
+  if (api_url) option.url = api_url + url
 
   if (type == 'get') {
     params._t = new Date().getTime()

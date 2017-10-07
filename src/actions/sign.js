@@ -38,7 +38,7 @@ export function signout({ callback = ()=>{} }) {
 
     return Ajax({
       api_url: domain_name,
-      url: '/sign-out',
+      url: '/sign/out',
       type: 'post',
       callback: () => {
         // console.log('123123');
@@ -65,12 +65,13 @@ export function signin(data, callback = ()=>{}) {
 
           return Ajax({
             api_url: domain_name,
-            url: '/sign-in',
+            url: '/sign/in',
             type: 'post',
             data: {
               access_token: res.data.access_token
             },
-            callback: () => {
+            callback: (res) => {
+              // console.log(res);
               // console.log('123123');
               callback(res ? res.success : false, res)
             }})
