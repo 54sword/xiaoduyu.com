@@ -33,6 +33,16 @@ export function addAccessToken({ expires, access_token }) {
   return { type: 'ADD_ACCESS_TOKEN', expires, access_token }
 }
 
+export const saveSignInCookie = ({ access_token, callback = ()=> {} }) => {
+  Ajax({
+    api_url: domain_name,
+    url: '/sign/in',
+    type: 'post',
+    data: { access_token },
+    callback
+  })
+}
+
 export function signout({ callback = ()=>{} }) {
   return dispatch => {
 
@@ -63,6 +73,14 @@ export function signin(data, callback = ()=>{}) {
 
         if (res && res.success) {
 
+          return saveSignInCookie({
+            access_token: res.data.access_token,
+            callback: (res) => {
+              callback(res ? res.success : false, res)
+            }
+          })
+
+          /*
           return Ajax({
             api_url: domain_name,
             url: '/sign/in',
@@ -71,12 +89,12 @@ export function signin(data, callback = ()=>{}) {
               access_token: res.data.access_token
             },
             callback: (res) => {
-              // console.log(res);
-              // console.log('123123');
               callback(res ? res.success : false, res)
-            }})
+            }
+          })
 
           return
+          */
 
           /*
           dispatch(addAccessToken(res.data))
