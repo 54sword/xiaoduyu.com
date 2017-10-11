@@ -59,7 +59,10 @@ export class Forgot extends Component {
         if (result.success) {
           alert('密码修改成功')
 
-          signin(email.value, newPassword.value, ()=>{
+          signin({
+            email: email.value,
+            password: newPassword.value
+          }, ()=>{
             window.location.href = '/'
           })
 

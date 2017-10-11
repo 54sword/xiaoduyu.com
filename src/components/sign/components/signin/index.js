@@ -32,21 +32,6 @@ class Signin extends Component {
     this.refreshCaptcha()
   }
 
-  loadCaptcha() {
-
-    getCaptchaId((res)=>{
-      if (res && res.success) {
-
-        console.log(res);
-
-        that.setState({
-          captchaId: res.data
-        })
-      }
-    })
-
-  }
-
   _signin(event) {
 
     event.preventDefault();
@@ -54,39 +39,31 @@ class Signin extends Component {
     const { signin } = this.props
 
     let _self = this;
-    let $email = this.refs.account
-    let $password = this.refs.password
-    let $submit = this.refs.submit
-    let $captcha = this.refs.captcha
+    let account = this.refs.account
+    let password = this.refs.password
+    let submit = this.refs.submit
+    let captcha = this.refs.captcha
     let captchaId = this.state.captchaId
 
-    if (!$email.value) {
-      $email.focus()
-      return
-    }
+    if (!account.value) return account.focus()
+    if (!password.value) return password.focus()
 
-    if (!$password.value) {
-      $password.focus()
-      return
-    }
-
-    $submit.value = '登录中...'
-    $submit.disabled = true
+    submit.value = '登录中...'
+    submit.disabled = true
 
     let data = {
-      email: $email.value,
-      password: $password.value
+      email: account.value.indexOf('@') != -1 ? account.value : '',
+      phone: account.value.indexOf('@') == -1 ? account.value : '',
+      password: password.value
     }
 
-    if ($captcha) data.captcha = $captcha.value
+    if (captcha) data.captcha = captcha.value
     if (captchaId) data.captcha_id = captchaId
 
     signin(data, function(err, result){
 
-      $submit.value = '登录'
-      $submit.disabled = false
-
-      // console.log(result)
+      submit.value = '登录'
+      submit.disabled = false
 
       if (!result.success) {
         _self.refreshCaptcha()
@@ -129,11 +106,11 @@ class Signin extends Component {
     if (this.state.error) {
       error = this.state.errorTips[this.state.error] ? this.state.errorTips[this.state.error] : this.state.error
     }
-
+    
     return (
       <form onSubmit={this.signin} className="signin">
         {error ? <div className={styles.error}>{error}</div> : null}
-        <div><input type="text" className="input" ref="account" placeholder="邮箱" /></div>
+        <div><input type="text" className="input" ref="account" placeholder="手机号或邮箱" /></div>
         <div><input type="password" className="input"  ref="password" placeholder="密码" /></div>
         {captchaId ? <div>
             <input type="text" className="input" placeholder="请输入验证码" ref="captcha" />

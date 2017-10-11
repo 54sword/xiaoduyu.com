@@ -22,7 +22,8 @@ class CommentEditor extends React.Component {
       contentHTML: '',
       content: <div></div>,
       editor: null,
-      showFooter: false
+      showFooter: false,
+      submitting: false
     }
     this.submit = this.submit.bind(this)
     this.syncContent = this.syncContent.bind(this)
@@ -63,12 +64,10 @@ class CommentEditor extends React.Component {
     const self = this
     let { _id, posts_id, parent_id, reply_id, successCallback, addComment, updateComment, getEditor } = this.props
 
-    const { contentJSON, contentHTML, editor } = this.state
+    const { contentJSON, contentHTML, editor, submitting } = this.state
 
-    if (!contentJSON) {
-      editor.focus()
-      return
-    }
+    if (submitting) return
+    if (!contentJSON) return editor.focus()
 
     if (_id) {
 
@@ -98,7 +97,6 @@ class CommentEditor extends React.Component {
       contentHTML: contentHTML,
       deviceId: Device.getCurrentDeviceId(),
       callback: function(result) {
-
         if (result && result.success) {
 
           self.setState({
@@ -136,9 +134,7 @@ class CommentEditor extends React.Component {
     this.state.contentHTML = contentHTML
 
     if (!this.state.showFooter && contentJSON) {
-      this.setState({
-        showFooter: true
-      })
+      this.setState({ showFooter: true })
     }
 
     if (this.state.showFooter) {
@@ -150,14 +146,14 @@ class CommentEditor extends React.Component {
 
   render() {
 
-    const { content, showFooter } = this.state
+    const { content, showFooter, submitting } = this.state
 
     return (<div>
       <div className="container" styleName="box">
         <div styleName="content">{content}</div>
         {showFooter ?
           <div styleName="footer">
-            <button className="button" onClick={this.submit}>提交</button>
+            <button className="button" onClick={this.submit}>{submitting ? '提交中...' : '提交'}</button>
           </div>
           : null}
       </div>

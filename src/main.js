@@ -42,7 +42,7 @@ if (me._id) {
 
 const startSocket = () => {
 
-  let socket = io.connect(config.domain_name)
+  let socket = io.connect(process.env.NODE_ENV == 'development' ? config.api_url : config.domain_name)
 
   socket.on("connect", function(){
 
@@ -61,10 +61,10 @@ const startSocket = () => {
     })
 
   })
-
+  
   // 如果断开了连接，尝试重新连接
   socket.on('disconnect', function(){
-    startSocket()
+    // startSocket()
   });
 
 }

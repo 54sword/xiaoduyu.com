@@ -40,31 +40,21 @@ class Signup extends Component {
 
     let self = this
 
-    let { nickname, email, password, male, female, captcha } = this.refs
+    let { nickname, account, password, male, female, captcha } = this.refs
 
     const { signup, signin } = this.props
 
-    if (!nickname.value) {
-      nickname.focus()
-      return
-    } else if (!email.value) {
-      email.focus()
-      return
-    } else if (!captcha.value) {
-      captcha.focus()
-      return
-    } else if (!password.value) {
-      password.focus()
-      return
-    } else if (!male.checked && !female.checked) {
-      self.singupFailed({ gender: '请选择性别' })
-      return
-    }
+    if (!nickname.value) return nickname.focus()
+    if (!account.value) return account.focus()
+    if (!captcha.value) return captcha.focus()
+    if (!password.value) return password.focus()
+    if (!male.checked && !female.checked) return self.singupFailed({ gender: '请选择性别' })
 
     // 注册
     signup({
       nickname: nickname.value,
-      email: email.value,
+      email: account.value.indexOf('@') != -1 ? account.value : '',
+      phone: account.value.indexOf('@') == -1 ? account.value : '',
       password: password.value,
       gender: male.checked ? 1 : 0,
       source: 0,
@@ -76,7 +66,11 @@ class Signup extends Component {
         alert('注册成功')
 
         // 自动登录
-        signin({ email: email.value, password: password.value }, function(err, result){
+        signin({
+          email: account.value.indexOf('@') != -1 ? account.value : '',
+          phone: account.value.indexOf('@') == -1 ? account.value : '',
+          password: password.value
+        }, function(err, result){
           setTimeout(()=>{
             location.reload()
           }, 100)
@@ -87,21 +81,26 @@ class Signup extends Component {
   }
 
   sendCaptcha(callback) {
-    const { email } = this.refs
+    const { account } = this.refs
 
-    if (!email.value) {
-      email.focus()
-      return
+    if (!account.value) return account.focus()
+
+    let params = { type: 'signup' }
+
+    if (account.value.indexOf('@') != -1) {
+      params.email = account.value
+    } else {
+      params.phone = account.value
     }
 
-    callback({ email: email.value, type: 'signup' })
+    callback(params)
   }
 
   render () {
     return (
       <div className={styles.signup}>
         <div><input type="text" className="input" ref="nickname" placeholder="昵称" /><div ref="nickname-meg"></div></div>
-        <div><input type="text" className="input" ref="email" placeholder="邮箱" /><div ref="email-meg"></div></div>
+        <div><input type="text" className="input" ref="account" placeholder="手机号码或邮箱" /><div ref="email-meg"></div></div>
         <div>
           <input type="text" className="input captcha" placeholder="请输入验证码" ref="captcha" />
           <CaptchaButton onClick={this.sendCaptcha} />
