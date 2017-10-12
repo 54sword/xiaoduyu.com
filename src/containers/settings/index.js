@@ -56,20 +56,10 @@ export class Settings extends Component {
 
     // 重置邮箱
     if (me.email) {
-      email = (<Link className="arrow" to="/settings/email">修改邮箱
+      email = (<Link className="arrow" to="/settings/email">邮箱
           <span className="right">{me.email}</span>
         </Link>)
     }
-
-    /*
-    // 未验证码的邮箱
-    if (me.email && !me.email_verify) {
-      email = (<Link className="arrow" to="/settings/verify-email">
-          验证邮箱
-          <span className="right">{me.email}<em className="red"> 未验证</em></span>
-        </Link>)
-    }
-    */
 
     if (!me.email) {
       email = (<Link className="arrow" to="/settings/binding-email">
@@ -78,7 +68,20 @@ export class Settings extends Component {
         </Link>)
     }
 
-    //<Subnav middle="设置" />
+    let phone = ''
+
+    if (me.phone) {
+      phone = (<Link className="arrow" to="/settings/phone">手机号
+          <span className="right">{me.phone}</span>
+        </Link>)
+    }
+
+    if (!me.phone) {
+      phone = (<Link className="arrow" to="/settings/binding-phone">手机号
+          <span className="right">未绑定</span>
+        </Link>)
+    }
+
     return (
       <div>
         <Meta meta={{title: '设置'}} />
@@ -103,11 +106,12 @@ export class Settings extends Component {
           </div>
 
           <div className="list">
-            {email}
             {me.email ? <Link className="arrow" to="/settings/password">修改密码</Link> : null}
           </div>
 
           <div className="list">
+            {email}
+            {phone}
             <Link className="arrow" to="/oauth-binding/qq">
               QQ<span className="right">{me.qq ? '已绑定' : '未绑定' }</span>
             </Link>

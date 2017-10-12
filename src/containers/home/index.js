@@ -22,7 +22,6 @@ import Meta from '../../components/meta'
 import PostsList from '../../components/posts-list'
 import Footer from '../../components/footer'
 
-
 let defaultProps = {
   filters: {
     weaken: 1,

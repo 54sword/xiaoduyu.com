@@ -1,20 +1,18 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { signout } from '../../actions/sign'
 import { getUserInfo } from '../../reducers/user'
 import { loadUserInfo } from '../../actions/user'
-import { getCaptchaByEmail, resetEmail } from '../../actions/account'
+import { reset } from '../../actions/phone'
 
 import Shell from '../../shell'
 import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import CaptchaButton from '../../components/captcha-button'
 
-export class ResetEmail extends Component {
+export class ResetPhone extends Component {
 
   constructor(props) {
     super(props)
@@ -23,38 +21,31 @@ export class ResetEmail extends Component {
   }
 
   sendCaptcha(callback) {
-    const { newEmail } = this.refs
+    const { newPhone } = this.refs
 
-    if (!newEmail.value) {
-      newEmail.focus()
+    if (!newPhone.value) {
+      newPhone.focus()
       return
     }
 
-    callback({ email: newEmail.value, type: 'reset-email' })
+    callback({ phone: newPhone.value, type: 'reset-phone' })
   }
 
   submitResetEmail() {
 
     const self = this
-    const { resetEmail, loadUserInfo } = this.props
-    const { newEmail, captcha } = this.refs
+    const { reset, loadUserInfo } = this.props
+    const { newPhone, captcha } = this.refs
 
-    if (!newEmail.value) {
-      newEmail.focus()
-      return
-    }
+    if (!newPhone.value) return newPhone.focus()
+    if (!captcha.value) return captcha.focus()
 
-    if (!captcha.value) {
-      captcha.focus()
-      return
-    }
-
-    resetEmail({
-      email: newEmail.value,
+    reset({
+      phone: newPhone.value,
       captcha: captcha.value,
       callback: function(result){
         if (result && result.success) {
-          alert('邮箱修改成功')
+          alert('手机号修改成功')
           loadUserInfo({})
           self.context.router.goBack()
         } else {
@@ -67,17 +58,17 @@ export class ResetEmail extends Component {
 
   render() {
 
-    const { user } = this.props
+    // const { user } = this.props
 
     return (
       <div>
-        <Meta meta={{title:'修改邮箱'}} />
+        <Meta meta={{title:'手机号'}} />
 
-        <Subnav middle="修改邮箱" />
+        <Subnav middle="修改手机号" />
         <div className="container">
 
           <div className="list">
-            <input type="text" placeholder="请输入新的邮箱" ref="newEmail" />
+            <input type="text" placeholder="请输入新的手机号" ref="newPhone" />
             <div>
               <input type="text" placeholder="请输入验证码" ref="captcha" />
               <CaptchaButton onClick={this.sendCaptcha} />
@@ -96,15 +87,14 @@ export class ResetEmail extends Component {
 
 }
 
-ResetEmail.contextTypes = {
+ResetPhone.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-ResetEmail.propTypes = {
+ResetPhone.propTypes = {
   user: PropTypes.object.isRequired,
   loadUserInfo: PropTypes.func.isRequired,
-  getCaptchaByEmail: PropTypes.func.isRequired,
-  resetEmail: PropTypes.func.isRequired
+  reset: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -116,12 +106,11 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     loadUserInfo: bindActionCreators(loadUserInfo, dispatch),
-    getCaptchaByEmail: bindActionCreators(getCaptchaByEmail, dispatch),
-    resetEmail: bindActionCreators(resetEmail, dispatch)
+    reset: bindActionCreators(reset, dispatch)
   }
 }
 
 
-ResetEmail = connect(mapStateToProps, mapDispatchToProps)(ResetEmail)
+ResetPhone = connect(mapStateToProps, mapDispatchToProps)(ResetPhone)
 
-export default Shell(ResetEmail)
+export default Shell(ResetPhone)

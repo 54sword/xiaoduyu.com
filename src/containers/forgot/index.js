@@ -22,36 +22,16 @@ export class Forgot extends Component {
   }
 
   submitResetPassword() {
-    const { email, captcha, newPassword, confirmNewPassword } = this.refs
+    const { account, captcha, newPassword, confirmNewPassword } = this.refs
     const { resetPasswordByCaptcha, signin } = this.props
 
-    if (!email.value) {
-      email.focus()
-      return
-    }
+    if (!account.value) return account.focus()
+    if (!captcha.value) return captcha.focus()
+    if (!newPassword.value) return newPassword.focus()
+    if (!confirmNewPassword.value) return confirmNewPassword.focus()
+    if (newPassword.value != confirmNewPassword.value) return alert('两次密码输入不一致')
 
-    if (!captcha.value) {
-      captcha.focus()
-      return
-    }
-
-    if (!newPassword.value) {
-      newPassword.focus()
-      return
-    }
-
-    if (!confirmNewPassword.value) {
-      confirmNewPassword.focus()
-      return
-    }
-
-    if (newPassword.value != confirmNewPassword.value) {
-      alert('两次密码输入不一致')
-      return
-    }
-
-    resetPasswordByCaptcha({
-      email: email.value,
+    let option = {
       captcha: captcha.value,
       newPassword: newPassword.value,
       callback: function(result) {
@@ -59,10 +39,15 @@ export class Forgot extends Component {
         if (result.success) {
           alert('密码修改成功')
 
-          signin({
-            email: email.value,
-            password: newPassword.value
-          }, ()=>{
+          let option = { password: newPassword.value }
+
+          if (account.value.indexOf('@') != -1) {
+            option.email = account.value
+          } else {
+            option.phone = account.value
+          }
+
+          signin(option, ()=>{
             window.location.href = '/'
           })
 
@@ -70,19 +55,34 @@ export class Forgot extends Component {
           alert(result.error || '密码修改失败')
         }
       }
-    })
+    }
+
+    if (account.value.indexOf('@') != -1) {
+      option.email = account.value
+    } else {
+      option.phone = account.value
+    }
+
+    resetPasswordByCaptcha(option)
 
   }
 
   sendCaptcha(callback) {
-    const { email } = this.refs
 
-    if (!email.value) {
-      email.focus()
-      return
+    const { account } = this.refs
+
+    if (!account.value) return account.focus()
+
+    let params = { type: 'forgot' }
+
+    if (account.value.indexOf('@') != -1) {
+      params.email = account.value
+    } else {
+      params.phone = account.value
     }
 
-    callback({ email: email.value, type: 'forgot' })
+    callback(params)
+
   }
 
   render() {
@@ -94,7 +94,7 @@ export class Forgot extends Component {
         <div className="container">
 
           <div className="list">
-            <input type="text" placeholder="请输入你的注册邮箱" ref="email" />
+            <input type="text" placeholder="请输入你的注册邮箱" ref="account" />
             <div>
               <input type="text" placeholder="输入验证码" ref="captcha" />
               <CaptchaButton onClick={this.sendCaptcha} />

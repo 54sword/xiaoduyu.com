@@ -5,45 +5,45 @@ import { Link, browserHistory } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getProfile } from '../../reducers/user'
-import { bindingEmail } from '../../actions/account'
+import { binding } from '../../actions/phone'
 import { loadUserInfo } from '../../actions/user'
 
 import Shell from '../../shell'
 import Subnav from '../../components/subnav'
 import CaptchaButton from '../../components/captcha-button'
 
-export class BindingEmail extends Component {
+export class BindingPhone extends Component {
 
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
   }
-
+  
   componentWillMount() {
     const { me } = this.props
-    if (me.email) {
+    if (me.phone) {
       browserHistory.push('/')
     }
   }
 
   componentDidMount() {
-    const { email } = this.refs
-    email.focus()
+    const { phone } = this.refs
+    phone.focus()
   }
 
   submit() {
 
     const self = this
-    const { bindingEmail, loadUserInfo } = this.props
-    const { code, email } = this.refs
+    const { binding, loadUserInfo } = this.props
+    const { code, phone } = this.refs
 
     if (!code.value) return code.focus()
-    if (!email.value) return email.focus()
-    
-    bindingEmail({
+    if (!phone.value) return phone.focus()
+
+    binding({
       captcha: code.value,
-      email: email.value,
+      phone: phone.value,
       callback: function(result){
         alert(result.success ? '绑定成功' : '绑定失败')
         loadUserInfo({})
@@ -54,9 +54,9 @@ export class BindingEmail extends Component {
   }
 
   sendCaptcha(callback) {
-    const { email } = this.refs
-    if (!email.value) return email.focus()
-    callback({ email: email.value, type: 'binding-email' })
+    const { phone } = this.refs
+    if (!phone.value) return phone.focus()
+    callback({ phone: phone.value, type: 'binding-phone' })
   }
 
   render() {
@@ -67,7 +67,7 @@ export class BindingEmail extends Component {
         <div className="container">
 
           <div className="list">
-            <input type="text" placeholder="请输入你要绑定的邮箱" ref="email" />
+            <input type="text" placeholder="请输入你要绑定的邮箱" ref="phone" />
             <div>
               <input type="text" placeholder="输入6位数验证码" ref="code" />
               <CaptchaButton onClick={this.sendCaptcha} />
@@ -86,13 +86,13 @@ export class BindingEmail extends Component {
 
 }
 
-BindingEmail.contextTypes = {
+BindingPhone.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-BindingEmail.propTypes = {
+BindingPhone.propTypes = {
   me: PropTypes.object.isRequired,
-  bindingEmail: PropTypes.func.isRequired,
+  binding: PropTypes.func.isRequired,
   loadUserInfo: PropTypes.func.isRequired,
 }
 
@@ -104,11 +104,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    bindingEmail: bindActionCreators(bindingEmail, dispatch),
+    binding: bindActionCreators(binding, dispatch),
     loadUserInfo: bindActionCreators(loadUserInfo, dispatch)
   }
 }
 
-BindingEmail = connect(mapStateToProps, mapDispatchToProps)(BindingEmail)
+BindingPhone = connect(mapStateToProps, mapDispatchToProps)(BindingPhone)
 
-export default Shell(BindingEmail)
+export default Shell(BindingPhone)
