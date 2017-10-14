@@ -100,17 +100,20 @@ class Signin extends Component {
   render () {
 
     const { captchaId } = this.state
+    const { countries } = this.props
 
     let error
 
     if (this.state.error) {
       error = this.state.errorTips[this.state.error] ? this.state.errorTips[this.state.error] : this.state.error
     }
-    
+
     return (
       <form onSubmit={this.signin} className="signin">
         {error ? <div className={styles.error}>{error}</div> : null}
-        <div><input type="text" className="input" ref="account" placeholder="手机号或邮箱" /></div>
+        <div>
+          <input type="text" className="input" ref="account" placeholder="手机号或邮箱" />
+        </div>
         <div><input type="password" className="input"  ref="password" placeholder="密码" /></div>
         {captchaId ? <div>
             <input type="text" className="input" placeholder="请输入验证码" ref="captcha" />

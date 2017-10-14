@@ -21,6 +21,7 @@ import Nav from '../../components/nav'
 import Meta from '../../components/meta'
 import PostsList from '../../components/posts-list'
 import Footer from '../../components/footer'
+import PublishButton from '../../components/publish-button'
 
 let defaultProps = {
   filters: {
@@ -182,7 +183,7 @@ export class Home extends React.Component {
         {newPostsList.data && newPostsList.data.length > 0 ?
           <a href="javascript:void(0)" styleName="tips" onClick={showNewPosts}>有 {newPostsList.data.length} 篇新帖子</a>
           : null}
-
+          
         {/*me._id ?
           <div styleName="posts-type">
             <Link to="/write-posts"><span styleName="talk">说说</span></Link>
@@ -191,11 +192,19 @@ export class Home extends React.Component {
           </div>
           : null*/}
 
-        {me._id ?
+        <PublishButton>
           <div styleName="posts-type">
-            <Link to="/write-posts"><span>发布话题</span></Link>
+            <span>发布话题</span>
           </div>
-          : null}
+        </PublishButton>
+
+        {/*me._id ?
+          <div styleName="posts-type">
+            {!me.phone ?
+              <Link to="/write-posts"><span>发布话题</span></Link> :
+              <a href="javascript:void(0)"><span>发布话题</span></a>}
+          </div>
+          : null*/}
 
         {me._id ?
           <div styleName="tab-bar">

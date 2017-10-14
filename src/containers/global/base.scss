@@ -67,7 +67,7 @@ $screen-lg-min: 1200px;
 }
 
 $light-gray: #f2f2f2;
-$blue: #0071eb;
+$blue: #08f;
 $red: rgb(222, 22, 22);
 $green: rgb(54, 200, 24);
 $gray: #959ba2;
@@ -81,6 +81,7 @@ $gray: #959ba2;
   -webkit-animation-delay: $delay; // 延迟时间
 }
 
+
 :global{
 
   // 淡出
@@ -89,10 +90,33 @@ $gray: #959ba2;
     100% { opacity: 1; }
   }
 
+  @-webkit-keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  @-webkit-keyframes rise {
+    0% { margin-top:0px; }
+    100% { margin-top:-120px; }
+  }
 
   @-webkit-keyframes rotate {
     from { -webkit-transform:rotate(0deg); }
     to { -webkit-transform:rotate(360deg); }
+  }
+
+  @-webkit-keyframes slideToTop {
+    0% { transform: translate(0%, 100%); opacity: 0; }
+    100% { transform: translate(0%, 0%); opacity: 1; }
+    // 0% { transform: translate(-50%, 50%); opacity: 0; }
+    // 100% { transform: translate(-50%, -50%); opacity: 1; }
+  }
+
+  @-webkit-keyframes slideToBottom {
+    0% { transform: translate(0%, 0%); opacity: 1; }
+    100% { transform: translate(0%, 100%); opacity: 0; }
+    // 0% { transform: translate3d(-50%, -50%, 0); opacity: 1; }
+    // 100% { transform: translate3d(-50%, 50%, 0); opacity: 0; }
   }
 
 }

@@ -92,11 +92,11 @@ export class Forgot extends Component {
         <Meta meta={{title:'忘记密码'}} />
         <Subnav middle="找回密码" />
         <div className="container">
-
+          
           <div className="list">
-            <input type="text" placeholder="请输入你的注册邮箱" ref="account" />
+            <input type="text" placeholder="请输入你的注册手机号或邮箱" ref="account" />
+            <input type="text" placeholder="输入验证码" ref="captcha" />
             <div>
-              <input type="text" placeholder="输入验证码" ref="captcha" />
               <CaptchaButton onClick={this.sendCaptcha} />
             </div>
             <input type="password" placeholder="新密码" ref="newPassword" />

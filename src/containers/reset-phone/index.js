@@ -58,8 +58,6 @@ export class ResetPhone extends Component {
 
   render() {
 
-    // const { user } = this.props
-
     return (
       <div>
         <Meta meta={{title:'手机号'}} />
@@ -69,8 +67,8 @@ export class ResetPhone extends Component {
 
           <div className="list">
             <input type="text" placeholder="请输入新的手机号" ref="newPhone" />
+            <input type="text" placeholder="请输入验证码" ref="captcha" />
             <div>
-              <input type="text" placeholder="请输入验证码" ref="captcha" />
               <CaptchaButton onClick={this.sendCaptcha} />
             </div>
           </div>

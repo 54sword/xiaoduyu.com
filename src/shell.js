@@ -11,7 +11,7 @@ import Sign from './components/sign'
 import Keydown from './common/keydown'
 
 const Shell = (_component) => {
-
+  
   class CP extends Component {
 
     constructor(props) {
@@ -27,7 +27,7 @@ const Shell = (_component) => {
 
     // 组件加载完成
     componentDidMount() {
-      
+
       const that = this
 
       // 设置滚动条位置

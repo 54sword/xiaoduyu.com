@@ -78,10 +78,8 @@ export class ResetEmail extends Component {
 
           <div className="list">
             <input type="text" placeholder="请输入新的邮箱" ref="newEmail" />
-            <div>
-              <input type="text" placeholder="请输入验证码" ref="captcha" />
-              <CaptchaButton onClick={this.sendCaptcha} />
-            </div>
+            <input type="text" placeholder="请输入验证码" ref="captcha" />
+            <div><CaptchaButton onClick={this.sendCaptcha} /></div>
           </div>
 
           <div className="list">

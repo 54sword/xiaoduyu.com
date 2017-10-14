@@ -19,12 +19,12 @@ export class BindingPhone extends Component {
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
   }
-  
+
   componentWillMount() {
     const { me } = this.props
-    if (me.phone) {
-      browserHistory.push('/')
-    }
+    // if (me.phone) {
+    //   browserHistory.push('/')
+    // }
   }
 
   componentDidMount() {
@@ -67,9 +67,9 @@ export class BindingPhone extends Component {
         <div className="container">
 
           <div className="list">
-            <input type="text" placeholder="请输入你要绑定的邮箱" ref="phone" />
+            <input type="text" placeholder="请输入你要绑定手机号" ref="phone" />
+            <input type="text" placeholder="输入6位数验证码" ref="code" />
             <div>
-              <input type="text" placeholder="输入6位数验证码" ref="code" />
               <CaptchaButton onClick={this.sendCaptcha} />
             </div>
           </div>

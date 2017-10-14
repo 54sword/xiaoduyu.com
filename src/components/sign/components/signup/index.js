@@ -1,20 +1,31 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { signin, signup } from '../../../../actions/sign'
+import { fetchCountries } from '../../../../actions/countries'
+import { getCountries } from '../../../../reducers/countries'
+
+import Device from '../../../../common/device'
 
 import CaptchaButton from '../../../captcha-button'
 
-class Signup extends Component {
+class SignUp extends Component {
 
   constructor(props) {
     super(props)
     this.submitSignup = this.submitSignup.bind(this)
     this.singupFailed = this.singupFailed.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
+  }
+
+  componentWillMount() {
+    const { countries, fetchCountries } = this.props
+    if (countries.length == 0) fetchCountries({})
   }
 
   singupFailed(data) {
@@ -40,7 +51,7 @@ class Signup extends Component {
 
     let self = this
 
-    let { nickname, account, password, male, female, captcha } = this.refs
+    let { nickname, areaCode, account, password, male, female, captcha } = this.refs
 
     const { signup, signin } = this.props
 
@@ -50,16 +61,23 @@ class Signup extends Component {
     if (!password.value) return password.focus()
     if (!male.checked && !female.checked) return self.singupFailed({ gender: '请选择性别' })
 
-    // 注册
-    signup({
+    let data = {
       nickname: nickname.value,
-      email: account.value.indexOf('@') != -1 ? account.value : '',
-      phone: account.value.indexOf('@') == -1 ? account.value : '',
       password: password.value,
       gender: male.checked ? 1 : 0,
-      source: 0,
+      source: Device.getCurrentDeviceId(),
       captcha: captcha.value
-    }, function(err, result){
+    }
+
+    if (account.value.indexOf('@') != -1) {
+      data.email = account.value
+    } else {
+      data.phone = account.value
+      data.area_code = areaCode.value
+    }
+
+    // 注册
+    signup(data, function(err, result){
       if (err) {
         self.singupFailed(result.error);
       } else if (!err && result.success) {
@@ -81,7 +99,7 @@ class Signup extends Component {
   }
 
   sendCaptcha(callback) {
-    const { account } = this.refs
+    const { areaCode, account } = this.refs
 
     if (!account.value) return account.focus()
 
@@ -90,6 +108,7 @@ class Signup extends Component {
     if (account.value.indexOf('@') != -1) {
       params.email = account.value
     } else {
+      params.area_code = areaCode.value
       params.phone = account.value
     }
 
@@ -97,24 +116,37 @@ class Signup extends Component {
   }
 
   render () {
+
+    const { countries } = this.props
+
     return (
-      <div className={styles.signup}>
-        <div><input type="text" className="input" ref="nickname" placeholder="昵称" /><div ref="nickname-meg"></div></div>
-        <div><input type="text" className="input" ref="account" placeholder="手机号码或邮箱" /><div ref="email-meg"></div></div>
+      <div styleName="signup">
+        <div><input type="text" className="input" ref="nickname" placeholder="名字" /><div ref="nickname-meg"></div></div>
         <div>
-          <input type="text" className="input captcha" placeholder="请输入验证码" ref="captcha" />
-          <CaptchaButton onClick={this.sendCaptcha} />
+          <div styleName="account-wrapper">
+            <select ref="areaCode">
+              {countries && countries.length > 0 && countries.map((item, index)=>{
+                return (<option key={index} value={item.code}>{item.name} {item.code}</option>)
+              })}
+            </select>
+            <input type="text" className="input" ref="account" placeholder="手机号" />
+          </div>
+          <div ref="email-meg"></div>
+        </div>
+        <div>
+          <input type="text" className="input" placeholder="输入 6 位验证码" ref="captcha" />
+          <span styleName="captcha-button"><CaptchaButton onClick={this.sendCaptcha} /></span>
           <div ref="captcha-meg"></div>
         </div>
         <div><input type="password" className="input" ref="password" placeholder="密码" /><div ref="password-meg"></div></div>
-        <div className={styles.gender}>性别
+        <div styleName="gender">性别
           <input type="radio" name="gender" ref="male" />男
           <input type="radio" name="gender" ref="female" />女
           <div ref="gender-meg"></div>
         </div>
         <div><input type="submit" className="button" value="注册" onClick={this.submitSignup} /></div>
 
-        <div className={styles.signin}>
+        <div styleName="signin">
           已经有账号了？ <a href="javascript:void(0)" onClick={()=>{this.props.displayComponent('signin')}}>登录</a>
         </div>
       </div>
@@ -124,21 +156,27 @@ class Signup extends Component {
 }
 
 
-Signup.propTypes = {
+SignUp.propTypes = {
   signup: PropTypes.func.isRequired,
-  signin: PropTypes.func.isRequired
+  signin: PropTypes.func.isRequired,
+  fetchCountries: PropTypes.func.isRequired,
+  countries: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
+    countries: getCountries(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     signup: bindActionCreators(signup, dispatch),
-    signin: bindActionCreators(signin, dispatch)
+    signin: bindActionCreators(signin, dispatch),
+    fetchCountries: bindActionCreators(fetchCountries, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup)
+SignUp = CSSModules(SignUp, styles)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

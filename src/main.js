@@ -25,7 +25,6 @@ import './common/weixin'
 import './common/load-demand'
 
 
-
 const store = configureStore(window.__initState__)
 
 // 用于判断是否登录
@@ -37,8 +36,6 @@ if (me._id) {
   // 启动轮询查询未读通知
   store.dispatch(loadUnreadCount())
 }
-
-
 
 const startSocket = () => {
 
@@ -61,7 +58,7 @@ const startSocket = () => {
     })
 
   })
-  
+
   // 如果断开了连接，尝试重新连接
   socket.on('disconnect', function(){
     // startSocket()

@@ -40,7 +40,7 @@ export class BindingEmail extends Component {
 
     if (!code.value) return code.focus()
     if (!email.value) return email.focus()
-    
+
     bindingEmail({
       captcha: code.value,
       email: email.value,
@@ -65,13 +65,11 @@ export class BindingEmail extends Component {
       <div>
         <Subnav middle="验证码邮箱" />
         <div className="container">
-
+          
           <div className="list">
             <input type="text" placeholder="请输入你要绑定的邮箱" ref="email" />
-            <div>
-              <input type="text" placeholder="输入6位数验证码" ref="code" />
-              <CaptchaButton onClick={this.sendCaptcha} />
-            </div>
+            <input type="text" placeholder="输入6位数验证码" ref="code" />
+            <div><CaptchaButton onClick={this.sendCaptcha} /></div>
           </div>
 
           <div className="list">
