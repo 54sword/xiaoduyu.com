@@ -11,24 +11,37 @@ import Shell from '../../shell'
 import Meta from '../../components/meta'
 import Subnav from '../../components/subnav'
 import CaptchaButton from '../../components/captcha-button'
+import CountriesSelect from '../../components/countries-select'
+
+import CSSModules from 'react-css-modules'
+import styles from './style.scss'
 
 export class ResetPhone extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      areaCode: ''
+    }
     this.submitResetEmail = this.submitResetEmail.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
   }
 
   sendCaptcha(callback) {
     const { newPhone } = this.refs
+    const { areaCode } = this.state
 
     if (!newPhone.value) {
       newPhone.focus()
       return
     }
 
-    callback({ phone: newPhone.value, type: 'reset-phone' })
+    callback({
+      phone: newPhone.value,
+      area_code: areaCode,
+      type: 'reset-phone'
+    })
+
   }
 
   submitResetEmail() {
@@ -36,13 +49,17 @@ export class ResetPhone extends Component {
     const self = this
     const { reset, loadUserInfo } = this.props
     const { newPhone, captcha } = this.refs
+    const { areaCode } = this.state
 
     if (!newPhone.value) return newPhone.focus()
     if (!captcha.value) return captcha.focus()
 
     reset({
-      phone: newPhone.value,
-      captcha: captcha.value,
+      data: {
+        phone: newPhone.value,
+        captcha: captcha.value,
+        area_code: areaCode
+      },
       callback: function(result){
         if (result && result.success) {
           alert('手机号修改成功')
@@ -63,9 +80,10 @@ export class ResetPhone extends Component {
         <Meta meta={{title:'手机号'}} />
 
         <Subnav middle="修改手机号" />
-        <div className="container">
+        <div className="container" styleName="container">
 
-          <div className="list">
+          <div className="list" styleName="form">
+            <CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} />
             <input type="text" placeholder="请输入新的手机号" ref="newPhone" />
             <input type="text" placeholder="请输入验证码" ref="captcha" />
             <div>
@@ -108,6 +126,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
+ResetPhone = CSSModules(ResetPhone, styles)
 
 ResetPhone = connect(mapStateToProps, mapDispatchToProps)(ResetPhone)
 

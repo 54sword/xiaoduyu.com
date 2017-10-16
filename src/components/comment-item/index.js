@@ -11,8 +11,9 @@ import { connect } from 'react-redux'
 import { showSign } from '../../actions/sign'
 import { getProfile } from '../../reducers/user'
 
-import LikeButton from '../../components/like'
-import HTMLText from '../../components/html-text'
+import LikeButton from '../like'
+import HTMLText from '../html-text'
+import BindingPhone from '../binding-phone'
 
 export class CommentItem extends Component {
 
@@ -24,7 +25,7 @@ export class CommentItem extends Component {
   stopPropagation(e) {
     e.stopPropagation();
   }
-  
+
   _renderItem(oursProps) {
 
     const that = this
@@ -33,6 +34,7 @@ export class CommentItem extends Component {
     let { comment, summary, displayLike, displayReply, displayDate, displayEdit } = oursProps
 
     return (<div styleName="box">
+      {me && !me.phone ? <BindingPhone show={(s)=>{ this.show = s; }} /> : null}
       <div
         styleName={summary ? "click-item" : "item"}
         onClick={summary ? ()=>{ browserHistory.push(`/comment/${comment._id}`) } : null}
@@ -43,12 +45,13 @@ export class CommentItem extends Component {
             {displayLike ? <span><LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} /></span> : null}
             {displayReply ?
                 (me._id ?
-                <span>
-                  <Link
-                    to={`/write-comment?posts_id=${comment.posts_id && comment.posts_id._id ? comment.posts_id._id : comment.posts_id}&parent_id=${comment.parent_id ? comment.parent_id : comment._id}&reply_id=${comment._id}`}
-                    onClick={this.stopPropagation}>
-                    回复</Link>
-                </span>
+                (me.phone ? <span>
+                    <Link
+                      to={`/write-comment?posts_id=${comment.posts_id && comment.posts_id._id ? comment.posts_id._id : comment.posts_id}&parent_id=${comment.parent_id ? comment.parent_id : comment._id}&reply_id=${comment._id}`}
+                      onClick={this.stopPropagation}>
+                      回复</Link>
+                  </span>:
+                  <span><a href="javascript:void(0)" onClick={()=>{ this.show() }}>回复</a></span>)
                 : <span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>)
               : null}
           </div>

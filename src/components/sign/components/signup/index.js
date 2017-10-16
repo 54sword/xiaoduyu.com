@@ -7,25 +7,22 @@ import styles from './style.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { signin, signup } from '../../../../actions/sign'
-import { fetchCountries } from '../../../../actions/countries'
-import { getCountries } from '../../../../reducers/countries'
 
 import Device from '../../../../common/device'
 
 import CaptchaButton from '../../../captcha-button'
+import CountriesSelect from '../../../countries-select'
 
 class SignUp extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      areaCode: ''
+    }
     this.submitSignup = this.submitSignup.bind(this)
     this.singupFailed = this.singupFailed.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
-  }
-
-  componentWillMount() {
-    const { countries, fetchCountries } = this.props
-    if (countries.length == 0) fetchCountries({})
   }
 
   singupFailed(data) {
@@ -51,8 +48,9 @@ class SignUp extends Component {
 
     let self = this
 
-    let { nickname, areaCode, account, password, male, female, captcha } = this.refs
+    let { nickname, account, password, male, female, captcha } = this.refs
 
+    const { areaCode } = this.state
     const { signup, signin } = this.props
 
     if (!nickname.value) return nickname.focus()
@@ -73,7 +71,7 @@ class SignUp extends Component {
       data.email = account.value
     } else {
       data.phone = account.value
-      data.area_code = areaCode.value
+      data.area_code = areaCode
     }
 
     // 注册
@@ -99,7 +97,8 @@ class SignUp extends Component {
   }
 
   sendCaptcha(callback) {
-    const { areaCode, account } = this.refs
+    const { account } = this.refs
+    const { areaCode } = this.state
 
     if (!account.value) return account.focus()
 
@@ -108,7 +107,7 @@ class SignUp extends Component {
     if (account.value.indexOf('@') != -1) {
       params.email = account.value
     } else {
-      params.area_code = areaCode.value
+      params.area_code = areaCode
       params.phone = account.value
     }
 
@@ -116,19 +115,16 @@ class SignUp extends Component {
   }
 
   render () {
-
-    const { countries } = this.props
+    const self = this
 
     return (
       <div styleName="signup">
         <div><input type="text" className="input" ref="nickname" placeholder="名字" /><div ref="nickname-meg"></div></div>
         <div>
           <div styleName="account-wrapper">
-            <select ref="areaCode">
-              {countries && countries.length > 0 && countries.map((item, index)=>{
-                return (<option key={index} value={item.code}>{item.name} {item.code}</option>)
-              })}
-            </select>
+            <CountriesSelect
+              onChange={(res)=>{ self.state.areaCode = res }}
+              />
             <input type="text" className="input" ref="account" placeholder="手机号" />
           </div>
           <div ref="email-meg"></div>
@@ -158,22 +154,18 @@ class SignUp extends Component {
 
 SignUp.propTypes = {
   signup: PropTypes.func.isRequired,
-  signin: PropTypes.func.isRequired,
-  fetchCountries: PropTypes.func.isRequired,
-  countries: PropTypes.array.isRequired
+  signin: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
-    countries: getCountries(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     signup: bindActionCreators(signup, dispatch),
-    signin: bindActionCreators(signin, dispatch),
-    fetchCountries: bindActionCreators(fetchCountries, dispatch)
+    signin: bindActionCreators(signin, dispatch)
   }
 }
 

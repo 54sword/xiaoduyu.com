@@ -1,16 +1,13 @@
 import Ajax from '../common/ajax'
 
-export function reset({ captcha, phone, callback }) {
+export function reset({ data, callback }) {
   return (dispatch, getState) => {
     let accessToken = getState().user.accessToken
 
     Ajax({
       url: '/reset-phone',
       type: 'post',
-      data: {
-        phone: phone,
-        captcha: captcha,
-      },
+      data,
       headers: { AccessToken: accessToken },
       callback
     })
@@ -19,7 +16,7 @@ export function reset({ captcha, phone, callback }) {
 }
 
 
-export function binding({ phone, captcha, callback }) {
+export function binding({ data, callback }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
@@ -28,10 +25,7 @@ export function binding({ phone, captcha, callback }) {
       url: '/binding-phone',
       type: 'post',
       headers: { AccessToken: accessToken },
-      data: {
-        phone,
-        captcha
-      },
+      data,
       callback
     })
 

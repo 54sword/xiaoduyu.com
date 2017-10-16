@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getProfile } from '../../reducers/user'
 import { showSign } from '../../actions/sign'
+import BindingPhone from '../binding-phone'
 
 // 纯组件
 export class PublishButton extends React.Component {
@@ -16,9 +17,20 @@ export class PublishButton extends React.Component {
   render() {
     const { me, children, showSign } = this.props
     if (!me || !me._id) return (<span></span>)
-    if (!me.phone) return (<Link to="/write-posts">{children}</Link>)
-    if (me.phone) return (<Link to="/settings/binding-phone">{children}</Link>)
-    // if (me.phone) return (<a href="javascript:void(0)" onClick={showSign}>{children}</a>)
+
+    let html = ''
+
+    if (!me.phone) {
+      html = (<a href="javascript:void(0)" onClick={()=>{ this.show() }}>{children}</a>)
+    }
+    if (me.phone) {
+      html = (<Link to="/write-posts">{children}</Link>)
+    }
+
+    return (<div>
+      {html}
+      <BindingPhone show={(s)=>{ this.show = s; }} />
+    </div>)
   }
 
 }

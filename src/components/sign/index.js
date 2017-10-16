@@ -17,7 +17,7 @@ export class Sign extends Component {
 
   constructor(props) {
     super(props)
-
+    
     this.state = {
       displayComponent: this.props.type || 'signin'
     }
@@ -36,12 +36,11 @@ export class Sign extends Component {
     const { display, hideSign } = this.props
     const { displayComponent } = this.state
 
-    if (!display) {
-      return (<div></div>)
-    }
+    if (!display) return (<div></div>)
 
     return (
       <Modal
+        display={false}
         body={<div className={styles.layer}>
                 <div className={styles.social}>
                   <ul>
@@ -56,7 +55,7 @@ export class Sign extends Component {
                 {displayComponent == 'signin' ? <Signin hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
                 {displayComponent == 'signup' ? <Signup hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
               </div>}
-        close={()=>{ hideSign() }}
+        cancal={()=>{ hideSign() }}
         />)
     /*
     return (<div>

@@ -9,12 +9,14 @@
 }
 
 .box{
+  min-width: 420px;
   pointer-events: auto;
   background-color: #fff;
   border-radius: 10px;
   position: relative;
   left: -50%;
   box-shadow: 0 0 50px rgba(0, 0, 0, .1);
+  color:#4c4c4c;
   @include animaction(slideToTop, .5s);
 }
 
@@ -28,11 +30,11 @@
   padding: 33px 30px 0;
 }
 .modal-body{
-  padding:0 30px 0 30px;
+  padding:18px 30px 30px 30px;
 }
 .modal-footer{
   border-top: 1px solid #eaeaea;
-  padding: 15px 15px 0;
+  padding: 15px;
 }
 
 .close{

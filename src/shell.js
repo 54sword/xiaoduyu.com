@@ -11,7 +11,7 @@ import Sign from './components/sign'
 import Keydown from './common/keydown'
 
 const Shell = (_component) => {
-  
+
   class CP extends Component {
 
     constructor(props) {
@@ -33,11 +33,11 @@ const Shell = (_component) => {
       // 设置滚动条位置
       this.props.setScrollPosition(this.props.location ? this.props.location.pathname : '')
 
-      Keydown.add('page', (keyList)=>{
-        if (that.props.goBack && keyList.indexOf(27) != -1) {
-          that.context.router.goBack()
-        }
-      })
+      // Keydown.add('page', (keyList)=>{
+      //   if (that.props.goBack && keyList.indexOf(27) != -1) {
+      //     that.context.router.goBack()
+      //   }
+      // })
 
     }
 
@@ -48,7 +48,7 @@ const Shell = (_component) => {
     // 组件被卸载
     componentWillUnmount() {
 
-      Keydown.remove('page')
+      // Keydown.remove('page')
 
       // 储存滚动条位置
       this.props.saveScrollPosition(this.props.location ? this.props.location.pathname : '')

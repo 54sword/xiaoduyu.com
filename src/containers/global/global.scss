@@ -164,14 +164,13 @@ input[type="submit"]:disabled{
     // border-radius: 3px;
 
     @include cursorHand();
+    @include boxSizing();
 
     &:hover,
     &:active{
       background-color: #268af6;
     }
   }
-
-
 
   .button-full{
     width:100%;
@@ -184,7 +183,7 @@ input[type="submit"]:disabled{
     @extend .button;
     background-color: #fff;
     color:$blue;
-    border:1px solid $blue;
+    // border:1px solid $blue;
     &:hover,
     &:active{
       background-color: #efefef;

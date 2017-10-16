@@ -11,11 +11,18 @@ import { loadUserInfo } from '../../actions/user'
 import Shell from '../../shell'
 import Subnav from '../../components/subnav'
 import CaptchaButton from '../../components/captcha-button'
+import CountriesSelect from '../../components/countries-select'
+
+import CSSModules from 'react-css-modules'
+import styles from './style.scss'
 
 export class BindingPhone extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      areaCode: ''
+    }
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
   }
@@ -28,8 +35,7 @@ export class BindingPhone extends Component {
   }
 
   componentDidMount() {
-    const { phone } = this.refs
-    phone.focus()
+    this.refs.phone.focus()
   }
 
   submit() {
@@ -37,13 +43,17 @@ export class BindingPhone extends Component {
     const self = this
     const { binding, loadUserInfo } = this.props
     const { code, phone } = this.refs
+    const { areaCode } = this.state
 
     if (!code.value) return code.focus()
     if (!phone.value) return phone.focus()
 
     binding({
-      captcha: code.value,
-      phone: phone.value,
+      data: {
+        captcha: code.value,
+        phone: phone.value,
+        area_code: areaCode
+      },
       callback: function(result){
         alert(result.success ? '绑定成功' : '绑定失败')
         loadUserInfo({})
@@ -55,18 +65,20 @@ export class BindingPhone extends Component {
 
   sendCaptcha(callback) {
     const { phone } = this.refs
+    const { areaCode } = this.state
     if (!phone.value) return phone.focus()
-    callback({ phone: phone.value, type: 'binding-phone' })
+    callback({ phone: phone.value, area_code: areaCode, type: 'binding-phone' })
   }
 
   render() {
 
     return (
       <div>
-        <Subnav middle="验证码邮箱" />
-        <div className="container">
+        <Subnav middle="绑定手机" />
+        <div className="container" styleName="container">
 
-          <div className="list">
+          <div className="list" styleName="form">
+            <CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} />
             <input type="text" placeholder="请输入你要绑定手机号" ref="phone" />
             <input type="text" placeholder="输入6位数验证码" ref="code" />
             <div>
@@ -108,6 +120,8 @@ function mapDispatchToProps(dispatch) {
     loadUserInfo: bindActionCreators(loadUserInfo, dispatch)
   }
 }
+
+BindingPhone = CSSModules(BindingPhone, styles)
 
 BindingPhone = connect(mapStateToProps, mapDispatchToProps)(BindingPhone)
 
