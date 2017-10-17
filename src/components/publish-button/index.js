@@ -20,16 +20,16 @@ export class PublishButton extends React.Component {
 
     let html = ''
 
-    if (!me.phone) {
-      html = (<a href="javascript:void(0)" onClick={()=>{ this.show() }}>{children}</a>)
-    }
-    if (me.phone) {
+    // if (!me.phone) {
+    //   html = (<a href="javascript:void(0)" onClick={()=>{ this.show() }}>{children}</a>)
+    // }
+    // if (me.phone) {
       html = (<Link to="/write-posts">{children}</Link>)
-    }
+    // }
 
     return (<div>
       {html}
-      <BindingPhone show={(s)=>{ this.show = s; }} />
+      {/*<BindingPhone show={(s)=>{ this.show = s; }} />*/}
     </div>)
   }
 

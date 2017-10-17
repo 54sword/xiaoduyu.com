@@ -6,10 +6,11 @@
   top: 20%;
   z-index: 1002;
   pointer-events: none;
+  width: 90%;
+  max-width: 550px;
 }
 
 .box{
-  min-width: 420px;
   pointer-events: auto;
   background-color: #fff;
   border-radius: 10px;

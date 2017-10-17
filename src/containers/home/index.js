@@ -183,7 +183,7 @@ export class Home extends React.Component {
         {newPostsList.data && newPostsList.data.length > 0 ?
           <a href="javascript:void(0)" styleName="tips" onClick={showNewPosts}>有 {newPostsList.data.length} 篇新帖子</a>
           : null}
-          
+
         {/*me._id ?
           <div styleName="posts-type">
             <Link to="/write-posts"><span styleName="talk">说说</span></Link>
@@ -206,12 +206,12 @@ export class Home extends React.Component {
           </div>
           : null*/}
 
-        {me._id ?
+        {/*me._id ?
           <div styleName="tab-bar">
             <Link styleName={tab == '' ? 'tab-bar-active' : null} to="/">发现</Link>
             <Link styleName={tab == 'follow' ? 'tab-bar-active' : null} to="/?tab=follow">关注</Link>
           </div>
-          : null}
+          : null*/}
 
         {/*
         <div styleName="tab-bar">
@@ -237,6 +237,12 @@ export class Home extends React.Component {
         */}
 
         <div styleName={me._id ? 'posts-list' : ''}>
+          {/*
+          <div className="container-head">
+            动态
+            <Link to="/topics" className="right">关注话题</Link>
+          </div>
+          */}
           <PostsList
             name={name + tab}
             displayDate={false}
@@ -253,7 +259,7 @@ export class Home extends React.Component {
             />
         </div>
 
-        <Footer />
+        {/*<Footer />*/}
       </div>
 
     </div>)

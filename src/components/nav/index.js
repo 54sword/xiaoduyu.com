@@ -27,19 +27,29 @@ export class Navbar extends Component {
 
     let meTab = null
 
+    // console.log(me.avatar_url);
+    // <img src={me.avatar_url} styleName="avatar" />
     if (me) {
-      meTab = <li><Link to="/me" activeClassName={styles.active}>{me.nickname}</Link></li>
+      meTab = <li>
+        <Link to="/me" activeClassName={styles.active}>{me.nickname || '未知'}</Link>
+        </li>
     } else {
       meTab = <li><a href="javascript:void(0)" onClick={showSign}>我的</a></li>
     }
 
     return (
       <div>
+        <Link to="/" styleName="logo"></Link>
         <div styleName="header">
-          <div className="container">
-            <ul className={me ? null : "three"}>
-              <li styleName="logo"><IndexLink to="/" activeClassName={styles.active}>{config.name}</IndexLink></li>
-              <li><Link to="/topics" activeClassName={styles.active}>话题</Link></li>
+          <div className="container" styleName={me ? 'sign' : ''}>
+            <ul>
+              {/*<li styleName="logo"><IndexLink to="/"></IndexLink></li>
+
+              <li><Link to="/topics" activeClassName={styles.active}>话题</Link></li>*/}
+
+              <li><IndexLink to="/" activeClassName={styles.active}>发现</IndexLink></li>
+              {me ? <li><IndexLink to="/follow" activeClassName={styles.active}>关注</IndexLink></li> : null}
+
               {me ? <li>
                   <Link to="/notifications" activeClassName={styles.active}>
                     通知{unreadNotice > 0 ? <span styleName="unread-notice">{unreadNotice}</span> : null}

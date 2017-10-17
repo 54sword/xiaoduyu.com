@@ -1,5 +1,42 @@
 @import "../../containers/global/base.scss";
 
+/*
+.align-right{
+  text-align: right;
+  > li{
+      margin-left:20px;
+  }
+  .notification{
+
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    background-image: url(./images/notification.png);
+    background-size: 22px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+.align-center{
+  text-align: center;
+
+
+}
+
+.align-left{
+  text-align: left;
+  a{
+    display: inline-block;
+    padding:0 20px 0 20px;
+    height: 45px;
+  }
+
+  .active{
+    color: $blue;
+  }
+}
+*/
 .header{
   position: fixed;
   left:0;
@@ -14,11 +51,9 @@
   // margin-top:-1px;
   z-index: 99;
   box-shadow: 0 0 3px #cdcfd3;
-  
-  > div{
-    margin:0 auto;
-  }
 
+
+  /*
   @include respond-to(sm) {
     top: auto;
     bottom:0;
@@ -27,23 +62,36 @@
     top: auto;
     bottom:0;
   }
+  */
 
   ul{
     list-style-type: none;
     padding:0px;
     margin:0px;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    // display: table;
 
     li{
+      float: left;
       // float:right;
-      display: inline-block;
+      // display: inline-block;
+      // display: table-cell;
       // float:left;
-      width:25%;
+      width:50%;
+      // background-color: #333;
+      vertical-align: top;
       a{
         display: block;
-        height: 100%;
+        height: 45px;
         width: 100%;
-        text-align: center;
+
         font-size: 14px;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
 
         &:hover{
           text-decoration: none;
@@ -54,34 +102,54 @@
     }
   }
 
-  .logo{
-    float:left;
-  }
 
-  :global .three{
+
+  .sign{
     li{
-      width:33.333%;
+      width:25%;
     }
   }
 }
 
-.active{
-  color: $blue;
-}
 
-.placeholder{
-  height: 55px;
-  width: 100%;
-
+.logo{
+  position: fixed;
+  z-index: 1000;
+  top:0px;
+  left:0px;
+  width: 70px;
+  height: 45px;
+  background-image: url(./images/logo.png);
+  background-repeat: no-repeat;
+  background-position: center;
   @include respond-to(sm) {
     display: none;
   }
   @include respond-to(xs) {
     display: none;
   }
+}
+
+.active{
+  color: $blue;
+  font-weight: bold;
+}
+
+.placeholder{
+  height: 55px;
+  width: 100%;
+  /*
+  @include respond-to(sm) {
+    display: none;
+  }
+  @include respond-to(xs) {
+    display: none;
+  }
+  */
 
 }
 
+/*
 @include respond-to(sm) {
   body{
     padding-bottom: 48px !important;
@@ -93,6 +161,7 @@
     padding-bottom: 48px !important;
   }
 }
+*/
 
 .unread-notice{
   position: absolute;
@@ -107,4 +176,13 @@
   font-size: 12px;
   font-weight: bold;
   @include boxSizing();
+}
+
+
+.avatar{
+  width: 26px;
+  height: 26px;
+  background-color: #efefef;
+  border-radius: 30px;
+  margin-top:9px;
 }

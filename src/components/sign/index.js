@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
@@ -17,7 +18,7 @@ export class Sign extends Component {
 
   constructor(props) {
     super(props)
-    
+
     this.state = {
       displayComponent: this.props.type || 'signin'
     }
@@ -44,9 +45,9 @@ export class Sign extends Component {
         body={<div className={styles.layer}>
                 <div className={styles.social}>
                   <ul>
-                    <li><a href={`${api_url}/oauth/weibo`} className={styles.weibo}>使用微博登录</a></li>
-                    <li><a href={`${api_url}/oauth/qq`} className={styles.qq}>使用 QQ 登录</a></li>
-                    <li><a href={`${api_url}/oauth/github`} className={styles.github}>使用 GitHub 登录</a></li>
+                    <li><a href={`${api_url}/oauth/weibo`} className={styles.weibo}><span styleName="weibo-icon">使用微博登录</span></a></li>
+                    <li><a href={`${api_url}/oauth/qq`} className={styles.qq}><span styleName="qq-icon">使用 QQ 登录</span></a></li>
+                    <li><a href={`${api_url}/oauth/github`} className={styles.github}><span styleName="github-icon">使用 GitHub 登录</span></a></li>
                   </ul>
                 </div>
 
@@ -96,5 +97,7 @@ const mapDispatchToProps = (dispatch) => {
     hideSign: bindActionCreators(hideSign, dispatch)
   }
 }
+
+Sign = CSSModules(Sign, styles)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sign)

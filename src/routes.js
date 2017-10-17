@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route, Router, Redirect, IndexRoute } from 'react-router'
 
-import Home from './containers/home/'
+import Home from './containers/home'
+import Follow from './containers/follow'
 import Topics from './containers/topics'
 import TopicsDetail from './containers/topics-detail'
 import WriteTopic from './containers/write-topic'
@@ -114,8 +115,10 @@ export default (history, user, logPageView = ()=>{}) =>{
 
   return (<Router history={history} onUpdate={logPageView}>
     <Route path="/" component={Home} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/notifications" component={Notifications} onLeave={triggerLeave} onEnter={requireAuth} />
 
+    <Route path="/follow" component={Follow} onLeave={triggerLeave} onEnter={requireAuth} />
+    <Route path="/notifications" component={Notifications} onLeave={triggerLeave} onEnter={requireAuth} />
+    
     <Route path="/add-topic" component={WriteTopic} onLeave={triggerLeave} onEnter={requireAuthAdmin} />
     <Route path="/edit-topic/:id" component={EditTopic} onLeave={triggerLeave} onEnter={requireAuthAdmin} />
     <Route path="/all-topic" component={AllTopics} onLeave={triggerLeave} onEnter={requireAuthAdmin} />
