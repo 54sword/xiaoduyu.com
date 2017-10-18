@@ -48,17 +48,17 @@ class Modal extends Component {
   render() {
 
     const { display, close } = this.state
-    const { head, body, footer, closeButton } = this.props
+    const { head, body, footer, closeButton, modalStyle = {}, headStyle = {}, bodyStyle = {}, footerStyle ={} } = this.props
 
     if (display) return (<span></span>)
 
     return (<div>
-      <div styleName="wrapper">
+      <div styleName="wrapper" style={modalStyle}>
         <div styleName={close ? "box" : "hide-box"}>
           {closeButton ? <span styleName="close" onClick={this.handleHide}></span> : null}
-          {head ? <div styleName="modal-header">{head}</div> : null}
-          {body ? <div styleName="modal-body">{body}</div> : null}
-          {footer ? <div styleName="modal-footer">{footer}</div> : null}
+          {head ? <div styleName="modal-header" style={headStyle}>{head}</div> : null}
+          {body ? <div styleName="modal-body" style={bodyStyle}>{body}</div> : null}
+          {footer ? <div styleName="modal-footer" style={footerStyle}>{footer}</div> : null}
         </div>
       </div>
       <div styleName={close ? "mark" : 'hide-mark'} onClick={this.handleHide}></div>
@@ -82,7 +82,8 @@ Modal.defaultProps = {
   // modal footer
   footer: null,
   // 取消/关闭的回掉函数
-  cancal: ()=>{}
+  cancal: ()=>{},
+  modalStyle: {}
 }
 
 Modal = CSSModules(Modal, styles)

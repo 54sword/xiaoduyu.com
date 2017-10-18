@@ -14,6 +14,7 @@ import { getProfile } from '../../reducers/user'
 import LikeButton from '../like'
 import HTMLText from '../html-text'
 import BindingPhone from '../binding-phone'
+import CommentEditorModal from '../comment-editor-modal'
 
 export class CommentItem extends Component {
 
@@ -33,8 +34,17 @@ export class CommentItem extends Component {
 
     let { comment, summary, displayLike, displayReply, displayDate, displayEdit } = oursProps
 
+    /*me.phone ? <span>
+        <Link
+          to={`/write-comment?posts_id=${comment.posts_id && comment.posts_id._id ? comment.posts_id._id : comment.posts_id}&parent_id=${comment.parent_id ? comment.parent_id : comment._id}&reply_id=${comment._id}`}
+          onClick={this.stopPropagation}>
+          回复</Link>
+      </span>:
+      <span><a href="javascript:void(0)" onClick={()=>{ this.show() }}>回复</a></span>*/
+
     return (<div styleName="box">
       {me && !me.phone ? <BindingPhone show={(s)=>{ this.show = s; }} /> : null}
+      <CommentEditorModal show={(s)=>{ this.show = s; }} />
       <div
         styleName={summary ? "click-item" : "item"}
         onClick={summary ? ()=>{ browserHistory.push(`/comment/${comment._id}`) } : null}
@@ -45,14 +55,27 @@ export class CommentItem extends Component {
             {displayLike ? <span><LikeButton comment={!comment.parent_id ? comment : null} reply={comment.parent_id ? comment : null} /></span> : null}
             {displayReply ?
                 (me._id ?
-                (me.phone ? <span>
-                    <Link
-                      to={`/write-comment?posts_id=${comment.posts_id && comment.posts_id._id ? comment.posts_id._id : comment.posts_id}&parent_id=${comment.parent_id ? comment.parent_id : comment._id}&reply_id=${comment._id}`}
-                      onClick={this.stopPropagation}>
-                      回复</Link>
-                  </span>:
-                  <span><a href="javascript:void(0)" onClick={()=>{ this.show() }}>回复</a></span>)
-                : <span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>)
+                  <span>
+                    <a
+                      href="javascript:void(0)"
+                      onClick={()=>{
+                        this.show({
+                          posts_id: comment.posts_id && comment.posts_id._id ? comment.posts_id._id : comment.posts_id,
+                          parent_id: comment.parent_id ? comment.parent_id : comment._id,
+                          reply_id: comment._id,
+                          reply: comment
+                        })
+                      }}>
+                      回复
+                    </a>
+                      {/*
+                      <Link
+                        to={`/write-comment?posts_id=${comment.posts_id && comment.posts_id._id ? comment.posts_id._id : comment.posts_id}&parent_id=${comment.parent_id ? comment.parent_id : comment._id}&reply_id=${comment._id}`}
+                        onClick={this.stopPropagation}>
+                        回复</Link>
+                      */}
+                    </span>
+                  : <span><a href="javascript:void(0)" onClick={showSign}>回复</a></span>)
               : null}
           </div>
 

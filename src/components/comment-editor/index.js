@@ -36,12 +36,23 @@ class CommentEditor extends React.Component {
 
     let commentId = reply_id || posts_id
 
-    let _commentId = reactLocalStorage.get('comment-id')
-    let commentContent = reactLocalStorage.get('comment-content')
+    let commentsDraft = reactLocalStorage.get('comments-draft') || '{}'
 
-    if (_commentId == commentId && !content) {
-      content = commentContent
+    try {
+      commentsDraft = JSON.parse(commentsDraft) || {}
+    } catch (e) {
+      commentsDraft = {}
     }
+
+
+    // let _commentId = reactLocalStorage.get('comment-id')
+    // let commentContent = reactLocalStorage.get('comment-content')
+
+    content = commentsDraft[reply_id || posts_id] || content
+
+    // if (_commentId == commentId && !content) {
+    //   content = commentContent
+    // }
 
     this.setState({
       content: <div>
@@ -52,9 +63,10 @@ class CommentEditor extends React.Component {
                 self.setState({ editor })
                 getEditor(editor)
               }}
-              displayControls={parent_id ? false : true}
+              displayControls={true} // parent_id ? false :
+              placeholder="写评论..."
             />
-        </div>
+          </div>
     });
 
   }
@@ -137,9 +149,22 @@ class CommentEditor extends React.Component {
       this.setState({ showFooter: true })
     }
 
+    let commentsDraft = reactLocalStorage.get('comments-draft') || '{}'
+
+    try {
+      commentsDraft = JSON.parse(commentsDraft) || {}
+    } catch (e) {
+      commentsDraft = {}
+    }
+
+    // 只保留最新的10条草稿
+    let index = []
+    for (let i in commentsDraft) index.push(i)
+    if (index.length > 10) delete commentsDraft[index[0]]
+
     if (this.state.showFooter) {
-      reactLocalStorage.set('comment-id', reply_id || posts_id)
-      reactLocalStorage.set('comment-content', contentJSON)
+      commentsDraft[reply_id || posts_id] = contentJSON
+      reactLocalStorage.set('comments-draft', JSON.stringify(commentsDraft))
     }
 
   }

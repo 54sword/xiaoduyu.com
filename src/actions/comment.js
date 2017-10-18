@@ -84,6 +84,8 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
               item.content_html = contentHTML
             }
 
+            if (!item.reply) return
+
             item.reply.map(item=>{
               if (item._id == id) {
                 item.content = contentJSON
@@ -98,6 +100,8 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
         for (let i in posts) {
 
           posts[i].data.map(item=>{
+
+            if (!item.comment) return
 
             item.comment.map((comment, index)=>{
               if (comment._id == id) {

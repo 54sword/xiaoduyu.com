@@ -42,6 +42,7 @@ export class Sign extends Component {
     return (
       <Modal
         display={false}
+        modalStyle={{ maxWidth:'400px' }}
         body={<div className={styles.layer}>
                 <div className={styles.social}>
                   <ul>
@@ -50,7 +51,7 @@ export class Sign extends Component {
                     <li><a href={`${api_url}/oauth/github`} className={styles.github}><span styleName="github-icon">使用 GitHub 登录</span></a></li>
                   </ul>
                 </div>
-
+                
                 <fieldset><legend>或</legend></fieldset>
 
                 {displayComponent == 'signin' ? <Signin hideSign={hideSign} displayComponent={this.displayComponent} /> : null}

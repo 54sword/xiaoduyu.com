@@ -80,7 +80,7 @@ export class NotificationList extends Component {
                       </div>
                     </div>)
                   break
-
+                  
                 case 'follow-posts':
                   content = (<div>
                       <div className={styles.header}>

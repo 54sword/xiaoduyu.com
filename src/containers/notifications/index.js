@@ -33,7 +33,7 @@ export class Notifications extends Component {
         <Nav />
         <Meta meta={{title: '通知'}} />
         <div className="container">
-          <div className="container-head">消息通知</div>
+          {/*<div className="container-head">消息通知</div>*/}
           <NotificationList name={"index"} filters={{}} />
         </div>
       </div>

@@ -154,7 +154,7 @@ export class PostsDetail extends React.Component {
             </div>
 
           </div>
-
+          
           {posts.comment_count > 0 ?
             <div className="container-head" style={{border:'none'}}>{posts.comment_count} 条讨论</div>
             : null}
@@ -164,9 +164,8 @@ export class PostsDetail extends React.Component {
             filters={{ posts_id: this.props.params.id, parent_exists: 0, per_page:100 }}
           />
 
-          {!me._id ?
-            <div>
-              <div className="container-head">添加一条新评论</div>
+          {me._id ?
+            <div styleName="comment-editor">
               <CommentEditor posts_id={posts._id} getEditor={(editor)=>{ that.setState({ editor }) }} />
             </div>
           : null}

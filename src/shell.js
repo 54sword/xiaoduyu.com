@@ -38,9 +38,9 @@ const Shell = (_component) => {
 
       // 设置滚动条位置
       this.props.setScrollPosition(this.props.location ? this.props.location.pathname : '')
-
-      // this.show()
       
+      // this.show()
+
       if (me._id && !me.phone) {
         let bp = cookie.load('binding-phone-tips')
 
