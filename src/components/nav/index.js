@@ -27,8 +27,6 @@ export class Navbar extends Component {
 
     let meTab = null
 
-    // console.log(me.avatar_url);
-    // <img src={me.avatar_url} styleName="avatar" />
     if (me) {
       meTab = <li>
         <Link to="/me" activeClassName={styles.active}>{me.nickname || '未知'}</Link>
@@ -39,7 +37,7 @@ export class Navbar extends Component {
 
     return (
       <div>
-        <Link to="/" styleName="logo"></Link>
+        {/*<Link to="/" styleName="logo"></Link>*/}
         <div styleName="header">
           <div className="container" styleName={me ? 'sign' : ''}>
             <ul>

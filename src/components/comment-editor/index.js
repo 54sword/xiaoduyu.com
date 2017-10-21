@@ -34,6 +34,8 @@ class CommentEditor extends React.Component {
     const self = this
     let { content, parent_id, posts_id, reply_id, getEditor } = this.props
 
+    console.log(this.props);
+
     let commentId = reply_id || posts_id
 
     let commentsDraft = reactLocalStorage.get('comments-draft') || '{}'
@@ -44,11 +46,13 @@ class CommentEditor extends React.Component {
       commentsDraft = {}
     }
 
-
     // let _commentId = reactLocalStorage.get('comment-id')
     // let commentContent = reactLocalStorage.get('comment-content')
 
-    content = commentsDraft[reply_id || posts_id] || content
+    if (!content) {
+      content = commentsDraft[reply_id || posts_id] || content
+    }
+
 
     // if (_commentId == commentId && !content) {
     //   content = commentContent
@@ -81,6 +85,8 @@ class CommentEditor extends React.Component {
     if (submitting) return
     if (!contentJSON) return editor.focus()
 
+    self.setState({ submitting: true })
+
     if (_id) {
 
       updateComment({
@@ -88,6 +94,8 @@ class CommentEditor extends React.Component {
         contentJSON: contentJSON,
         contentHTML: contentHTML,
         callback: function(result) {
+
+          self.setState({ submitting: false })
 
           if (result.success) {
             successCallback()
@@ -109,6 +117,9 @@ class CommentEditor extends React.Component {
       contentHTML: contentHTML,
       deviceId: Device.getCurrentDeviceId(),
       callback: function(result) {
+
+        self.setState({ submitting: false })
+
         if (result && result.success) {
 
           self.setState({

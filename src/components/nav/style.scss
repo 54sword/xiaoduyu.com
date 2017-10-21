@@ -1,68 +1,16 @@
 @import "../../containers/global/base.scss";
 
-/*
-.align-right{
-  text-align: right;
-  > li{
-      margin-left:20px;
-  }
-  .notification{
 
-    display: inline-block;
-    width: 45px;
-    height: 45px;
-    background-image: url(./images/notification.png);
-    background-size: 22px;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-}
-
-.align-center{
-  text-align: center;
-
-
-}
-
-.align-left{
-  text-align: left;
-  a{
-    display: inline-block;
-    padding:0 20px 0 20px;
-    height: 45px;
-  }
-
-  .active{
-    color: $blue;
-  }
-}
-*/
 .header{
   position: fixed;
   left:0;
   top:0;
-  // background: linear-gradient(to bottom, #fff, #fcfcfc);
   background-color: rgba(255,255,255,1);
   height: 45px;
   line-height: 45px;
   width: 100%;
-  // border-bottom:1px solid #ededed;
-  // border-top:1px solid #ededed;
-  // margin-top:-1px;
   z-index: 99;
   box-shadow: 0 0 3px #cdcfd3;
-
-
-  /*
-  @include respond-to(sm) {
-    top: auto;
-    bottom:0;
-  }
-  @include respond-to(xs) {
-    top: auto;
-    bottom:0;
-  }
-  */
 
   ul{
     list-style-type: none;
@@ -75,12 +23,7 @@
 
     li{
       float: left;
-      // float:right;
-      // display: inline-block;
-      // display: table-cell;
-      // float:left;
       width:50%;
-      // background-color: #333;
       vertical-align: top;
       a{
         display: block;
@@ -95,8 +38,6 @@
 
         &:hover{
           text-decoration: none;
-          // color: rgb(7, 128, 227);
-          // background-color: #efefef;
         }
       }
     }
@@ -138,30 +79,7 @@
 .placeholder{
   height: 55px;
   width: 100%;
-  /*
-  @include respond-to(sm) {
-    display: none;
-  }
-  @include respond-to(xs) {
-    display: none;
-  }
-  */
-
 }
-
-/*
-@include respond-to(sm) {
-  body{
-    padding-bottom: 48px !important;
-  }
-}
-
-@include respond-to(xs) {
-  body{
-    padding-bottom: 48px !important;
-  }
-}
-*/
 
 .unread-notice{
   position: absolute;
@@ -176,13 +94,4 @@
   font-size: 12px;
   font-weight: bold;
   @include boxSizing();
-}
-
-
-.avatar{
-  width: 26px;
-  height: 26px;
-  background-color: #efefef;
-  border-radius: 30px;
-  margin-top:9px;
 }

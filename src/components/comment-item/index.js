@@ -92,7 +92,7 @@ export class CommentItem extends Component {
             {comment.reply_count ? <span>{comment.reply_count}个回复</span> : null}
             {comment.like_count ? <span>{comment.like_count}个赞</span> : null}
           </div>
-
+          
         <div styleName="detail">
           {summary ?
             <Link to={`/comment/${comment._id}`} onClick={this.stopPropagation}>
