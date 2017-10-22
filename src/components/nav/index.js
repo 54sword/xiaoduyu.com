@@ -54,7 +54,7 @@ export class Navbar extends Component {
                     onClick={()=>{
                       loadNewNotifications({ name:'index', filters: {} })
                     }}>
-                    通知{unreadNotice > 0 ? <span styleName="unread-notice">{unreadNotice}</span> : null}
+                    通知{unreadNotice.length > 0 ? <span styleName="unread-notice">{unreadNotice.length}</span> : null}
                   </Link>
                 </li> : null}
               {meTab}
@@ -70,7 +70,7 @@ export class Navbar extends Component {
 Navbar.propTypes = {
   profile: PropTypes.object.isRequired,
   showSign: PropTypes.func.isRequired,
-  unreadNotice: PropTypes.number.isRequired,
+  unreadNotice: PropTypes.array.isRequired,
   loadNewNotifications: PropTypes.func.isRequired
 }
 

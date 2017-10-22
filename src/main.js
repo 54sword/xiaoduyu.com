@@ -34,7 +34,7 @@ if (me._id) {
   // 开启兑换新token的定时器
   // store.dispatch(exchangeTokenTimer())
   // 启动轮询查询未读通知
-  store.dispatch(loadUnreadCount())
+  store.dispatch(loadUnreadCount({}))
 }
 
 const startSocket = () => {
@@ -49,7 +49,7 @@ const startSocket = () => {
 
     this.on("notiaction", function(addresseeIds){
       if (me && addresseeIds.indexOf(me._id) != -1) {
-        store.dispatch(loadUnreadCount())
+        store.dispatch(loadUnreadCount({}))
       }
     })
 

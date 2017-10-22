@@ -29,8 +29,8 @@ export class Meta extends Component {
       meta.title += ' - '+config.name
     }
 
-    if (unreadNotice > 0) {
-      meta.title = '('+unreadNotice+')' + meta.title
+    if (unreadNotice.length > 0) {
+      meta.title = '('+unreadNotice.length+')' + meta.title
     }
 
     if (weixin.in) {
@@ -53,7 +53,7 @@ export class Meta extends Component {
 }
 
 Meta.propTypes = {
-  unreadNotice: PropTypes.number.isRequired
+  unreadNotice: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => {
