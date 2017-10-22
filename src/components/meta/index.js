@@ -20,13 +20,17 @@ export class Meta extends Component {
     const { unreadNotice } = this.props
 
     let meta = {
-      title: (unreadNotice > 0 ? '('+unreadNotice+')' : '') + config.name,
+      title: config.name,
       description: config.description
     }
-    
+
     if (this.props.meta) {
       meta = this.props.meta
       meta.title += ' - '+config.name
+    }
+
+    if (unreadNotice > 0) {
+      meta.title = '('+unreadNotice+')' + meta.title
     }
 
     if (weixin.in) {

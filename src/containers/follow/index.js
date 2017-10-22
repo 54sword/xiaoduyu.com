@@ -68,7 +68,7 @@ export class Follow extends React.Component {
       filters.device = 'ios'
 
     return(<div>
-      <Meta />
+      <Meta meta={{title: '关注'}} />
       <Nav />
 
       <div className="container">
