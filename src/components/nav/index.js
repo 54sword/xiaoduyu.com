@@ -42,11 +42,10 @@ export class Navbar extends Component {
         <div styleName="header">
           <div className="container" styleName={me ? 'sign' : ''}>
             <ul>
-              {/*<li styleName="logo"><IndexLink to="/"></IndexLink></li>
-              <li><Link to="/topics" activeClassName={styles.active}>话题</Link></li>*/}
 
               <li><IndexLink to="/" activeClassName={styles.active}>发现</IndexLink></li>
               {me ? <li><IndexLink to="/follow" activeClassName={styles.active}>关注</IndexLink></li> : null}
+              {/*me ? <li><IndexLink to="/topics" activeClassName={styles.active}>话题</IndexLink></li> : null*/}
               {me ? <li>
                   <Link
                     to="/notifications"

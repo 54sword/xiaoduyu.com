@@ -131,7 +131,7 @@ export class PostsDetail extends React.Component {
               <div styleName="detail"><HTMLText content={posts.content_html} /></div>
               :null}
           </div>
-
+          
           <div className="container-footer">
 
             <div styleName="actions">
@@ -154,7 +154,7 @@ export class PostsDetail extends React.Component {
             </div>
 
           </div>
-          
+
           {posts.comment_count > 0 ?
             <div className="container-head" style={{border:'none'}}>{posts.comment_count} 条讨论</div>
             : null}

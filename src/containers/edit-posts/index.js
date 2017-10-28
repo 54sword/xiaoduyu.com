@@ -24,7 +24,7 @@ class EditPosts extends React.Component {
       callback(403, 'wrong_token')
       return
     }
-    
+
     store.dispatch(loadPostsById({
       id,
       callback: (posts)=>{

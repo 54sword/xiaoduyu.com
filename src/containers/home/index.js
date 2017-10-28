@@ -46,7 +46,7 @@ export class Home extends React.Component {
       return
     }
 
-    filters.comments_sort = 'like_count:-1,reply_count:-1,create_at:-1'
+    filters.comments_sort = 'like_count:-1,reply_count:-1'
     filters.include_comments = 4
 
     store.dispatch(loadPostsList({
@@ -96,7 +96,7 @@ export class Home extends React.Component {
     const { name, filters, commentsSort } = this.state
     const { postsList } = this.props
 
-    let condition = 'like_count:-1,reply_count:-1,create_at:-1'
+    let condition = 'like_count:-1,reply_count:-1'
     let commentsSortId = 4
 
     commentsSort.map(item=>{

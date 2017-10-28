@@ -63,7 +63,7 @@ export class BindingPhone extends Component {
     return (<Modal
         head={<div styleName="head">
                 <h3>绑定手机</h3>
-                <div>亲爱的用户，应 10 月 1 日起实施的《中华人民共和国网络安全法》要求，网站须强化用户实名认证机制。您需要验证手机方可使用社区功能，烦请您将账号与手机进行绑定。</div>
+                <div>亲爱的用户，应2017年10月1日起实施的《中华人民共和国网络安全法》要求，网站须强化用户实名认证机制。您需要验证手机方可使用社区功能，烦请您将账号与手机进行绑定。</div>
               </div>}
         body={<div styleName="body">
                 <div className="list" styleName="form">

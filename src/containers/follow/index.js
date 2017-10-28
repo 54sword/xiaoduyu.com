@@ -27,6 +27,7 @@ let defaultProps = {
   filters: {
     weaken: 1,
     include_comments: 1,
+    comments_sort: 'like_count:-1,reply_count:-1'
     // method: 'user_custom'
   },
   name: 'home'
@@ -34,7 +35,7 @@ let defaultProps = {
 
 // 纯组件
 export class Follow extends React.Component {
-
+  
   constructor(props) {
     super(props)
 
