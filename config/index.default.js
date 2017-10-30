@@ -24,6 +24,8 @@ var config = {
   class_scoped_name: '[name]_[local]__[hash:base64:5]',
   // google 分析
   GA: '',
+  // 添加分析统计脚本，字符串
+  analysis_script: ``,
   // 前端静态资源上传到七牛
   qiniu: {
     accessKey: '',
