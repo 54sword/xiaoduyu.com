@@ -164,7 +164,7 @@ const Controls = (props) => {
       </span>
       <span href="javascript:void(0)" className="RichEditor-styleButton video" onClick={props.addVideo}></span>
       <span href="javascript:void(0)" className="RichEditor-styleButton link" onClick={props.addLink}></span>
-      <span href="javascript:void(0)" className="RichEditor-styleButton music" onClick={props.addMusic}></span>
+      {/*<span href="javascript:void(0)" className="RichEditor-styleButton music" onClick={props.addMusic}></span>*/}
 
     </div>
   );

@@ -46,10 +46,10 @@ export function loadNotifications({ name, filters = {}, callback = ()=>{} }) {
         posts = updatePosts(posts, res.data)
         followPeople = updateFollowPeople(followPeople, me._id, res.data)
 
+        // 如果在未读列表中，将其删除
         res.data.map(item=>{
-          if (!item.has_read) {
-            unreadNotice--
-          }
+          let _index = unreadNotice.indexOf(item._id)
+          if (_index != -1) unreadNotice.splice(_index, 1)
         })
 
         if (followPeople.count > 0) {
@@ -152,7 +152,7 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
     let followPeople = getState().followPeople
     let me = getState().user.profile
 
-    if (unreadNotice <= 0 || !list || !list.data) {
+    if (unreadNotice.length == 0 || !list || !list.data) {
       return
     }
 
@@ -160,7 +160,7 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
       url: '/notifications',
       type: 'post',
       data: {
-        per_page: 100,
+        per_page: 25,
         gt_create_at: list.data[0] ? list.data[0].create_at : 0,
         access_token: accessToken
       },
@@ -170,12 +170,13 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
         posts = updatePosts(posts, res.data)
         followPeople = updateFollowPeople(followPeople, me._id, res.data)
 
-        res.data.map(item=>{
+        let index = res.data.length
+        while (index--) {
+          let item = res.data[index]
           list.data.unshift(item)
-          if (!item.has_read) {
-            unreadNotice = unreadNotice - 1
-          }
-        })
+          let _index = unreadNotice.indexOf(item._id)
+          if (_index != -1) unreadNotice.splice(_index, 1)
+        }
 
         if (followPeople.count > 0) {
           me.fans_count = me.fans_count + followPeople.count
@@ -199,7 +200,7 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
 let loading = false
 
 // 加载未读通知数量
-export function loadUnreadCount() {
+export function loadUnreadCount({ callback=()=>{} }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
@@ -214,7 +215,14 @@ export function loadUnreadCount() {
       headers: { AccessToken: accessToken },
       callback: (result) => {
         loading = false
-        dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice: result.data })
+
+
+        if (result && result.success) {
+          dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice: result.data })
+        }
+
+        callback(result)
+
       }
     })
 

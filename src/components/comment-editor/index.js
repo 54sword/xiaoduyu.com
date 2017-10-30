@@ -22,7 +22,8 @@ class CommentEditor extends React.Component {
       contentHTML: '',
       content: <div></div>,
       editor: null,
-      showFooter: false
+      showFooter: false,
+      submitting: false
     }
     this.submit = this.submit.bind(this)
     this.syncContent = this.syncContent.bind(this)
@@ -33,14 +34,29 @@ class CommentEditor extends React.Component {
     const self = this
     let { content, parent_id, posts_id, reply_id, getEditor } = this.props
 
+    console.log(this.props);
+
     let commentId = reply_id || posts_id
 
-    let _commentId = reactLocalStorage.get('comment-id')
-    let commentContent = reactLocalStorage.get('comment-content')
+    let commentsDraft = reactLocalStorage.get('comments-draft') || '{}'
 
-    if (_commentId == commentId && !content) {
-      content = commentContent
+    try {
+      commentsDraft = JSON.parse(commentsDraft) || {}
+    } catch (e) {
+      commentsDraft = {}
     }
+
+    // let _commentId = reactLocalStorage.get('comment-id')
+    // let commentContent = reactLocalStorage.get('comment-content')
+
+    if (!content) {
+      content = commentsDraft[reply_id || posts_id] || content
+    }
+
+
+    // if (_commentId == commentId && !content) {
+    //   content = commentContent
+    // }
 
     this.setState({
       content: <div>
@@ -51,9 +67,10 @@ class CommentEditor extends React.Component {
                 self.setState({ editor })
                 getEditor(editor)
               }}
-              displayControls={parent_id ? false : true}
+              displayControls={true} // parent_id ? false :
+              placeholder="写评论..."
             />
-        </div>
+          </div>
     });
 
   }
@@ -63,12 +80,12 @@ class CommentEditor extends React.Component {
     const self = this
     let { _id, posts_id, parent_id, reply_id, successCallback, addComment, updateComment, getEditor } = this.props
 
-    const { contentJSON, contentHTML, editor } = this.state
+    const { contentJSON, contentHTML, editor, submitting } = this.state
 
-    if (!contentJSON) {
-      editor.focus()
-      return
-    }
+    if (submitting) return
+    if (!contentJSON) return editor.focus()
+
+    self.setState({ submitting: true })
 
     if (_id) {
 
@@ -77,6 +94,8 @@ class CommentEditor extends React.Component {
         contentJSON: contentJSON,
         contentHTML: contentHTML,
         callback: function(result) {
+
+          self.setState({ submitting: false })
 
           if (result.success) {
             successCallback()
@@ -98,6 +117,8 @@ class CommentEditor extends React.Component {
       contentHTML: contentHTML,
       deviceId: Device.getCurrentDeviceId(),
       callback: function(result) {
+
+        self.setState({ submitting: false })
 
         if (result && result.success) {
 
@@ -136,28 +157,39 @@ class CommentEditor extends React.Component {
     this.state.contentHTML = contentHTML
 
     if (!this.state.showFooter && contentJSON) {
-      this.setState({
-        showFooter: true
-      })
+      this.setState({ showFooter: true })
     }
 
+    let commentsDraft = reactLocalStorage.get('comments-draft') || '{}'
+
+    try {
+      commentsDraft = JSON.parse(commentsDraft) || {}
+    } catch (e) {
+      commentsDraft = {}
+    }
+
+    // 只保留最新的10条草稿
+    let index = []
+    for (let i in commentsDraft) index.push(i)
+    if (index.length > 10) delete commentsDraft[index[0]]
+
     if (this.state.showFooter) {
-      reactLocalStorage.set('comment-id', reply_id || posts_id)
-      reactLocalStorage.set('comment-content', contentJSON)
+      commentsDraft[reply_id || posts_id] = contentJSON
+      reactLocalStorage.set('comments-draft', JSON.stringify(commentsDraft))
     }
 
   }
 
   render() {
 
-    const { content, showFooter } = this.state
+    const { content, showFooter, submitting } = this.state
 
     return (<div>
       <div className="container" styleName="box">
         <div styleName="content">{content}</div>
         {showFooter ?
           <div styleName="footer">
-            <button className="button" onClick={this.submit}>提交</button>
+            <button className="button" onClick={this.submit}>{submitting ? '提交中...' : '提交'}</button>
           </div>
           : null}
       </div>

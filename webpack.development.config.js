@@ -83,6 +83,7 @@ module.exports = {
       template: 'src/view/index.html',
       public_path: config.public_path + '/',
       cdn: config.qiniu.url + '/',
+      analysis_script: config.analysis_script,
       meta: '<%- meta %>',
       htmlDom: '<%- html %>',
       reduxState: '<%- reduxState %>'

@@ -32,36 +32,22 @@ export class BindingEmail extends Component {
     email.focus()
   }
 
-
-
   submit() {
 
     const self = this
     const { bindingEmail, loadUserInfo } = this.props
-    const { code, email, password } = this.refs
+    const { code, email } = this.refs
 
-    if (!code.value) {
-      code.focus()
-      return
-    }
-
-    if (!email.value) {
-      email.focus()
-      return
-    }
-
-    if (!password.value) {
-      password.focus()
-      return
-    }
+    if (!code.value) return code.focus()
+    if (!email.value) return email.focus()
 
     bindingEmail({
       captcha: code.value,
       email: email.value,
-      password: password.value,
       callback: function(result){
         alert(result.success ? '绑定成功' : '绑定失败')
         loadUserInfo({})
+        self.context.router.goBack()
       }
     })
 
@@ -69,12 +55,7 @@ export class BindingEmail extends Component {
 
   sendCaptcha(callback) {
     const { email } = this.refs
-
-    if (!email.value) {
-      email.focus()
-      return
-    }
-
+    if (!email.value) return email.focus()
     callback({ email: email.value, type: 'binding-email' })
   }
 
@@ -84,20 +65,11 @@ export class BindingEmail extends Component {
       <div>
         <Subnav middle="验证码邮箱" />
         <div className="container">
-
+          
           <div className="list">
             <input type="text" placeholder="请输入你要绑定的邮箱" ref="email" />
-          </div>
-
-          <div className="list">
-            <div>
-              <input type="text" placeholder="输入6位数验证码" ref="code" />
-              <CaptchaButton onClick={this.sendCaptcha} />
-            </div>
-          </div>
-
-          <div className="list">
-            <input type="password" placeholder="请输入密码" ref="password" />
+            <input type="text" placeholder="输入6位数验证码" ref="code" />
+            <div><CaptchaButton onClick={this.sendCaptcha} /></div>
           </div>
 
           <div className="list">

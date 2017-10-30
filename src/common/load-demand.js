@@ -6,25 +6,22 @@
   }
 
   var clientHeight = document.documentElement.clientHeight
-
+  
   window.addEventListener('resize', (e)=>{
     clientHeight = document.documentElement.clientHeight
   }, false)
 
   function getElementViewTop(element){
-  　　　　var actualTop = element.offsetTop;
-  　　　　var current = element.offsetParent;
-  　　　　while (current !== null){
-  　　　　　　actualTop += current. offsetTop;
-  　　　　　　current = current.offsetParent;
-  　　　　}
-  　　　　 if (document.compatMode == "BackCompat"){
-  　　　　　　var elementScrollTop=document.body.scrollTop;
-  　　　　} else {
-  　　　　　　var elementScrollTop=document.documentElement.scrollTop;
-  　　　　}
-  　　　　return actualTop-elementScrollTop;
-  　　}
+    var actualTop = element.offsetTop;
+    var current = element.offsetParent;
+
+    while (current !== null){
+      actualTop += current.offsetTop;
+      current = current.offsetParent;
+    }
+    // var elementScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+    return actualTop;
+  }
 
   var update = function() {
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
@@ -32,15 +29,10 @@
 
     for (var i = 0, max = elements.length; i < max; i++) {
 
-      if (elements[i].innerHTML != '') {
-        continue
-      }
+      if (elements[i].innerHTML != '') continue
 
       var y1 = getElementViewTop(elements[i])
-
       var y2 = y1 + elements[i].offsetHeight
-      // x1 = elements[i].offsetLeft, x2 = elements[i].offsetLeft + elements[i].offsetWidth
-      // elements[i].innerHTML = y1 + '/' + y2
 
       if (scrollTop <= y1 && y1 < scrollTop + clientHeight ||
         scrollTop < y2 && y2 < scrollTop + clientHeight

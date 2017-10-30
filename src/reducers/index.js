@@ -14,6 +14,7 @@ import topic from './topic'
 import comment from './comment'
 import website from './website'
 import postsTypes from './posts-types'
+import countries from './countries'
 
 let states = {
   scroll,
@@ -27,7 +28,8 @@ let states = {
   posts,
   comment,
   website,
-  postsTypes
+  postsTypes,
+  countries
 }
 
 let _states = {}

@@ -3,7 +3,7 @@ import merge from 'lodash/merge'
 
 let initialState = {
   profile: {},
-  unreadNotice: 0,
+  unreadNotice: [],
   accessToken: '',
   expires: 0
 }
@@ -16,7 +16,7 @@ export default function user(state = initialState, action = {}) {
       state.accessToken = action.access_token
       state.expires = parseInt(action.expires)
       return merge({}, state, {})
-      
+
     case 'REMOVE_ACCESS_TOKEN':
       state.accessToken = ''
       state.expires = 0
@@ -45,7 +45,7 @@ export function getProfile(state) {
 }
 
 export function getUnreadNotice(state) {
-  return state.user.unreadNotice || 0
+  return state.user.unreadNotice || []
 }
 
 export const getAccessToken = (state) => state.user.accessToken

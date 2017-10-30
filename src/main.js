@@ -25,7 +25,6 @@ import './common/weixin'
 import './common/load-demand'
 
 
-
 const store = configureStore(window.__initState__)
 
 // 用于判断是否登录
@@ -35,14 +34,12 @@ if (me._id) {
   // 开启兑换新token的定时器
   // store.dispatch(exchangeTokenTimer())
   // 启动轮询查询未读通知
-  store.dispatch(loadUnreadCount())
+  store.dispatch(loadUnreadCount({}))
 }
-
-
 
 const startSocket = () => {
 
-  let socket = io.connect(config.domain_name)
+  let socket = io.connect(process.env.NODE_ENV == 'development' ? config.api_url : config.domain_name)
 
   socket.on("connect", function(){
 
@@ -52,7 +49,7 @@ const startSocket = () => {
 
     this.on("notiaction", function(addresseeIds){
       if (me && addresseeIds.indexOf(me._id) != -1) {
-        store.dispatch(loadUnreadCount())
+        store.dispatch(loadUnreadCount({}))
       }
     })
 
@@ -64,7 +61,7 @@ const startSocket = () => {
 
   // 如果断开了连接，尝试重新连接
   socket.on('disconnect', function(){
-    startSocket()
+    // startSocket()
   });
 
 }

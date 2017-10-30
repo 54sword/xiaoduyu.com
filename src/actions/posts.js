@@ -9,7 +9,7 @@ export function addPosts({ title, detail, detailHTML, topicId, device, type, cal
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
-    
+
     return Ajax({
       url: '/add-posts',
       type:'post',
@@ -171,25 +171,20 @@ export function addViewById({ id, callback = ()=>{ } }) {
 
 const abstractImages = (str) => {
 
-  let images = []
+  let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
+  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
 
-  var imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
-  var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-
-  var result = [];
-  var img;
+  let result = [];
+  let img;
   while (img = imgReg.exec(str)) {
-    let _img = img[0].split('?')[0] + '?imageMogr2/auto-orient/thumbnail/!200/format/jpg'
-    result.push(_img); //这里的下标是匹配结果，跟你说的下标不是一回事
+    let _img = img[0].match(srcReg)
+    if (_img && _img[1]) {
+      _img = _img[1] + '?imageView2/2/w/120/auto-orient/format/jpg'
+      result.push(_img)
+    }
   }
 
-  if (result && result.length > 0) {
-    result.map((item, index) => {
-      images[index] = item.match(srcReg)[1];
-    })
-  }
-
-  return images
+  return result
 
 }
 

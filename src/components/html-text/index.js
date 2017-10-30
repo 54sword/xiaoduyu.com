@@ -106,7 +106,7 @@ const converVideo = (html) => {
 
     imgs.map(img=>{
       let i = img.match(srcReg)[1]
-      html = html.replace(img, `<div class="load-demand" data-load-demand="<img src=\'${i}?imageMogr2/auto-orient/thumbnail/!590\' />"></div>`)
+      html = html.replace(img, `<div class="load-demand" data-load-demand="<img src=\'${i}?auto-orient/imageView2/2/w/900\' />"></div>`)
     })
 
   }

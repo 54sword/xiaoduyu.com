@@ -16,12 +16,16 @@ var config = {
   public_path: 'http://localhost:4000',
   // API 地址
   api_url: 'https://api.xiaoduyu.com',
+  // 原始的api地址，在第三方登陆使用
+  original_api_url: 'https://api.xiaoduyu.com',
   // api 版本路径
   api_verstion: 'api/v1',
   // css modules class 名称
   class_scoped_name: '[name]_[local]__[hash:base64:5]',
   // google 分析
   GA: '',
+  // 添加分析统计脚本，字符串
+  analysis_script: ``,
   // 前端静态资源上传到七牛
   qiniu: {
     accessKey: '',
@@ -38,6 +42,7 @@ if (process.env.NODE_ENV == 'development') {
   config.debug = true
   config.port = 4000
   config.api_url = 'http://localhost:3000'
+  config.original_api_url = 'http://localhost:32000'
   config.domain_name = 'http://localhost:4000'
   config.public_path = 'http://localhost:4000'
   config.GA = ''
