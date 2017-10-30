@@ -99,13 +99,14 @@ export function sendEmailCaptcha({ email, callback = () =>{} }) {
   }
 }
 
-export function resetPasswordByCaptcha({ email, captcha, newPassword, callback }) {
+export function resetPasswordByCaptcha({ email = '', phone = '', captcha, newPassword, callback }) {
   return (dispatch) => {
 
     Ajax({
       url: '/reset-password-by-captcha',
       type: 'post',
       data: {
+        phone: phone,
         email: email,
         captcha: captcha,
         new_password: newPassword

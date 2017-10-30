@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route, Router, Redirect, IndexRoute } from 'react-router'
 
-import Home from './containers/home/'
+import Home from './containers/home'
+import Follow from './containers/follow'
 import Topics from './containers/topics'
 import TopicsDetail from './containers/topics-detail'
 import WriteTopic from './containers/write-topic'
@@ -22,6 +23,8 @@ import SettingsPassword from './containers/reset-password'
 import SettingsAvatar from './containers/reset-avatar'
 import SettingsEmail from './containers/reset-email'
 import BindingEmail from './containers/binding-email'
+import ResetPhone from './containers/reset-phone'
+import BindingPhone from './containers/binding-phone'
 
 import PostsDetaill from './containers/posts-detail'
 import WritePosts from './containers/write-posts'
@@ -112,8 +115,10 @@ export default (history, user, logPageView = ()=>{}) =>{
 
   return (<Router history={history} onUpdate={logPageView}>
     <Route path="/" component={Home} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/notifications" component={Notifications} onLeave={triggerLeave} onEnter={requireAuth} />
 
+    <Route path="/follow" component={Follow} onLeave={triggerLeave} onEnter={requireAuth} />
+    <Route path="/notifications" component={Notifications} onLeave={triggerLeave} onEnter={requireAuth} />
+    
     <Route path="/add-topic" component={WriteTopic} onLeave={triggerLeave} onEnter={requireAuthAdmin} />
     <Route path="/edit-topic/:id" component={EditTopic} onLeave={triggerLeave} onEnter={requireAuthAdmin} />
     <Route path="/all-topic" component={AllTopics} onLeave={triggerLeave} onEnter={requireAuthAdmin} />
@@ -151,7 +156,9 @@ export default (history, user, logPageView = ()=>{}) =>{
     <Route path="/settings/avatar" component={SettingsAvatar} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/settings/email" component={SettingsEmail} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/settings/binding-email" component={BindingEmail} onLeave={triggerLeave} onEnter={requireAuth} />
-    
+    <Route path="/settings/phone" component={ResetPhone} onLeave={triggerLeave} onEnter={requireAuth} />
+    <Route path="/settings/binding-phone" component={BindingPhone} onLeave={triggerLeave} onEnter={requireAuth} />
+
     <Route path="/oauth" component={Oauth} onLeave={triggerLeave} onEnter={triggerEnter} />
     <Route path="/oauth-binding/:source" component={OauthBinding} onLeave={triggerLeave} onEnter={triggerEnter} />
 

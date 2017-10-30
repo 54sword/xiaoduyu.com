@@ -53,6 +53,24 @@
 }
 
 .posts-type{
+
+  margin-bottom:10px;
+  border-radius: 4px;
+  overflow: hidden;
+
+  > span {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background-color: #fff;
+    
+    &:hover{
+      background-color: rgb(249, 249, 249);
+    }
+  }
+
+
+  /*
   background-color: #fff;
   margin-bottom:10px;
   border-radius: 4px;
@@ -76,6 +94,7 @@
   a:last-of-type{
     border:none;
   }
+  */
 }
 
 

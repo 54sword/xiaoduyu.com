@@ -86,7 +86,7 @@ export class PostsDetail extends React.Component {
   render () {
 
     const that = this
-    let { isSignin, showSign, me } = this.props
+    let { showSign, me } = this.props
     let [ posts ] = this.props.posts
 
     if (!posts) {
@@ -131,7 +131,7 @@ export class PostsDetail extends React.Component {
               <div styleName="detail"><HTMLText content={posts.content_html} /></div>
               :null}
           </div>
-
+          
           <div className="container-footer">
 
             <div styleName="actions">
@@ -140,7 +140,7 @@ export class PostsDetail extends React.Component {
 
               <FollowPosts posts={posts} />
 
-              {isSignin ?
+              {me._id ?
                 (me._id != posts.user_id._id ? <a href="javascript:void(0)" onClick={()=>{ that.state.editor.focus() }}>评论</a> : null)
                 : <a href="javascript:void(0)" onClick={showSign}>评论</a>}
 
@@ -164,11 +164,9 @@ export class PostsDetail extends React.Component {
             filters={{ posts_id: this.props.params.id, parent_exists: 0, per_page:100 }}
           />
 
-          {isSignin ?
-            <div>
-              <div className="container-head">添加一条新评论</div>
-              <CommentEditor posts_id={posts._id} getEditor={(editor)=>{ that.setState({ editor }) }}
-              />
+          {me._id ?
+            <div styleName="comment-editor">
+              <CommentEditor posts_id={posts._id} getEditor={(editor)=>{ that.setState({ editor }) }} />
             </div>
           : null}
 
@@ -186,7 +184,6 @@ PostsDetail.propTypes = {
   loadPostsById: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
   showSign: PropTypes.func.isRequired,
-  isSignin: PropTypes.bool.isRequired,
   me: PropTypes.object.isRequired,
   addViewById: PropTypes.func.isRequired
 }
@@ -195,7 +192,6 @@ function mapStateToProps(state, props) {
   const { id } = props.params
   return {
     posts: getPostsById(state, id),
-    isSignin: getAccessToken(state) ? true : false,
     me: getProfile(state)
   }
 }

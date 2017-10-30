@@ -27,12 +27,12 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
             // 评论 和 回复
             if (!parent_id && i == posts_id ||
               parent_id && i == parent_id) {
-              commentState[i].data.push(res.data)
+              commentState[i].data.push(processCommentList([res.data])[0])
             }
 
             commentState[i].data.map(item=>{
               if (item._id == parent_id) {
-                item.reply.push(res.data)
+                item.reply.push(processCommentList([res.data])[0])
                 item.reply_count += 1
               }
             })
@@ -40,7 +40,6 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
           }
 
           dispatch({ type: 'SET_COMMENT', state: commentState })
-          alert('添加成功')
         }
 
         callback(res)
@@ -85,6 +84,8 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
               item.content_html = contentHTML
             }
 
+            if (!item.reply) return
+
             item.reply.map(item=>{
               if (item._id == id) {
                 item.content = contentJSON
@@ -100,6 +101,8 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
 
           posts[i].data.map(item=>{
 
+            if (!item.comment) return
+
             item.comment.map((comment, index)=>{
               if (comment._id == id) {
                 item.comment[index].content_html = contentHTML
@@ -114,7 +117,7 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
           })
 
         }
-        
+
         dispatch({ type: 'SET_POSTS', state:posts })
         dispatch({ type: 'SET_COMMENT', state })
 

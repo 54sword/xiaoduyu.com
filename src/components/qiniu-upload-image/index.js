@@ -63,7 +63,7 @@ export class QiniuUploadImage extends React.Component {
       f.onprogress = function(e) {
 
         onUpload(e)
-        
+
         if (e.percent == 100 && e.currentTarget.status && e.currentTarget.status == 200) {
 
           // 上传完成

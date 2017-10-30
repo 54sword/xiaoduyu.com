@@ -16,7 +16,7 @@ class EditComment extends React.Component {
 
   static loadData({ store, props }, callback) {
     const { id } = props.params
-    
+
     const me = getProfile(store.getState())
 
     if (!me._id) {
@@ -67,7 +67,7 @@ class EditComment extends React.Component {
     const { comment } = this.state
 
     if (!comment) return (<div>加载中...</div>)
-
+    
     return (<div>
       <Meta meta={{title: `编辑${comment.parent_id ? '回复' : '评论'}`}} />
       <Subnav left="取消" middle={`编辑${comment.parent_id ? '回复' : '评论'}`} />

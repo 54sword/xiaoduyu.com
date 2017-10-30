@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getLastHistory } from '../../reducers/history'
 
-// import Weixin from '../../common/weixin'
 import styles from './style.scss'
 
 // 获取url中的参数，并返回
@@ -54,7 +53,7 @@ export class SubNav extends Component {
   }
 
   render() {
-
+    
     const { left = '返回', middle = '', right = '' } = this.props
     let back = <a href="javascript:;" onClick={this.navigateBack}>{left}</a>
 
@@ -65,10 +64,6 @@ export class SubNav extends Component {
         back = <Link to={params.subnav_back}>{left}</Link>
       }
     }
-
-    // if (Weixin.in) {
-    //   return (<div></div>)
-    // }
 
     return (
       <div>

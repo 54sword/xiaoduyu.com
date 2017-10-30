@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
+import CSSModules from 'react-css-modules'
+import styles from './style.scss'
+
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { addCaptcha } from '../../actions/captcha'
@@ -61,19 +64,18 @@ class CaptchaButton extends Component {
   }
 
   render() {
-
     const { countdown } = this.state
-    // type="submit"
     return (
-      <a href="javascript:void(0)"
-        className="captcha-button"
-        onClick={this.getCaptcha}
-        >{countdown > 0 ? `发送成功 (${countdown})` : "获取验证码"}</a>
+      <a href="javascript:void(0)" styleName="captcha-button" onClick={this.getCaptcha}>
+        {countdown > 0 ? `发送成功 (${countdown})` : "获取验证码"}
+      </a>
     )
   }
 
 }
 
+
+CaptchaButton = CSSModules(CaptchaButton, styles)
 
 CaptchaButton.propTypes = {
   sendCaptcha: PropTypes.func.isRequired,
@@ -89,5 +91,7 @@ function mapDispatchToProps(dispatch) {
     sendCaptcha: bindActionCreators(addCaptcha, dispatch)
   }
 }
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(CaptchaButton)

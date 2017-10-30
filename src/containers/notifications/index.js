@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { loadNewNotifications } from '../../actions/notification'
+// import { loadNewNotifications } from '../../actions/notification'
 
 import Shell from '../../shell'
 import Nav from '../../components/nav'
@@ -18,13 +18,13 @@ export class Notifications extends Component {
   }
 
   componentWillMount() {
-    const { loadNewNotifications } = this.props
-    loadNewNotifications({ name:'index', filters: {} })
+    // const { loadNewNotifications } = this.props
+    // loadNewNotifications({ name:'index', filters: {} })
   }
 
   componentWillReceiveProps(props) {
-    const { loadNewNotifications } = this.props
-    loadNewNotifications({ name:'index', filters: {} })
+    // const { loadNewNotifications } = this.props
+    // loadNewNotifications({ name:'index', filters: {} })
   }
 
   render () {
@@ -33,7 +33,7 @@ export class Notifications extends Component {
         <Nav />
         <Meta meta={{title: '通知'}} />
         <div className="container">
-          <div className="container-head">消息通知</div>
+          {/*<div className="container-head">消息通知</div>*/}
           <NotificationList name={"index"} filters={{}} />
         </div>
       </div>
@@ -41,9 +41,8 @@ export class Notifications extends Component {
   }
 }
 
-
 Notifications.propTypes = {
-  loadNewNotifications: PropTypes.func.isRequired
+  // loadNewNotifications: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state, props) {
@@ -53,7 +52,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch, props) {
   return {
-    loadNewNotifications: bindActionCreators(loadNewNotifications, dispatch)
+    // loadNewNotifications: bindActionCreators(loadNewNotifications, dispatch)
   }
 }
 

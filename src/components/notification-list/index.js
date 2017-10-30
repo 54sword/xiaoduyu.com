@@ -55,6 +55,10 @@ export class NotificationList extends Component {
       return (<div></div>)
     }
 
+    if (notification.data && notification.data.length == 0) {
+      return (<div className={styles.nothing}>没有通知</div>)
+    }
+
     const { data, loading, more } = notification
 
     return (
@@ -76,7 +80,7 @@ export class NotificationList extends Component {
                       </div>
                     </div>)
                   break
-
+                  
                 case 'follow-posts':
                   content = (<div>
                       <div className={styles.header}>

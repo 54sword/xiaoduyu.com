@@ -21,7 +21,7 @@ import Nav from '../../components/nav'
 import Meta from '../../components/meta'
 import PostsList from '../../components/posts-list'
 import Footer from '../../components/footer'
-
+import PublishButton from '../../components/publish-button'
 
 let defaultProps = {
   filters: {
@@ -46,7 +46,7 @@ export class Home extends React.Component {
       return
     }
 
-    filters.comments_sort = 'like_count:-1,reply_count:-1,create_at:-1'
+    filters.comments_sort = 'like_count:-1,reply_count:-1'
     filters.include_comments = 4
 
     store.dispatch(loadPostsList({
@@ -96,7 +96,7 @@ export class Home extends React.Component {
     const { name, filters, commentsSort } = this.state
     const { postsList } = this.props
 
-    let condition = 'like_count:-1,reply_count:-1,create_at:-1'
+    let condition = 'like_count:-1,reply_count:-1'
     let commentsSortId = 4
 
     commentsSort.map(item=>{
@@ -192,18 +192,26 @@ export class Home extends React.Component {
           </div>
           : null*/}
 
-        {me._id ?
+        <PublishButton>
           <div styleName="posts-type">
-            <Link to="/write-posts"><span>发布话题</span></Link>
+            <span>发布话题</span>
           </div>
-          : null}
+        </PublishButton>
 
-        {me._id ?
+        {/*me._id ?
+          <div styleName="posts-type">
+            {!me.phone ?
+              <Link to="/write-posts"><span>发布话题</span></Link> :
+              <a href="javascript:void(0)"><span>发布话题</span></a>}
+          </div>
+          : null*/}
+
+        {/*me._id ?
           <div styleName="tab-bar">
             <Link styleName={tab == '' ? 'tab-bar-active' : null} to="/">发现</Link>
             <Link styleName={tab == 'follow' ? 'tab-bar-active' : null} to="/?tab=follow">关注</Link>
           </div>
-          : null}
+          : null*/}
 
         {/*
         <div styleName="tab-bar">
@@ -229,6 +237,12 @@ export class Home extends React.Component {
         */}
 
         <div styleName={me._id ? 'posts-list' : ''}>
+          {/*
+          <div className="container-head">
+            动态
+            <Link to="/topics" className="right">关注话题</Link>
+          </div>
+          */}
           <PostsList
             name={name + tab}
             displayDate={false}
@@ -245,7 +259,7 @@ export class Home extends React.Component {
             />
         </div>
 
-        <Footer />
+        {/*<Footer />*/}
       </div>
 
     </div>)

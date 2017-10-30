@@ -1,0 +1,13 @@
+.captcha-button{
+  position: relative;
+  float:right;
+  height: 50px;
+  line-height: 50px;
+  margin-top:-50px;
+  padding-right:10px;
+  z-index: 999;
+  color: #08f;
+  &:hover{
+    opacity: .7;
+  }
+}
