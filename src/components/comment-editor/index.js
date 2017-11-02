@@ -34,8 +34,6 @@ class CommentEditor extends React.Component {
     const self = this
     let { content, parent_id, posts_id, reply_id, getEditor } = this.props
 
-    console.log(this.props);
-
     let commentId = reply_id || posts_id
 
     let commentsDraft = reactLocalStorage.get('comments-draft') || '{}'
