@@ -9,6 +9,18 @@
     word-break:break-all;
     word-wrap:break-word;
   }
+
+  .posts-title{
+    a{
+      font-size: 22px;
+    }
+  }
+
+  .posts-content{
+    width:auto;
+    // max-height: 150px;
+    // overflow: hidden;
+  }
 }
 
 .item{

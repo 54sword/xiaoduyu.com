@@ -142,6 +142,26 @@ export const loadCommentById = ({ id, callback = () => {} }) => {
 
     let headers = accessToken ? { 'AccessToken': accessToken } : null
 
+    /*
+    return loadCommentList({
+      name:   id,
+      filters: {
+        comment_id: id,
+        per_page: 1,
+        draft: 1
+      },
+      callback: (res)=>{
+        if (res.success && res.data && res.data.length > 0) {
+          // dispatch({ type: 'ADD_COMMENT', comment: res.data[0] })
+          callback(res.data[0])
+        } else {
+          callback(null)
+        }
+        // console.log(res);
+      }
+    })(dispatch, getState)
+    */
+
     return Ajax({
       url: '/comments',
       params: data,
