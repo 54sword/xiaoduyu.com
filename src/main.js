@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router'
 import { render } from 'react-dom'
 import configureStore from './store/configureStore'
 import Root from './containers/root'
-import { loadUnreadCount } from './actions/notification'
+import { loadUnreadCount, cancelNotiaction } from './actions/notification'
 import { loadNewPosts } from './actions/posts'
 import { setOnlineUserCount } from './actions/website'
 import { exchangeTokenTimer } from './actions/token'
@@ -51,6 +51,10 @@ const startSocket = () => {
       if (me && addresseeIds.indexOf(me._id) != -1) {
         store.dispatch(loadUnreadCount({}))
       }
+    })
+
+    this.on("cancel-notiaction", function(id){
+      store.dispatch(cancelNotiaction({id}))
     })
 
     this.on("new-posts", function(timestamp){

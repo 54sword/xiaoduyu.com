@@ -27,6 +27,7 @@ let defaultProps = {
   filters: {
     weaken: 1,
     include_comments: 1,
+    comments_sort: 'like_count:-1,reply_count:-1'
     // method: 'user_custom'
   },
   name: 'home'
@@ -83,12 +84,15 @@ export class Home extends React.Component {
 
   componentDidMount() {
     const { me } = this.props
+    // this.chooseCommentsSort()
+    /*
     if (me._id) {
       const consition = reactLocalStorage.get('comments_sort_id') || 4
       this.chooseCommentsSort(consition)
     } else {
       this.chooseCommentsSort()
     }
+    */
   }
 
   chooseCommentsSort(id) {
@@ -96,7 +100,7 @@ export class Home extends React.Component {
     const { name, filters, commentsSort } = this.state
     const { postsList } = this.props
 
-    let condition = 'like_count:-1,reply_count:-1'
+    let condition = 'create_at:1,like_count:-1,reply_count:-1'
     let commentsSortId = 4
 
     commentsSort.map(item=>{

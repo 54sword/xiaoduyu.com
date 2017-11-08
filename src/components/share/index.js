@@ -42,7 +42,7 @@ export class Share extends Component {
 
     this.state = {
       title: title,
-      url: config.url + url,
+      url: config.domain_name + url,
       displayTips: false,
       showQrcode: false
     }

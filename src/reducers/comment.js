@@ -59,6 +59,8 @@ export const getCommentById = (state, id) => {
 
   let commentList = state.comment
 
+  // if (commentList[id]) return commentList[id].data
+
   for (let i in commentList) {
     let list = commentList[i].data
     for (let n = 0, max = list.length; n < max; n++) {

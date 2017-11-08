@@ -216,7 +216,6 @@ export function loadUnreadCount({ callback=()=>{} }) {
       callback: (result) => {
         loading = false
 
-
         if (result && result.success) {
           dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice: result.data })
         }
@@ -226,5 +225,19 @@ export function loadUnreadCount({ callback=()=>{} }) {
       }
     })
 
+  }
+}
+
+// 取消某个通知
+export const cancelNotiaction = ({ id, callback = ()=>{} }) => {
+  return (dispatch, getState) => {
+
+    let unreadNotice = getState().user.unreadNotice
+    
+    let index = unreadNotice.indexOf(id)
+    if (index != -1) unreadNotice.splice(index, 1)
+
+    dispatch({ type: 'REMOVE_UNREAD_NOTICE', id: id })
+    callback(unreadNotice)
   }
 }

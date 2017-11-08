@@ -4,6 +4,7 @@ import { Link, browserHistory } from 'react-router'
 
 import { DateDiff } from '../../common/date'
 
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
@@ -85,7 +86,8 @@ export class Comment extends React.Component {
 
         <div className="container">
           <div className={styles.posts}>
-            <Link to={`/posts/${posts._id}`}>{posts.title}</Link>
+            <div styleName="posts-title"><Link to={`/posts/${posts._id}`}>{posts.title}</Link></div>
+            <div styleName="posts-content"><HTMLText content={posts.content_html} /></div>
           </div>
         </div>
 
@@ -147,6 +149,8 @@ export class Comment extends React.Component {
 
   }
 }
+
+Comment = CSSModules(Comment, styles)
 
 Comment.propTypes = {
   comment: PropTypes.array.isRequired,
