@@ -47,7 +47,7 @@ import OauthBinding from './containers/oauth-binding'
 
 import Notice from './containers/notice'
 import NotFound from './containers/not-found'
-import Privacy from './containers/privacy'
+import Agreement from './containers/agreement'
 
 export default (history, user, logPageView = ()=>{}) =>{
 
@@ -118,7 +118,7 @@ export default (history, user, logPageView = ()=>{}) =>{
 
     <Route path="/follow" component={Follow} onLeave={triggerLeave} onEnter={requireAuth} />
     <Route path="/notifications" component={Notifications} onLeave={triggerLeave} onEnter={requireAuth} />
-    
+
     <Route path="/add-topic" component={WriteTopic} onLeave={triggerLeave} onEnter={requireAuthAdmin} />
     <Route path="/edit-topic/:id" component={EditTopic} onLeave={triggerLeave} onEnter={requireAuthAdmin} />
     <Route path="/all-topic" component={AllTopics} onLeave={triggerLeave} onEnter={requireAuthAdmin} />
@@ -165,6 +165,6 @@ export default (history, user, logPageView = ()=>{}) =>{
     <Route path="/notice" component={Notice} onLeave={triggerLeave} onEnter={triggerEnter} />
 
     <Route path="/not-found" component={NotFound} onLeave={triggerLeave} onEnter={triggerEnter} />
-    <Route path="/privacy" component={Privacy} onLeave={triggerLeave} onEnter={triggerEnter} />
+    <Route path="/agreement" component={Agreement} onLeave={triggerLeave} onEnter={triggerEnter} />
   </Router>)
 }
