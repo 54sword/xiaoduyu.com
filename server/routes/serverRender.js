@@ -71,7 +71,7 @@ serverRender.route('*').get((req, res) => {
     }
 
     let routes = crateRoutes(history, userinfo ? userinfo : null)
-    
+
     if (process.env.NODE_ENV == 'development') console.log('请求地址:' + req.originalUrl)
 
     match({ routes, location: req.originalUrl }, (error, redirectLocation, renderProps) => {

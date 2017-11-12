@@ -35,10 +35,7 @@ export class PostsDetail extends React.Component {
       id,
       callback: (topic)=>{
 
-        if (!topic) {
-          callback(404)
-          return
-        }
+        if (!topic) return callback(404)
 
         store.dispatch(loadCommentList({
           name: id,
@@ -62,7 +59,19 @@ export class PostsDetail extends React.Component {
 
     const { loadPostsById, addViewById } = this.props
     const { id } = this.props.params
-    // let [ posts ] = this.props.posts
+    let [ posts ] = this.props.posts
+
+    // 如果没有帖子
+    if (!posts) {
+      loadPostsById({
+        id,
+        callback: (res)=>{
+          if (!res) browserHistory.push('/not-found')
+        }
+      })
+    }
+
+    // 浏览次数累计
 
     let viewPosts = reactLocalStorage.get('view-posts') || ''
     let lastViewPostsAt = reactLocalStorage.get('last-viewed-posts-at') || new Date().getTime()
@@ -131,7 +140,7 @@ export class PostsDetail extends React.Component {
               <div styleName="detail"><HTMLText content={posts.content_html} /></div>
               :null}
           </div>
-          
+
           <div className="container-footer">
 
             <div styleName="actions">
