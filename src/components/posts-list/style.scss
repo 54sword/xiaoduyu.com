@@ -1,5 +1,16 @@
-.list{
-  padding:0 30px 0 30px;
-  // border-radius: 3px;
-  // background-color: #fff;
+@import "../../containers/global/base.scss";
+
+.item{
+  width: 50%;
+
+  > div{
+    border-bottom:1px solid #f0f0f0;
+    margin: 20px 20px 10px 20px;
+    @include boxSizing();
+  }
+
+  > div {
+    padding-bottom: 20px;
+  }
+
 }

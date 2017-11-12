@@ -64,6 +64,7 @@
     "react-dom": "15.5.0",
     "react-fileupload": "^2.4.0",
     "react-ga": "^2.1.2",
+    "react-masonry-component": "^6.0.1",
     "react-qiniu": "^1.5.0",
     "react-redux": "^4.4.5",
     "react-tabs": "^0.8.2",

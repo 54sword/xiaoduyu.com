@@ -10,7 +10,7 @@
 .item{
   position: relative;
   background-color: #fff;
-  padding:15px 20px 15px 20px;
+  // padding:15px 20px 15px 20px;
 
   @include boxSizing();
   &:hover{
@@ -28,8 +28,8 @@
   .avatar{
 
     position: absolute;
-    top: 15px;
-    left: 20px;
+    top: 0px;
+    left: 0px;
     width: 40px;
     height: 40px;
     background-color: #efefef;
@@ -66,13 +66,15 @@
     line-height: 20px;
 
     a{
-      color:#ABA8A6;
+      color:#b0b0b0;
     }
 
     b{
       font-size: 13px;
-      font-weight: 500;
-      color:#222;
+      color:#7f7f7f;
+      // color: #484848;
+      // font-weight: 600;
+      // font-weight: normal;
     }
 
     a:hover{
@@ -81,10 +83,10 @@
 
     div > span{
 
-      color:#ABA8A6;
+      color:#b0b0b0;
 
       &:after{
-        color:#ABA8A6;
+        color:#b0b0b0;
         font-size: 9px;
         margin:0 5px 0 5px;
         content: '•';
@@ -104,10 +106,13 @@
   font-size: 17px;
   word-break:break-all;
   word-wrap:break-word;
-  font-weight: bold;
+  // font-weight: bold;
+  font-weight: 600;
+  /*
   a{
-    color:#333 !important;
+    color:#484848 !important;
   }
+  */
 
   a:hover{
     text-decoration: none;
@@ -120,7 +125,10 @@
   word-break:break-all;
   word-wrap:break-word;
   line-height: 22px;
-  margin-top: 2px;
+  margin-top: 5px;
+
+  // font-weight: 300;
+  // line-height: 1.5;
 
   .abstract-image{
 

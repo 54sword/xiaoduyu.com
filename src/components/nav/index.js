@@ -26,25 +26,23 @@ export class Navbar extends Component {
 
     let me = profile && profile._id ? profile : null
 
-    let meTab = null
-
-    if (me) {
-      meTab = <li>
-        <Link to="/me" activeClassName={styles.active}>{me.nickname || '未知'}</Link>
-        </li>
-    } else {
-      meTab = <li><a href="javascript:void(0)" onClick={showSign}>我的</a></li>
-    }
+    // let meTab = null
+    //
+    // if (me) {
+    //   meTab = <Link to="/me" activeClassName={styles.active}>{me.nickname || '未知'}</Link>
+    // } else {
+    //   meTab = <a href="javascript:void(0)" onClick={showSign}>注册登陆</a>
+    // }
 
     return (
       <div>
         {/*<Link to="/" styleName="logo"></Link>*/}
         <div styleName="header">
-          <div className="container" styleName={me ? 'sign' : ''}>
+          <div><Link to="/">小度鱼</Link></div>
+          <div>
             <ul>
-
-              <li><IndexLink to="/" activeClassName={styles.active}>发现</IndexLink></li>
-              {me ? <li><IndexLink to="/follow" activeClassName={styles.active}>关注</IndexLink></li> : null}
+              {me ? <li><IndexLink to="/" activeClassName={styles.active}>发现</IndexLink></li> : null}
+              {me ? <li><Link to="/follow" activeClassName={styles.active}>关注</Link></li> : null}
               {/*me ? <li><IndexLink to="/topics" activeClassName={styles.active}>话题</IndexLink></li> : null*/}
               {me ? <li>
                   <Link
@@ -55,11 +53,17 @@ export class Navbar extends Component {
                     }}>
                     通知{unreadNotice.length > 0 ? <span styleName="unread-notice">{unreadNotice.length}</span> : null}
                   </Link>
-                </li> : null}
-              {meTab}
+                  </li>
+                : null}
             </ul>
           </div>
+          <div>
+            {!me ? <a href="javascript:void(0)" onClick={showSign}>注册</a> : null}
+            {!me ? <a href="javascript:void(0)" onClick={showSign}>登陆</a> : null}
+            {me ? <Link to="/me" activeClassName={styles.active}>{me.nickname || '未知'}</Link> : null}
+          </div>
         </div>
+
         <div styleName="placeholder"></div>
       </div>
     )

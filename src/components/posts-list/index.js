@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router'
 
+import CSSModules from 'react-css-modules'
+import styles from './style.scss'
+
+
+import Masonry from 'react-masonry-component'
+
 // 依赖的外部功能
 import arriveFooter from '../../common/arrive-footer'
 
@@ -13,6 +19,7 @@ import { getPostsListByName } from '../../reducers/posts'
 
 import ListLoading from '../list-loading'
 import PostsItem from '../posts-item'
+
 
 export class PostsList extends Component {
 
@@ -28,7 +35,7 @@ export class PostsList extends Component {
     if (!postsList.data) {
       this.loadDate()
     }
-
+    
     arriveFooter.add(name, ()=>{
       this.loadDate()
     })
@@ -43,7 +50,7 @@ export class PostsList extends Component {
     const { name, filters, loadPostsList } = this.props
     loadPostsList({ name, filters })
   }
-  
+
   componentWillReceiveProps(props) {
     if (props.timestamp != this.props.timestamp) {
       const { loadPostsList } = this.props
@@ -63,16 +70,41 @@ export class PostsList extends Component {
 
     return (
       <div>
-        {data.map(posts=>{
-          return (<div key={posts._id}>
-              <PostsItem
-              posts={posts}
-              displayFollow={displayFollow}
-              displayDate={displayDate}
-              commentOption={commentOption}
-              />
-            </div>)
-        })}
+
+        <Masonry
+            className={'my-gallery-class'} // default ''
+            elementType={'div'} // default 'div'
+            options={{
+                transitionDuration: 0
+            }} // default {}
+            disableImagesLoaded={false} // default false
+            updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+        >
+          {data.map(posts=>{
+            return (<div key={posts._id} styleName="item"><div>
+                <PostsItem
+                posts={posts}
+                displayFollow={displayFollow}
+                displayDate={displayDate}
+                commentOption={commentOption}
+                />
+              </div></div>)
+          })}
+      </Masonry>
+        {/*
+        <div styleName="grid">
+          {data.map(posts=>{
+            return (<div key={posts._id}>
+                <PostsItem
+                posts={posts}
+                displayFollow={displayFollow}
+                displayDate={displayDate}
+                commentOption={commentOption}
+                />
+              </div>)
+          })}
+        </div>
+        */}
         <ListLoading
           loading={loading}
           more={more}
@@ -100,5 +132,7 @@ const mapDispatchToProps = (dispatch, props) => {
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
   }
 }
+
+PostsList = CSSModules(PostsList, styles)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList)

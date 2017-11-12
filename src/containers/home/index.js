@@ -26,8 +26,8 @@ import PublishButton from '../../components/publish-button'
 let defaultProps = {
   filters: {
     weaken: 1,
-    include_comments: 1,
-    comments_sort: 'like_count:-1,reply_count:-1'
+    // include_comments: -1,
+    // comments_sort: 'like_count:-1,reply_count:-1'
     // method: 'user_custom'
   },
   name: 'home'
@@ -47,8 +47,8 @@ export class Home extends React.Component {
       return
     }
 
-    filters.comments_sort = 'like_count:-1,reply_count:-1'
-    filters.include_comments = 4
+    // filters.comments_sort = 'like_count:-1,reply_count:-1'
+    // filters.include_comments = 4
 
     store.dispatch(loadPostsList({
       name,
@@ -177,6 +177,8 @@ export class Home extends React.Component {
     //     <a href="javascript:void(0)" onClick={showSign}><span className={styles.ask}>提问</span></a>
     //     <a href="javascript:void(0)" onClick={showSign}><span className={styles.write}>写文章</span></a>
     //   </div>
+
+    console.log(filters);
 
     return(<div>
       <Meta />

@@ -81,13 +81,13 @@ export class PostsItem extends PureComponent {
 
         <div styleName="content">
           {posts.content_summary}
-          {posts.images && posts.images.length ?
+          {/*posts.images && posts.images.length ?
             <div styleName="images">
               {posts.images.map(image=>{
                 return (<div key={image} className="load-demand" data-load-demand={`<img src="${image}" />`}></div>)
               })}
             </div>
-            : null}
+            : null*/}
         </div>
 
       </div>

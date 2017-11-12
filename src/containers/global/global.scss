@@ -9,6 +9,10 @@ html {
   // -webkit-overflow-scrolling: touch;
   // -webkit-text-size-adjust: 100%;
   // -ms-text-size-adjust: 100%;
+
+  line-height: 1.15; /* 2 */
+  // -ms-text-size-adjust: 100%; /* 3 */
+  // -webkit-text-size-adjust: 100%; /* 3 */
 }
 
 body {
@@ -16,25 +20,33 @@ body {
   margin: 0px;
   // background-color: #ccc;
   // background-color: #eff1f2;
-  background-color: #e5e8ec; //#efeff4; //#e9ebee;//#eaedf0;
-  color: #23232b; //#23232b;
+  // background-color: #e5e8ec; //#efeff4; //#e9ebee;//#eaedf0;
+  color: #484848; //#23232b;
   font-size: 14px;
 
   // font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 
+  // font-family: SFNSText, Helvetica Neue, sans-serif;
+  // text-rendering: optimizeLegibility;
+
   // -webkit-font-smoothing: antialiased;
-  // font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
-  font-family: PingFang-SC-Regular, "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+  // font-family: 'PingFang SC', 'Helvetica Neue', 'Helvetica', 'STHeitiSC-Light', 'Arial', sans-serif;
+  // font-family: PingFang-SC-Regular, "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+
+  // font-family: 'PingFang SC', 'Helvetica Neue', 'Helvetica', 'STHeitiSC-Light', 'Arial', sans-serif;
+  outline: 0;
+
   // font-family: "Microsoft YaHei", -apple-system-font, "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
   // -webkit-text-size-adjust: 100%;
-  // -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-font-smoothing: subpixel-antialiased;
   // font: 12px/20px "Microsoft YaHei", Lyh-Regular, helvetica, arial, sans-serif;
 
 }
 
 a{
   text-decoration: none;
-  color: #23232b; //#23232b;
+  color: #484848; //#23232b;
 }
 a:hover{
   text-decoration: none;
@@ -69,7 +81,7 @@ input[type="submit"]:disabled{
 :global {
 
   .container{
-    max-width:630px !important;
+    max-width:980px !important;
     margin: 0 auto;
     padding:0 !important;
   }
