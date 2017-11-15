@@ -144,7 +144,7 @@ export function loadPostsById({ id, callback = ()=>{} }) {
       restart: true,
       callback: (result)=>{
         if (!result || !result.success || !result.data || result.data.length == 0) {
-          return callback(result)
+          return callback(null)
         }
         callback(result.data[0])
       }
