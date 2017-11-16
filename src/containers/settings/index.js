@@ -98,7 +98,7 @@ export class Settings extends Component {
             </Link>
             {resetNickname}
             <Link className="arrow" to="/settings/gender">
-              性别 <span className="right">{me.gender == 1 ? '男' : '女'}</span>
+              性别 <span className="right">{typeof me.gender != 'undefined' ? (me.gender == 1 ? '男' : '女') : ''}</span>
             </Link>
             <Link className="arrow" to="/settings/brief">
               个性签名<span className="right">{me.brief}</span>
