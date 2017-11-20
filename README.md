@@ -3,6 +3,7 @@
 ## 介绍
 小度鱼，是基于 React + NodeJS + Express + MongoDB 开发的一个社区系统  
 线上站点：[https://www.xiaoduyu.com](https://www.xiaoduyu.com)  
+iOS：[https://itunes.apple.com/cn/app/小度鱼/id1261181004?mt=8](https://itunes.apple.com/cn/app/小度鱼/id1261181004?mt=8)  
 前端源码地址：[https://github.com/54sword/xiaoduyu.com](https://github.com/54sword/xiaoduyu.com)  
 后端API源码地址：[https://github.com/54sword/api.xiaoduyu.com](https://github.com/54sword/api.xiaoduyu.com)  
 二维码：  
