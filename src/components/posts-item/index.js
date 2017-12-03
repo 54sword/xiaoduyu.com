@@ -79,15 +79,22 @@ export class PostsItem extends PureComponent {
           <Link to={`/posts/${posts._id}`} ref="title" onClick={this.stopPropagation}>{posts.title}</Link>
         </div>
 
-        <div styleName="content">
+        <div styleName={posts.images && posts.images.length && posts.content_summary.length > 100 ? "content-have-img" : "content"}>
+
+          {posts.images && posts.images.length && posts.content_summary.length > 100 ?
+            <div styleName="images" className="load-demand" data-load-demand={`<div style="background-image:url(${posts.images[0]})" />`}>
+            </div>
+            : null}
+
           {posts.content_summary}
-          {posts.images && posts.images.length ?
+
+          {/*posts.images && posts.images.length ?
             <div styleName="images">
               {posts.images.map(image=>{
                 return (<div key={image} className="load-demand" data-load-demand={`<img src="${image}" />`}></div>)
               })}
             </div>
-            : null}
+            : null*/}
         </div>
 
       </div>

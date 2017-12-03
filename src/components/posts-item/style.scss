@@ -122,32 +122,9 @@
   line-height: 22px;
   margin-top: 2px;
 
-  .abstract-image{
 
-    > div{
 
-      display: inline-block;
-      height: 100px;
-      width: 180px;
-      margin-right:5px;
-
-      > div{
-        display: inline-block;
-        float: left;
-        height: 100px;
-        width: 180px;
-        background-color: #efefef;
-        background-size: cover;
-        margin:0 10px 0 0;
-        background-position: center;
-        border-radius: 3px;
-        margin:5px 5px 0 0;
-      }
-
-    }
-
-  }
-
+  /*
   .images{
     > div{
       display: inline-block;
@@ -159,6 +136,28 @@
       // box-shadow: 0px 0px 1px rgba(0,0,0,.3);
     }
   }
+  */
+}
+
+.content-have-img{
+
+  // padding-left:200px;
+  min-height: 100px;
+
+  .images{
+    float:right;
+    // position: absolute;
+    // margin-left:-200px;
+    > div{
+      width: 150px;
+      height: 100px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 5px;
+    }
+  }
+
 }
 
 .comment-list{

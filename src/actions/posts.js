@@ -179,7 +179,7 @@ const abstractImages = (str) => {
   while (img = imgReg.exec(str)) {
     let _img = img[0].match(srcReg)
     if (_img && _img[1]) {
-      _img = _img[1] + '?imageView2/2/w/120/auto-orient/format/jpg'
+      _img = _img[1] + '?imageView2/2/w/400/auto-orient/format/jpg'
       result.push(_img)
     }
   }
@@ -208,7 +208,9 @@ const processPostsList = (list) => {
 
         comment._create_at = DateDiff(comment.create_at)
 
-        let text = comment.content_html.replace(/<[^>]+>/g,"")
+        let text = comment.content_html.replace(/(<img.*?)>/gi,"[图片]")
+
+        text = text.replace(/<[^>]+>/g,"")
         if (text.length > 140) text = text.slice(0, 140)+'...'
         comment.content_summary = text
 

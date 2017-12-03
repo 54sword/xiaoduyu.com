@@ -19,7 +19,7 @@ export class NotificationList extends Component {
 
   constructor(props) {
     super(props)
-    this.handleLoad = this._handleLoad.bind(this)
+    this.handleLoad = this.handleLoad.bind(this)
   }
 
   componentWillMount() {
@@ -40,7 +40,7 @@ export class NotificationList extends Component {
     arriveFooter.remove('index')
   }
 
-  _handleLoad() {
+  handleLoad() {
 
     const { name, filters, loadNotifications } = this.props
 
@@ -80,7 +80,7 @@ export class NotificationList extends Component {
                       </div>
                     </div>)
                   break
-                  
+
                 case 'follow-posts':
                   content = (<div>
                       <div className={styles.header}>
