@@ -5,6 +5,8 @@ import Shell from '../../shell'
 import Tips from '../../components/tips'
 import Meta from '../../components/meta'
 
+import { feedback_email } from '../../../config'
+
 class Notice extends Component {
 
   constructor(props) {
@@ -17,6 +19,7 @@ class Notice extends Component {
         'binding_finished': '绑定成功',
         'create_user_failed': '创建用户失败',
         'create_oauth_failed': '创建账户失败',
+        'block_account': '您的账户被封，如有疑问请联系：'+feedback_email
       },
       name: ''
     }
@@ -31,7 +34,7 @@ class Notice extends Component {
       })
     }
   }
-  
+
   render () {
 
     const { titleList, name } = this.state

@@ -233,7 +233,7 @@ export const cancelNotiaction = ({ id, callback = ()=>{} }) => {
   return (dispatch, getState) => {
 
     let unreadNotice = getState().user.unreadNotice
-    
+
     let index = unreadNotice.indexOf(id)
     if (index != -1) unreadNotice.splice(index, 1)
 

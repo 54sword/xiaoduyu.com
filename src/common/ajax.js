@@ -6,6 +6,7 @@ import axios from 'axios'
 const converterErrorInfo = (res) => {
 
   if (res.error) {
+    res._error = res.error
     if (typeof(res.error) == 'number') {
       res.error = errors[res.error] || '未知错误: '+res.error
     } else {
@@ -18,9 +19,9 @@ const converterErrorInfo = (res) => {
   // 参数替换
   if (res.error_data) {
 
-    if (typeof(res.error) == 'number') {
+    if (typeof(res.error) == 'string') {
       res.error = res.error.format(res.error_data);
-    } else {
+    } else if (typeof(res.error) == 'object') {
       for (let i in res.error) {
         res.error[i] = errors[res.error[i]] || '未知错误: '+res.error[i]
         res.error[i] = res.error[i].format(res.error_data);

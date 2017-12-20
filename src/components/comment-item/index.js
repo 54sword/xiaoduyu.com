@@ -92,18 +92,18 @@ export class CommentItem extends Component {
             {comment.reply_count ? <span>{comment.reply_count}个回复</span> : null}
             {comment.like_count ? <span>{comment.like_count}个赞</span> : null}
           </div>
-          
+
         <div styleName="detail">
           {summary ?
             <Link to={`/comment/${comment._id}`} onClick={this.stopPropagation}>
               {comment.content_summary}
-              {comment.images && comment.images.length ?
+              {/*comment.images && comment.images.length ?
                 <div styleName="abstract-image">
                   {comment.images.map(image=>{
                     return (<div key={image} className="load-demand" data-load-demand={`<div style="background-image:url(${image}?imageMogr2/thumbnail/!200)"></div>`}></div>)
                   })}
                 </div>
-                : null}
+                : null*/}
             </Link> :
             <HTMLText content={comment.content_html} />}
         </div>
