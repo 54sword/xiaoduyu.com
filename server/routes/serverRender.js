@@ -68,6 +68,13 @@ serverRender.route('*').get((req, res) => {
       // 如果无效，则删除token
       res.clearCookie(config.auth_cookie_name)
       res.clearCookie('expires')
+
+      // 被拒绝的请求
+      if (result._error && result._error == 10007) {
+        res.redirect('/notice?notice=block_account')
+        return
+      }
+
     }
 
     let routes = crateRoutes(history, userinfo ? userinfo : null)

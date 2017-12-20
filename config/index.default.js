@@ -6,6 +6,8 @@ var config = {
   name: '小度鱼',
   // 网站描述
   description: '一个网络社区',
+  // 反馈邮箱（用户无法登陆或使用异常，可以通过该邮箱联系我们）
+  feedback_email: '54sword@gmail.com',
   // 验证登录状态的cookie 名称
   auth_cookie_name: 'xiaoduyu',
   // 端口
