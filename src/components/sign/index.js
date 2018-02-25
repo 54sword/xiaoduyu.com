@@ -15,7 +15,7 @@ import { original_api_url } from '../../../config'
 import Modal from '../modal'
 
 export class Sign extends Component {
-
+  
   constructor(props) {
     super(props)
 
@@ -46,9 +46,9 @@ export class Sign extends Component {
         body={<div className={styles.layer}>
                 <div className={styles.social}>
                   <ul>
-                    <li><a href={`${original_api_url}/oauth/weibo`} className={styles.weibo}><span styleName="weibo-icon">使用微博登录</span></a></li>
-                    <li><a href={`${original_api_url}/oauth/qq`} className={styles.qq}><span styleName="qq-icon">使用 QQ 登录</span></a></li>
-                    <li><a href={`${original_api_url}/oauth/github`} className={styles.github}><span styleName="github-icon">使用 GitHub 登录</span></a></li>
+                    <li><a href={`${original_api_url}/oauth/weibo`} className={styles.weibo}><span className={styles['weibo-icon']}>使用微博登录</span></a></li>
+                    <li><a href={`${original_api_url}/oauth/qq`} className={styles.qq}><span className={styles['qq-icon']}>使用 QQ 登录</span></a></li>
+                    <li><a href={`${original_api_url}/oauth/github`} className={styles.github}><span className={styles['github-icon']}>使用 GitHub 登录</span></a></li>
                   </ul>
                 </div>
 

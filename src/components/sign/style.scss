@@ -107,7 +107,7 @@
     background-color: #FF5D5D;
   }
 
-  .weibo-icon, .qq-icon, .github-icon{
+  .weibo-icon{
     width: 24px;
     background-image: url(./images/weibo.png);
     background-size: contain;
@@ -115,6 +115,9 @@
     background-position: left center;
     padding-left: 30px;
   }
+
+  .qq-icon{ @extend .weibo-icon; }
+  .github-icon{ @extend .weibo-icon; }
 
   .qq-icon{
     background-image: url(./images/qq.png);
