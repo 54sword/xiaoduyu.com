@@ -14,14 +14,14 @@ export default function user(state = initialState, action = {}) {
 
     case 'ADD_ACCESS_TOKEN':
       state.accessToken = action.access_token
-      state.expires = parseInt(action.expires)
+      // state.expires = parseInt(action.expires)
       return merge({}, state, {})
 
     case 'REMOVE_ACCESS_TOKEN':
       state.accessToken = ''
       state.expires = 0
       return state
-      
+
     case 'SET_USER':
       state.profile = action.userinfo
       return merge({}, state, {})
@@ -41,16 +41,20 @@ export default function user(state = initialState, action = {}) {
 
 }
 
-export function getUserInfo(state) {
+// 是否是会员
+exports.isMember = (state) => {
+  return state.user.profile && state.user.profile._id ? true : false;
+}
+
+// 获取个人信息
+exports.getProfile = (state) => {
   return state.user.profile || {}
 }
 
-export function getProfile(state) {
-  return state.user.profile || {}
-}
-
-export function getUnreadNotice(state) {
+// 获取未读通知数
+exports.getUnreadNotice = (state) => {
   return state.user.unreadNotice || []
 }
 
-export const getAccessToken = (state) => state.user.accessToken
+// 获取 access token
+exports.getAccessToken = (state) => state.user.accessToken

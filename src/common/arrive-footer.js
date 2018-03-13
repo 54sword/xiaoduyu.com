@@ -23,7 +23,18 @@ const arriveFooter = (function(){
     let scrollHeight = document.body.scrollHeight || document.documentElement.scrollTop
 
     if (scrollTop + clientHeight >= scrollHeight - 150) {
-      list.map((val)=>{ val.callback() })
+
+      let timestamp = new Date().getTime()
+
+      list.map((val)=>{
+
+        if (val.timestamp && timestamp - val.timestamp < 1000) {
+          return
+        }
+        
+        val.timestamp = timestamp
+        val.callback()
+      })
     }
   }
 

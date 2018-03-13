@@ -1,9 +1,11 @@
-
-// import * as API from '../api/people'
+import grapgQLClient from '../common/grapgql-client'
 
 import Ajax from '../common/ajax'
-import merge from 'lodash/merge'
+// import merge from 'lodash/merge'
 
+import { DateDiff } from '../common/date'
+// import loadList from './common/load-list'
+import loadList from './common/new-load-list'
 
 export function loadPeopleById({ id, callback = ()=>{} }) {
   return (dispatch, getState) => {
@@ -29,18 +31,161 @@ export function loadPeopleById({ id, callback = ()=>{} }) {
   }
 }
 
+export function loadPeopleList({ name, filters = {}, restart = false, accessToken = '' }) {
+  return (dispatch, getState) => {
 
+    let _filters = Object.assign(filters, {})
+
+    if (!_filters.select) {
+      _filters.select = `
+        _id
+        nickname_reset_at
+        create_at
+        last_sign_at
+        blocked
+        role
+        avatar
+        brief
+        source
+        posts_count
+        comment_count
+        fans_count
+        like_count
+        follow_people_count
+        follow_topic_count
+        follow_posts_count
+        block_people_count
+        block_posts_count
+        access_token
+        gender
+        nickname
+        banned_to_post
+        avatar_url
+      `
+    }
+
+    return loadList({
+      dispatch,
+      getState,
+
+      accessToken,
+
+      name,
+      restart,
+      filters: _filters,
+
+      processList: (list)=>{
+
+        // console.log(list);
+
+        list.map((posts)=>{
+          posts._last_sign_at = DateDiff(posts.last_sign_at)
+          posts._create_at = DateDiff(posts.create_at)
+          posts._nickname_reset_at = DateDiff(posts.nickname_reset_at)
+        })
+
+        return list
+      },
+
+      schemaName: 'users',
+      reducerName: 'people',
+      api: '/people',
+      actionType: 'SET_PEOPLE_LIST_BY_NAME'
+    })
+  }
+}
+
+
+export function updatePeople(filters) {
+  return async (dispatch, getState) => {
+
+    let accessToken = getState().user.accessToken
+
+    let variables = []
+
+    for (let i in filters) {
+
+      let v = ''
+
+      switch (typeof filters[i]) {
+        case 'string':
+          v = '"'+filters[i]+'"'
+          break
+        case 'number':
+          v = filters[i]
+          break
+        default:
+          v = filters[i]
+          break
+      }
+
+      variables.push(i+':'+v)
+    }
+
+    let sql = `
+      mutation {
+      	updateUser(${variables}){
+          success
+        }
+      }
+    `
+
+    let [ err, res ] = await grapgQLClient({
+      mutation:sql,
+      headers: accessToken ? { 'AccessToken': accessToken } : null
+    })
+
+    if (err) return
+
+    let _id = filters._id
+
+    delete filters._id
+
+    dispatch({ type: 'UPDATE_PEOPLE', id: _id, update: filters })
+    /*
+    let postsList = getState().posts
+
+    for (let i in postsList) {
+      if (postsList[i].data) {
+        postsList[i].data = processPostsList(postsList[i].data)
+      }
+    }
+
+    dispatch({ type: 'UPDATE_POST', state: postsList })
+    */
+  }
+}
 
 /*
-export function loadFollowPeoples({ callback = ()=>{} }) {
+export function updatePeople ({ query = {}, update = {}, options = {} }) {
   return (dispatch, getState) => {
-    let accessToken = getState().sign.accessToken
-    API.loadFollowPeoples({
-      accessToken,
-      callback: function(err, result){
-        dispatch({ type: 'ADD_FOLLOW_PEOPLES', peoples: result.data })
-        callback(err, result)
+
+    let accessToken = getState().user.accessToken
+
+    return Ajax({
+      url: '/people/update',
+      type: 'post',
+      data: { query, update, options },
+      headers: { 'AccessToken': accessToken }
+    }).then((result) => {
+
+      // console.log(result);
+
+      if (result && result.success) {
+
+        dispatch({ type: 'UPDATE_PEOPLE', id: query._id, update })
+        // let list = getState().people
+        //
+        // for (let i in list) {
+        //   if (list[i].data) {
+        //     list[i].data = processCommentList(list[i].data)
+        //   }
+        // }
+        //
+        // dispatch({ type: 'SET_COMMENT', state: list })
+
       }
+
     })
   }
 }

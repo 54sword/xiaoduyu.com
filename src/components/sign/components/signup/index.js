@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
+import connectReudx from '../../../../common/connect-redux';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { signin, signup } from '../../../../actions/sign'
@@ -13,7 +14,13 @@ import Device from '../../../../common/device'
 import CaptchaButton from '../../../captcha-button'
 import CountriesSelect from '../../../countries-select'
 
-class SignUp extends Component {
+
+@connectReudx(state => ({}), {
+  signin: props => signin,
+  signup: props => signup
+  })
+@CSSModules(styles)
+export default class SignUp extends Component {
 
   constructor(props) {
     super(props)
@@ -150,25 +157,3 @@ class SignUp extends Component {
   }
 
 }
-
-
-SignUp.propTypes = {
-  signup: PropTypes.func.isRequired,
-  signin: PropTypes.func.isRequired
-}
-
-const mapStateToProps = (state) => {
-  return {
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signup: bindActionCreators(signup, dispatch),
-    signin: bindActionCreators(signin, dispatch)
-  }
-}
-
-SignUp = CSSModules(SignUp, styles)
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

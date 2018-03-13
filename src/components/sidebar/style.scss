@@ -1,0 +1,27 @@
+.item{
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.head{
+  background-color: #fff;
+  padding:10px 15px;
+  border-bottom:1px solid #efefef;
+  font-size: 14px;
+  font-weight: bold;
+  color:rgb(153, 153, 153);
+}
+
+.body{
+  background-color: #fff;
+  font-size: 14px;
+}
+
+.recommend{
+  > div > div > a{
+    display: block;
+    padding:10px 15px;
+    border-bottom:1px solid #efefef;
+    color:#484848;
+  }
+}

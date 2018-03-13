@@ -1,6 +1,10 @@
+import grapgQLClient from '../common/grapgql-client'
+
 
 import Ajax from '../common/ajax'
 import { DateDiff } from '../common/date'
+
+import loadList from './common/new-load-list'
 
 export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, callback }) {
   return (dispatch, getState) => {
@@ -52,7 +56,7 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 
 
 
-
+/*
 export function updateComment({ id, contentJSON, contentHTML, callback }) {
   return (dispatch, getState) => {
 
@@ -128,7 +132,7 @@ export function updateComment({ id, contentJSON, contentHTML, callback }) {
 
   }
 }
-
+*/
 export const loadCommentById = ({ id, callback = () => {} }) => {
   return (dispatch, getState) => {
 
@@ -182,10 +186,11 @@ export const loadCommentById = ({ id, callback = () => {} }) => {
 }
 
 const processCommentList = (list) => {
+
   list.map(item=>{
     item._create_at = DateDiff(item.create_at)
-    if (item.reply) {
-      item.reply.map(item=>{
+    if (item.replys && item.replys.map) {
+      item.replys.map(item=>{
         item._create_at = DateDiff(item.create_at)
       })
     }
@@ -193,11 +198,166 @@ const processCommentList = (list) => {
   return list
 }
 
+
+
+export function loadCommentList({ name, filters = {}, restart = false }) {
+  return (dispatch, getState) => {
+
+    if (!filters.select) {
+      filters.select = `
+        content_html
+        create_at
+        reply_count
+        like_count
+        device
+        ip
+        blocked
+        deleted
+        verify
+        weaken
+        recommend
+        _id
+        user_id {
+          _id
+          nickname
+          brief
+          avatar_url
+        }
+        posts_id{
+          _id
+          title
+          content_html
+        }
+        parent_id
+        reply_id {
+          _id
+          user_id{
+            _id
+            nickname
+            brief
+            avatar_url
+          }
+        }
+      `
+    }
+
+    return loadList({
+      dispatch,
+      getState,
+
+      name,
+      restart,
+      filters,
+
+      processList: processCommentList,
+
+      schemaName: 'comments',
+      reducerName: 'comment',
+      api: '/comments',
+      actionType: 'SET_COMMENT_LIST_BY_NAME'
+    })
+  }
+}
+
+
+export function updateComment(filters) {
+  return async (dispatch, getState) => {
+
+    let accessToken = getState().user.accessToken
+
+    let variables = []
+
+    for (let i in filters) {
+
+      let v = ''
+
+      switch (typeof filters[i]) {
+        case 'string':
+          v = '"'+filters[i]+'"'
+          break
+        case 'number':
+          v = filters[i]
+          break
+        default:
+          v = filters[i]
+          break
+      }
+
+      variables.push(i+':'+v)
+    }
+
+    let sql = `
+      mutation {
+      	updateComment(${variables}){
+          success
+        }
+      }
+    `
+
+    let [ err, res ] = await grapgQLClient({
+      mutation:sql,
+      headers: accessToken ? { 'AccessToken': accessToken } : null
+    })
+
+    if (err) return
+
+    let _id = filters._id
+
+    delete filters._id
+
+    dispatch({ type: 'UPDATE_COMMENT', id: _id, update: filters })
+    let list = getState().comment
+
+    for (let i in list) {
+      if (list[i].data) {
+        list[i].data = processPostsList(list[i].data)
+      }
+    }
+
+    dispatch({ type: 'UPDATE_COMMENT', state: list })
+  }
+}
+
+/*
+export function updateComment({ query = {}, update = {}, options = {} }) {
+  return (dispatch, getState) => {
+
+    let accessToken = getState().user.accessToken
+
+    return Ajax({
+      url: '/commment/update',
+      type: 'post',
+      data: { query, update, options },
+      headers: { 'AccessToken': accessToken }
+    }).then((result) => {
+
+      if (result && result.success) {
+
+        dispatch({ type: 'UPDATE_COMMENT', id: query._id, update })
+        let commentList = getState().comment
+
+        for (let i in commentList) {
+          if (commentList[i].data) {
+            commentList[i].data = processCommentList(commentList[i].data)
+          }
+        }
+
+        dispatch({ type: 'SET_COMMENT', state: commentList })
+
+      }
+
+    })
+  }
+}
+*/
+
+/*
 export function loadCommentList({ name, filters = {}, callback = ()=>{} }) {
   return (dispatch, getState) => {
 
     const accessToken = getState().user.accessToken
     let commentList = getState().comment[name] || {}
+
 
     if (typeof(commentList.more) != 'undefined' && !commentList.more ||
       commentList.loading
@@ -239,27 +399,28 @@ export function loadCommentList({ name, filters = {}, callback = ()=>{} }) {
 
     return Ajax({
       url: '/comments',
-      params: filters,
-      headers,
-      callback: (res) => {
+      data: filters,
+      headers
+    }).then(res => {
 
-        if (!res || !res.success) {
-          callback(res)
-          return
-        }
-
-        let _commentList = res.data
-
-        commentList.more = res.data.length < commentList.filters.per_page ? false : true
-        commentList.data = commentList.data.concat(processCommentList(_commentList))
-        commentList.filters = filters
-        commentList.count = 0
-        commentList.loading = false
-
-        dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name, data: commentList })
+      if (!res || !res.success) {
         callback(res)
+        return
       }
+
+      let _commentList = res.data
+
+      commentList.more = res.data.length < commentList.filters.per_page ? false : true
+      commentList.data = commentList.data.concat(processCommentList(_commentList))
+      commentList.filters = filters
+      commentList.count = 0
+      commentList.loading = false
+
+      dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name, data: commentList })
+      callback(res)
+
     })
 
   };
 }
+*/

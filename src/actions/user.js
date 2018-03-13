@@ -1,4 +1,8 @@
 import Ajax from '../common/ajax'
+// import Promise from 'promise'
+
+
+import grapgQLClient from '../common/grapgql-client'
 
 function setUser(userinfo) {
   return { type: 'SET_USER', userinfo }
@@ -8,25 +12,91 @@ export function removeAccessToken() {
   return { type: 'REMOVE_ACCESS_TOKEN' }
 }
 
-export function loadUserInfo({ accessToken = null, callback = ()=>{} }) {
+export const loadUserInfo = ({ accessToken = null }) => {
+  return (dispatch, getState) => {
+
+    return new Promise(async (resolve, reject) => {
+
+      accessToken = accessToken || getState().user.accessToken
+      // (randomString:"${new Date().getTime()+accessToken}")
+      let sql = `
+      {
+        selfInfo{
+          _id
+          nickname_reset_at
+          create_at
+          last_sign_at
+          blocked
+          role
+          avatar
+          brief
+          source
+          posts_count
+          comment_count
+          fans_count
+          like_count
+          follow_people_count
+          follow_topic_count
+          follow_posts_count
+          block_people_count
+          block_posts_count
+          access_token
+          gender
+          nickname
+          banned_to_post
+          avatar_url
+          email
+          weibo
+          qq
+          github
+        }
+      }
+      `
+      
+      let [ err, res ] = await grapgQLClient({
+        query:sql,
+        headers: accessToken ? { 'AccessToken': accessToken } : null,
+        fetchPolicy: 'network-only'
+      })
+
+      if (err) {
+        resolve([err[0]])
+      } else {
+        dispatch({ type: 'SET_USER', userinfo: res.data.selfInfo })
+        resolve([null, res.data.selfInfo])
+      }
+
+    })
+
+
+  }
+}
+
+/*
+export const loadUserInfo = ({ accessToken = null }) => {
   return (dispatch, getState) => {
 
     accessToken = accessToken || getState().user.accessToken
 
-    return Ajax({
-      url: '/user',
-      type: 'post',
-      headers: { AccessToken: accessToken },
-      callback: (res) => {
+
+    return new Promise((resolve, reject) => {
+
+      return Ajax({
+        url: '/user',
+        type: 'post',
+        headers: { AccessToken: accessToken }
+      }).then(res => {
         if (res && res.success) {
-          dispatch(setUser(res.data))
+          dispatch({ type: 'SET_USER', userinfo: res.data })
         }
-        callback(res)
-      }
+        resolve(res)
+      }).catch(reject)
+
     })
 
   }
 }
+*/
 
 export function resetAvatar({ avatar, callback }) {
   return (dispatch, getState) => {

@@ -1,3 +1,29 @@
+import grapgQLClient from '../common/grapgql-client'
+
+export const loadCountries = ()=>{
+  return async (dispatch, getState) => {
+
+    let [ err, res ] = await grapgQLClient({
+      query:`
+        {
+          countries{
+            code
+            name
+            abbr
+          }
+        }
+      `
+    })
+
+    if (!err) {
+      dispatch({ type: 'SET_COUNTRIES', countries: res.data.countries })
+    }
+
+  }
+}
+
+
+/*
 import Ajax from '../common/ajax'
 
 export function fetchCountries({ callback = ()=>{} }) {
@@ -13,3 +39,4 @@ export function fetchCountries({ callback = ()=>{} }) {
     })
   }
 }
+*/

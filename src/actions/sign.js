@@ -1,6 +1,9 @@
 import Ajax from '../common/ajax'
-// import Keydown from '../common/keydown'
-// import cookie from 'react-cookie'
+
+import grapgQLClient from '../common/grapgql-client'
+
+import loadList from './common/new-load-list'
+
 import { domain_name, auth_cookie_name } from '../../config'
 
 
@@ -25,33 +28,90 @@ export function addAccessToken({ expires, access_token }) {
   return { type: 'ADD_ACCESS_TOKEN', expires, access_token }
 }
 
-export const saveSignInCookie = ({ access_token, callback = ()=> {} }) => {
-  Ajax({
-    api_url: domain_name,
-    url: '/sign/in',
-    type: 'post',
-    data: { access_token },
-    callback
-  })
-}
-
-export function signout({ callback = ()=>{} }) {
-  return dispatch => {
-
-    return Ajax({
-      api_url: domain_name,
-      url: '/sign/out',
-      type: 'post',
-      callback: () => {
-        // console.log('123123');
-        callback()
-      }})
-
-    // cookie.remove(auth_cookie_name, { path: '/' })
-    // cookie.remove('expires', { path: '/' })
-    // return { type: 'REMOVE_ACCESS_TOKEN' }
+// cookie安全措施，在服务端使用 http only 方式储存cookie
+export const saveSignInCookie = () => {
+  return (dispatch, getState) => {
+    let accessToken = getState().user.accessToken
+    return new Promise(async (resolve, reject) => {
+      Ajax({
+        domain: window.location.origin,
+        apiVerstion: '',
+        url: '/sign/in',
+        type: 'post',
+        data: { access_token:accessToken }
+      }).then(resolve).catch(reject)
+    })
   }
 }
+
+// 登录
+export const signIn = ({ data }) => {
+  return dispatch => {
+
+    return new Promise(async (resolve, reject) => {
+
+      let variables = []
+
+      for (let i in data) {
+
+        let v = ''
+
+        switch (typeof data[i]) {
+          case 'string':
+            v = '"'+data[i]+'"'
+            break
+          case 'number':
+            v = data[i]
+            break
+          default:
+            v = data[i]
+            break
+        }
+
+        variables.push(i+':'+v)
+      }
+
+      let sql = `
+        {
+        	signIn(${variables}){
+            user_id
+            access_token
+          }
+        }
+      `
+
+      let [ err, res ] = await grapgQLClient({
+        query:sql
+      });
+
+      if (err || res && res.errors && res.errors.length > 0) {
+        return resolve(res ? res.errors[0].message : '账号或密码错误')
+      }
+
+      dispatch(addAccessToken({ access_token: res.data.signIn.access_token }))
+      resolve()
+
+    })
+  }
+}
+
+export const signOut = () => {
+  return (dispatch, getState) => {
+    return new Promise(async (resolve, reject) => {
+      Ajax({
+        domain: window.location.origin,
+        apiVerstion: '',
+        url: '/sign/out',
+        type: 'post'
+      }).then(res=>{
+        resolve([null, res]);
+      }).catch(()=>{
+        resolve([true]);
+      })
+    })
+  }
+}
+
 
 // 登录
 export function signin(data, callback = ()=>{}) {

@@ -1,9 +1,8 @@
 
-@import "../../containers/global/base.scss";
 
 .content{
 
-  // line-height: 180%;
+  line-height: 180%;
   word-break: break-all;
   word-wrap: break-word;
 
@@ -58,14 +57,16 @@
   }
 
   a{
-    color:$blue;
+    color:blue;
   }
 
+  /*
   @include respond-to(sm) {
     embed, iframe{
       width:100%;
       min-height: 216px;
     }
   }
+  */
 
 }

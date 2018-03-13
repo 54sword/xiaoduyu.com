@@ -1,4 +1,40 @@
 import Ajax from '../common/ajax'
+import Promise from 'promise'
+
+/*
+export const saveSignInCookie = () => {
+  return (dispatch, getState) => {
+    let accessToken = getState().user.accessToken
+    return new Promise(async (resolve, reject) => {
+      Ajax({
+        domain: window.location.origin,
+        apiVerstion: '',
+        url: '/sign/in',
+        type: 'post',
+        data: { access_token:accessToken }
+      }).then(resolve).catch(reject)
+    })
+  }
+}
+
+// 登录
+export const signIn = ({ data }) => {
+  return dispatch => {
+    return new Promise(async (resolve, reject) => {
+      Ajax({ url: '/signin', type: 'post', data })
+      .then(res => {
+        if (res && res.success) {
+          dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: res.data.access_token })
+        }
+        resolve(res)
+      })
+      .catch(reject)
+    })
+  }
+}
+*/
+
+
 
 export function resetPassword({ currentPassword, newPassword, callback }) {
   return (dispatch, getState) => {

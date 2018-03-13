@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { Link, browserHistory } from 'react-router'
+import { Link, browserHistory } from 'react-router-dom'
 
 import styles from './style.scss'
 

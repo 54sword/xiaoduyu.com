@@ -13,8 +13,10 @@ import posts from './posts'
 import topic from './topic'
 import comment from './comment'
 import website from './website'
-import postsTypes from './posts-types'
+// import postsTypes from './posts-types'
 import countries from './countries'
+import broadcast from './broadcast'
+import analysis from './analysis'
 
 let states = {
   scroll,
@@ -28,19 +30,20 @@ let states = {
   posts,
   comment,
   website,
-  postsTypes,
-  countries
+  // postsTypes,
+  countries,
+  broadcast,
+  analysis
 }
 
 let _states = {}
 
 for (let i in states) {
-  _states[i] = states[i]()
+  _states[i] = merge({}, states[i](), {})
 }
 
+_states = JSON.stringify(_states)
 
 export default combineReducers(states)
 
-export const getInitialState = () => {
-  return merge({}, _states, {})
-}
+export const initialStateJSON = _states

@@ -1,0 +1,148 @@
+
+.item{
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+
+.head{
+
+  font-size: 12px;
+  z-index: 999;
+  padding:15px 15px 10px 65px;
+
+  .avatar{
+    position: absolute;
+    margin:0 0 0 -50px;
+    width: 40px;
+    height: 40px;
+    background-color: #efefef;
+    border-radius: 50%;
+    overflow: hidden;
+    img{
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .right{
+    float:right;
+  }
+
+  .info{
+
+    width:100%;
+    line-height: 20px;
+
+    a{
+      color:#ABA8A6;
+    }
+
+    b{
+      font-size: 13px;
+      font-weight: 500;
+      color:#222;
+    }
+
+    a:hover{
+      text-decoration: underline;
+    }
+
+    div > span{
+
+      color:#ABA8A6;
+
+      &:after{
+        color:#ABA8A6;
+        font-size: 9px;
+        margin:0 5px 0 5px;
+        content: '•';
+      }
+
+      &:last-child:after{
+        content: '';
+      }
+
+    }
+
+  }
+
+}
+
+.title{
+  font-size: 17px;
+  word-break:break-all;
+  word-wrap:break-word;
+  font-weight: bold;
+  padding:0 15px 0 15px;
+  a{
+    color:#333 !important;
+  }
+
+  a:hover{
+    text-decoration: none;
+  }
+
+}
+
+.content{
+  // font-size: 14px;
+  word-break:break-all;
+  word-wrap:break-word;
+  line-height: 22px;
+  padding:0 15px 0 15px;
+  span:hover{
+    color:rgb(94, 94, 94);
+    cursor: hand;
+    cursor:pointer;
+  }
+  a{
+    white-space:nowrap;
+    margin-left:10px;
+  }
+}
+
+.content-have-img{
+
+  // padding-left:200px;
+  min-height: 100px;
+
+  .images{
+    float:right;
+    // position: absolute;
+    // margin-left:-200px;
+    > div{
+      width: 150px;
+      height: 100px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 5px;
+    }
+  }
+
+}
+
+
+.footer{
+  // border-top: 1px solid #f4f4f4;
+  // text-align: center;
+  // font-size: 14px;
+
+  width: 100%;
+  padding-bottom: 15px;
+
+  .action-item{
+      height: 30px;
+      line-height: 30px;
+      // border-right: 1px solid #f4f4f4;
+      color:#818181;
+      &:hover{
+        background:#fbfbfb;
+        cursor: hand;
+        cursor: pointer;
+      }
+  }
+
+}

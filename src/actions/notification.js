@@ -1,46 +1,85 @@
+import grapgQLClient from '../common/grapgql-client'
+
 import Ajax from '../common/ajax'
 import merge from 'lodash/merge'
 
-export function loadNotifications({ name, filters = {}, callback = ()=>{} }) {
+import loadList from './common/new-load-list'
+
+export function loadNotifications({ name, filters = {}, restart = false }) {
   return (dispatch, getState) => {
 
-    let accessToken = getState().user.accessToken
-    let unreadNotice = getState().user.unreadNotice
-    let comment = getState().comment
-    let posts = getState().posts
-    let followPeople = getState().followPeople
-    let me = getState().user.profile
-
-    let list = getState().notification[name] || {}
-
-    if (typeof(list.more) != 'undefined' && !list.more || list.loading) return
-
-    if (!list.filters) {
-      if (!filters.lt_create_at) filters.lt_create_at = new Date().getTime()
-      if (!filters.per_page) filters.per_page = 30
-      list.filters = filters
-    } else {
-      filters = list.filters
-      filters.lt_create_at = new Date(list.data[list.data.length - 1].create_at).getTime()
+    if (!filters.select) {
+      filters.select = `
+        has_read
+        deleted
+        create_at
+        _id
+        type
+        comment_id {
+          _id
+          content_html
+          posts_id {
+            _id
+            title
+            content_html
+          }
+          reply_id {
+            _id
+            content_html
+          }
+          parent_id {
+            _id
+            content_html
+          }
+        }
+        sender_id {
+          create_at
+          avatar
+          _id
+          nickname
+          avatar_url
+          id
+        }
+        addressee_id {
+          create_at
+          avatar
+          _id
+          nickname
+          avatar_url
+          id
+        }
+        posts_id {
+          title
+          content_html
+          _id
+        }
+      `
     }
 
-    if (!list.data) list.data = []
-    if (!list.more) list.more = true
-    if (!list.loading) list.loading = true
+    return loadList({
+      dispatch,
+      getState,
 
-    dispatch({ type: 'SET_NOTIFICATION_LIST_BY_NAME', name, data: list })
+      name,
+      restart,
+      filters,
 
-    return Ajax({
-      url: '/notifications',
+      // processList: processPostsList,
+
+      schemaName: 'userNotifications',
+      reducerName: 'notification',
+      api: '/user-notifications',
       type: 'post',
-      data: merge({}, filters, { access_token: accessToken }),
-      callback: (res)=>{
+      actionType: 'SET_NOTIFICATION_LIST_BY_NAME',
 
-        list.loading = false
-        list.more = res.data.length < list.filters.per_page ? false : true
-        list.data = list.data.concat(res.data)
-        list.filters = filters
-        list.count = 0
+      callback: (res) =>{
+        // console.log(res);
+
+        let unreadNotice = getState().user.unreadNotice
+        let comment = getState().comment
+        let posts = getState().posts
+        let followPeople = getState().followPeople
+        let me = getState().user.profile
 
         comment = updateCommentState(comment, res.data)
         posts = updatePosts(posts, res.data)
@@ -61,14 +100,84 @@ export function loadNotifications({ name, filters = {}, callback = ()=>{} }) {
         dispatch({ type: 'SET_POSTS', state: posts })
         dispatch({ type: 'SET_COMMENT', state: comment })
         dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice })
-        dispatch({ type: 'SET_NOTIFICATION_LIST_BY_NAME', name, data: list })
+        // dispatch({ type: 'SET_NOTIFICATION_LIST_BY_NAME', name, data: list })
 
-        callback(res)
       }
     })
-
   }
 }
+
+export function updateNotification(filters) {
+  return async (dispatch, getState) => {
+
+    let accessToken = getState().user.accessToken
+
+    let variables = []
+
+    for (let i in filters) {
+
+      let v = ''
+
+      switch (typeof filters[i]) {
+        case 'string':
+          v = '"'+filters[i]+'"'
+          break
+        case 'number':
+          v = filters[i]
+          break
+        default:
+          v = filters[i]
+          break
+      }
+
+      variables.push(i+':'+v)
+    }
+
+    let sql = `
+      mutation {
+      	updateUserNotifaction(${variables}){
+          success
+        }
+      }
+    `
+
+    let [ err, res ] = await grapgQLClient({
+      mutation:sql,
+      headers: accessToken ? { 'AccessToken': accessToken } : null
+    })
+
+    if (err) return
+
+    let _id = filters._id
+
+    delete filters._id
+
+    dispatch({ type: 'UPDATE_NOTIFICATION', id: _id, update: filters })
+  }
+}
+
+/*
+export function updateNotification({ query = {}, update = {}, options = {} }) {
+  return (dispatch, getState) => {
+
+    let accessToken = getState().user.accessToken
+
+    return Ajax({
+      url: '/user-notification/update',
+      type: 'post',
+      data: { query, update, options },
+      headers: { 'AccessToken': accessToken }
+    }).then((result) => {
+
+      if (result && result.success) {
+        dispatch({ type: 'UPDATE_NOTIFICATION', id: query._id, update })
+      }
+
+    })
+  }
+}
+*/
+
 
 // 更新通知中的评论
 let updateCommentState = (comment, notices) => {
@@ -233,7 +342,7 @@ export const cancelNotiaction = ({ id, callback = ()=>{} }) => {
   return (dispatch, getState) => {
 
     let unreadNotice = getState().user.unreadNotice
-    
+
     let index = unreadNotice.indexOf(id)
     if (index != -1) unreadNotice.splice(index, 1)
 

@@ -1,8 +1,15 @@
+import grapgQLClient from '../common/grapgql-client'
+
 
 // import merge from 'lodash/merge'
 import Ajax from '../common/ajax'
+// import Promise from 'promise'
 
 import { DateDiff } from '../common/date'
+// import loadList from './common/load-list'
+import loadList from './common/new-load-list'
+
+// console.log(loadList);
 
 // 添加问题
 export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
@@ -76,68 +83,103 @@ export function updatePostsById({ id, typeId, topicId, title, content, contentHT
   }
 }
 
-export function loadPostsList({ name, filters = {}, callback = ()=>{}, restart = false }) {
-  return (dispatch, getState) => {
 
-    let accessToken = getState().user.accessToken
-    let postsList = getState().posts[name] || {}
 
-    if (restart) {
-      postsList = {}
-    }
+export function loadPostsList({ id, filters, restart = false }) {
+  return async (dispatch, getState) => {
 
-    if (typeof(postsList.more) != 'undefined' && !postsList.more || postsList.loading) {
-      callback()
-      return
-    }
-
-    if (!postsList.data) postsList.data = []
-
-    if (!postsList.filters) {
-      if (!filters.per_page) filters.per_page = 30
-      postsList.filters = filters
-    } else {
-      filters = postsList.filters
-      if (postsList.data[postsList.data.length - 1]) {
-        filters.lt_date = new Date(postsList.data[postsList.data.length - 1].sort_by_date).getTime()
-      }
-    }
-
-    if (!postsList.more) postsList.more = true
-    if (!postsList.count) postsList.count = 0
-    if (!postsList.loading) postsList.loading = true
-
-    dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: postsList })
-
-    let headers = accessToken ? { 'AccessToken': accessToken } : null
-
-    return Ajax({
-      url: '/posts',
-      params: filters,
-      headers,
-      callback: (res) => {
-
-        if (!res || !res.success) {
-          callback(res)
-          return
+    if (!filters.select) {
+      filters.select = `
+        _id
+        comment{
+          _id
+          user_id{
+            _id
+            nickname
+            brief
+            avatar_url
+          }
+          content_html
+          create_at
         }
+        comment_count
+        content
+        content_html
+        create_at
+        deleted
+        device
+        follow_count
+        ip
+        last_comment_at
+        like_count
+        recommend
+        sort_by_date
+        title
+        topic_id{
+          _id
+          name
+        }
+        type
+        user_id{
+          _id
+          nickname
+          brief
+          avatar_url
+        }
+        verify
+        view_count
+        weaken
+        follow
+        like
+      `
+    }
 
-        postsList.more = res.data.length < postsList.filters.per_page ? false : true
-        postsList.data = postsList.data.concat(processPostsList(res.data))
-        postsList.filters = filters
-        postsList.count = 0
-        postsList.loading = false
+    return loadList({
+      dispatch,
+      getState,
 
-        dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name, data: postsList })
-        callback(res)
-      }
+      name: id,
+      restart,
+      filters,
+
+      processList: processPostsList,
+
+      schemaName: 'posts',
+      reducerName: 'posts',
+      api: '/posts',
+      actionType: 'SET_POSTS_LIST_BY_NAME'
     })
-
   }
 }
 
+/*
+Ajax({
+  apiVerstion: '',
+  url: '/graphql',
+  type: 'post',
+  data: {
+    query: `
+      {
+        posts(limit:10) {
+          _id
+          title
+        }
+      }
+    `,
+    variables: null,
+    operationName: null
+  }
+}).then(res=>{
+  console.log(res);
+})
+*/
+
+/*
 export function loadPostsById({ id, callback = ()=>{} }) {
   return (dispatch, getState) => {
+
+
+
     return loadPostsList({
       name: id,
       filters: { posts_id: id, per_page: 1, draft: 1 },
@@ -151,6 +193,7 @@ export function loadPostsById({ id, callback = ()=>{} }) {
     })(dispatch, getState)
   }
 }
+*/
 
 export function addViewById({ id, callback = ()=>{ } }) {
   return (dispatch, getState) => {
@@ -169,6 +212,93 @@ export function addViewById({ id, callback = ()=>{ } }) {
 }
 
 
+export function updatePosts(filters) {
+  return async (dispatch, getState) => {
+
+    let accessToken = getState().user.accessToken
+
+    let variables = []
+
+    for (let i in filters) {
+
+      let v = ''
+
+      switch (typeof filters[i]) {
+        case 'string':
+          v = '"'+filters[i]+'"'
+          break
+        case 'number':
+          v = filters[i]
+          break
+        default:
+          v = filters[i]
+          break
+      }
+
+      variables.push(i+':'+v)
+    }
+
+    let sql = `
+      mutation {
+        updatePosts(${variables.join(',')}){
+          success
+        }
+      }
+    `
+
+    let [ err, res ] = await grapgQLClient({
+      mutation:sql,
+      headers: accessToken ? { 'AccessToken': accessToken } : null
+    })
+
+    if (err) return
+
+    let _id = filters._id
+
+    delete filters._id
+
+    dispatch({ type: 'UPDATE_POST', id: _id, update: filters })
+    let postsList = getState().posts
+
+    for (let i in postsList) {
+      if (postsList[i].data) {
+        postsList[i].data = processPostsList(postsList[i].data)
+      }
+    }
+
+    dispatch({ type: 'UPDATE_POST', state: postsList })
+  }
+}
+
+/*
+export function updataDelete({ id, status }) {
+  return (dispatch, getState) => {
+    let accessToken = getState().user.accessToken
+    return Ajax({
+      url: '/posts/update-delete',
+      type: 'post',
+      data: { id, status, access_token: accessToken },
+    }).then((result) => {
+      dispatch({ type: 'UPDATE_POST_DELETE', id: id, status: status ? true : false })
+    })
+  }
+}
+
+export function updataWeaken({ id, status }) {
+  return (dispatch, getState) => {
+    let accessToken = getState().user.accessToken
+    return Ajax({
+      url: '/posts/update-weaken',
+      type: 'post',
+      data: { id, status, access_token: accessToken },
+    }).then((result) => {
+      dispatch({ type: 'UPDATE_POST_WEAKEN', id: id, status: status ? true : false })
+    })
+  }
+}
+*/
+
+
 const abstractImages = (str) => {
 
   let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
@@ -179,7 +309,7 @@ const abstractImages = (str) => {
   while (img = imgReg.exec(str)) {
     let _img = img[0].match(srcReg)
     if (_img && _img[1]) {
-      _img = _img[1] + '?imageView2/2/w/120/auto-orient/format/jpg'
+      _img = _img[1] + '?imageView2/2/w/400/auto-orient/format/jpg'
       result.push(_img)
     }
   }
@@ -191,6 +321,8 @@ const abstractImages = (str) => {
 // 加工问题列表
 const processPostsList = (list) => {
 
+  // console.log(list);
+
   list.map(function(posts){
 
     posts.images = abstractImages(posts.content_html)
@@ -200,7 +332,10 @@ const processPostsList = (list) => {
     posts.content_summary = text
 
     posts._create_at = DateDiff(posts.create_at)
+    posts._sort_by_date = DateDiff(posts.sort_by_date)
+    posts._last_comment_at = DateDiff(posts.last_comment_at)
 
+    /*
     if (posts.comment) {
       posts.comment.map(function(comment){
 
@@ -208,12 +343,15 @@ const processPostsList = (list) => {
 
         comment._create_at = DateDiff(comment.create_at)
 
-        let text = comment.content_html.replace(/<[^>]+>/g,"")
+        let text = comment.content_html.replace(/(<img.*?)>/gi,"[图片]")
+
+        text = text.replace(/<[^>]+>/g,"")
         if (text.length > 140) text = text.slice(0, 140)+'...'
         comment.content_summary = text
 
       })
     }
+    */
 
   })
 

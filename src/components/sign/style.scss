@@ -1,65 +1,10 @@
-@import "../../containers/global/base.scss";
 
-/*
-.signLayer{
-  position: fixed;
-  width:90%;
-  max-width: 350px;
-  background-color: #fff;
-
-  z-index: 100;
-  padding:15px;
-
-  top: 50%;
-  left:50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-
-  border-radius: 3px;
-
-  @include boxSizing();
-  input[type="text"],
-  input[type="password"],
-  input[type="submit"]{
-    width:100%;
-    margin-bottom:10px;
-  }
-
-  fieldset{
-    text-align: center;
-    border-top: 1px solid #e3e3e3;
-    margin-bottom: 10px;
-    legend{
-      font-size: 12px;
-      padding:0 5px 0 5px;
-      font-weight: bold;
-      color: #767676;
-    }
-  }
-
-
-}
-
-.closeButton{
-  float:right;
-  a{
-    float: left;
-    width: 30px;
-    height: 30px;
-    background-size: 80%;
-    background-position: center center;
-    background-repeat: no-repeat;
-  }
-}
-*/
 
 .layer{
   // padding:30px;
   // width: 320px;
   padding: 15px 0 0 0;
-
-  @include boxSizing();
+  
   input[type="text"],
   input[type="password"],
   input[type="submit"]{
@@ -107,7 +52,7 @@
     background-color: #FF5D5D;
   }
 
-  .weibo-icon, .qq-icon, .github-icon{
+  .weibo-icon{
     width: 24px;
     background-image: url(./images/weibo.png);
     background-size: contain;
@@ -115,6 +60,9 @@
     background-position: left center;
     padding-left: 30px;
   }
+
+  .qq-icon{ @extend .weibo-icon; }
+  .github-icon{ @extend .weibo-icon; }
 
   .qq-icon{
     background-image: url(./images/qq.png);
@@ -150,18 +98,3 @@
 
   z-index: 100;
 }
-
-/*
-.signLayer{
-
-  .captcha{
-    width:60% !important;
-  }
-
-  .get-captcha-button{
-    width:40% !important;
-    float:right;
-  }
-
-}
-*/

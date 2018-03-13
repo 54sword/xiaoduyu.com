@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
+// import connectReudx from '../../common/connect-redux';
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { hideSign } from '../../actions/sign'
@@ -10,95 +11,106 @@ import { getSignStatus } from '../../reducers/sign'
 
 import Signin from './components/signin'
 import Signup from './components/signup'
+import Modal from '../bootstrap/modal'
 
 import { original_api_url } from '../../../config'
-import Modal from '../modal'
+// import Modal from '../modal'
 
-export class Sign extends Component {
+
+@connect(
+  (state, props) => ({
+    display: getSignStatus(state)
+  }),
+  dispatch => ({
+    hideSign: bindActionCreators(hideSign, dispatch)
+  })
+)
+@CSSModules(styles)
+export default class Sign extends Component {
 
   constructor(props) {
     super(props)
-
     this.state = {
-      displayComponent: this.props.type || 'signin'
+      sign: 'in'
     }
-
-    this.displayComponent = this._displayComponent.bind(this)
+    this.displayComponent = this.displayComponent.bind(this)
   }
 
-  _displayComponent(name) {
+  displayComponent() {
     this.setState({
-      displayComponent: name
+      sign: this.state.sign == 'in' ? 'up' : 'in'
     })
   }
 
   render () {
 
     const { display, hideSign } = this.props
-    const { displayComponent } = this.state
+    const { sign } = this.state
 
-    if (!display) return (<div></div>)
+    // if (!display) return (<div></div>)
+
+    const body = (<div styleName="layer">
+            <div styleName="social">
+              <ul>
+                <li>
+                  <a href={`${original_api_url}/oauth/weibo`} styleName="weibo">
+                    <span styleName="weibo-icon">使用微博登录</span>
+                  </a>
+                </li>
+                <li>
+                  <a href={`${original_api_url}/oauth/qq`} styleName="qq">
+                  <span styleName="qq-icon">使用 QQ 登录</span>
+                  </a>
+                </li>
+                <li>
+                  <a href={`${original_api_url}/oauth/github`} styleName="github">
+                    <span styleName="github-icon">使用 GitHub 登录</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <fieldset><legend>或</legend></fieldset>
+
+            {sign == 'in' ? <Signin hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
+            {sign == 'up' ? <Signup hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
+          </div>);
+
+    return (<div>
+      <Modal
+        id="sign"
+        title="登录和注册"
+        body={body}
+        />
+    </div>)
 
     return (
-      <Modal
-        display={false}
-        modalStyle={{ maxWidth:'400px' }}
-        body={<div className={styles.layer}>
-                <div className={styles.social}>
-                  <ul>
-                    <li><a href={`${original_api_url}/oauth/weibo`} className={styles.weibo}><span styleName="weibo-icon">使用微博登录</span></a></li>
-                    <li><a href={`${original_api_url}/oauth/qq`} className={styles.qq}><span styleName="qq-icon">使用 QQ 登录</span></a></li>
-                    <li><a href={`${original_api_url}/oauth/github`} className={styles.github}><span styleName="github-icon">使用 GitHub 登录</span></a></li>
-                  </ul>
-                </div>
 
-                <fieldset><legend>或</legend></fieldset>
+      <div styleName="layer">
+              <div styleName="social">
+                <ul>
+                  <li>
+                    <a href={`${original_api_url}/oauth/weibo`} styleName="weibo">
+                      <span styleName="weibo-icon">使用微博登录</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href={`${original_api_url}/oauth/qq`} styleName="qq">
+                    <span styleName="qq-icon">使用 QQ 登录</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href={`${original_api_url}/oauth/github`} styleName="github">
+                      <span styleName="github-icon">使用 GitHub 登录</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
 
-                {displayComponent == 'signin' ? <Signin hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
-                {displayComponent == 'signup' ? <Signup hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
-              </div>}
-        cancal={()=>{ hideSign() }}
-        />)
-    /*
-    return (<div>
-      <div className={styles.mark} onClick={hideSign}></div>
-      <div className={styles.signLayer}>
+              <fieldset><legend>或</legend></fieldset>
 
-        <div className={styles.social}>
-          <ul>
-            <li><a href={`${api_url}/oauth/weibo`} className={styles.weibo}>使用微博登录</a></li>
-            <li><a href={`${api_url}/oauth/qq`} className={styles.qq}>使用 QQ 登录</a></li>
-            <li><a href={`${api_url}/oauth/github`} className={styles.github}>使用 GitHub 登录</a></li>
-          </ul>
-        </div>
-
-        <fieldset><legend>或</legend></fieldset>
-
-        {displayComponent == 'signin' ? <Signin hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
-        {displayComponent == 'signup' ? <Signup hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
-      </div>
-    </div>)
-    */
+              {sign == 'in' ? <Signin hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
+              {sign == 'up' ? <Signup hideSign={hideSign} displayComponent={this.displayComponent} /> : null}
+            </div>)
   }
 }
-
-Sign.propTypes = {
-  hideSign: PropTypes.func.isRequired,
-  display: PropTypes.bool.isRequired
-}
-
-const mapStateToProps = (state) => {
-  return {
-    display: getSignStatus(state)
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    hideSign: bindActionCreators(hideSign, dispatch)
-  }
-}
-
-Sign = CSSModules(Sign, styles)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Sign)

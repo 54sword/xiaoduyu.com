@@ -1,0 +1,33 @@
+
+/**
+ * 覆盖默认的 bootstrap 的样式
+ */
+
+:global{
+.default-theme{
+
+  font-size: 14px;
+  background-color: #e3e0e3;
+
+  .container{
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .row{
+    > div{
+      padding-right: 5px;
+      padding-left: 5px;
+    }
+  }
+
+  .card-header{
+    padding:5px 15px 5px 15px;
+  }
+
+  .card-body{
+    padding:0px;
+  }
+
+}
+}

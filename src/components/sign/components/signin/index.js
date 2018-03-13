@@ -1,17 +1,25 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Link, browserHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 
-import config from '../../../../../config'
-
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { signin, signup, hideSign } from '../../../../actions/sign'
-import { getCaptchaId, addCaptchaByIP } from '../../../../actions/captcha'
+import { signIn, saveSignInCookie, hideSign } from '../../../../actions/sign'
+import { getCaptchaId } from '../../../../actions/captcha'
 
-class Signin extends Component {
+@connect(
+  (state, props) => ({
+  }),
+  dispatch => ({
+    getCaptchaId: bindActionCreators(getCaptchaId, dispatch),
+    signIn: bindActionCreators(signIn, dispatch),
+    saveSignInCookie: bindActionCreators(saveSignInCookie, dispatch)
+  })
+)
+@CSSModules(styles)
+export default class Signin extends Component {
 
   constructor(props) {
     super(props)
@@ -21,22 +29,32 @@ class Signin extends Component {
         'error signin failde': '账号或密码错误',
         'email blank': '邮箱地址未填写'
       },
-      captchaId: ''
+      captchaId: '',
+      captchaUrl: ''
     }
-    this.signin = this._signin.bind(this)
+    this.signin = this.signin.bind(this)
     this.toForgot = this.toForgot.bind(this)
-    this.refreshCaptcha = this.refreshCaptcha.bind(this)
+    this.getCaptcha = this.getCaptcha.bind(this)
   }
 
   componentDidMount() {
-    this.refreshCaptcha()
+    this.getCaptcha();
   }
 
-  _signin(event) {
+  async getCaptcha() {
+    const { getCaptchaId } = this.props
+    let [ err, res ] = await getCaptchaId()
+
+    if (!err && res._id) {
+      this.setState({ captchaId: res._id, captchaUrl: res.url })
+    }
+  }
+
+  async signin(event) {
 
     event.preventDefault();
 
-    const { signin } = this.props
+    const { signIn, saveSignInCookie } = this.props
 
     let _self = this;
     let account = this.refs.account
@@ -60,22 +78,23 @@ class Signin extends Component {
     if (captcha) data.captcha = captcha.value
     if (captchaId) data.captcha_id = captchaId
 
-    signin(data, function(err, result){
+    let err = await signIn({ data });
 
-      submit.value = '登录'
-      submit.disabled = false
+    submit.value = '登录';
+    submit.disabled = false;
 
-      if (!result.success) {
-        _self.refreshCaptcha()
-        _self.setState({ error: result.error })
-        return;
+    if (err) {
+      console.log(err)
+    } else {
+
+      let result = await saveSignInCookie()
+      if (result.success) {
+        location.reload()
+      } else {
+        // toast.warn('cookie 储存失败')
       }
 
-      setTimeout(()=>{
-        location.reload()
-      }, 100)
-
-    });
+    }
 
     return false;
   }
@@ -85,24 +104,10 @@ class Signin extends Component {
     browserHistory.push('/forgot')
   }
 
-  refreshCaptcha() {
-    const that = this
-    const { getCaptchaId } = this.props
-    getCaptchaId((res)=>{
-      if (res && res.success && res.data) {
-        that.setState({
-          captchaId: res.data
-        })
-      }
-    })
-  }
-
   render () {
 
-    const { captchaId } = this.state
-    const { countries } = this.props
-
-    let error
+    const { captchaUrl } = this.state;
+    let error;
 
     if (this.state.error) {
       error = this.state.errorTips[this.state.error] ? this.state.errorTips[this.state.error] : this.state.error
@@ -110,42 +115,21 @@ class Signin extends Component {
 
     return (
       <form onSubmit={this.signin} className="signin">
-        {error ? <div className={styles.error}>{error}</div> : null}
+        {error ? <div styleName="error">{error}</div> : null}
         <div>
           <input type="text" className="input" ref="account" placeholder="手机号或邮箱" />
         </div>
         <div><input type="password" className="input"  ref="password" placeholder="密码" /></div>
-        {captchaId ? <div>
+        {captchaUrl ? <div>
             <input type="text" className="input" placeholder="请输入验证码" ref="captcha" />
-            <img className={styles['captcha-image']} onClick={this.refreshCaptcha} src={`${config.api_url}/${config.api_verstion}/captcha-image/${captchaId}`} />
+            <img styleName="captcha-image" onClick={this.getCaptcha} src={captchaUrl} />
           </div> : null}
         <div><input type="submit" ref="submit" className="button" value="登录" /></div>
         <div><a href="javascript:void(0);" onClick={this.toForgot}>忘记密码？</a></div>
-        <div className={styles.signup}>
+        <div styleName="signup">
           没有账号？ <a href="javascript:void(0)" onClick={()=>{this.props.displayComponent('signup')}}>注册</a>
         </div>
       </form>
     )
   }
 }
-
-Signin.propTypes = {
-  signin: PropTypes.func.isRequired,
-  getCaptchaId: PropTypes.func.isRequired,
-  addCaptchaByIP: PropTypes.func.isRequired
-}
-
-const mapStateToProps = (state) => {
-  return {
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    signin: bindActionCreators(signin, dispatch),
-    getCaptchaId: bindActionCreators(getCaptchaId, dispatch),
-    addCaptchaByIP: bindActionCreators(addCaptchaByIP, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Signin)

@@ -1,0 +1,12 @@
+
+@import "../theme/default";
+
+body{
+
+  padding-top: 110px;
+
+  @media (min-width: 992px) and (max-width: 10000000px) {
+    padding-top: 60px;
+  }
+
+}
