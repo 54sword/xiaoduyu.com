@@ -48,7 +48,11 @@ exports.isMember = (state) => {
 
 // 获取个人信息
 exports.getProfile = (state) => {
-  return state.user.profile || {}
+  if (state.user.profile._id) {
+    return state.user.profile
+  } else {
+    return null
+  }
 }
 
 // 获取未读通知数

@@ -19,9 +19,7 @@
     let scrollTop = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset || 0
     let scrollHeight = document.body.scrollHeight || document.documentElement.scrollTop
 
-    if (scrollTop + clientHeight >= scrollHeight - 150) {
-
-      console.log(list);
+    if (scrollTop + clientHeight >= scrollHeight) {
 
       let timestamp = new Date().getTime()
 
@@ -36,7 +34,7 @@
       })
     }
   }
-  
+
   if (window.attachEvent) {
     window.attachEvent('onscroll', scroll)
     window.attachEvent('onresize', resize)
@@ -48,7 +46,6 @@
   window.ArriveFooter = {
     add: (name, fn)=>{
       list.push({ name: name, callback: fn })
-      console.log(list);
     },
     remove: (name)=>{
       for (let i = 0, max = list.length; i < max; i++) {

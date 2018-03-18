@@ -52,7 +52,7 @@ export const loadUserInfo = ({ accessToken = null }) => {
         }
       }
       `
-      
+
       let [ err, res ] = await grapgQLClient({
         query:sql,
         headers: accessToken ? { 'AccessToken': accessToken } : null,

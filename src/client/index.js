@@ -44,14 +44,9 @@ import '../vendors/load-demand'
 // 从页面中获取服务端生产redux数据，作为客户端redux初始值
 const store = configureStore(window.__initState__);
 
-import { getUserInfo } from '../reducers/user';
+import { getProfile } from '../reducers/user';
 
-let userinfo = null;
-// let userinfo = getUserInfo(store.getState());
-
-// if (!userinfo || !userinfo.id) {
-//   userinfo = null;
-// }
+let userinfo = getProfile(store.getState());
 
 const RouterDom = createRouter(userinfo).dom;
 

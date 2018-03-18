@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Link, withRouter } from 'react-router-dom';
 
+// redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { signIn } from '../../actions/user';
 
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
-
+// components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 
+// style
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
 export class SignIn extends React.Component {
 
@@ -31,7 +33,7 @@ export class SignIn extends React.Component {
       nickname.focus();
       return false;
     }
-    
+
     let [err, success] = await signIn({ nickname: nickname.value });
 
     if (success) {

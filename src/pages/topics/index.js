@@ -1,5 +1,6 @@
 import React from 'react';
 
+// components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 

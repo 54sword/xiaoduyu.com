@@ -7,7 +7,7 @@
 .default-theme{
 
   font-size: 14px;
-  background-color: #e3e0e3;
+  background-color: #e5e5e5;
 
   .container{
     padding-right: 10px;
@@ -21,12 +21,23 @@
     }
   }
 
+  .card{
+    border: none;
+    margin-bottom: 10px;
+  }
+
   .card-header{
     padding:5px 15px 5px 15px;
   }
 
   .card-body{
     padding:0px;
+  }
+
+  .jumbotron{
+    background-color: #fff;
+    padding:20px;
+    margin-bottom:10px;
   }
 
 }

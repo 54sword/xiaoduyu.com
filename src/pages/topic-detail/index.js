@@ -1,19 +1,59 @@
 import React from 'react';
 
+// redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadTopics } from '../../actions/topic';
 import { getTopicListByKey } from '../../reducers/topic';
 
+// components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
 
+/**
+ * 分析url上面的参数
+ * @param  {String} search location.search
+ * @return {Object}        符合的参数对象
+ */
+const analyzeUrlParams = (search) => {
+
+  let params = {};
+  (search.split('?')[1] || '').split('&').map(item=>{
+    let s = item.split('=');
+    params[s[0]] = s[1];
+  });
+
+  let whiteParams = {}
+
+  let whiteList = {
+    // sort_by: (s)=>s,
+    // recommend: (s)=>true,
+    // deleted: (s)=>true,
+    // weaken: (s)=>true,
+    page_number: (s)=>parseInt(s)
+    // page_size: (s)=>parseInt(s)
+    // start_create_at: (s)=>s,
+    // end_create_at: (s)=>s,
+    // topic_id: (s)=>s,
+    // user_id: (s)=>s,
+    // _id: (s)=>s
+  }
+
+  for (let i in params) {
+    if (whiteList[i]) whiteParams[i] = whiteList[i](params[i])
+  }
+
+  return whiteParams;
+}
+
 @connect(
-  (state, props) => ({
-    topicList: getTopicListByKey(state, props.match.params.id)
-  }),
+  (state, props) => {
+    return {
+      topicList: getTopicListByKey(state, props.match.params.id)
+    }
+  },
   dispatch => ({
     loadTopics: bindActionCreators(loadTopics, dispatch)
   })
@@ -22,6 +62,7 @@ export class TopicsDetail extends React.Component {
 
   constructor(props) {
     super(props)
+    this.generatePostsFilters = this.generatePostsFilters.bind(this);
   }
 
   componentDidMount() {
@@ -42,15 +83,64 @@ export class TopicsDetail extends React.Component {
 
   }
 
+  componentWillReceiveProps(props) {
+    if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
+      this.props = props;
+      this.componentDidMount();
+      // window.scrollTo(0, 0);
+    }
+  }
+
+  // 生成筛选对象
+  // *** 注意 ***
+  // 筛选参数每次都需要返回一个新对象，否则在相同页面切换的时候，筛选对象会指向同一个的问题
+  generatePostsFilters () {
+
+    const { topicList } = this.props;
+    const topic = topicList && topicList.data[0] ? topicList.data[0] : null;
+    let search = analyzeUrlParams(this.props.location.search);
+
+    let query = {
+      sort_by: "create_at",
+      deleted: false,
+      weaken: false,
+      page_size: 10,
+      topic_id: topic.parent_id ? topic._id : topic.children
+    }
+
+    return {
+      general: {
+        query: Object.assign({}, query, search)
+      },
+      recommend: {
+        query: Object.assign({}, query, {
+          sort_by: "comment_count,like_count,create_at",
+          page_size: 10,
+          start_create_at: new Date().getTime() - 1000 * 60 * 60 * 24 * 7
+        })
+      }
+    }
+
+  }
+
   render() {
 
     const { id } = this.props.match.params;
-    const { pathname } = this.props.location;
+    const { pathname, search } = this.props.location;
     const { topicList } = this.props;
     const topic = topicList && topicList.data[0] ? topicList.data[0] : null;
 
     if (!topic) return '';
-    if (!topic.children) return '没有相关帖子';
+
+    const { general, recommend } = this.generatePostsFilters();
+
+    // 如果是父话题，则查询该父节点下面所有的子节点
+    if (!topic.parent_id && !topic.children) {
+      return (<div>
+        <Meta title={topic.name} />
+        没有相关帖子
+      </div>);
+    }
 
     return(<div>
 
@@ -60,22 +150,17 @@ export class TopicsDetail extends React.Component {
       <div className="row">
         <div className="col-md-9">
           <PostsList
-            id={pathname}
-            filters={{
-              variables: {
-                sort_by: "create_at",
-                deleted: false,
-                weaken: false,
-                topic_id: topic.children
-              }
-            }}
-            showPagination={false}
-            />
+            id={pathname + search}
+            filters={general}
+            showPagination={true} />
         </div>
         <div className="col-md-3">
           <Sidebar
-            id={'sidebar_'+pathname}
-            topic_id={topic.children}
+            recommendPostsDom={(<PostsList
+              id={'_'+pathname}
+              itemName="posts-item-title"
+              showPagination={false}
+              filters={recommend} />)}
             />
         </div>
       </div>

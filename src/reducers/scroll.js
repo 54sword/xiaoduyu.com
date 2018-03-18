@@ -10,7 +10,14 @@ export default function scroll(state = initialState, action = {}) {
       return state
 
     case 'SET_SCROLL_POSITION':
-      window.scrollTo(0, state[action.name] || 0)
+
+      if (typeof state[action.name] != 'undefined') {
+        // 延迟一点点，覆盖掉浏览器自带的滚动条位置记录
+        setTimeout(()=>{
+          window.scrollTo(0, state[action.name] || 0);
+        });
+      }
+
       return state
 
     default:

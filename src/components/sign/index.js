@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { hideSign } from '../../actions/sign'
 import { getSignStatus } from '../../reducers/sign'
 
-import Signin from './components/signin'
+import Signin from '../signin'
 import Signup from './components/signup'
 import Modal from '../bootstrap/modal'
 

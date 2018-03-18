@@ -69,7 +69,8 @@ export default class Head extends React.Component {
     ]
 
     if (isMember) {
-      nav.unshift({ to: '/follow', name: '关注' })
+      nav.push({ to: '/follow', name: '关注' })
+      // nav.unshift({ to: '/follow', name: '关注' })
     }
 
     if (topicList) {
@@ -90,9 +91,17 @@ export default class Head extends React.Component {
 
         {isMember ?
           <ul styleName="user-nav">
-            <li><Link to="/me">{me.nickname}</Link></li>
-            <li><Link to="/notifications">通知</Link></li>
-            <li><a href="javascript:void(0)" onClick={this.signOut}>退出</a></li>
+            <li><Link to="/notifications" styleName="nav-item">通知</Link></li>
+            <li>
+              <span styleName="nav-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {me.nickname}
+              </span>
+              <div className="dropdown-menu dropdown-menu-right">
+                <Link className="dropdown-item" to={`/people/${me._id}`}>我的主页</Link>
+                <Link className="dropdown-item" to="/settings">设置</Link>
+                <a className="dropdown-item" href="javascript:void(0)" onClick={this.signOut}>退出</a>
+              </div>
+            </li>
           </ul>
           :
           <ul styleName="user-nav">
@@ -114,6 +123,7 @@ export default class Head extends React.Component {
 
         </div>
     </nav>
+
   </header>)
 
   }

@@ -62,26 +62,29 @@
       display: block;
       color:#777777;
       font-size: 15px;
-      padding:0 10px 0 10px;
+      padding:0 15px 0 15px;
       height: 50px;
       line-height: 50px;
       text-decoration: none;
+      border-bottom: 3px solid #fff;
+      // transition: all .2s ease-in-out;
       &:hover{
-        color: #484848;
+        color: #1d71ff;
         // box-shadow: 0 1px 0 #6ba2ff;
-        // border-bottom: 2px solid #1d71ff;
+        border-bottom: 3px solid #1d71ff;
+        // transition: all .2s ease-in-out;
       }
     }
+
     :global{
       .active{
-        color: #484848;
+        color: #1d71ff;
         // box-shadow: 0 1px 0 #6ba2ff;
-        // border-bottom: 2px solid #1d71ff;
+        border-bottom: 3px solid #1d71ff !important;
       }
     }
+
   }
-
-
 }
 
 .user-nav{
@@ -90,12 +93,14 @@
   margin:0px;
   li{
     display: inline-block;
+  }
+
+  .nav-item{
+    display: block;
     height: 45px;
     line-height: 45px;
+    padding:0 10px 0 10px;
     margin-left:20px;
-    // padding:0 10px 0 10px;
-    color:#777777;
-    font-size: 15px;
   }
 }
 

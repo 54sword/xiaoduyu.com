@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 // 依赖的外部功能
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { loadPostsList } from '../../../actions/posts';
 import { getPostsListByName } from '../../../reducers/posts';
 
@@ -14,11 +14,25 @@ import PostsItemTitle from '../../posts/posts-item-title';
 import ListLoading from '../../list-loading';
 import Pagination from '../../pagination';
 
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
 
+/*
+//获取元素的纵坐标
+function getTop(e) {
+  var offset = e.offsetTop;
+  if (e.offsetParent!=null) offset += getTop(e.offsetParent);
+  return offset;
+}
+*/
 
-
+/**
+ * 帖子列表组件
+ *
+ * @params {String} id 列表id - id 相同可以避免重复加载数据
+ * @params {String} filters 筛选条件
+ * @params {String} [itemName] 显示那种样式
+ * @params {Boolean} [showPagination] 是否显示翻页
+ * @params {Boolean} [scrollLoad] 是否开启滚动到底部加载更多
+ */
 @connect(
   (state, props) => ({
     postsList: getPostsListByName(state, props.id)
@@ -28,7 +42,6 @@ import styles from './style.scss';
   })
 )
 @withRouter
-// @CSSModules(styles)
 export default class PostsList extends Component {
 
   static defaultProps = {
@@ -41,14 +54,17 @@ export default class PostsList extends Component {
   }
 
   static propTypes = {
-    // 列表名称
+    // 列表id
     id: PropTypes.string.isRequired,
     // 列表的筛选条件
     filters: PropTypes.object.isRequired
   }
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      // positionY: 0
+    }
     this.loadDate = this.loadDate.bind(this)
   }
 
@@ -56,6 +72,8 @@ export default class PostsList extends Component {
     const { postsList, loadPostsList, id, scrollLoad } = this.props;
     if (!postsList.data) this.loadDate();
     if (scrollLoad) ArriveFooter.add(id, this.loadDate);
+
+    // this.state.positionY = getTop(this.refs['posts-list']) - 60;
   }
 
   componentWillUnmount() {
@@ -63,26 +81,31 @@ export default class PostsList extends Component {
     if (scrollLoad) ArriveFooter.remove(id);
   }
 
-  async loadDate() {
-    const { id, filters, loadPostsList } = this.props;
-    await loadPostsList({ id, filters });
+  componentWillReceiveProps(props) {
+
+    if (props.id != this.props.id) {
+      this.componentWillUnmount();
+      this.props = props;
+      this.componentDidMount();
+    }
+
   }
 
-  componentWillReceiveProps(props) {
-    if (props.id != this.props.id) {
-      const { loadPostsList } = this.props
-      loadPostsList({ id: props.id, filters: props.filters, restart: true })
-    }
+  async loadDate(restart = false) {
+    const { id, filters, loadPostsList } = this.props;
+    let _filters = JSON.parse(JSON.stringify(filters));
+    await loadPostsList({ id, filters: _filters, restart });
   }
 
   render () {
 
-    const { postsList, location, itemName, showPagination } = this.props
-    const { data, loading, more, count, filters = {} } = postsList
+    const { id, postsList, itemName, showPagination, scrollLoad } = this.props;
+    const { data, loading, more, count, filters = {} } = postsList;
+    const { positionY } = this.state
 
     return (<div>
 
-      <div>
+      <div ref="posts-list">
         {data && data.map(posts=>{
           if (itemName == 'posts-item') {
             return (<PostsItem key={posts._id} posts={posts} />)
@@ -92,14 +115,14 @@ export default class PostsList extends Component {
         })}
       </div>
 
-      <ListLoading loading={loading} />
+      {scrollLoad ? <ListLoading loading={loading} /> : null}
 
       {showPagination ?
         <Pagination
-          location={location}
           count={count || 0}
           pageSize={filters.page_size || 0}
           pageNumber={filters.page_number || 0}
+          // positionY={positionY}
         />: null}
 
     </div>)

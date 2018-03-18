@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 // 生成异步加载组件
-import { generateAsyncRouteComponent } from '../components/generateAsyncComponent.js';
+import { asyncRouteComponent } from '../components/generateAsyncComponent.js';
 
 import Head from '../components/head';
 import Sign from '../components/sign';
+// import Settings from '../pages/settings';
 
 /**
  * 创建路由
@@ -35,7 +36,11 @@ export default (user) => {
 
   // 大家都可以访问
   const triggerEnter = (Layout, props) => {
-    return <Layout {...props} />
+    // if (Layout.routes) {
+    //   return <Layout {...props} routes={Layout.routes} />
+    // } else {
+      return <Layout {...props} />
+    // }
   }
 
   // 路由数组
@@ -45,17 +50,27 @@ export default (user) => {
       path: '/',
       exact: true,
       head: Head,
-      component: generateAsyncRouteComponent({
+      component: asyncRouteComponent({
         loader: () => import('../pages/home')
       }),
       enter: triggerEnter
     },
 
     {
+      path: '/follow',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/follow')
+      }),
+      enter: requireAuth
+    },
+
+    {
       path: '/topic/:id',
       exact: true,
       head: Head,
-      component: generateAsyncRouteComponent({
+      component: asyncRouteComponent({
         loader: () => import('../pages/topic-detail')
       }),
       enter: triggerEnter
@@ -65,65 +80,104 @@ export default (user) => {
       path: '/posts/:id',
       exact: true,
       head: Head,
-      component: generateAsyncRouteComponent({
+      component: asyncRouteComponent({
         loader: () => import('../pages/posts-detail')
       }),
       enter: triggerEnter
     },
 
-    // {
-    //   path: '/topics',
-    //   exact: true,
-    //   head: Head,
-    //   component: generateAsyncRouteComponent({
-    //     loader: () => import('../pages/topics')
-    //   }),
-    //   enter: triggerEnter
-    // },
+    {
+      path: '/people/:id',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/people-detail')
+      }),
+      enter: triggerEnter,
+      routes: [
+        {
+          exact: true,
+          path: "/people/:id/posts",
+          component: asyncRouteComponent({
+            loader: () => import('../pages/people-detail/components/posts')
+          }),
+          enter: triggerEnter
+        }
+      ]
+    },
 
-    // {
-    //   path: '/sign-in',
-    //   exact: true,
-    //   // head: Head,
-    //   component: generateAsyncRouteComponent({
-    //     loader: () => import('../pages/sign-in')
-    //   }),
-    //   enter: requireTourists
-    // },
+    {
+      path: '/notifications',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/notifications')
+      }),
+      enter: triggerEnter
+    },
+
+    {
+      path: '/me',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/me')
+      }),
+      enter: triggerEnter
+    },
+
+    {
+      path: '/settings',
+      exact: true,
+      head: Head,
+      // component: (Settings),
+      component: asyncRouteComponent({
+        loader: () => import('../pages/settings')
+      }),
+      enter: triggerEnter
+    },
 
     {
       path: '**',
       head: Head,
-      component: generateAsyncRouteComponent({
+      component: asyncRouteComponent({
         loader: () => import('../pages/not-found')
       }),
       enter: triggerEnter
     }
   ]
 
+  const RouteWithSubRoutes = route => (
+    <Route
+      path={route.path}
+      exact={route.exact}
+      component={props => route.enter(route.component, props)}
+    />
+  );
+
   let router = () => (<div>
 
       <Switch>
         {routeArr.map((route, index) => (
-          <Route
-            key={index}
-            path={route.path}
-            exact={route.exact}
-            component={route.head}
-            />)
-        )}
+          <Route key={index} path={route.path} exact={route.exact} component={route.head} />
+        ))}
       </Switch>
 
       {!user ? <Sign /> : null}
 
       <Switch>
+        {/*routeArr.map((route, index) => {
+          if (route.component) {
+            return (<RouteWithSubRoutes key={index} {...route} />)
+          }
+        })*/}
         {routeArr.map((route, index) => {
           if (route.component) {
             return (<Route
               key={index}
               path={route.path}
               exact={route.exact}
-              component={props => route.enter(route.component, props)}
+              render={props => route.enter(route.component, props)}
             />)
           }
         })}

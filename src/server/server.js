@@ -54,12 +54,12 @@ app.get('*', async (req, res) => {
 
   const store = configureStore(JSON.parse(initialStateJSON));
 
-  let user = null;
+  let user = null, err;
   let accessToken = req.cookies[auth_cookie_name] || '';
 
   // 验证 token 是否有效
   if (accessToken) {
-    let [ err, user ] = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
+    [ err, user ] = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
     if (user) store.dispatch(addAccessToken({ access_token: accessToken }));
   }
 
@@ -69,18 +69,61 @@ app.get('*', async (req, res) => {
       _match = null;
 
   router.list.some(route => {
+
     let match = matchPath(req.url.split('?')[0], route);
     if (match && match.path) {
       _route = route;
       _match = match;
       return true;
     }
-  })
+    if (route.routes) {
 
-  let context = {};
+      route.routes.some(route => {
 
-  // 加载页面分片
-  context = await _route.component.load({ store, match: _match });
+        let match = matchPath(req.url.split('?')[0], route);
+
+
+
+        if (match && match.path) {
+
+
+
+          _route = route;
+          _match = match;
+          return true;
+        }
+
+      })
+    }
+
+    if (_route && _match) {
+      return true;
+    }
+
+  });
+
+  let context = {
+    code: 200
+  };
+
+  // 加载异步路由组件
+  const loadAsyncRouterComponent = () => {
+    return new Promise(async (resolve) => {
+      await _route.component.load(async (ResolvedComponent)=>{
+        let loadData = ResolvedComponent.WrappedComponent.defaultProps.loadData;
+        if (loadData) {
+          resolve(await loadData({ store, match: _match }));
+        } else {
+          resolve({ code: 200 });
+        }
+      });
+    });
+  }
+
+  if (_route.component.load) {
+    // 在服务端加载异步组件
+    let _r = await loadAsyncRouterComponent();
+  }
 
   // 获取路由dom
   const _Router = router.dom;

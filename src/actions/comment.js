@@ -186,19 +186,14 @@ export const loadCommentById = ({ id, callback = () => {} }) => {
 }
 
 const processCommentList = (list) => {
-
   list.map(item=>{
-    item._create_at = DateDiff(item.create_at)
-    if (item.replys && item.replys.map) {
-      item.replys.map(item=>{
-        item._create_at = DateDiff(item.create_at)
-      })
+    item._create_at = DateDiff(item.create_at);
+    if (item.reply && item.reply.map) {
+      item.reply = processCommentList(item.reply);
     }
   })
   return list
 }
-
-
 
 export function loadCommentList({ name, filters = {}, restart = false }) {
   return (dispatch, getState) => {
@@ -217,6 +212,7 @@ export function loadCommentList({ name, filters = {}, restart = false }) {
         weaken
         recommend
         _id
+        update_at
         user_id {
           _id
           nickname
@@ -237,6 +233,33 @@ export function loadCommentList({ name, filters = {}, restart = false }) {
             brief
             avatar_url
           }
+        }
+        reply {
+          _id
+          user_id {
+            _id
+            nickname
+            brief
+            avatar
+            avatar_url
+          }
+          posts_id
+          parent_id
+          reply_id {
+            user_id {
+              _id
+              nickname
+              brief
+              avatar
+              avatar_url
+            }
+          }
+          update_at
+          weaken:
+          device
+          like_count
+          create_at
+          content_html
         }
       `
     }

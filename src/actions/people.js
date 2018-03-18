@@ -9,7 +9,63 @@ import loadList from './common/new-load-list'
 
 export function loadPeopleById({ id, callback = ()=>{} }) {
   return (dispatch, getState) => {
+    return new Promise(async (resolve, reject) => {
 
+    let accessToken = getState().user.accessToken
+
+    let sql = `
+      {
+      	users(_id:"${id}"){
+          _id
+          nickname_reset_at
+          create_at
+          last_sign_at
+          blocked
+          role
+          avatar
+          brief
+          source
+          posts_count
+          comment_count
+          fans_count
+          like_count
+          follow_people_count
+          follow_topic_count
+          follow_posts_count
+          block_people_count
+          block_posts_count
+          access_token
+          gender
+          nickname
+          banned_to_post
+          avatar_url
+        }
+      }
+    `
+
+    let [ err, res ] = await grapgQLClient({
+      query:sql,
+      headers: accessToken ? { 'AccessToken': accessToken, role: 'admin' } : null
+    })
+
+    // console.log(err);
+    // console.log(res);
+
+    if (res.data.users[0]) {
+      dispatch({ type: 'ADD_PEOPLE', people: res.data.users[0] });
+      callback(res.data.users[0]);
+    }
+
+    // if (err && err[0]) {
+    //   resolve([ err[0] ])
+    // } else {
+    //   resolve([ null, res ])
+    //   dispatch({ type: 'UPDATE_TOPIC', id: data._id, update: data })
+    // }
+
+    })
+
+    /*
     let accessToken = getState().user.accessToken
 
     return Ajax({
@@ -27,6 +83,7 @@ export function loadPeopleById({ id, callback = ()=>{} }) {
 
       }
     })
+    */
 
   }
 }

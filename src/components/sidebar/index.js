@@ -1,13 +1,35 @@
 import React from 'react';
-import { loadPostsList } from '../../actions/posts';
+import { Link } from 'react-router-dom';
 
+// redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { loadPostsList } from '../../actions/posts';
+import { isMember, getProfile } from '../../reducers/user';
+
+// style
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
+// components
+import Signin from '../signin';
 import PostsList from '../../components/posts/list';
 
+@connect(
+  (state, props) => ({
+    me: getProfile(state),
+    isMember: isMember(state)
+  }),
+  dispatch => ({
+  })
+)
 @CSSModules(styles)
 export default class Sidebar extends React.Component {
+
+  static defaultProps = {
+    // 推荐帖子html
+    recommendPostsDom: ''
+  }
 
   constructor(props) {
     super(props);
@@ -15,36 +37,36 @@ export default class Sidebar extends React.Component {
 
   render() {
 
-    const { id, topic_id = '' } = this.props
+    const { isMember, me, recommendPostsDom } = this.props
 
-    let variables = {
-      sort_by: "sort_by_date",
-      deleted: false,
-      weaken: false,
-      page_size: 10,
-    }
-
-    if (topic_id) {
-      variables.topic_id = topic_id
-    }
+    /*
+    <div className="card">
+      <div className="card-body">
+        <Link to="/me">
+          <img src={me.avatar_url} styleName="avatar" />{me.nickname}
+        </Link>
+      </div>
+    </div>
+    */
 
     return(<div>
 
-      <div className="card">
-        <div className="card-header">热门</div>
-        <div className="card-body">
-          <div styleName="recommend">
-          <PostsList
-            id={id}
-            itemName="posts-item-title"
-            showPagination={false}
-            filters={{
-              variables
-            }}
-            />
+      {!isMember ?
+        <div className="card">
+          <div className="card-body"><Signin /></div>
+        </div> :
+        null}
+
+      {recommendPostsDom ?
+        <div className="card">
+          <div className="card-header">热门</div>
+          <div className="card-body">
+            <div styleName="recommend">
+              {recommendPostsDom}
+            </div>
           </div>
         </div>
-      </div>
+        : null}
 
       <div>
         <p>源代码地址</p>

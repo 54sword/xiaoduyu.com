@@ -1,12 +1,18 @@
 import React from 'react';
+
+// redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadPostsList } from '../../actions/posts';
 import { getPostsListByListId } from '../../reducers/posts';
 
+// components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-
+import Sidebar from '../../components/sidebar';
+import CommentList from '../../components/comment/list';
+import PostsList from '../../components/posts/list';
+import PostsDetailC from '../../components/posts/detail';
 
 @connect(
   (state, props) => ({
@@ -81,22 +87,71 @@ export class PostsDetail extends React.Component {
       return '404 Not Found';
     }
 
+    const { location } = this.props
+
     return(<div>
 
       {loading ? <div>loading...</div> : null}
 
       <Meta title={posts ? posts.title : '加载中...'} />
 
-      {posts ?
-        <div className="jumbotron">
-          <h1 className="display-4">{posts.title}</h1>
-          <p className="lead">{posts.topic_id.name}</p>
-          <hr className="my-4" />
-          {posts.content_html ?
-            <div dangerouslySetInnerHTML={{__html:posts.content_html}} />
+      <div className="container">
+
+      <div className="row">
+
+        <div className="col-md-9">
+
+          {posts ? <PostsDetailC id={posts._id} /> : null}
+
+          {/*posts ?
+            <div className="jumbotron">
+              <h1 className="h1">{posts.title}</h1>
+              <p className="lead">{posts.topic_id.name}</p>
+              <hr className="my-4" />
+              {posts.content_html ?
+                <div dangerouslySetInnerHTML={{__html:posts.content_html}} />
+                : null}
+            </div>
+            : null*/}
+
+          {posts ?
+            <CommentList
+              name={posts._id}
+              filters={{
+                variables: {
+                  posts_id: posts._id,
+                  parent_id: false
+                }
+              }}
+              location={location}
+              />
+              : null}
+        </div>
+
+        <div className="col-md-3">
+          {posts ?
+            <Sidebar
+              recommendPostsDom={(<PostsList
+                id={`sidebar-${posts._id}`}
+                itemName="posts-item-title"
+                showPagination={false}
+                filters={{
+                  variables: {
+                    sort_by: "comment_count,like_count,create_at",
+                    deleted: false,
+                    weaken: false,
+                    page_size: 10,
+                    topic_id: posts.topic_id._id,
+                    start_create_at: new Date().getTime() - 1000 * 60 * 60 * 24 * 7
+                  }
+                }}
+                />)}
+              />
             : null}
         </div>
-        : null}
+
+      </div>
+      </div>
 
     </div>)
   }

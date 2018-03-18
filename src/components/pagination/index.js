@@ -1,7 +1,10 @@
 
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
+import { withRouter } from 'react-router-dom';
+
+@withRouter
 export class Pagination extends Component {
 
   constructor(props) {
@@ -9,6 +12,7 @@ export class Pagination extends Component {
   }
 
   render () {
+
     const { location, count, pageSize, pageNumber } = this.props
 
     if (!count) return ''
@@ -30,10 +34,13 @@ export class Pagination extends Component {
     search = search.replace('page_number='+pageNumber, '');
 
     const produceLink = (pageNumber) => {
+
+      let s = pageNumber <= 1 ? '' : 'page_number='+pageNumber;
+
       if (searchArr.length == 0) {
-        return pathname+'?page_number='+pageNumber
+        return pathname+(s ? '?'+s : '');
       } else {
-        return pathname+'?'+([ ...searchArr, 'page_number='+ pageNumber ]).join('&')
+        return pathname+'?'+([ ...searchArr, s ]).join('&');
       }
     }
 

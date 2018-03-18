@@ -1,15 +1,26 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import connectReudx from '../../../common/connect-redux'
-import { getCommentListByName } from '../../../reducers/comment'
-import { loadCommentList } from '../../../actions/comment'
+// redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { getCommentListByName } from '../../../reducers/comment';
+import { loadCommentList } from '../../../actions/comment';
 
-import ListLoading from '../../list-loading'
-import CommentItem from '../list-item'
-import Pagination from '../../pagination'
+// components
+import ListLoading from '../../list-loading';
+import CommentItem from '../list-item';
+import Pagination from '../../pagination';
 
-export class CommentList extends Component {
+@connect(
+  (state, props) => ({
+    list: getCommentListByName(state, props.name)
+  }),
+  dispatch => ({
+    loadCommentList: bindActionCreators(loadCommentList, dispatch)
+  })
+)
+export default class CommentList extends Component {
 
   static propTypes = {
     // 列表名称
@@ -19,16 +30,6 @@ export class CommentList extends Component {
     // 获取当前页的 pathname、search
     location: PropTypes.object.isRequired
   }
-
-  static mapStateToProps = (state, props) => {
-    // const name = props.name
-    const { name } = props
-    return {
-      list: getCommentListByName(state, name)
-    }
-  }
-
-  static mapDispatchToProps = { loadCommentList }
 
   constructor(props) {
     super(props)
@@ -62,7 +63,7 @@ export class CommentList extends Component {
 
     const { list, location } = this.props
     const { data, loading, more, filters = {}, count } = list
-
+    
     return (
       <div>
 
@@ -85,5 +86,3 @@ export class CommentList extends Component {
     )
   }
 }
-
-export default connectReudx(CommentList)

@@ -126,23 +126,14 @@
 
 
 .footer{
-  // border-top: 1px solid #f4f4f4;
-  // text-align: center;
-  // font-size: 14px;
-
   width: 100%;
-  padding-bottom: 15px;
+  padding:10px 15px 15px 15px;
 
   .action-item{
-      height: 30px;
-      line-height: 30px;
-      // border-right: 1px solid #f4f4f4;
-      color:#818181;
-      &:hover{
-        background:#fbfbfb;
-        cursor: hand;
-        cursor: pointer;
-      }
+    margin-right:15px;
+    cursor: pointer;
+    cursor: hand;
+    color:rgb(110, 110, 110);
   }
 
 }

@@ -6,8 +6,8 @@ import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { signIn, saveSignInCookie, hideSign } from '../../../../actions/sign'
-import { getCaptchaId } from '../../../../actions/captcha'
+import { signIn, saveSignInCookie, hideSign } from '../../actions/sign'
+import { getCaptchaId } from '../../actions/captcha'
 
 @connect(
   (state, props) => ({

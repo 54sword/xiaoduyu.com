@@ -40,7 +40,7 @@ export default ({
         list = state[reducerName][name] || {},
         headers = {};
 
-    filters = filters.variables || {};
+    filters = filters.variables || filters.query || {};
     accessToken = accessToken || state.user.accessToken || '';
 
     // 登录用户，每个请求都附带访问token
@@ -86,7 +86,7 @@ export default ({
 
     let [ err, res ] = await grapgQLClient(option);
 
-    console.log(err);
+    // console.log(err);
     // console.log(res);
 
     if (err) return resolve([ err ])
