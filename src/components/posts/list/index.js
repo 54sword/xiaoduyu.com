@@ -48,7 +48,7 @@ export default class PostsList extends Component {
     // 显示项
     itemName: 'posts-item',
     // 是否显示翻页
-    showPagination: true,
+    showPagination: false,
     // 滚动底部加载更多
     scrollLoad: false
   }
@@ -115,7 +115,7 @@ export default class PostsList extends Component {
         })}
       </div>
 
-      {scrollLoad ? <ListLoading loading={loading} /> : null}
+      <ListLoading loading={loading} />
 
       {showPagination ?
         <Pagination

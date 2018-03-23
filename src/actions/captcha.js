@@ -1,7 +1,9 @@
-import grapgQLClient from '../common/grapgql-client'
+// import grapgQLClient from '../common/grapgql-client'
+import graphql from './common/graphql'
 
-import Ajax from '../common/ajax'
+// import Ajax from '../common/ajax'
 
+/*
 export function addCaptcha(data, callback) {
   return (dispatch, getState) => {
     let accessToken = getState().user.accessToken
@@ -14,38 +16,22 @@ export function addCaptcha(data, callback) {
     })
   }
 }
+*/
 
-export const getCaptchaId = () => {
-  return (dispatch, getState) => {
+export const getCaptchaId = ({ id }) => {
+  return async (dispatch, getState) => {
 
-    return new Promise(async (resolve, reject) => {
-
-      // let accessToken = getState().user.accessToken
-
-      let sql = `
-      {
-        captcha{
-          _id
-          url
-        }
-      }
+    let [ err, res ] = await graphql({
+      api: 'captcha',
+      fields: `
+        _id
+        url
       `
+    });
 
-      // console.log({ 'Test': new Date().getTime() });
-
-      let [ err, res ] = await grapgQLClient({
-        query:sql,
-        // headers: { 'Test': new Date().getTime() },
-        fetchPolicy: 'network-only'
-      })
-
-      if (err) {
-        reject([err])
-      } else {
-        resolve([null, res.data.captcha])
-      }
-
-    })
+    if (res._id && res.url) {
+      dispatch({ type: 'ADD_CAPRCHA_ID', id, data: res });
+    }
 
   }
 }

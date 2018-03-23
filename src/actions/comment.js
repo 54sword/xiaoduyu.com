@@ -188,6 +188,13 @@ export const loadCommentById = ({ id, callback = () => {} }) => {
 const processCommentList = (list) => {
   list.map(item=>{
     item._create_at = DateDiff(item.create_at);
+
+
+    let text = item.content_html.replace(/<[^>]+>/g,"")
+    if (text.length > 200) text = text.slice(0, 200)+'...'
+
+    item.content_summary = text;
+
     if (item.reply && item.reply.map) {
       item.reply = processCommentList(item.reply);
     }

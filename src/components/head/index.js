@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
+// redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { signOut } from '../../actions/sign';
@@ -8,6 +9,7 @@ import { isMember, getProfile } from '../../reducers/user';
 import { loadTopics } from '../../actions/topic';
 import { getTopicListByKey } from '../../reducers/topic';
 
+// style
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
@@ -24,6 +26,24 @@ import styles from './style.scss';
 )
 @CSSModules(styles)
 export default class Head extends React.Component {
+
+  // 服务端渲染
+  // 加载需要在服务端渲染的数据
+  static loadData({ store, match }) {
+    return new Promise(async (resolve, reject) => {
+
+      let [ err, result ] = await loadTopics({
+        id: 'head',
+        filters: {
+          variables: {
+            type: "parent"
+          }
+        }
+      })(store.dispatch, store.getState);
+
+      resolve()
+    })
+  }
 
   constructor(props) {
     super(props);
@@ -83,17 +103,19 @@ export default class Head extends React.Component {
 
     return (<header>
       <nav styleName="navbar">
-        <div className="container">
+      <div className="container">
 
+        {/* logo */}
         <div styleName="logo">
-          <NavLink exact to="/">渡鱼</NavLink>
+          <Link to="/">渡鱼</Link>
         </div>
 
+        {/* user bar */}
         {isMember ?
-          <ul styleName="user-nav">
-            <li><Link to="/notifications" styleName="nav-item">通知</Link></li>
+          <ul styleName="user-bar">
+            <li><NavLink exact to="/notifications" styleName="link">通知</NavLink></li>
             <li>
-              <span styleName="nav-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span styleName="link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {me.nickname}
               </span>
               <div className="dropdown-menu dropdown-menu-right">
@@ -104,27 +126,26 @@ export default class Head extends React.Component {
             </li>
           </ul>
           :
-          <ul styleName="user-nav">
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign">注册</a></li>
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign">登录</a></li>
+          <ul styleName="user-bar">
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link">注册</a></li>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link">登录</a></li>
           </ul>}
 
-        <div styleName="navbar-topics">
+        {/* topic bar */}
+        <div styleName="topics-bar">
           <div>
             <ul>
-              {nav.map(item=>(
-                <li key={item.to}>
-                  <NavLink exact to={item.to}>{item.name}</NavLink>
-                </li>
-              ))}
+              {nav.map(item=><li key={item.to}>
+                <NavLink exact to={item.to} styleName="link">{item.name}</NavLink>
+              </li>)}
             </ul>
           </div>
         </div>
 
-        </div>
-    </nav>
+      </div>
+      </nav>
 
-  </header>)
+    </header>)
 
   }
 

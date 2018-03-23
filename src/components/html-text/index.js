@@ -97,19 +97,65 @@ const converVideo = (html) => {
 
   }
 
-  re = /\<img src\=\"(.*?)\"\>/g
-  let imgs = html.match(re)
+  re = /\<img src\=\"(.*?)\"\>/g;
+
+  let imgs = [...new Set(html.match(re))];
+
+  if (imgs && imgs.length > 0) {
+    imgs.map(img=>{
+
+      let _img = img;
+
+      // _img = _img.replace(/\-/g, "\\-");
+      // _img = _img.replace(/\"/g, '\\"');
+      // _img = _img.replace(/\'/g, "\\'");
+      // _img = _img.replace(/\?/g, "\\?");
+      // _img = _img.replace(/\//g, "\\/");
+      // _img = _img.replace(/\./g, "\\.");
+      // _img = _img.replace(/\=/g, "\\=");
+      // _img = _img.replace(/\</g, "\\<");
+      // _img = _img.replace(/\>/g, "\\>");
+      // _img = _img.replace(/\&/g, "\\&");
+      // _img = _img.replace(/\:/g, "\\:");
+      // _img = _img.replace(/\[/g, "\\[");
+      // _img = _img.replace(/\]/g, "\\]");
+      // _img = _img.replace(/\{/g, "\\{");
+      // _img = _img.replace(/\}/g, "\\}");
+      // _img = _img.replace(/\(/g, "\\(");
+      // _img = _img.replace(/\)/g, "\\)");
+      // _img = _img.replace(/\|/g, "\\|");
+      // _img = _img.replace(/\,/g, "\\,");
+
+      // 如果url中包含“?”,需要将其转译成字符串
+      _img = _img.replace(/\?/g, "\\?");
+
+      html = html.replace(new RegExp(_img,"gm"), '<div class="load-demand" data-load-demand=\''+img+'\'></div>');
+    })
+  }
+
+  // console.log(html);
+
+
+  /*
+  console.log(imgs);
 
   let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
 
   if (imgs && imgs.length > 0) {
 
     imgs.map(img=>{
-      let i = img.match(srcReg)[1]
-      html = html.replace(img, `<div class="load-demand" data-load-demand="<img src=\'${i}?auto-orient/imageView2/2/w/900\' />"></div>`)
+      let i = img.match(srcReg)[1];
+
+      html = html.replace(img, `<div class="load-demand" data-load-demand="<img src='${i}' />"></div>`)
     })
 
+    // imgs.map(img=>{
+    //   let i = img.match(srcReg)[1]
+    //   html = html.replace(img, `<div class="load-demand" data-load-demand="<img src=\'${i}?auto-orient/imageView2/2/w/900\' />"></div>`)
+    // })
+
   }
+  */
 
   re = /\<div data\-163musicsong\=\"(.*?)\"\>/g
   let musics = html.match(re)

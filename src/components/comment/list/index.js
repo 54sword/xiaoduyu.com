@@ -28,7 +28,7 @@ export default class CommentList extends Component {
     // 列表的筛选条件
     filters: PropTypes.object.isRequired,
     // 获取当前页的 pathname、search
-    location: PropTypes.object.isRequired
+    // location: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -61,9 +61,9 @@ export default class CommentList extends Component {
 
   render () {
 
-    const { list, location } = this.props
+    const { list } = this.props
     const { data, loading, more, filters = {}, count } = list
-    
+
     return (
       <div>
 
@@ -73,10 +73,11 @@ export default class CommentList extends Component {
           })}
         </div>
 
+        {/*
         <ListLoading loading={loading} />
+        */}
 
         <Pagination
-          location={location}
           count={count || 0}
           pageSize={filters.page_size || 0}
           pageNumber={filters.page_number || 0}

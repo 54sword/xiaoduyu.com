@@ -5,6 +5,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { saveScrollPosition, setScrollPosition } from '../actions/scroll.js';
 
+// components
+import Head from './head';
+
 // tools
 import parseUrl from '../common/parse-url';
 
@@ -22,9 +25,34 @@ const Shell = (Component) => {
   class Shell extends React.Component {
 
     static defaultProps = {
-      loadData: Component.loadData || null
+      // 服务端渲染
+      loadData: ({ store, match }) => {
+
+        return new Promise((resolve, reject) => {
+
+          let arr = [];
+
+          // 加载头部
+          if (Head.loadData) arr.push(Head.loadData({ store, match }));
+
+          // 加载内容
+          if (Component.loadData) arr.push(Component.loadData({ store, match }));
+
+          Promise.all(arr).then(value=>{
+
+            // 如果有内容，则返回内容的处理结果
+            if (Component.loadData) {
+              resolve(value[value.length - 1]);
+            } else {
+              resolve({ code:200 });
+            }
+
+          });
+
+        });
+      }
     }
-    
+
     constructor(props) {
       super(props);
     }

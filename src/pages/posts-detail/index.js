@@ -134,7 +134,7 @@ export class PostsDetail extends React.Component {
               recommendPostsDom={(<PostsList
                 id={`sidebar-${posts._id}`}
                 itemName="posts-item-title"
-                showPagination={false}
+                // showPagination={false}
                 filters={{
                   variables: {
                     sort_by: "comment_count,like_count,create_at",
@@ -142,7 +142,7 @@ export class PostsDetail extends React.Component {
                     weaken: false,
                     page_size: 10,
                     topic_id: posts.topic_id._id,
-                    start_create_at: new Date().getTime() - 1000 * 60 * 60 * 24 * 7
+                    start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 7)+''
                   }
                 }}
                 />)}

@@ -108,6 +108,11 @@ module.exports = {
 
   plugins: [
 
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
+
     // 定义环境变量
     new webpack.DefinePlugin({
       // 是否是生产环境

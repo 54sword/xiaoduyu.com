@@ -1,35 +1,36 @@
 
 .item{
   background-color: #fff;
-  border-top:1px solid #c2c2c2;
+  border-top:1px solid #efefef;
 
   &:first-child{
     border-top:none;
   }
 
   .item-head{
-    padding-top:20px;
+    padding-top:15px;
     padding-left:70px;
 
     .avatar{
       img{
         float:left;
         margin-left:-50px;
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
       }
     }
   }
-
+  
   .item-body{
-    padding:20px;
+    padding:15px;
 
     .reply-list{
+      margin-top:15px;
       margin-left:50px;
 
       .item:first-child{
-        border-top:1px solid #c2c2c2;
+        border-top:1px solid #efefef;
       }
 
       .item-head{
@@ -37,7 +38,7 @@
       }
 
       .item-body{
-        padding:20px 0 0px 0;
+        padding:15px 0 0px 0;
       }
 
     }

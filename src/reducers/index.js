@@ -17,6 +17,7 @@ import website from './website'
 import countries from './countries'
 import broadcast from './broadcast'
 import analysis from './analysis'
+import captcha from './captcha'
 
 let states = {
   scroll,
@@ -33,7 +34,8 @@ let states = {
   // postsTypes,
   countries,
   broadcast,
-  analysis
+  analysis,
+  captcha
 }
 
 let _states = {}

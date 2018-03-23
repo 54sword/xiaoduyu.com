@@ -28,7 +28,7 @@ import webpackHotMiddleware from './webpack-hot-middleware';
 
 // actions
 import { loadUserInfo } from '../actions/user';
-import { addAccessToken } from '../actions/sign';
+import { saveAccessToken } from '../actions/access-token';
 
 const app = express();
 
@@ -60,7 +60,7 @@ app.get('*', async (req, res) => {
   // 验证 token 是否有效
   if (accessToken) {
     [ err, user ] = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
-    if (user) store.dispatch(addAccessToken({ access_token: accessToken }));
+    if (user) store.dispatch(saveAccessToken({ access_token: accessToken }));
   }
 
   const router = createRouter(user);
@@ -74,6 +74,8 @@ app.get('*', async (req, res) => {
     if (match && match.path) {
       _route = route;
       _match = match;
+      _match.pathname = req.url.split('?')[0];
+      _match.search = req.url.split('?')[1] ? '?'+req.url.split('?')[1] : '';
       return true;
     }
     if (route.routes) {
@@ -103,7 +105,8 @@ app.get('*', async (req, res) => {
   });
 
   let context = {
-    code: 200
+    // code
+    // url
   };
 
   // 加载异步路由组件
@@ -111,18 +114,15 @@ app.get('*', async (req, res) => {
     return new Promise(async (resolve) => {
       await _route.component.load(async (ResolvedComponent)=>{
         let loadData = ResolvedComponent.WrappedComponent.defaultProps.loadData;
-        if (loadData) {
-          resolve(await loadData({ store, match: _match }));
-        } else {
-          resolve({ code: 200 });
-        }
+        let result = await loadData({ store, match: _match });
+        resolve(result);
       });
     });
   }
 
   if (_route.component.load) {
     // 在服务端加载异步组件
-    let _r = await loadAsyncRouterComponent();
+    context = await loadAsyncRouterComponent();
   }
 
   // 获取路由dom

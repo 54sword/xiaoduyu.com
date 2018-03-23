@@ -57,7 +57,7 @@ export default ({
     if (!Reflect.has(list, 'data')) list.data = []
     if (!Reflect.has(list, 'filters')) {
       if (!Reflect.has(filters, 'page_number')) filters.page_number = 1
-      if (!Reflect.has(filters, 'page_size')) filters.page_size = 50
+      if (!Reflect.has(filters, 'page_size')) filters.page_size = 25
       filters.page_number = parseInt(filters.page_number)
       filters.page_size = parseInt(filters.page_size)
       list.filters = filters
@@ -86,10 +86,7 @@ export default ({
 
     let [ err, res ] = await grapgQLClient(option);
 
-    // console.log(err);
-    // console.log(res);
-
-    if (err) return resolve([ err ])
+    if (err) return resolve([ err ]);
 
     let data = res.data[schemaName]
 

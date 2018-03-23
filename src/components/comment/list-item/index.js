@@ -85,12 +85,23 @@ export default class CommentItem extends PureComponent {
         <div>{comment._create_at}</div>
       </div>
 
-      <div styleName="item-body">
-        <HTMLText content={comment.content_html} />
-        <div styleName="reply-list">
-          {comment.reply && comment.reply.map(item=>this.renderUserView(item))}
+      {comment.content_summary ?
+        <div styleName="item-body">
+          <div>{comment.content_summary}</div>
+          <div styleName="reply-list">
+            {comment.reply && comment.reply.map(item=>this.renderUserView(item))}
+          </div>
         </div>
-      </div>
+        : null}
+
+{/*
+  <div styleName="item-body">
+    <HTMLText content={comment.content_html} />
+    <div styleName="reply-list">
+      {comment.reply && comment.reply.map(item=>this.renderUserView(item))}
+    </div>
+  </div>
+*/}
 
     </div>)
   }

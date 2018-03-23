@@ -7,6 +7,7 @@ import { asyncRouteComponent } from '../components/generateAsyncComponent.js';
 
 import Head from '../components/head';
 import Sign from '../components/sign';
+// import Alert from '../components/bootstrap/alert';
 // import Settings from '../pages/settings';
 
 /**
@@ -113,7 +114,7 @@ export default (user) => {
       component: asyncRouteComponent({
         loader: () => import('../pages/notifications')
       }),
-      enter: triggerEnter
+      enter: requireAuth
     },
 
     {
@@ -133,6 +134,17 @@ export default (user) => {
       // component: (Settings),
       component: asyncRouteComponent({
         loader: () => import('../pages/settings')
+      }),
+      enter: triggerEnter
+    },
+
+    {
+      path: '/forgot',
+      exact: true,
+      head: Head,
+      // component: (Settings),
+      component: asyncRouteComponent({
+        loader: () => import('../pages/forgot')
       }),
       enter: triggerEnter
     },
@@ -164,6 +176,7 @@ export default (user) => {
       </Switch>
 
       {!user ? <Sign /> : null}
+      {/* <Alert /> */}
 
       <Switch>
         {/*routeArr.map((route, index) => {

@@ -318,22 +318,57 @@ const abstractImages = (str) => {
 
 }
 
+
+// 图像优化，给html中的img图片，增加一些七牛参数，优化最大宽度，格式等
+const imageOptimization = (str) => {
+
+  let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
+  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+
+  let result = [];
+  let img;
+  while (img = imgReg.exec(str)) {
+    let oldImgDom = img[0];
+    let _img = oldImgDom.match(srcReg);
+    let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/400/auto-orient/format/jpg');
+    str = str.replace(oldImgDom, newImg);
+  }
+
+  return str
+
+}
+
 // 加工问题列表
 const processPostsList = (list) => {
 
-  // console.log(list);
-
   list.map(function(posts){
 
-    posts.images = abstractImages(posts.content_html)
 
-    let text = posts.content_html.replace(/<[^>]+>/g,"")
-    if (text.length > 140) text = text.slice(0, 140)+'...'
-    posts.content_summary = text
+    if (posts.content_html) {
 
-    posts._create_at = DateDiff(posts.create_at)
-    posts._sort_by_date = DateDiff(posts.sort_by_date)
-    posts._last_comment_at = DateDiff(posts.last_comment_at)
+      // 提取内容中所有的图片地址
+      posts.images = abstractImages(posts.content_html);
+
+      // 将内容生产140的简介
+      let textContent = posts.content_html;
+
+      let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
+      
+      let img;
+      while (img = imgReg.exec(textContent)) {
+        textContent = textContent.replace(img, '[图片]');
+      }
+
+      textContent = textContent.replace(/<[^>]+>/g,"");
+      if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
+      posts.content_summary = textContent;
+
+      posts.content_html = imageOptimization(posts.content_html);
+    }
+
+    if (posts.create_at) posts._create_at = DateDiff(posts.create_at);
+    if (posts.sort_by_date) posts._sort_by_date = DateDiff(posts.sort_by_date);
+    if (posts.last_comment_at) posts._last_comment_at = DateDiff(posts.last_comment_at);
 
     /*
     if (posts.comment) {

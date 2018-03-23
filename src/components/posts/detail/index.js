@@ -41,9 +41,6 @@ export default class PostsDetail extends React.Component {
 
   async componentDidMount() {
     const { id, loadPostsList } = this.props
-
-    console.log(id);
-
     await loadPostsList({
       name: id,
       filters: {

@@ -4,6 +4,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadTopics } from '../../actions/topic';
+import { loadPostsList } from '../../actions/posts';
 import { getTopicListByKey } from '../../reducers/topic';
 
 // components
@@ -48,6 +49,44 @@ const analyzeUrlParams = (search) => {
   return whiteParams;
 }
 
+// 生成筛选对象
+// *** 注意 ***
+// 筛选参数每次都需要返回一个新对象，否则在相同页面切换的时候，筛选对象会指向同一个的问题
+const generatePostsFilters = (topic, search) => {
+
+  search = analyzeUrlParams(search);
+
+  let query = {
+    sort_by: "create_at",
+    deleted: false,
+    weaken: false,
+    page_size: 10,
+    topic_id: topic.parent_id ? topic._id : topic.children
+  }
+
+  return {
+    general: {
+      query: Object.assign({}, query, search)
+    },
+    recommend: {
+      query: Object.assign({}, query, {
+        sort_by: "comment_count,like_count,create_at",
+        page_size: 10
+        // start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 7) + ''
+      }),
+      select: `
+        _id
+        title
+        user_id{
+          _id
+          avatar_url
+        }
+      `
+    }
+  }
+
+}
+
 @connect(
   (state, props) => {
     return {
@@ -60,9 +99,53 @@ const analyzeUrlParams = (search) => {
 )
 export class TopicsDetail extends React.Component {
 
+  // 服务端渲染
+  // 加载需要在服务端渲染的数据
+  static loadData({ store, match }) {
+    return new Promise(async (resolve, reject) => {
+
+      const { id } = match.params;
+      let err, result;
+
+      [ err, result ] = await loadTopics({
+        id: id,
+        filters: { variables: { _id: id } }
+      })(store.dispatch, store.getState);
+
+      if (!err && result && result.data && result.data.topics[0]) {
+
+        let { general, recommend } = generatePostsFilters(result.data.topics[0], match.search);
+
+        Promise.all([
+          new Promise(async resolve => {
+            [ err, result ] = await loadPostsList({
+              id: match.pathname + match.search,
+              filters: general
+            })(store.dispatch, store.getState);
+            resolve([ err, result ])
+          }),
+          new Promise(async resolve => {
+            [ err, result ] = await loadPostsList({
+              id: '_'+match.pathname,
+              filters: recommend
+            })(store.dispatch, store.getState);
+            resolve([ err, result ])
+          })
+        ]).then(value=>{
+
+          // console.log(value);
+          resolve({ code:200 });
+        });
+
+      } else {
+        resolve({ code:404 });
+      }
+
+    })
+  }
+
   constructor(props) {
     super(props)
-    this.generatePostsFilters = this.generatePostsFilters.bind(this);
   }
 
   componentDidMount() {
@@ -91,37 +174,7 @@ export class TopicsDetail extends React.Component {
     }
   }
 
-  // 生成筛选对象
-  // *** 注意 ***
-  // 筛选参数每次都需要返回一个新对象，否则在相同页面切换的时候，筛选对象会指向同一个的问题
-  generatePostsFilters () {
 
-    const { topicList } = this.props;
-    const topic = topicList && topicList.data[0] ? topicList.data[0] : null;
-    let search = analyzeUrlParams(this.props.location.search);
-
-    let query = {
-      sort_by: "create_at",
-      deleted: false,
-      weaken: false,
-      page_size: 10,
-      topic_id: topic.parent_id ? topic._id : topic.children
-    }
-
-    return {
-      general: {
-        query: Object.assign({}, query, search)
-      },
-      recommend: {
-        query: Object.assign({}, query, {
-          sort_by: "comment_count,like_count,create_at",
-          page_size: 10,
-          start_create_at: new Date().getTime() - 1000 * 60 * 60 * 24 * 7
-        })
-      }
-    }
-
-  }
 
   render() {
 
@@ -132,7 +185,7 @@ export class TopicsDetail extends React.Component {
 
     if (!topic) return '';
 
-    const { general, recommend } = this.generatePostsFilters();
+    const { general, recommend } = generatePostsFilters(topic, search);
 
     // 如果是父话题，则查询该父节点下面所有的子节点
     if (!topic.parent_id && !topic.children) {
@@ -152,14 +205,14 @@ export class TopicsDetail extends React.Component {
           <PostsList
             id={pathname + search}
             filters={general}
-            showPagination={true} />
+            scrollLoad={true}
+            />
         </div>
         <div className="col-md-3">
           <Sidebar
             recommendPostsDom={(<PostsList
               id={'_'+pathname}
               itemName="posts-item-title"
-              showPagination={false}
               filters={recommend} />)}
             />
         </div>

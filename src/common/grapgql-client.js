@@ -4,7 +4,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 import fetch from "node-fetch";
 
-import { graphql_url } from '../../config'
+import { graphql_url } from '../../config';
 
 const client = new ApolloClient({
   // 如果开启ssrMode, fetchPolicy: 'network-only' 则会无效
@@ -17,45 +17,30 @@ const client = new ApolloClient({
   cache: new InMemoryCache({
     addTypename: false
   })
-})
+});
 
-export default ({ query, mutation, headers = {}, fetchPolicy = 'network-only' }) => {
+export default ({ query, mutation, headers = { role: 'user' }, fetchPolicy = 'network-only' }) => {
 
-  let options = {
-    context: {}
-  }
+  let options = { context: {} };
 
-  // network-only 不缓存
-  // if (fetchPolicy) {
-    options.fetchPolicy = fetchPolicy;
-  // } else {
-  //   options.fetchPolicy = "network-only";
-  // }
-
-  if (!headers.role) headers.role = 'admin';
+  options.fetchPolicy = fetchPolicy;
 
   if (query) options.query = gql`${query}`;
   if (mutation) options.mutation = gql`${mutation}`;
-  if (headers) options.context.headers = headers
+  if (headers) options.context.headers = headers;
 
-  let fn = query ? client.query : client.mutate
+  let fn = query ? client.query : client.mutate;
 
-  return fn(options).then(res=>{
-    return [null, res]
-  }).catch(res=>{
-
-    /*
-    if (!process.env.__NODE__) {
-
-      Toastify({
-        text: res.graphQLErrors.length > 0 ? res.graphQLErrors[0].message : '请求失败',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
-
-    }
-    */
-
-    return [res.graphQLErrors]
+  return new Promise(resolve=>{
+    return fn(options).then(res=>{
+      resolve([null, res]);
+    }).catch(res=>{
+      if (res.graphQLErrors.length > 0) {
+        resolve([res.graphQLErrors]);
+      } else {
+        resolve(['未知错误']);
+      }
+    });
   });
+
 }

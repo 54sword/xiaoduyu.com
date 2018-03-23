@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // import Loadable from 'react-loadable';
 
-
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -140,9 +139,11 @@ export class Settings extends Component {
               </Link>
             </div>
 
+            {/*
             <div className="list-group mb-2">
               <a className="list-group-item" href="javascript:void(0);" onClick={this.handleSignout}>退出登录</a>
             </div>
+            */}
 
           </div>
 

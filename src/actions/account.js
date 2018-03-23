@@ -1,5 +1,5 @@
 import Ajax from '../common/ajax'
-import Promise from 'promise'
+// import Promise from 'promise'
 
 /*
 export const saveSignInCookie = () => {
