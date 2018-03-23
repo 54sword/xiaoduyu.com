@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 // components
 import HTMLText from '../../html-text';
 import CommentList from '../../comment/list';
-import Follow from '../follow';
+import Follow from '../../follow';
+import Like from '../../like';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -117,6 +118,7 @@ export default class PostsItem extends React.PureComponent {
               <span styleName="action-item" onClick={this.expandComment}>评论{posts.comment_count ? ' '+posts.comment_count : ''}</span>
               {/* <span styleName="action-item">关注{posts.follow_count ? ' '+posts.follow_count : ''}</span> */}
               <Follow posts={posts} />
+              <Like posts={posts} />
             </div>
             <div className="col-4 text-right">
               <span onClick={this.collapseContent}>{expandContent ? '收起' : ''}</span>

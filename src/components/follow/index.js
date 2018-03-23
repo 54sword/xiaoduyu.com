@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { follow, unfollow } from '../../../actions/follow-posts'
-import { getProfile } from '../../../reducers/user'
-import { showSign } from '../../../actions/sign'
+import { follow, unfollow } from '../../actions/follow-posts'
+import { getProfile } from '../../reducers/user'
+import { showSign } from '../../actions/sign'
 
 @connect(
   (state, props) => ({
