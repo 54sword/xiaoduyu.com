@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 // components
 import HTMLText from '../../html-text';
 import CommentList from '../../comment/list';
+import Editor from '../../editor';
 import Follow from '../../follow';
 import Like from '../../like';
 
@@ -138,6 +139,7 @@ export default class PostsItem extends React.PureComponent {
               }
             }}
             />
+          <Editor />
         </div>
         : null}
 

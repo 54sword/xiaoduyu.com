@@ -57,6 +57,11 @@ export default class Sidebar extends React.Component {
         </div> :
         null}
 
+      {isMember ?
+          <Link to="/new-posts" styleName="new-posts">创建帖子</Link>
+        :
+        null}
+
       {recommendPostsDom ?
         <div className="card">
           <div className="card-header">热门</div>

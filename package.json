@@ -25,6 +25,7 @@
     "compression": "^1.7.1",
     "cookie-parser": "^1.4.3",
     "css-modules-require-hook": "^4.2.3",
+    "draft-js": "^0.10.5",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "graphql": "^0.13.1",
@@ -41,6 +42,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "redraft": "^0.10.0",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"
