@@ -22,16 +22,20 @@ const client = new ApolloClient({
 
 // 将参数对象转换成，GraphQL提交参数的格式
 const convertParamsFormat = (params) => {
+
   let arr = []
   for (let i in params) {
 
-    if (params[i] === '') {
-      continue;
-    }
-
     let v = ''
     switch (typeof params[i]) {
-      case 'string': v = '"'+params[i]+'"'; break;
+      case 'string':
+
+        // 如果字符串中，包含"，添加转译符\"
+        params[i] = params[i].replace(/\"/g, '\\"');
+
+        v = '"'+params[i]+'"';
+        
+        break;
       case 'number': v = params[i]; break;
       default: v = params[i];
     }

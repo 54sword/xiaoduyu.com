@@ -295,13 +295,13 @@ const renderers = {
    * Note that children are an array of blocks with same styling,
    */
   blocks: {
-    unstyled: (children) => children.map(child => <p>{child}</p>),
+    unstyled: (children) => children.map((child, keys)=> <p key={keys}>{child}</p>),
     blockquote: (children, key) => {
       // console.log(key)
       return <blockquote key={key.keys[0]}>{addBreaklines(children)}</blockquote>
     },
-    'header-one': (children) => children.map(child => <h1>{child}</h1>),
-    'header-two': (children) => children.map(child => <h2>{child}</h2>),
+    'header-one': (children) => children.map((child, keys) => <h1 key={keys}>{child}</h1>),
+    'header-two': (children) => children.map((child, keys) => <h2 key={keys}>{child}</h2>),
     // You can also access the original keys of the blocks
     'code-block': (children, { keys }) => <pre key={keys[0]} >{addBreaklines(children)}</pre>,
     // or depth for nested lists

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+// redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { follow, unfollow } from '../../actions/follow-posts'
@@ -58,41 +60,20 @@ export default class FollowPosts extends Component {
     const { me, posts, showSign } = this.props
 
     // 自己的问题，不能关注
-    if (posts.user_id && posts.user_id._id == me._id) {
+    if (me && posts.user_id && posts.user_id._id == me._id) {
       return(<span></span>)
     }
 
-    if (posts.follow) {
+    // console.log(me);
+    // data-toggle="modal" data-target="#sign"
+
+    if (!me) {
+      return <a href="javascript:void(0)" data-toggle="modal" data-target="#sign">关注</a>
+    } else if (posts.follow) {
       return (<a href="javascript:void(0)" className="black-20" onClick={this.unfollow}>已关注</a>)
     } else {
-      return (<a href="javascript:void(0)" onClick={me._id ? this.follow : showSign}>关注</a>)
+      return (<a href="javascript:void(0)" onClick={this.follow}>关注</a>)
     }
 
   }
 }
-
-/*
-FollowPosts.propTypes = {
-  posts: PropTypes.object.isRequired,
-  me: PropTypes.object.isRequired,
-  follow: PropTypes.func.isRequired,
-  unfollow: PropTypes.func.isRequired,
-  showSign: PropTypes.func.isRequired
-}
-
-function mapStateToProps(state, props) {
-  return {
-    me: getProfile(state)
-  }
-}
-
-function mapDispatchToProps(dispatch, props) {
-  return {
-    follow: bindActionCreators(follow, dispatch),
-    unfollow: bindActionCreators(unfollow, dispatch),
-    showSign: bindActionCreators(showSign, dispatch)
-  }
-}
-*/
-
-// export default connect(mapStateToProps, mapDispatchToProps)(FollowPosts)

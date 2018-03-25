@@ -58,7 +58,7 @@ export default class Sidebar extends React.Component {
         null}
 
       {isMember ?
-          <Link to="/new-posts" styleName="new-posts">创建帖子</Link>
+          <a href="/new-posts" styleName="new-posts" target="_blank">创建帖子</a>
         :
         null}
 

@@ -1,16 +1,49 @@
-import grapgQLClient from '../common/grapgql-client'
+import grapgQLClient from '../common/grapgql-client';
 
+import Ajax from '../common/ajax';
+import { DateDiff } from '../common/date';
 
-import Ajax from '../common/ajax'
-import { DateDiff } from '../common/date'
-
-import loadList from './common/new-load-list'
+import loadList from './common/new-load-list';
+import graphql from './common/graphql';
 
 export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, callback }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken
     let commentState = getState().comment
+
+
+    return new Promise(async resolve => {
+
+      // detail, detail_html: detailHTML,
+      let [ err, res ] = await graphql({
+        type: 'mutation',
+        api: 'addComment',
+        args: {
+          posts_id,
+          parent_id,
+          reply_id,
+          content: contentJSON,
+          content_html: contentHTML,
+          device: deviceId
+        },
+        fields: `
+          success
+          _id
+        `,
+        headers: { accessToken: getState().user.accessToken }
+      });
+
+      resolve([ err, res ]);
+
+      // if (err) return resolve([ err ? err.message : '未知错误' ]);
+
+      // dispatch({ type: 'UPDATE_POSTS_FOLLOW', id, followStatus: status  });
+
+    })
+
+
+    /*
 
     return Ajax({
       url: '/write-comment',
@@ -50,6 +83,7 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 
       }
     })
+    */
 
   }
 }
@@ -189,11 +223,13 @@ const processCommentList = (list) => {
   list.map(item=>{
     item._create_at = DateDiff(item.create_at);
 
-
-    let text = item.content_html.replace(/<[^>]+>/g,"")
-    if (text.length > 200) text = text.slice(0, 200)+'...'
-
-    item.content_summary = text;
+    if (item.content_html) {
+      let text = item.content_html.replace(/<[^>]+>/g,"");
+      if (text.length > 200) text = text.slice(0, 200)+'...';
+      item.content_summary = text;
+    } else {
+      item.content_summary = '';
+    }
 
     if (item.reply && item.reply.map) {
       item.reply = processCommentList(item.reply);

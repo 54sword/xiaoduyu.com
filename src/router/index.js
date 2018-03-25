@@ -150,6 +150,17 @@ export default (user) => {
     },
 
     {
+      path: '/new-posts',
+      exact: true,
+      // head: Head,
+      // component: (Settings),
+      component: asyncRouteComponent({
+        loader: () => import('../pages/new-posts')
+      }),
+      enter: requireAuth
+    },
+
+    {
       path: '**',
       head: Head,
       component: asyncRouteComponent({

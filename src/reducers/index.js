@@ -13,11 +13,11 @@ import posts from './posts'
 import topic from './topic'
 import comment from './comment'
 import website from './website'
-// import postsTypes from './posts-types'
 import countries from './countries'
 import broadcast from './broadcast'
 import analysis from './analysis'
 import captcha from './captcha'
+import postsTypes from './posts-types'
 
 let states = {
   scroll,
@@ -31,11 +31,11 @@ let states = {
   posts,
   comment,
   website,
-  // postsTypes,
   countries,
   broadcast,
   analysis,
-  captcha
+  captcha,
+  postsTypes
 }
 
 let _states = {}

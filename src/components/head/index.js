@@ -73,7 +73,7 @@ export default class Head extends React.Component {
     let [err, success] = await this.props.signOut();
     if (success) {
       // 退出成功跳转到首页
-      window.location.href = '/';
+      window.location.reload();
     } else {
       alert('退出失败');
     }

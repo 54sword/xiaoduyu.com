@@ -29,6 +29,6 @@ export default function postsTypes(state = initialState, action = {}) {
 
 }
 
-export const getPostsTypeById = (state, id) => {
-  return state.postsTypes[id] || state.postsTypes[1]
+export const getPostsTypeById = (state, id = 1) => {
+  return state.postsTypes[id]
 }

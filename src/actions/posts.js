@@ -9,12 +9,37 @@ import { DateDiff } from '../common/date'
 // import loadList from './common/load-list'
 import loadList from './common/new-load-list'
 
+import graphql from './common/graphql';
+
 // console.log(loadList);
 
 // 添加问题
 export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
   return (dispatch, getState) => {
 
+    return new Promise(async resolve => {
+      
+      // detail, detail_html: detailHTML,
+      let [ err, res ] = await graphql({
+        type: 'mutation',
+        api: 'addPosts',
+        args: { title, content: detail, content_html: detailHTML, topic_id: topicId, device_id: device, type },
+        fields: `
+          success
+          _id
+        `,
+        headers: { accessToken: getState().user.accessToken }
+      });
+
+      resolve([ err, res ]);
+
+      // if (err) return resolve([ err ? err.message : '未知错误' ]);
+
+      // dispatch({ type: 'UPDATE_POSTS_FOLLOW', id, followStatus: status  });
+
+    })
+
+    /*
     let accessToken = getState().user.accessToken
 
     return Ajax({
@@ -27,6 +52,7 @@ export function addPosts({ title, detail, detailHTML, topicId, device, type, cal
       headers: { AccessToken: accessToken },
       callback
     })
+    */
 
   }
 }
@@ -353,7 +379,7 @@ const processPostsList = (list) => {
       let textContent = posts.content_html;
 
       let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
-      
+
       let img;
       while (img = imgReg.exec(textContent)) {
         textContent = textContent.replace(img, '[图片]');

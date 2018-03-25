@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadPostsList } from '../../actions/posts';
 import { getPostsListByListId } from '../../reducers/posts';
+import { isMember } from '../../reducers/user';
 
 // components
 import Shell from '../../components/shell';
@@ -14,8 +15,11 @@ import CommentList from '../../components/comment/list';
 import PostsList from '../../components/posts/list';
 import PostsDetailC from '../../components/posts/detail';
 
+import EditorComment from '../../components/editor-comment';
+
 @connect(
   (state, props) => ({
+    isMember: isMember(state),
     list: getPostsListByListId(state, props.match.params.id)
   }),
   dispatch => ({
@@ -78,7 +82,7 @@ export class PostsDetail extends React.Component {
 
   render() {
 
-    const { list } = this.props;
+    const { list, isMember } = this.props;
     const { loading, data } = list || {};
     const posts = data && data[0] ? data[0] : null;
 
@@ -87,7 +91,7 @@ export class PostsDetail extends React.Component {
       return '404 Not Found';
     }
 
-    const { location } = this.props
+    const { location } = this.props;
 
     return(<div>
 
@@ -101,7 +105,7 @@ export class PostsDetail extends React.Component {
 
         <div className="col-md-9">
 
-          {posts ? <PostsDetailC id={posts._id} /> : null}
+          <PostsDetailC id={posts._id} />
 
           {/*posts ?
             <div className="jumbotron">
@@ -114,7 +118,7 @@ export class PostsDetail extends React.Component {
             </div>
             : null*/}
 
-          {posts ?
+
             <CommentList
               name={posts._id}
               filters={{
@@ -123,8 +127,12 @@ export class PostsDetail extends React.Component {
                   parent_id: false
                 }
               }}
-              location={location}
+              // location={location}
               />
+            {isMember ?
+              <div className="mt-2">
+                <EditorComment posts_id={posts._id} />
+              </div>
               : null}
         </div>
 

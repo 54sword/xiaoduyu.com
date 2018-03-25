@@ -14,7 +14,7 @@ import { updateComment } from '../../../actions/comment'
 import { showSign } from '../../../actions/sign'
 import { getProfile } from '../../../reducers/user'
 
-// import LikeButton from '../like'
+import LikeButton from '../../like'
 import HTMLText from '../../html-text'
 // import BindingPhone from '../binding-phone'
 // import CommentEditorModal from '../comment-editor-modal'
@@ -36,9 +36,7 @@ import HTMLText from '../../html-text'
 export default class CommentItem extends PureComponent {
 
   static propTypes = {
-    comment: PropTypes.object.isRequired,
-    showSign: PropTypes.func.isRequired,
-    me: PropTypes.object.isRequired
+    comment: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -86,13 +84,17 @@ export default class CommentItem extends PureComponent {
       </div>
 
       {comment.content_summary ?
-        <div styleName="item-body">
-          <div>{comment.content_summary}</div>
-          <div styleName="reply-list">
-            {comment.reply && comment.reply.map(item=>this.renderUserView(item))}
-          </div>
-        </div>
+        <div styleName="item-body">{comment.content_summary}</div>
         : null}
+
+      <div>
+        {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
+        <span>回复</span>
+      </div>
+
+      <div styleName="reply-list">
+        {comment.reply && comment.reply.map(item=>this.renderUserView(item))}
+      </div>
 
 {/*
   <div styleName="item-body">

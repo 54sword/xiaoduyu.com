@@ -116,6 +116,11 @@ export class TopicsDetail extends React.Component {
 
         let { general, recommend } = generatePostsFilters(result.data.topics[0], match.search);
 
+        if (!general.topic_id) {
+          resolve({ code:200 });
+          return
+        }
+
         Promise.all([
           new Promise(async resolve => {
             [ err, result ] = await loadPostsList({
