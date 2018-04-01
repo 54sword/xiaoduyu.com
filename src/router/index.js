@@ -128,17 +128,6 @@ export default (user) => {
     },
 
     {
-      path: '/settings',
-      exact: true,
-      head: Head,
-      // component: (Settings),
-      component: asyncRouteComponent({
-        loader: () => import('../pages/settings')
-      }),
-      enter: triggerEnter
-    },
-
-    {
       path: '/forgot',
       exact: true,
       head: Head,
@@ -158,6 +147,26 @@ export default (user) => {
         loader: () => import('../pages/new-posts')
       }),
       enter: requireAuth
+    },
+
+    {
+      path: '/settings',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/settings')
+      }),
+      enter: triggerEnter
+    },
+
+    {
+      path: '/settings/avatar',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/settings-avatar')
+      }),
+      enter: triggerEnter
     },
 
     {

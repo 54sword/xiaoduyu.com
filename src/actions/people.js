@@ -1,4 +1,5 @@
-import grapgQLClient from '../common/grapgql-client'
+import grapgQLClient from '../common/grapgql-client';
+import graphql from './common/graphql';
 
 import Ajax from '../common/ajax'
 // import merge from 'lodash/merge'
@@ -153,65 +154,7 @@ export function loadPeopleList({ name, filters = {}, restart = false, accessToke
 }
 
 
-export function updatePeople(filters) {
-  return async (dispatch, getState) => {
 
-    let accessToken = getState().user.accessToken
-
-    let variables = []
-
-    for (let i in filters) {
-
-      let v = ''
-
-      switch (typeof filters[i]) {
-        case 'string':
-          v = '"'+filters[i]+'"'
-          break
-        case 'number':
-          v = filters[i]
-          break
-        default:
-          v = filters[i]
-          break
-      }
-
-      variables.push(i+':'+v)
-    }
-
-    let sql = `
-      mutation {
-      	updateUser(${variables}){
-          success
-        }
-      }
-    `
-
-    let [ err, res ] = await grapgQLClient({
-      mutation:sql,
-      headers: accessToken ? { 'AccessToken': accessToken } : null
-    })
-
-    if (err) return
-
-    let _id = filters._id
-
-    delete filters._id
-
-    dispatch({ type: 'UPDATE_PEOPLE', id: _id, update: filters })
-    /*
-    let postsList = getState().posts
-
-    for (let i in postsList) {
-      if (postsList[i].data) {
-        postsList[i].data = processPostsList(postsList[i].data)
-      }
-    }
-
-    dispatch({ type: 'UPDATE_POST', state: postsList })
-    */
-  }
-}
 
 /*
 export function updatePeople ({ query = {}, update = {}, options = {} }) {

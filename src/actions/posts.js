@@ -18,7 +18,7 @@ export function addPosts({ title, detail, detailHTML, topicId, device, type, cal
   return (dispatch, getState) => {
 
     return new Promise(async resolve => {
-      
+
       // detail, detail_html: detailHTML,
       let [ err, res ] = await graphql({
         type: 'mutation',

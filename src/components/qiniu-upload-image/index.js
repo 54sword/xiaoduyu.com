@@ -1,6 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import Qiniu from 'react-qiniu'
+// import PropTypes from 'prop-types'
+import Qiniu from './qiniu.js'
 
 import styles from './style.scss'
 
@@ -8,11 +8,16 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getQiNiuToken } from '../../actions/qiniu'
 
-
 import connectReudx from '../../common/connect-redux'
-
 import Loading from '../../components/loading'
 
+@connect(
+  (state, props) => ({
+  }),
+  dispatch => ({
+    getQiNiuToken: bindActionCreators(getQiNiuToken, dispatch)
+  })
+)
 export class QiniuUploadImage extends React.Component {
 
   static defaultProps = {
@@ -23,12 +28,6 @@ export class QiniuUploadImage extends React.Component {
     onDrop: (files)=>{},
     onUpload: (file)=>{}
   }
-
-  static propTypes = {
-    getQiNiuToken: PropTypes.func.isRequired
-  }
-
-  static mapDispatchToProps = { getQiNiuToken }
 
   constructor (props) {
     super(props)
@@ -42,7 +41,7 @@ export class QiniuUploadImage extends React.Component {
     }
 
     this.onDrop = this._onDrop.bind(this)
-    this.onUpload = this._onUpload.bind(this)
+    this.onUpload = this.onUpload.bind(this)
   }
 
   async componentDidMount() {
@@ -57,7 +56,37 @@ export class QiniuUploadImage extends React.Component {
 
   }
 
-  _onUpload(files) {
+  onUpload(files) {
+
+    const self = this
+    const { upload } = this.props
+    const { url } = this.state
+
+    self.setState({ loading: true })
+
+    let count = 0;
+
+    files.map(item=>{
+      item.upload().then((res)=>{
+        res.text().then(item=>{
+
+          let res = JSON.parse(item);
+
+          upload(url+'/'+res.key);
+
+          count = count + 1;
+
+          if (count >= files.length) {
+            self.setState({ loading: false })
+          }
+
+
+        });
+      });
+    });
+
+    /*
+    return
 
     const self = this
     const { upload, onUpload } = this.props
@@ -95,6 +124,7 @@ export class QiniuUploadImage extends React.Component {
       }
 
     })
+    */
   }
 
   _onDrop(files) {
@@ -117,13 +147,13 @@ export class QiniuUploadImage extends React.Component {
       <div>
         {displayLoading && loading ? <Loading /> : null}
         <Qiniu
-          onDrop={this.onDrop}
-          size={100}
+          // onDrop={this.onDrop}
+          // size={100}
           multiple={multiple}
           accept="image/*"
           token={this.state.token}
-          uploadKey={this.state.uploadKey}
-          maxSize="1Mb"
+          // uploadKey={this.state.uploadKey}
+          // maxSize="1Mb"
           onUpload={this.onUpload}>
             {name}
         </Qiniu>
@@ -132,32 +162,4 @@ export class QiniuUploadImage extends React.Component {
   }
 }
 
-/*
-QiniuUploadImage.defaultProps = {
-  displayLoading: true,
-  name: '上传图片',
-  multiple: true,
-  upload: (s)=>{},
-  onDrop: (files)=>{},
-  onUpload: (file)=>{}
-}
-
-QiniuUploadImage.propTypes = {
-  getQiNiuToken: PropTypes.func.isRequired
-}
-
-const mapStateToProps = (state) => {
-  return {
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getQiNiuToken: bindActionCreators(getQiNiuToken, dispatch)
-  }
-}
-
-QiniuUploadImage = connect(mapStateToProps,mapDispatchToProps)(QiniuUploadImage)
-*/
-
-export default connectReudx(QiniuUploadImage)
+export default QiniuUploadImage

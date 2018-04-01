@@ -3,6 +3,7 @@ import Ajax from '../common/ajax'
 
 
 import grapgQLClient from '../common/grapgql-client'
+import graphql from './common/graphql'
 
 function setUser(userinfo) {
   return { type: 'SET_USER', userinfo }
@@ -69,6 +70,33 @@ export const loadUserInfo = ({ accessToken = null }) => {
     })
 
 
+  }
+}
+
+/**
+ * 更新用户
+ * @param  {Object} args 更新内容，具体更新内容请查看想要的api
+ * @return {Array}      err 错误， res 结果
+ */
+export function updateUser(args) {
+  return async (dispatch, getState) => {
+    return new Promise(async resolve => {
+
+      args._id = getState().user.profile._id;
+
+      let [ err, res ] = await graphql({
+        type: 'mutation',
+        api: 'updateUser',
+        args,
+        fields: `
+          success
+        `,
+        headers: { accessToken: getState().user.accessToken }
+      });
+
+      resolve([ err, res ]);
+
+    })
   }
 }
 
