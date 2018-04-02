@@ -156,7 +156,7 @@ export default (user) => {
       component: asyncRouteComponent({
         loader: () => import('../pages/settings')
       }),
-      enter: triggerEnter
+      enter: requireAuth
     },
 
     {
@@ -166,7 +166,47 @@ export default (user) => {
       component: asyncRouteComponent({
         loader: () => import('../pages/settings-avatar')
       }),
-      enter: triggerEnter
+      enter: requireAuth
+    },
+
+    {
+      path: '/settings/nickname',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/settings-nickname')
+      }),
+      enter: requireAuth
+    },
+
+    {
+      path: '/settings/gender',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/settings-gender')
+      }),
+      enter: requireAuth
+    },
+
+    {
+      path: '/settings/brief',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/settings-brief')
+      }),
+      enter: requireAuth
+    },
+
+    {
+      path: '/settings/password',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/settings-password')
+      }),
+      enter: requireAuth
     },
 
     {

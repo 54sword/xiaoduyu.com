@@ -100,6 +100,35 @@ export function updateUser(args) {
   }
 }
 
+/**
+ * 更新密码
+ * @param  {Object} args 更新内容，具体更新内容请查看想要的api
+ * @return {Array}      err 错误， res 结果
+ */
+export function updatePassword(args) {
+  return async (dispatch, getState) => {
+    return new Promise(async resolve => {
+
+      args.user_id = getState().user.profile._id;
+
+      console.log(args);
+
+      let [ err, res ] = await graphql({
+        type: 'mutation',
+        api: 'updatePassword',
+        args,
+        fields: `
+          success
+        `,
+        headers: { accessToken: getState().user.accessToken }
+      });
+
+      resolve([ err, res ]);
+
+    })
+  }
+}
+
 /*
 export const loadUserInfo = ({ accessToken = null }) => {
   return (dispatch, getState) => {
