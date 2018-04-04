@@ -26,7 +26,7 @@ export default class LikeButton extends Component {
     this.handleLike = this.handleLike.bind(this)
   }
 
-  handleLike(e) {
+  async handleLike(e) {
 
     e.stopPropagation()
 
@@ -49,32 +49,34 @@ export default class LikeButton extends Component {
 
     if (status) {
 
-      unlike({
+      let [ err, res ] = await unlike({
         type: type,
         target_id: targetId
-      }, (result) => {
+      });
 
-        if (!result.success) {
-          alert(result.error)
-          return
-        }
-
-      })
+      if (err) {
+        Toastify({
+          text: err,
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+        }).showToast();
+      }
 
     } else {
 
-      like({
+      let [ err, res ] = await like({
         type: type,
         target_id: targetId,
         mood: 1
-      }, (result) => {
+      });
 
-        if (!result.success) {
-          alert(result.error)
-          return
-        }
-
-      })
+      if (err) {
+        Toastify({
+          text: err,
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+        }).showToast();
+      }
 
     }
 
@@ -104,28 +106,3 @@ export default class LikeButton extends Component {
     )
   }
 }
-
-/*
-LikeButton.propTypes = {
-  showSign: PropTypes.func.isRequired,
-  isSignin: PropTypes.bool.isRequired,
-  like: PropTypes.func.isRequired,
-  unlike: PropTypes.func.isRequired
-}
-
-function mapStateToProps(state, props) {
-  return {
-    isSignin: getAccessToken(state) ? true : false
-  }
-}
-
-function mapDispatchToProps(dispatch, props) {
-  return {
-    showSign: bindActionCreators(showSign, dispatch),
-    like: bindActionCreators(like, dispatch),
-    unlike: bindActionCreators(unlike, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LikeButton)
-*/

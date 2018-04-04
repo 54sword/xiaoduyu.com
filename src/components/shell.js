@@ -80,7 +80,9 @@ const Shell = (Component) => {
     }
 
     render() {
-      return (<div className="container"><Component {...this.props} /></div>)
+      return (<div className="container">
+        <Component {...this.props} />
+      </div>)
     }
 
   }

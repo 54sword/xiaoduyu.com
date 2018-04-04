@@ -94,7 +94,7 @@ export default ({
 
     list.filters = filters;
     list.loading = false;
-    
+
     // 如果列表不存在count，那么查询count
     if (!Reflect.has(list, 'count')) {
 
@@ -131,7 +131,7 @@ export default ({
     list.more = list.filters.page_size * list.filters.page_number > list.count ? false : true
 
     dispatch({ type: actionType, name, data: list })
-    resolve([null, res])
+    resolve([null, list ])
 
   })
 

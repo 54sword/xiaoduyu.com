@@ -17,7 +17,7 @@ import { getProfile } from '../../../reducers/user'
 import LikeButton from '../../like'
 import HTMLText from '../../html-text'
 // import BindingPhone from '../binding-phone'
-// import CommentEditorModal from '../comment-editor-modal'
+import EditorCommentModal from '../../editor-comment-modal'
 // import ItemView from '../views/item'
 
 // import connectRedux from '../../../common/connect-redux'
@@ -68,9 +68,22 @@ export default class CommentItem extends PureComponent {
       summary, displayLike, displayReply, displayDate, displayEdit
     } = this.props
 
-    const updateComment = (data) => e => this.updateComment(e, data)
+    const updateComment = (data) => e => this.updateComment(e, data);
+
+    // console.log(comment);
 
     return (<div styleName="item" key={comment._id}>
+
+      <EditorCommentModal
+        show={(fn)=>{
+          self.showReply = fn;
+        }}
+        hide={(fn)=>{
+          self.hideReply = fn;
+        }}
+        reply={comment}
+      />
+
       <div styleName="item-head">
         <div>
           <Link to={`/people/${comment.user_id._id}`}>
@@ -80,7 +93,11 @@ export default class CommentItem extends PureComponent {
           {comment.reply_id ? ` 回复了${comment.reply_id.user_id._id == comment.user_id._id ? '自己' : ' '}` : null}
           {comment.reply_id && comment.reply_id.user_id._id != comment.user_id._id ? <Link to={`/people/${comment.reply_id.user_id._id}`} onClick={this.stopPropagation}><b>{comment.reply_id.user_id.nickname}</b></Link> : null}
         </div>
-        <div>{comment._create_at}</div>
+        <div>
+          {comment._create_at}
+          {comment.like_count ? <span>赞 {comment.like_count}</span> : null}
+          {comment.reply_count ? <span>回复 {comment.reply_count}</span> : null}
+        </div>
       </div>
 
       {comment.content_summary ?
@@ -89,21 +106,14 @@ export default class CommentItem extends PureComponent {
 
       <div>
         {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
-        <span>回复</span>
+        <span onClick={()=>{ this.showReply(); }}>回复</span>
       </div>
 
-      <div styleName="reply-list">
-        {comment.reply && comment.reply.map(item=>this.renderUserView(item))}
-      </div>
-
-{/*
-  <div styleName="item-body">
-    <HTMLText content={comment.content_html} />
-    <div styleName="reply-list">
-      {comment.reply && comment.reply.map(item=>this.renderUserView(item))}
-    </div>
-  </div>
-*/}
+      {comment.reply ?
+        <div styleName="reply-list">
+          {comment.reply.map(item=>this.renderUserView(item))}
+        </div>
+        : null}
 
     </div>)
   }

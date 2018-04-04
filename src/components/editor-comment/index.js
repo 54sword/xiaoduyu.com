@@ -98,7 +98,7 @@ export default class CommentEditor extends Component {
 
   }
 
-  submit() {
+  async submit() {
 
     const self = this
     let { _id, posts_id, parent_id, reply_id, successCallback, addComment, updateComment, getEditor } = this.props
@@ -132,7 +132,44 @@ export default class CommentEditor extends Component {
       return
     }
 
-    addComment({
+    let [ err, res ] = await addComment({
+      posts_id: posts_id,
+      parent_id: parent_id,
+      reply_id: reply_id,
+      contentJSON: contentJSON,
+      contentHTML: contentHTML,
+      deviceId: Device.getCurrentDeviceId()
+    });
+
+    this.setState({ submitting: false });
+
+    if (!err) {
+
+      this.setState({
+        content: <div key={new Date().getTime()}>
+          <Editor
+            syncContent={self.syncContent}
+            content={''}
+            getEditor={(editor)=>{
+              self.setState({ editor })
+              getEditor(editor)
+            }}
+            displayControls={parent_id ? false : true}
+            />
+          </div>
+      })
+
+      this.syncContent('', '');
+
+      successCallback();
+      return
+    } else if (err) {
+      alert(err)
+    }
+
+
+    /*
+    await addComment({
       posts_id: posts_id,
       parent_id: parent_id,
       reply_id: reply_id,
@@ -169,6 +206,7 @@ export default class CommentEditor extends Component {
 
       }
     })
+    */
 
   }
 

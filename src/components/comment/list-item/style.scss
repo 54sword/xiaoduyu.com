@@ -21,28 +21,28 @@
       }
     }
   }
-  
+
   .item-body{
     padding:15px;
+  }
 
-    .reply-list{
-      margin-top:15px;
-      margin-left:50px;
+}
 
-      .item:first-child{
-        border-top:1px solid #efefef;
-      }
+.reply-list{
+  margin-top:15px;
+  margin-left:50px;
+  background-color: #efefef;
 
-      .item-head{
-        padding-left:50px;
-      }
+  .item:first-child{
+    border-top:1px solid #efefef;
+  }
 
-      .item-body{
-        padding:15px 0 0px 0;
-      }
+  .item-head{
+    padding-left:50px;
+  }
 
-    }
-
+  .item-body{
+    padding:15px 0 0px 0;
   }
 
 }

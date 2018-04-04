@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 // components
 import HTMLText from '../../html-text';
 import CommentList from '../../comment/list';
-import Editor from '../../editor';
+import Editor from '../../editor-comment';
 import Follow from '../../follow';
 import Like from '../../like';
 
@@ -139,7 +139,7 @@ export default class PostsItem extends React.PureComponent {
               }
             }}
             />
-          <Editor />
+          <Editor posts_id={posts._id} />
         </div>
         : null}
 

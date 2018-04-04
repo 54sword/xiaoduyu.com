@@ -19,7 +19,7 @@ const like = (status) => {
         });
 
         if (err) return resolve([ err ? err.message : '未知错误' ]);
-
+        
         if (data.type == 'comment' || data.type == 'reply') {
           // 更新state中所有该answer id的数据
           dispatch({ type: 'UPLOAD_COMMENT_LIKE_STATUS', id: data.target_id, status: status})

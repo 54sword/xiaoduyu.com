@@ -5,7 +5,7 @@ import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw,
 
 import redraft from 'redraft'
 
-// import QiniuUploadImage from '../../components/qiniu-upload-image'
+import QiniuUploadImage from '../qiniu-upload-image'
 
 import 'draft-js/dist/Draft.css'
 import './RichEditor.css'
@@ -158,11 +158,11 @@ const Controls = (props) => {
           style={type.style}
         />
       )}
-      {/*
+
       <span className="RichEditor-styleButton image">
         <QiniuUploadImage upload={props.addImage} name=" " />
       </span>
-      */}
+
       <span href="javascript:void(0)" className="RichEditor-styleButton video" onClick={props.addVideo} data-toggle="tooltip" data-placement="top" title="Tooltip on top"></span>
       <span href="javascript:void(0)" className="RichEditor-styleButton link" onClick={props.addLink} data-toggle="tooltip" data-placement="top" title="Tooltip on top"></span>
       {/*<span href="javascript:void(0)" className="RichEditor-styleButton music" onClick={props.addMusic}></span>*/}

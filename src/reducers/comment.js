@@ -26,6 +26,29 @@ export default function comment(state = initialState, action = {}) {
       }
       return merge({}, state, {})
 
+    case 'UPLOAD_COMMENT_LIKE_STATUS':
+      var { id, status } = action
+
+      for (let i in state) {
+
+        state[i].data.map(item=>{
+          if (item._id == id) {
+            item.like_count += status ? 1 : -1
+            item.like = status
+          }
+
+          item.reply.map(item=>{
+            if (item._id == id) {
+              item.like_count += status ? 1 : -1
+              item.like = status
+            }
+          })
+
+        })
+      }
+
+      return merge({}, state, {})
+
     default:
       return state;
   }

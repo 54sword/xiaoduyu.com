@@ -91,11 +91,11 @@ export class PostsDetail extends React.Component {
       return '404 Not Found';
     }
 
-    const { location } = this.props;
+    if (loading || !posts) {
+      return (<div>loading...</div>)
+    }
 
     return(<div>
-
-      {loading ? <div>loading...</div> : null}
 
       <Meta title={posts ? posts.title : '加载中...'} />
 
@@ -127,7 +127,6 @@ export class PostsDetail extends React.Component {
                   parent_id: false
                 }
               }}
-              // location={location}
               />
             {isMember ?
               <div className="mt-2">

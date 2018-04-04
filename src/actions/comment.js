@@ -9,13 +9,11 @@ import graphql from './common/graphql';
 export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, callback }) {
   return (dispatch, getState) => {
 
-    let accessToken = getState().user.accessToken
-    let commentState = getState().comment
-
+    let accessToken = getState().user.accessToken;
+    let commentState = getState().comment;
 
     return new Promise(async resolve => {
 
-      // detail, detail_html: detailHTML,
       let [ err, res ] = await graphql({
         type: 'mutation',
         api: 'addComment',
@@ -36,54 +34,31 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 
       resolve([ err, res ]);
 
-      // if (err) return resolve([ err ? err.message : '未知错误' ]);
+      if (res && res.success) {
+        [ err, res ] = await loadCommentList({ name:'cache', filters: { query: { _id:res._id } }, restart: true })(dispatch, getState);
 
-      // dispatch({ type: 'UPDATE_POSTS_FOLLOW', id, followStatus: status  });
+        let newComment = res.data[0];
 
-    })
-
-
-    /*
-
-    return Ajax({
-      url: '/write-comment',
-      type: 'post',
-      data: {
-        posts_id : posts_id,
-        parent_id: parent_id,
-        reply_id: reply_id,
-        content : contentJSON,
-        content_html: contentHTML,
-        device_id : deviceId
-      },
-      headers: { AccessToken: accessToken },
-      callback: (res) => {
-
-        if (res.success && res.data) {
-          for (let i in commentState) {
-            // 评论 和 回复
-            if (!parent_id && i == posts_id ||
-              parent_id && i == parent_id) {
-              commentState[i].data.push(processCommentList([res.data])[0])
+        for (let i in commentState) {
+          if (i == posts_id) {
+            if (!newComment.parent_id) {
+              commentState[i].data.push(newComment);
+            } else {
+              commentState[i].data.map(item=>{
+                if (item._id == newComment.parent_id) {
+                  item.reply.push(newComment);
+                }
+              })
             }
 
-            commentState[i].data.map(item=>{
-              if (item._id == parent_id) {
-                item.reply.push(processCommentList([res.data])[0])
-                item.reply_count += 1
-              }
-            })
-
           }
-
-          dispatch({ type: 'SET_COMMENT', state: commentState })
         }
 
-        callback(res)
+        dispatch({ type: 'SET_COMMENT', state: commentState });
 
       }
-    })
-    */
+
+    });
 
   }
 }
@@ -241,6 +216,14 @@ const processCommentList = (list) => {
 export function loadCommentList({ name, filters = {}, restart = false }) {
   return (dispatch, getState) => {
 
+    /*
+    posts_id{
+      _id
+      title
+      content_html
+    }
+     */
+
     if (!filters.select) {
       filters.select = `
         content_html
@@ -256,17 +239,14 @@ export function loadCommentList({ name, filters = {}, restart = false }) {
         recommend
         _id
         update_at
+        like
         user_id {
           _id
           nickname
           brief
           avatar_url
         }
-        posts_id{
-          _id
-          title
-          content_html
-        }
+        posts_id
         parent_id
         reply_id {
           _id

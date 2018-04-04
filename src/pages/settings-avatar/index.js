@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // tooles
 import avatarPicker from '../../vendors/avatar-picker';
@@ -92,8 +93,17 @@ export class ResetAvatar extends Component {
       <div>
         <Meta title='头像' />
         {uploadStatus ? <Loading /> : null}
+
         <div className="container">
 
+          <nav aria-label="breadcrumb">
+            <ol className="breadcrumb">
+              <li className="breadcrumb-item"><Link to="/">首页</Link></li>
+              <li className="breadcrumb-item"><Link to="/settings">设置</Link></li>
+              <li className="breadcrumb-item active" aria-current="page">头像</li>
+            </ol>
+          </nav>
+          
           <div styleName="avatar">
             <img src={me.avatar_url.replace('!50', "!200")} />
           </div>

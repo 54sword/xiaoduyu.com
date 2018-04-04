@@ -111,8 +111,6 @@ export function updatePassword(args) {
 
       args.user_id = getState().user.profile._id;
 
-      console.log(args);
-
       let [ err, res ] = await graphql({
         type: 'mutation',
         api: 'updatePassword',

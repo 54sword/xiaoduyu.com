@@ -53,7 +53,7 @@ export class ResetPassword extends Component {
         duration: 3000,
         backgroundColor: 'linear-gradient(to right, #18c31a, #14a22f)'
       }).showToast();
-      
+
       currentPassword.value = '';
       newPassword.value = '';
       confirmNewPassword.value = '';

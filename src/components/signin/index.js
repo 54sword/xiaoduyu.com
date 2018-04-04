@@ -91,7 +91,7 @@ export default class Signin extends Component {
 
     return false;
   }
-
+  
   toForgot () {
     this.props.hideSign();
     browserHistory.push('/forgot');
