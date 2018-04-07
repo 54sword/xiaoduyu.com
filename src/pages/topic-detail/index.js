@@ -111,10 +111,10 @@ export class TopicsDetail extends React.Component {
         id: id,
         filters: { variables: { _id: id } }
       })(store.dispatch, store.getState);
+      
+      if (!err && result && result.data && result.data[0]) {
 
-      if (!err && result && result.data && result.data.topics[0]) {
-
-        let { general, recommend } = generatePostsFilters(result.data.topics[0], match.search);
+        let { general, recommend } = generatePostsFilters(result.data[0], match.search);
 
         if (!general.topic_id) {
           resolve({ code:200 });

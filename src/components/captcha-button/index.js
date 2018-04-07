@@ -1,15 +1,28 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+// redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { addCaptcha } from '../../actions/captcha';
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { addCaptcha } from '../../actions/captcha'
+// styles
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
-class CaptchaButton extends Component {
+@connect(
+  (state, props) => ({
+  }),
+  dispatch => ({
+    addCaptcha: bindActionCreators(addCaptcha, dispatch)
+  })
+)
+@CSSModules(styles)
+export default class CaptchaButton extends Component {
+
+  static propTypes = {
+    onClick: PropTypes.func.isRequired
+  }
 
   constructor(props) {
     super(props)
@@ -17,22 +30,74 @@ class CaptchaButton extends Component {
       loading: false,
       countdown: 0
     }
-    this.getCaptcha = this._getCaptcha.bind(this)
+    this.getCaptcha = this.getCaptcha.bind(this);
+    this.send = this.send.bind(this);
   }
 
-  _getCaptcha() {
+  async send(data) {
 
+    const self = this;
+    const { addCaptcha } = this.props;
+    let { loading } = this.state;
+
+    // onClick((data)=>{
+
+      if (loading) return;
+
+      this.setState({ loading: true });
+
+      addCaptcha(data)
+
+      /*
+      function(result){
+
+        if (result && !result.success) {
+          self.setState({ loading: false })
+          alert(result.error)
+          return
+        }
+
+        self.setState({ countdown: 60 })
+
+        let run = () =>{
+
+          if (!self._reactInternalInstance) {
+            return
+          }
+
+          if (self.state.countdown == 0) {
+            self.setState({ loading: false })
+            return
+          }
+          self.setState({ countdown: self.state.countdown - 1 })
+          setTimeout(()=>{ run() }, 1000)
+        }
+
+        run()
+      */
+
+
+    // })
+
+  }
+
+  getCaptcha() {
+
+    this.props.onClick(this.send)
+
+    /*
     const self = this
-    const { sendCaptcha, onClick } = this.props
+    const { addCaptcha, onClick } = this.props
     let { loading } = this.state
+
 
     onClick((data)=>{
 
-      if (loading) return
+      if (loading) return;
 
-      self.setState({ loading: true })
+      self.setState({ loading: true });
 
-      sendCaptcha(data, function(result){
+      addCaptcha(data, function(result){
 
         if (result && !result.success) {
           self.setState({ loading: false })
@@ -59,7 +124,10 @@ class CaptchaButton extends Component {
         run()
 
       })
+
+
     })
+    */
 
   }
 
@@ -73,25 +141,3 @@ class CaptchaButton extends Component {
   }
 
 }
-
-
-CaptchaButton = CSSModules(CaptchaButton, styles)
-
-CaptchaButton.propTypes = {
-  sendCaptcha: PropTypes.func.isRequired,
-}
-
-function mapStateToProps(state, props) {
-  return {
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    sendCaptcha: bindActionCreators(addCaptcha, dispatch)
-  }
-}
-
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(CaptchaButton)

@@ -1,32 +1,25 @@
-// import grapgQLClient from '../common/grapgql-client'
+
 import graphql from './common/graphql'
 
-// import Ajax from '../common/ajax'
 
-/*
-export function addCaptcha(data, callback) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
-    return Ajax({
-      url:'/get-captcha',
-      type: 'post',
-      data: data,
-      headers: { AccessToken: accessToken },
-      callback
-    })
-  }
-}
-*/
-
-export const getCaptchaId = ({ id }) => {
+/**
+ * [添加] 验证码
+ * @param  {String} id
+ * @param  {Object} [args={}]  参数
+ * @param  {String} [fields=``] 返回字段
+ * @return {Object} promise
+ */
+export const addCaptcha = ({ id, args = {}, fields = ``  }) => {
   return async (dispatch, getState) => {
 
+    let accessToken = accessToken || getState().user.accessToken;
+
     let [ err, res ] = await graphql({
-      api: 'captcha',
-      fields: `
-        _id
-        url
-      `
+      type: 'mutation',
+      api: 'addCaptcha',
+      args,
+      fields,
+      headers: accessToken ? { 'AccessToken': accessToken } : null
     });
 
     if (res._id && res.url) {
@@ -35,15 +28,3 @@ export const getCaptchaId = ({ id }) => {
 
   }
 }
-
-/*
-export function addCaptchaByIP(callback) {
-  return (dispatch, getState) => {
-    return Ajax({
-      url:'/add-captcha-by-ip',
-      type: 'get',
-      callback
-    })
-  }
-}
-*/

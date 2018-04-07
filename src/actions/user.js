@@ -151,7 +151,7 @@ export const loadUserInfo = ({ accessToken = null }) => {
 
   }
 }
-*/
+
 
 export function resetAvatar({ avatar, callback }) {
   return (dispatch, getState) => {
@@ -212,3 +212,5 @@ export function resetBrief({ brief, callback }) {
 
   }
 }
+
+*/

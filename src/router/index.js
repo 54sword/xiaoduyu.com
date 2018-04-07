@@ -210,6 +210,26 @@ export default (user) => {
     },
 
     {
+      path: '/settings/binding-phone',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/binding-phone')
+      }),
+      enter: requireAuth
+    },
+
+    {
+      path: '/settings/email',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/settings-email')
+      }),
+      enter: requireAuth
+    },
+
+    {
       path: '**',
       head: Head,
       component: asyncRouteComponent({

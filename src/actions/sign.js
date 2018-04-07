@@ -63,6 +63,9 @@ export const signIn = ({ data }) => {
 
       [ err, res ] = await saveSignInCookie(res)(dispatch, getState);
 
+      console.log(err);
+      console.log(res);
+
       if (res.success) {
         window.location.reload()
       }

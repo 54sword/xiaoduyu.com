@@ -7,7 +7,7 @@ import styles from './style.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { signIn, hideSign } from '../../actions/sign'
-import { getCaptchaId } from '../../actions/captcha'
+import { addCaptcha } from '../../actions/captcha'
 import { getCaptchaById } from '../../reducers/captcha'
 
 @connect(
@@ -15,8 +15,18 @@ import { getCaptchaById } from '../../reducers/captcha'
     captcha: getCaptchaById(state, 'sign-in')
   }),
   dispatch => ({
-    getCaptchaId: ()=>{
-      return bindActionCreators(getCaptchaId, dispatch)({ id: 'sign-in' })
+    addCaptcha: ()=>{
+      return bindActionCreators(addCaptcha, dispatch)({
+        id: 'sign-in',
+        args: {
+          type: 'sign-in'
+        },
+        fields: `
+          success
+          _id
+          url
+        `
+      })
     },
     signIn: bindActionCreators(signIn, dispatch)
   })
@@ -38,7 +48,7 @@ export default class Signin extends Component {
   }
 
   getCaptcha() {
-    this.props.getCaptchaId();
+    this.props.addCaptcha();
   }
 
   async signin(event) {
@@ -91,7 +101,7 @@ export default class Signin extends Component {
 
     return false;
   }
-  
+
   toForgot () {
     this.props.hideSign();
     browserHistory.push('/forgot');
