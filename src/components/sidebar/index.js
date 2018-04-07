@@ -12,7 +12,7 @@ import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
 // components
-import Signin from '../signin';
+import SignIn from '../sign-in';
 import PostsList from '../../components/posts/list';
 
 @connect(
@@ -38,7 +38,7 @@ export default class Sidebar extends React.Component {
   render() {
 
     const { isMember, me, recommendPostsDom } = this.props
-
+    
     /*
     <div className="card">
       <div className="card-body">
@@ -53,7 +53,7 @@ export default class Sidebar extends React.Component {
 
       {!isMember ?
         <div className="card">
-          <div className="card-body"><Signin /></div>
+          <div className="card-body"><SignIn /></div>
         </div> :
         null}
 

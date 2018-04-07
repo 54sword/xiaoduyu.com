@@ -50,6 +50,7 @@ export const loadUserInfo = ({ accessToken = null }) => {
           weibo
           qq
           github
+          phone
         }
       }
       `

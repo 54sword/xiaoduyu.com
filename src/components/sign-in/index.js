@@ -126,12 +126,6 @@ export default class Signin extends Component {
 
         <div><input type="submit" ref="submit" className="button" value="登录" /></div>
 
-        <div><a href="javascript:void(0);" onClick={this.toForgot}>忘记密码？</a></div>
-
-        <div styleName="signup">
-          没有账号？ <a href="javascript:void(0)" onClick={()=>{this.props.displayComponent('signup')}}>注册</a>
-        </div>
-
       </form>)
   }
 }

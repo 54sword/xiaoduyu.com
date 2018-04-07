@@ -127,8 +127,8 @@ export default class Head extends React.Component {
           </ul>
           :
           <ul styleName="user-bar">
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link">注册</a></li>
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link">登录</a></li>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link" data-type="sign-up">注册</a></li>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link" data-type="sign-in">登录</a></li>
           </ul>}
 
         {/* topic bar */}

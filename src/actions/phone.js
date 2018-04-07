@@ -1,33 +1,31 @@
-import Ajax from '../common/ajax'
 
-export function reset({ data, callback }) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
+import graphql from './common/graphql'
 
-    Ajax({
-      url: '/reset-phone',
-      type: 'post',
-      data,
-      headers: { AccessToken: accessToken },
-      callback
-    })
+const fn = (api) => {
+  return ({ args = {}, fields = `success` }) => {
+    return (dispatch, getState) => {
+      return new Promise(async resolve => {
 
+        let accessToken = accessToken || getState().user.accessToken;
+
+        let [ err, res ] = await graphql({
+          type: 'mutation',
+          api,
+          args,
+          fields,
+          headers: accessToken ? { 'AccessToken': accessToken } : null
+        });
+
+        if (err) {
+          resolve([err])
+        } else {
+          resolve([null, res])
+        }
+
+      })
+    }
   }
 }
 
-
-export function binding({ data, callback }) {
-  return (dispatch, getState) => {
-
-    let accessToken = getState().user.accessToken
-
-    Ajax({
-      url: '/binding-phone',
-      type: 'post',
-      headers: { AccessToken: accessToken },
-      data,
-      callback
-    })
-
-  }
-}
+exports.updatePhone = fn('updatePhone');
+exports.addPhone = fn('addPhone');

@@ -91,7 +91,25 @@ export const signOut = () => {
   }
 }
 
+export const signUp = () => {
+  return (dispatch, getState) => {
+    return new Promise(async (resolve, reject) => {
+      Ajax({
+        domain: window.location.origin,
+        apiVerstion: '',
+        url: '/sign/out',
+        type: 'post'
+      }).then(res=>{
+        resolve([null, res]);
+      }).catch(()=>{
+        resolve([true]);
+      })
+    })
+  }
+}
 
+
+/*
 // 注册
 export function signup(data, callback) {
   return dispatch => {
@@ -132,3 +150,4 @@ export function signupEmailVerify(code, callback) {
 
   }
 }
+*/

@@ -1,0 +1,82 @@
+
+
+
+.signup{
+  :global {
+    .captcha{
+      width:60% !important;
+    }
+    .captcha-button{
+      width:40% !important;
+      float:right;
+    }
+  }
+}
+
+.gender{
+  height: 30px;
+}
+
+.signin{
+
+  margin-top:10px;
+  padding-top: 10px;
+  border-top: 1px solid #efefef;
+
+  height: 40px;
+  line-height: 40px;
+
+  a{
+    float:right;
+    margin-top: 5px;
+    height: 30px;
+    line-height: 30px;
+    padding:0 20px 0 20px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+
+}
+
+// 账号区域
+.account-wrapper{
+
+  select {
+
+    border-radius: 3px;
+    height: 40px;
+    width: 30%;
+    border:1px solid #d8d8d8;
+    // border-right: none;
+    padding-left: 10px;
+    padding-right: 25px;
+    /*很关键：将默认的select选择框样式清除*/
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    color: #a7a7a7;
+    // background-image: url("./images/select.png");
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 25%;
+  }
+  input {
+    width: 70% !important;
+    border-left: none;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+}
+
+.captcha{
+  width: 100%;
+}
+
+.captcha-button{
+  > a{
+    height: 40px;
+    line-height: 40px;
+  }
+}

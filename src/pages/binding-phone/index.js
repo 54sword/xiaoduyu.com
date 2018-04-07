@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getProfile } from '../../reducers/user'
 import { loadUserInfo } from '../../actions/user'
-import { reset } from '../../actions/phone'
+import { addPhone } from '../../actions/phone'
 
 // components
 import Shell from '../../components/shell'
@@ -23,7 +23,7 @@ import styles from './style.scss'
   }),
   dispatch => ({
     loadUserInfo: bindActionCreators(loadUserInfo, dispatch),
-    reset: bindActionCreators(reset, dispatch)
+    addPhone: bindActionCreators(addPhone, dispatch)
   })
 )
 @CSSModules(styles)
@@ -60,17 +60,19 @@ export class SettingsPhone extends Component {
   submit() {
 
     const self = this
-    const { reset, loadUserInfo } = this.props
+    const { loadUserInfo, addPhone } = this.props
     const { newPhone, captcha } = this.refs
     const { areaCode } = this.state
 
     if (!newPhone.value) return newPhone.focus();
     if (!captcha.value) return captcha.focus();
 
-    console.log({
-      phone: newPhone.value,
-      captcha: captcha.value,
-      area_code: areaCode
+    addPhone({
+      args: {
+        phone: newPhone.value,
+        captcha: captcha.value,
+        area_code: areaCode
+      }
     });
 
     /*
