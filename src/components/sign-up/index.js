@@ -32,7 +32,7 @@ export default class SignUp extends Component {
     this.state = {
       areaCode: ''
     }
-    this.submitSignup = this.submitSignup.bind(this)
+    this.submit = this.submit.bind(this)
     this.singupFailed = this.singupFailed.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
   }
@@ -54,7 +54,7 @@ export default class SignUp extends Component {
 
   }
 
-  submitSignup(event) {
+  async submit(event) {
 
     event.preventDefault();
 
@@ -77,7 +77,7 @@ export default class SignUp extends Component {
       nickname: nickname.value,
       password: password.value,
       gender: male.checked ? 1 : 0,
-      source: Device.getCurrentDeviceId(),
+      source: parseInt(Device.getCurrentDeviceId()),
       captcha: captcha.value
     }
 
@@ -88,6 +88,11 @@ export default class SignUp extends Component {
       data.area_code = areaCode
     }
 
+    console.log(data);
+
+    let [ err, res ] = await signUp(data);
+
+    /*
     // 注册
     signUp(data, function(err, result){
       if (err) {
@@ -108,24 +113,28 @@ export default class SignUp extends Component {
 
       }
     });
+    */
   }
 
   sendCaptcha(callback) {
-    const { account } = this.refs
-    const { areaCode } = this.state
 
-    if (!account.value) return account.focus()
+    const { account } = this.refs;
+    const { areaCode } = this.state;
 
-    let params = { type: 'signup' }
+    if (!account.value) return account.focus();
+
+    let params = { type: 'sign-up' }
 
     if (account.value.indexOf('@') != -1) {
-      params.email = account.value
+      params.email = account.value;
     } else {
-      params.area_code = areaCode
-      params.phone = account.value
+      params.area_code = areaCode;
+      params.phone = account.value;
     }
 
-    callback(params)
+    callback({
+      args: params
+    });
   }
 
   render () {
@@ -154,7 +163,7 @@ export default class SignUp extends Component {
           <input type="radio" name="gender" ref="female" />女
           <div ref="gender-meg"></div>
         </div>
-        <div><input type="submit" className="button" value="注册" onClick={this.submitSignup} /></div>
+        <div><input type="submit" className="button" value="注册" onClick={this.submit} /></div>
 
       </div>
     )

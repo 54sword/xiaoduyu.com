@@ -63,9 +63,6 @@ export const signIn = ({ data }) => {
 
       [ err, res ] = await saveSignInCookie(res)(dispatch, getState);
 
-      console.log(err);
-      console.log(res);
-
       if (res.success) {
         window.location.reload()
       }
@@ -91,19 +88,24 @@ export const signOut = () => {
   }
 }
 
-export const signUp = () => {
+export const signUp = (args) => {
   return (dispatch, getState) => {
-    return new Promise(async (resolve, reject) => {
-      Ajax({
-        domain: window.location.origin,
-        apiVerstion: '',
-        url: '/sign/out',
-        type: 'post'
-      }).then(res=>{
-        resolve([null, res]);
-      }).catch(()=>{
-        resolve([true]);
-      })
+    return new Promise(async resolve => {
+
+      let [ err, res ] = await graphql({
+        type: 'mutation',
+        api: 'addUser',
+        args,
+        fields: `
+          success
+        `
+      });
+
+      console.log(err);
+      console.log(res);
+
+      // if (err) return resolve([ err ? err.message : '账号或密码错误' ]);
+
     })
   }
 }

@@ -21,16 +21,16 @@ import styles from './style.scss';
 export default class CaptchaButton extends Component {
 
   static propTypes = {
+    // 点击是回调事件，并将本组件的send方法作为参数发给该方法
     onClick: PropTypes.func.isRequired
   }
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       loading: false,
       countdown: 0
     }
-    this.getCaptcha = this.getCaptcha.bind(this);
     this.send = this.send.bind(this);
   }
 
@@ -38,103 +38,46 @@ export default class CaptchaButton extends Component {
 
     const self = this;
     const { addCaptcha } = this.props;
-    let { loading } = this.state;
+    let { loading, countdown } = this.state;
 
-    // onClick((data)=>{
+    if (loading || countdown > 0) return;
 
-      if (loading) return;
+    this.setState({ loading: true });
 
-      this.setState({ loading: true });
+    let [ err, res ] = await addCaptcha(data);
 
-      addCaptcha(data)
+    if (err) {
+      Toastify({
+        text: err.message,
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+      this.setState({ loading: false });
+      return
+    } else {
+      this.setState({ loading: false, countdown: 60  });
+    }
 
-      /*
-      function(result){
+    // 发送成功后倒计时
+    let run = () =>{
 
-        if (result && !result.success) {
-          self.setState({ loading: false })
-          alert(result.error)
-          return
-        }
+      if (!self._reactInternalInstance) return
+      if (self.state.countdown == 0) {
+        self.setState({ loading: false })
+        return
+      }
+      self.setState({ countdown: self.state.countdown - 1 })
+      setTimeout(()=>{ run() }, 1000)
+    }
 
-        self.setState({ countdown: 60 })
-
-        let run = () =>{
-
-          if (!self._reactInternalInstance) {
-            return
-          }
-
-          if (self.state.countdown == 0) {
-            self.setState({ loading: false })
-            return
-          }
-          self.setState({ countdown: self.state.countdown - 1 })
-          setTimeout(()=>{ run() }, 1000)
-        }
-
-        run()
-      */
-
-
-    // })
-
-  }
-
-  getCaptcha() {
-
-    this.props.onClick(this.send)
-
-    /*
-    const self = this
-    const { addCaptcha, onClick } = this.props
-    let { loading } = this.state
-
-
-    onClick((data)=>{
-
-      if (loading) return;
-
-      self.setState({ loading: true });
-
-      addCaptcha(data, function(result){
-
-        if (result && !result.success) {
-          self.setState({ loading: false })
-          alert(result.error)
-          return
-        }
-
-        self.setState({ countdown: 60 })
-
-        let run = () =>{
-
-          if (!self._reactInternalInstance) {
-            return
-          }
-
-          if (self.state.countdown == 0) {
-            self.setState({ loading: false })
-            return
-          }
-          self.setState({ countdown: self.state.countdown - 1 })
-          setTimeout(()=>{ run() }, 1000)
-        }
-
-        run()
-
-      })
-
-
-    })
-    */
-
+    run();
   }
 
   render() {
+    const self = this;
     const { countdown } = this.state
     return (
-      <a href="javascript:void(0)" styleName="captcha-button" onClick={this.getCaptcha}>
+      <a href="javascript:void(0)" styleName="captcha-button" onClick={()=>{ self.props.onClick(self.send); }}>
         {countdown > 0 ? `发送成功 (${countdown})` : "获取验证码"}
       </a>
     )
