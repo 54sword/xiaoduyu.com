@@ -82,7 +82,7 @@ export default class Sign extends Component {
                 </li>
               </ul>
             </div>
-
+            
             <fieldset><legend>或</legend></fieldset>
 
             {type == 'sign-in' ? <div>
@@ -90,11 +90,11 @@ export default class Sign extends Component {
                 <div>
                   没有账号？ <a href="javascript:void(0)" onClick={this.displayComponent}>注册</a>
                 </div>
+                <div><Link to="/forgot" onClick={()=>{ $('#sign').modal('hide'); }}>忘记密码？</Link></div>
               </div>
               : null}
             {type == 'sign-up' ? <div>
                 <SignUp hideSign={hideSign} displayComponent={this.displayComponent} />
-                <div><Link to="/forgot">忘记密码？</Link></div>
                 <div>
                   已经有账号了？ <a href="javascript:void(0)" onClick={this.displayComponent}>登录</a>
                 </div>

@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+// redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { sendEmailCaptcha, resetPasswordByCaptcha } from '../../actions/account';
-import { addCaptcha }  from '../../actions/captcha';
-import { signin } from '../../actions/sign';
+import { forgot } from '../../actions/forgot';
+// import { sendEmailCaptcha, resetPasswordByCaptcha } from '../../actions/account';
+// import { addCaptcha }  from '../../actions/captcha';
+// import { signin } from '../../actions/sign';
 
+// components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import CaptchaButton from '../../components/captcha-button';
@@ -17,63 +20,46 @@ import CaptchaButton from '../../components/captcha-button';
   (state, props) => ({
   }),
   dispatch => ({
-    sendEmailCaptcha: bindActionCreators(sendEmailCaptcha, dispatch),
-    resetPasswordByCaptcha: bindActionCreators(resetPasswordByCaptcha, dispatch),
-    signin: bindActionCreators(signin, dispatch)
+    // sendEmailCaptcha: bindActionCreators(sendEmailCaptcha, dispatch),
+    // resetPasswordByCaptcha: bindActionCreators(resetPasswordByCaptcha, dispatch),
+    forgot: bindActionCreators(forgot, dispatch)
   })
 )
 export class Forgot extends Component {
 
   constructor(props) {
-    super(props)
-    this.submitResetPassword = this.submitResetPassword.bind(this)
-    this.sendCaptcha = this.sendCaptcha.bind(this)
+    super(props);
+    this.submit = this.submit.bind(this);
+    this.sendCaptcha = this.sendCaptcha.bind(this);
   }
 
-  submitResetPassword() {
-    const { account, captcha, newPassword, confirmNewPassword } = this.refs
-    const { resetPasswordByCaptcha, signin } = this.props
+  async submit(event) {
 
-    if (!account.value) return account.focus()
-    if (!captcha.value) return captcha.focus()
-    if (!newPassword.value) return newPassword.focus()
-    if (!confirmNewPassword.value) return confirmNewPassword.focus()
-    if (newPassword.value != confirmNewPassword.value) return alert('两次密码输入不一致')
+    event.preventDefault();
 
-    let option = {
+    const { account, captcha, newPassword, confirmNewPassword } = this.refs;
+    const { forgot } = this.props;
+
+    if (!account.value) return account.focus();
+    if (!captcha.value) return captcha.focus();
+    if (!newPassword.value) return newPassword.focus();
+    if (!confirmNewPassword.value) return confirmNewPassword.focus();
+    if (newPassword.value != confirmNewPassword.value) return alert('两次密码输入不一致');
+
+    let args = {
       captcha: captcha.value,
-      newPassword: newPassword.value,
-      callback: function(result) {
-
-        if (result.success) {
-          alert('密码修改成功')
-
-          let option = { password: newPassword.value }
-
-          if (account.value.indexOf('@') != -1) {
-            option.email = account.value
-          } else {
-            option.phone = account.value
-          }
-
-          signin(option, ()=>{
-            window.location.href = '/'
-          })
-
-        } else {
-          alert(result.error || '密码修改失败')
-        }
-      }
+      new_password: newPassword.value
     }
 
     if (account.value.indexOf('@') != -1) {
-      option.email = account.value
+      args.email = account.value;
     } else {
-      option.phone = account.value
+      args.phone = account.value;
     }
 
-    resetPasswordByCaptcha(option)
+    await forgot({ args });
 
+    return false;
   }
 
   sendCaptcha(callback) {
@@ -90,8 +76,7 @@ export class Forgot extends Component {
       params.phone = account.value
     }
 
-    callback(params)
-
+    callback({ args: params })
   }
 
   render() {
@@ -99,26 +84,26 @@ export class Forgot extends Component {
     return (
       <div>
         <Meta title="忘记密码" />
-        
-        <form>
+
+        <form onSubmit={this.submit}>
           <div className="form-group">
-            <label for="exampleInputEmail1">请输入你的注册手机号或邮箱</label>
+            <label htmlFor="exampleInputEmail1">请输入你的注册手机号或邮箱</label>
             <input type="text" className="form-control" placeholder="请输入你的注册手机号或邮箱" ref="account" />
           </div>
           <div className="form-group">
-            <label for="exampleInputPassword1">输入验证码</label>
+            <label htmlFor="exampleInputPassword1">输入验证码</label>
             <CaptchaButton onClick={this.sendCaptcha} />
             <input type="text" className="form-control" placeholder="输入验证码" ref="captcha" />
           </div>
           <div className="form-group">
-            <label for="exampleInputPassword1">新密码</label>
+            <label htmlFor="exampleInputPassword1">新密码</label>
             <input type="password" className="form-control" placeholder="新密码" ref="newPassword" />
           </div>
           <div className="form-group">
-            <label for="exampleInputPassword1">重复新密码</label>
+            <label htmlFor="exampleInputPassword1">重复新密码</label>
             <input type="password" className="form-control" placeholder="重复新密码" ref="confirmNewPassword" />
           </div>
-          <button type="submit" className="btn btn-primary" onClick={this.submitResetPassword}>提交</button>
+          <button type="submit" className="btn btn-primary">提交</button>
         </form>
 
         {/*
@@ -135,11 +120,12 @@ export class Forgot extends Component {
           </div>
 
           <div className="list">
-            <input type="submit" className="button center" onClick={this.submitResetPassword} value="提交" />
+            <input type="submit" className="button center" onClick={this.submit} value="提交" />
           </div>
 
         </div>
         */}
+
       </div>
     )
 

@@ -38,7 +38,7 @@ export default class Sidebar extends React.Component {
   render() {
 
     const { isMember, me, recommendPostsDom } = this.props
-    
+
     /*
     <div className="card">
       <div className="card-body">
@@ -62,9 +62,15 @@ export default class Sidebar extends React.Component {
         :
         null}
 
+      <div className="card">
+        <div className="card-header">新人</div>
+        <div className="card-body">
+        </div>
+      </div>
+
       {recommendPostsDom ?
         <div className="card">
-          <div className="card-header">热门</div>
+          <div className="card-header">本周 - 本月</div>
           <div className="card-body">
             <div styleName="recommend">
               {recommendPostsDom}

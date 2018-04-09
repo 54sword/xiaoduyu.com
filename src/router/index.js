@@ -127,16 +127,16 @@ export default (user) => {
       enter: triggerEnter
     },
 
-    // {
-    //   path: '/forgot',
-    //   exact: true,
-    //   head: Head,
-    //   // component: (Settings),
-    //   component: asyncRouteComponent({
-    //     loader: () => import('../pages/forgot')
-    //   }),
-    //   enter: triggerEnter
-    // },
+    {
+      path: '/forgot',
+      exact: true,
+      head: Head,
+      // component: (Settings),
+      component: asyncRouteComponent({
+        loader: () => import('../pages/forgot')
+      }),
+      enter: triggerEnter
+    },
 
     {
       path: '/new-posts',
