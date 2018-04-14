@@ -112,11 +112,11 @@ export const getPostsById = (state, id) => {
     let list = posts[i].data
     for (let n = 0, max = list.length; n < max; n++) {
       if (list[n]._id == id) {
-        return [list[n]]
+        return list[n]
       }
     }
   }
 
-  return []
+  return null
 
 }

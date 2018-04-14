@@ -73,15 +73,7 @@ const generatePostsFilters = (topic, search) => {
         sort_by: "comment_count,like_count,create_at",
         page_size: 10
         // start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 7) + ''
-      }),
-      select: `
-        _id
-        title
-        user_id{
-          _id
-          avatar_url
-        }
-      `
+      })
     }
   }
 
@@ -111,7 +103,7 @@ export class TopicsDetail extends React.Component {
         id: id,
         filters: { variables: { _id: id } }
       })(store.dispatch, store.getState);
-      
+
       if (!err && result && result.data && result.data[0]) {
 
         let { general, recommend } = generatePostsFilters(result.data[0], match.search);

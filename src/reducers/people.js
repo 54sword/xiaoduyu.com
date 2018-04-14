@@ -53,7 +53,7 @@ export default function people(state = initialState, action = {}) {
           }
         })
       }
-
+      
       return merge({}, state, {})
 
     default:

@@ -1,23 +1,23 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // config
-import { original_api_url } from '../../../config'
+import { original_api_url } from '../../../config';
 
 // redux
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { hideSign } from '../../actions/sign'
-import { getSignStatus } from '../../reducers/sign'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { hideSign } from '../../actions/sign';
+import { getSignStatus } from '../../reducers/sign';
 
 // components
-import SignIn from '../sign-in'
-import SignUp from '../sign-up'
-import Modal from '../bootstrap/modal'
+import SignIn from '../sign-in';
+import SignUp from '../sign-up';
+import Modal from '../bootstrap/modal';
 
 // styles
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
 @connect(
   (state, props) => ({
@@ -82,7 +82,7 @@ export default class Sign extends Component {
                 </li>
               </ul>
             </div>
-            
+
             <fieldset><legend>或</legend></fieldset>
 
             {type == 'sign-in' ? <div>

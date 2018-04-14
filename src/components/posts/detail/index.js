@@ -52,9 +52,11 @@ export default class PostsDetail extends React.Component {
 
   render() {
 
-    const [ posts ] = this.props.posts
+    const { posts } = this.props
 
     if (!posts) return
+
+    // console.log(posts);
 
     return(<div>
 

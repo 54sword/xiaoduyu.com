@@ -245,16 +245,14 @@ export default class CommentEditor extends Component {
 
     const { content, showFooter, submitting } = this.state
 
-    return (<div>
-      <div className="container" styleName="box">
+    return (<div styleName="box">
         <div styleName="content">{content}</div>
         {showFooter ?
           <div styleName="footer">
             <button className="button" onClick={this.submit}>{submitting ? '提交中...' : '提交'}</button>
           </div>
           : null}
-      </div>
-    </div>)
+      </div>)
   }
 
 }

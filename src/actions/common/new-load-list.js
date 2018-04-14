@@ -69,7 +69,10 @@ export default ({
 
     list.loading = true
 
-    dispatch({ type: actionType, name, data: list })
+
+    if (actionType) {
+      dispatch({ type: actionType, name, data: list })
+    }
 
     let variables = convertParamsFormat(filters)
 
@@ -78,6 +81,8 @@ export default ({
         ${select}
       }
     }`
+
+    // console.log(sql);
 
     let option = {
       query:sql,
@@ -130,7 +135,10 @@ export default ({
 
     list.more = list.filters.page_size * list.filters.page_number > list.count ? false : true
 
-    dispatch({ type: actionType, name, data: list })
+    if (actionType) {
+      dispatch({ type: actionType, name, data: list })
+    }
+
     resolve([null, list ])
 
   })

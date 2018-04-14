@@ -23,15 +23,7 @@ let recommend = {
     deleted: false,
     weaken: false,
     page_size: 10
-  },
-  select: `
-    _id
-    title
-    user_id{
-      _id
-      avatar_url
-    }
-  `
+  }
 }
 
 export class Home extends React.Component {

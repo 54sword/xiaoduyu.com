@@ -95,6 +95,8 @@ export class PostsDetail extends React.Component {
       return (<div>loading...</div>)
     }
 
+    // console.log(posts);
+
     return(<div>
 
       <Meta title={posts ? posts.title : '加载中...'} />
@@ -103,40 +105,29 @@ export class PostsDetail extends React.Component {
 
       <div className="row">
 
+
         <div className="col-md-9">
 
           <PostsDetailC id={posts._id} />
 
-          {/*posts ?
-            <div className="jumbotron">
-              <h1 className="h1">{posts.title}</h1>
-              <p className="lead">{posts.topic_id.name}</p>
-              <hr className="my-4" />
-              {posts.content_html ?
-                <div dangerouslySetInnerHTML={{__html:posts.content_html}} />
-                : null}
-            </div>
-            : null*/}
+          <CommentList
+            name={posts._id}
+            filters={{
+              variables: {
+                posts_id: posts._id,
+                parent_id: false
+              }
+            }}
+            />
 
-
-            <CommentList
-              name={posts._id}
-              filters={{
-                variables: {
-                  posts_id: posts._id,
-                  parent_id: false
-                }
-              }}
-              />
-            {isMember ?
-              <div className="mt-2">
-                <EditorComment posts_id={posts._id} />
-              </div>
-              : null}
+          {isMember ?
+            <div className="mt-2"><EditorComment posts_id={posts._id} /></div>
+            : null}
         </div>
 
+        {/*
         <div className="col-md-3">
-          {posts ?
+          {posts && posts.topic_id && posts.topic_id._id ?
             <Sidebar
               recommendPostsDom={(<PostsList
                 id={`sidebar-${posts._id}`}
@@ -156,6 +147,7 @@ export class PostsDetail extends React.Component {
               />
             : null}
         </div>
+        */}
 
       </div>
       </div>

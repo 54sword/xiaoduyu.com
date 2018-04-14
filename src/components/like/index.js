@@ -8,6 +8,9 @@ import { showSign } from '../../actions/sign';
 import { isMember } from '../../reducers/user';
 import { like, unlike } from '../../actions/like';
 
+// style
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
 @connect(
   (state, props) => ({
@@ -19,11 +22,16 @@ import { like, unlike } from '../../actions/like';
     unlike: bindActionCreators(unlike, dispatch)
   })
 )
+@CSSModules(styles)
 export default class LikeButton extends Component {
 
   constructor(props) {
     super(props)
     this.handleLike = this.handleLike.bind(this)
+  }
+
+  stopPropagation(e) {
+    e.stopPropagation();
   }
 
   async handleLike(e) {
@@ -89,20 +97,14 @@ export default class LikeButton extends Component {
     const like = comment || reply || posts
 
     if (!isMember) {
-      return (<a
-        href="javascript:void(0)"
-        onClick={showSign}>
-        赞 {like.like_count && like.like_count > 0 ? like.like_count : null}
-      </a>)
+      return (<a href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>赞</a>)
     }
 
     return (
-      <a
-        href="javascript:void(0)"
-        className={like.like ? 'black-10' : ''}
-        onClick={(e)=>{this.handleLike(e)}}>
-        {like.like ? "已赞" : '赞'}
-        </a>
+      <a href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}} styleName="hover">
+        {like.like ? <span>已赞</span> : '赞'}
+        {like.like ? <span>取消赞</span> : null}
+      </a>
     )
   }
 }

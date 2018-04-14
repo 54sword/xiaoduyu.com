@@ -8,6 +8,7 @@ import { DateDiff } from '../common/date'
 // import loadList from './common/load-list'
 import loadList from './common/new-load-list'
 
+/*
 export function loadPeopleById({ id, callback = ()=>{} }) {
   return (dispatch, getState) => {
     return new Promise(async (resolve, reject) => {
@@ -40,6 +41,7 @@ export function loadPeopleById({ id, callback = ()=>{} }) {
           nickname
           banned_to_post
           avatar_url
+          follow
         }
       }
     `
@@ -66,28 +68,9 @@ export function loadPeopleById({ id, callback = ()=>{} }) {
 
     })
 
-    /*
-    let accessToken = getState().user.accessToken
-
-    return Ajax({
-      url: '/people/'+id,
-      type: 'get',
-      headers: { AccessToken: accessToken },
-      callback: (res)=>{
-
-        if (res && res.success) {
-          dispatch({ type: 'ADD_PEOPLE', people: res.data })
-          callback(res.data)
-        } else {
-          callback(null)
-        }
-
-      }
-    })
-    */
-
   }
 }
+*/
 
 export function loadPeopleList({ name, filters = {}, restart = false, accessToken = '' }) {
   return (dispatch, getState) => {
@@ -119,9 +102,10 @@ export function loadPeopleList({ name, filters = {}, restart = false, accessToke
         nickname
         banned_to_post
         avatar_url
+        follow
       `
     }
-
+    
     return loadList({
       dispatch,
       getState,
@@ -189,7 +173,7 @@ export function updatePeople ({ query = {}, update = {}, options = {} }) {
     })
   }
 }
-*/
+
 
 export function follow({ peopleId, callback }) {
   return (dispatch, getState) => {
@@ -387,3 +371,5 @@ export function loadPeopleByName({ name, filters = {}, callback = ()=>{} }) {
 
   }
 }
+
+*/

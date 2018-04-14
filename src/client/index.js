@@ -22,6 +22,10 @@ import '../pages/global.scss';
 import '../vendors/toastify-js/toastify.js'
 import '../vendors/toastify-js/toastify.css'
 
+// 网页图片浏览器
+// WebPictureViewer(['https://avatars3.githubusercontent.com/u/888115?v=3&s=40']);
+import '../vendors/web-picture-viewer.js'
+
 // ArriveFooter 监听抵达页尾的事件
 import '../vendors/arrive-footer.js'
 

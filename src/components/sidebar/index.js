@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import { name } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -58,7 +59,10 @@ export default class Sidebar extends React.Component {
         null}
 
       {isMember ?
+          <div>
           <a href="/new-posts" styleName="new-posts" target="_blank">创建帖子</a>
+          <div>快捷发帖，问与答，好奇心</div>
+          </div>
         :
         null}
 
@@ -80,8 +84,8 @@ export default class Sidebar extends React.Component {
         : null}
 
       <div>
-        <p>源代码地址</p>
-        <p>© 2018 渡鱼</p>
+        <p><a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源代码地址</a></p>
+        <p>©{new Date().getFullYear()} {name}</p>
       </div>
 
     </div>)

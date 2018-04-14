@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
+import { name } from '../../../config';
+
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -107,7 +109,7 @@ export default class Head extends React.Component {
 
         {/* logo */}
         <div styleName="logo">
-          <Link to="/">渡鱼</Link>
+          <Link to="/">{name}</Link>
         </div>
 
         {/* user bar */}

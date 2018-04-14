@@ -1,48 +1,151 @@
 
 .item{
-  background-color: #fff;
-  border-top:1px solid #efefef;
+
+  // background-color: #fff;
+  border-top:1px solid #e5e5e5;
 
   &:first-child{
     border-top:none;
   }
 
   .item-head{
+
     padding-top:15px;
-    padding-left:70px;
+    padding-left:65px;
 
     .avatar{
       img{
         float:left;
         margin-left:-50px;
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
+      }
+    }
+
+    div > span{
+
+      color:#ABA8A6;
+      font-size: 12px;
+
+      &:after{
+        color:#ABA8A6;
+        font-size: 9px;
+        margin:0 5px 0 5px;
+        content: '•';
+      }
+
+      &:last-child:after{
+        content: '';
+      }
+
+    }
+
+    a {
+      color:#333;
+    }
+
+  }
+
+  .item-body{
+    padding:5px 15px 0px 15px;
+    img{
+      max-width: 240px;
+    }
+  }
+
+  .footer{
+    padding:5px 0 15px 0;
+
+    .actions{
+      > a{
+        margin-left: 15px;
+        color:rgb(130, 130, 130);
+        &:hover{
+          color:rgb(99, 99, 99);
+        }
       }
     }
   }
 
-  .item-body{
-    padding:15px;
-  }
-
 }
 
+/*
 .reply-list{
-  margin-top:15px;
-  margin-left:50px;
-  background-color: #efefef;
+  // margin-top:15px;
+  margin-left:40px;
+  // background-color: #efefef;
 
   .item:first-child{
     border-top:1px solid #efefef;
   }
 
   .item-head{
+    padding-left:0px;
+  }
+
+  .item-body{
+    padding:10px 15px 0px 0px;
+  }
+
+
+
+}
+*/
+
+.reply-list{
+  margin-left:50px;
+  border-top: 1px solid #e5e5e5;
+
+  .item-head{
     padding-left:50px;
   }
 
   .item-body{
-    padding:15px 0 0px 0;
+    padding-left:0px;
+  }
+
+  .actions{
+    a:first-child{
+      margin-left: 0px;
+    }
+  }
+}
+
+.reply{
+
+  border-top:1px solid #efefef;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  // border-top:1px solid #efefef;
+
+  .reply-head{
+    a{
+      color:#484848;
+    }
+    span{
+      color:#ababab;
+      font-size: 13px;
+      margin:0 5px 0 5px;
+    }
+  }
+
+  .reply-body{
+    margin:5px 0 5px 0;
+  }
+
+  .footer{
+    padding:0 0 0px 0;
+
+    .actions{
+      a {
+        margin-right:15px;
+        margin-left:0px;
+      }
+    }
+    // padding-left:0px;
+    // padding-bottom:15px;
   }
 
 }

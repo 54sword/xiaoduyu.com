@@ -4,7 +4,7 @@
 
 
 .DraftEditor-root{
-  padding:10px 15px 10px 15px;
+  padding:15px 15px 15px 15px;
 }
 
 .DraftEditor-root * {
@@ -85,7 +85,7 @@
   color: #666;
   font-family: 'Hoefler Text', 'Georgia', serif;
   font-style: italic;
-  margin: 16px 0;
+  /* margin: 16px 0; */
   padding: 10px 20px;
 }
 
@@ -171,8 +171,6 @@
 .RichEditor-controls .ol{
   background-image: url(./images/editor-icon_13.png);
 }
-
-
 
 .RichEditor-controls .ul{
   background-image: url(./images/editor-icon_12.png);

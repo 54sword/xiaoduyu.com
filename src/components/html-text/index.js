@@ -6,6 +6,8 @@ import styles from './style.scss'
 
 import Device from '../../common/device'
 
+import Utils from '../../common/utils'
+
 
 const converVideo = (html) => {
 
@@ -97,66 +99,34 @@ const converVideo = (html) => {
 
   }
 
+
+  // 图片处理
   re = /\<img src\=\"(.*?)\"\>/g;
 
   let imgs = [...new Set(html.match(re))];
 
+  // 获取页面中所有的图片
+  let allImage = Utils.abstractImagesFromHTML(html);
+  allImage.map((item,index)=>{
+    allImage[index] = item.split('?')[0];
+  });
+  allImage = "['"+allImage.join("','")+"']";
+
   if (imgs && imgs.length > 0) {
-    imgs.map(img=>{
+
+    imgs.map((img, index)=>{
 
       let _img = img;
-
-      // _img = _img.replace(/\-/g, "\\-");
-      // _img = _img.replace(/\"/g, '\\"');
-      // _img = _img.replace(/\'/g, "\\'");
-      // _img = _img.replace(/\?/g, "\\?");
-      // _img = _img.replace(/\//g, "\\/");
-      // _img = _img.replace(/\./g, "\\.");
-      // _img = _img.replace(/\=/g, "\\=");
-      // _img = _img.replace(/\</g, "\\<");
-      // _img = _img.replace(/\>/g, "\\>");
-      // _img = _img.replace(/\&/g, "\\&");
-      // _img = _img.replace(/\:/g, "\\:");
-      // _img = _img.replace(/\[/g, "\\[");
-      // _img = _img.replace(/\]/g, "\\]");
-      // _img = _img.replace(/\{/g, "\\{");
-      // _img = _img.replace(/\}/g, "\\}");
-      // _img = _img.replace(/\(/g, "\\(");
-      // _img = _img.replace(/\)/g, "\\)");
-      // _img = _img.replace(/\|/g, "\\|");
-      // _img = _img.replace(/\,/g, "\\,");
 
       // 如果url中包含“?”,需要将其转译成字符串
       _img = _img.replace(/\?/g, "\\?");
 
-      html = html.replace(new RegExp(_img,"gm"), '<div class="load-demand" data-load-demand=\''+img+'\'></div>');
+      html = html.replace(new RegExp(_img,"gm"), '<div onclick="webPictureViewer('+allImage+','+index+');" class="load-demand" data-load-demand=\''+img+'\'></div>');
     })
   }
 
-  // console.log(html);
 
-
-  /*
-  console.log(imgs);
-
-  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-
-  if (imgs && imgs.length > 0) {
-
-    imgs.map(img=>{
-      let i = img.match(srcReg)[1];
-
-      html = html.replace(img, `<div class="load-demand" data-load-demand="<img src='${i}' />"></div>`)
-    })
-
-    // imgs.map(img=>{
-    //   let i = img.match(srcReg)[1]
-    //   html = html.replace(img, `<div class="load-demand" data-load-demand="<img src=\'${i}?auto-orient/imageView2/2/w/900\' />"></div>`)
-    // })
-
-  }
-  */
-
+  // music
   re = /\<div data\-163musicsong\=\"(.*?)\"\>/g
   let musics = html.match(re)
 
@@ -179,7 +149,7 @@ const converVideo = (html) => {
       const id = div.split(re)[1]
       let url = "//music.163.com/outchain/player?type=0&id="+id+"&auto=0&height=430"
       html = html.replace(div, `<iframe type="music" ref="iframe" src="${url}" height="450"></iframe>`)
-    })
+    });
 
   }
 

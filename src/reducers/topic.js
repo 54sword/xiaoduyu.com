@@ -46,11 +46,11 @@ export default function topic(state = initialState, action = {}) {
 
     case 'SET_NODE':
       return merge({}, action.state, {})
-    */
 
-    case 'FOLLOW_NODE':
 
-      const { nodeId, status } = action
+    case 'UPDATE_TOPIC_FOLLOW':
+
+      const { id, followStatus } = action
 
       for (let i in state) {
 
@@ -58,16 +58,16 @@ export default function topic(state = initialState, action = {}) {
         nodes = nodes.data
 
         for (let n = 0, length = nodes.length; n < length; n++) {
-          if (nodes[n]._id == nodeId) {
-            state[i].data[n].follow_count += status ? 1 : -1
-            state[i].data[n].follow = status
+          if (nodes[n]._id == id) {
+            state[i].data[n].follow_count += followStatus ? 1 : -1
+            state[i].data[n].follow = followStatus
           }
 
           if (nodes[n].children && nodes[n].children.length > 0) {
             nodes[n].children.map(function(node, key){
-              if (node._id == nodeId) {
-                state[i].data[n].children[key].follow_count += status ? 1 : -1
-                state[i].data[n].children[key].follow = status
+              if (node._id == id) {
+                state[i].data[n].children[key].follow_count += followStatus ? 1 : -1
+                state[i].data[n].children[key].follow = followStatus
               }
             })
           }
@@ -77,6 +77,7 @@ export default function topic(state = initialState, action = {}) {
       }
 
       return merge({}, state, {})
+      */
 
     default:
       return state

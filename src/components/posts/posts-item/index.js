@@ -73,6 +73,17 @@ export default class PostsItem extends React.PureComponent {
     const { posts } = this.props;
     const { expandContent, expandComment } = this.state;
 
+    /**
+    onClick={()=>{
+      // $('#sign').show('')
+      $('#posts').modal({
+        show: true
+      }, {
+        postsId:posts._id
+      });
+    }}
+    */
+
     return (<div styleName={expandContent ? "item-active" : "item"} onClick={expandContent ? null : this.expandContent}>
 
       <div styleName="head">
@@ -93,14 +104,14 @@ export default class PostsItem extends React.PureComponent {
               {posts.view_count ? <span>{posts.view_count}次浏览</span> : null}
               {posts.like_count ? <span>{posts.like_count} 个赞</span> : null}
               {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
-              <span>{posts._create_at}</span>
+              {/*<span>{posts._create_at}</span>*/}
             </div>
           </div>
           : null}
       </div>
 
       <div styleName="title">
-        <a href={`/posts/${posts._id}`} target="_blank" onClick={this.stopPropagation}>{posts.title}</a>
+        <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
       </div>
 
       {expandContent ?
@@ -115,31 +126,36 @@ export default class PostsItem extends React.PureComponent {
       <div styleName="footer">
         <div className="container">
           <div className="row justify-content-between">
-            <div className="col-4">
-              <span styleName="action-item" onClick={this.expandComment}>评论{posts.comment_count ? ' '+posts.comment_count : ''}</span>
-              {/* <span styleName="action-item">关注{posts.follow_count ? ' '+posts.follow_count : ''}</span> */}
+            <div className="col-4" styleName="actions">
+              {posts.comment_count ?
+                <a href="javascript:void(0)" onClick={this.expandComment}>
+                  {!expandComment ? posts.comment_count + ' 条评论' : '收起评论'}
+                </a>
+                : null}
               <Follow posts={posts} />
               <Like posts={posts} />
             </div>
-            <div className="col-4 text-right">
-              <span onClick={this.collapseContent}>{expandContent ? '收起' : ''}</span>
+            <div className="col-4 text-right" styleName="actions">
+              <a href="javascript:void(0)" onClick={this.collapseContent}>{expandContent ? '收起' : ''}</a>
             </div>
           </div>
         </div>
       </div>
 
       {expandComment ?
-        <div styleName="comment-container">
-          <CommentList
-            name={posts._id}
-            filters={{
-              variables: {
-                posts_id: posts._id,
-                parent_id: false
-              }
-            }}
-            />
-          <Editor posts_id={posts._id} />
+        <div styleName="comment-container" onClick={this.stopPropagation}>
+          <div>
+            <CommentList
+              name={posts._id}
+              filters={{
+                variables: {
+                  posts_id: posts._id,
+                  parent_id: false
+                }
+              }}
+              />
+            <Editor posts_id={posts._id} />
+          </div>
         </div>
         : null}
 

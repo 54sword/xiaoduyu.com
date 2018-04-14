@@ -101,13 +101,13 @@ class StyleButton extends React.Component {
 }
 
 const BLOCK_TYPES = [
-  // {label: 'H1', style: 'header-one'},
-  // {label: 'H2', style: 'header-two'},
-  // {label: 'H3', style: 'header-three'},
-  // {label: 'H4', style: 'header-four'},
-  // {label: 'H5', style: 'header-five'},
-  // {label: 'H6', style: 'header-six'},
-  { className: 'title', label: 'Title', style: 'header-five'},
+  // { className: 'title', label: 'H1', style: 'header-one'},
+  { className: 'title', label: 'H2', style: 'header-two'},
+  // { className: 'title', label: 'H3', style: 'header-three'},
+  // { className: 'title', label: 'H4', style: 'header-four'},
+  // { className: 'title', label: 'H5', style: 'header-five'},
+  // { className: 'title', label: 'H6', style: 'header-six'},
+  // { className: 'title', label: 'Title', style: 'header-five'},
   { className: 'blockquote', label: 'Blockquote', style: 'blockquote'},
   { className: 'ul', label: 'ul', style: 'unordered-list-item'},
   { className: 'ol', label: 'ol', style: 'ordered-list-item'},
@@ -400,6 +400,8 @@ export class MyEditor extends React.Component {
 
       setTimeout(()=>{
 
+        console.log(draftHtml.innerHTML);
+
         // 删除所有空格
         let html = draftHtml.innerHTML.replace(/<!--[\w\W\r\n]*?-->/gmi, '')
 
@@ -598,7 +600,7 @@ export class MyEditor extends React.Component {
     {/* stripPastedStyles=true 清除复制文本样式*/}
     return(<div className="RichEditor-editor">
 
-            <div ref="draftHtml" style={{display:'none'}}>
+            <div ref="draftHtml">
               {rendered}
             </div>
 

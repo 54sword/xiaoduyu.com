@@ -53,7 +53,7 @@
 
     b{
       font-size: 13px;
-      font-weight: 500;
+      font-weight: bold;
       color:#222;
     }
 
@@ -93,7 +93,7 @@
   }
 
   a:hover{
-    text-decoration: none;
+    text-decoration: underline !important;
   }
 
 }
@@ -139,23 +139,30 @@
 
 .footer{
   width: 100%;
-  padding:10px 15px 15px 15px;
+  padding:10px 15px 15px 0px;
 
-  .action-item{
-    margin-right:15px;
-    cursor: pointer;
-    cursor: hand;
-    color:rgb(110, 110, 110);
+  .actions{
+    > a{
+      margin-left: 15px;
+      color:rgb(130, 130, 130);
+      &:hover{
+        color:rgb(99, 99, 99);
+      }
+    }
   }
 
 }
 
 .comment-container{
-  border-top:1px solid #efefef;
-  padding:15px;
+  // border-top:1px solid #efefef;
+  // padding:15px;
   > div{
+    border-top: 1px solid #e5e5e5;
+    // overflow: hidden;
     // padding:20px;
-    border:1px solid #efefef;
-    // border-radius: 10px;
+    // border:2px solid #e5e5e5;
+    // border-radius: 6px;
+    // background: #f6f6f6;
+    // box-shadow: 0px 0px 15px rgba(0,0,0,.1);
   }
 }
