@@ -5,7 +5,7 @@
   margin-bottom: 10px;
   background-color: #fff;
   &:hover{
-    background-color:rgba(255,255,255,.9);
+    background-color:rgba(255,255,255,.8);
     cursor: hand;
     cursor: pointer;
   }
@@ -48,22 +48,23 @@
     line-height: 20px;
 
     a{
-      color:#ABA8A6;
+      // color:#ABA8A6;
+      color:#000 !important;
     }
 
     b{
       font-size: 13px;
       font-weight: bold;
-      color:#222;
+      color:#000;
     }
 
     a:hover{
-      text-decoration: underline;
+      text-decoration: underline !important;
     }
 
     div > span{
 
-      color:#ABA8A6;
+      color:#b1b1b1;
 
       &:after{
         color:#ABA8A6;
@@ -89,7 +90,7 @@
   font-weight: bold;
   padding:0 15px 0 15px;
   a{
-    color:#333 !important;
+    color:#000 !important;
   }
 
   a:hover{
@@ -144,7 +145,8 @@
   .actions{
     > a{
       margin-left: 15px;
-      color:rgb(130, 130, 130);
+      color:#808080;
+      font-size:13px;
       &:hover{
         color:rgb(99, 99, 99);
       }
@@ -154,15 +156,17 @@
 }
 
 .comment-container{
-  // border-top:1px solid #efefef;
-  // padding:15px;
+
+  :global{
+    .list-group{
+      & > div:last-child{
+        border-bottom: 1px solid #e5e5e5;
+      }
+    }
+  }
+
   > div{
     border-top: 1px solid #e5e5e5;
-    // overflow: hidden;
-    // padding:20px;
-    // border:2px solid #e5e5e5;
-    // border-radius: 6px;
-    // background: #f6f6f6;
-    // box-shadow: 0px 0px 15px rgba(0,0,0,.1);
   }
+
 }

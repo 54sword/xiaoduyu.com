@@ -25,14 +25,14 @@ export default class PostsItemTitle extends React.PureComponent {
     const { posts } = this.props
 
     return (<div styleName="item">
-      {typeof posts.user_id == 'object' ?
+      {/*typeof posts.user_id == 'object' ?
         <Link
           to={`/people/${posts.user_id._id}`}
           styleName="avatar"
           className="load-demand"
           data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}>
         </Link>
-        : null}
+        : null*/}
 
       <Link
         to={`/posts/${posts._id}`}

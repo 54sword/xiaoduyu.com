@@ -1,0 +1,23 @@
+.file{
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 100%;
+  font-size:0;
+
+  &:hover{
+    span{
+      background-color: #efefef;
+    }
+  }
+
+  input{
+    position: absolute;
+    font-size: 100px;
+    line-height: 300%;
+    right: 0;
+    // left:0;
+    top: 0;
+    opacity: 0;
+  }
+}

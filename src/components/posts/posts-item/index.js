@@ -127,11 +127,9 @@ export default class PostsItem extends React.PureComponent {
         <div className="container">
           <div className="row justify-content-between">
             <div className="col-4" styleName="actions">
-              {posts.comment_count ?
                 <a href="javascript:void(0)" onClick={this.expandComment}>
-                  {!expandComment ? posts.comment_count + ' 条评论' : '收起评论'}
+                  {expandComment ? '收起评论' : (posts.comment_count ? posts.comment_count + ' 条评论' : '评论')}
                 </a>
-                : null}
               <Follow posts={posts} />
               <Like posts={posts} />
             </div>

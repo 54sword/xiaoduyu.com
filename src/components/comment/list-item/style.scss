@@ -10,8 +10,11 @@
 
   .item-head{
 
+    font-size: 13px;
+
     padding-top:15px;
     padding-left:65px;
+    line-height: 20px;
 
     .avatar{
       img{
@@ -20,26 +23,52 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        // margin-top:-5px;
       }
     }
 
-    div > span{
-
+    span{
       color:#ABA8A6;
-      font-size: 12px;
-
-      &:after{
-        color:#ABA8A6;
-        font-size: 9px;
-        margin:0 5px 0 5px;
-        content: '•';
-      }
-
-      &:last-child:after{
-        content: '';
-      }
-
+      // font-size: 12px;
+      margin:0 5px 0 5px;
     }
+
+    .info{
+      span{
+        color:#ABA8A6;
+        font-size: 12px;
+        margin:0px;
+
+        &:after{
+          color:#ABA8A6;
+          font-size: 9px;
+          margin:0 5px 0 5px;
+          content: '•';
+        }
+
+        &:last-child:after{
+          content: '';
+        }
+      }
+    }
+
+    // div > span{
+    //
+    //   color:#ABA8A6;
+    //   font-size: 12px;
+    //
+    //   &:after{
+    //     color:#ABA8A6;
+    //     font-size: 9px;
+    //     margin:0 5px 0 5px;
+    //     content: '•';
+    //   }
+    //
+    //   &:last-child:after{
+    //     content: '';
+    //   }
+    //
+    // }
 
     a {
       color:#333;
@@ -121,6 +150,7 @@
   // border-top:1px solid #efefef;
 
   .reply-head{
+    font-size: 13px;
     a{
       color:#484848;
     }

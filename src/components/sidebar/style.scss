@@ -23,3 +23,29 @@
   text-align: center;
   margin-bottom:10px;
 }
+
+
+.footer{
+  font-size: 13px;
+  color: rgb(117, 117, 117);
+  a{
+    color:#484848;
+    
+    &:after{
+      color:#ABA8A6;
+      font-size: 9px;
+      margin:0 5px 0 5px;
+      content: '•';
+    }
+
+    &:last-child:after{
+      content: '';
+    }
+
+    &:hover{
+      text-decoration: underline !important;
+    }
+
+
+  }
+}

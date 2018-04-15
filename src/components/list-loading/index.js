@@ -23,7 +23,7 @@ export default class ListLoading extends React.PureComponent {
         </div>)
     }
 
-    return <div styleName="box"></div>
+    return ''
 
   }
 

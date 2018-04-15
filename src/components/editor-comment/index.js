@@ -144,7 +144,6 @@ export default class CommentEditor extends Component {
     this.setState({ submitting: false });
 
     if (!err) {
-
       this.setState({
         content: <div key={new Date().getTime()}>
           <Editor
@@ -157,56 +156,16 @@ export default class CommentEditor extends Component {
             displayControls={parent_id ? false : true}
             />
           </div>
-      })
-
+      });
       this.syncContent('', '');
-
       successCallback();
-      return
     } else if (err) {
-      alert(err)
+      Toastify({
+        text: err.message,
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
     }
-
-
-    /*
-    await addComment({
-      posts_id: posts_id,
-      parent_id: parent_id,
-      reply_id: reply_id,
-      contentJSON: contentJSON,
-      contentHTML: contentHTML,
-      deviceId: Device.getCurrentDeviceId(),
-      callback: function(result) {
-
-        self.setState({ submitting: false })
-
-        if (result && result.success) {
-
-          self.setState({
-            content: <div key={new Date().getTime()}>
-              <Editor
-                syncContent={self.syncContent}
-                content={''}
-                getEditor={(editor)=>{
-                  self.setState({ editor })
-                  getEditor(editor)
-                }}
-                displayControls={parent_id ? false : true}
-                />
-              </div>
-          })
-
-          self.syncContent('', '')
-
-          successCallback()
-          return
-        } else if (result && !result.success) {
-          alert(result.error)
-        }
-
-      }
-    })
-    */
 
   }
 
@@ -249,45 +208,10 @@ export default class CommentEditor extends Component {
         <div styleName="content">{content}</div>
         {showFooter ?
           <div styleName="footer">
-            <button className="button" onClick={this.submit}>{submitting ? '提交中...' : '提交'}</button>
+            <button onClick={this.submit} type="button" className="btn btn-primary">{submitting ? '提交中...' : '提交'}</button>
           </div>
           : null}
       </div>)
   }
 
 }
-
-/*
-CommentEditor = CSSModules(CommentEditor, styles)
-
-CommentEditor.defaultProps = {
-  _id: '',
-  posts_id: '',
-  parent_id: '',
-  reply_id: '',
-  content: '',
-  successCallback: ()=>{},
-  getEditor: (editor)=>{}
-}
-
-CommentEditor.propTypes = {
-  addComment: PropTypes.func.isRequired,
-  updateComment: PropTypes.func.isRequired
-}
-
-function mapStateToProps(state, props) {
-  return {
-  }
-}
-
-function mapDispatchToProps(dispatch, props) {
-  return {
-    addComment: bindActionCreators(addComment, dispatch),
-    updateComment: bindActionCreators(updateComment, dispatch)
-  }
-}
-
-
-CommentEditor = connect(mapStateToProps, mapDispatchToProps)(CommentEditor)
-*/
-// export default CommentEditor

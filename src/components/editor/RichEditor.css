@@ -1,75 +1,80 @@
 
 
-/* 内容样式 */
+/*************** 内容样式 ***************/
 
-
-.DraftEditor-root{
-  padding:15px 15px 15px 15px;
-}
-
-.DraftEditor-root * {
-  -webkit-user-select: text;
-}
-
-
-.DraftEditor-root figure{
-  margin:0;
-}
-
-.DraftEditor-root img{
-  max-width: 100%;
-}
+.DraftEditor-root * { -webkit-user-select: text; }
+.DraftEditor-root h2{ font-size: 18px; }
+.DraftEditor-root figure{ margin:0; }
+.DraftEditor-root img{ max-width: 100%; max-height: 600px; }
+.DraftEditor-root ul, .DraftEditor-root ol{ margin:0px; }
 .DraftEditor-root embed,
-.DraftEditor-root iframe{
-  width:100%;
-  border:none;
+.DraftEditor-root iframe{ width:100%; border:none; }
+
+.RichEditor-editor .RichEditor-blockquote {
+  border-left: 5px solid #c2c2c2;
+  color: #666;
+  /* font-family: 'Hoefler Text', 'Georgia', serif; */
+  /* font-style: italic; */
+  /* margin: 16px 0; */
+  padding: 10px 20px;
+  background-color: #f5f4f4;
+  margin:5px 0 5px 0;
 }
+
+.RichEditor-editor .public-DraftStyleDefault-pre {
+  background-color: #222;
+  overflow-x:scroll;
+  margin:5px 0 5px 0;
+  padding:10px 15px 10px 15px;
+  border-radius: 4px;
+  color:#a8ff60;
+  max-height: 400px;
+  max-width: 100%;
+  overflow: auto;
+  white-space: nowrap;
+  caret-color:#fff;
+  font-size: 14px;
+}
+  .public-DraftStyleDefault-pre pre{
+    color:#a8ff60;
+    margin:5px 0 5px 0;
+    padding:0px;
+  }
 
 .DraftEditor-root embed, .DraftEditor-root iframe{
   min-height: 260px;
 }
-
-
-
 @media only screen and (max-width: 768px) {
   .DraftEditor-root embed, .DraftEditor-root iframe{
     min-height: 216px;
   }
 }
 
+.DraftEditor-root iframe[src^="//music.163.com"] { min-height: auto; }
 
-.DraftEditor-root iframe[src^="//music.163.com"] {
-  min-height: auto;
-}
-
-
-/* 内容样式 end */
+/*************** 内容样式 end ***************/
 
 .DraftEditor-root{
   background-color: #fff;
 }
 
 .RichEditor-root {
-  background: #fff;
-  border: 1px solid #ddd;
-  font-family: 'Georgia', serif;
+  /* background: #fff; */
+  /* border: 1px solid #e5e5e5; */
+  /* font-family: 'Georgia', serif; */
   font-size: 14px;
-  padding: 15px;
 }
 
 .RichEditor-editor {
-  /*border-top: 1px solid #ddd;*/
   cursor: text;
   font-size: 15px;
-  /*margin-top: 10px;*/
   overflow: scroll;
-
+  line-height: 100%;
 }
 
 .RichEditor-editor .public-DraftEditorPlaceholder-root,
 .RichEditor-editor .public-DraftEditor-content {
-  /*margin: 0 -15px -15px;*/
-  /*padding: 15px;*/
+  padding: 15px;
 }
 
 .RichEditor-editor .public-DraftEditor-content {
@@ -80,28 +85,12 @@
   display: none;
 }
 
-.RichEditor-editor .RichEditor-blockquote {
-  border-left: 5px solid #eee;
-  color: #666;
-  font-family: 'Hoefler Text', 'Georgia', serif;
-  font-style: italic;
-  /* margin: 16px 0; */
-  padding: 10px 20px;
-}
-
-.RichEditor-editor .public-DraftStyleDefault-pre {
-  background-color: rgba(0, 0, 0, 0.05);
-  font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
-  font-size: 16px;
-  padding: 20px;
-}
 
 .RichEditor-controls {
-  font-family: 'Helvetica', sans-serif;
-  font-size: 14px;
   user-select: none;
-  background-color: #fff;
-  border-bottom:1px solid #efefef;
+  border-bottom:1px solid #e5e5e5;
+  line-height: 100%;
+  padding:0 5px 0 5px;
 }
 
 .RichEditor-styleButton {
@@ -110,7 +99,7 @@
   display: inline-block;
 
   padding:5px;
-  margin:5px 0 5px 10px;
+  /* margin:5px 0 5px 10px; */
   border-radius: 3px;
 }
 
@@ -124,7 +113,6 @@
   color:#fff !important;
 }
 
-
 .RichEditor-controls .title,
 .RichEditor-controls .blockquote,
 .RichEditor-controls .ul,
@@ -136,12 +124,15 @@
 .RichEditor-controls .image,
 .RichEditor-controls .link,
 .RichEditor-controls .video,
-.RichEditor-controls .music{
+.RichEditor-controls .music,
+.RichEditor-controls .more{
   width:25px;
   height: 25px;
   background-size: 80%;
   background-position: center;
   background-repeat: no-repeat;
+  padding:0px;
+  margin:5px;
 }
 
 .RichEditor-controls .title{
@@ -198,5 +189,9 @@
 }
 
 .RichEditor-controls .music{
+  background-image: url(./images/music.png);
+}
+
+.RichEditor-controls .more{
   background-image: url(./images/music.png);
 }

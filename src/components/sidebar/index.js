@@ -61,20 +61,22 @@ export default class Sidebar extends React.Component {
       {isMember ?
           <div>
           <a href="/new-posts" styleName="new-posts" target="_blank">创建帖子</a>
-          <div>快捷发帖，问与答，好奇心</div>
+          {/*<div>快捷发帖，问与答，好奇心</div>*/}
           </div>
         :
         null}
 
+      {/*
       <div className="card">
         <div className="card-header">新人</div>
         <div className="card-body">
         </div>
       </div>
+      */}
 
       {recommendPostsDom ?
         <div className="card">
-          <div className="card-header">本周 - 本月</div>
+          <div className="card-header">最热讨论</div>
           <div className="card-body">
             <div styleName="recommend">
               {recommendPostsDom}
@@ -83,9 +85,12 @@ export default class Sidebar extends React.Component {
         </div>
         : null}
 
-      <div>
-        <p><a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源代码地址</a></p>
-        <p>©{new Date().getFullYear()} {name}</p>
+      <div styleName="footer">
+        <div>
+          <a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源代码</a>
+          <a href="mailto:shijian.wu@hotmail.com">联系作者</a>
+        </div>
+        <p>©{new Date().getFullYear()} {name} (浙ICP备14013796号-3)</p>
       </div>
 
     </div>)

@@ -22,7 +22,7 @@ export class QiniuUploadImage extends React.Component {
 
   static defaultProps = {
     displayLoading: true,
-    name: "上传图片",
+    text: "上传图片",
     multiple: true,
     upload: (s)=>{},
     onDrop: (files)=>{},
@@ -141,12 +141,11 @@ export class QiniuUploadImage extends React.Component {
     }
 
     const { loading, token } = this.state
-    const { multiple, name, displayLoading } = this.props
+    const { multiple, name, displayLoading, text } = this.props
 
     return (
-      <div>
-        {displayLoading && loading ? <Loading /> : null}
         <Qiniu
+          text={text}
           // onDrop={this.onDrop}
           // size={100}
           multiple={multiple}
@@ -157,7 +156,6 @@ export class QiniuUploadImage extends React.Component {
           onUpload={this.onUpload}>
             {name}
         </Qiniu>
-      </div>
     );
   }
 }

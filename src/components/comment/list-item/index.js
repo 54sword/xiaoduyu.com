@@ -134,14 +134,16 @@ export default class CommentItem extends PureComponent {
             <div styleName="avatar" className="load-demand" data-load-demand={`<img width="40" height="40" src="${comment.user_id.avatar_url}" />`}></div>
             <b>{comment.user_id.nickname}</b>
           </Link>
-          {comment.reply_id ? ` 回复了${comment.reply_id.user_id._id == comment.user_id._id ? '自己' : ' '}` : null}
+          <span>{comment.reply_id ? `回复${comment.reply_id.user_id._id == comment.user_id._id ? '自己' : ''}` : null}</span>
           {comment.reply_id && comment.reply_id.user_id._id != comment.user_id._id ? <Link to={`/people/${comment.reply_id.user_id._id}`} onClick={this.stopPropagation}><b>{comment.reply_id.user_id.nickname}</b></Link> : null}
         </div>
-        <div>
+
+        <div styleName="info">
           {comment.like_count ? <span>赞 {comment.like_count}</span> : null}
           {comment.reply_count ? <span>回复 {comment.reply_count}</span> : null}
           <span>{comment._create_at}</span>
         </div>
+
       </div>
 
       {comment.content_html ?
@@ -155,7 +157,7 @@ export default class CommentItem extends PureComponent {
         </div>
       </div>
 
-      {comment.reply ?
+      {comment.reply && comment.reply.length > 0 ?
         <div styleName="reply-list">
           {comment.reply.map(item=>this.renderUserView(item))}
         </div>

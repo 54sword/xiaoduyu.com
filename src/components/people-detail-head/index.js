@@ -126,7 +126,7 @@ export class PeopleDetailHead extends React.Component {
     return (
       <div>
         <Meta title={people.nickname} />
-        <div className="container">
+        <div>
 
           <div styleName="header">
             <img src={people.avatar_url.replace(/thumbnail/, "large")} />
@@ -158,7 +158,7 @@ export class PeopleDetailHead extends React.Component {
 
         </div>
 
-        <div className="container">
+        <div>
           {body || '空'}
           {/*renderChildren(this.props)*/}
         </div>

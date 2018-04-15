@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'whatwg-fetch';
 
+// style
+import CSSModules from 'react-css-modules';
+import styles from './qiniu.scss';
+
+@CSSModules(styles)
 export default class Qiniu extends React.Component {
 
   static defaultProps = {
+    text: '上传图片',
     size: 1024*1024*2,
     accept: '*',
     multiple: true,
@@ -88,14 +94,9 @@ export default class Qiniu extends React.Component {
 
   render() {
 
-    const { accept, multiple } = this.props
+    const { text, accept, multiple } = this.props
 
-    return (<input
-      type="file"
-      accept={accept}
-      multiple={multiple}
-      onChange={this.onChange}
-    />)
+    return (<a href="javascript:void(0)" styleName="file">{text}<input type="file" accept={accept} multiple={multiple} onChange={this.onChange} /></a>)
   }
 
 }

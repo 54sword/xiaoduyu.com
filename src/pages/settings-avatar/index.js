@@ -103,13 +103,14 @@ export class ResetAvatar extends Component {
               <li className="breadcrumb-item active" aria-current="page">头像</li>
             </ol>
           </nav>
-          
+
           <div styleName="avatar">
             <img src={me.avatar_url.replace('!50', "!200")} />
           </div>
 
           <div className="list">
-            <a href="javascript:void(0)" styleName="upload">{fileUpload}</a>
+            {fileUpload}
+            {/*<a href="javascript:void(0)" styleName="upload"></a>*/}
           </div>
 
         </div>

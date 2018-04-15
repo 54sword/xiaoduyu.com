@@ -110,7 +110,7 @@ const BLOCK_TYPES = [
   // { className: 'title', label: 'Title', style: 'header-five'},
   { className: 'blockquote', label: 'Blockquote', style: 'blockquote'},
   { className: 'ul', label: 'ul', style: 'unordered-list-item'},
-  { className: 'ol', label: 'ol', style: 'ordered-list-item'},
+  // { className: 'ol', label: 'ol', style: 'ordered-list-item'},
   { className: 'code-block', label: 'code', style: 'code-block'}
 ]
 
@@ -125,7 +125,7 @@ var INLINE_STYLES = [
 // 编辑器控制器
 const Controls = (props) => {
 
-  const { editorState } = props
+  const { editorState } = props;
   const selection = editorState.getSelection();
   const blockType = editorState
     .getCurrentContent()
@@ -134,39 +134,82 @@ const Controls = (props) => {
 
   var currentStyle = props.editorState.getCurrentInlineStyle();
 
+  let defaultItem = [];
+
   return (
-    <div className="RichEditor-controls">
+    <div>
 
-      {BLOCK_TYPES.map((type) =>
-        <StyleButton
-          key={type.label}
-          active={type.style === blockType}
-          label={type.label}
-          onToggle={props.toggleBlockType}
-          className={type.className}
-          style={type.style}
-        />
-      )}
+      {props.expandControl ?
 
-      {INLINE_STYLES.map(type =>
-        <StyleButton
-          key={type.label}
-          active={currentStyle.has(type.style)}
-          label={type.label}
-          onToggle={props.toggleInlineStyle}
-          className={type.className}
-          style={type.style}
-        />
-      )}
+      <div className="RichEditor-controls">
 
-      <span className="RichEditor-styleButton image">
-        <QiniuUploadImage upload={props.addImage} name=" " />
-      </span>
+        {BLOCK_TYPES.map((type) =>
+          <StyleButton
+            key={type.label}
+            active={type.style === blockType}
+            label={type.label}
+            onToggle={props.toggleBlockType}
+            className={type.className}
+            style={type.style}
+          />
+        )}
 
-      <span href="javascript:void(0)" className="RichEditor-styleButton video" onClick={props.addVideo} data-toggle="tooltip" data-placement="top" title="Tooltip on top"></span>
-      <span href="javascript:void(0)" className="RichEditor-styleButton link" onClick={props.addLink} data-toggle="tooltip" data-placement="top" title="Tooltip on top"></span>
-      {/*<span href="javascript:void(0)" className="RichEditor-styleButton music" onClick={props.addMusic}></span>*/}
+        {INLINE_STYLES.map(type =>
+          <StyleButton
+            key={type.label}
+            active={currentStyle.has(type.style)}
+            label={type.label}
+            onToggle={props.toggleInlineStyle}
+            className={type.className}
+            style={type.style}
+          />
+        )}
 
+        <QiniuUploadImage upload={props.addImage} text={<span className="RichEditor-styleButton image"></span>} />
+
+        {/*<span className="RichEditor-styleButton video" onClick={props.addVideo}></span>*/}
+        <span className="RichEditor-styleButton link" onClick={props.addLink}></span>
+        {/*<span href="javascript:void(0)" className="RichEditor-styleButton music" onClick={props.addMusic}></span>*/}
+
+      </div>
+      :
+        <div className="RichEditor-controls">
+
+
+        {BLOCK_TYPES.map((type) => {
+
+          if (defaultItem.indexOf(type.className) != -1) {
+            return (<StyleButton
+                key={type.label}
+                active={type.style === blockType}
+                label={type.label}
+                onToggle={props.toggleBlockType}
+                className={type.className}
+                style={type.style}
+              />)
+          }
+
+        })}
+
+        {INLINE_STYLES.map(type => {
+
+          if (defaultItem.indexOf(type.className) != -1) {
+            return (<StyleButton
+              key={type.label}
+              active={currentStyle.has(type.style)}
+              label={type.label}
+              onToggle={props.toggleInlineStyle}
+              className={type.className}
+              style={type.style}
+            />)
+          }
+
+        })}
+
+          <QiniuUploadImage upload={props.addImage} text={<span className="RichEditor-styleButton image"></span>} />
+          <span onClick={props.handleExpandControl} className="RichEditor-styleButton more"></span>
+        </div>
+      }
     </div>
   );
 };
@@ -358,7 +401,9 @@ export class MyEditor extends React.Component {
         ? EditorState.createWithContent(convertFromRaw(JSON.parse(content)), decorator)
         : EditorState.createEmpty(decorator),
       rendered: null,
-      placeholder: placeholder
+      placeholder: placeholder,
+      // 展开控制栏
+      expandControl: false
     }
 
     this.onChange = this._onChange.bind(this)
@@ -400,7 +445,7 @@ export class MyEditor extends React.Component {
 
       setTimeout(()=>{
 
-        console.log(draftHtml.innerHTML);
+        // console.log(draftHtml.innerHTML);
 
         // 删除所有空格
         let html = draftHtml.innerHTML.replace(/<!--[\w\W\r\n]*?-->/gmi, '')
@@ -593,14 +638,14 @@ export class MyEditor extends React.Component {
 
   render() {
     const self = this
-    const { editorState, readOnly, rendered, placeholder } = this.state
+    const { editorState, readOnly, rendered, placeholder, expandControl } = this.state
     const { displayControls } = this.props
 
 
     {/* stripPastedStyles=true 清除复制文本样式*/}
     return(<div className="RichEditor-editor">
 
-            <div ref="draftHtml">
+            <div ref="draftHtml" style={{display:'none'}}>
               {rendered}
             </div>
 
@@ -613,6 +658,12 @@ export class MyEditor extends React.Component {
                 addLink={this.addLink}
                 addImage={this.addImage}
                 addMusic={this.addMusic}
+                expandControl={expandControl}
+                handleExpandControl={()=>{
+                  self.setState({
+                    expandControl: self.state.expandControl ? false : true
+                  });
+                }}
               />
               : null}
 
