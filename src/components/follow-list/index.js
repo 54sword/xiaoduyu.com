@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -88,7 +89,7 @@ export default class CommentList extends Component {
               <img styleName="avatar" src={people.avatar} />
               <div className="d-flex justify-content-between">
                 <div>
-                  <b>{people.nickname}</b>
+                  <Link to={`/people/${people._id}`} styleName="link"><b>{people.nickname}</b></Link>
                   <div styleName="people-status">
                     {people.posts_count ? <span>帖子 {people.posts_count}</span> : null}
                     {people.comment_count ? <span>评论 {people.comment_count}</span> : null}
@@ -109,7 +110,7 @@ export default class CommentList extends Component {
             return (<div key={posts._id} className="list-group-item">
               <div className="d-flex justify-content-between">
                 <div>
-                  <b>{posts.title}</b>
+                  <Link to={`/posts/${posts._id}`} styleName="link"><b>{posts.title}</b></Link>
                 </div>
                 <div>
                   <Follow posts={posts} />
@@ -122,7 +123,7 @@ export default class CommentList extends Component {
             return (<div key={topic._id} className="list-group-item">
               <div className="d-flex justify-content-between">
                 <div>
-                  <b>{topic.name}</b>
+                  <Link to={`/topic/${topic._id}`} styleName="link"><b>{topic.name}</b></Link>
                 </div>
                 <div>
                   <Follow topic={topic} />

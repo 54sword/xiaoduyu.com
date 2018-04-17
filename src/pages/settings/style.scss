@@ -1,3 +1,16 @@
+
+.main{
+  a{
+    color:#484848;
+  }
+
+  :global{
+    .list-group-item:hover{
+      background:rgba(255,255,255,.8);
+    }
+  }
+}
+
 .avatar{
   border-radius: 50%;
   width: 50px;

@@ -17,6 +17,10 @@ import PostsDetailC from '../../components/posts/detail';
 
 import EditorComment from '../../components/editor-comment';
 
+// styles
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
+
 @connect(
   (state, props) => ({
     isMember: isMember(state),
@@ -26,6 +30,7 @@ import EditorComment from '../../components/editor-comment';
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
   })
 )
+@CSSModules(styles)
 export class PostsDetail extends React.Component {
 
   // 服务端渲染
@@ -105,23 +110,27 @@ export class PostsDetail extends React.Component {
 
       <div className="row">
 
-
         <div className="col-md-9">
 
           <PostsDetailC id={posts._id} />
 
-          <CommentList
-            name={posts._id}
-            filters={{
-              variables: {
-                posts_id: posts._id,
-                parent_id: false
-              }
-            }}
-            />
-
+          <div styleName="comment-list">
+            <CommentList
+              name={posts._id}
+              filters={{
+                variables: {
+                  posts_id: posts._id,
+                  parent_id: false,
+                  page_size:10
+                }
+              }}
+              />
+          </div>
+          
           {isMember ?
-            <div className="mt-2"><EditorComment posts_id={posts._id} /></div>
+            <div className="mt-2 mb-4">
+              <EditorComment posts_id={posts._id} />
+            </div>
             : null}
         </div>
 

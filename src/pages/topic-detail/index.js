@@ -71,8 +71,8 @@ const generatePostsFilters = (topic, search) => {
     recommend: {
       query: Object.assign({}, query, {
         sort_by: "comment_count,like_count,create_at",
-        page_size: 10
-        // start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 7) + ''
+        page_size: 10,
+        start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30) + ''
       })
     }
   }

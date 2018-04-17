@@ -51,7 +51,12 @@ export class Settings extends Component {
     const { me } = this.props
 
     // 昵称
-    let resetNickname = <Link className="list-group-item" to="/settings/nickname">修改名字 <span className="right">{me.nickname}</span></Link>
+    let resetNickname = (<Link className="list-group-item" to="/settings/nickname">
+      <div className="d-flex justify-content-between">
+        <span>修改名字</span>
+        <span>{me.nickname}</span>
+      </div>
+    </Link>)
 
     const countdown = Countdown(new Date(), me.nickname_reset_at)
 
@@ -63,7 +68,12 @@ export class Settings extends Component {
 
     // 上次修改的事件，要小于120天 // 1036800
     if (timer) {
-      resetNickname = <a className="list-group-item" href="javascript:void(0);">修改名字 <span className="right">{me.nickname} ({timer}后才能修改)</span></a>
+      resetNickname = <a className="list-group-item" href="javascript:void(0);">
+        <div className="d-flex justify-content-between">
+          <span>修改名字</span>
+          <span>{me.nickname} ({timer}后才能修改)</span>
+        </div>
+      </a>
     }
 
     // 邮箱
@@ -71,53 +81,72 @@ export class Settings extends Component {
 
     // 重置邮箱
     if (me.email) {
-      email = (<Link className="list-group-item" to="/settings/email">邮箱
-          <span className="right">{me.email}</span>
+      email = (<Link className="list-group-item" to="/settings/email">
+          <div className="d-flex justify-content-between">
+            <span>邮箱</span>
+            <span>{me.email}</span>
+          </div>
         </Link>)
     }
 
     if (!me.email) {
       email = (<Link className="list-group-item" to="/settings/binding-email">
-          邮箱
-          <span className="right">未绑定</span>
+          <div className="d-flex justify-content-between">
+            <span>邮箱</span>
+            <span>未绑定</span>
+          </div>
         </Link>)
     }
 
     let phone = ''
 
     if (me.phone) {
-      phone = (<Link className="list-group-item" to="/settings/phone">手机号
-          <span className="right">{me.phone}</span>
+      phone = (<Link className="list-group-item" to="/settings/phone">
+          <div className="d-flex justify-content-between">
+            <span>手机号</span>
+            <span>{me.phone}</span>
+          </div>
         </Link>)
     }
 
     if (!me.phone) {
-      phone = (<Link className="list-group-item" to="/settings/binding-phone">手机号
-          <span className="right">未绑定</span>
+      phone = (<Link className="list-group-item" to="/settings/binding-phone">
+          <div className="d-flex justify-content-between">
+            <span>手机号</span>
+            <span>未绑定</span>
+          </div>
         </Link>)
     }
 
     return (
       <div>
         <Meta title='设置' />
-        <div className="container">
+        <div className="container" styleName="main">
 
           <div className="row">
           <div className="col-md-9">
 
             <div className="list-group mb-2">
               <Link className="list-group-item" to="/settings/avatar">
-                头像
-                <span className="right">
-                  <img src={me.avatar_url} styleName="avatar" />
-                </span>
+                <div className="d-flex justify-content-between">
+                  <span>头像</span>
+                  <span>
+                    <img src={me.avatar_url} styleName="avatar" />
+                  </span>
+                </div>
               </Link>
               {resetNickname}
               <Link className="list-group-item" to="/settings/gender">
-                性别 <span className="right">{typeof me.gender != 'undefined' ? (me.gender == 1 ? '男' : '女') : ''}</span>
+                <div className="d-flex justify-content-between">
+                  <span>性别</span>
+                  <span>{typeof me.gender != 'undefined' ? (me.gender == 1 ? '男' : '女') : ''}</span>
+                </div>
               </Link>
               <Link className="list-group-item" to="/settings/brief">
-                个性签名<span className="right">{me.brief}</span>
+                <div className="d-flex justify-content-between">
+                  <span>个性签名</span>
+                  <span>{me.brief}</span>
+                </div>
               </Link>
             </div>
 
@@ -129,21 +158,24 @@ export class Settings extends Component {
               {email}
               {phone}
               <Link className="list-group-item" to="/oauth-binding/qq">
-                QQ<span className="right">{me.qq ? '已绑定' : '未绑定' }</span>
+                <div className="d-flex justify-content-between">
+                  <span>QQ</span>
+                  <span>{me.qq ? '已绑定' : '未绑定' }</span>
+                </div>
               </Link>
               <Link className="list-group-item" to="/oauth-binding/weibo">
-                微博<span className="right">{me.weibo ? '已绑定' : '未绑定' }</span>
+                <div className="d-flex justify-content-between">
+                  <span>微博</span>
+                  <span>{me.weibo ? '已绑定' : '未绑定' }</span>
+                </div>
               </Link>
               <Link className="list-group-item" to="/oauth-binding/github">
-                GitHub<span className="right">{me.github ? '已绑定' : '未绑定' }</span>
+                <div className="d-flex justify-content-between">
+                  <span>GitHub</span>
+                  <span>{me.github ? '已绑定' : '未绑定' }</span>
+                </div>
               </Link>
             </div>
-
-            {/*
-            <div className="list-group mb-2">
-              <a className="list-group-item" href="javascript:void(0);" onClick={this.handleSignout}>退出登录</a>
-            </div>
-            */}
 
           </div>
 

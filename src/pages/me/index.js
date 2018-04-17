@@ -65,7 +65,7 @@ export class Me extends Component {
 
           <div className="list-group mb-2">
             <Link className="list-group-item d-flex justify-content-between align-items-center" to={`/people/${me._id}/follow/posts`}>
-              我关注的帖子
+              <span>我关注的帖子</span>
               <span className="badge badge-primary badge-pill">{me.follow_posts_count}</span>
             </Link>
             <Link className="list-group-item d-flex justify-content-between align-items-center" to={`/people/${me._id}/topics`}>

@@ -126,33 +126,36 @@ export class PeopleDetailHead extends React.Component {
     return (
       <div>
         <Meta title={people.nickname} />
-        <div>
 
-          <div styleName="header">
+        <div styleName="header">
+
+          <div>
             <img src={people.avatar_url.replace(/thumbnail/, "large")} />
-            <div>{people.nickname}</div>
+            <div styleName="nickname">{people.nickname}</div>
             <div>{people.brief}</div>
-            <Follow user={people} />
+            <div styleName="follow">
+              <Follow user={people} />
+            </div>
           </div>
-
+          
           <div styleName="tab">
             <NavLink exact to={`/people/${people._id}`}>
-                帖子<span>{people.posts_count > 0 ? people.posts_count : null}</span>
+                <span>{people.posts_count > 0 ? people.posts_count : 0}</span>帖子
               </NavLink>
             <NavLink exact to={`/people/${people._id}/follow/posts`}>
-                关注的帖子<span>{people.follow_posts_count > 0 ? people.follow_posts_count : null}</span>
+                <span>{people.follow_posts_count > 0 ? people.follow_posts_count : 0}</span>关注的帖子
               </NavLink>
             <NavLink exact to={`/people/${people._id}/comments`}>
-              评论<span>{people.comment_count > 0 ? people.comment_count : null}</span>
+              <span>{people.comment_count > 0 ? people.comment_count : 0}</span>评论
               </NavLink>
             <NavLink exact to={`/people/${people._id}/follow/topics`}>
-              话题<span>{people.follow_topic_count > 0 ? people.follow_topic_count : null}</span>
+              <span>{people.follow_topic_count > 0 ? people.follow_topic_count : 0}</span>话题
               </NavLink>
             <NavLink exact to={`/people/${people._id}/follow/peoples`}>
-              关注的人<span>{people.follow_people_count > 0 ? people.follow_people_count : null}</span>
+              <span>{people.follow_people_count > 0 ? people.follow_people_count : 0}</span>关注的人
               </NavLink>
             <NavLink exact to={`/people/${people._id}/fans`}>
-              粉丝<span>{people.fans_count > 0 ? people.fans_count : null}</span>
+              <span>{people.fans_count > 0 ? people.fans_count : 0}</span>粉丝
               </NavLink>
           </div>
 

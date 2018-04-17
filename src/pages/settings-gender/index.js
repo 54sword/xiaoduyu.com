@@ -39,17 +39,24 @@ export class ResetGender extends Component {
       gender: isMale ? 1 : 0
     });
 
-    loadUserInfo({});
+    if (err) {
 
-    // callback: function(res){
-    //   if (!res.success) {
-    //     alert(res.error)
-    //   } else {
-    //
-    //     alert('修改成功')
-    //     self.context.router.goBack()
-    //   }
-    // }
+      Toastify({
+        text: err.message,
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+
+    } else {
+      Toastify({
+        text: '修改成功',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+      }).showToast();
+      this.props.history.goBack();
+    }
+
+    loadUserInfo({});
 
   }
 

@@ -22,7 +22,7 @@ class PeopleDetailPosts extends React.Component {
 
     return (<PeopleDetailHead
         id={id}
-        body={<CommentList
+        body={<div style={{backgroundColor:'#fff'}}><CommentList
           name={id}
           filters={{
             variables: {
@@ -31,10 +31,11 @@ class PeopleDetailPosts extends React.Component {
               parent_id: false,
               deleted: false,
               weaken: false
+              // parent_id: 'not-exists'
             }
           }}
           scrollLoad={true}
-        />}
+        /></div>}
       />)
   }
 

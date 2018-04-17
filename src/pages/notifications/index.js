@@ -27,8 +27,8 @@ export class Notifications extends Component {
   render () {
 
     const { me } = this.props;
-
-    return (<div>
+    
+    return (<div className="container">
       <Meta title="通知" />
       <div className="row">
         <div className="col-sm-9">

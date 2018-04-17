@@ -11,6 +11,8 @@ import { loadCommentList } from '../../../actions/comment';
 import ListLoading from '../../list-loading';
 import CommentItem from '../list-item';
 import Pagination from '../../pagination';
+import Paginationa from '../../paginationa';
+
 
 @connect(
   (state, props) => ({
@@ -26,20 +28,18 @@ export default class CommentList extends Component {
     // 列表名称
     name: PropTypes.string.isRequired,
     // 列表的筛选条件
-    filters: PropTypes.object.isRequired,
-    // 获取当前页的 pathname、search
-    // location: PropTypes.object.isRequired
+    filters: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props)
-    this.state = {}
-    this.loadList = this.loadList.bind(this)
+    this.state = {};
+    this.loadList = this.loadList.bind(this);
   }
 
   componentDidMount() {
-    const { list } = this.props
-    if (!list.data || list.data.length == 0) this.loadList()
+    const { list } = this.props;
+    if (!list.data || list.data.length == 0) this.loadList();
     // ArriveFooter.add(this.state.name, this.loadList)
   }
 
@@ -47,25 +47,26 @@ export default class CommentList extends Component {
     // ArriveFooter.remove(this.state.name)
   }
 
-  loadList(callback) {
-    const { name, filters, loadCommentList } = this.props
-    loadCommentList({ name, filters: filters })
+  loadList(restart = false) {
+    const { name, filters, loadCommentList } = this.props;
+    loadCommentList({ name, filters, restart });
   }
 
   componentWillReceiveProps(props) {
     if (props.name != this.props.name) {
-      const { loadCommentList } = this.props
-      loadCommentList({ name: props.name, filters: props.filters, restart: true })
+      const { loadCommentList } = this.props;
+      loadCommentList({ name: props.name, filters: props.filters, restart: true });
     }
   }
 
   render () {
 
-    const { list } = this.props
-    const { data, loading, more, filters = {}, count } = list
+    const self = this;
+    const { name, list } = this.props;
+    const { data, loading, more, filters = {}, count } = list;
 
     return (
-      <div>
+      <div id={name} ref="dom">
 
         <div className="list-group">
           {data && data.map((comment)=>{
@@ -77,11 +78,40 @@ export default class CommentList extends Component {
         <ListLoading loading={loading} />
         */}
 
+        <Paginationa
+          count={count || 0}
+          pageSize={filters.page_size || 0}
+          pageNumber={filters.page_number || 0}
+          onChoose={(e)=>{
+
+            const { dom } = this.refs;
+            $(window).scrollTop($(dom).offset().top - 60);
+            self.props.filters.variables.page_number = e;
+            self.loadList(true);
+
+
+
+            // $(window).height();
+
+            // console.log($(window).height());
+            // console.log($(dom).offset().top);
+
+
+            // $(window).scrollTop(100);
+
+
+
+
+          }}
+          />
+
+        {/*
         <Pagination
           count={count || 0}
           pageSize={filters.page_size || 0}
           pageNumber={filters.page_number || 0}
           />
+          */}
 
       </div>
     )

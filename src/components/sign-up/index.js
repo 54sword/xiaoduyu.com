@@ -31,7 +31,7 @@ export default class SignUp extends Component {
     super(props)
     this.state = {
       areaCode: '',
-      type:'email'
+      type:'phone'
     }
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
@@ -42,7 +42,7 @@ export default class SignUp extends Component {
     event.preventDefault();
 
     let self = this;
-
+    
     let { nickname, account, password, male, female, captcha } = this.refs;
 
     const { areaCode } = this.state;
@@ -71,7 +71,7 @@ export default class SignUp extends Component {
       data.area_code = areaCode
     }
 
-    console.log(data);
+    // console.log(data);
 
     let [ err, res ] = await signUp(data);
 

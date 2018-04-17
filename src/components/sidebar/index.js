@@ -65,7 +65,7 @@ export default class Sidebar extends React.Component {
           </div>
         :
         null}
-
+        
       {/*
       <div className="card">
         <div className="card-header">新人</div>

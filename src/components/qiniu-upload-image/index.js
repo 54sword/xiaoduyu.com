@@ -153,9 +153,7 @@ export class QiniuUploadImage extends React.Component {
           token={this.state.token}
           // uploadKey={this.state.uploadKey}
           // maxSize="1Mb"
-          onUpload={this.onUpload}>
-            {name}
-        </Qiniu>
+          onUpload={this.onUpload} />
     );
   }
 }

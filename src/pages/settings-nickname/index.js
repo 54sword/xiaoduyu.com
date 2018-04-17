@@ -20,7 +20,7 @@ import Meta from '../../components/meta'
   })
 )
 export class ResetNickname extends Component {
-  
+
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)
@@ -46,6 +46,23 @@ export class ResetNickname extends Component {
       nickname: nickname.value
     });
 
+    if (err) {
+
+      Toastify({
+        text: err.message,
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+
+    } else {
+      Toastify({
+        text: '修改成功',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+      }).showToast();
+      this.props.history.goBack();
+    }
+
     loadUserInfo({});
   }
 
@@ -59,12 +76,14 @@ export class ResetNickname extends Component {
 
         <div className="container">
 
-          <div className="list">
-            <input type="text" defaultValue={me.nickname} ref="nickname" placeholder="请输入你的名字"></input>
+          <div>
+            <input type="text" className="form-control" defaultValue={me.nickname} ref="nickname" placeholder="请输入你的名字"></input>
           </div>
 
-          <div className="list">
-            <a className="center" href="javascript:void(0);" onClick={this.submit}>提交</a>
+          <br />
+
+          <div>
+            <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
           </div>
 
         </div>

@@ -2,7 +2,7 @@
 .item{
 
   // background-color: #fff;
-  border-top:1px solid #e5e5e5;
+  border-top:1px solid #e6e8eb;
 
   &:first-child{
     border-top:none;
@@ -52,24 +52,6 @@
       }
     }
 
-    // div > span{
-    //
-    //   color:#ABA8A6;
-    //   font-size: 12px;
-    //
-    //   &:after{
-    //     color:#ABA8A6;
-    //     font-size: 9px;
-    //     margin:0 5px 0 5px;
-    //     content: '•';
-    //   }
-    //
-    //   &:last-child:after{
-    //     content: '';
-    //   }
-    //
-    // }
-
     a {
       color:#333;
     }
@@ -88,6 +70,7 @@
 
     .actions{
       > a{
+        font-size: 13px;
         margin-left: 15px;
         color:rgb(130, 130, 130);
         &:hover{
@@ -124,7 +107,7 @@
 
 .reply-list{
   margin-left:50px;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #e6e8eb;
 
   .item-head{
     padding-left:50px;
@@ -143,7 +126,7 @@
 
 .reply{
 
-  border-top:1px solid #efefef;
+  border-top:1px solid #e6e8eb;
   padding-top: 15px;
   padding-bottom: 15px;
 

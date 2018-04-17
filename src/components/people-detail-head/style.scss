@@ -3,12 +3,33 @@
   width: 100%;
   background-color: #fff;
   text-align: center;
-  padding:30px 0 30px 0;
+  padding:30px 0 0px 0;
+  margin-bottom:10px;
+  border-radius: 5px;
+  overflow: hidden;
+
   img{
     width: 70px;
     height: 70px;
     border-radius: 50%;
   }
+
+  .nickname{
+    padding:10px 0 10px 0;
+  }
+
+  .follow{
+    > a{
+      position: absolute;
+      padding:10px;
+      border-radius: 4px;
+      margin-top: -140px;
+      margin-left: -80px;
+      border:1px solid #b9b9b9;
+    }
+
+  }
+
 }
 
 .actions{
@@ -24,13 +45,14 @@
 .tab{
   width:100%;
   background-color: #fff;
-  margin-bottom:10px;
+  // margin-bottom:10px;
   text-align: center;
+  margin-top:10px;
+  height: 50px;
 
   a{
-    font-size: 13px;
+    font-size: 14px;
     height: 50px;
-    line-height: 50px;
     width: 16.666%;
     display: inline-block;
     text-align: center;
@@ -38,17 +60,18 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     // border-bottom:1px solid #e0e0e0;
-    &:hover{
-      border-bottom:3px solid #333;
-    }
-    span {
+    color:#484848;
 
-      margin-left:5px;
+    span {
+      display: block;
+      // margin-left:5px;
+      // color:#c1c1c1;
     }
 
   }
 
   :global .active{
-    border-bottom:3px solid #333;
+    color:#007bff;
+    // border-bottom:3px solid #333;
   }
 }

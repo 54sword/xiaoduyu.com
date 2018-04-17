@@ -43,7 +43,7 @@ export class ResetAvatar extends Component {
   upload(url) {
 
     const { updateUser, loadUserInfo } = this.props
-
+    
     const self = this
 
     avatarPicker({
@@ -74,9 +74,8 @@ export class ResetAvatar extends Component {
     const { loadUserInfo } = this.props
 
     this.setState({
-      fileUpload: <QiniuUploadImage upload={this.upload} multiple={false} name={'上传头像'} />
+      fileUpload: <QiniuUploadImage upload={this.upload} text={'上传头像'} />
     });
-
 
   }
 
@@ -85,17 +84,16 @@ export class ResetAvatar extends Component {
     const { me } = this.props
     const { fileUpload, uploadStatus } = this.state
 
-    if (!me._id) {
-      return (<span></span>)
-    }
+    if (!me._id) return (<span></span>);
 
     return (
       <div>
         <Meta title='头像' />
         {uploadStatus ? <Loading /> : null}
 
-        <div className="container">
+        <div>
 
+          {/*
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb">
               <li className="breadcrumb-item"><Link to="/">首页</Link></li>
@@ -103,14 +101,14 @@ export class ResetAvatar extends Component {
               <li className="breadcrumb-item active" aria-current="page">头像</li>
             </ol>
           </nav>
+          */}
 
           <div styleName="avatar">
             <img src={me.avatar_url.replace('!50', "!200")} />
           </div>
 
-          <div className="list">
+          <div styleName="upload">
             {fileUpload}
-            {/*<a href="javascript:void(0)" styleName="upload"></a>*/}
           </div>
 
         </div>

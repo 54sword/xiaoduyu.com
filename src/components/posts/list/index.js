@@ -114,7 +114,7 @@ export default class PostsList extends Component {
           }
         })}
       </div>
-
+      
       <ListLoading loading={loading} />
 
       {showPagination ?

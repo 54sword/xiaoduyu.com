@@ -34,6 +34,7 @@ a{
 
   .card-header{
     padding:5px 15px 5px 15px;
+    border-bottom: 1px solid #e6e8eb;
   }
 
   .card-body{
@@ -44,6 +45,24 @@ a{
     background-color: #fff;
     padding:20px;
     margin-bottom:10px;
+  }
+
+  .list-group-item{
+    border: 1px solid #fff;
+    border-top: 1px solid #efefef;
+
+    &:hover{
+      border-bottom: 1px solid #efefef;
+    }
+    
+    &:first-child{
+      border-top:none;
+    }
+
+    &:last-child{
+      border-bottom:none;
+    }
+
   }
 
 }

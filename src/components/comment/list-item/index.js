@@ -9,8 +9,8 @@ import styles from './style.scss';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { updateComment } from '../../../actions/comment';
-import { showSign } from '../../../actions/sign';
-import { getProfile } from '../../../reducers/user';
+// import { showSign } from '../../../actions/sign';
+import { isMember, getProfile } from '../../../reducers/user';
 
 // components
 import LikeButton from '../../like';
@@ -19,10 +19,11 @@ import EditorCommentModal from '../../editor-comment-modal';
 
 @connect(
   (state, props) => ({
+    isMember: isMember(state),
     me: getProfile(state)
   }),
   dispatch => ({
-    showSign: bindActionCreators(showSign, dispatch),
+    // showSign: bindActionCreators(showSign, dispatch),
     updateComment: bindActionCreators(updateComment, dispatch)
   })
 )
@@ -58,7 +59,8 @@ export default class CommentItem extends PureComponent {
   rednerReply(comment) {
 
     let self = this
-    let { me, showSign,
+    let {
+      me, isMember,
       summary, displayLike, displayReply, displayDate, displayEdit
     } = this.props
 
@@ -97,7 +99,10 @@ export default class CommentItem extends PureComponent {
 
       <div styleName="footer">
         <div styleName="actions">
-          <a href="javascript:void(0)" onClick={()=>{ this.showReply(); }}>回复</a>
+          {isMember ?
+            <a href="javascript:void(0)" onClick={()=>{ this.showReply(); }}>回复</a>
+            :
+            <a href="javascript:void(0)" data-toggle="modal" data-toggle="modal" data-type="sign-up">回复</a>}
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
         </div>
       </div>
@@ -110,7 +115,7 @@ export default class CommentItem extends PureComponent {
   renderUserView(comment) {
 
     let self = this
-    let { me, showSign,
+    let { me, isMember,
       summary, displayLike, displayReply, displayDate, displayEdit
     } = this.props
 
@@ -152,7 +157,10 @@ export default class CommentItem extends PureComponent {
 
       <div styleName="footer">
         <div styleName="actions">
-          <a href="javascript:void(0)" onClick={()=>{ this.showReply(); }}>回复</a>
+          {isMember ?
+            <a href="javascript:void(0)" onClick={()=>{ this.showReply(); }}>回复</a>
+            :
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">回复1</a>}
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
         </div>
       </div>

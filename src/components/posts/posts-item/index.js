@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+// redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { isMember } from '../../../reducers/user';
+
 // components
 import HTMLText from '../../html-text';
 import CommentList from '../../comment/list';
@@ -13,6 +18,14 @@ import Like from '../../like';
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
+@connect(
+  (state, props) => ({
+    // me: getProfile(state),
+    isMember: isMember(state)
+  }),
+  dispatch => ({
+  })
+)
 @CSSModules(styles)
 export default class PostsItem extends React.PureComponent {
 
@@ -70,7 +83,7 @@ export default class PostsItem extends React.PureComponent {
 
   render () {
 
-    const { posts } = this.props;
+    const { posts, isMember } = this.props;
     const { expandContent, expandComment } = this.state;
 
     /**
@@ -139,7 +152,7 @@ export default class PostsItem extends React.PureComponent {
           </div>
         </div>
       </div>
-
+      
       {expandComment ?
         <div styleName="comment-container" onClick={this.stopPropagation}>
           <div>
@@ -148,11 +161,12 @@ export default class PostsItem extends React.PureComponent {
               filters={{
                 variables: {
                   posts_id: posts._id,
-                  parent_id: false
+                  parent_id: false,
+                  page_size: 10
                 }
               }}
               />
-            <Editor posts_id={posts._id} />
+            {isMember ? <Editor posts_id={posts._id} /> : null}
           </div>
         </div>
         : null}

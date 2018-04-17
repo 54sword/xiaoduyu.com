@@ -1,0 +1,10 @@
+.comment-list{
+  background-color: #fff;
+  border-radius: 4px;
+
+  :global{
+    .pagination{
+      border-top:1px solid #efefef;
+    }
+  }
+}

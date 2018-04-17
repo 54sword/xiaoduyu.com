@@ -57,7 +57,7 @@ export class SettingsPhone extends Component {
 
   }
 
-  submit() {
+  async submit() {
 
     const self = this
     const { loadUserInfo, addPhone } = this.props
@@ -67,7 +67,7 @@ export class SettingsPhone extends Component {
     if (!newPhone.value) return newPhone.focus();
     if (!captcha.value) return captcha.focus();
 
-    addPhone({
+    let [ err, res ] = await addPhone({
       args: {
         phone: newPhone.value,
         captcha: captcha.value,
@@ -75,24 +75,23 @@ export class SettingsPhone extends Component {
       }
     });
 
-    /*
-    reset({
-      data: {
-        phone: newPhone.value,
-        captcha: captcha.value,
-        area_code: areaCode
-      },
-      callback: function(result){
-        if (result && result.success) {
-          alert('手机号修改成功')
-          loadUserInfo({})
-          self.context.router.goBack()
-        } else {
-          alert(result.error)
-        }
-      }
-    })
-    */
+    if (err) {
+
+      Toastify({
+        text: err.message,
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+
+    } else {
+      
+      Toastify({
+        text: '修改成功',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+      }).showToast();
+
+    }
 
   }
 

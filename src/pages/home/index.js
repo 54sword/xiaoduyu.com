@@ -22,7 +22,8 @@ let recommend = {
     sort_by: "comment_count,like_count,create_at",
     deleted: false,
     weaken: false,
-    page_size: 10
+    page_size: 10,
+    start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
   }
 }
 
