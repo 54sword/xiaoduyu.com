@@ -82,12 +82,13 @@ export class ResetBrief extends Component {
     return (
       <div>
         <Meta title='个性签名' />
-        <div className="container">
-          <div className="list">
-            <textarea defaultValue={me.brief} ref="brief"></textarea>
-          </div>
-          <div className="list">
-            <a className="center" href="javascript:void(0);" onClick={this.submitResetBrief}>保存</a>
+        <div className="card">
+          <div className="card-header">名字</div>
+          <div className="card-body" style={{padding:'20px'}}>
+            <div className="form-group">
+              <textarea className="form-control" defaultValue={me.brief} ref="brief"></textarea>
+            </div>
+            <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submitResetBrief}>保存</a>
           </div>
         </div>
       </div>

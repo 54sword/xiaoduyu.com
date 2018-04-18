@@ -32,6 +32,7 @@ export class ResetGender extends Component {
     const { me, updateUser, loadUserInfo } = this.props
 
     if (isMale && me.gender == 1 || !isMale && me.gender == 0) {
+      this.props.history.goBack();
       return
     }
 
@@ -40,7 +41,7 @@ export class ResetGender extends Component {
     });
 
     if (err) {
-
+      
       Toastify({
         text: err.message,
         duration: 3000,
@@ -67,12 +68,19 @@ export class ResetGender extends Component {
     return (
       <div>
         <Meta title='修改性别' />
-        <div className="container">
-          <div className="list">
-            <a className={me.gender == 1 ? "hook" : ""} href="javascript:void(0)" onClick={()=>{ this.submitResetGender(true) }}>男</a>
-            <a className={me.gender == 0 ? "hook" : ""} href="javascript:void(0)" onClick={()=>{ this.submitResetGender(false) }}>女</a>
+
+        <div className="card">
+          <div className="card-header">名字</div>
+          <div className="card-body" style={{padding:'20px'}}>
+            <div className="form-group">
+              <a className="form-control" href="javascript:void(0)" onClick={()=>{ this.submitResetGender(true) }}>男</a>
+            </div>
+            <div className="form-group">
+              <a className="form-control" href="javascript:void(0)" onClick={()=>{ this.submitResetGender(false) }}>女</a>
+            </div>
           </div>
         </div>
+
       </div>
     )
 

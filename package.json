@@ -39,6 +39,7 @@
     "react-css-modules": "^4.7.1",
     "react-document-meta": "^2.1.2",
     "react-dom": "^16.2.0",
+    "react-headroom": "^2.2.2",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",

@@ -101,7 +101,7 @@ export class Settings extends Component {
     let phone = ''
 
     if (me.phone) {
-      phone = (<Link className="list-group-item" to="/settings/phone">
+      phone = (<Link className="list-group-item" to="/settings/binding-phone">
           <div className="d-flex justify-content-between">
             <span>手机号</span>
             <span>{me.phone}</span>

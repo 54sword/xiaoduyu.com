@@ -42,7 +42,7 @@ export default class SignUp extends Component {
     event.preventDefault();
 
     let self = this;
-    
+
     let { nickname, account, password, male, female, captcha } = this.refs;
 
     const { areaCode } = this.state;
@@ -127,35 +127,54 @@ export default class SignUp extends Component {
     return (
       <div styleName="signup">
 
-        <div><input type="text" className="input" ref="nickname" placeholder="名字" /></div>
+        <div><input type="text" className="form-control" ref="nickname" placeholder="名字" /></div>
 
         {type == 'phone' ?
-          <div>
-            <div styleName="account-wrapper">
-              <CountriesSelect onChange={(res)=>{ self.state.areaCode = res }} />
-              <input type="text" className="input" ref="account" placeholder="手机号" />
+          <div className="container">
+            <div className="row justify-content-between">
+              <div className="col-4"><CountriesSelect onChange={(res)=>{ self.state.areaCode = res }} /></div>
+              <div className="col-8"><input type="text" className="form-control" ref="account" placeholder="手机号" /></div>
             </div>
           </div>
           :
           <div>
-            <input type="text" className="input" ref="account" placeholder="邮箱" />
+            <input type="text" className="form-control" ref="account" placeholder="邮箱" />
           </div>}
 
         <div>
-          <input type="text" className="input" placeholder="输入 6 位验证码" ref="captcha" />
+          <input type="text" className="form-control" placeholder="输入 6 位验证码" ref="captcha" />
           <span styleName="captcha-button"><CaptchaButton onClick={this.sendCaptcha} /></span>
         </div>
 
-        <div><input type="password" className="input" ref="password" placeholder="密码" /></div>
+        <div><input type="password" className="form-control" ref="password" placeholder="密码" /></div>
 
         <div styleName="gender">性别
+
+          <div className="form-check form-check-inline">
+            <input className="form-check-input" type="radio" name="gender" id="male" value="男" ref="male" />
+            <label className="form-check-label" htmlFor="male">男</label>
+          </div>
+
+          <div className="form-check form-check-inline">
+            <input className="form-check-input" type="radio" name="gender" id="female" value="女" ref="female" />
+            <label className="form-check-label" htmlFor="female">女</label>
+          </div>
+
+          {/*
           <input type="radio" name="gender" ref="male" />男
           <input type="radio" name="gender" ref="female" />女
+          */}
+        </div>
+        
+        <div>
+          <input type="submit" className="btn btn-primary" value="注册" onClick={this.submit} />
         </div>
 
-        <div>
-          <input type="submit" className="button" value="注册" onClick={this.submit} />
-        </div>
+        {type == 'phone' ?
+          <div><a href="javascript:void(0)" onClick={()=>{ self.setState({ type: 'email' }); }}>使用邮箱注册</a></div>
+          :
+          <div><a href="javascript:void(0)" onClick={()=>{ self.setState({ type: 'phone' }); }}>使用手机注册</a></div>}
+
       </div>
     )
   }

@@ -51,12 +51,12 @@ export default class Sidebar extends React.Component {
     */
 
     return(<div>
-
-      {!isMember ?
+      
+      {/*!isMember ?
         <div className="card">
           <div className="card-body"><SignIn /></div>
         </div> :
-        null}
+        null*/}
 
       {isMember ?
           <div>
@@ -65,7 +65,7 @@ export default class Sidebar extends React.Component {
           </div>
         :
         null}
-        
+
       {/*
       <div className="card">
         <div className="card-header">新人</div>

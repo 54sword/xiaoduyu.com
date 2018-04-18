@@ -81,19 +81,24 @@ export class SettingsEmail extends Component {
       <div>
         <Meta title='修改邮箱' />
 
-        <div className="container">
+        <div className="card">
+          <div className="card-header">修改邮箱</div>
+          <div className="card-body" style={{padding:'20px'}}>
 
-          <div className="list">
-            <input type="text" placeholder="请输入新的邮箱" ref="newEmail" />
-            <input type="text" placeholder="请输入验证码" ref="captcha" />
-            <div><CaptchaButton onClick={this.sendCaptcha} /></div>
+            <div className="form-group">
+              <input className="form-control" type="text" placeholder="请输入新的邮箱" ref="newEmail" />
+            </div>
+            
+            <div className="form-group">
+              <input className="form-control" type="text" placeholder="请输入验证码" ref="captcha" />
+              <div><CaptchaButton onClick={this.sendCaptcha} /></div>
+            </div>
+
+            <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submitResetEmail}>提交</a>
+
           </div>
-
-          <div className="list">
-            <a className="center" href="javascript:void(0);" onClick={this.submitResetEmail}>提交</a>
-          </div>
-
         </div>
+
       </div>
     )
 

@@ -139,7 +139,7 @@ export default class PostsItem extends React.PureComponent {
       <div styleName="footer">
         <div className="container">
           <div className="row justify-content-between">
-            <div className="col-4" styleName="actions">
+            <div className="col-8" styleName="actions">
                 <a href="javascript:void(0)" onClick={this.expandComment}>
                   {expandComment ? '收起评论' : (posts.comment_count ? posts.comment_count + ' 条评论' : '评论')}
                 </a>
@@ -152,7 +152,7 @@ export default class PostsItem extends React.PureComponent {
           </div>
         </div>
       </div>
-      
+
       {expandComment ?
         <div styleName="comment-container" onClick={this.stopPropagation}>
           <div>

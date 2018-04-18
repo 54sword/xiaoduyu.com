@@ -18,18 +18,22 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
         comment_id {
           _id
           content_html
+          content_trim
           posts_id {
             _id
             title
             content_html
+            content_trim
           }
           reply_id {
             _id
             content_html
+            content_trim
           }
           parent_id {
             _id
             content_html
+            content_trim
           }
         }
         sender_id {
@@ -52,6 +56,7 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
           title
           content_html
           _id
+          content_trim
         }
       `
     }

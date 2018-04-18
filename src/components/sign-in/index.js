@@ -114,17 +114,17 @@ export default class Signin extends Component {
     return (<form onSubmit={this.signin} className="signin">
 
         <div>
-          <input type="text" className="input" ref="account" placeholder="手机号或邮箱" />
+          <input type="text" className="form-control" ref="account" placeholder="手机号或邮箱" />
         </div>
 
-        <div><input type="password" className="input"  ref="password" placeholder="密码" onFocus={(e)=>{ e.target.value = ''; }} /></div>
+        <div><input type="password" className="form-control"  ref="password" placeholder="密码" onFocus={(e)=>{ e.target.value = ''; }} /></div>
 
         {captcha ? <div>
-            <input type="text" className="input" placeholder="请输入验证码" ref="captcha" onFocus={(e)=>{ e.target.value = ''; }} />
+            <input type="text" className="form-control" placeholder="请输入验证码" ref="captcha" onFocus={(e)=>{ e.target.value = ''; }} />
             <img styleName="captcha-image" onClick={this.getCaptcha} src={captcha.url} />
           </div> : null}
 
-        <div><input type="submit" ref="submit" className="button" value="登录" /></div>
+        <div><input type="submit" ref="submit" className="btn btn-primary" value="登录" /></div>
 
       </form>)
   }

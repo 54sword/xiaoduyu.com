@@ -76,7 +76,7 @@ export default class NotificationListItem extends Component {
             </div>
           </div>)
         break
-
+        
       case 'reply':
         content = (<div>
           <div styleName="header">

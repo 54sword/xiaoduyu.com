@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+// import Headroom from 'react-headroom'
 
 import { name } from '../../../config';
 

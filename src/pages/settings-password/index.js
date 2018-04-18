@@ -83,19 +83,29 @@ export class ResetPassword extends Component {
     return (
       <div>
         <Meta title='修改密码' />
-        <div className="container">
 
-          <div className="list">
-            <input type="password" placeholder="当前密码" ref="currentPassword"></input>
-            <input type="password" placeholder="新密码" ref="newPassword"></input>
-            <input type="password" placeholder="重复新密码" ref="confirmNewPassword"></input>
-          </div>
+        <div className="card">
+          <div className="card-header">修改密码</div>
+          <div className="card-body" style={{padding:'20px'}}>
 
-          <div className="list">
-            <a className="center" href="javascript:void(0);" onClick={this.submit}>确认修改</a>
+            <div className="form-group">
+              <input type="password" className="form-control" placeholder="当前密码" ref="currentPassword"></input>
+            </div>
+
+            <div className="form-group">
+              <input type="password" className="form-control" placeholder="新密码" ref="newPassword"></input>
+            </div>
+            
+            <div className="form-group">
+              <input type="password" className="form-control" placeholder="重复新密码" ref="confirmNewPassword"></input>
+            </div>
+
+            <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
+
           </div>
 
         </div>
+
       </div>
     )
 

@@ -19,7 +19,7 @@ import styles from './style.scss'
 
 @connect(
   (state, props) => ({
-    user: getProfile(state)
+    me: getProfile(state)
   }),
   dispatch => ({
     loadUserInfo: bindActionCreators(loadUserInfo, dispatch),
@@ -84,7 +84,7 @@ export class SettingsPhone extends Component {
       }).showToast();
 
     } else {
-      
+
       Toastify({
         text: '修改成功',
         duration: 3000,
@@ -97,54 +97,48 @@ export class SettingsPhone extends Component {
 
   render() {
 
+    const { me } = this.props
+
     return (
       <div>
         <Meta title='手机号' />
 
-        <form>
+        <div className="card">
 
-          <div className="form-group">
-            <label for="exampleInputEmail1">手机号</label>
-            <div className="container">
-              <div className="row">
-                <div className="col-3"><CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} /></div>
-                <div className="col-9"><input class="form-control" type="text" placeholder="请输入新的手机号" ref="newPhone" /></div>
+          <div className="card-header d-flex justify-content-between">
+            <span>{'手机号'}</span>
+            <span>{me.phone ? '当前：'+me.phone : null}</span>
+          </div>
+
+          <div className="card-body">
+            <form styleName="form">
+
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">手机号</label>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-3"><CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} /></div>
+                    <div className="col-9"><input className="form-control" type="text" placeholder="请输入新的手机号" ref="newPhone" /></div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+              
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">验证码</label>
+                <input className="form-control" type="text" placeholder="请输入验证码" ref="captcha" />
+                <div>
+                  <CaptchaButton onClick={this.sendCaptcha} />
+                </div>
+              </div>
 
-          <div className="form-group">
-            <label for="exampleInputEmail1">验证码</label>
-            <input className="form-control" type="text" placeholder="请输入验证码" ref="captcha" />
-            <div>
-              <CaptchaButton onClick={this.sendCaptcha} />
-            </div>
-          </div>
+              <div className="form-group">
+                <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
+              </div>
 
-          <div className="form-group">
-            <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
-          </div>
-
-        </form>
-
-        {/*
-        <div className="container" styleName="container">
-
-          <div className="list" styleName="form">
-            <CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} />
-            <input type="text" placeholder="请输入新的手机号" ref="newPhone" />
-            <input type="text" placeholder="请输入验证码" ref="captcha" />
-            <div>
-              <CaptchaButton onClick={this.sendCaptcha} />
-            </div>
-          </div>
-
-          <div className="list">
-            <a className="center" href="javascript:void(0);" onClick={this.submit}>提交</a>
+            </form>
           </div>
 
         </div>
-        */}
 
       </div>
     )

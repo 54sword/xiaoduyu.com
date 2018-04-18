@@ -97,7 +97,7 @@ export default class NotificationList extends Component {
 
     return (
         <div>
-          <div className="list-group">
+          <div className="list-group" styleName="list">
             {data && data.map(notification => {
               return (<Item notification={notification} key={notification._id} />)
             })}

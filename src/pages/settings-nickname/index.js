@@ -74,19 +74,23 @@ export class ResetNickname extends Component {
       <div>
         <Meta title='名字' />
 
-        <div className="container">
+        <div className="card">
+          <div className="card-header">名字</div>
+          <div className="card-body" style={{padding:'20px'}}>
+            <div>
+              <input type="text" className="form-control" defaultValue={me.nickname} ref="nickname" placeholder="请输入你的名字"></input>
+            </div>
 
-          <div>
-            <input type="text" className="form-control" defaultValue={me.nickname} ref="nickname" placeholder="请输入你的名字"></input>
+            <br />
+
+            <div>
+              <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
+            </div>
+            <br />
+
           </div>
-
-          <br />
-
-          <div>
-            <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
-          </div>
-
         </div>
+
       </div>
     )
 

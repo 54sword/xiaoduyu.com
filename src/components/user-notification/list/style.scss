@@ -1,5 +1,12 @@
 
-
+.list{
+  width: 100%;
+  > div{
+    margin-bottom:10px;
+    border: none;
+    border-radius: 5px;
+  }
+}
 
 
   .new{

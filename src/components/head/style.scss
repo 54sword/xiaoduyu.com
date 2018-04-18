@@ -39,6 +39,7 @@ $height: 50px;
 .topics-bar{
   float:left;
   width: 100%;
+  -webkit-overflow-scrolling: touch;
 
   @media (min-width: 992px) and (max-width: 10000000px) {
     width: 700px;
