@@ -36,21 +36,25 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 
       if (res && res.success) {
         [ err, res ] = await loadCommentList({ name:'cache', filters: { query: { _id:res._id } }, restart: true })(dispatch, getState);
-
+        
         let newComment = res.data[0];
 
         for (let i in commentState) {
-          if (i == posts_id) {
+          // 添加评论
+          if (i == posts_id ) {
             if (!newComment.parent_id) {
+              // 评论
               commentState[i].data.push(newComment);
             } else {
+              // 回复
               commentState[i].data.map(item=>{
                 if (item._id == newComment.parent_id) {
                   item.reply.push(newComment);
                 }
               })
             }
-
+          } else if (i == parent_id) {
+            commentState[i].data.push(newComment);
           }
         }
 
@@ -246,7 +250,10 @@ export function loadCommentList({ name, filters = {}, restart = false }) {
           brief
           avatar_url
         }
-        posts_id
+        posts_id{
+          _id
+          title
+        }
         parent_id
         reply_id {
           _id

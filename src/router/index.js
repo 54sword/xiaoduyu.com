@@ -98,6 +98,16 @@ export default (user) => {
     },
 
     {
+      path: '/comment/:id',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/comment-detail')
+      }),
+      enter: triggerEnter
+    },
+
+    {
       path: '/people/:id',
       exact: true,
       head: Head,

@@ -58,6 +58,10 @@ export const getCommentListByName = (state, name) => {
   return state.comment[name] ? state.comment[name] : {}
 }
 
+export const getCommentListById = (state, id) => {
+  return state.comment[id] ? state.comment[id] : {}
+}
+
 export const getCommentById = (state, id) => {
 
   let commentList = state.comment

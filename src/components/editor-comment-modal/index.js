@@ -47,7 +47,7 @@ export default class EditorCommentModal extends Component {
 
     let params = {
       id: reply._id,
-      posts_id: reply.posts_id,
+      posts_id: reply.posts_id._id,
       successCallback: self.hide,
       getEditor: (editor) => {
         setTimeout(()=>{

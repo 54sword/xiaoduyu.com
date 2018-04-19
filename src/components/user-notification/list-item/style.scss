@@ -35,7 +35,13 @@
   }
 
   .content{
-    margin-top:5px;
+    margin-top:10px;
+    background-color: #f7f7f7;
+    padding:10px;
+    border-radius: 6px;
+    img {
+      max-width: 300px;
+    }
   }
 
   .footer{
@@ -47,6 +53,13 @@
   float:right;
   a{
     color:#555 !important;
+  }
+}
+
+.content_trim{
+  &:hover{
+    cursor: pointer;
+    cursor: hand;
   }
 }
 

@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../actions/posts';
-import { getPostsListByListId } from '../../reducers/posts';
+import { loadCommentList } from '../../actions/comment';
+import { getCommentListById } from '../../reducers/comment';
 import { isMember } from '../../reducers/user';
 
 // components
@@ -12,9 +13,9 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';
-import PostsList from '../../components/posts/list';
-import PostsDetailC from '../../components/posts/detail';
-
+// import PostsList from '../../components/posts/list';
+// import PostsDetailC from '../../components/posts/detail';
+import HTMLText from '../../components/html-text';
 import EditorComment from '../../components/editor-comment';
 
 // styles
@@ -24,15 +25,16 @@ import styles from './style.scss';
 @connect(
   (state, props) => ({
     isMember: isMember(state),
-    list: getPostsListByListId(state, props.match.params.id)
+    list: getCommentListById(state, 'single_'+props.match.params.id)
   }),
   dispatch => ({
-    loadPostsList: bindActionCreators(loadPostsList, dispatch)
+    loadList: bindActionCreators(loadCommentList, dispatch)
   })
 )
 @CSSModules(styles)
-export class PostsDetail extends React.Component {
+export class CommentDetail extends React.Component {
 
+  /*
   // 服务端渲染
   // 加载需要在服务端渲染的数据
   static loadData({ store, match }) {
@@ -60,6 +62,7 @@ export class PostsDetail extends React.Component {
 
     })
   }
+  */
 
   constructor(props) {
     super(props);
@@ -68,11 +71,12 @@ export class PostsDetail extends React.Component {
   componentDidMount() {
 
     const { id } = this.props.match.params;
-    const { list, loadPostsList } = this.props;
+
+    const { list, loadList } = this.props;
 
     if (!list || !list.data) {
-      this.props.loadPostsList({
-        id,
+      this.props.loadList({
+        name:'single_'+id,
         filters: {
           variables: {
             _id: id,
@@ -83,42 +87,52 @@ export class PostsDetail extends React.Component {
       })
     }
 
+
   }
 
   render() {
 
     const { list, isMember } = this.props;
     const { loading, data } = list || {};
-    const posts = data && data[0] ? data[0] : null;
+    const comment = data && data[0] ? data[0] : null;
+
+    const { id } = this.props.match.params;
 
     // 404 处理
     if (data && data.length == 0) {
       return '404 Not Found';
     }
 
-    if (loading || !posts) {
+    if (loading || !comment) {
       return (<div>loading...</div>)
     }
 
     return(<div>
 
-      <Meta title={posts ? posts.title : '加载中...'} />
-      
+      {<Meta title={comment ? comment.posts_id.title : '加载中...'} />}
+
       <div className="container">
 
       <div className="row">
 
         <div className="col-md-9">
 
-          <PostsDetailC id={posts._id} />
+          <div styleName="title">
+            <Link to={`/posts/${comment.posts_id._id}`}>
+              <h1>{comment.posts_id.title}</h1>
+            </Link>
+          </div>
+
+          <div styleName="content">
+            <HTMLText content={comment.content_html} />
+          </div>
 
           <div styleName="comment-list">
             <CommentList
-              name={posts._id}
+              name={id}
               filters={{
                 variables: {
-                  posts_id: posts._id,
-                  parent_id: 'not-exists',
+                  parent_id: id,
                   page_size:10
                 }
               }}
@@ -127,34 +141,14 @@ export class PostsDetail extends React.Component {
 
           {isMember ?
             <div className="mt-2 mb-4">
-              <EditorComment posts_id={posts._id} />
+              <EditorComment
+                posts_id={comment.posts_id._id}
+                parent_id={comment._id}
+                reply_id={comment._id}
+                />
             </div>
             : null}
         </div>
-
-        {/*
-        <div className="col-md-3">
-          {posts && posts.topic_id && posts.topic_id._id ?
-            <Sidebar
-              recommendPostsDom={(<PostsList
-                id={`sidebar-${posts._id}`}
-                itemName="posts-item-title"
-                // showPagination={false}
-                filters={{
-                  variables: {
-                    sort_by: "comment_count,like_count,create_at",
-                    deleted: false,
-                    weaken: false,
-                    page_size: 10,
-                    topic_id: posts.topic_id._id,
-                    start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 7)+''
-                  }
-                }}
-                />)}
-              />
-            : null}
-        </div>
-        */}
 
       </div>
       </div>
@@ -164,4 +158,4 @@ export class PostsDetail extends React.Component {
 
 }
 
-export default Shell(PostsDetail);
+export default Shell(CommentDetail);

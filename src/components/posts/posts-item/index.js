@@ -152,7 +152,7 @@ export default class PostsItem extends React.PureComponent {
           </div>
         </div>
       </div>
-
+      
       {expandComment ?
         <div styleName="comment-container" onClick={this.stopPropagation}>
           <div>
@@ -161,7 +161,7 @@ export default class PostsItem extends React.PureComponent {
               filters={{
                 variables: {
                   posts_id: posts._id,
-                  parent_id: false,
+                  parent_id: 'not-exists',
                   page_size: 10
                 }
               }}

@@ -5,6 +5,44 @@ import merge from 'lodash/merge'
 
 import loadList from './common/new-load-list'
 
+const processNotificationList = (list) => {
+
+  list.map(item => {
+
+    if (item.comment_id) {
+      var text = item.comment_id.content_html;
+      text = text.replace(/<[^>]+>/g,"");
+      if (text.length > 100) text = text.substring(0,100) + '...';
+      item.comment_id.content_trim = text;
+    }
+
+    if (item.comment_id && item.comment_id.parent_id) {
+      var text = item.comment_id.parent_id.content_html;
+      text = text.replace(/<[^>]+>/g,"");
+      if (text.length > 100) text = text.substring(0,100) + '...';
+      item.comment_id.parent_id.content_trim = text;
+    }
+
+    if (item.comment_id && item.comment_id.reply_id) {
+      var text = item.comment_id.reply_id.content_html;
+      text = text.replace(/<[^>]+>/g,"");
+      if (text.length > 100) text = text.substring(0,100) + '...';
+      item.comment_id.reply_id.content_trim = text;
+    }
+
+    if (item.comment_id && item.comment_id.answer_id) {
+      var text = item.comment_id.answer_id.content_html;
+      text = text.replace(/<[^>]+>/g,"");
+      if (text.length > 100) text = text.substring(0,100) + '...';
+      item.comment_id.answer_id.content_html = text;
+    }
+
+    return item;
+  })
+
+  return list;
+}
+
 export function loadNotifications({ name, filters = {}, restart = false }) {
   return (dispatch, getState) => {
 
@@ -18,22 +56,18 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
         comment_id {
           _id
           content_html
-          content_trim
           posts_id {
             _id
             title
             content_html
-            content_trim
           }
           reply_id {
             _id
             content_html
-            content_trim
           }
           parent_id {
             _id
             content_html
-            content_trim
           }
         }
         sender_id {
@@ -56,7 +90,6 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
           title
           content_html
           _id
-          content_trim
         }
       `
     }
@@ -69,7 +102,7 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
       restart,
       filters,
 
-      // processList: processPostsList,
+      processList: processNotificationList,
 
       schemaName: 'userNotifications',
       reducerName: 'notification',
@@ -78,7 +111,6 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
       actionType: 'SET_NOTIFICATION_LIST_BY_NAME',
 
       callback: (res) =>{
-        // console.log(res);
 
         let unreadNotice = getState().user.unreadNotice
         let comment = getState().comment

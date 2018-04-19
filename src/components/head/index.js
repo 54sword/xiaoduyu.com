@@ -39,7 +39,8 @@ export default class Head extends React.Component {
         id: 'head',
         filters: {
           variables: {
-            type: "parent"
+            type: "parent",
+            recommend: true
           }
         }
       })(store.dispatch, store.getState);
