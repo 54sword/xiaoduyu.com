@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import configureStore from '../store';
 import createRouter from '../router';
 
+import startSocket from '../socket';
+
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'jquery'
@@ -59,6 +61,9 @@ if (__DEV__) {
   // 而热更新代码是客户端代码，清空app里面的html，强制用客户端的代码作为显示
   document.getElementById('app').innerHTML = ''
 }
+
+
+startSocket(store)
 
 ReactDOM.hydrate((
   <Provider store={store}>

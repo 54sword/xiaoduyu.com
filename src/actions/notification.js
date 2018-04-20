@@ -3,6 +3,8 @@ import grapgQLClient from '../common/grapgql-client'
 import Ajax from '../common/ajax'
 import merge from 'lodash/merge'
 
+import graphql from './common/graphql'
+
 import loadList from './common/new-load-list'
 
 const processNotificationList = (list) => {
@@ -345,7 +347,29 @@ export function loadNewNotifications({ name, callback = ()=>{} }) {
 
 let loading = false
 
+
+export const loadUnreadCount = () => {
+  return (dispatch, getState) => {
+    return new Promise(async resolve => {
+
+      let [ err, res ] = await graphql({
+        api: 'fetchUnreadUserNotification',
+        fields: `ids`,
+        headers: {
+          accessToken: getState().user.accessToken
+        }
+      });
+
+      if (res) {
+        dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice: res });
+      }
+
+    });
+  }
+}
+
 // 加载未读通知数量
+/*
 export function loadUnreadCount({ callback=()=>{} }) {
   return (dispatch, getState) => {
 
@@ -373,6 +397,7 @@ export function loadUnreadCount({ callback=()=>{} }) {
 
   }
 }
+*/
 
 // 取消某个通知
 export const cancelNotiaction = ({ id, callback = ()=>{} }) => {

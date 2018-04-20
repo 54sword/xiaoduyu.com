@@ -431,7 +431,7 @@ export function loadNewPosts(timestamp) {
     let postsList = getState().posts['home'] || null
     let newPostsList = getState().posts['new'] || null
     let me = getState().user.profile || null
-
+    
     if (!postsList) return
     if (!lastFetchAt) lastFetchAt = timestamp
 
