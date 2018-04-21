@@ -12,7 +12,7 @@ import Sidebar from '../../components/sidebar';
 let general = {
   variables: {
     method: 'user_follow',
-    sort_by: "create_at",
+    sort_by: "sort_by_date",
     deleted: false,
     weaken: false
   }
@@ -21,7 +21,7 @@ let general = {
 let recommend = {
   variables: {
     method: 'user_follow',
-    sort_by: "comment_count,like_count,create_at",
+    sort_by: "comment_count,like_count,sort_by_date",
     deleted: false,
     weaken: false,
     page_size: 10,

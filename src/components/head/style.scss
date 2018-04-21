@@ -77,7 +77,6 @@ $height: 50px;
 
 }
 
-
 .link{
   display: block;
   color:#666;
@@ -92,4 +91,25 @@ $height: 50px;
   &:hover{
     color: #484848;
   }
+}
+
+.unread{
+  position: absolute;
+  height: 16px;
+  line-height: 16px;
+  padding:0px 5px 0px 5px;
+  margin:12px 0 0 -3px;
+  border-radius: 20px;
+  background-color: red;
+  color:#fff;
+  font-size: 11px;
+}
+
+.red-point{
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 4px;
+  margin:15px 0 0 0;
 }

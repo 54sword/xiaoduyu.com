@@ -4,9 +4,10 @@ import io from 'socket.io-client';
 import config from '../../config';
 
 // redux actions
-import { loadUnreadCount, cancelNotiaction } from '../actions/notification'
-import { loadNewPosts } from '../actions/posts'
-// import { setOnlineUserCount } from './actions/website'
+import { loadUnreadCount, cancelNotiaction } from '../actions/notification';
+import { loadNewPosts } from '../actions/posts';
+import { setOnlineUserCount } from '../actions/website';
+import { newPostsTips } from '../actions/posts';
 // import { exchangeTokenTimer } from '../actions/token'
 
 export default ({ dispatch, getState }) => {
@@ -20,16 +21,16 @@ export default ({ dispatch, getState }) => {
 
     // 更新在线用户
     this.on("online-user-count", (count) => {
-      // dispatch(setOnlineUserCount(count));
+      dispatch(setOnlineUserCount(count));
     });
 
     // 通知
     this.on("notiaction", (addresseeIds) => {
-      if (me && addresseeIds.indexOf(me._id) != -1) {
+      if (me && me._id && addresseeIds.indexOf(me._id) != -1) {
         dispatch(loadUnreadCount());
       }
     });
-
+    
     // 取消通知
     this.on("cancel-notiaction", (id) => {
       dispatch(cancelNotiaction({id}));
@@ -47,6 +48,9 @@ export default ({ dispatch, getState }) => {
     // startSocket()
   });
 
-  dispatch(loadUnreadCount({}));
+  if (me && me._id) {
+    dispatch(loadUnreadCount({}));
+    dispatch(newPostsTips());
+  }
 
 }

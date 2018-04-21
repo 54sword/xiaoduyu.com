@@ -51,7 +51,7 @@ export default class NotificationListItem extends Component {
     }
 
     switch (notice.type) {
-
+      
       case 'follow-you':
         content = (<div>
             <div styleName="header">
@@ -82,7 +82,7 @@ export default class NotificationListItem extends Component {
             </div>
           </div>)
         break
-        
+
       case 'reply':
         content = (<div>
           <div styleName="header">
@@ -170,7 +170,7 @@ export default class NotificationListItem extends Component {
     }
 
     if (content) {
-      content = (<div key={notice._id} className="list-group-item">{content}</div>)
+      content = (<div key={notice._id} className="list-group-item" styleName={notice.has_read ? '' : 'unread'}>{content}</div>)
     }
 
     return content

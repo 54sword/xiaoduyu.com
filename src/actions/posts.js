@@ -1,5 +1,6 @@
 import grapgQLClient from '../common/grapgql-client'
 
+import { reactLocalStorage } from 'reactjs-localstorage'
 
 // import merge from 'lodash/merge'
 import Ajax from '../common/ajax'
@@ -114,6 +115,11 @@ export function updatePostsById({ id, typeId, topicId, title, content, contentHT
 export function loadPostsList({ id, filters, restart = false }) {
   return async (dispatch, getState) => {
 
+    if (id == 'follow') {
+      // 移除提醒
+      dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips: {} });
+    }
+
     if (!filters.select) {
       filters.select = `
         _id
@@ -221,9 +227,42 @@ export function loadPostsById({ id, callback = ()=>{} }) {
 }
 */
 
-export function addViewById({ id, callback = ()=>{ } }) {
-  return (dispatch, getState) => {
+export function viewPostsById({ id, callback = ()=>{ } }) {
+  return async (dispatch, getState) => {
 
+    // 浏览次数累计
+    let viewPosts = reactLocalStorage.get('view-posts') || '';
+    let lastViewPostsAt = reactLocalStorage.get('last-viewed-posts-at') || new Date().getTime();
+
+    // 如果超过1小时，那么浏览数据清零
+    if (new Date().getTime() - lastViewPostsAt > 3600000) viewPosts = '';
+
+    viewPosts = viewPosts.split(',');
+
+    if (!viewPosts[0]) viewPosts = [];
+
+    if (viewPosts.indexOf(id) == -1) {
+      viewPosts.push(id);
+      reactLocalStorage.set('view-posts', viewPosts.join(','));
+      reactLocalStorage.set('last-viewed-posts-at', new Date().getTime());
+
+      let [ err, res ] = await graphql({
+        type: 'mutation',
+        api: 'viewPosts',
+        args: { posts_id: id },
+        fields: `success`
+      });
+
+      if (res && res.success) {
+        dispatch({ type: 'UPDATE_POSTS_VIEW', id: id })
+      }
+
+    }
+
+
+
+
+    /*
     return Ajax({
       url: '/view-posts',
       params: { posts_id: id },
@@ -234,6 +273,7 @@ export function addViewById({ id, callback = ()=>{ } }) {
         callback(result)
       }
     })
+    */
   }
 }
 
@@ -431,7 +471,7 @@ export function loadNewPosts(timestamp) {
     let postsList = getState().posts['home'] || null
     let newPostsList = getState().posts['new'] || null
     let me = getState().user.profile || null
-    
+
     if (!postsList) return
     if (!lastFetchAt) lastFetchAt = timestamp
 
@@ -477,3 +517,41 @@ export function showNewPosts() {
 
   }
 }
+
+
+// 新主题通知
+export const newPostsTips = () => {
+  return async (dispatch, getState) => {
+
+    let newPostsTips = getState().website.newPostsTips;
+
+    let [ err, res ] = await loadPostsList({
+      id: 'tips_follow',
+      filters: {
+        variables: {
+          method: 'user_follow',
+          sort_by: "sort_by_date",
+          deleted: false,
+          weaken: false,
+          page_size:1
+        },
+        select: `sort_by_date`
+      },
+      restart: true
+    })(dispatch, getState);
+
+    if (res && res.data && res.data.length > 0) {
+      newPostsTips['/follow'] = res.data[0].sort_by_date;
+    }
+
+    dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips });
+
+  }
+}
+
+// 移除提醒
+// export const removeNewPostsTips = () => {
+//   return async (dispatch, getState) => {
+//     dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips: {} });
+//   }
+// }

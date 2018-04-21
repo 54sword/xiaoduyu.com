@@ -3,7 +3,7 @@ import React from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../actions/posts';
+import { loadPostsList, viewPostsById } from '../../actions/posts';
 import { getPostsListByListId } from '../../reducers/posts';
 import { isMember } from '../../reducers/user';
 
@@ -27,7 +27,8 @@ import styles from './style.scss';
     list: getPostsListByListId(state, props.match.params.id)
   }),
   dispatch => ({
-    loadPostsList: bindActionCreators(loadPostsList, dispatch)
+    loadPostsList: bindActionCreators(loadPostsList, dispatch),
+    viewPostsById: bindActionCreators(viewPostsById, dispatch)
   })
 )
 @CSSModules(styles)
@@ -68,7 +69,7 @@ export class PostsDetail extends React.Component {
   componentDidMount() {
 
     const { id } = this.props.match.params;
-    const { list, loadPostsList } = this.props;
+    const { list, loadPostsList, viewPostsById } = this.props;
 
     if (!list || !list.data) {
       this.props.loadPostsList({
@@ -82,6 +83,8 @@ export class PostsDetail extends React.Component {
         }
       })
     }
+
+    viewPostsById({ id });
 
   }
 
@@ -103,7 +106,7 @@ export class PostsDetail extends React.Component {
     return(<div>
 
       <Meta title={posts ? posts.title : '加载中...'} />
-      
+
       <div className="container">
 
       <div className="row">

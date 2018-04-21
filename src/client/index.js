@@ -62,8 +62,7 @@ if (__DEV__) {
   document.getElementById('app').innerHTML = ''
 }
 
-
-startSocket(store)
+startSocket(store);
 
 ReactDOM.hydrate((
   <Provider store={store}>

@@ -29,7 +29,8 @@ export default ({
   // type = 'get',
   schemaName = '',
   processList = data => data,
-  accessToken = ''
+  accessToken = '',
+  callback = () => {}
 }) => {
   return new Promise(async (resolve, reject) => {
 
@@ -91,7 +92,11 @@ export default ({
 
     let [ err, res ] = await grapgQLClient(option);
 
-    if (err) return resolve([ err ]);
+    if (err) {
+      resolve([ err ]);
+      callback([ err]);
+      return
+    }
 
     let data = res.data[schemaName]
 
@@ -139,8 +144,8 @@ export default ({
       dispatch({ type: actionType, name, data: list })
     }
 
-    resolve([null, list ])
-
+    resolve([ null, list ]);
+    callback([ null, list ]);
   })
 
 }

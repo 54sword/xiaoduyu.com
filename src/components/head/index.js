@@ -11,6 +11,7 @@ import { signOut } from '../../actions/sign';
 import { isMember, getProfile } from '../../reducers/user';
 import { loadTopics } from '../../actions/topic';
 import { getTopicListByKey } from '../../reducers/topic';
+import { getUnreadNotice, getPostsTips } from '../../reducers/website';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -20,7 +21,9 @@ import styles from './style.scss';
   (state, props) => ({
     me: getProfile(state),
     isMember: isMember(state),
-    topicList: getTopicListByKey(state, 'head')
+    topicList: getTopicListByKey(state, 'head'),
+    unreadNotice: getUnreadNotice(state),
+    postsTips: getPostsTips(state)
   }),
   dispatch => ({
     signOut: bindActionCreators(signOut, dispatch),
@@ -86,15 +89,20 @@ export default class Head extends React.Component {
 
   render() {
 
-    const { me, isMember, topicList } = this.props;
+    const { me, isMember, topicList, unreadNotice, postsTips } = this.props;
 
     let nav = [
       { to: '/', name: '发现' }
-    ]
+    ];
 
     if (isMember) {
-      nav.push({ to: '/follow', name: '关注' })
-      // nav.unshift({ to: '/follow', name: '关注' })
+
+      if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
+        nav.push({ to: '/follow', name: '关注', tips: true })
+      } else {
+        nav.push({ to: '/follow', name: '关注' })
+      }
+
     }
 
     if (topicList) {
@@ -117,7 +125,12 @@ export default class Head extends React.Component {
         {/* user bar */}
         {isMember ?
           <ul styleName="user-bar">
-            <li><NavLink exact to="/notifications" styleName="link">通知</NavLink></li>
+            <li>
+              <NavLink exact to="/notifications" styleName="link">
+                通知
+                {unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}
+              </NavLink>
+            </li>
             <li>
               <span styleName="link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {me.nickname}
@@ -140,7 +153,10 @@ export default class Head extends React.Component {
           <div>
             <ul>
               {nav.map(item=><li key={item.to}>
-                <NavLink exact to={item.to} styleName="link">{item.name}</NavLink>
+                <NavLink exact to={item.to} styleName="link">
+                  {item.name}
+                  {item.tips ? <span styleName="red-point"></span> : null}
+                </NavLink>
               </li>)}
             </ul>
           </div>

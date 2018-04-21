@@ -10,12 +10,18 @@ import Sidebar from '../../components/sidebar';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getProfile } from '../../reducers/user';
+import { getUnreadNotice } from '../../reducers/website';
+import { loadNewNotifications } from '../../actions/notification';
+import { getNotificationByName } from '../../reducers/notification';
 
 @connect(
   (state, props) => ({
-    me: getProfile(state)
+    me: getProfile(state),
+    unreadNotice: getUnreadNotice(state),
+    list: getNotificationByName(state, 'index')
   }),
   dispatch => ({
+    loadNewNotifications: bindActionCreators(loadNewNotifications, dispatch)
   })
 )
 export class Notifications extends Component {
@@ -24,10 +30,17 @@ export class Notifications extends Component {
     super(props)
   }
 
+  componentDidMount() {
+    const { list, unreadNotice, loadNewNotifications } = this.props;
+    if (unreadNotice.length > 0 && list && list.data && list.data.length > 0) {
+      loadNewNotifications({ name: 'index' })
+    }
+  }
+
   render () {
 
     const { me } = this.props;
-    
+
     return (<div className="container">
       <Meta title="通知" />
       <div className="row">

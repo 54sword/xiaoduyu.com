@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { isMember } from '../../../reducers/user';
+import { viewPostsById } from '../../../actions/posts';
 
 // components
 import HTMLText from '../../html-text';
@@ -20,10 +21,10 @@ import styles from './style.scss';
 
 @connect(
   (state, props) => ({
-    // me: getProfile(state),
     isMember: isMember(state)
   }),
   dispatch => ({
+    viewPostsById: bindActionCreators(viewPostsById, dispatch)
   })
 )
 @CSSModules(styles)
@@ -47,7 +48,10 @@ export default class PostsItem extends React.PureComponent {
   }
 
   expandContent() {
-    const { posts } = this.props;
+    const { posts, viewPostsById } = this.props;
+
+    viewPostsById({ id: posts._id });
+
     this.setState({
       expandContent: true,
       expandComment: true
@@ -152,7 +156,7 @@ export default class PostsItem extends React.PureComponent {
           </div>
         </div>
       </div>
-      
+
       {expandComment ?
         <div styleName="comment-container" onClick={this.stopPropagation}>
           <div>

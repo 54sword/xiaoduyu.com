@@ -3,7 +3,6 @@ import React from 'react';
 import Shell from '../../../components/shell';
 import Meta from '../../../components/meta';
 import PeopleDetailHead from '../../../components/people-detail-head';
-// import PostsList from '../../../components/posts/list';
 import CommentList from '../../../components/comment/list';
 
 class PeopleDetailPosts extends React.Component {
@@ -17,9 +16,7 @@ class PeopleDetailPosts extends React.Component {
 
   render() {
     const { id } = this.props.match.params;
-
-    // console.log(id);
-
+    
     return (<PeopleDetailHead
         id={id}
         body={<div style={{backgroundColor:'#fff'}}><CommentList
@@ -28,10 +25,9 @@ class PeopleDetailPosts extends React.Component {
             variables: {
               user_id: id,
               sort_by: "create_at",
-              parent_id: false,
+              parent_id: 'not-exists',
               deleted: false,
               weaken: false
-              // parent_id: 'not-exists'
             }
           }}
           scrollLoad={true}
