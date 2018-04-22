@@ -55,12 +55,14 @@ const Shell = (Component) => {
 
     constructor(props) {
       super(props);
+
+      const { pathname, search } = this.props.location;
+      this.props.location.params = search ? parseUrl(search) : null;
     }
 
     // 组件加载完成
     componentDidMount() {
       const { pathname, search } = this.props.location;
-      this.props.location.params = search ? parseUrl(search) : null;
       this.props.setScrollPosition(pathname + search);
     }
 

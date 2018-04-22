@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import ReactGA from 'react-ga';
 
 import configureStore from '../store';
 import createRouter from '../router';
-
 import startSocket from '../socket';
 
+import { debug, GA } from '../../config';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'jquery'
@@ -47,6 +48,9 @@ import '../vendors/load-demand'
 //   console.log("Don't support serviceWorker")
 // }
 
+
+
+
 // 从页面中获取服务端生产redux数据，作为客户端redux初始值
 const store = configureStore(window.__initState__);
 
@@ -54,7 +58,19 @@ import { getProfile } from '../reducers/user';
 
 let userinfo = getProfile(store.getState());
 
-const RouterDom = createRouter(userinfo).dom;
+let logPageView = ()=>{};
+
+if (GA) {
+  ReactGA.initialize(GA);
+  logPageView = (userinfo) => {
+    let option = { page: window.location.pathname }
+    if (userinfo && userinfo._id) option.userId = userinfo._id;
+    ReactGA.set(option);
+    ReactGA.pageview(window.location.pathname);
+  }
+}
+
+const RouterDom = createRouter(userinfo, logPageView).dom;
 
 if (__DEV__) {
   // 开发模式下，首屏内容会使用服务端渲染的html代码，

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // config
-import { original_api_url } from '../../../config';
+import { original_api_domain } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -18,6 +18,7 @@ import Modal from '../bootstrap/modal';
 // styles
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
+
 
 @connect(
   (state, props) => ({
@@ -66,17 +67,17 @@ export default class Sign extends Component {
             <div styleName="social">
               <ul>
                 <li>
-                  <a href={`${original_api_url}/oauth/weibo`} styleName="weibo">
+                  <a href={`${original_api_domain}/oauth/weibo`} styleName="weibo">
                     <span styleName="weibo-icon">使用微博登录</span>
                   </a>
                 </li>
                 <li>
-                  <a href={`${original_api_url}/oauth/qq`} styleName="qq">
+                  <a href={`${original_api_domain}/oauth/qq`} styleName="qq">
                   <span styleName="qq-icon">使用 QQ 登录</span>
                   </a>
                 </li>
                 <li>
-                  <a href={`${original_api_url}/oauth/github`} styleName="github">
+                  <a href={`${original_api_domain}/oauth/github`} styleName="github">
                     <span styleName="github-icon">使用 GitHub 登录</span>
                   </a>
                 </li>

@@ -15,6 +15,7 @@ class PeopleDetailPosts extends React.Component {
   }
 
   render() {
+    
     const { id } = this.props.match.params;
 
     return (<PeopleDetailHead
@@ -25,8 +26,7 @@ class PeopleDetailPosts extends React.Component {
             variables: {
               user_id: id,
               sort_by: "create_at",
-              deleted: false,
-              weaken: false
+              deleted: false
             }
           }}
           scrollLoad={true}

@@ -15,7 +15,7 @@ export default ({ dispatch, getState }) => {
   // 用于判断是否登录
   const me = getState().user.profile;
 
-  let socket = io.connect(process.env.NODE_ENV == 'development' ? config.original_api_domain : config.domain_name);
+  let socket = io.connect(config.socket_url);
 
   socket.on("connect", function() {
 
@@ -30,7 +30,7 @@ export default ({ dispatch, getState }) => {
         dispatch(loadUnreadCount());
       }
     });
-    
+
     // 取消通知
     this.on("cancel-notiaction", (id) => {
       dispatch(cancelNotiaction({id}));

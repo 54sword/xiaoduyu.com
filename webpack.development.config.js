@@ -137,9 +137,10 @@ module.exports = {
       template: 'src/view/index.html',
       meta: '<%- meta %>',
       htmlDom: '<%- html %>',
-      reduxState: '<%- reduxState %>'
-      // chunks: ["vendors", "common", "app"], // 选择使用哪些生成的文件
-      // chunksSortMode: "manual" // manual根据chunks的位置手动排序
+      reduxState: '<%- reduxState %>',
+      analysis_script: config.analysis_script
+      // chunks: [ "common", "app", "vendors"], // 选择使用哪些生成的文件
+      // chunksSortMode: "auto" // manual根据chunks的位置手动排序
     }),
 
     new webpack.optimize.OccurrenceOrderPlugin(),

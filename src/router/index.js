@@ -14,12 +14,15 @@ import ModelPosts from '../components/model-posts';
  * @param  {Object} userinfo 用户信息，以此判断用户是否是登录状态，并控制页面访问权限
  * @return {[type]}
  */
-export default (user) => {
+export default (user, logPageView = ()=>{}) => {
 
   // 登录用户才能访问
   const requireAuth = (Layout, props, route) => {
+
+    logPageView();
+    
     if (!user) {
-      return <Redirect to="/sign-in" />
+      return <Redirect to="/" />
     } else {
 
       if (route.routes) {
@@ -33,6 +36,9 @@ export default (user) => {
 
   // 游客才能访问
   const requireTourists = (Layout, props, route) => {
+
+    logPageView();
+
     if (user) {
       return <Redirect to="/" />
     } else {
@@ -46,7 +52,9 @@ export default (user) => {
 
   // 大家都可以访问
   const triggerEnter = (Layout, props, route) => {
-    // return <Layout {...props} />
+
+    logPageView();
+
     if (route.routes) {
       return <Layout {...props} routes={route.routes} />
     } else {
@@ -284,6 +292,16 @@ export default (user) => {
         loader: () => import('../pages/settings-email')
       }),
       enter: requireAuth
+    },
+
+    {
+      path: '/oauth',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/oauth')
+      }),
+      enter: triggerEnter
     },
 
     {

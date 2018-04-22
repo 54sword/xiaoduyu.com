@@ -121,6 +121,15 @@ export default class CommentItem extends PureComponent {
 
     const updateComment = (data) => e => this.updateComment(e, data);
 
+    let reply_user = null;
+
+    if (comment.reply_id &&
+      comment.reply_id.user_id &&
+      comment.reply_id.user_id._id
+    ) {
+      reply_user = comment.reply_id;
+    }
+
     return (<div styleName="item" key={comment._id}>
 
       <EditorCommentModal
@@ -139,8 +148,10 @@ export default class CommentItem extends PureComponent {
             <div styleName="avatar" className="load-demand" data-load-demand={`<img width="40" height="40" src="${comment.user_id.avatar_url}" />`}></div>
             <b>{comment.user_id.nickname}</b>
           </Link>
-          <span>{comment.reply_id ? `回复${comment.reply_id.user_id._id == comment.user_id._id ? '自己' : ''}` : null}</span>
-          {comment.reply_id && comment.reply_id.user_id._id != comment.user_id._id ? <Link to={`/people/${comment.reply_id.user_id._id}`} onClick={this.stopPropagation}><b>{comment.reply_id.user_id.nickname}</b></Link> : null}
+          <span>{reply_user ? `回复${reply_user._id == comment.user_id._id ? '自己' : ''}` : null}</span>
+          {reply_user && reply_user._id != comment.user_id._id
+            ? <Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link>
+            : null}
         </div>
 
         <div styleName="info">

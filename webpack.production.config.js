@@ -151,9 +151,10 @@ module.exports = {
       filename: path.resolve(__dirname, 'dist/index.ejs'),
       template: 'src/view/index.html',
       meta: '<%- meta %>',
+      analysis_script: config.analysis_script,
       htmlDom: '<%- html %>',
       reduxState: '<%- reduxState %>'
-      // chunks: [ "common", "vendors", "app"], // 选择使用哪些生成的文件
+      // chunks: [ "common", "app", "vendors"], // 选择使用哪些生成的文件
       // chunksSortMode: "manual" // manual根据chunks的位置手动排序
     }),
 
