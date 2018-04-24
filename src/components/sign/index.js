@@ -51,9 +51,9 @@ export default class Sign extends Component {
 
     $('#sign').on('show.bs.modal', function (e) {
       self.setState({
-        type: e.relatedTarget.getAttribute('data-type') || 'sign-in'
+        type: e.relatedTarget['data-type'] || e.relatedTarget.getAttribute('data-type') || 'sign-in'
       });
-    })
+    });
 
   }
 

@@ -36,7 +36,7 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 
       if (res && res.success) {
         [ err, res ] = await loadCommentList({ name:'cache', filters: { query: { _id:res._id } }, restart: true })(dispatch, getState);
-        
+
         let newComment = res.data[0];
 
         for (let i in commentState) {
@@ -285,11 +285,12 @@ export function loadCommentList({ name, filters = {}, restart = false }) {
             }
           }
           update_at
-          weaken:
+          weaken
           device
           like_count
           create_at
           content_html
+          like
         }
       `
     }

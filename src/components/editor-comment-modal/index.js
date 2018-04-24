@@ -8,7 +8,8 @@ export default class EditorCommentModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      show: false
+      show: false,
+      reply: null
     }
     this.show = this.show.bind(this);
     this.hide = this.hide.bind(this);
@@ -20,10 +21,9 @@ export default class EditorCommentModal extends Component {
     hide(this.hide);
   }
 
-  show() {
+  show(reply) {
     const self = this;
-    const { reply } = this.props;
-    this.setState({ show: true }, ()=>{
+    this.setState({ show: true, reply }, ()=>{
       $(`#${reply._id}`).modal('show');
       $(`#${reply._id}`).on('hidden.bs.modal', function (e) {
         self.setState({ show: false });
@@ -32,22 +32,22 @@ export default class EditorCommentModal extends Component {
   }
 
   hide() {
-    const { reply } = this.props;
+    const { reply } = this.state;
     $(`#${reply._id}`).modal('hide');
-    this.setState({ show: false });
+    this.setState({ show: false, reply: null });
   }
 
   render () {
 
     const self = this;
-    const { show } = this.state;
-    const { reply } = this.props;
+    const { show, reply } = this.state;
+    // const { reply } = this.props;
 
     if (!show) return '';
 
     let params = {
       id: reply._id,
-      posts_id: reply.posts_id._id,
+      posts_id: reply.posts_id._id || reply.posts_id,
       successCallback: self.hide,
       getEditor: (editor) => {
         setTimeout(()=>{

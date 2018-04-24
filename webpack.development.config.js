@@ -34,7 +34,16 @@ module.exports = {
       'axios',
       'jquery',
       'popper.js',
-      'bootstrap/dist/js/bootstrap.min.js'
+      'bootstrap/dist/js/bootstrap.min.js',
+      'apollo-client',
+      'graphql',
+      'graphql-tag',
+      // 'socket.io-client',
+      'draft-js'
+      // 'redraft',
+      // 'reactjs-localstorage',
+      // 'react-ga',
+      // 'react-css-modules'
     ]
   },
 

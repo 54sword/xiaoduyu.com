@@ -30,7 +30,16 @@ module.exports = {
       'axios',
       'jquery',
       'popper.js',
-      'bootstrap/dist/js/bootstrap.min.js'
+      'bootstrap/dist/js/bootstrap.min.js',
+      'apollo-client',
+      'graphql',
+      'graphql-tag',
+      // 'socket.io-client',
+      'draft-js'
+      // 'redraft',
+      // 'reactjs-localstorage',
+      // 'react-ga',
+      // 'react-css-modules'
     ]
   },
 
@@ -134,7 +143,7 @@ module.exports = {
 
     new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
-      filename: 'common.[hash].bundle.js'
+      filename: 'common.[hash].js'
     }),
 
     new webpack.optimize.UglifyJsPlugin({

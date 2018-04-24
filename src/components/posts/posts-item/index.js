@@ -156,7 +156,7 @@ export default class PostsItem extends React.PureComponent {
           </div>
         </div>
       </div>
-
+      
       {expandComment ?
         <div styleName="comment-container" onClick={this.stopPropagation}>
           <div>

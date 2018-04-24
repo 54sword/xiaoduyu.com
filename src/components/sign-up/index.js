@@ -43,6 +43,7 @@ export default class SignUp extends Component {
 
     let self = this;
 
+
     let { nickname, account, password, male, female, captcha } = this.refs;
 
     const { areaCode } = this.state;
@@ -53,7 +54,12 @@ export default class SignUp extends Component {
     if (!captcha.value) return captcha.focus();
     if (!password.value) return password.focus();
     if (!male.checked && !female.checked) {
-      // return self.singupFailed({ gender: '请选择性别' });
+      Toastify({
+        text: '请选择性别',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+      return
     }
 
     let data = {
@@ -71,32 +77,40 @@ export default class SignUp extends Component {
       data.area_code = areaCode
     }
 
-    // console.log(data);
-
     let [ err, res ] = await signUp(data);
 
-    /*
-    // 注册
-    signUp(data, function(err, result){
-      if (err) {
-        self.singupFailed(result.error);
-      } else if (!err && result.success) {
-        alert('注册成功')
+    if (err) {
+      Toastify({
+        text: err && err.message ? err.message : err,
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+      return;
+    } else {
+      Toastify({
+        text: '注册成功',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+      }).showToast();
+    }
 
-        // 自动登录
-        signIn({
-          email: account.value.indexOf('@') != -1 ? account.value : '',
-          phone: account.value.indexOf('@') == -1 ? account.value : '',
-          password: password.value
-        }, function(err, result){
-          setTimeout(()=>{
-            location.reload()
-          }, 100)
-        });
+    delete data.nickname;
+    delete data.gender;
+    delete data.source;
+    delete data.captcha;
+    delete data.area_code;
 
-      }
-    });
-    */
+    [ err, res ] = await signIn({ data });
+
+    if (err) {
+
+      $('#sign').modal('hide');
+      setTimeout(()=>{
+        $('#sign').modal({ show: true }, { 'data-type': 'sign-in' });
+      }, 700);
+
+    }
+
   }
 
   sendCaptcha(callback) {
@@ -165,7 +179,7 @@ export default class SignUp extends Component {
           <input type="radio" name="gender" ref="female" />女
           */}
         </div>
-        
+
         <div>
           <input type="submit" className="btn btn-primary" value="注册" onClick={this.submit} />
         </div>

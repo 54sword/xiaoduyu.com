@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadPostsList } from '../../actions/posts';
 import { isMember, getProfile } from '../../reducers/user';
+import { getOnlineUserCount } from '../../reducers/website';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -19,7 +20,8 @@ import PostsList from '../../components/posts/list';
 @connect(
   (state, props) => ({
     me: getProfile(state),
-    isMember: isMember(state)
+    isMember: isMember(state),
+    onlineCOunt: getOnlineUserCount(state)
   }),
   dispatch => ({
   })
@@ -38,7 +40,7 @@ export default class Sidebar extends React.Component {
 
   render() {
 
-    const { isMember, me, recommendPostsDom } = this.props
+    const { isMember, me, recommendPostsDom, onlineCOunt } = this.props
 
     /*
     <div className="card">
@@ -51,7 +53,7 @@ export default class Sidebar extends React.Component {
     */
 
     return(<div>
-      
+
       {/*!isMember ?
         <div className="card">
           <div className="card-body"><SignIn /></div>
@@ -73,7 +75,7 @@ export default class Sidebar extends React.Component {
         </div>
       </div>
       */}
-
+      
       {recommendPostsDom ?
         <div className="card">
           <div className="card-header">最热讨论</div>
@@ -89,6 +91,9 @@ export default class Sidebar extends React.Component {
         <div>
           <a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源代码</a>
           <a href="mailto:shijian.wu@hotmail.com">联系作者</a>
+        </div>
+        <div>
+          {onlineCOunt} 人在线
         </div>
         <p>©{new Date().getFullYear()} {name} (浙ICP备14013796号-3)</p>
       </div>

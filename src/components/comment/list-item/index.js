@@ -46,7 +46,6 @@ export default class CommentItem extends PureComponent {
     super(props)
     this.renderUserView = this.renderUserView.bind(this)
     this.updateComment = this.updateComment.bind(this)
-    this.rednerReply = this.rednerReply.bind(this)
   }
 
   updateComment(e, data) {
@@ -54,61 +53,6 @@ export default class CommentItem extends PureComponent {
     const { comment, updateComment } = this.props
     data._id = comment._id
     updateComment(data)
-  }
-
-  rednerReply(comment) {
-
-    let self = this
-    let {
-      me, isMember,
-      summary, displayLike, displayReply, displayDate, displayEdit
-    } = this.props
-
-    const updateComment = (data) => e => this.updateComment(e, data);
-
-    return (<div styleName="reply" key={comment._id}>
-
-      <EditorCommentModal
-        show={(fn)=>{
-          self.showReply = fn;
-        }}
-        hide={(fn)=>{
-          self.hideReply = fn;
-        }}
-        reply={comment}
-      />
-
-      <div styleName="reply-head">
-          <Link to={`/people/${comment.user_id._id}`}>
-            {/*<div styleName="avatar" className="load-demand" data-load-demand={`<img width="40" height="40" src="${comment.user_id.avatar_url}" />`}></div>*/}
-            {comment.user_id.nickname}
-          </Link>
-          <span>{comment.reply_id ? `回复${comment.reply_id.user_id._id == comment.user_id._id ? '自己' : ''}` : null}</span>
-          {comment.reply_id && comment.reply_id.user_id._id != comment.user_id._id ?
-              <Link to={`/people/${comment.reply_id.user_id._id}`} onClick={this.stopPropagation}>{comment.reply_id.user_id.nickname}</Link>
-              : null}
-          {comment.like_count ? <span>赞 {comment.like_count}</span> : null}
-          {comment.reply_count ? <span>回复 {comment.reply_count}</span> : null}
-          {/*<span>{comment._create_at}</span>*/}
-      </div>
-
-      {comment.content_html ?
-        <div styleName="reply-body"><HTMLText content={comment.content_html} /></div>
-        : null}
-
-
-      <div styleName="footer">
-        <div styleName="actions">
-          {isMember ?
-            <a href="javascript:void(0)" onClick={()=>{ this.showReply(); }}>回复</a>
-            :
-            <a href="javascript:void(0)" data-toggle="modal" data-toggle="modal" data-type="sign-up">回复</a>}
-          {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
-        </div>
-      </div>
-
-    </div>)
-
   }
 
   // 用户的dom
@@ -127,7 +71,7 @@ export default class CommentItem extends PureComponent {
       comment.reply_id.user_id &&
       comment.reply_id.user_id._id
     ) {
-      reply_user = comment.reply_id;
+      reply_user = comment.reply_id.user_id;
     }
 
     return (<div styleName="item" key={comment._id}>
@@ -169,9 +113,13 @@ export default class CommentItem extends PureComponent {
       <div styleName="footer">
         <div styleName="actions">
           {isMember ?
-            <a href="javascript:void(0)" onClick={()=>{ this.showReply(); }}>回复</a>
+            <a href="javascript:void(0)" onClick={((comment)=>{
+              return ()=>{
+                self.showReply(comment);
+              }
+            })(comment)}>回复</a>
             :
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">回复1</a>}
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">回复</a>}
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
         </div>
       </div>

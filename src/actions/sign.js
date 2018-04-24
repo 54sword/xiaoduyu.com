@@ -101,8 +101,14 @@ export const signUp = (args) => {
         `
       });
 
-      console.log(err);
-      console.log(res);
+      if (err) {
+        resolve([err])
+      } else {
+        resolve([null, res])
+      }
+
+      // console.log(err);
+      // console.log(res);
 
       // if (err) return resolve([ err ? err.message : '账号或密码错误' ]);
 
