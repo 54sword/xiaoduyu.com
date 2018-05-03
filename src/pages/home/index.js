@@ -7,7 +7,9 @@ import { loadPostsList } from '../../actions/posts';
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
-import Sidebar from '../../components/sidebar';
+// import Sidebar from '../../components/sidebar';
+import Bundle from '../../components/bundle';
+
 
 let general = {
   variables: {
@@ -74,6 +76,13 @@ export class Home extends React.Component {
               />
           </div>
           <div className="col-md-3">
+          
+          <Bundle load={() => import('../../components/sidebar')}>
+            {(Sidebar) => {
+              return (<Sidebar recommendPostsDom={<PostsList id={'_home'} itemName="posts-item-title" filters={recommend} />} />)
+            }}
+          </Bundle>
+            {/*
             <Sidebar
               recommendPostsDom={(<PostsList
                 id={'_home'}
@@ -81,6 +90,7 @@ export class Home extends React.Component {
                 filters={recommend}
               />)}
               />
+            */}
           </div>
         </div>
       </div>

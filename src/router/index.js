@@ -7,7 +7,8 @@ import { asyncRouteComponent } from '../components/generateAsyncComponent.js';
 
 import Head from '../components/head';
 import Sign from '../components/sign';
-import ModelPosts from '../components/model-posts';
+// import ModelPosts from '../components/model-posts';
+import EditorModalComment from '../components/global/editor-comment-modal';
 
 /**
  * 创建路由
@@ -20,7 +21,7 @@ export default (user, logPageView = ()=>{}) => {
   const requireAuth = (Layout, props, route) => {
 
     logPageView();
-    
+
     if (!user) {
       return <Redirect to="/" />
     } else {
@@ -275,6 +276,16 @@ export default (user, logPageView = ()=>{}) => {
     },
 
     {
+      path: '/settings/oauth/:oauthName',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/settings-oauth')
+      }),
+      enter: requireAuth
+    },
+
+    {
       path: '/settings/binding-phone',
       exact: true,
       head: Head,
@@ -300,6 +311,16 @@ export default (user, logPageView = ()=>{}) => {
       head: Head,
       component: asyncRouteComponent({
         loader: () => import('../pages/oauth')
+      }),
+      enter: triggerEnter
+    },
+
+    {
+      path: '/notice',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/notice')
       }),
       enter: triggerEnter
     },
@@ -331,7 +352,8 @@ export default (user, logPageView = ()=>{}) => {
       </Switch>
 
       {!user ? <Sign /> : null}
-      <ModelPosts />
+      {/*<ModelPosts />*/}
+      {user ? <EditorModalComment /> : null}
 
       <Switch>
         {/*routeArr.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)*/}

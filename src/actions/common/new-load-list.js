@@ -50,10 +50,18 @@ export default ({
     // 让列表重新开始
     if (restart) list = {}
 
-    // 如果没有更多数据，或正在加载中，则阻止本次请求
-    if (typeof list.more != 'undefined' && !list.more || list.loading) {
+    if (typeof list.more != 'undefined' && !list.more) {
+      resolve([ null, list ]);
+      callback([ null, list ]);
       return
     }
+
+    // 如果没有更多数据，或正在加载中，则阻止本次请求
+    if (list.loading) {
+      return
+    }
+
+
 
     if (!Reflect.has(list, 'data')) list.data = []
     if (!Reflect.has(list, 'filters')) {

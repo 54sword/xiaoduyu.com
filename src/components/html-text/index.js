@@ -1,13 +1,12 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import { Link, browserHistory } from 'react-router-dom'
+import React, { Component } from 'react';
+// import { Link } from 'react-router-dom';
 
-import styles from './style.scss'
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
-import Device from '../../common/device'
+// import Device from '../../common/device'
 
 import Utils from '../../common/utils'
-
 
 const converVideo = (html) => {
 
@@ -170,32 +169,34 @@ const converVideo = (html) => {
 
 }
 
+@CSSModules(styles)
 export class HTMLText extends Component {
 
   constructor(props) {
     super(props)
-
-    const { content } = this.props
     this.state = {
-      content: content
+      content: ''
     }
   }
 
   componentDidMount() {
+    const { content } = this.props
     this.setState({
-      content: converVideo(this.state.content)
+      content: converVideo(content)
     })
   }
 
+  componentWillReceiveProps(props) {
+    if (this.props.content != props.content) {
+      this.props = props;
+      this.componentDidMount()
+    }
+  }
+
   render() {
-
     const { content } = this.state
-
-    return (
-      <div className={styles.content}>
-        {<div dangerouslySetInnerHTML={{__html:content}} />}
-      </div>
-    )
+    if (!content) '';
+    return <div className={styles.content} dangerouslySetInnerHTML={{__html:content}} />
   }
 }
 

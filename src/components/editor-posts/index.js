@@ -5,13 +5,14 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addPosts, updatePostsById } from '../../actions/posts';
+import { addPosts, updatePosts } from '../../actions/posts';
 import { loadTopics } from '../../actions/topic';
 import { getTopicById, getTopicListByName } from '../../reducers/topic';
 import { getPostsTypeById } from '../../reducers/posts-types';
 
 // components
 import Device from '../../common/device';
+import To from '../../common/to';
 import Editor from '../editor';
 
 // styles
@@ -21,13 +22,13 @@ import styles from './style.scss';
 
 @connect(
   (state, props) => ({
-    topicList: getTopicListByName(state, 'write-posts'),
+    topicList: getTopicListByName(state, 'new-posts'),
     getPostsTypeById: id => getPostsTypeById(state, id)
   }),
   dispatch => ({
     addPosts: bindActionCreators(addPosts, dispatch),
     loadTopics: bindActionCreators(loadTopics, dispatch),
-    updatePostsById: bindActionCreators(updatePostsById, dispatch)
+    updatePosts: bindActionCreators(updatePosts, dispatch)
   })
 )
 @CSSModules(styles)
@@ -45,14 +46,14 @@ class WritePosts extends React.Component {
   constructor(props) {
     super(props)
 
-    const { _id, type, topic_id, title, content, getPostsTypeById, successCallback } = props
+    const { _id, type, topic_id, title, content, content_html, getPostsTypeById, successCallback } = props
 
     this.state = {
-      _id: _id,
-      title: title,
-      contentStateJSON: content,
-      contentHTML: '',
-      topic: topic_id,
+      _id: _id || '',
+      title: title || '',
+      contentStateJSON: content || '',
+      contentHTML: content_html || '',
+      topic: topic_id || null,
       displayTopicsContainer: false,
       editor: <div></div>,
       type: getPostsTypeById(type),
@@ -71,14 +72,14 @@ class WritePosts extends React.Component {
 
   componentDidMount() {
 
-    const self = this
-    const { _id, type, title, contentStateJSON } = this.state
+    const self = this;
+    const { _id, type, title, contentStateJSON } = this.state;
+    const { topicList, loadTopics } = this.props;
 
-    const { topicList, loadTopics } = this.props
-
+    // 加载话题
     if (!topicList.data) {
       loadTopics({
-        id: 'write-posts',
+        id: 'new-posts',
         filters: {
           variables: {
             page_size: 1000
@@ -86,7 +87,6 @@ class WritePosts extends React.Component {
         }
       });
     }
-
 
     if (_id) {
       var _content = contentStateJSON
@@ -102,6 +102,7 @@ class WritePosts extends React.Component {
             syncContent={this.handleContentChange}
             content={_content}
             placeholder={type.content}
+            expandControl={true}
             getEditor={(editor)=>{ self.setState({ editorElement: editor }) }}
           />
         </div>
@@ -134,8 +135,9 @@ class WritePosts extends React.Component {
 
     let self = this
     let { title } = this.refs
-    let { addPosts, updatePostsById } = this.props
+    let { addPosts, updatePosts } = this.props
     const { loading, _id, topic, contentStateJSON, contentHTML, type, successCallback, editorElement } = this.state
+
 
     if (loading) return
     if (!topic) return alert('您还未选择话题')
@@ -160,22 +162,20 @@ class WritePosts extends React.Component {
 
     if (_id) {
       // 更新
-      updatePostsById({
+      let [ err, res ] = await To(updatePosts({
         id: _id,
-        typeId: type._id,
+        // type: type._id,
         topicId: topic._id,
         title: title.value,
-        content: contentStateJSON,
-        contentHTML: contentHTML,
-        callback: function(result) {
-          self.setState({ loading: false })
-          if (result && result.success) {
-            successCallback()
-          } else {
-            alert(result && result.error ? result.error : '更新失败')
-          }
-        }
-      })
+        detail: contentStateJSON,
+        detailHTML: contentHTML,
+      }));
+
+      // console.log(err);
+      // console.log(res);
+
+      successCallback(res);
+      self.setState({ loading: false })
 
       return
     }
@@ -188,26 +188,7 @@ class WritePosts extends React.Component {
       detailHTML: contentHTML,
       topicId: topic._id,
       device: parseInt(Device.getCurrentDeviceId()),
-      type: type._id,
-      // callback: function(res){
-      //   if (res && res.success) {
-      //
-      //     setTimeout(()=>{
-      //       reactLocalStorage.set('posts-content', '')
-      //       reactLocalStorage.set('posts-title', '')
-      //     }, 200)
-      //
-      //
-      //     setTimeout(()=>{
-      //       self.setState({ loading: false })
-      //       successCallback(res.data)
-      //     }, 1500)
-      //
-      //   } else {
-      //     self.setState({ loading: false })
-      //     alert(res.error)
-      //   }
-      // }
+      type: type._id
     });
 
     if (res && res.success) {
@@ -311,7 +292,7 @@ class WritePosts extends React.Component {
           </div>
 
 
-          <div>{editor}</div>
+          <div styleName="editor">{editor}</div>
 
           <button styleName="button" onClick={this.submit}>{loading ? '提交中...' : '提交'}</button>
         </div>
@@ -321,40 +302,4 @@ class WritePosts extends React.Component {
 
 }
 
-/*
-WritePosts.defaultProps = {
-  type: 1,
-  topic_id: null,
-  _id: null,
-  title: '',
-  content: '',
-  successCallback: ()=>{}
-}
-
-WritePosts.propTypes = {
-  addPosts: PropTypes.func.isRequired,
-  topicList: PropTypes.object.isRequired,
-  updatePostsById: PropTypes.func.isRequired
-}
-
-function mapStateToProps(state, props) {
-  return {
-    topicList: getTopicListByName(state, 'write-posts'),
-    getPostsTypeById: (id)=>{
-      return getPostsTypeById(state, id)
-    }
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    addPosts: bindActionCreators(addPosts, dispatch),
-    loadTopics: bindActionCreators(loadTopics, dispatch),
-    updatePostsById: bindActionCreators(updatePostsById, dispatch)
-  }
-}
-
-WritePosts = connect(mapStateToProps, mapDispatchToProps)(WritePosts)
-
-*/
 export default WritePosts

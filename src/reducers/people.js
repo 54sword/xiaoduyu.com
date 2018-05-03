@@ -1,11 +1,7 @@
 
 import merge from 'lodash/merge'
 
-let initialState = {
-  // other: {
-  //   data: []
-  // }
-}
+let initialState = {}
 
 export default function people(state = initialState, action = {}) {
   switch (action.type) {
@@ -53,7 +49,7 @@ export default function people(state = initialState, action = {}) {
           }
         })
       }
-      
+
       return merge({}, state, {})
 
     default:
@@ -66,33 +62,24 @@ export const getPeopleListByName = (state, name)=>{
   return state.people[name] ? state.people[name] : {}
 }
 
-/*
-export function getPeoples(state, name) {
-  return state.people[name] ? state.people[name].data : []
-}
+export const getPeopleById = (state, id) => {
 
-export function getLoading(state, name) {
-  return state.people[name] ? state.people[name].loading : true
-}
+  let list = state.people;
 
-export function getMore(state, name) {
-  return state.people[name] ? state.people[name].more : true
-}
-*/
+  for (let i in list) {
+    if (i == id) {
+      return list[i].data[0];
+    }
+  }
 
-// 获取agents
-export function getPeopleById(state, id) {
-
-  let peopleList = state.people
-
-  for (let i in peopleList) {
-    let people = peopleList[i].data
-    for (let n = 0, max = people.length; n < max; n++) {
-      if (people[n]._id == id) {
-        return [people[n]]
+  for (let i in list) {
+    let peoples = list[i].data;
+    for (let n = 0, max = peoples.length; n < max; n++) {
+      if (peoples[n]._id == id) {
+        return peoples[n]
       }
     }
   }
 
-  return []
+  return null
 }

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, browserHistory } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ import { isMember, getProfile } from '../../../reducers/user';
 import LikeButton from '../../like';
 import HTMLText from '../../html-text';
 import EditorCommentModal from '../../editor-comment-modal';
+import EditButton from '../../edit-button';
 
 @connect(
   (state, props) => ({
@@ -28,7 +29,7 @@ import EditorCommentModal from '../../editor-comment-modal';
   })
 )
 @CSSModules(styles)
-export default class CommentItem extends PureComponent {
+export default class CommentItem extends Component {
 
   static propTypes = {
     comment: PropTypes.object.isRequired
@@ -55,6 +56,8 @@ export default class CommentItem extends PureComponent {
     updateComment(data)
   }
 
+
+
   // 用户的dom
   renderUserView(comment) {
 
@@ -75,7 +78,7 @@ export default class CommentItem extends PureComponent {
     }
 
     return (<div styleName="item" key={comment._id}>
-
+      {/*
       <EditorCommentModal
         show={(fn)=>{
           self.showReply = fn;
@@ -85,6 +88,7 @@ export default class CommentItem extends PureComponent {
         }}
         reply={comment}
       />
+      */}
 
       <div styleName="item-head">
         <div>
@@ -106,6 +110,10 @@ export default class CommentItem extends PureComponent {
 
       </div>
 
+      {/*comment.content_html ?
+        <div styleName="item-body">{comment.content_html}</div>
+        : null*/}
+
       {comment.content_html ?
         <div styleName="item-body"><HTMLText content={comment.content_html} /></div>
         : null}
@@ -115,12 +123,19 @@ export default class CommentItem extends PureComponent {
           {isMember ?
             <a href="javascript:void(0)" onClick={((comment)=>{
               return ()=>{
-                self.showReply(comment);
+                $('#editor-comment-modal').modal({
+                  show: true
+                }, {
+                  type:'reply',
+                  comment
+                });
+                // self.showReply(comment);
               }
             })(comment)}>回复</a>
             :
             <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">回复</a>}
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
+          <EditButton comment={comment} />
         </div>
       </div>
 

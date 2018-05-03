@@ -157,19 +157,19 @@ export class Settings extends Component {
             <div className="list-group mb-2">
               {email}
               {phone}
-              <Link className="list-group-item" to="/oauth-binding/qq">
+              <Link className="list-group-item" to="/settings/oauth/qq">
                 <div className="d-flex justify-content-between">
                   <span>QQ</span>
                   <span>{me.qq ? '已绑定' : '未绑定' }</span>
                 </div>
               </Link>
-              <Link className="list-group-item" to="/oauth-binding/weibo">
+              <Link className="list-group-item" to="/settings/oauth/weibo">
                 <div className="d-flex justify-content-between">
                   <span>微博</span>
                   <span>{me.weibo ? '已绑定' : '未绑定' }</span>
                 </div>
               </Link>
-              <Link className="list-group-item" to="/oauth-binding/github">
+              <Link className="list-group-item" to="/settings/oauth/github">
                 <div className="d-flex justify-content-between">
                   <span>GitHub</span>
                   <span>{me.github ? '已绑定' : '未绑定' }</span>

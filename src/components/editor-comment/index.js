@@ -6,7 +6,7 @@ import { reactLocalStorage } from 'reactjs-localstorage'
 // reudx
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { addComment, updateComment } from '../../actions/comment'
+import { addComment, updateComment, loadCommentList } from '../../actions/comment'
 
 // tools
 import Device from '../../common/device'
@@ -24,18 +24,20 @@ import styles from './style.scss'
   }),
   dispatch => ({
     addComment: bindActionCreators(addComment, dispatch),
-    updateComment: bindActionCreators(updateComment, dispatch)
+    updateComment: bindActionCreators(updateComment, dispatch),
+    loadCommentList: bindActionCreators(loadCommentList, dispatch)
   })
 )
 @CSSModules(styles)
 export default class CommentEditor extends Component {
 
   static defaultProps = {
+    // 如果存在id表示是更新
     _id: '',
     posts_id: '',
     parent_id: '',
     reply_id: '',
-    content: '',
+    // content: '',
     successCallback: ()=>{},
     getEditor: (editor)=>{}
   }
@@ -54,14 +56,35 @@ export default class CommentEditor extends Component {
     this.syncContent = this.syncContent.bind(this)
   }
 
-  componentDidMount() {
+  async componentDidMount() {
 
-    const self = this
-    let { content, parent_id, posts_id, reply_id, getEditor } = this.props
+    const self = this;
+    let { _id, parent_id, posts_id, reply_id, getEditor, loadCommentList } = this.props;
 
-    let commentId = reply_id || posts_id
+    let editComment =  '';
 
-    let commentsDraft = reactLocalStorage.get('comments-draft') || '{}'
+    // 编辑评论
+    if (_id) {
+      let [ err, res ] = await loadCommentList({
+        name: 'edit_'+_id,
+        filters: {
+          query: { _id },
+          select: `
+            content
+            _id
+          `
+        },
+        restart: true
+      });
+
+      if (res && res.data && res.data[0]) {
+        editComment = res.data[0].content;
+      }
+
+    }
+
+    // 从缓存中获取，评论草稿
+    let commentsDraft = reactLocalStorage.get('comments-draft') || '{}';
 
     try {
       commentsDraft = JSON.parse(commentsDraft) || {}
@@ -69,31 +92,19 @@ export default class CommentEditor extends Component {
       commentsDraft = {}
     }
 
-    // let _commentId = reactLocalStorage.get('comment-id')
-    // let commentContent = reactLocalStorage.get('comment-content')
-
-    if (!content) {
-      content = commentsDraft[reply_id || posts_id] || content
+    let params = {
+      content: editComment || commentsDraft[reply_id || posts_id] || '',
+      syncContent: this.syncContent,
+      getEditor:(editor)=>{
+        self.setState({ editor });
+        getEditor(editor);
+      },
+      displayControls: parent_id ? false : true,
+      placeholder:"写评论..."
     }
 
-
-    // if (_commentId == commentId && !content) {
-    //   content = commentContent
-    // }
-
     this.setState({
-      content: <div>
-            <Editor
-              syncContent={this.syncContent}
-              content={content}
-              getEditor={(editor)=>{
-                self.setState({ editor })
-                getEditor(editor)
-              }}
-              displayControls={true} // parent_id ? false :
-              placeholder="写评论..."
-            />
-          </div>
+      content: <Editor {...params} />
     });
 
   }
@@ -110,36 +121,25 @@ export default class CommentEditor extends Component {
 
     self.setState({ submitting: true })
 
-    if (_id) {
+    let err, res;
 
-      updateComment({
-        id: _id,
+    if (_id) {
+      [ err, res ] = await updateComment({
+        _id: _id,
+        content: contentJSON,
+        content_html: contentHTML
+      });
+    } else {
+      [ err, res ] = await addComment({
+        posts_id: posts_id,
+        parent_id: parent_id,
+        reply_id: reply_id,
         contentJSON: contentJSON,
         contentHTML: contentHTML,
-        callback: function(result) {
-
-          self.setState({ submitting: false })
-
-          if (result.success) {
-            successCallback()
-          } else {
-            alert('提交失败')
-          }
-
-        }
-      })
-
-      return
+        deviceId: Device.getCurrentDeviceId()
+      });
     }
 
-    let [ err, res ] = await addComment({
-      posts_id: posts_id,
-      parent_id: parent_id,
-      reply_id: reply_id,
-      contentJSON: contentJSON,
-      contentHTML: contentHTML,
-      deviceId: Device.getCurrentDeviceId()
-    });
 
     this.setState({ submitting: false });
 

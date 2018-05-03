@@ -18,28 +18,31 @@ class PeopleDetailPosts extends React.Component {
 
   render() {
     const { id } = this.props.match.params;
-    
+
     return (<div>
-      <PeopleDetailHead id={id} body={<FollowList
-        id={'fans-'+id}
-        args={{
-          people_id: id,
-          sort_by: 'create_at',
-          deleted: false
-        }}
-        fields={`
-          user_id {
-            _id
-            nickname
-            create_at
-            avatar
-            fans_count
-            comment_count
-            follow_people_count
-            follow
-          }
-        `}
-      />}
+      <PeopleDetailHead
+        {...this.props}
+        id={id}
+        body={<FollowList
+          id={'fans-'+id}
+          args={{
+            people_id: id,
+            sort_by: 'create_at',
+            deleted: false
+          }}
+          fields={`
+            user_id {
+              _id
+              nickname
+              create_at
+              avatar
+              fans_count
+              comment_count
+              follow_people_count
+              follow
+            }
+          `}
+        />}
       />
     </div>)
   }

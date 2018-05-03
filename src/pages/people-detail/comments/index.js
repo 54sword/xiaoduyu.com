@@ -16,8 +16,9 @@ class PeopleDetailPosts extends React.Component {
 
   render() {
     const { id } = this.props.match.params;
-    
+
     return (<PeopleDetailHead
+        {...this.props}
         id={id}
         body={<div style={{backgroundColor:'#fff'}}><CommentList
           name={id}

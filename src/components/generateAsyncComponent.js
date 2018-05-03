@@ -1,7 +1,10 @@
 import React from 'react';
+import Loading from './ui/loading';
 
 exports.asyncRouteComponent = ({ loader, Placeholder }) => {
+
   let Component = null;
+
   return class asyncComponent extends React.Component {
 
     // 加载组件
@@ -28,9 +31,16 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
     }
 
     render() {
+
       const { Component } = this.state;
+
       if (Component) return <Component {...this.props} />;
-      if (Placeholder) return <Placeholder {...this.props} />;
+      if (Placeholder) {
+        return <Placeholder {...this.props} />;
+      } else {
+        return <Loading text="组件装载中..." />;
+      }
+
       return null;
     }
   }

@@ -384,7 +384,7 @@ export class MyEditor extends React.Component {
   constructor(props) {
     super(props)
 
-    const { syncContent, content, readOnly, placeholder } = this.props
+    const { syncContent, content, readOnly, placeholder, expandControl } = this.props
 
 
     const decorator = new CompositeDecorator([
@@ -403,7 +403,7 @@ export class MyEditor extends React.Component {
       rendered: null,
       placeholder: placeholder,
       // 展开控制栏
-      expandControl: false
+      expandControl: expandControl || false
     }
 
     this.onChange = this._onChange.bind(this)

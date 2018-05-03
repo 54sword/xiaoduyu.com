@@ -58,6 +58,7 @@ export function addPosts({ title, detail, detailHTML, topicId, device, type, cal
   }
 }
 
+/*
 export function updatePostsById({ id, typeId, topicId, title, content, contentHTML, callback = ()=>{} }) {
   return (dispatch, getState) => {
 
@@ -110,7 +111,7 @@ export function updatePostsById({ id, typeId, topicId, title, content, contentHT
   }
 }
 
-
+*/
 
 export function loadPostsList({ id, filters, restart = false }) {
   return async (dispatch, getState) => {
@@ -121,21 +122,25 @@ export function loadPostsList({ id, filters, restart = false }) {
     }
 
     if (!filters.select) {
+
+      /*
+      comment{
+        _id
+        user_id{
+          _id
+          nickname
+          brief
+          avatar_url
+        }
+        content_html
+        create_at
+      }
+       */
+
+      // content
       filters.select = `
         _id
-        comment{
-          _id
-          user_id{
-            _id
-            nickname
-            brief
-            avatar_url
-          }
-          content_html
-          create_at
-        }
         comment_count
-        content
         content_html
         create_at
         deleted
@@ -278,52 +283,33 @@ export function viewPostsById({ id, callback = ()=>{ } }) {
 }
 
 
-export function updatePosts(filters) {
+export function updatePosts({ id, title, detail, detailHTML, topicId, device, type }) {
   return async (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
 
-    let accessToken = getState().user.accessToken
-
-    let variables = []
-
-    for (let i in filters) {
-
-      let v = ''
-
-      switch (typeof filters[i]) {
-        case 'string':
-          v = '"'+filters[i]+'"'
-          break
-        case 'number':
-          v = filters[i]
-          break
-        default:
-          v = filters[i]
-          break
-      }
-
-      variables.push(i+':'+v)
+    let args = {
+      _id: id, title, content: detail, content_html: detailHTML, topic_id: topicId
     }
 
-    let sql = `
-      mutation {
-        updatePosts(${variables.join(',')}){
-          success
-        }
-      }
-    `
+    let [ err, res ] = await graphql({
+      type: 'mutation',
+      api: 'updatePosts',
+      args,
+      fields: `
+        success
+      `,
+      headers: { accessToken: getState().user.accessToken }
+    });
 
-    let [ err, res ] = await grapgQLClient({
-      mutation:sql,
-      headers: accessToken ? { 'AccessToken': accessToken } : null
-    })
+    if (err) {
+      return reject(err)
+    }
 
-    if (err) return
+    // let _id = filters._id
 
-    let _id = filters._id
+    // delete filters._id
 
-    delete filters._id
-
-    dispatch({ type: 'UPDATE_POST', id: _id, update: filters })
+    dispatch({ type: 'UPDATE_POST', id: id, update: args })
     let postsList = getState().posts
 
     for (let i in postsList) {
@@ -333,6 +319,10 @@ export function updatePosts(filters) {
     }
 
     dispatch({ type: 'UPDATE_POST', state: postsList })
+
+    resolve(res)
+
+  })
   }
 }
 

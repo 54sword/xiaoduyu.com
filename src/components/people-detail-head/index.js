@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 
 // redux
@@ -8,22 +9,15 @@ import { loadPeopleList } from '../../actions/people';
 import { getPeopleListByName } from '../../reducers/people';
 
 // components
-import Shell from '../shell';
 import Meta from '../meta';
 import Follow from '../follow';
+import Loading from '../ui/loading';
 
 // styles
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
-function renderChildren(props) {
-  const [ people ] = props.peoples
-  return React.Children.map(props.children, child => {
-    return React.cloneElement(child, {
-      people: people
-    })
-  })
-}
+// import To from '../../common/to';
 
 @connect(
   (state, props) => ({
@@ -35,6 +29,11 @@ function renderChildren(props) {
 )
 @CSSModules(styles)
 export class PeopleDetailHead extends React.Component {
+
+  static propTypes = {
+    // 用户id
+    id: PropTypes.string.isRequired
+  }
 
   // 服务端渲染
   // 加载需要在服务端渲染的数据
@@ -57,9 +56,9 @@ export class PeopleDetailHead extends React.Component {
 
       // 没有找到帖子，设置页面 http code 为404
       if (err || data.length == 0) {
-        resolve({ code:404 });
+        resolve({ code: 404 });
       } else {
-        resolve({ code:200 });
+        resolve({ code: 200 });
       }
 
     })
@@ -67,61 +66,43 @@ export class PeopleDetailHead extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      currentTab: 0
-    }
-    this.setCurrentTab = this.setCurrentTab.bind(this)
+    this.state = {}
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    // 服务端渲染，404内容显示处理
+    const { list, notFoundPgae } = this.props;
+    if (list && list.data && !list.data[0]) {
+      notFoundPgae('该用户不存在')
+    }
+  }
 
-    const { id, loadPeopleList, list } = this.props;
+  async componentDidMount() {
+
+    const { id, loadPeopleList, list, notFoundPgae } = this.props;
 
     if (!list || !list.data) {
 
-      loadPeopleList({
+      await loadPeopleList({
         name:id,
         filters: {
           variables: { _id: id, blocked: false }
         }
-      })
-    }
-  }
+      });
 
-  setCurrentTab(index) {
-    this.setState({
-      currentTab: index
-    })
+      this.componentWillMount();
+
+    }
+
   }
 
   render() {
 
-    let { currentTab } = this.state
-    const { id, list, body } = this.props
+    const { id, list, body } = this.props;
     const { loading, data } = list || {};
     const people = data && data[0] ? data[0] : null;
 
-    // const [ people ] = this.props.peoples
-    const { setCurrentTab } = this;
-
-    // let { go } = this.props.location.query
-    let go = 1;
-
-
-    // 404 处理
-    if (data && data.length == 0) {
-      return '404 Not Found';
-    }
-
-    if (loading || !people) return (<div>loading...</div>);
-
-    const tabName = null
-
-    if (!go) {
-      go = -1
-    } else {
-      go -= 1
-    }
+    if (loading || !people) return (<Loading />);
 
     return (
       <div>
@@ -137,7 +118,7 @@ export class PeopleDetailHead extends React.Component {
               <Follow user={people} />
             </div>
           </div>
-          
+
           <div styleName="tab">
             <NavLink exact to={`/people/${people._id}`}>
                 <span>{people.posts_count > 0 ? people.posts_count : 0}</span>帖子
@@ -163,7 +144,6 @@ export class PeopleDetailHead extends React.Component {
 
         <div>
           {body || '空'}
-          {/*renderChildren(this.props)*/}
         </div>
       </div>
     )

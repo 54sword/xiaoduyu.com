@@ -21,11 +21,11 @@ import styles from './style.scss';
 )
 @CSSModules(styles)
 class OAuth extends Component {
-  
+
   constructor(props) {
     super(props)
   }
-
+  
   async componentDidMount() {
 
     const { access_token = '', expires = 0, landing_page = '/' } = this.props.location.params;

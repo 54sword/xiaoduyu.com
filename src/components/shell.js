@@ -55,9 +55,14 @@ const Shell = (Component) => {
 
     constructor(props) {
       super(props);
+      this.state = {
+        notFoundPgae: ''
+      }
+    }
 
+    componentWillMount() {
       const { pathname, search } = this.props.location;
-      this.props.location.params = search ? parseUrl(search) : null;
+      this.props.location.params = search ? parseUrl(search) : {};
     }
 
     // 组件加载完成
@@ -82,8 +87,19 @@ const Shell = (Component) => {
     }
 
     render() {
+
+      const self = this;
+      const { notFoundPgae } = this.state;
+
       return (<div className="container">
-        <Component {...this.props} />
+        {notFoundPgae ?
+          <div>{notFoundPgae}</div> :
+          <Component
+            {...this.props}
+            notFoundPgae={content=>{
+              self.setState({ notFoundPgae: content || '404 NOT FOUND' })
+            }}
+          />}
       </div>)
     }
 

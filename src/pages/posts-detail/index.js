@@ -72,7 +72,7 @@ export class PostsDetail extends React.Component {
     const { list, loadPostsList, viewPostsById } = this.props;
 
     if (!list || !list.data) {
-      this.props.loadPostsList({
+      loadPostsList({
         id,
         filters: {
           variables: {
@@ -135,7 +135,7 @@ export class PostsDetail extends React.Component {
             : null}
         </div>
 
-        {/*
+
         <div className="col-md-3">
           {posts && posts.topic_id && posts.topic_id._id ?
             <Sidebar
@@ -157,7 +157,6 @@ export class PostsDetail extends React.Component {
               />
             : null}
         </div>
-        */}
 
       </div>
       </div>

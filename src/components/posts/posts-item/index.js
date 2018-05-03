@@ -14,6 +14,7 @@ import CommentList from '../../comment/list';
 import Editor from '../../editor-comment';
 import Follow from '../../follow';
 import Like from '../../like';
+import EditButton from '../../edit-button';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -149,6 +150,7 @@ export default class PostsItem extends React.PureComponent {
                 </a>
               <Follow posts={posts} />
               <Like posts={posts} />
+              <EditButton posts={posts} />
             </div>
             <div className="col-4 text-right" styleName="actions">
               <a href="javascript:void(0)" onClick={this.collapseContent}>{expandContent ? '收起' : ''}</a>
@@ -156,7 +158,7 @@ export default class PostsItem extends React.PureComponent {
           </div>
         </div>
       </div>
-      
+
       {expandComment ?
         <div styleName="comment-container" onClick={this.stopPropagation}>
           <div>

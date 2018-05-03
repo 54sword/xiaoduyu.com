@@ -16,9 +16,12 @@ class PeopleDetailPosts extends React.Component {
 
   render() {
     const { id } = this.props.match.params;
-    
+
     return (<div>
-      <PeopleDetailHead id={id} body={<FollowList
+      <PeopleDetailHead
+        {...this.props}
+        id={id}
+        body={<FollowList
         id={'posts-'+id}
         args={{
           user_id: id,

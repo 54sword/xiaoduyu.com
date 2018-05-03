@@ -1,68 +1,123 @@
 import React from 'react';
-// import { browserHistory } from 'react-router-dom';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getPostsTypeById } from '../../reducers/posts-types';
+import { loadPostsList } from '../../actions/posts';
+import { getPostsById } from '../../reducers/posts';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-// import Nav from '../../components/nav'
-import PostsEditor from '../../components/editor-posts'
-
+import PostsEditor from '../../components/editor-posts';
+import Loading from '../../components/ui/loading';
 
 @connect(
   (state, props) => ({
-    getPostsTypeById: (id)=>{
-      return getPostsTypeById(state, id)
-    }
   }),
   dispatch => ({
+    loadPostsList: bindActionCreators(loadPostsList, dispatch)
   })
 )
 class createPosts extends React.Component {
 
-  // static loadData(option, callback) {
-  //   const { id } = option.props.params
-  //
-  //   if (!id) {
-  //     callback()
-  //     return
-  //   }
-  //
-  //   option.store.dispatch(loadTopicById({ id: id, callback: (topic)=>{
-  //     if (!topic) {
-  //       callback('not found')
-  //     } else {
-  //       callback()
-  //     }
-  //   }}))
-  // }
-
   constructor(props) {
-    super(props)
-
-    // let type = this.props.location.query.type || 1
-    //
-    // this.state = {
-    //   type: this.props.getPostsTypeById(type)
-    // }
+    super(props);
+    this.state = {
+      posts: null,
+      loading: true
+    }
 
     this.successCallback = this.successCallback.bind(this)
   }
 
+  async componentDidMount() {
+
+    const { posts_id } = this.props.location.params;
+    const { loadPostsList, notFoundPgae } = this.props;
+
+    if (posts_id) {
+
+      let [ err, res ] = await loadPostsList({
+        id: 'edit_'+posts_id,
+        filters: {
+          variables: { _id: posts_id },
+          select: `
+          _id
+          comment_count
+          content
+          content_html
+          create_at
+          deleted
+          device
+          follow_count
+          ip
+          last_comment_at
+          like_count
+          recommend
+          sort_by_date
+          title
+          topic_id{
+            _id
+            name
+          }
+          type
+          user_id{
+            _id
+            nickname
+            brief
+            avatar_url
+          }
+          verify
+          view_count
+          weaken
+          follow
+          like
+          `
+        }
+      });
+
+      if (!res || !res.data || !res.data[0]) {
+        notFoundPgae('主题不存在');
+      } else {
+        this.setState({
+          loading: false,
+          posts: res.data[0]
+        })
+      }
+
+    } else {
+      this.setState({
+        loading: false
+      })
+    }
+
+  }
+
   successCallback(posts) {
-    this.props.history.push(`/posts/${posts._id}?subnav_back=/`)
+
+    const { posts_id } = this.props.location.params;
+
+    if (posts_id) {
+      this.props.history.push(`/posts/${posts_id}`)
+    } else {
+      this.props.history.push(`/posts/${posts._id}`)
+    }
+
+
   }
 
   render() {
-    // const { type } = this.state
+
+    const { loading, posts } = this.state;
+
+    if (loading) return <Loading />
+
     return (<div>
       <Meta title={'创建帖子'} />
-      {/* <Nav /> */}
-      <PostsEditor successCallback={this.successCallback} />
+      {posts ?
+        <PostsEditor successCallback={this.successCallback} {...posts} /> :
+        <PostsEditor successCallback={this.successCallback} />}
     </div>)
   }
 
