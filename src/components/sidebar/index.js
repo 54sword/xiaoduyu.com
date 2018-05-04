@@ -62,7 +62,7 @@ export default class Sidebar extends React.Component {
 
       {isMember ?
           <div>
-          <a href="/new-posts" styleName="new-posts" target="_blank">创建帖子</a>
+          <a href="/new-posts" styleName="new-posts" target="_blank" className="d-none d-md-block d-lg-block d-xl-block">创建帖子</a>
           {/*<div>快捷发帖，问与答，好奇心</div>*/}
           </div>
         :
@@ -75,7 +75,7 @@ export default class Sidebar extends React.Component {
         </div>
       </div>
       */}
-      
+
       {recommendPostsDom ?
         <div className="card">
           <div className="card-header">最热讨论</div>

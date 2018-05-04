@@ -14,8 +14,8 @@ import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';
 import PostsList from '../../components/posts/list';
 import PostsDetailC from '../../components/posts/detail';
-
 import EditorComment from '../../components/editor-comment';
+import Loading from '../../components/ui/loading';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -66,13 +66,22 @@ export class PostsDetail extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    // 服务端渲染，404内容显示处理
+    const { list, notFoundPgae } = this.props;
+    if (list && list.data && !list.data[0]) {
+      notFoundPgae('该帖子不存在')
+    }
+  }
+
+  async componentDidMount() {
 
     const { id } = this.props.match.params;
     const { list, loadPostsList, viewPostsById } = this.props;
 
     if (!list || !list.data) {
-      loadPostsList({
+
+      await loadPostsList({
         id,
         filters: {
           variables: {
@@ -81,7 +90,10 @@ export class PostsDetail extends React.Component {
             weaken: false
           }
         }
-      })
+      });
+
+      this.componentWillMount();
+
     }
 
     viewPostsById({ id });
@@ -94,14 +106,7 @@ export class PostsDetail extends React.Component {
     const { loading, data } = list || {};
     const posts = data && data[0] ? data[0] : null;
 
-    // 404 处理
-    if (data && data.length == 0) {
-      return '404 Not Found';
-    }
-
-    if (loading || !posts) {
-      return (<div>loading...</div>)
-    }
+    if (loading || !posts) return (<Loading />)
 
     return(<div>
 

@@ -8,13 +8,18 @@
   position: relative;
 }
 
+.h1{
+  font-size: 24px;
+  padding-right: 60px;
+}
+
 .head{
 
 
 
   // padding:10px 20px 10px 20px;
 
-  // margin-bottom:10px;
+  margin-bottom:10px;
 
   .author-avatar{
     position: absolute;
@@ -59,8 +64,8 @@
 .detail{
 
   width: 100%;
-  // margin-top: 10px;
-  // padding: 20px;
+  // margin-top: 20px;
+  padding-top:10px;
   border-top:1px solid #efefef;
 }
 

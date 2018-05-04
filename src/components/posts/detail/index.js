@@ -13,8 +13,9 @@ import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
 // components
-import HTMLText from '../../html-text'
-import AdminAction from '../admin-action'
+import HTMLText from '../../html-text';
+// import AdminAction from '../admin-action';
+import EditButton from '../../edit-button';
 
 // import connectRedux from '../../../common/connect-redux'
 
@@ -56,13 +57,11 @@ export default class PostsDetail extends React.Component {
 
     if (!posts) return
 
-    // console.log(posts);
-
     return(<div>
 
       <div className="jumbotron">
 
-        <h1 className="h1">{posts.title}</h1>
+        <h1 styleName="h1">{posts.title}</h1>
 
         <div styleName="head">
           <span>
@@ -82,6 +81,8 @@ export default class PostsDetail extends React.Component {
         {posts.content_html ?
           <div styleName="detail"><HTMLText content={posts.content_html} /></div>
           :null}
+
+        <EditButton posts={posts} />
       </div>
 
       {/* <AdminAction posts={posts} /> */}

@@ -9,7 +9,12 @@ import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 // import Sidebar from '../../components/sidebar';
 import Bundle from '../../components/bundle';
+import NewPostsButton from '../../components/new-posts-button';
 
+
+// style
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
 let general = {
   variables: {
@@ -63,12 +68,16 @@ export class Home extends React.Component {
   render() {
 
     const { pathname, search } = this.props.location;
+    const { isMember } = this.props;
 
     return(<div>
       <Meta title="首页" />
       <div className="container">
         <div className="row">
           <div className="col-md-9">
+
+            <NewPostsButton />
+
             <PostsList
               id={'home'}
               filters={general}
@@ -76,7 +85,7 @@ export class Home extends React.Component {
               />
           </div>
           <div className="col-md-3">
-          
+
           <Bundle load={() => import('../../components/sidebar')}>
             {(Sidebar) => {
               return (<Sidebar recommendPostsDom={<PostsList id={'_home'} itemName="posts-item-title" filters={recommend} />} />)

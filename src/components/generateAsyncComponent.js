@@ -19,7 +19,7 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
       super();
       this.state = { Component }
     }
-    
+
     componentDidMount() {
       // 客户端加载异步组件
       const self = this;

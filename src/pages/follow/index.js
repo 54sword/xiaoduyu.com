@@ -8,6 +8,7 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
+import NewPostsButton from '../../components/new-posts-button';
 
 let general = {
   variables: {
@@ -77,6 +78,7 @@ export class Follow extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-md-9">
+            <NewPostsButton />
             <PostsList
               id={'follow'}
               filters={general}

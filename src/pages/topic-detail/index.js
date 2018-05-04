@@ -12,6 +12,7 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
+import NewPostsButton from '../../components/new-posts-button';
 
 /**
  * 分析url上面的参数
@@ -199,6 +200,7 @@ export class TopicsDetail extends React.Component {
 
       <div className="row">
         <div className="col-md-9">
+          <NewPostsButton />
           <PostsList
             id={pathname + search}
             filters={general}
