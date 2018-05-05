@@ -117,6 +117,7 @@ export default class PostsItem extends React.PureComponent {
                 <b>{posts.user_id.nickname}</b>
               </Link>
             </span>
+
             <div>
               <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
               {posts.view_count ? <span>{posts.view_count}次浏览</span> : null}
@@ -124,6 +125,7 @@ export default class PostsItem extends React.PureComponent {
               {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
               {/*<span>{posts._create_at}</span>*/}
             </div>
+
           </div>
           : null}
       </div>
@@ -141,26 +143,27 @@ export default class PostsItem extends React.PureComponent {
           </div>
         : null)}
 
-      <div styleName="footer">
-        <div className="container">
-          <div className="row justify-content-between">
-            <div className="col-8" styleName="actions">
-                <a href="javascript:void(0)" onClick={this.expandComment}>
-                  {expandComment ? '收起评论' : (posts.comment_count ? posts.comment_count + ' 条评论' : '评论')}
-                </a>
-              <Follow posts={posts} />
-              <Like posts={posts} />
-              <EditButton posts={posts} />
-            </div>
-            <div className="col-4 text-right" styleName="actions">
-              <a href="javascript:void(0)" onClick={this.collapseContent}>{expandContent ? '收起' : ''}</a>
+        <div styleName="footer">
+          <div className="container">
+            <div className="row justify-content-between">
+              <div className="col-8" styleName="actions">
+                  <a href="javascript:void(0)" onClick={this.expandComment}>
+                    {expandComment ? '收起评论' : (posts.comment_count ? posts.comment_count + ' 条评论' : '评论')}
+                  </a>
+                <Follow posts={posts} />
+                <Like posts={posts} />
+                <EditButton posts={posts} />
+              </div>
+              <div className="col-4 text-right" styleName="actions">
+                <a href="javascript:void(0)" onClick={this.collapseContent}>{expandContent ? '收起' : ''}</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+
 
       {expandComment ?
-        <div styleName="comment-container" onClick={this.stopPropagation}>
+        <div onClick={this.stopPropagation}>
           <div>
             <CommentList
               name={posts._id}
@@ -172,10 +175,19 @@ export default class PostsItem extends React.PureComponent {
                 }
               }}
               />
-            {isMember ? <Editor posts_id={posts._id} /> : null}
+            {isMember ? <div className="border-top"><Editor posts_id={posts._id} /></div> : null}
           </div>
         </div>
         : null}
+      {/*
+      <div styleName="bottom-bar">
+        <div className="container">
+          <div styleName="bottom-bar-main">
+            <a href="#">收起</a>
+          </div>
+        </div>
+      </div>
+      */}
 
     </div>)
 

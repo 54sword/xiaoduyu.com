@@ -141,7 +141,7 @@ const Controls = (props) => {
 
       {props.expandControl ?
 
-      <div className="RichEditor-controls">
+      <div className="RichEditor-controls border-bottom">
 
         {BLOCK_TYPES.map((type) =>
           <StyleButton
@@ -173,7 +173,7 @@ const Controls = (props) => {
 
       </div>
       :
-        <div className="RichEditor-controls">
+        <div className="RichEditor-controls border-bottom">
 
 
         {BLOCK_TYPES.map((type) => {

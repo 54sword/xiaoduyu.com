@@ -75,6 +75,13 @@ export class Follow extends React.Component {
 
       <Meta title="关注" />
 
+      <NewPostsButton />
+      <PostsList
+        id={'follow'}
+        filters={general}
+        scrollLoad={true}
+        />
+      {/*
       <div className="container">
         <div className="row">
           <div className="col-md-9">
@@ -96,6 +103,7 @@ export class Follow extends React.Component {
           </div>
         </div>
       </div>
+      */}
 
     </div>)
   }

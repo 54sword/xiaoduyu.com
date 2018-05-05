@@ -14,6 +14,9 @@ import PostsItemTitle from '../../posts/posts-item-title';
 import ListLoading from '../../list-loading';
 import Pagination from '../../pagination';
 
+// styles
+import CSSModules from 'react-css-modules';
+import styles from './style.scss'
 
 /*
 //获取元素的纵坐标
@@ -33,6 +36,7 @@ function getTop(e) {
  * @params {Boolean} [showPagination] 是否显示翻页
  * @params {Boolean} [scrollLoad] 是否开启滚动到底部加载更多
  */
+@withRouter
 @connect(
   (state, props) => ({
     postsList: getPostsListByName(state, props.id)
@@ -41,7 +45,7 @@ function getTop(e) {
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
   })
 )
-@withRouter
+@CSSModules(styles)
 export default class PostsList extends Component {
 
   static defaultProps = {
@@ -74,6 +78,28 @@ export default class PostsList extends Component {
     if (scrollLoad) ArriveFooter.add(id, this.loadDate);
 
     // this.state.positionY = getTop(this.refs['posts-list']) - 60;
+
+
+    /*
+    $(this.refs['posts-list']).find('> div').map((item, e)=>{
+      console.log($(e).offset().top);
+    });
+    */
+
+    /*
+    this.refs['posts-list'].children.map(item=>{
+      console.log(item);
+      console.log();
+    })
+    */
+
+
+
+    /*
+    $(document).scroll(function() {
+      console.log($(document).scrollTop() + $(window).height());
+    });
+    */
   }
 
   componentWillUnmount() {
@@ -114,7 +140,7 @@ export default class PostsList extends Component {
           }
         })}
       </div>
-      
+
       <ListLoading loading={loading} />
 
       {showPagination ?

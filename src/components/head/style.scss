@@ -8,9 +8,13 @@ $height: 50px;
   width: 100%;
   // background-color: rgba(255,255,255,.96);
   background-color: #fff;
-  border-bottom: 1px solid #e6e8eb;
+  // border-bottom: 1px solid #e6e8eb;
   // box-shadow: 0 0px 1px rgba(0,0,0,.3);
   z-index: 999;
+
+  @media (min-width: 0px) and (max-width: 767px) {
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  }
 
   :global{
     .active{
@@ -33,6 +37,12 @@ $height: 50px;
     font-weight: bold;
     font-size: 18px;
     margin-right:20px;
+
+    @media (min-width: 0px) and (max-width: 991px) {
+      height: 40px;
+      line-height: 40px;
+    }
+
   }
 }
 
@@ -42,12 +52,16 @@ $height: 50px;
   -webkit-overflow-scrolling: touch;
 
   @media (min-width: 992px) and (max-width: 10000000px) {
-    width: 700px;
+    width: auto;
   }
 
   > div{
     overflow: hidden;
-    height: $height;
+    height: 50px;
+
+    @media (min-width: 0px) and (max-width: 991px) {
+      height: 40px;
+    }
   }
 
   ul{
@@ -85,12 +99,18 @@ $height: 50px;
   height: $height;
   line-height: $height;
   text-decoration: none;
-  border-bottom: 3px solid #fff;
   cursor: hand;
   cursor: pointer;
+
+  @media (min-width: 0px) and (max-width: 991px) {
+    height: 40px;
+    line-height: 40px;
+  }
+
   &:hover{
     color: #484848;
   }
+
 }
 
 .unread{

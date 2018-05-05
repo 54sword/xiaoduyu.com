@@ -54,7 +54,7 @@ export class Pagination extends Component {
     let Next = pageNumber + 1 <= pageNumberTotal ? pageNumber+1 : '';
 
     return (
-      <nav aria-label="Page navigation" >
+      <nav aria-label="Page navigation" className="border-top">
         <ul className="pagination justify-content-center" styleName="pagination">
 
           <li className={`page-item ${previous ? '' : 'disabled'}`}>

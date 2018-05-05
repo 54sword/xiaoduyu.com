@@ -92,7 +92,6 @@
 
 .RichEditor-controls {
   user-select: none;
-  border-bottom:1px solid #e5e5e5;
   line-height: 100%;
   padding:0 5px 0 5px;
 }

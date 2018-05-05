@@ -123,8 +123,7 @@ export class Settings extends Component {
         <Meta title='设置' />
         <div className="container" styleName="main">
 
-          <div className="row">
-          <div className="col-md-9">
+
 
             <div className="list-group mb-2">
               <Link className="list-group-item" to="/settings/avatar">
@@ -176,14 +175,6 @@ export class Settings extends Component {
                 </div>
               </Link>
             </div>
-
-          </div>
-
-          <div className="col-md-3">
-            <Sidebar />
-          </div>
-
-          </div>
 
         </div>
       </div>

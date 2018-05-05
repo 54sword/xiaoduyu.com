@@ -108,15 +108,15 @@ export class PostsDetail extends React.Component {
 
     if (loading || !posts) return (<Loading />)
 
-    return(<div>
+    return(<div styleName="box">
 
       <Meta title={posts ? posts.title : '加载中...'} />
 
-      <div className="container">
 
-      <div className="row">
 
-        <div className="col-md-9">
+      {/*<div className="row">*/}
+
+        {/*<div className="col-md-9">*/}
 
           <PostsDetailC id={posts._id} />
 
@@ -138,9 +138,10 @@ export class PostsDetail extends React.Component {
               <EditorComment posts_id={posts._id} />
             </div>
             : null}
-        </div>
 
 
+
+        {/*
         <div className="col-md-3">
           {posts && posts.topic_id && posts.topic_id._id ?
             <Sidebar
@@ -162,9 +163,10 @@ export class PostsDetail extends React.Component {
               />
             : null}
         </div>
+        */}
 
-      </div>
-      </div>
+      {/*</div>*/}
+      {/*</div>*/}
 
     </div>)
   }

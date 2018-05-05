@@ -10,6 +10,12 @@ a{
 :global{
 .default-theme{
 
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1000px;
+    }
+  }
+
   font-size: 14px;
   // background-color: #e6e6e6;
   background-color: #e6e8eb;
@@ -54,7 +60,7 @@ a{
     &:hover{
       border-bottom: 1px solid #efefef;
     }
-    
+
     &:first-child{
       border-top:none;
     }
@@ -64,6 +70,46 @@ a{
     }
 
   }
+
+  /* border */
+
+  .border{
+    border: 1px solid #e6e8eb !important;
+  }
+  .border-top{
+    border-top: 1px solid #e6e8eb !important;
+  }
+  .border-right{
+    border-right: 1px solid #e6e8eb !important;
+  }
+  .border-bottom{
+    border-bottom: 1px solid #e6e8eb !important;
+  }
+  .border-left{
+    border-left: 1px solid #e6e8eb !important;
+  }
+
+  @media (min-width: 0px) and (max-width: 767px) {
+    .border{
+      border: 0.5px solid #ddd !important;
+    }
+    .border-top{
+      border-top: 0.5px solid #ddd !important;
+    }
+    .border-right{
+      border-right: 0.5px solid #ddd !important;
+    }
+    .border-bottom{
+      border-bottom: 0.5px solid #ddd !important;
+    }
+    .border-left{
+      border-left: 0.5px solid #ddd !important;
+    }
+  }
+
+
+
+  /* border end */
 
 }
 

@@ -196,6 +196,16 @@ export class TopicsDetail extends React.Component {
     return(<div>
 
       <Meta title={topic.name} />
+
+      <NewPostsButton />
+      
+      <PostsList
+        id={pathname + search}
+        filters={general}
+        scrollLoad={true}
+        />
+
+      {/*
       <div className="container">
 
       <div className="row">
@@ -218,6 +228,7 @@ export class TopicsDetail extends React.Component {
       </div>
 
       </div>
+      */}
     </div>)
   }
 

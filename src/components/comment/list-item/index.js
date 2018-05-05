@@ -15,7 +15,7 @@ import { isMember, getProfile } from '../../../reducers/user';
 // components
 import LikeButton from '../../like';
 import HTMLText from '../../html-text';
-import EditorCommentModal from '../../editor-comment-modal';
+// import EditorCommentModal from '../../editor-comment-modal';
 import EditButton from '../../edit-button';
 
 @connect(
@@ -77,20 +77,10 @@ export default class CommentItem extends Component {
       reply_user = comment.reply_id.user_id;
     }
 
-    return (<div styleName="item" key={comment._id}>
-      {/*
-      <EditorCommentModal
-        show={(fn)=>{
-          self.showReply = fn;
-        }}
-        hide={(fn)=>{
-          self.hideReply = fn;
-        }}
-        reply={comment}
-      />
-      */}
+    return (<div styleName="item" key={comment._id} className="border-top">
 
       <div styleName="item-head">
+
         <div>
           <Link to={`/people/${comment.user_id._id}`}>
             <div styleName="avatar" className="load-demand" data-load-demand={`<img width="40" height="40" src="${comment.user_id.avatar_url}" />`}></div>
@@ -142,6 +132,13 @@ export default class CommentItem extends Component {
       {comment.reply && comment.reply.length > 0 ?
         <div styleName="reply-list">
           {comment.reply.map(item=>this.renderUserView(item))}
+          
+          {comment.reply_count > comment.reply.length ?
+            <div styleName="view-all-reply" className="border-top">
+              <a href={`/comment/${comment._id}`} target="_blank">还有 {comment.reply_count - comment.reply.length} 条评论，查看全部</a>
+            </div>
+            : null}
+
         </div>
         : null}
 

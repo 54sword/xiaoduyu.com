@@ -70,8 +70,19 @@ export class Home extends React.Component {
     const { pathname, search } = this.props.location;
     const { isMember } = this.props;
 
+    {/*
+    <Sidebar
+      recommendPostsDom={(<PostsList
+        id={'_home'}
+        itemName="posts-item-title"
+        filters={recommend}
+      />)}
+      />
+    */}
+
     return(<div>
       <Meta title="首页" />
+
       <div className="container">
         <div className="row">
           <div className="col-md-9">
@@ -91,15 +102,7 @@ export class Home extends React.Component {
               return (<Sidebar recommendPostsDom={<PostsList id={'_home'} itemName="posts-item-title" filters={recommend} />} />)
             }}
           </Bundle>
-            {/*
-            <Sidebar
-              recommendPostsDom={(<PostsList
-                id={'_home'}
-                itemName="posts-item-title"
-                filters={recommend}
-              />)}
-              />
-            */}
+
           </div>
         </div>
       </div>

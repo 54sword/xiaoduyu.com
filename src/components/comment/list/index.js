@@ -12,6 +12,7 @@ import ListLoading from '../../list-loading';
 import CommentItem from '../list-item';
 import Pagination from '../../pagination';
 import Paginationa from '../../paginationa';
+import Loading from '../../ui/loading';
 
 
 @connect(
@@ -74,9 +75,7 @@ export default class CommentList extends Component {
           })}
         </div>
 
-        {/*
-        <ListLoading loading={loading} />
-        */}
+        {loading ? <Loading /> : null}
 
         <Paginationa
           count={count || 0}
@@ -85,7 +84,7 @@ export default class CommentList extends Component {
           onChoose={(e)=>{
 
             const { dom } = this.refs;
-            $(window).scrollTop($(dom).offset().top - 60);
+            $(window).scrollTop($(dom).offset().top - 100);
             self.props.filters.variables.page_number = e;
             self.loadList(true);
 
@@ -105,13 +104,6 @@ export default class CommentList extends Component {
           }}
           />
 
-        {/*
-        <Pagination
-          count={count || 0}
-          pageSize={filters.page_size || 0}
-          pageNumber={filters.page_number || 0}
-          />
-          */}
 
       </div>
     )

@@ -88,6 +88,7 @@ export default class Sidebar extends React.Component {
         : null}
 
       <div styleName="footer">
+        {/*
         <div>
           <a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源代码</a>
           <a href="mailto:shijian.wu@hotmail.com">联系作者</a>
@@ -96,6 +97,7 @@ export default class Sidebar extends React.Component {
           {onlineCOunt} 人在线
         </div>
         <p>©{new Date().getFullYear()} {name} (浙ICP备14013796号-3)</p>
+        */}
       </div>
 
     </div>)

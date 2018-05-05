@@ -24,7 +24,8 @@ export default class PostsItemTitle extends React.PureComponent {
 
     const { posts } = this.props
 
-    return (<div className="list-group-item">
+    return (<div className="list-group-item load-demand" styleName="a"
+      data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}>
 
       {/*typeof posts.user_id == 'object' ?
         <Link
@@ -38,7 +39,6 @@ export default class PostsItemTitle extends React.PureComponent {
       <Link
         to={`/posts/${posts._id}`}
         onClick={this.stopPropagation}
-        styleName="a"
         >
         {posts.title}
       </Link>

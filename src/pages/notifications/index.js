@@ -40,25 +40,31 @@ export class Notifications extends Component {
   render () {
 
     const { me } = this.props;
-
-    return (<div className="container">
+    
+    return (<div>
       <Meta title="通知" />
+
+      <NotificationList
+        name={"index"}
+        filters={{
+          variables: {
+            addressee_id: me._id,
+            sort_by: 'create_at'
+          }
+        }}
+      />
+
+      {/*
       <div className="row">
         <div className="col-sm-9">
-          <NotificationList
-            name={"index"}
-            filters={{
-              variables: {
-                addressee_id: me._id,
-                sort_by: 'create_at'
-              }
-            }}
-          />
+
         </div>
         <div className="col-sm-3">
           <Sidebar />
         </div>
       </div>
+      */}
+
     </div>)
   }
 }

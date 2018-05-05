@@ -114,7 +114,7 @@ export default class Head extends React.Component {
     }
 
     return (<header>
-      <nav styleName="navbar">
+      <nav styleName="navbar" className="border-bottom">
       <div className="container">
 
         {/* logo */}

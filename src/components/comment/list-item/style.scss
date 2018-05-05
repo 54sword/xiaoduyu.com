@@ -2,11 +2,7 @@
 .item{
 
   // background-color: #fff;
-  border-top:1px solid #e6e8eb;
-
-  &:first-child{
-    border-top:none;
-  }
+  // border-top:1px solid #e6e8eb;
 
   .item-head{
 
@@ -107,7 +103,7 @@
 
 .reply-list{
   margin-left:50px;
-  border-top: 1px solid #e6e8eb;
+  // border-top: 1px solid #e6e8eb;
 
   .item-head{
     padding-left:50px;
@@ -161,4 +157,10 @@
     // padding-bottom:15px;
   }
 
+}
+
+.view-all-reply{
+  display: block;
+  padding:15px 0 15px 0;
+  // border-top: 1px solid #efefef;
 }
