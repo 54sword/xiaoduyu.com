@@ -47,6 +47,20 @@
     width:100%;
     line-height: 20px;
 
+    .menu{
+      width: 30px;
+      height: 30px;
+      float:right;
+      background-image: url(./images/more.png);
+      background-size: 20px 20px;
+      background-position: center;
+      border-radius: 3px;
+      background-repeat: no-repeat;
+      &:hover{
+        background-color:#efefef;
+      }
+    }
+
     a{
       // color:#ABA8A6;
       color:#000 !important;

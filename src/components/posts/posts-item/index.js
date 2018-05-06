@@ -81,7 +81,7 @@ export default class PostsItem extends React.PureComponent {
     });
     posts.expandComment = this.state.expandComment ? false : true;
   }
-
+  
   stopPropagation(e) {
     e.stopPropagation();
   }
@@ -107,16 +107,25 @@ export default class PostsItem extends React.PureComponent {
       <div styleName="head">
         {typeof posts.user_id == 'object' ?
           <div styleName="info">
-            <span>
-              <Link to={`/people/${posts.user_id._id}`} onClick={this.stopPropagation}>
-                <i
-                  styleName="avatar"
-                  className="load-demand"
-                  data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}>
-                  </i>
-                <b>{posts.user_id.nickname}</b>
-              </Link>
-            </span>
+
+
+
+            <Link to={`/people/${posts.user_id._id}`} onClick={this.stopPropagation}>
+              <i
+                styleName="avatar"
+                className="load-demand"
+                data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}>
+                </i>
+              <b>{posts.user_id.nickname}</b>
+            </Link>
+
+            {/* dropdown-menu */}
+            <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={this.stopPropagation}></a>
+            <div className="dropdown-menu">
+              <a className="dropdown-item" href="javascript:void(0)" onClick={this.stopPropagation}>屏蔽</a>
+              <a className="dropdown-item" href="javascript:void(0)" onClick={this.stopPropagation}>举报</a>
+            </div>
+            {/* dropdown-menu end */}
 
             <div>
               <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
@@ -150,8 +159,8 @@ export default class PostsItem extends React.PureComponent {
                   <a href="javascript:void(0)" onClick={this.expandComment}>
                     {expandComment ? '收起评论' : (posts.comment_count ? posts.comment_count + ' 条评论' : '评论')}
                   </a>
-                <Follow posts={posts} />
                 <Like posts={posts} />
+                <Follow posts={posts} />
                 <EditButton posts={posts} />
               </div>
               <div className="col-4 text-right" styleName="actions">
@@ -171,7 +180,9 @@ export default class PostsItem extends React.PureComponent {
                 variables: {
                   posts_id: posts._id,
                   parent_id: 'not-exists',
-                  page_size: 10
+                  page_size: 10,
+                  deleted: false,
+                  weaken: false
                 }
               }}
               />

@@ -264,9 +264,6 @@ export function viewPostsById({ id, callback = ()=>{ } }) {
 
     }
 
-
-
-
     /*
     return Ajax({
       url: '/view-posts',
@@ -365,7 +362,7 @@ const abstractImages = (str) => {
   while (img = imgReg.exec(str)) {
     let _img = img[0].match(srcReg)
     if (_img && _img[1]) {
-      _img = _img[1] + '?imageView2/2/w/400/auto-orient/format/jpg'
+      _img = _img[1] + '?imageView2/2/w/800/auto-orient/format/jpg'
       result.push(_img)
     }
   }
@@ -386,7 +383,7 @@ const imageOptimization = (str) => {
   while (img = imgReg.exec(str)) {
     let oldImgDom = img[0];
     let _img = oldImgDom.match(srcReg);
-    let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/400/auto-orient/format/jpg');
+    let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/800/auto-orient/format/jpg');
     str = str.replace(oldImgDom, newImg);
   }
 

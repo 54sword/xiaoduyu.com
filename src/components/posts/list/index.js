@@ -13,6 +13,7 @@ import PostsItem from '../../posts/posts-item';
 import PostsItemTitle from '../../posts/posts-item-title';
 import ListLoading from '../../list-loading';
 import Pagination from '../../pagination';
+import Loading from '../../ui/loading';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -141,7 +142,8 @@ export default class PostsList extends Component {
         })}
       </div>
 
-      <ListLoading loading={loading} />
+      {/* <ListLoading loading={loading} /> */}
+      {loading ? <Loading /> : null}
 
       {showPagination ?
         <Pagination
@@ -150,6 +152,8 @@ export default class PostsList extends Component {
           pageNumber={filters.page_number || 0}
           // positionY={positionY}
         />: null}
+
+      <br /><br /><br />
 
     </div>)
   }
