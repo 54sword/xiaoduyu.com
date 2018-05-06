@@ -15,6 +15,7 @@ import Editor from '../../editor-comment';
 import Follow from '../../follow';
 import Like from '../../like';
 import EditButton from '../../edit-button';
+import ReportMenu from '../../report-menu';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -81,7 +82,7 @@ export default class PostsItem extends React.PureComponent {
     });
     posts.expandComment = this.state.expandComment ? false : true;
   }
-  
+
   stopPropagation(e) {
     e.stopPropagation();
   }
@@ -108,8 +109,6 @@ export default class PostsItem extends React.PureComponent {
         {typeof posts.user_id == 'object' ?
           <div styleName="info">
 
-
-
             <Link to={`/people/${posts.user_id._id}`} onClick={this.stopPropagation}>
               <i
                 styleName="avatar"
@@ -120,11 +119,16 @@ export default class PostsItem extends React.PureComponent {
             </Link>
 
             {/* dropdown-menu */}
+            <div styleName="menu">
+              <ReportMenu posts={posts} />
+            </div>
+            {/*
             <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={this.stopPropagation}></a>
             <div className="dropdown-menu">
               <a className="dropdown-item" href="javascript:void(0)" onClick={this.stopPropagation}>屏蔽</a>
               <a className="dropdown-item" href="javascript:void(0)" onClick={this.stopPropagation}>举报</a>
             </div>
+            */}
             {/* dropdown-menu end */}
 
             <div>
@@ -156,20 +160,21 @@ export default class PostsItem extends React.PureComponent {
           <div className="container">
             <div className="row justify-content-between">
               <div className="col-8" styleName="actions">
-                  <a href="javascript:void(0)" onClick={this.expandComment}>
-                    {expandComment ? '收起评论' : (posts.comment_count ? posts.comment_count + ' 条评论' : '评论')}
+                  <a href="javascript:void(0)">
+                    {posts.comment_count ? posts.comment_count + ' 条评论' : '评论'}
                   </a>
                 <Like posts={posts} />
                 <Follow posts={posts} />
                 <EditButton posts={posts} />
               </div>
               <div className="col-4 text-right" styleName="actions">
-                <a href="javascript:void(0)" onClick={this.collapseContent}>{expandContent ? '收起' : ''}</a>
+                {expandContent ?
+                  <a href="javascript:void(0)" onClick={this.collapseContent} styleName="collapse">收起</a>
+                  : null}
               </div>
             </div>
           </div>
         </div>
-
 
       {expandComment ?
         <div onClick={this.stopPropagation}>

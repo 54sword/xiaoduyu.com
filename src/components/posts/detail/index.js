@@ -15,7 +15,11 @@ import styles from './style.scss'
 // components
 import HTMLText from '../../html-text';
 // import AdminAction from '../admin-action';
+import Follow from '../../follow';
+import Like from '../../like';
 import EditButton from '../../edit-button';
+import ReportMenu from '../../report-menu';
+
 
 // import connectRedux from '../../../common/connect-redux'
 
@@ -57,33 +61,40 @@ export default class PostsDetail extends React.Component {
 
     if (!posts) return
 
-    return(<div>
-
-      <div className="jumbotron">
-
-        <h1 styleName="h1">{posts.title}</h1>
+    return(<div styleName="box">
 
         <div styleName="head">
-          <span>
-            <Link to={`/people/${posts.user_id._id}`}>
-              <img styleName="author-avatar" src={posts.user_id.avatar_url} />
-              <b>{posts.user_id.nickname}</b>
-            </Link>
-          </span>
-          <span><Link to={`/topic/${posts.topic_id._id}`}>{posts.topic_id.name}</Link></span>
-          {posts.view_count ? <span>{posts.view_count} 浏览</span> : null}
-          {posts.like_count ? <span>{posts.like_count} 个赞</span> : null}
-          {posts.answers_count ? <span>{posts.answers_count} 个评论</span> : null}
-          {posts.follow_count ? <span>{posts.follow_count} 人关注</span> : null}
-          <span>{posts._create_at}</span>
+
+          <Link to={`/people/${posts.user_id._id}`}>
+            <img styleName="author-avatar" src={posts.user_id.avatar_url} />
+            <b>{posts.user_id.nickname}</b>
+          </Link>
+
+          <a href="#" styleName="menu"><ReportMenu /></a>
+
+          <div>
+            <span><Link to={`/topic/${posts.topic_id._id}`}>{posts.topic_id.name}</Link></span>
+            {posts.view_count ? <span>{posts.view_count} 浏览</span> : null}
+            {posts.like_count ? <span>{posts.like_count} 个赞</span> : null}
+            {posts.answers_count ? <span>{posts.answers_count} 个评论</span> : null}
+            {posts.follow_count ? <span>{posts.follow_count} 人关注</span> : null}
+            <span>{posts._create_at}</span>
+          </div>
+
         </div>
+
+        <h1 styleName="h1">{posts.title}</h1>
 
         {posts.content_html ?
           <div styleName="detail"><HTMLText content={posts.content_html} /></div>
           :null}
 
-        <EditButton posts={posts} />
-      </div>
+        <div styleName="actions">
+          <Like posts={posts} />
+          <Follow posts={posts} />
+          <EditButton posts={posts} />
+        </div>
+
 
       {/* <AdminAction posts={posts} /> */}
 

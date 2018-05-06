@@ -67,7 +67,7 @@ export default class CommentList extends Component {
     const { data, loading, more, filters = {}, count } = list;
 
     return (
-      <div id={name} ref="dom">
+      <div ref="dom">
 
         <div className="list-group">
           {data && data.map((comment)=>{

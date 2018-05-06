@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -25,8 +26,9 @@ export class NewPostsButton extends React.Component {
 
   render() {
     const { isMember } = this.props;
+    //  className="d-md-none d-lg-none d-xl-none"
     if (isMember) {
-      return (<a href="/new-posts" styleName="new-posts" target="_blank" className="d-md-none d-lg-none d-xl-none">创建帖子</a>)
+      return (<Link to="/new-posts" styleName="new-posts">创建帖子</Link>)
     }
     return '';
   }

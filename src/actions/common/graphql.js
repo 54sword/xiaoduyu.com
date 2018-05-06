@@ -34,7 +34,7 @@ const convertParamsFormat = (params) => {
         params[i] = params[i].replace(/\"/g, '\\"');
 
         v = '"'+params[i]+'"';
-        
+
         break;
       case 'number': v = params[i]; break;
       default: v = params[i];

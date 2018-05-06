@@ -96,11 +96,11 @@ export default class Head extends React.Component {
     ];
 
     if (isMember) {
-
+      
       if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
-        nav.push({ to: '/follow', name: '关注', tips: true })
+        nav.unshift({ to: '/follow', name: '关注', tips: true })
       } else {
-        nav.push({ to: '/follow', name: '关注' })
+        nav.unshift({ to: '/follow', name: '关注' })
       }
 
     }

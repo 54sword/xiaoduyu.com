@@ -9,6 +9,7 @@ import Head from '../components/head';
 import Sign from '../components/sign';
 // import ModelPosts from '../components/model-posts';
 import EditorModalComment from '../components/global/editor-comment-modal';
+import ReportModal from '../components/global/report-modal';
 
 /**
  * 创建路由
@@ -352,8 +353,8 @@ export default (user, logPageView = ()=>{}) => {
       </Switch>
 
       {!user ? <Sign /> : null}
-      {/*<ModelPosts />*/}
       {user ? <EditorModalComment /> : null}
+      {user ? <ReportModal /> : null}
 
       <Switch>
         {/*routeArr.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)*/}

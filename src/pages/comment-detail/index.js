@@ -111,47 +111,38 @@ export class CommentDetail extends React.Component {
 
       {<Meta title={comment ? comment.posts_id.title : '加载中...'} />}
 
-      <div className="container">
+      <div styleName="title">
+        <Link to={`/posts/${comment.posts_id._id}`}>
+          <h1>{comment.posts_id.title}</h1>
+        </Link>
+      </div>
 
-      <div className="row">
+      <div styleName="content">
+        <HTMLText content={comment.content_html} />
+      </div>
 
-        <div className="col-md-9">
+      <div styleName="comment-list">
+        <CommentList
+          name={id}
+          filters={{
+            variables: {
+              parent_id: id,
+              page_size:100
+            }
+          }}
+          />
+      </div>
 
-          <div styleName="title">
-            <Link to={`/posts/${comment.posts_id._id}`}>
-              <h1>{comment.posts_id.title}</h1>
-            </Link>
-          </div>
-
-          <div styleName="content">
-            <HTMLText content={comment.content_html} />
-          </div>
-
-          <div styleName="comment-list">
-            <CommentList
-              name={id}
-              filters={{
-                variables: {
-                  parent_id: id,
-                  page_size:10
-                }
-              }}
-              />
-          </div>
-
-          {isMember ?
-            <div className="mt-2 mb-4">
-              <EditorComment
-                posts_id={comment.posts_id._id}
-                parent_id={comment._id}
-                reply_id={comment._id}
-                />
-            </div>
-            : null}
+      {isMember ?
+        <div className="mt-2 mb-4">
+          <EditorComment
+            posts_id={comment.posts_id._id}
+            parent_id={comment._id}
+            reply_id={comment._id}
+            />
         </div>
+        : null}
 
-      </div>
-      </div>
 
     </div>)
   }

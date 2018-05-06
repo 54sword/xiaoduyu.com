@@ -106,7 +106,7 @@ export class PostsDetail extends React.Component {
     const { loading, data } = list || {};
     const posts = data && data[0] ? data[0] : null;
 
-    if (loading || !posts) return (<Loading />)
+    if (loading || !posts) return (<Loading />);
 
     return(<div styleName="box">
 
@@ -119,22 +119,27 @@ export class PostsDetail extends React.Component {
         {/*<div className="col-md-9">*/}
 
           <PostsDetailC id={posts._id} />
-
-          <div styleName="comment-list">
-            <CommentList
-              name={posts._id}
-              filters={{
-                variables: {
-                  posts_id: posts._id,
-                  parent_id: 'not-exists',
-                  page_size:10
-                }
-              }}
-              />
-          </div>
+          
+          {posts.comment_count > 0 ?
+            <div className="card">
+            <div className="card-header">{posts.comment_count}条评论</div>
+            <div styleName="comment-list" className="card-body">
+              <CommentList
+                name={posts._id}
+                filters={{
+                  variables: {
+                    posts_id: posts._id,
+                    parent_id: 'not-exists',
+                    page_size:10
+                  }
+                }}
+                />
+            </div>
+            </div>
+            : null}
 
           {isMember ?
-            <div className="mt-2 mb-4">
+            <div styleName="editor-comment">
               <EditorComment posts_id={posts._id} />
             </div>
             : null}

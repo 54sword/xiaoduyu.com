@@ -48,17 +48,7 @@
     line-height: 20px;
 
     .menu{
-      width: 30px;
-      height: 30px;
       float:right;
-      background-image: url(./images/more.png);
-      background-size: 20px 20px;
-      background-position: center;
-      border-radius: 3px;
-      background-repeat: no-repeat;
-      &:hover{
-        background-color:#efefef;
-      }
     }
 
     a{
@@ -145,7 +135,7 @@
 
 .footer{
   width: 100%;
-  padding:10px 15px 15px 0px;
+  padding:5px 15px 15px 0px;
 
   .actions{
     > a{
@@ -156,6 +146,14 @@
         color:rgb(99, 99, 99);
       }
     }
+  }
+
+  .collapse{
+    background-image: url(./images/collapse.png);
+    background-repeat: no-repeat;
+    padding-left:18px;
+    background-size: 14px;
+    background-position: left center;
   }
 
 }

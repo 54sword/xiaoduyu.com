@@ -19,6 +19,7 @@ import analysis from './analysis'
 import captcha from './captcha'
 import postsTypes from './posts-types'
 import follow from './follow'
+import reportTypes from './report-types'
 
 let states = {
   scroll,
@@ -37,7 +38,8 @@ let states = {
   analysis,
   captcha,
   postsTypes,
-  follow
+  follow,
+  reportTypes
 }
 
 let _states = {}

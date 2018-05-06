@@ -8,8 +8,20 @@
   border-radius: 4px;
 
   :global{
+
+    .list-group > div:first-child{
+      border:none !important;
+    }
+
     .pagination{
       border-top:1px solid #efefef;
     }
   }
+}
+
+.editor-comment{
+  margin-top:10px;
+  margin-bottom:40px;
+  border-radius: 4px;
+  overflow: hidden;
 }
