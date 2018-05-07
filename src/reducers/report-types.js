@@ -1,14 +1,17 @@
 
 import merge from 'lodash/merge'
 
-let initialState = null
+let initialState = {
+
+}
 
 export default function reportTypes(state = initialState, action = {}) {
 
   switch (action.type) {
 
     case 'ADD_REPORT_TYPES':
-      return merge([], action.types, []);
+      state['index'] = action.types;
+      return merge({}, state, {});
 
     default:
       return state;
@@ -17,5 +20,5 @@ export default function reportTypes(state = initialState, action = {}) {
 }
 
 export const getReportTypes = (state, name) => {
-  return state.reportTypes
+  return state.reportTypes['index']
 }

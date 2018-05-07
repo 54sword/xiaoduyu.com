@@ -6,7 +6,7 @@ import Modal from '../../bootstrap/modal';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getReportTypes } from '../../../reducers/report-types';
-import { loadReportTypes } from '../../../actions/report';
+import { loadReportTypes, addReport } from '../../../actions/report';
 
 
 // style
@@ -18,7 +18,8 @@ import styles from './style.scss';
     types: getReportTypes(state)
   }),
   dispatch => ({
-    loadReportTypes: bindActionCreators(loadReportTypes, dispatch)
+    loadReportTypes: bindActionCreators(loadReportTypes, dispatch),
+    addReport: bindActionCreators(addReport, dispatch)
   })
 )
 @CSSModules(styles)
@@ -31,9 +32,11 @@ export default class ReportModal extends Component {
 
       posts: null,
       comment: null,
-      user: null
+      user: null,
+      type: 0
     }
     this.submit = this.submit.bind(this);
+    this.chooseType = this.chooseType.bind(this);
   }
 
   componentDidMount () {
@@ -51,10 +54,79 @@ export default class ReportModal extends Component {
     });
   }
 
-  submit() {
+  async submit() {
+
+    const { submitting, posts, comment, user, type } = this.state;
+    const { detail, report } = this.refs;
+    const { addReport } = this.props;
+
+    if (!type) {
+
+      Toastify({
+        text: '请选择举报类型',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+      return
+
+    }
+
+    let data = {
+      report_id: type
+    };
+
+    if (detail.value) data.detail = detail.value;
+
+    if (posts) {
+      data.posts_id = posts._id;
+    } else if (comment) {
+      data.comment_id = comment._id;
+    } else if (user) {
+      data.people_id = user._id;
+    } else {
+      Toastify({
+        text: '举报目标不存在',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+      return
+    }
+
+    this.setState({ submitting: true });
+
+    let [ err, res ] = await addReport({ data });
+
+    this.setState({ submitting: false });
+
+    if (err) {
+
+      Toastify({
+        text: err.message,
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+
+    } else {
+
+      Toastify({
+        text: '提交成功',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+      }).showToast();
+
+      $(`#report`).modal('hide');
+
+    }
 
   }
-  
+
+  chooseType(type) {
+    const self = this;
+    return () => {
+      self.state.type = type.id;
+    }
+  }
+
   render () {
 
     const self = this;
@@ -76,11 +148,11 @@ export default class ReportModal extends Component {
           <div styleName="report-content">{title}</div>
           <div styleName="types">
             {types && types.map(item=>{
-              return (<label key={item.id}><input type="radio" name="report" />{item.text}</label>)
+              return (<label key={item.id}><input type="radio" name="report" ref="report" onClick={this.chooseType(item)} />{item.text}</label>)
             })}
           </div>
           <div styleName="detail">
-            <textarea placeholder="补充举报说明" className="border"></textarea>
+            <textarea placeholder="补充举报说明" className="border" ref="detail"></textarea>
           </div>
           <div>
             <button onClick={this.submit} type="button" className="btn btn-primary">{submitting ? '提交中...' : '提交'}</button>

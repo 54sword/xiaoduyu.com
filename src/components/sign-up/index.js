@@ -9,8 +9,9 @@ import { connect } from 'react-redux'
 import { signIn, signUp } from '../../actions/sign'
 
 // components
-import CaptchaButton from '../captcha-button'
-import CountriesSelect from '../countries-select'
+import CaptchaButton from '../captcha-button';
+import CountriesSelect from '../countries-select';
+
 
 // styles
 import CSSModules from 'react-css-modules'

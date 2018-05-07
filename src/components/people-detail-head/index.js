@@ -12,6 +12,7 @@ import { getPeopleListByName } from '../../reducers/people';
 import Meta from '../meta';
 import Follow from '../follow';
 import Loading from '../ui/loading';
+import ReportMenu from '../report-menu';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -111,6 +112,7 @@ export class PeopleDetailHead extends React.Component {
         <div styleName="header">
 
           <div>
+            <ReportMenu user={people} />
             <img src={people.avatar_url.replace(/thumbnail/, "large")} />
             <div styleName="nickname">{people.nickname}</div>
             <div>{people.brief}</div>

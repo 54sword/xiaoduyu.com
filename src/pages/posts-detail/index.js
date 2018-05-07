@@ -119,7 +119,7 @@ export class PostsDetail extends React.Component {
         {/*<div className="col-md-9">*/}
 
           <PostsDetailC id={posts._id} />
-          
+
           {posts.comment_count > 0 ?
             <div className="card">
             <div className="card-header">{posts.comment_count}条评论</div>

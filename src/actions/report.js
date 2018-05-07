@@ -37,9 +37,7 @@ export function addReport({ data }) {
         headers: { accessToken: getState().user.accessToken }
       });
 
-      if (res && res.success ) {
-        dispatch({ type: 'ADD_REPORT_TYPES', types: res.data })
-      }
+      resolve([ err, res ]);
 
     })
   }
