@@ -41,6 +41,7 @@ export const loadUserInfo = ({ accessToken = null }) => {
           follow_posts_count
           block_people_count
           block_posts_count
+          block_comment_count
           gender
           nickname
           banned_to_post

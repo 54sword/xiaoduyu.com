@@ -187,6 +187,7 @@ export default (user, logPageView = ()=>{}) => {
       enter: requireAuth
     },
 
+    /*
     {
       path: '/me',
       exact: true,
@@ -196,6 +197,7 @@ export default (user, logPageView = ()=>{}) => {
       }),
       enter: triggerEnter
     },
+    */
 
     {
       path: '/forgot',
@@ -322,6 +324,36 @@ export default (user, logPageView = ()=>{}) => {
       head: Head,
       component: asyncRouteComponent({
         loader: () => import('../pages/notice')
+      }),
+      enter: triggerEnter
+    },
+
+    {
+      path: '/block/peoples',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/blocks')
+      }),
+      enter: triggerEnter
+    },
+
+    {
+      path: '/block/posts',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/blocks')
+      }),
+      enter: triggerEnter
+    },
+
+    {
+      path: '/block/comments',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/blocks')
       }),
       enter: triggerEnter
     },

@@ -121,9 +121,7 @@ export class Settings extends Component {
     return (
       <div>
         <Meta title='设置' />
-        <div className="container" styleName="main">
-
-
+        <div styleName="main">
 
             <div className="list-group mb-2">
               <Link className="list-group-item" to="/settings/avatar">
@@ -174,6 +172,37 @@ export class Settings extends Component {
                   <span>{me.github ? '已绑定' : '未绑定' }</span>
                 </div>
               </Link>
+            </div>
+
+            <div className="list-group mb-2">
+
+              {me.block_people_count > 0 ?
+                <Link className="list-group-item" to="/block/peoples">
+                  <div className="d-flex justify-content-between">
+                    <span>你不感兴趣的用户</span>
+                    <span>{me.block_people_count} 个人</span>
+                  </div>
+                </Link>
+                : null}
+
+              {me.block_posts_count > 0 ?
+                <Link className="list-group-item" to="/block/posts">
+                  <div className="d-flex justify-content-between">
+                    <span>你不感兴趣的帖子</span>
+                    <span>{me.block_posts_count} 个帖子</span>
+                  </div>
+                </Link>
+                : null}
+
+              {me.block_comment_count > 0 ?
+                <Link className="list-group-item" to="/block/comments">
+                  <div className="d-flex justify-content-between">
+                    <span>你不感兴趣的评论</span>
+                    <span>{me.block_comment_count} 个评论</span>
+                  </div>
+                </Link>
+                : null}
+
             </div>
 
         </div>
