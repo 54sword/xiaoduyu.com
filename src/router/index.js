@@ -7,9 +7,11 @@ import { asyncRouteComponent } from '../components/generateAsyncComponent.js';
 
 import Head from '../components/head';
 import Sign from '../components/sign';
+import Footer from '../components/footer';
 // import ModelPosts from '../components/model-posts';
 import EditorModalComment from '../components/global/editor-comment-modal';
 import ReportModal from '../components/global/report-modal';
+
 
 /**
  * 创建路由
@@ -358,7 +360,7 @@ export default (user, logPageView = ()=>{}) => {
       }),
       enter: triggerEnter
     },
-    
+
     {
       path: '/agreement',
       exact: true,
@@ -412,6 +414,8 @@ export default (user, logPageView = ()=>{}) => {
           }
         })}
       </Switch>
+
+      <Footer />
 
     </div>)
 

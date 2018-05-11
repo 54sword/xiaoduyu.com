@@ -1,0 +1,22 @@
+.main{
+  width: 100%;
+  min-height: 50px;
+}
+
+.top{
+  position: fixed;
+  left:100%;
+  top:100%;
+  margin: -60px 0 0 -60px;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background-image: url(./images/top.png);
+  background-color: #fff;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  &:hover{
+    background-color: #f4f4f4;
+  }
+}
