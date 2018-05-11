@@ -20,6 +20,30 @@ import styles from './style.scss';
 
 // import To from '../../common/to';
 
+class StringToColor {
+
+  static intToRGB(i){
+    let c = (i & 0x00FFFFFF)
+      .toString(16)
+      .toUpperCase();
+
+    return "00000".substring(0, 6 - c.length) + c;
+  }
+
+  static convertStringToColor(str) {
+    let hashCode = (str) => { // java String#hashCode
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      return hash;
+    };
+
+    return StringToColor.intToRGB(hashCode(str));
+  }
+
+}
+
 @connect(
   (state, props) => ({
     list: getPeopleListByName(state, props.id)
@@ -111,14 +135,14 @@ export class PeopleDetailHead extends React.Component {
 
         <div styleName="header">
 
-          <div>
-            <ReportMenu user={people} />
-            <img src={people.avatar_url.replace(/thumbnail/, "large")} />
+          <div styleName="profile">
+            <div styleName="actions">
+              <Follow user={people} />
+              <ReportMenu user={people} />
+            </div>
+            <img styleName="avatar" src={people.avatar_url.replace('thumbnail/!50', 'thumbnail/!300')} />
             <div styleName="nickname">{people.nickname}</div>
             <div>{people.brief}</div>
-            <div styleName="follow">
-              <Follow user={people} />
-            </div>
           </div>
 
           <div styleName="tab">

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 // import { like, unlike } from '../../actions/like';
 import { loadReportTypes } from '../../actions/report';
 import { addBlock } from '../../actions/block';
+import { isMember } from '../../reducers/user';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -16,6 +17,7 @@ import styles from './style.scss';
 
 @connect(
   (state, props) => ({
+    isMember: isMember(state)
   }),
   dispatch => ({
     loadReportTypes: bindActionCreators(loadReportTypes, dispatch),
@@ -93,7 +95,10 @@ export default class ReportMenu extends Component {
   }
 
   render () {
-    return (<div>
+
+    if (!this.props.isMember) return '';
+
+    return (<span>
       {/* dropdown-menu */}
       <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={this.stopPropagation}></a>
       <div className="dropdown-menu">
@@ -101,6 +106,6 @@ export default class ReportMenu extends Component {
         <a className="dropdown-item" href="javascript:void(0)" onClick={this.report}>举报</a>
       </div>
       {/* dropdown-menu end */}
-    </div>)
+    </span>)
   }
 }

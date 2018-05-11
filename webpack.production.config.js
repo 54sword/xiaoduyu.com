@@ -16,8 +16,8 @@ module.exports = {
   entry: {
     app: [
       'babel-polyfill',
+      './src/client/index',
       'bootstrap/dist/css/bootstrap.min.css',
-      './src/client/index'
     ],
     // 一些主要依赖打包在一起
     vendors: [

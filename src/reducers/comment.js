@@ -63,6 +63,35 @@ export default function comment(state = initialState, action = {}) {
 
       return merge({}, state, {})
 
+    case 'REMOVE_COMMENT_BY_ID':
+
+      var { id } = action;
+
+      for (let i in state) {
+
+        if (i == id) {
+          delete state[i];
+          continue
+        }
+
+        let commentList = state[i].data;
+
+        commentList.map((comment, index) => {
+
+          if (comment._id == id) commentList.splice(index, 1);
+
+          let replyList = comment.reply || [];
+
+          replyList.map((reply, index) => {
+            if (reply._id == id) replyList.splice(index, 1);
+          });
+
+        });
+
+      }
+
+      return merge({}, state, {})
+
     default:
       return state;
   }

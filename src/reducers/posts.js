@@ -91,6 +91,29 @@ export default function posts(state = initialState, action = {}) {
       }
       return merge({}, state, {})
 
+    case 'REMOVE_POSTS_BY_ID':
+
+      var { id } = action
+
+      for (let i in state) {
+
+        if (i == id) {
+          delete state[i]
+        } else {
+          let data = state[i].data
+          if (data.length > 0) {
+            for (let n = 0, max = data.length; n < max; n++) {
+              if (data[n]._id == id) {
+                data.splice(n, 1)
+                break
+              }
+            }
+          }
+        }
+      }
+
+      return merge({}, state, {})
+
     default:
       return state;
   }

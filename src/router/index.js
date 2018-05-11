@@ -212,6 +212,7 @@ export default (user, logPageView = ()=>{}) => {
     {
       path: '/new-posts',
       exact: true,
+      head: Head,
       component: asyncRouteComponent({
         loader: () => import('../pages/new-posts')
       }),

@@ -19,8 +19,8 @@ module.exports = {
   entry: {
     app: [
       'babel-polyfill',
-      'bootstrap/dist/css/bootstrap.min.css',
       './src/client/index',
+      'bootstrap/dist/css/bootstrap.min.css',
       'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
     ],
     // 一些主要依赖打包在一起

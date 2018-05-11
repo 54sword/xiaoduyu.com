@@ -57,7 +57,7 @@ export default class ReportModal extends Component {
   async submit() {
 
     const { submitting, posts, comment, user, type } = this.state;
-    const { detail, report } = this.refs;
+    const { detail } = this.refs;
     const { addReport } = this.props;
 
     if (!type) {
@@ -116,6 +116,12 @@ export default class ReportModal extends Component {
 
       $(`#report`).modal('hide');
 
+      // 清空内容
+      $('#report input:radio').each((index, dom)=>{
+        dom.checked = false;
+      });
+      detail.value = '';
+
     }
 
   }
@@ -139,7 +145,7 @@ export default class ReportModal extends Component {
     } else if (comment) {
       title = (<div>我要举报 <b>{comment.user_id.nickname}</b> 的{comment.parent_id ? '回复' : '评论'}<div>{comment.content_summary}</div></div>);
     } else if (user) {
-      title = (<div>我要举报 <b>{comment.user_id.nickname}</b> 用户</div>);
+      title = (<div>我要举报 <b>{user.nickname}</b> 用户</div>);
     }
 
     return (<div>
@@ -148,7 +154,7 @@ export default class ReportModal extends Component {
           <div styleName="report-content">{title}</div>
           <div styleName="types">
             {types && types.map(item=>{
-              return (<label key={item.id}><input type="radio" name="report" ref="report" onClick={this.chooseType(item)} />{item.text}</label>)
+              return (<label key={item.id}><input type="radio" name="report" onClick={this.chooseType(item)} />{item.text}</label>)
             })}
           </div>
           <div styleName="detail">

@@ -66,6 +66,7 @@ export const addBlock = ({ args }) => {
         args,
         fields: `
           success
+          _id
         `,
         headers: {
           accessToken: getState().user.accessToken
@@ -73,6 +74,76 @@ export const addBlock = ({ args }) => {
       });
 
       resolve([err, res]);
+
+      if (err || !res || !res.success) return;
+
+      let profile = getState().user.profile;
+
+      // 更新个人资料里面的累计数
+      if (args.people_id) {
+        if (!profile.block_people_count) {
+          profile.block_people_count = 1;
+        } else {
+          profile.block_people_count += 1;
+        }
+
+      } else if (args.posts_id) {
+        if (!profile.block_posts_count) {
+          profile.block_posts_count = 1;
+        } else {
+          profile.block_posts_count += 1;
+        }
+
+        dispatch({ type: 'REMOVE_POSTS_BY_ID', id: args.posts_id });
+      } else if (args.comment_id) {
+        if (!profile.block_comment_count) {
+          profile.block_comment_count = 1;
+        } else {
+          profile.block_comment_count += 1;
+        }
+        dispatch({ type: 'REMOVE_COMMENT_BY_ID', id: args.comment_id });
+      }
+
+      dispatch({ type: 'SET_USER', userinfo: profile });
+      dispatch({ type: 'SET_BLOCK_STATE', state: {} });
+
+    })
+  }
+}
+
+export const removeBlock = ({ args, id }) => {
+  return (dispatch, getState) => {
+    return new Promise(async resolve => {
+
+      let user = getState().user;
+
+      let [ err, res ] = await graphql({
+        type: 'mutation',
+        api: 'removeBlock',
+        args,
+        fields: `success`,
+        headers: {
+          accessToken: user.accessToken
+        }
+      });
+
+      resolve([err, res]);
+
+      if (err || !res || !res.success) return;
+
+      // 删除该条数据
+      dispatch({ type: 'REMOVE_BLOCK_BY_ID', id });
+
+      // 更新个人资料里面的累计数
+      if (args.people_id) {
+        user.profile.block_people_count -= 1;
+      } else if (args.posts_id) {
+        user.profile.block_posts_count -= 1;
+      } else if (args.comment_id) {
+        user.profile.block_comment_count -= 1;
+      }
+
+      dispatch({ type: 'SET_USER', userinfo: user.profile });
 
     })
   }
