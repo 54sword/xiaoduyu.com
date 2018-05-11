@@ -358,6 +358,16 @@ export default (user, logPageView = ()=>{}) => {
       }),
       enter: triggerEnter
     },
+    
+    {
+      path: '/agreement',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/agreement')
+      }),
+      enter: triggerEnter
+    },
 
     {
       path: '**',

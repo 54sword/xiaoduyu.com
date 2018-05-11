@@ -102,7 +102,7 @@ export default class Sign extends Component {
               </div>
               : null}
 
-            <div>登录即表示你同意网站的《服务条款》</div>
+            <div>登录即表示你同意网站的《<Link to="/agreement" onClick={()=>{ $('#sign').modal('hide'); }}>用户协议</Link>》</div>
           </div>);
 
     return (<div>
