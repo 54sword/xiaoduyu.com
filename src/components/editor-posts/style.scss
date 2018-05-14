@@ -99,24 +99,28 @@
 
 .choose-topic-button{
   width: 100%;
-  height: 50px;
-  line-height: 50px;
+  height: 45px;
+  line-height: 45px;
   text-align: center;
   background-color: #fff;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .title{
   width: 100%;
-  height: 50px;
+  height: 45px;
   border:none;
   text-indent: 20px;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .editor{
   display: block;
   background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .button{
@@ -124,5 +128,6 @@
   width:100%;
   border: none;
   background-color: #fff;
-  height: 50px;
+  height: 45px;
+  border-radius: 5px;
 }

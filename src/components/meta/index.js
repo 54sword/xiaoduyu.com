@@ -8,6 +8,8 @@ import { getUnreadNotice } from '../../reducers/website';
 // https://github.com/kodyl/react-document-meta
 import DocumentMeta from 'react-document-meta';
 
+import { name } from '../../../config';
+
 @connect(
   (state, props) => ({
     unreadNotice: getUnreadNotice(state)
@@ -23,11 +25,16 @@ export class Meta extends Component {
 
   render() {
 
-    let metaObj = {}
+    let metaObj = {};
 
     const { title, description, canonical, meta, unreadNotice } = this.props;
+    
+    if (title) {
+      metaObj.title = title + ' - ' + name;
+    } else {
+      metaObj.title = name;
+    }
 
-    if (title) metaObj.title = title;
     if (description) metaObj.description = description;
     if (canonical) metaObj.canonical = canonical;
     if (meta) metaObj.title = meta;

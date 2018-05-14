@@ -134,7 +134,7 @@ export class PeopleDetailHead extends React.Component {
         <Meta title={people.nickname} />
 
         <div styleName="header">
-
+          
           <div styleName="profile">
             <div styleName="actions">
               <Follow user={people} />

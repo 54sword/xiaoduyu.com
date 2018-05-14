@@ -36,7 +36,13 @@ export class Footer extends React.Component {
 
   render() {
     return(<div styleName="main">
-      <a id="back-to-top" href="javascript:void(0)" onClick={this.top} styleName="top"></a>
+      <span className="d-none d-lg-block">
+        <a id="back-to-top"
+           href="javascript:void(0)"
+           onClick={this.top}
+           styleName="top"
+           ></a>
+      </span>
     </div>)
   }
 

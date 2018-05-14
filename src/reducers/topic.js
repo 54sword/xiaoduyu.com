@@ -48,6 +48,8 @@ export default function topic(state = initialState, action = {}) {
       return merge({}, action.state, {})
 
 
+      */
+
     case 'UPDATE_TOPIC_FOLLOW':
 
       const { id, followStatus } = action
@@ -62,7 +64,7 @@ export default function topic(state = initialState, action = {}) {
             state[i].data[n].follow_count += followStatus ? 1 : -1
             state[i].data[n].follow = followStatus
           }
-
+          
           if (nodes[n].children && nodes[n].children.length > 0) {
             nodes[n].children.map(function(node, key){
               if (node._id == id) {
@@ -77,7 +79,6 @@ export default function topic(state = initialState, action = {}) {
       }
 
       return merge({}, state, {})
-      */
 
     default:
       return state

@@ -11,7 +11,6 @@ import PostsList from '../../components/posts/list';
 import Bundle from '../../components/bundle';
 import NewPostsButton from '../../components/new-posts-button';
 
-
 // style
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
@@ -81,7 +80,7 @@ export class Home extends React.Component {
     */}
 
     return(<div>
-      <Meta title="首页" />
+      <Meta />
 
       <NewPostsButton />
 

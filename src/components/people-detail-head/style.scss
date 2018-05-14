@@ -111,3 +111,25 @@
     // border-bottom:3px solid #333;
   }
 }
+
+
+@media (min-width: 0px) and (max-width: 767px) {
+
+  .header{
+
+    margin-top:20px;
+
+    .profile{
+      min-height:70px;
+      padding-left:100px;
+    }
+
+    .avatar{
+      width: 80px;
+      height: 80px;
+      margin-left:-90px;
+      margin-top:-30px;
+    }
+  }
+
+}

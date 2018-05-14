@@ -9,7 +9,7 @@ const config = require('./config');
 
 const extractSass = new ExtractTextPlugin({
   filename: "[name].[hash].css"
-})
+});
 
 module.exports = {
 

@@ -182,8 +182,18 @@ export function loadTopics({ id, filters = {}, restart = false  }) {
         recommend
         user_id
         follow
-        parent_id
-        children
+        parent_id {
+          _id
+          name
+          brief
+          avatar
+        }
+        children {
+          _id
+          name
+          brief
+          avatar
+        }
       `
     }
 

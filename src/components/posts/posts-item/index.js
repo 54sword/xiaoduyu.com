@@ -42,14 +42,51 @@ export default class PostsItem extends React.PureComponent {
     const { posts } = this.props;
     this.state = {
       expandContent: posts.expandContent || false,
-      expandComment: posts.expandComment || false,
+      expandComment: posts.expandComment || false
     }
     this.expandContent = this.expandContent.bind(this);
     this.expandComment = this.expandComment.bind(this);
     this.collapseContent = this.collapseContent.bind(this);
+    this.updateFooter = this.updateFooter.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.state.expandContent) {
+      const self = this;
+      $(window).scroll(this.updateFooter);
+      self.updateFooter();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.expandContent) {
+      $(window).unbind('scroll', this.updateFooter);
+    }
+  }
+
+  // 更新
+  updateFooter() {
+
+    if (!this.state.expandContent) return;
+
+    const { posts } = this.props;
+
+    let y = $('#'+posts._id).offset().top,
+        height = $('#'+posts._id).height();
+
+    let scrollY = $(window).scrollTop() + $(window).height();
+
+    if (scrollY > y + 90 && scrollY < y + height) {
+      $('#'+posts._id+'-footer').addClass('fixed');
+    } else {
+      $('#'+posts._id+'-footer').removeClass('fixed');
+    }
+
   }
 
   expandContent() {
+
+    const self = this;
     const { posts, viewPostsById } = this.props;
 
     viewPostsById({ id: posts._id });
@@ -60,6 +97,10 @@ export default class PostsItem extends React.PureComponent {
     });
     posts.expandContent = true;
     posts.expandComment = true;
+
+    this.updateFooter();
+
+    $(window).scroll(this.updateFooter);
   }
 
   collapseContent() {
@@ -70,6 +111,10 @@ export default class PostsItem extends React.PureComponent {
     });
     posts.expandContent = false;
     posts.expandComment = false;
+
+    this.updateFooter();
+
+    $(window).unbind('scroll', this.updateFooter);
   }
 
   expandComment(e) {
@@ -103,7 +148,7 @@ export default class PostsItem extends React.PureComponent {
     }}
     */
 
-    return (<div styleName={expandContent ? "item-active" : "item"} onClick={expandContent ? null : this.expandContent}>
+    return (<div id={posts._id} styleName={expandContent ? "item-active" : "item"} onClick={expandContent ? null : this.expandContent}>
 
       <div styleName="head">
         {typeof posts.user_id == 'object' ?
@@ -122,13 +167,6 @@ export default class PostsItem extends React.PureComponent {
             <div styleName="menu">
               <ReportMenu posts={posts} />
             </div>
-            {/*
-            <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={this.stopPropagation}></a>
-            <div className="dropdown-menu">
-              <a className="dropdown-item" href="javascript:void(0)" onClick={this.stopPropagation}>屏蔽</a>
-              <a className="dropdown-item" href="javascript:void(0)" onClick={this.stopPropagation}>举报</a>
-            </div>
-            */}
             {/* dropdown-menu end */}
 
             <div>
@@ -157,28 +195,34 @@ export default class PostsItem extends React.PureComponent {
         : null)}
 
         <div styleName="footer">
-          <div className="container">
-            <div className="row justify-content-between">
-              <div className="col-8" styleName="actions">
-                  <a href="javascript:void(0)">
-                    {posts.comment_count ? posts.comment_count + ' 条评论' : '评论'}
-                  </a>
-                <Like posts={posts} />
-                <Follow posts={posts} />
-                <EditButton posts={posts} />
-              </div>
-              <div className="col-4 text-right" styleName="actions">
-                {expandContent ?
-                  <a href="javascript:void(0)" onClick={this.collapseContent} styleName="collapse">收起</a>
-                  : null}
-              </div>
+          <div id={posts._id+'-footer'}>
+
+            <div className="container">
+            <div styleName="footer-main" className="row">
+
+                <div className="col-6" styleName="actions">
+                    <a href="javascript:void(0)">
+                      {posts.comment_count ? posts.comment_count + ' 条评论' : '评论'}
+                    </a>
+                  <Like posts={posts} />
+                  <Follow posts={posts} />
+                  <EditButton posts={posts} />
+                </div>
+                <div className="col-6 text-right" styleName="actions">
+                  {expandContent ?
+                    <a href="javascript:void(0)" onClick={this.collapseContent} styleName="collapse">收起</a>
+                    : null}
+                </div>
+
             </div>
+            </div>
+
           </div>
         </div>
 
       {expandComment ?
         <div onClick={this.stopPropagation}>
-          <div>
+
             <CommentList
               name={posts._id}
               filters={{
@@ -191,19 +235,15 @@ export default class PostsItem extends React.PureComponent {
                 }
               }}
               />
-            {isMember ? <div className="border-top"><Editor posts_id={posts._id} /></div> : null}
-          </div>
+
+            {isMember ?
+              <div className="border-top">
+                <Editor posts_id={posts._id} />
+              </div>
+              : null}
+
         </div>
         : null}
-      {/*
-      <div styleName="bottom-bar">
-        <div className="container">
-          <div styleName="bottom-bar-main">
-            <a href="#">收起</a>
-          </div>
-        </div>
-      </div>
-      */}
 
     </div>)
 

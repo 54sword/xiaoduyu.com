@@ -56,7 +56,7 @@ export default class PostsDetail extends React.Component {
   }
 
   render() {
-
+    
     const { posts } = this.props
 
     if (!posts) return
@@ -70,7 +70,7 @@ export default class PostsDetail extends React.Component {
             <b>{posts.user_id.nickname}</b>
           </Link>
 
-          <a href="#" styleName="menu"><ReportMenu /></a>
+          <div styleName="menu"><ReportMenu /></div>
 
           <div>
             <span><Link to={`/topic/${posts.topic_id._id}`}>{posts.topic_id.name}</Link></span>

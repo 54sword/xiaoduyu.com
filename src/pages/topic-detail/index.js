@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -13,6 +14,11 @@ import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
+import Follow from '../../components/follow';
+
+// styles
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
 /**
  * 分析url上面的参数
@@ -57,12 +63,22 @@ const generatePostsFilters = (topic, search) => {
 
   search = analyzeUrlParams(search);
 
+  let childrenIds = [];
+
+  if (topic.children) {
+    topic.children.map(item=>{
+      childrenIds.push(item._id);
+    });
+  }
+
+  childrenIds = childrenIds.join(',');
+
   let query = {
     sort_by: "sort_by_date",
     deleted: false,
     weaken: false,
     page_size: 10,
-    topic_id: topic.parent_id ? topic._id : topic.children
+    topic_id: topic.parent_id ? topic._id : childrenIds
   }
 
   return {
@@ -84,12 +100,14 @@ const generatePostsFilters = (topic, search) => {
   (state, props) => {
     return {
       topicList: getTopicListByKey(state, props.match.params.id)
+      // childTopicList: getTopicListByKey(state, props.match.params.id+'-children')
     }
   },
   dispatch => ({
     loadTopics: bindActionCreators(loadTopics, dispatch)
   })
 )
+@CSSModules(styles)
 export class TopicsDetail extends React.Component {
 
   // 服务端渲染
@@ -109,7 +127,7 @@ export class TopicsDetail extends React.Component {
 
         let { general, recommend } = generatePostsFilters(result.data[0], match.search);
 
-        if (!general.topic_id) {
+        if (!general.query.topic_id) {
           resolve({ code:200 });
           return
         }
@@ -122,16 +140,24 @@ export class TopicsDetail extends React.Component {
             })(store.dispatch, store.getState);
             resolve([ err, result ])
           }),
+          /*
           new Promise(async resolve => {
-            [ err, result ] = await loadPostsList({
-              id: '_'+match.pathname,
-              filters: recommend
-            })(store.dispatch, store.getState);
-            resolve([ err, result ])
-          })
-        ]).then(value=>{
 
-          // console.log(value);
+            [ err, result ] = await loadTopics({
+              id: id+'-children',
+              filters: { variables: { parent_id: id } }
+            })(store.dispatch, store.getState);
+
+            resolve([ err, result ]);
+
+            // [ err, result ] = await loadPostsList({
+            //   id: '_'+match.pathname,
+            //   filters: recommend
+            // })(store.dispatch, store.getState);
+            // resolve([ err, result ])
+          })
+          */
+        ]).then(value=>{
           resolve({ code:200 });
         });
 
@@ -151,16 +177,14 @@ export class TopicsDetail extends React.Component {
     const { topicList, loadTopics } = this.props
     const { id } = this.props.match.params
 
-    if (topicList) return;
-
-    loadTopics({
-      id: id,
-      filters: {
-        variables: {
-          _id: id
+    if (!topicList) {
+      loadTopics({
+        id: id,
+        filters: {
+          variables: { _id: id }
         }
-      }
-    });
+      });
+    }
 
   }
 
@@ -171,8 +195,6 @@ export class TopicsDetail extends React.Component {
       // window.scrollTo(0, 0);
     }
   }
-
-
 
   render() {
 
@@ -197,8 +219,36 @@ export class TopicsDetail extends React.Component {
 
       <Meta title={topic.name} />
 
-      <NewPostsButton />
-      
+      {topic.parent_id ?
+        <div styleName="topic-info">
+          <img src={topic.avatar} styleName="avatar" />
+          <div styleName="name">
+            <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>{topic.name}
+          </div>
+          <div>{topic.brief}</div>
+          <div styleName="status">
+            {topic.posts_count ? <span>{topic.posts_count} 帖子</span> : null}
+            {topic.comment_count ? <span>{topic.comment_count} 评论</span> : null}
+            {topic.follow_count ? <span>{topic.follow_count} 关注</span> : null}
+          </div>
+          <div>
+            <Follow topic={topic} />
+          </div>
+        </div>
+        : null}
+
+      {topic.children && topic.children.length > 0 ?
+        <div styleName="topic-nav">
+          {topic.children.map(item=>{
+            return (<Link to={`/topic/${item._id}`} key={item._id}>{item.name}</Link>)
+          })}
+        </div>
+        : null}
+
+      {topic.parent_id ?
+        <NewPostsButton />
+        : null}
+
       <PostsList
         id={pathname + search}
         filters={general}

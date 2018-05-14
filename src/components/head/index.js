@@ -48,7 +48,7 @@ export default class Head extends React.Component {
         }
       })(store.dispatch, store.getState);
 
-      resolve()
+      resolve();
     })
   }
 
@@ -67,7 +67,8 @@ export default class Head extends React.Component {
         id: 'head',
         filters: {
           variables: {
-            type: "parent"
+            type: "parent",
+            recommend: true
           }
         }
       });
@@ -96,7 +97,7 @@ export default class Head extends React.Component {
     ];
 
     if (isMember) {
-      
+
       if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
         nav.unshift({ to: '/follow', name: '关注', tips: true })
       } else {

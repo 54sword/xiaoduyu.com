@@ -82,6 +82,7 @@ class WritePosts extends React.Component {
         id: 'new-posts',
         filters: {
           variables: {
+            parent_id: 'not-exists',
             page_size: 1000
           }
         }
@@ -199,11 +200,25 @@ class WritePosts extends React.Component {
 
       setTimeout(()=>{
         self.setState({ loading: false })
-        successCallback(res)
+        successCallback(res);
+
+        Toastify({
+          text: '提交成功',
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+        }).showToast();
+        
       }, 1500);
     } else {
-      self.setState({ loading: false })
-      alert(res.error)
+
+      self.setState({ loading: false });
+
+      Toastify({
+        text: err.message,
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+
     }
 
   }
@@ -244,7 +259,6 @@ class WritePosts extends React.Component {
     }
 
     return (<div>
-      <div className='container'>
         <div>
 
           {displayTopicsContainer ?
@@ -255,7 +269,20 @@ class WritePosts extends React.Component {
                   <span styleName='close' onClick={this.showTopicContainer}></span>
                   <b>请选择一个话题</b>
                 </div>
-                {parentTopicList.map(item=>{
+                {topicList.data.map(item=>{
+                  return (<div key={item._id}>
+                            <div styleName='head'>{item.name}</div>
+                            <div>
+                              {item.children && item.children.map(item=>{
+                                return (<div
+                                  key={item._id}
+                                  styleName={topic && topic._id == item._id ? 'active' : 'topic'}
+                                  onClick={()=>{this.selectedTopic(item)}}>{item.name}</div>)
+                              })}
+                            </div>
+                          </div>)
+                })}
+                {/*parentTopicList.map(item=>{
                   return (<div key={item._id}>
                             <div styleName='head'>{item.name}</div>
                             <div>
@@ -267,7 +294,7 @@ class WritePosts extends React.Component {
                               })}
                             </div>
                           </div>)
-                })}
+                })*/}
               </div>
 
             </div>
@@ -296,7 +323,6 @@ class WritePosts extends React.Component {
 
           <button styleName="button" onClick={this.submit}>{loading ? '提交中...' : '提交'}</button>
         </div>
-      </div>
     </div>)
   }
 
