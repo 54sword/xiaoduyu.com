@@ -1,5 +1,5 @@
 .topic-nav{
-  padding:0px 0 0px 0;
+  margin:10px 0 10px 0;
    > a{
      display: inline-block;
      margin-right:10px;
@@ -40,9 +40,12 @@
     color:#484848;
 
     a:after {
-      contetn:'-';
-      padding:0 10px 0 10px;
+      color:#ABA8A6;
+      font-size: 9px;
+      margin:0 5px 0 5px;
+      content: '>';
     }
+
   }
 
   .status{

@@ -306,8 +306,10 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, device, ty
 
     // delete filters._id
 
-    dispatch({ type: 'UPDATE_POST', id: id, update: args })
-    let postsList = getState().posts
+    dispatch({ type: 'UPDATE_POST', id: id, update: args });
+    let postsList = getState().posts;
+
+    console.log(args);
 
     for (let i in postsList) {
       if (postsList[i].data) {

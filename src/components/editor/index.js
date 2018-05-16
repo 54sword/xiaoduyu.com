@@ -1,7 +1,9 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator, Modifier } from 'draft-js'
+import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw,
+  convertFromRaw, CompositeDecorator, Modifier, getDefaultKeyBinding
+} from 'draft-js'
 
 import redraft from 'redraft'
 
@@ -38,12 +40,13 @@ function findLinkEntities(contentBlock, callback, contentState) {
 const Link = (props) => {
   const {url} = props.contentState.getEntity(props.entityKey).getData();
   return (
-    <a href={url} style={styles.link}>
+    <a href={url}>
       {props.children}
     </a>
   );
 };
 
+/*
 const styles = {
   root: {
     fontFamily: '\'Georgia\', serif',
@@ -76,6 +79,7 @@ const styles = {
     textDecoration: 'underline',
   },
 };
+*/
 
 class StyleButton extends React.Component {
 
@@ -216,28 +220,24 @@ const Controls = (props) => {
 
 // -----
 
-function mediaBlockRenderer(block) {
-  if (block.getType() === 'atomic') {
-    return {
-      component: Media,
-      editable: false,
-    };
-  }
-  return null;
-}
 
+/*
 const Media = (props) => {
 
-  const entity = Entity.get(props.block.getEntityAt(0))
-  const { src } = entity.getData()
-  const type = entity.getType()
+  // console.log(props);
+
+  console.log('1231312313123132');
+
+  const entity = Entity.get(props.block.getEntityAt(0));
+  const { src } = entity.getData();
+  const type = entity.getType();
 
   let media;
 
   if (type === 'link') {
     media = <a href={src} target="_blank" rel="nofollow">{src}</a>
   } else if (type === 'image') {
-    media = <img src={src} />
+    media = <div><img src={src} /></div>
   } else if (type === 'youtube') {
     let url = 'https://www.youtube.com/embed/' + src
     media = <iframe src={url}></iframe>
@@ -257,9 +257,13 @@ const Media = (props) => {
 
   return media;
 }
+*/
+
+
 
 // ------------------------------------
 
+/*
 function getEntityStrategy(mutability) {
   return function(contentBlock, callback) {
     contentBlock.findEntityRanges(
@@ -274,6 +278,7 @@ function getEntityStrategy(mutability) {
     );
   };
 }
+*/
 
 /*
 function getDecoratedStyle(mutability) {
@@ -340,13 +345,15 @@ const renderers = {
   blocks: {
     unstyled: (children) => children.map((child, keys)=> <p key={keys}>{child}</p>),
     blockquote: (children, key) => {
-      // console.log(key)
       return <blockquote key={key.keys[0]}>{addBreaklines(children)}</blockquote>
     },
     'header-one': (children) => children.map((child, keys) => <h1 key={keys}>{child}</h1>),
     'header-two': (children) => children.map((child, keys) => <h2 key={keys}>{child}</h2>),
     // You can also access the original keys of the blocks
-    'code-block': (children, { keys }) => <pre key={keys[0]} >{addBreaklines(children)}</pre>,
+    // 'code-block': (children, keys) => {
+    //   return <pre key={keys[0]} >{addBreaklines(children)}</pre>
+    // },
+    'code-block': (children, { keys }) => <pre key={keys[0]}>{addBreaklines(children)}</pre>,
     // or depth for nested lists
     'unordered-list-item': (children, { depth, keys }) => <ul key={keys[keys.length - 1]}>{children.map((child, index) => <li key={keys[index]}>{child}</li>)}</ul>,
     'ordered-list-item': (children, { depth, keys }) => <ol key={keys.join('|')}>{children.map((child, index)=> <li key={keys[index]}>{child}</li>)}</ol>,
@@ -413,7 +420,12 @@ export class MyEditor extends React.Component {
     this.addImage = this._addImage.bind(this)
     this.addLink = this._addLink.bind(this)
     this.addMusic = this._addMusic.bind(this)
-    this.handleKeyCommand = this._handleKeyCommand.bind(this)
+    this.handleKeyCommand = this._handleKeyCommand.bind(this);
+    this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
+
+    this.mediaBlockRenderer = this.mediaBlockRenderer.bind(this);
+    this.media = this._media.bind(this);
+
     // this.undo = this._undo.bind(this)
     // this.redo = this._redo.bind(this)
   }
@@ -437,7 +449,7 @@ export class MyEditor extends React.Component {
 
       const content = editorState.getCurrentContent()
 
-      let html = redraft(convertToRaw(content), renderers)
+      let html = redraft(convertToRaw(content), renderers);
 
       this.setState({
         rendered: html
@@ -448,10 +460,13 @@ export class MyEditor extends React.Component {
         // console.log(draftHtml.innerHTML);
 
         // 删除所有空格
-        let html = draftHtml.innerHTML.replace(/<!--[\w\W\r\n]*?-->/gmi, '')
+        let html = draftHtml.innerHTML.replace(/<!--[\w\W\r\n]*?-->/gmi, '');
 
-        let _html = html.replace(/<p>/gmi, '')
-            _html = _html.replace(/<\/p>/gmi, '')
+        // console.log(convertToRaw(content));
+        // console.log(html);
+
+        let _html = html.replace(/<p>/gmi, '');
+            _html = _html.replace(/<\/p>/gmi, '');
 
         if (!_html) {
           syncContent('', '')
@@ -590,7 +605,7 @@ export class MyEditor extends React.Component {
         newEditorState,
         newEditorState.getSelection(),
         entityKey
-      ))
+      ));
 
     } else {
       alert('请先选取需要添加链接的文字内容')
@@ -601,13 +616,21 @@ export class MyEditor extends React.Component {
   _promptForMedia(type, src) {
 
     const { editorState } = this.state;
-    const entityKey = Entity.create(type, 'IMMUTABLE', { src: src })
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'image',
+      'IMMUTABLE',
+      { src: src }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 
-    this.onChange(AtomicBlockUtils.insertAtomicBlock(
+    const newEditorState = AtomicBlockUtils.insertAtomicBlock(
       editorState,
       entityKey,
       ' '
-    ))
+    );
+
+    this.onChange(newEditorState);
 
   }
 
@@ -620,6 +643,22 @@ export class MyEditor extends React.Component {
       return true;
     }
     return false;
+  }
+
+  _mapKeyToEditorCommand(e) {
+    switch (e.keyCode) {
+      case 9: // TAB
+        const newEditorState = RichUtils.onTab(
+          e,
+          this.state.editorState,
+          4, /* maxDepth */
+        );
+        if (newEditorState !== this.state.editorState) {
+          this.onChange(newEditorState);
+        }
+        return;
+    }
+    return getDefaultKeyBinding(e);
   }
 
   /*
@@ -636,18 +675,62 @@ export class MyEditor extends React.Component {
   }
   */
 
+  _media (props) {
+
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
+
+    const entity = contentState.getEntity(props.block.getEntityAt(0));
+
+    const { src } = entity.getData();
+    const type = entity.getType();
+
+    let media;
+
+    if (type === 'link') {
+      media = <a href={src} target="_blank" rel="nofollow">{src}</a>
+    } else if (type === 'image') {
+      media = <img src={src} />
+    } else if (type === 'youtube') {
+      let url = 'https://www.youtube.com/embed/' + src
+      media = <iframe src={url}></iframe>
+    } else if (type === 'youku') {
+      let url = 'https://player.youku.com/embed/' + src
+      media = <iframe src={url}></iframe>
+    } else if (type === 'qq') {
+      let url = "https://v.qq.com/iframe/player.html?vid="+src+"&tiny=0&auto=0"
+      media = <Iframe src={url} width="auto" height="auto" position=""></Iframe>
+    } else if (type === '163-music-song') {
+      let url = "//music.163.com/outchain/player?type=2&id="+src+"&auto=1&height=66"
+      media = <Iframe src={url} width="auto" height="86" position=""></Iframe>
+    } else if (type === '163-music-playlist') {
+      let url = "//music.163.com/outchain/player?type=0&id="+src+"&auto=1&height=430"
+      media = <Iframe src={url} width="auto" height="450" position=""></Iframe>
+    }
+
+    return media;
+  }
+
+  mediaBlockRenderer(block) {
+    if (block.getType() === 'atomic') {
+      return {
+        component: this.media,
+        editable: false
+      };
+    }
+    // return null;
+  }
+
   render() {
     const self = this
     const { editorState, readOnly, rendered, placeholder, expandControl } = this.state
     const { displayControls } = this.props
 
-
+    //
     {/* stripPastedStyles=true 清除复制文本样式*/}
     return(<div className="RichEditor-editor">
 
-            <div ref="draftHtml" style={{display:'none'}}>
-              {rendered}
-            </div>
+            <div ref="draftHtml" style={{display:'none'}}>{rendered}</div>
 
             {displayControls ?
               <Controls
@@ -668,15 +751,16 @@ export class MyEditor extends React.Component {
               : null}
 
             <Editor
-              blockRendererFn={mediaBlockRenderer}
+              blockRendererFn={this.mediaBlockRenderer}
               editorState={editorState}
               blockStyleFn={getBlockStyle}
               onChange={this.onChange}
               handleKeyCommand={this.handleKeyCommand}
+              keyBindingFn={this.mapKeyToEditorCommand}
               placeholder={placeholder}
               ref="editor"
               stripPastedStyles={true}
-              spellCheck
+              spellCheck={true}
             />
 
           </div>)

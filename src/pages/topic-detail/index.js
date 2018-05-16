@@ -223,7 +223,8 @@ export class TopicsDetail extends React.Component {
         <div styleName="topic-info">
           <img src={topic.avatar} styleName="avatar" />
           <div styleName="name">
-            <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>{topic.name}
+            <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>
+            {topic.name}
           </div>
           <div>{topic.brief}</div>
           <div styleName="status">

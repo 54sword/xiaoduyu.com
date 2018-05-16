@@ -8,7 +8,9 @@ const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const config = require('./config');
 
 const extractSass = new ExtractTextPlugin({
-  filename: "[name].[hash].css"
+  filename: "[name].[hash].css",
+  allChunks: true,
+  ignoreOrder: true
 });
 
 module.exports = {
@@ -16,8 +18,8 @@ module.exports = {
   entry: {
     app: [
       'babel-polyfill',
-      './src/client/index',
       'bootstrap/dist/css/bootstrap.min.css',
+      './src/client/index'
     ],
     // 一些主要依赖打包在一起
     vendors: [

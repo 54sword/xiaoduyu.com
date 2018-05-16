@@ -99,10 +99,10 @@ export default class CommentEditor extends Component {
         self.setState({ editor });
         getEditor(editor);
       },
-      displayControls: parent_id ? false : true,
+      displayControls: true,
       placeholder:"写评论..."
     }
-
+    
     this.setState({
       content: <Editor {...params} />
     });

@@ -17,6 +17,7 @@ import CommentList from '../../components/comment/list';
 // import PostsDetailC from '../../components/posts/detail';
 import HTMLText from '../../components/html-text';
 import EditorComment from '../../components/editor-comment';
+import Loading from '../../components/ui/loading';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -68,14 +69,14 @@ export class CommentDetail extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
 
     const { id } = this.props.match.params;
 
-    const { list, loadList } = this.props;
+    const { list, loadList, notFoundPgae } = this.props;
 
     if (!list || !list.data) {
-      this.props.loadList({
+      let [ err, res ] = await this.props.loadList({
         name:'single_'+id,
         filters: {
           variables: {
@@ -84,7 +85,12 @@ export class CommentDetail extends React.Component {
             weaken: false
           }
         }
-      })
+      });
+
+      if (err || res && res.data && !res.data[0]) {
+        notFoundPgae('该帖子不存在');
+      }
+
     }
 
 
@@ -99,12 +105,12 @@ export class CommentDetail extends React.Component {
     const { id } = this.props.match.params;
 
     // 404 处理
-    if (data && data.length == 0) {
-      return '404 Not Found';
-    }
+    // if (data && data.length == 0) {
+      // return '404 Not Found';
+    // }
 
     if (loading || !comment) {
-      return (<div>loading...</div>)
+      return <Loading />
     }
 
     return(<div>
@@ -116,7 +122,7 @@ export class CommentDetail extends React.Component {
           <h1>{comment.posts_id.title}</h1>
         </Link>
       </div>
-
+      
       <div styleName="content">
         <HTMLText content={comment.content_html} />
       </div>
