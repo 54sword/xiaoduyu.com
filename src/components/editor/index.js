@@ -325,7 +325,9 @@ const Link = (props) => {
 };
 */
 
-const addBreaklines = (children) => children.map(child => [child, <br />]);
+const addBreaklines = (children, keys) => {
+  return children.map((child, index) => [child, keys ? <br key={keys[index]} /> : <br />]);
+}
 
 const renderers = {
   /**
@@ -344,22 +346,22 @@ const renderers = {
    */
   blocks: {
     unstyled: (children) => children.map((child, keys)=> <p key={keys}>{child}</p>),
-    blockquote: (children, key) => {
-      return <blockquote key={key.keys[0]}>{addBreaklines(children)}</blockquote>
-    },
+    blockquote: (children, { keys }) => <blockquote key={keys[0]}>{addBreaklines(children, keys)}</blockquote>,
     'header-one': (children) => children.map((child, keys) => <h1 key={keys}>{child}</h1>),
     'header-two': (children) => children.map((child, keys) => <h2 key={keys}>{child}</h2>),
     // You can also access the original keys of the blocks
-    // 'code-block': (children, keys) => {
-    //   return <pre key={keys[0]} >{addBreaklines(children)}</pre>
-    // },
-    'code-block': (children, { keys }) => <pre key={keys[0]}>{addBreaklines(children)}</pre>,
+    'code-block': (children, { keys }) => <pre key={keys[0]} >{addBreaklines(children, keys)}</pre>,
     // or depth for nested lists
     'unordered-list-item': (children, { depth, keys }) => <ul key={keys[keys.length - 1]}>{children.map((child, index) => <li key={keys[index]}>{child}</li>)}</ul>,
     'ordered-list-item': (children, { depth, keys }) => <ol key={keys.join('|')}>{children.map((child, index)=> <li key={keys[index]}>{child}</li>)}</ol>,
     // If your blocks use meta data it can also be accessed like keys
-    atomic: (children, data) => {
-      return children[0]
+    atomic: (children, {keys}) => {
+      // console.log(children);
+      // console.log(data);
+
+      return addBreaklines(children, keys);
+
+      // return children[0]
       // children.map((child, i) => {
         // console.log(children, data)
     }
@@ -453,11 +455,9 @@ export class MyEditor extends React.Component {
 
       this.setState({
         rendered: html
-      })
-
+      });
+      
       setTimeout(()=>{
-
-        // console.log(draftHtml.innerHTML);
 
         // 删除所有空格
         let html = draftHtml.innerHTML.replace(/<!--[\w\W\r\n]*?-->/gmi, '');
@@ -726,7 +726,6 @@ export class MyEditor extends React.Component {
     const { editorState, readOnly, rendered, placeholder, expandControl } = this.state
     const { displayControls } = this.props
 
-    //
     {/* stripPastedStyles=true 清除复制文本样式*/}
     return(<div className="RichEditor-editor">
 

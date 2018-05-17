@@ -102,7 +102,7 @@ export default class CommentEditor extends Component {
       displayControls: true,
       placeholder:"写评论..."
     }
-    
+
     this.setState({
       content: <Editor {...params} />
     });
@@ -124,6 +124,10 @@ export default class CommentEditor extends Component {
     let err, res;
 
     if (_id) {
+
+      console.log(contentHTML);
+      console.log('----');
+
       [ err, res ] = await updateComment({
         _id: _id,
         content: contentJSON,

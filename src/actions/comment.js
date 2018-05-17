@@ -10,7 +10,7 @@ const processCommentList = (list) => {
     if (item.create_at) {
       item._create_at = DateDiff(item.create_at);
     }
-    
+
     if (item.content_html) {
       let text = item.content_html.replace(/<[^>]+>/g,"");
       if (text.length > 200) text = text.slice(0, 200)+'...';
@@ -196,7 +196,13 @@ export function updateComment(filters) {
 
     let _id = filters._id
 
-    delete filters._id
+    delete filters._id;
+    
+    console.log(filters);
+
+    console.log('-----');
+    console.log(filters);
+    console.log(processCommentList([filters])[0]);
 
     dispatch({ type: 'UPDATE_COMMENT', id: _id, update: processCommentList([filters])[0] });
 
