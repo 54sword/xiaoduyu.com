@@ -184,25 +184,17 @@ export function updateComment(filters) {
     let [ err, res ] = await graphql({
       type: 'mutation',
       api: 'updateComment',
-      args: filters,
+      args: JSON.parse(JSON.stringify(filters)),
       fields: `
         success
       `,
       headers: { accessToken: getState().user.accessToken }
     });
 
-
     if (err) return resolve([err])
 
-    let _id = filters._id
-
+    let _id = filters._id;
     delete filters._id;
-    
-    console.log(filters);
-
-    console.log('-----');
-    console.log(filters);
-    console.log(processCommentList([filters])[0]);
 
     dispatch({ type: 'UPDATE_COMMENT', id: _id, update: processCommentList([filters])[0] });
 

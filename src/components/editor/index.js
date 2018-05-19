@@ -456,14 +456,11 @@ export class MyEditor extends React.Component {
       this.setState({
         rendered: html
       });
-      
+
       setTimeout(()=>{
 
         // 删除所有空格
         let html = draftHtml.innerHTML.replace(/<!--[\w\W\r\n]*?-->/gmi, '');
-
-        // console.log(convertToRaw(content));
-        // console.log(html);
 
         let _html = html.replace(/<p>/gmi, '');
             _html = _html.replace(/<\/p>/gmi, '');

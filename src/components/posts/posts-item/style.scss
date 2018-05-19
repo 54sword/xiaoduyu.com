@@ -91,7 +91,7 @@
     }
 
     div > span{
-      
+
       color:#b1b1b1;
 
       &:after{
@@ -132,7 +132,7 @@
   word-break:break-all;
   word-wrap:break-word;
   line-height: 22px;
-  padding:0 15px 0 15px;
+  padding:5px 15px 0 15px;
 }
 
 .content-have-img{
@@ -195,24 +195,31 @@
 
 }
 
-/*
-.comment-container{
+.cover{
+  padding-left: 210px;
+  min-height: 120px;
 
-  :global{
-    .list-group{
-      & > div:last-child{
-        border-bottom: 1px solid #e6e8eb;
-      }
-    }
-
-    .pagination{
-      border-bottom:1px solid #e6e8eb;
-    }
-  }
-
-  > div{
-    border-top: 1px solid #e6e8eb;
+  @media (min-width: 0px) and (max-width: 500px) {
+    padding-left: 0px;
   }
 
 }
-*/
+
+.cover-image{
+  position: absolute;
+  margin: 0 0 0 -210px;
+  width: 200px;
+  height: 120px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+
+
+  @media (min-width: 0px) and (max-width: 500px) {
+    position: static;
+    margin: 0px;
+    width: 100%;
+    height: 150px;
+    margin-bottom:10px;
+  }
+}

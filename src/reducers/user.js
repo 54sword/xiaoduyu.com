@@ -20,12 +20,10 @@ export default function user(state = initialState, action = {}) {
       state.accessToken = ''
       state.expires = 0
       return state
-
+      
     case 'SET_USER':
       state.profile = action.userinfo
       return merge({}, state, {})
-
-
 
     default:
       return state

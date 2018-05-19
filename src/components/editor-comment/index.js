@@ -120,14 +120,10 @@ export default class CommentEditor extends Component {
     if (!contentJSON) return editor.focus()
 
     self.setState({ submitting: true })
-
+    
     let err, res;
 
     if (_id) {
-
-      console.log(contentHTML);
-      console.log('----');
-
       [ err, res ] = await updateComment({
         _id: _id,
         content: contentJSON,
@@ -175,10 +171,10 @@ export default class CommentEditor extends Component {
 
   syncContent(contentJSON, contentHTML) {
 
-    let { posts_id, reply_id } = this.props
+    let { posts_id, reply_id } = this.props;
 
-    this.state.contentJSON = contentJSON
-    this.state.contentHTML = contentHTML
+    this.state.contentJSON = contentJSON;
+    this.state.contentHTML = contentHTML;
 
     if (!this.state.showFooter && contentJSON) {
       this.setState({ showFooter: true })

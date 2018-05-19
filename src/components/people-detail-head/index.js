@@ -134,14 +134,17 @@ export class PeopleDetailHead extends React.Component {
         <Meta title={people.nickname} />
 
         <div styleName="header">
-          
+
           <div styleName="profile">
             <div styleName="actions">
               <Follow user={people} />
               <ReportMenu user={people} />
             </div>
             <img styleName="avatar" src={people.avatar_url.replace('thumbnail/!50', 'thumbnail/!300')} />
-            <div styleName="nickname">{people.nickname}</div>
+            <div styleName="nickname">
+              {people.nickname}
+              {Reflect.has(people, 'gender') ? <span styleName={people.gender == 1 ? 'male' : 'female'}></span> : null}
+            </div>
             <div>{people.brief}</div>
           </div>
 

@@ -38,7 +38,7 @@ export default ({ dispatch, getState }) => {
 
     // 最帖子通知
     this.on("new-posts", (timestamp) => {
-      dispatch(loadNewPosts(timestamp));
+      dispatch(newPostsTips());
     });
 
   });

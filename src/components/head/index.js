@@ -12,6 +12,7 @@ import { isMember, getProfile } from '../../reducers/user';
 import { loadTopics } from '../../actions/topic';
 import { getTopicListByKey } from '../../reducers/topic';
 import { getUnreadNotice, getPostsTips } from '../../reducers/website';
+import { loadNewPosts } from '../../actions/posts';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -27,7 +28,8 @@ import styles from './style.scss';
   }),
   dispatch => ({
     signOut: bindActionCreators(signOut, dispatch),
-    loadTopics: bindActionCreators(loadTopics, dispatch)
+    loadTopics: bindActionCreators(loadTopics, dispatch),
+    loadNewPosts: bindActionCreators(loadNewPosts, dispatch)
   })
 )
 @CSSModules(styles)
@@ -90,20 +92,18 @@ export default class Head extends React.Component {
 
   render() {
 
-    const { me, isMember, topicList, unreadNotice, postsTips } = this.props;
+    const { me, isMember, topicList, unreadNotice, postsTips, loadNewPosts } = this.props;
 
     let nav = [
       { to: '/', name: '发现' }
     ];
 
     if (isMember) {
-
       if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
-        nav.unshift({ to: '/follow', name: '关注', tips: true })
+        nav.unshift({ to: '/follow', name: '关注', tips: true });
       } else {
-        nav.unshift({ to: '/follow', name: '关注' })
+        nav.unshift({ to: '/follow', name: '关注' });
       }
-
     }
 
     if (topicList) {
@@ -154,7 +154,11 @@ export default class Head extends React.Component {
           <div>
             <ul>
               {nav.map(item=><li key={item.to}>
-                <NavLink exact to={item.to} styleName="link">
+                <NavLink exact to={item.to} styleName="link" onClick={()=>{
+                  if (item.tips) {
+                    loadNewPosts();
+                  }
+                }}>
                   {item.name}
                   {item.tips ? <span styleName="red-point"></span> : null}
                 </NavLink>

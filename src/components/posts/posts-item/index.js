@@ -147,6 +147,12 @@ export default class PostsItem extends React.PureComponent {
       });
     }}
     */
+    
+    let coverImage = '';
+
+    if (posts.content_summary && posts.content_summary.length > 100 && posts.images && posts.images[0]) {
+      coverImage = posts.images[0];
+    }
 
     return (<div id={posts._id} styleName={expandContent ? "item-active" : "item"} onClick={expandContent ? null : this.expandContent}>
 
@@ -190,7 +196,10 @@ export default class PostsItem extends React.PureComponent {
           <HTMLText content={posts.content_html} />
         </div> : (posts.content_summary ?
           <div styleName="content">
-            {posts.content_summary}
+            <div styleName={coverImage ? 'cover' : null}>
+              {coverImage ? <div styleName="cover-image" style={{backgroundImage:`url(${coverImage})`}}></div> : null}
+              {posts.content_summary}
+            </div>
           </div>
         : null)}
 

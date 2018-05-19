@@ -309,7 +309,7 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, device, ty
     dispatch({ type: 'UPDATE_POST', id: id, update: args });
     let postsList = getState().posts;
 
-    console.log(args);
+    // console.log(args);
 
     for (let i in postsList) {
       if (postsList[i].data) {
@@ -450,39 +450,50 @@ const processPostsList = (list) => {
 }
 
 // 首页拉取新的帖子的时间
-let lastFetchAt = null
+// let lastFetchAt = null;
 
-// 获取新的主题
+// 获取新的主题，插入到 follow posts list
 export function loadNewPosts(timestamp) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
 
-    let accessToken = getState().user.accessToken
-    let postsList = getState().posts['home'] || null
-    let newPostsList = getState().posts['new'] || null
-    let me = getState().user.profile || null
+    let profile =  getState().user.profile;
+    let postsList = getState().posts['follow'] || {};
+    let lastPosts = postsList.data ? postsList.data[0] : null;
 
-    if (!postsList) return
-    if (!lastFetchAt) lastFetchAt = timestamp
+    if (!lastPosts) return;
 
-    let filters = {
-      gt_create_at: lastFetchAt,
-      per_page: 100,
-      postsSort: 'create_at:-1'
+    let [ err, res ] = await loadPostsList({
+      id:'new-posts',
+      filters:{
+        variables: {
+          method: 'user_follow',
+          start_create_at: new Date(new Date(lastPosts.create_at).getTime() + 1000)+'',
+          sort_by: 'create_at'
+        }
+      },
+      restart: true
+    })(dispatch, getState);
+
+    if (res && res.data && res.data.length > 0) {
+
+      // 填写新帖子到顶部
+      let i = res.data.length;
+      while (i--) {
+        postsList.data.unshift(res.data[i]);
+      }
+      dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name: 'follow', data: postsList });
+
+      // 更新最近获取follow帖子的时间
+      profile.last_find_posts_at = postsList.data[0].create_at;
+      dispatch({ type: 'SET_USER', userinfo: profile });
     }
 
-    if (accessToken) {
-      filters.method = 'user_custom'
-    }
-
-    return loadPostsList({
-      name: 'new',
-      filters: filters
-    })(dispatch, getState)
   }
 
 }
 
 
+/*
 // 显示新的帖子
 export function showNewPosts() {
   return (dispatch, getState) => {
@@ -506,6 +517,7 @@ export function showNewPosts() {
 
   }
 }
+*/
 
 
 // 新主题通知
@@ -519,18 +531,18 @@ export const newPostsTips = () => {
       filters: {
         variables: {
           method: 'user_follow',
-          sort_by: "sort_by_date",
+          sort_by: "create_at",
           deleted: false,
           weaken: false,
           page_size:1
         },
-        select: `sort_by_date`
+        select: `create_at`
       },
       restart: true
     })(dispatch, getState);
 
     if (res && res.data && res.data.length > 0) {
-      newPostsTips['/follow'] = res.data[0].sort_by_date;
+      newPostsTips['/follow'] = res.data[0].create_at;
     }
 
     dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips });
