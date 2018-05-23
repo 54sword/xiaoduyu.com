@@ -30,9 +30,12 @@
           padding-left:10px;
           padding-right:10px;
           height: 45px;
-          line-height: 45px;
+          // line-height: 45px;
           background-color: #fff;
           box-shadow: 0 -1px 3px rgba(0,0,0,.15);
+          > div{
+            margin-top:2px;
+          }
         }
       }
     }
@@ -174,6 +177,20 @@
     > a:last-child{
       margin-right:0;
     }
+
+    > div > a{
+      margin-right:15px;
+      color:#808080;
+      font-size:13px;
+      &:hover{
+        color:rgb(99, 99, 99);
+      }
+    }
+
+    > div > a:last-child{
+      margin-right:0;
+    }
+
   }
 
   .collapse{
@@ -186,8 +203,8 @@
 
   .footer-main{
     width: 100%;
-    height: 40px;
-    line-height: 40px;
+    padding:10px 0 10px 0;
+    // line-height: 40px;
     margin:0px;
     // padding-left: 15px;
     // padding-right: 15px;

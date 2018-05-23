@@ -3,10 +3,19 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ReactGA from 'react-ga';
+import { reactLocalStorage } from 'reactjs-localstorage';
 
 import configureStore from '../store';
 import createRouter from '../router';
 import startSocket from '../socket';
+
+
+// components
+// import Sign from '../components/sign';
+// import EditorModalComment from '../components/global/editor-comment-modal';
+// import ReportModal from '../components/global/report-modal';
+// import BindingPhone from '../components/global/binding-phone-modal';
+
 
 import { debug, GA } from '../../config';
 
@@ -86,3 +95,28 @@ ReactDOM.hydrate((
     </BrowserRouter>
   </Provider>
 ), document.getElementById('app'));
+
+
+/**
+ * 如果是登陆用户，没有绑定手机号，每三天提醒一次绑定手机号
+ */
+if (userinfo && !userinfo.phone) {
+
+  let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
+  let nowTimestamps = new Date().getTime();
+
+  if (nowTimestamps - timestamps > 1000 * 60 * 60 * 24 * 2) {
+
+    reactLocalStorage.set('binding-phone-tips', nowTimestamps);
+
+    setTimeout(()=>{
+
+      $('#binding-phone').modal({
+        show: true
+      }, {});
+
+    }, 3000);
+
+  }
+
+}

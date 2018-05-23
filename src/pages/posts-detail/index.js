@@ -17,6 +17,7 @@ import PostsDetailC from '../../components/posts/detail';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
 
+
 // styles
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
@@ -46,8 +47,8 @@ export class PostsDetail extends React.Component {
         filters: {
           variables: {
             _id: id,
-            deleted: false,
-            weaken: false
+            deleted: false
+            // weaken: false
           }
         }
       })(store.dispatch, store.getState);
@@ -86,8 +87,8 @@ export class PostsDetail extends React.Component {
         filters: {
           variables: {
             _id: id,
-            deleted: false,
-            weaken: false
+            deleted: false
+            // weaken: false
           }
         }
       });
@@ -111,8 +112,6 @@ export class PostsDetail extends React.Component {
     return(<div styleName="box">
 
       <Meta title={posts ? posts.title : '加载中...'} />
-
-
 
       {/*<div className="row">*/}
 

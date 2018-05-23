@@ -66,7 +66,7 @@ export default class CommentList extends Component {
     const { name, list } = this.props;
     const { data, loading, more, filters = {}, count } = list;
 
-    console.log(list);
+    // console.log(list);
 
     return (
       <div ref="dom">

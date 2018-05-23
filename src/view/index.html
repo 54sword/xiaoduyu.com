@@ -2,14 +2,36 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+
+  <!-- 自定义 head -->
+  <%= htmlWebpackPlugin.options.head %>
+
+  <!-- 自定义 meta -->
   <%= htmlWebpackPlugin.options.meta %>
+
+  <!-- 打包 css -->
+  <% for (var i in htmlWebpackPlugin.files.css) { %>
+    <link href="<%= htmlWebpackPlugin.files.css[i] %>" rel="stylesheet"></head>
+  <% } %>
+
 </head>
 <body class="default-theme">
+  
+  <!-- app 视图 -->
   <div id="app"><%= htmlWebpackPlugin.options.htmlDom %></div>
+
+  <!-- redux -->
   <script>
     window.__initState__ = <%= htmlWebpackPlugin.options.reduxState %>
   </script>
+
+  <!-- 打包 js -->
+  <% for (var i in htmlWebpackPlugin.files.js) { %>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[i] %>"></script>
+  <% } %>
+
+  <!-- 统计代码 -->
   <div style="display:none"><%= htmlWebpackPlugin.options.analysis_script %></div>
+
 </body>
 </html>

@@ -36,9 +36,9 @@ module.exports = {
       'apollo-client',
       'graphql',
       'graphql-tag',
-      // 'socket.io-client',
-      'draft-js'
-      // 'redraft',
+      'socket.io-client',
+      // 'draft-js',
+      // 'redraft'
       // 'reactjs-localstorage',
       // 'react-ga',
       // 'react-css-modules'
@@ -161,10 +161,12 @@ module.exports = {
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, 'dist/index.ejs'),
       template: 'src/view/index.html',
+      head: config.head,
       meta: '<%- meta %>',
       analysis_script: config.analysis_script,
       htmlDom: '<%- html %>',
-      reduxState: '<%- reduxState %>'
+      reduxState: '<%- reduxState %>',
+      inject: false
       // chunks: [ "common", "app", "vendors"], // 选择使用哪些生成的文件
       // chunksSortMode: "manual" // manual根据chunks的位置手动排序
     }),

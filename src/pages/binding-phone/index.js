@@ -122,7 +122,7 @@ export class SettingsPhone extends Component {
                   </div>
                 </div>
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1">验证码</label>
                 <input className="form-control" type="text" placeholder="请输入验证码" ref="captcha" />

@@ -8,7 +8,7 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 // import Sidebar from '../../components/sidebar';
-import Bundle from '../../components/bundle';
+// import Bundle from '../../components/bundle';
 import NewPostsButton from '../../components/new-posts-button';
 
 // style

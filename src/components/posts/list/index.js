@@ -152,7 +152,7 @@ export default class PostsList extends Component {
           pageNumber={filters.page_number || 0}
           // positionY={positionY}
         />: null}
-        
+
     </div>)
   }
 

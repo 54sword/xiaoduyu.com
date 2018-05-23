@@ -16,6 +16,9 @@ import Follow from '../../follow';
 import Like from '../../like';
 import EditButton from '../../edit-button';
 import ReportMenu from '../../report-menu';
+// import Bundle from '../../bundle';
+import Share from '../../share';
+
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -147,7 +150,7 @@ export default class PostsItem extends React.PureComponent {
       });
     }}
     */
-    
+
     let coverImage = '';
 
     if (posts.content_summary && posts.content_summary.length > 100 && posts.images && posts.images[0]) {
@@ -215,6 +218,7 @@ export default class PostsItem extends React.PureComponent {
                     </a>
                   <Like posts={posts} />
                   <Follow posts={posts} />
+                  <Share posts={posts} />
                   <EditButton posts={posts} />
                 </div>
                 <div className="col-6 text-right" styleName="actions">
@@ -248,6 +252,16 @@ export default class PostsItem extends React.PureComponent {
             {isMember ?
               <div className="border-top">
                 <Editor posts_id={posts._id} />
+
+                {/*
+                <Bundle load={() => import('../../editor-comment')}>
+                  {(Editor) => {
+                    console.log('2123123');
+                    return (<Editor posts_id={posts._id}  />)
+                  }}
+                </Bundle>
+                */}
+
               </div>
               : null}
 

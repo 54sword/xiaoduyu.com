@@ -20,6 +20,8 @@ import Like from '../../like';
 import EditButton from '../../edit-button';
 import ReportMenu from '../../report-menu';
 
+import Share from '../../share';
+
 
 // import connectRedux from '../../../common/connect-redux'
 
@@ -56,7 +58,7 @@ export default class PostsDetail extends React.Component {
   }
 
   render() {
-    
+
     const { posts } = this.props
 
     if (!posts) return
@@ -92,6 +94,7 @@ export default class PostsDetail extends React.Component {
         <div styleName="actions">
           <Like posts={posts} />
           <Follow posts={posts} />
+          <Share posts={posts} />
           <EditButton posts={posts} />
         </div>
 

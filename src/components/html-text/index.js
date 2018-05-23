@@ -8,7 +8,87 @@ import styles from './style.scss';
 
 import Utils from '../../common/utils'
 
+
+function randomString(len) {
+　　len = len || 32;
+　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+　　var maxPos = $chars.length;
+　　var pwd = '';
+　　for (let i = 0; i < len; i++) {
+　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　}
+　　return pwd;
+}
+
+const linkOptimization = (str) => {
+
+  if (!str) return '';
+
+  str = str.replace('&nbsp;', ' ');
+
+  let imgReg = /<a(.*?)>(.*?)<\/a>/gi;
+
+  let aList = [];
+  let arr = str.match(imgReg);
+
+  if (arr && arr.length > 0) {
+    str.match(imgReg).map(item=>{
+      let id = '#'+randomString(18)+'#';
+
+      aList.push({
+        id,
+        value: item
+      });
+
+      str = str.replace(item, id);
+    });
+  }
+
+  let linkReg = /(http:\/\/|https:\/\/|www\.)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+
+  let links = str.match(linkReg);
+
+
+  if (links && links.length > 0) {
+
+    function sortNumber(a,b) {
+      return b.length - a.length;
+    }
+
+    links = links.sort(sortNumber);
+
+    let _links = [];
+
+    links.map(item=>{
+
+      let id = '#'+randomString(18)+'#';
+
+      _links.push({
+        id,
+        value: item
+      })
+      str = str.replace(item, id);
+    });
+
+    _links.map(item=>{
+      str = str.replace(item.id, `<a href=${item.value} target="_blank">${item.value}</a>`);
+    })
+
+  }
+
+  if (aList.length > 0) {
+    aList.map(item=>{
+      str = str.replace(item.id, item.value);
+    })
+  }
+
+  return str;
+
+}
+
 const converVideo = (html) => {
+
+  html = linkOptimization(html);
 
   // youku
   let re = /\<div data\-youku\=\"(.*?)\"\>\<\/div\>/g

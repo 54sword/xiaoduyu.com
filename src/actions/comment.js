@@ -32,6 +32,7 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 
     let accessToken = getState().user.accessToken;
     let commentState = getState().comment;
+    let postsState = getState().posts;
 
     return new Promise(async resolve => {
 
@@ -55,32 +56,46 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 
       resolve([ err, res ]);
 
-      if (res && res.success) {
-        [ err, res ] = await loadCommentList({ name:'cache', filters: { query: { _id:res._id } }, restart: true })(dispatch, getState);
+      if (!res || !res.success) return;
 
-        let newComment = res.data[0];
+      [ err, res ] = await loadCommentList({ name:'cache', filters: { query: { _id:res._id } }, restart: true })(dispatch, getState);
 
-        for (let i in commentState) {
-          // 添加评论
-          if (i == posts_id ) {
-            if (!newComment.parent_id) {
-              // 评论
-              commentState[i].data.push(newComment);
-            } else {
-              // 回复
-              commentState[i].data.map(item=>{
-                if (item._id == newComment.parent_id) {
-                  item.reply.push(newComment);
-                }
-              })
-            }
-          } else if (i == parent_id) {
+      let newComment = res.data[0];
+
+      for (let i in commentState) {
+        // 添加评论
+        if (i == posts_id ) {
+          if (!newComment.parent_id) {
+            // 评论
             commentState[i].data.push(newComment);
+          } else {
+            // 回复
+            commentState[i].data.map(item=>{
+              if (item._id == newComment.parent_id) {
+                item.reply.push(newComment);
+              }
+            })
           }
+        } else if (i == parent_id) {
+          commentState[i].data.push(newComment);
+        }
+      }
+
+      dispatch({ type: 'SET_COMMENT', state: commentState });
+
+
+      // 如果是评论，那么对该评论的帖子，评论累计数+1
+      if (!parent_id) {
+
+        for (let i in postsState) {
+          postsState[i].data.map(posts=>{
+            if (posts._id == posts_id) {
+              posts.comment_count = posts.comment_count ? posts.comment_count + 1 : 1;
+            }
+          });
         }
 
-        dispatch({ type: 'SET_COMMENT', state: commentState });
-
+        dispatch({ type: 'SET_POSTS', state: postsState });
       }
 
     });

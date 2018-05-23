@@ -27,14 +27,9 @@
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
         elements = document.getElementsByClassName('load-demand');
 
-
-      console.log(elements);
-
     for (var i = 0, max = elements.length; i < max; i++) {
 
       let content = elements[i].getAttribute('data-load-demand');
-
-      console.log(content);
 
       if (content == '') continue;
 

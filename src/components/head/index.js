@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 // import Headroom from 'react-headroom'
 
-import { name } from '../../../config';
+import { name, logo } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -120,7 +120,7 @@ export default class Head extends React.Component {
 
         {/* logo */}
         <div styleName="logo">
-          <Link to="/">{name}</Link>
+          <Link to="/">{logo ? <img src={logo} /> : name}</Link>
         </div>
 
         {/* user bar */}

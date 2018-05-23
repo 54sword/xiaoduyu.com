@@ -18,8 +18,8 @@
 
     let scrollTop = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset || 0
     let scrollHeight = document.body.scrollHeight || document.documentElement.scrollTop
-
-    if (scrollTop + clientHeight >= scrollHeight) {
+    
+    if (scrollTop + clientHeight >= scrollHeight - 50) {
 
       let timestamp = new Date().getTime()
 

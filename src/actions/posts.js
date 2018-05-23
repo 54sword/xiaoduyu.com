@@ -280,7 +280,7 @@ export function viewPostsById({ id, callback = ()=>{ } }) {
 }
 
 
-export function updatePosts({ id, title, detail, detailHTML, topicId, device, type }) {
+export function updatePosts({ id, title, detail, detailHTML, topicId, topicName, device, type }) {
   return async (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
 
@@ -291,7 +291,7 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, device, ty
     let [ err, res ] = await graphql({
       type: 'mutation',
       api: 'updatePosts',
-      args,
+      args: JSON.parse(JSON.stringify(args)),
       fields: `
         success
       `,
@@ -302,14 +302,13 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, device, ty
       return reject(err)
     }
 
-    // let _id = filters._id
-
-    // delete filters._id
+    args.topic_id = {
+      _id: topicId,
+      name: topicName
+    }
 
     dispatch({ type: 'UPDATE_POST', id: id, update: args });
     let postsList = getState().posts;
-
-    // console.log(args);
 
     for (let i in postsList) {
       if (postsList[i].data) {
@@ -393,11 +392,11 @@ const imageOptimization = (str) => {
 
 }
 
+
 // 加工问题列表
 const processPostsList = (list) => {
 
   list.map(function(posts){
-
 
     if (posts.content_html) {
 
@@ -415,10 +414,17 @@ const processPostsList = (list) => {
       }
 
       textContent = textContent.replace(/<[^>]+>/g,"");
+
+      // console.log(textContent.replace(var reg = /^http(s)?:\/\/(.*?)\//, ToReplace));
+
+
+
       if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
       posts.content_summary = textContent;
 
       posts.content_html = imageOptimization(posts.content_html);
+
+      // posts.content_html = linkOptimization(posts.content_html);
     }
 
     if (posts.create_at) posts._create_at = DateDiff(posts.create_at);

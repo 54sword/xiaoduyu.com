@@ -6,11 +6,15 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { asyncRouteComponent } from '../components/generateAsyncComponent.js';
 
 import Head from '../components/head';
-import Sign from '../components/sign';
 import Footer from '../components/footer';
-// import ModelPosts from '../components/model-posts';
-import EditorModalComment from '../components/global/editor-comment-modal';
-import ReportModal from '../components/global/report-modal';
+
+// import GlobalComponents from '../components/global';
+// import Bundle from '../components/bundle';
+
+// import Sign from '../components/sign';
+// import EditorModalComment from '../components/global/editor-comment-modal';
+// import ReportModal from '../components/global/report-modal';
+// import BindingPhone from '../components/global/binding-phone-modal';
 
 
 /**
@@ -73,6 +77,7 @@ export default (user, logPageView = ()=>{}) => {
       path: '/',
       exact: true,
       head: Head,
+      // component: import('../pages/home'),
       component: asyncRouteComponent({
         loader: () => import('../pages/home')
       }),
@@ -83,6 +88,7 @@ export default (user, logPageView = ()=>{}) => {
       path: '/follow',
       exact: true,
       head: Head,
+      // component: import('../pages/follow'),
       component: asyncRouteComponent({
         loader: () => import('../pages/follow')
       }),
@@ -93,6 +99,7 @@ export default (user, logPageView = ()=>{}) => {
       path: '/topic/:id',
       exact: true,
       head: Head,
+      // component: import('../pages/topic-detail'),
       component: asyncRouteComponent({
         loader: () => import('../pages/topic-detail')
       }),
@@ -379,7 +386,7 @@ export default (user, logPageView = ()=>{}) => {
       }),
       enter: triggerEnter
     }
-  ]
+  ];
 
   const RouteWithSubRoutes = route => (
     <Route
@@ -396,10 +403,6 @@ export default (user, logPageView = ()=>{}) => {
           <Route key={index} path={route.path} exact={route.exact} component={route.head} />
         ))}
       </Switch>
-
-      {!user ? <Sign /> : null}
-      {user ? <EditorModalComment /> : null}
-      {user ? <ReportModal /> : null}
 
       <Switch>
         {/*routeArr.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)*/}

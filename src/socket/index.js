@@ -15,7 +15,10 @@ export default ({ dispatch, getState }) => {
   // 用于判断是否登录
   const me = getState().user.profile;
 
+
   let socket = io.connect(config.socket_url);
+
+  // console.log(socket);
 
   socket.on("connect", function() {
 

@@ -14,7 +14,7 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
         callback(Component);
       });
     }
-
+    
     constructor() {
       super();
       this.state = { Component }
@@ -41,7 +41,6 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
         return <Loading text="组件装载中..." />;
       }
 
-      return null;
     }
   }
 }

@@ -1,8 +1,7 @@
 import React from 'react';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
+import Bundle from '../bundle';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -25,7 +24,7 @@ export class Footer extends React.Component {
         $('#back-to-top').fadeOut();
       }
     });
-    
+
   }
 
   top() {
@@ -43,6 +42,13 @@ export class Footer extends React.Component {
            styleName="top"
            ></a>
       </span>
+
+      <Bundle load={() => import('../global')}>
+      {(Global) => {
+        return (<Global />)
+      }}
+      </Bundle>
+
     </div>)
   }
 

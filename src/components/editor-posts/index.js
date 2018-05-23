@@ -167,6 +167,7 @@ class WritePosts extends React.Component {
         id: _id,
         // type: type._id,
         topicId: topic._id,
+        topicName: topic.name,
         title: title.value,
         detail: contentStateJSON,
         detailHTML: contentHTML,
@@ -207,7 +208,7 @@ class WritePosts extends React.Component {
           duration: 3000,
           backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
         }).showToast();
-        
+
       }, 1500);
     } else {
 
