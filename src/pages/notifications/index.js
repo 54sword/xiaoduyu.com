@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import NotificationList from '../../components/user-notification/list';
-import Sidebar from '../../components/sidebar';
+// import Sidebar from '../../components/sidebar';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -40,7 +40,7 @@ export class Notifications extends Component {
   render () {
 
     const { me } = this.props;
-    
+
     return (<div>
       <Meta title="通知" />
 

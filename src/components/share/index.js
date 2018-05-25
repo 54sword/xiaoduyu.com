@@ -3,7 +3,7 @@ import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import QRCode from 'qrcode.react'
 
-import config from '../../../config'
+import { domain_name } from '../../../config'
 import weixin from '../../common/weixin'
 
 // styles
@@ -17,7 +17,7 @@ export class Share extends Component {
   static propTypes = {
     posts: PropTypes.object
   }
-
+  
   constructor(props) {
     super(props);
 
@@ -27,7 +27,7 @@ export class Share extends Component {
       displayTips: false,
       showQrcode: false,
       title: posts.title,
-      url: config.domain_name +'/posts/'+posts._id
+      url: domain_name +'/posts/'+posts._id
     }
 
     this.shareToWeibo = this._shareToWeibo.bind(this);
@@ -38,7 +38,7 @@ export class Share extends Component {
   }
 
   componentDidMount() {
-    
+
     const { path } = this.props.match;
     const { _s } = this.props.location && this.props.location.params ? this.props.location.params : {};
 

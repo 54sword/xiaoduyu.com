@@ -11,7 +11,7 @@ import { isMember } from '../../reducers/user';
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-import Sidebar from '../../components/sidebar';
+// import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';
 // import PostsList from '../../components/posts/list';
 // import PostsDetailC from '../../components/posts/detail';
@@ -122,7 +122,7 @@ export class CommentDetail extends React.Component {
           <h1>{comment.posts_id.title}</h1>
         </Link>
       </div>
-      
+
       <div styleName="content">
         <HTMLText content={comment.content_html} />
       </div>

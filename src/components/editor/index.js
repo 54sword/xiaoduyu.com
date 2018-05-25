@@ -727,7 +727,7 @@ export class MyEditor extends React.Component {
     return(<div className="RichEditor-editor">
 
             <div ref="draftHtml" style={{display:'none'}}>{rendered}</div>
-
+            
             {displayControls ?
               <Controls
                 editorState={editorState}

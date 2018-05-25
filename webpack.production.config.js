@@ -26,6 +26,7 @@ module.exports = {
       'react',
       'react-dom',
       'react-router',
+      'react-router-dom',
       'redux',
       'react-redux',
       'react-document-meta',
@@ -35,13 +36,18 @@ module.exports = {
       'bootstrap/dist/js/bootstrap.min.js',
       'apollo-client',
       'graphql',
-      'graphql-tag',
+      'graphql-tag'
+    ],
+    vendors2: [
       'socket.io-client',
-      // 'draft-js',
-      // 'redraft'
-      // 'reactjs-localstorage',
-      // 'react-ga',
-      // 'react-css-modules'
+      'draft-js',
+      'redraft',
+      'reactjs-localstorage',
+      'react-ga',
+      'react-css-modules',
+      'lodash',
+      'qrcode.react',
+      'whatwg-fetch'
     ]
   },
 
@@ -49,6 +55,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[hash].js',
     publicPath: config.public_path + "/"
+    // chunkFilename: 'js/[name].[hash].js'
   },
 
   resolveLoader: {
@@ -143,9 +150,14 @@ module.exports = {
 
     extractSass,
 
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'common',
+    //   filename: 'common.[hash].js'
+    // }),
+
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      filename: 'common.[hash].js'
+      name:['app','vendors','vendors2'],
+      minChunks:2
     }),
 
     new webpack.optimize.UglifyJsPlugin({

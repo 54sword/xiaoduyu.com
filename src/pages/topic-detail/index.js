@@ -12,7 +12,7 @@ import { getTopicListByKey } from '../../reducers/topic';
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
-import Sidebar from '../../components/sidebar';
+// import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
 import Follow from '../../components/follow';
 

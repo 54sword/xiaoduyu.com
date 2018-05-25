@@ -120,7 +120,7 @@ export default class CommentEditor extends Component {
     if (!contentJSON) return editor.focus()
 
     self.setState({ submitting: true })
-    
+
     let err, res;
 
     if (_id) {

@@ -14,7 +14,7 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
         callback(Component);
       });
     }
-    
+
     constructor() {
       super();
       this.state = { Component }

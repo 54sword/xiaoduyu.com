@@ -26,6 +26,7 @@ module.exports = {
       'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
     ],
     // 一些主要依赖打包在一起
+    /*
     vendors: [
       'react',
       'react-dom',
@@ -47,6 +48,36 @@ module.exports = {
       // 'react-ga',
       // 'react-css-modules'
     ]
+    */
+
+    vendors: [
+      'react',
+      'react-dom',
+      'react-router',
+      'react-router-dom',
+      'redux',
+      'react-redux',
+      'react-document-meta',
+      'axios',
+      'jquery',
+      'popper.js',
+      'bootstrap/dist/js/bootstrap.min.js',
+      'apollo-client',
+      'graphql',
+      'graphql-tag'
+    ],
+    vendors2: [
+      'socket.io-client',
+      'draft-js',
+      'redraft',
+      'reactjs-localstorage',
+      'react-ga',
+      'react-css-modules',
+      'lodash',
+      'qrcode.react',
+      'whatwg-fetch'
+    ]
+
   },
 
   output: {
@@ -139,9 +170,14 @@ module.exports = {
     extractSass,
 
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      filename: 'common.bundle.js'
+      name:['app','vendors','vendors2'],
+      minChunks:2
     }),
+
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'common',
+    //   filename: 'common.bundle.js'
+    // }),
 
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, 'dist/index.ejs'),

@@ -10,7 +10,7 @@ import { isMember } from '../../reducers/user';
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-import Sidebar from '../../components/sidebar';
+// import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';
 import PostsList from '../../components/posts/list';
 import PostsDetailC from '../../components/posts/detail';

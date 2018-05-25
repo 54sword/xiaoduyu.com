@@ -11,7 +11,7 @@ import { getPostsListByName } from '../../../reducers/posts';
 // 依赖组件
 import PostsItem from '../../posts/posts-item';
 import PostsItemTitle from '../../posts/posts-item-title';
-import ListLoading from '../../list-loading';
+// import ListLoading from '../../list-loading';
 import Pagination from '../../pagination';
 import Loading from '../../ui/loading';
 

@@ -12,7 +12,7 @@ import { getProfile } from '../../reducers/user';
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-import Sidebar from '../../components/sidebar';
+// import Sidebar from '../../components/sidebar';
 
 // tools
 import { Countdown } from '../../common/date';
