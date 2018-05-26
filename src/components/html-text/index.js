@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
-// import Device from '../../common/device'
+import Device from '../../common/device'
 
 import Utils from '../../common/utils'
 
@@ -69,9 +69,14 @@ const linkOptimization = (str) => {
       })
       str = str.replace(item, id);
     });
-
+    
     _links.map(item=>{
-      str = str.replace(item.id, `<a href=${item.value} target="_blank">${item.value}</a>`);
+      if (Device.isMobileDevice()) {
+        str = str.replace(item.id, `<a href=${item.value} rel="nofollow">${item.value}</a>`);
+      } else {
+        str = str.replace(item.id, `<a href=${item.value} target="_blank" rel="nofollow">${item.value}</a>`);
+      }
+
     })
 
   }
