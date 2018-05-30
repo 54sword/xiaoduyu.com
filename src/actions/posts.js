@@ -403,6 +403,10 @@ const processPostsList = (list) => {
       // 提取内容中所有的图片地址
       posts.images = abstractImages(posts.content_html);
 
+      if (posts.images && posts.images.length > 0) {
+        posts.coverImage = posts.images[0].split('?')[0]+'?imageView2/2/w/300/auto-orient/format/jpg'
+      }
+
       // 将内容生产140的简介
       let textContent = posts.content_html;
 

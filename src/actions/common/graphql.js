@@ -19,21 +19,54 @@ const client = new ApolloClient({
   })
 });
 
+function StringAs(string) {
+    return '"' + string.replace(/(\\|\"|\n|\r|\t)/g, "\\$1") + '"';
+}
+
 
 // 将参数对象转换成，GraphQL提交参数的格式
 const convertParamsFormat = (params) => {
 
-  let arr = []
+  // delete params.content;
+  // delete params.title;
+
+  let arr = [];
   for (let i in params) {
-
-    let v = ''
+    let v = '';
     switch (typeof params[i]) {
+
       case 'string':
+        /*
+        try {
+          let _s = JSON.parse(params[i]);
 
-        // 如果字符串中，包含"，添加转译符\"
-        params[i] = params[i].replace(/\"/g, '\\"');
+          if (_s && _s.blocks) {
+            // console.log(i);
+            // params[i] = params[i].replace(/\"/g, '\\"');
+            params[i] = StringAs(params[i])
+            // params[i] = params[i].replace(/\"/g, '\\"');
+          }
+          // JSON.parse(params[i]);
+          // console.log(JSON.parse(params[i]).blocks);
+          // 如果字符串中，包含"，添加转译符\"
 
-        v = '"'+params[i]+'"';
+
+        } catch (err) {
+          params[i] = params[i].replace(/\"/g, '\\"');
+        }
+        */
+
+
+        // params[i] = StringAs(params[i]);
+
+        // if (i == 'content') {
+          // params[i] = params[i].replace(/\"/g, '\\"');
+        // } else if (i == 'title' || i == 'content_html'){
+          // params[i] = params[i].replace(new RegExp('"', 'g'),"\\\"");
+          // params[i] = params[i].replace(/\"/g, '/\/\"');
+        // }
+
+        v = StringAs(params[i]);
 
         break;
       case 'number': v = params[i]; break;
@@ -42,8 +75,21 @@ const convertParamsFormat = (params) => {
     arr.push(i+':'+v)
   }
 
+  
+  // console.log(arr);
+
+  let str = '(' + arr.join(',') + ')';
+
+  // str = encodeURIComponent(str);
+
+  // console.log(str);
+
+  // str = str.replace(/\"/g, '\\"');
+
+  // console.log(str);
+
   if (arr.length > 0) {
-    return '(' + arr.join(',') + ')';
+    return str;
   } else {
     return '';
   }
@@ -70,6 +116,8 @@ export default ({
 }) => {
 
   args = convertParamsFormat(args);
+
+  // console.log(args);
 
   let sql = `${type}{
     ${api}${args}{

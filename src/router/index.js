@@ -196,6 +196,16 @@ export default (user, logPageView = ()=>{}) => {
       enter: requireAuth
     },
 
+    {
+      path: '/search',
+      exact: true,
+      head: Head,
+      component: asyncRouteComponent({
+        loader: () => import('../pages/search')
+      }),
+      enter: triggerEnter
+    },
+
     /*
     {
       path: '/me',

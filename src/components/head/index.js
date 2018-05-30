@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router';
 // import Headroom from 'react-headroom'
 
 import { name, logo } from '../../../config';
+import parseUrl from '../../common/parse-url';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -18,6 +20,7 @@ import { loadNewPosts } from '../../actions/posts';
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
+@withRouter
 @connect(
   (state, props) => ({
     me: getProfile(state),
@@ -58,11 +61,13 @@ export default class Head extends React.Component {
     super(props);
     this.state = {}
     this.signOut = this.signOut.bind(this);
+    this.search = this.search.bind(this);
   }
 
   componentDidMount() {
 
-    const { topicList, loadTopics } = this.props
+    const { topicList, loadTopics } = this.props;
+    const { search } = this.refs;
 
     if (!topicList) {
       loadTopics({
@@ -76,6 +81,19 @@ export default class Head extends React.Component {
       });
     }
 
+    let params = this.props.location.search ? parseUrl(this.props.location.search) : {};
+    const { q = '' } = params;
+    search.value = q;
+  }
+
+  componentWillReceiveProps(props) {
+    const { search } = this.refs;
+    // 组件url发生变化
+    if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
+      let params = props.location.search ? parseUrl(props.location.search) : {};
+      const { q = '' } = params;
+      search.value = q;
+    }
   }
 
   async signOut() {
@@ -90,9 +108,18 @@ export default class Head extends React.Component {
 
   }
 
+  search(event) {
+    event.preventDefault();
+    const { search } = this.refs;
+
+    if (!search.value) return search.focus();
+    this.props.history.push(`/search?q=${search.value}`);
+  }
+
   render() {
 
     const { me, isMember, topicList, unreadNotice, postsTips, loadNewPosts } = this.props;
+
 
     let nav = [
       { to: '/', name: '发现' }
@@ -114,6 +141,11 @@ export default class Head extends React.Component {
       })
     }
 
+    let search = (<form onSubmit={this.search} styleName="search-form">
+                    <input type="text" styleName="search" placeholder="搜索" ref="search" />
+                    <button type="submit" styleName="search-submit"></button>
+                  </form>)
+
     return (<header>
       <nav styleName="navbar">
       <div className="container">
@@ -126,6 +158,7 @@ export default class Head extends React.Component {
         {/* user bar */}
         {isMember ?
           <ul styleName="user-bar">
+            <li>{search}</li>
             <li>
               <NavLink exact to="/notifications" styleName="link">
                 通知
@@ -133,9 +166,9 @@ export default class Head extends React.Component {
               </NavLink>
             </li>
             <li>
-              <span styleName="link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {me.nickname}
-              </span>
+              <div styleName="avatar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                style={{backgroundImage:`url(${me.avatar_url})`}}>
+              </div>
               <div className="dropdown-menu dropdown-menu-right">
                 <Link className="dropdown-item" to={`/people/${me._id}`}>我的主页</Link>
                 <Link className="dropdown-item" to="/settings">设置</Link>
@@ -145,6 +178,7 @@ export default class Head extends React.Component {
           </ul>
           :
           <ul styleName="user-bar">
+            <li>{search}</li>
             <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link" data-type="sign-up">注册</a></li>
             <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link" data-type="sign-in">登录</a></li>
           </ul>}

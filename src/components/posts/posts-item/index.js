@@ -153,8 +153,8 @@ export default class PostsItem extends React.PureComponent {
 
     let coverImage = '';
 
-    if (posts.content_summary && posts.content_summary.length > 100 && posts.images && posts.images[0]) {
-      coverImage = posts.images[0];
+    if (posts.content_summary && posts.content_summary.length > 100 && posts.coverImage) {
+      coverImage = posts.coverImage;
     }
 
     return (<div id={posts._id} styleName={expandContent ? "item-active" : "item"} onClick={expandContent ? null : this.expandContent}>
@@ -212,7 +212,7 @@ export default class PostsItem extends React.PureComponent {
             <div className="container">
             <div styleName="footer-main" className="row">
 
-                <div className="col-6" styleName="actions">
+                <div className="col-8" styleName="actions">
                     <a href="javascript:void(0)">
                       {posts.comment_count ? posts.comment_count + ' 条评论' : '评论'}
                     </a>
@@ -221,7 +221,7 @@ export default class PostsItem extends React.PureComponent {
                   <Share posts={posts} />
                   <EditButton posts={posts} />
                 </div>
-                <div className="col-6 text-right" styleName="actions">
+                <div className="col-4 text-right" styleName="actions">
                   {expandContent ?
                     <a href="javascript:void(0)" onClick={this.collapseContent} styleName="collapse">收起</a>
                     : null}
