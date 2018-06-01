@@ -69,7 +69,7 @@ const linkOptimization = (str) => {
       })
       str = str.replace(item, id);
     });
-    
+
     _links.map(item=>{
       if (Device.isMobileDevice()) {
         str = str.replace(item.id, `<a href=${item.value} rel="nofollow">${item.value}</a>`);

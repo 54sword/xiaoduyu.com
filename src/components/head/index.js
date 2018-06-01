@@ -83,7 +83,7 @@ export default class Head extends React.Component {
 
     let params = this.props.location.search ? parseUrl(this.props.location.search) : {};
     const { q = '' } = params;
-    search.value = q;
+    search.value = decodeURIComponent(q);
   }
 
   componentWillReceiveProps(props) {
@@ -92,7 +92,7 @@ export default class Head extends React.Component {
     if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
       let params = props.location.search ? parseUrl(props.location.search) : {};
       const { q = '' } = params;
-      search.value = q;
+      search.value = decodeURIComponent(q);
     }
   }
 

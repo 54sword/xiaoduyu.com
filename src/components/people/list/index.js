@@ -1,14 +1,27 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import connectReudx from '../../../common/connect-redux'
+
+// redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { loadPeopleList } from '../../../actions/people'
 import { getPeopleListByName } from '../../../reducers/people'
 
+// components
 import PeopleItem from '../list-item'
 import ListLoading from '../../list-loading'
 import Pagination from '../../pagination'
 
+
+@connect(
+  (state, props) => ({
+    peopleList: getPeopleListByName(state, props.name)
+  }),
+  dispatch => ({
+    loadPeopleList: bindActionCreators(loadPeopleList, dispatch)
+  })
+)
 export class PeopleList extends Component{
 
   static propTypes = {
@@ -17,19 +30,11 @@ export class PeopleList extends Component{
     // 列表的筛选条件
     filters: PropTypes.object.isRequired,
     // 获取当前页的 pathname、search
-    location: PropTypes.object.isRequired,
+    // location: PropTypes.object.isRequired,
 
     loadPeopleList: PropTypes.func.isRequired,
     peopleList: PropTypes.object.isRequired
   }
-
-  static mapStateToProps = (state, props) => {
-    return {
-      peopleList: getPeopleListByName(state, props.name)
-    }
-  }
-
-  static mapDispatchToProps = { loadPeopleList }
 
   constructor(props) {
     super(props)
@@ -38,14 +43,14 @@ export class PeopleList extends Component{
   }
 
   componentDidMount() {
-    const { peopleList } = this.props
-    if (!peopleList.data) this.load()
-    // ArriveFooter.add(name, this.load)
+    const { name, peopleList } = this.props
+    if (!peopleList.data) this.load();
+    ArriveFooter.add(name, this.load);
   }
 
   componentWillUnmount() {
-    const { name, type } = this.props
-    // ArriveFooter.remove(name)
+    const { name } = this.props;
+    ArriveFooter.remove(name);
   }
 
   componentWillReceiveProps(props) {
@@ -63,8 +68,12 @@ export class PeopleList extends Component{
 
   render () {
 
-    const { peopleList, location } = this.props
-    const { data, loading, more, count, filters = {} } = peopleList
+    const { peopleList } = this.props;
+    const { data, loading, more, count, filters = {} } = peopleList;
+
+    if (!loading && data && data.length == 0 && !more) {
+      return <div className="text-center mt-4 md-4">没有查询到结果</div>
+    }
 
     return (<div>
 
@@ -76,12 +85,14 @@ export class PeopleList extends Component{
 
       <ListLoading loading={loading} />
 
+      {/*
       <Pagination
         location={location}
         count={count || 0}
         pageSize={filters.page_size || 0}
         pageNumber={filters.page_number || 0}
         />
+      */}
 
     </div>)
 
@@ -89,4 +100,4 @@ export class PeopleList extends Component{
 
 }
 
-export default connectReudx(PeopleList)
+export default PeopleList

@@ -1,23 +1,25 @@
-.table{
-  width: 100%;
+.people-item{
+  padding-left:75px;
+  height: 80px;
+
+  .avatar{
+    position: absolute;
+    margin-left:-60px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #efefef;
+  }
+
+  .people-status{
+    span{
+      margin-right:10px;
+    }
+  }
+
 }
 
-.item{
-  background-color: #fff;
-  border-bottom: 1px solid #efefef;
-  padding:15px 15px 15px 80px;
-  min-height: 50px;
-}
 
-.avatar{
-  // position: absolute;
-  // margin-left:-65px;
-  border-radius: 50%;
-  width:50px;
-  height: 50px;
-}
-
-.follow{
-  float:right;
-  margin-top:10px;
+.link{
+  color:#484848;
 }

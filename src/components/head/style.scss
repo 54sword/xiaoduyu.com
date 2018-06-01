@@ -104,7 +104,7 @@ $height: 50px;
     display: inline-block;
     vertical-align: top;
   }
-  
+
   .link{
     @media (min-width: 0px) and (max-width: 991px) {
       line-height: 50px;
@@ -168,6 +168,9 @@ $height: 50px;
   height: 30px;
   border: 1px solid #dbdbdb;
   padding:0 35px 0 10px;
+  @media (min-width: 0px) and (max-width: 360px) {
+    width: 100px;
+  }
 }
 
 .search-submit{

@@ -109,6 +109,17 @@ export class PostsDetail extends React.Component {
 
     if (loading || !posts) return (<Loading />);
 
+    /*
+    <meta itemprop="name" content="这是分享的标题"/>
+    <meta itemprop="image" content="http://imgcache.qq.com/qqshow/ac/v4/global/logo.png" />
+    <meta name="description" itemprop="description" content="这是要分享的内容" />
+
+    作者：白吴
+    链接：https://www.zhihu.com/question/21925276/answer/91091778
+    来源：知乎
+    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     */
+
     return(<div styleName="box">
 
       <Meta title={posts ? posts.title : '加载中...'} />

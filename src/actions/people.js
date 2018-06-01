@@ -105,7 +105,7 @@ export function loadPeopleList({ name, filters = {}, restart = false, accessToke
         follow
       `
     }
-    
+
     return loadList({
       dispatch,
       getState,
