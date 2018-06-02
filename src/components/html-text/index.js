@@ -107,10 +107,7 @@ const converVideo = (html) => {
 
     voides.map(div=>{
 
-      const id = div.split(re)[1]
-
-
-
+      const id = div.split(re)[1];
 
       // let url = "http://player.youku.com/player.php/sid/"+id+"/v.swf"
       // let media = `<embed ref="embed" src="${url}"></embed>`
@@ -257,6 +254,11 @@ const converVideo = (html) => {
 @CSSModules(styles)
 export class HTMLText extends Component {
 
+  static defaultProps = {
+    // 隐藏一半
+    hiddenHalf: false
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -265,10 +267,18 @@ export class HTMLText extends Component {
   }
 
   componentDidMount() {
-    const { content } = this.props
+
+    const self = this;
+    let { content, hiddenHalf } = this.props;
+
+    if (hiddenHalf && content) {
+      content = content.substr(0, parseInt(content.length/2));
+    }
+
     this.setState({
       content: converVideo(content)
-    })
+    });
+
   }
 
   componentWillReceiveProps(props) {
@@ -279,9 +289,27 @@ export class HTMLText extends Component {
   }
 
   render() {
-    const { content } = this.state
+    const { content } = this.state;
+    const { hiddenHalf } = this.props;
+
     if (!content) '';
-    return <div className={styles.content} dangerouslySetInnerHTML={{__html:content}} />
+
+    return <div>
+      <div
+        ref="contentDom"
+        className={styles.content} dangerouslySetInnerHTML={{__html:content}}
+      />
+
+      {hiddenHalf && content ?
+        <div styleName="more-tips">
+          <div><span styleName="lock">剩余50%的内容登陆后可查看</span></div>
+          <div styleName="sign">
+            <a href="javascript:void(0)" className="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#sign" data-type="sign-up">注册</a>
+            <a href="javascript:void(0)" className="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#sign" data-type="sign-in">登录</a>
+          </div>
+        </div> : null}
+
+    </div>
   }
 }
 

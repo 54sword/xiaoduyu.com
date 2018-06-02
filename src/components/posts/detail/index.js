@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom'
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../../actions/posts'
-import { getPostsById } from '../../../reducers/posts'
+import { loadPostsList } from '../../../actions/posts';
+import { getPostsById } from '../../../reducers/posts';
+import { isMember } from '../../../reducers/user';
 
 // style
 import CSSModules from 'react-css-modules'
@@ -28,7 +29,8 @@ import Share from '../../share';
 
 @connect(
   (state, props) => ({
-    posts: getPostsById(state, props.id)
+    posts: getPostsById(state, props.id),
+    isMember: isMember(state)
   }),
   dispatch => ({
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
@@ -59,14 +61,14 @@ export default class PostsDetail extends React.Component {
 
   render() {
 
-    const { posts } = this.props
+    const { posts, isMember } = this.props
 
     if (!posts) return
 
     return(<div styleName="box">
 
         <div styleName="head">
-
+          
           <Link to={`/people/${posts.user_id._id}`}>
             <img styleName="author-avatar" src={posts.user_id.avatar_url} />
             <b>{posts.user_id.nickname}</b>
@@ -88,7 +90,7 @@ export default class PostsDetail extends React.Component {
         <h1 styleName="h1">{posts.title}</h1>
 
         {posts.content_html ?
-          <div styleName="detail"><HTMLText content={posts.content_html} /></div>
+          <div styleName="detail"><HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} /></div>
           :null}
 
         <div styleName="actions">

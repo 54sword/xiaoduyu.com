@@ -196,7 +196,7 @@ export default class PostsItem extends React.PureComponent {
 
       {expandContent ?
         <div styleName="content">
-          <HTMLText content={posts.content_html} />
+          <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
         </div> : (posts.content_summary ?
           <div styleName="content">
             <div styleName={coverImage ? 'cover' : null}>
