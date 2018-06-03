@@ -14,6 +14,11 @@ import { getUnreadNotice } from '../../reducers/website';
 import { loadNewNotifications } from '../../actions/notification';
 import { getNotificationByName } from '../../reducers/notification';
 
+// style
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
+
+
 @connect(
   (state, props) => ({
     me: getProfile(state),
@@ -24,6 +29,7 @@ import { getNotificationByName } from '../../reducers/notification';
     loadNewNotifications: bindActionCreators(loadNewNotifications, dispatch)
   })
 )
+@CSSModules(styles)
 export class Notifications extends Component {
 
   constructor(props) {
@@ -39,10 +45,15 @@ export class Notifications extends Component {
 
   render () {
 
-    const { me } = this.props;
+    const self = this;
+    const { me, list, unreadNotice } = this.props;
 
     return (<div>
       <Meta title="通知" />
+
+      {unreadNotice.length > 0 && list && list.data && list.data.length > 0 ?
+        <div onClick={()=>{ self.componentDidMount() }} styleName="unread-tip">你有 {unreadNotice.length} 未读通知</div>
+        : null}
 
       <NotificationList
         name={"index"}

@@ -6,7 +6,17 @@
 .DraftEditor-root h2{ font-size: 18px; margin:0px; padding:0px; }
 .DraftEditor-root figure{ margin:0; }
 .DraftEditor-root figure[contenteditable="false"]{ pointer-events:none; }
-.DraftEditor-root img{ max-width: 100%; max-height: 600px; }
+.DraftEditor-root img{
+  max-width: 100%;
+  max-height: 600px;
+  background-image: url('../list-loading/images/loading.gif');
+  min-height: 30px;
+  min-width: 30px;
+  background-size: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #efefef;
+}
 .DraftEditor-root ul,
 .DraftEditor-root ol{ margin:0px; }
 .DraftEditor-root embed,

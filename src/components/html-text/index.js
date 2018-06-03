@@ -43,8 +43,8 @@ const linkOptimization = (str) => {
       str = str.replace(item, id);
     });
   }
-
-  let linkReg = /(http:\/\/|https:\/\/|www\.)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+  
+  let linkReg = /(http:\/\/|https:\/\/|www\.|magnet\:\?xt\=)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
 
   let links = str.match(linkReg);
 

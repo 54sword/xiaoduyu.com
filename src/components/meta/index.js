@@ -28,7 +28,7 @@ export class Meta extends Component {
     let metaObj = {};
 
     const { title, description, canonical, meta, unreadNotice } = this.props;
-    
+
     if (title) {
       metaObj.title = title + ' - ' + name;
     } else {
@@ -40,7 +40,7 @@ export class Meta extends Component {
     if (meta) metaObj.title = meta;
 
     if (unreadNotice && unreadNotice.length > 0) {
-      metaObj.title = `(${unreadNotice.length}条消息) ${metaObj.title}`
+      metaObj.title = `(${unreadNotice.length}条通知) ${metaObj.title}`
     }
 
     return (

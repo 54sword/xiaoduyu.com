@@ -24,6 +24,7 @@ export class QiniuUploadImage extends React.Component {
     displayLoading: true,
     text: "上传图片",
     multiple: true,
+    beforeUpload: (s)=>{},
     upload: (s)=>{},
     onDrop: (files)=>{},
     onUpload: (file)=>{}
@@ -59,27 +60,35 @@ export class QiniuUploadImage extends React.Component {
   onUpload(files) {
 
     const self = this
-    const { upload } = this.props
+    const { beforeUpload, upload } = this.props
     const { url } = this.state
 
     self.setState({ loading: true })
 
     let count = 0;
 
+    // console.log(files);
+
+    // console.log(files);
+
+    beforeUpload(files);
+
     files.map(item=>{
+
       item.upload().then((res)=>{
-        res.text().then(item=>{
 
-          let res = JSON.parse(item);
 
-          upload(url+'/'+res.key);
+        res.text().then(res=>{
+
+          res = JSON.parse(res);
+
+          upload(url+'/'+res.key, item);
 
           count = count + 1;
 
           if (count >= files.length) {
             self.setState({ loading: false })
           }
-
 
         });
       });

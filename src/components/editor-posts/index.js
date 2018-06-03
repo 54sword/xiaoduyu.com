@@ -32,7 +32,7 @@ import styles from './style.scss';
   })
 )
 @CSSModules(styles)
-class WritePosts extends React.Component {
+class EditorPosts extends React.Component {
 
   static defaultProps = {
     type: 1,
@@ -143,7 +143,7 @@ class WritePosts extends React.Component {
     if (loading) return
     if (!topic) return alert('您还未选择话题')
     if (!title.value) return title.focus()
-
+    
     /*
     if (type._id == 2 || type._id == 3) {
 
@@ -173,11 +173,9 @@ class WritePosts extends React.Component {
         detailHTML: contentHTML,
       }));
 
-      // console.log(err);
-      // console.log(res);
+      self.setState({ loading: false });
 
       successCallback(res);
-      self.setState({ loading: false })
 
       return
     }
@@ -195,8 +193,8 @@ class WritePosts extends React.Component {
 
     if (res && res.success) {
       setTimeout(()=>{
-        reactLocalStorage.set('posts-content', '')
-        reactLocalStorage.set('posts-title', '')
+        reactLocalStorage.set('posts-content', '');
+        reactLocalStorage.set('posts-title', '');
       }, 200);
 
       setTimeout(()=>{
@@ -329,4 +327,4 @@ class WritePosts extends React.Component {
 
 }
 
-export default WritePosts
+export default EditorPosts

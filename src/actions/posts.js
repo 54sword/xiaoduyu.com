@@ -12,8 +12,6 @@ import loadList from './common/new-load-list'
 
 import graphql from './common/graphql';
 
-// console.log(loadList);
-
 // 添加问题
 export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
   return (dispatch, getState) => {
@@ -410,25 +408,27 @@ const processPostsList = (list) => {
       // 将内容生产140的简介
       let textContent = posts.content_html;
 
-      let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
+      // let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
+      let imgReg = /<img(.*?)>/gi;
 
+      let imgs = [];
       let img;
       while (img = imgReg.exec(textContent)) {
-        textContent = textContent.replace(img, '[图片]');
+        imgs.push(img[0]);
       }
 
+      imgs.map(item=>{
+        textContent = textContent.replace(item, '[图片] ');
+      });
+
+      // 删除所有html标签
       textContent = textContent.replace(/<[^>]+>/g,"");
-
-      // console.log(textContent.replace(var reg = /^http(s)?:\/\/(.*?)\//, ToReplace));
-
-
 
       if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
       posts.content_summary = textContent;
 
+      // 获取内容中所有的图片
       posts.content_html = imageOptimization(posts.content_html);
-
-      // posts.content_html = linkOptimization(posts.content_html);
     }
 
     if (posts.create_at) posts._create_at = DateDiff(posts.create_at);

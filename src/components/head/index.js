@@ -14,7 +14,7 @@ import { isMember, getProfile } from '../../reducers/user';
 import { loadTopics } from '../../actions/topic';
 import { getTopicListByKey } from '../../reducers/topic';
 import { getUnreadNotice, getPostsTips } from '../../reducers/website';
-import { loadNewPosts } from '../../actions/posts';
+// import { loadNewPosts } from '../../actions/posts';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -32,7 +32,7 @@ import styles from './style.scss';
   dispatch => ({
     signOut: bindActionCreators(signOut, dispatch),
     loadTopics: bindActionCreators(loadTopics, dispatch),
-    loadNewPosts: bindActionCreators(loadNewPosts, dispatch)
+    // loadNewPosts: bindActionCreators(loadNewPosts, dispatch)
   })
 )
 @CSSModules(styles)
@@ -118,8 +118,7 @@ export default class Head extends React.Component {
 
   render() {
 
-    const { me, isMember, topicList, unreadNotice, postsTips, loadNewPosts } = this.props;
-
+    const { me, isMember, topicList, unreadNotice, postsTips } = this.props;
 
     let nav = [
       { to: '/', name: '发现' }
@@ -188,11 +187,7 @@ export default class Head extends React.Component {
           <div>
             <ul>
               {nav.map(item=><li key={item.to}>
-                <NavLink exact to={item.to} styleName="link" onClick={()=>{
-                  if (item.tips) {
-                    loadNewPosts();
-                  }
-                }}>
+                <NavLink exact to={item.to} styleName="link">
                   {item.name}
                   {item.tips ? <span styleName="red-point"></span> : null}
                 </NavLink>
