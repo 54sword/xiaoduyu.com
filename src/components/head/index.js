@@ -157,7 +157,10 @@ export default class Head extends React.Component {
         {/* user bar */}
         {isMember ?
           <ul styleName="user-bar">
-            <li>{search}</li>
+            <li>
+              <div className="d-none d-md-block d-lg-block d-xl-block">{search}</div>
+              <Link styleName="link" className="d-block d-md-none d-lg-none d-xl-none" to="/search">搜索</Link>
+            </li>
             <li>
               <NavLink exact to="/notifications" styleName="link">
                 通知
@@ -177,7 +180,10 @@ export default class Head extends React.Component {
           </ul>
           :
           <ul styleName="user-bar">
-            <li>{search}</li>
+            <li>
+              <div className="d-none d-md-block d-lg-block d-xl-block">{search}</div>
+              <Link styleName="link" className="d-block d-md-none d-lg-none d-xl-none" to="/search">搜索</Link>
+            </li>
             <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link" data-type="sign-up">注册</a></li>
             <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link" data-type="sign-in">登录</a></li>
           </ul>}

@@ -20,6 +20,7 @@ export const loadUserInfo = ({ accessToken = null }) => {
 
       accessToken = accessToken || getState().user.accessToken
       // (randomString:"${new Date().getTime()+accessToken}")
+      /*
       let sql = `
       {
         selfInfo{
@@ -55,19 +56,52 @@ export const loadUserInfo = ({ accessToken = null }) => {
           last_find_posts_at
         }
       }
-      `
+      `;
+      */
 
-      let [ err, res ] = await grapgQLClient({
-        query:sql,
-        headers: accessToken ? { 'AccessToken': accessToken } : null,
-        fetchPolicy: 'network-only'
-      })
+      let [ err, res ] = await graphql({
+        api: 'selfInfo',
+        args: {},
+        fields: `
+        _id
+        nickname_reset_at
+        create_at
+        last_sign_at
+        blocked
+        role
+        avatar
+        brief
+        source
+        posts_count
+        comment_count
+        fans_count
+        like_count
+        follow_people_count
+        follow_topic_count
+        follow_posts_count
+        block_people_count
+        block_posts_count
+        block_comment_count
+        gender
+        nickname
+        banned_to_post
+        avatar_url
+        email
+        weibo
+        qq
+        github
+        phone
+        find_notification_at
+        last_find_posts_at
+        `,
+        headers: { accessToken }
+      });
 
       if (err) {
-        resolve([err[0]])
+        resolve([err])
       } else {
-        dispatch({ type: 'SET_USER', userinfo: res.data.selfInfo })
-        resolve([null, res.data.selfInfo])
+        dispatch({ type: 'SET_USER', userinfo: res })
+        resolve([null, res])
       }
 
     })

@@ -381,9 +381,18 @@ const imageOptimization = (str) => {
   let img;
   while (img = imgReg.exec(str)) {
     let oldImgDom = img[0];
-    let _img = oldImgDom.match(srcReg);
-    let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/800/auto-orient/format/jpg');
-    str = str.replace(oldImgDom, newImg);
+
+    if (oldImgDom) {
+
+      let _img = oldImgDom.match(srcReg);
+
+      if (_img && _img[1]) {
+        let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/800/auto-orient/format/jpg');
+        str = str.replace(oldImgDom, newImg);
+      }
+
+    }
+
   }
 
   return str

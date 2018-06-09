@@ -743,7 +743,7 @@ export class MyEditor extends React.Component {
                 }}
               />
               : null}
-              
+
             <Editor
               blockRendererFn={this.mediaBlockRenderer}
               editorState={editorState}

@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
+
+// functions
+import Device from '../../../common/device';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -24,6 +28,7 @@ import Share from '../../share';
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
+@withRouter
 @connect(
   (state, props) => ({
     isMember: isMember(state)
@@ -91,6 +96,12 @@ export default class PostsItem extends React.PureComponent {
 
     const self = this;
     const { posts, viewPostsById } = this.props;
+
+    // 如果移动设备，打开详情页面
+    if (Device.isMobileDevice()) {
+      this.props.history.push(`/posts/${posts._id}`)
+      return
+    }
 
     viewPostsById({ id: posts._id });
 
@@ -212,7 +223,7 @@ export default class PostsItem extends React.PureComponent {
             <div className="container">
             <div styleName="footer-main" className="row">
 
-                <div className="col-8" styleName="actions">
+                <div className="col-10" styleName="actions">
                     <a href="javascript:void(0)">
                       {posts.comment_count ? posts.comment_count + ' 条评论' : '评论'}
                     </a>
@@ -221,7 +232,7 @@ export default class PostsItem extends React.PureComponent {
                   <Share posts={posts} />
                   <EditButton posts={posts} />
                 </div>
-                <div className="col-4 text-right" styleName="actions">
+                <div className="col-2 text-right" styleName="actions">
                   {expandContent ?
                     <a href="javascript:void(0)" onClick={this.collapseContent} styleName="collapse">收起</a>
                     : null}

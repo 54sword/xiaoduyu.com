@@ -14,7 +14,6 @@ import Device from '../../common/device'
 // components
 import Editor from '../editor'
 
-
 // styles
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
@@ -100,7 +99,10 @@ export default class CommentEditor extends Component {
         getEditor(editor);
       },
       displayControls: true,
-      placeholder:"写评论..."
+      placeholder:"写评论...",
+      getCheckUpload: (checkUpload) =>{
+        self.checkUpload = checkUpload;
+      }
     }
 
     this.setState({
@@ -114,10 +116,20 @@ export default class CommentEditor extends Component {
     const self = this
     let { _id, posts_id, parent_id, reply_id, successCallback, addComment, updateComment, getEditor } = this.props
 
-    const { contentJSON, contentHTML, editor, submitting } = this.state
+    const { contentJSON, contentHTML, editor, submitting } = this.state;
 
     if (submitting) return
     if (!contentJSON) return editor.focus()
+
+
+    if (!this.checkUpload()) {
+      Toastify({
+        text: '有图片上传中，请等待上传完成后再提交',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #0988fe, #1c75fb)'
+      }).showToast();
+      return;
+    }
 
     self.setState({ submitting: true })
 
@@ -139,7 +151,6 @@ export default class CommentEditor extends Component {
         deviceId: Device.getCurrentDeviceId()
       });
     }
-
 
     this.setState({ submitting: false });
 
@@ -202,7 +213,7 @@ export default class CommentEditor extends Component {
 
   render() {
 
-    const { content, showFooter, submitting } = this.state
+    const { content, showFooter, submitting, uploading } = this.state
 
     return (<div styleName="box">
         <div styleName="content">{content}</div>

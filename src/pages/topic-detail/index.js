@@ -241,7 +241,10 @@ export class TopicsDetail extends React.Component {
       {topic.children && topic.children.length > 0 ?
         <div styleName="topic-nav">
           {topic.children.map(item=>{
-            return (<Link to={`/topic/${item._id}`} key={item._id}>{item.name}</Link>)
+            return (<Link to={`/topic/${item._id}`} key={item._id}>
+                <img src={item.avatar} />
+                {item.name}
+              </Link>)
           })}
         </div>
         : null}

@@ -10,7 +10,7 @@ export default () => {
   router.post('/in', (req, res)=>{
 
     const access_token = req.body.access_token;
-    
+
     res.cookie(auth_cookie_name, access_token, { path: '/', httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 30 })
     res.send({ success: true })
   })

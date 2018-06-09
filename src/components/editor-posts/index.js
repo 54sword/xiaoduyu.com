@@ -105,6 +105,9 @@ class EditorPosts extends React.Component {
             placeholder={type.content}
             expandControl={true}
             getEditor={(editor)=>{ self.setState({ editorElement: editor }) }}
+            getCheckUpload={(checkUpload) =>{
+              self.checkUpload = checkUpload;
+            }}
           />
         </div>
     })
@@ -139,11 +142,28 @@ class EditorPosts extends React.Component {
     let { addPosts, updatePosts } = this.props
     const { loading, _id, topic, contentStateJSON, contentHTML, type, successCallback, editorElement } = this.state
 
+    if (!this.checkUpload()) {
+      Toastify({
+        text: '有图片上传中，请等待上传完成后再提交',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #0988fe, #1c75fb)'
+      }).showToast();
+      return;
+    }
 
     if (loading) return
     if (!topic) return alert('您还未选择话题')
     if (!title.value) return title.focus()
-    
+
+    if (!this.checkUpload()) {
+      Toastify({
+        text: '有图片上传中，请等待上传完成后再提交',
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #0988fe, #1c75fb)'
+      }).showToast();
+      return;
+    }
+
     /*
     if (type._id == 2 || type._id == 3) {
 

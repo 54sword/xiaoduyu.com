@@ -99,7 +99,7 @@ export default class CommentList extends Component {
                     {people.follow_topic_count ? <span>话题 {people.follow_topic_count}</span> : null}
                   </div>
                 </div>
-                <div>
+                <div style={{minWidth:'70px',textAlign:'right'}}>
                   <Follow user={people} />
                 </div>
               </div>

@@ -13,7 +13,6 @@ import {
   Modifier,
   getDefaultKeyBinding
 } from 'draft-js';
-
 import redraft from 'redraft';
 
 
@@ -148,7 +147,7 @@ const Controls = (props) => {
         {!props.expandControl ? <span onClick={props.handleExpandControl} className="RichEditor-styleButton more"></span> : null}
 
         {/*<span className="RichEditor-styleButton video" onClick={props.addVideo}></span>*/}
-        {/*<span className="RichEditor-styleButton link" onClick={props.addLink}></span>*/}
+        {props.expandControl ? <span className="RichEditor-styleButton link" onClick={props.addLink}></span> : null}
         {/*<span href="javascript:void(0)" className="RichEditor-styleButton music" onClick={props.addMusic}></span>*/}
 
       </div>
@@ -229,6 +228,18 @@ const decorator = new CompositeDecorator([
 
 export class MyEditor extends React.Component {
 
+  static defaultProps = {
+    displayControls: true,
+    syncContent: null,
+    content: '',
+    readOnly: false,
+    getEditor: (editor)=>{},
+    placeholder: '请输入正文',
+    // onUpload: ()=>{},
+    // onUploadSuccess: ()=>{}
+    getCheckUpload: () => {}
+  }
+
   constructor(props) {
     super(props)
 
@@ -246,27 +257,26 @@ export class MyEditor extends React.Component {
       expandControl: expandControl || false
     }
 
-    this.onChange = this._onChange.bind(this)
-    this.toggleBlockType = (type) => this._toggleBlockType(type)
-    this.toggleInlineStyle = (style) => this._toggleInlineStyle(style)
-    // this.addVideo = this._addVideo.bind(this)
-    this.addImage = this._addImage.bind(this)
-    this.updateImage = this._updateImage.bind(this)
-    // this.addLink = this._addLink.bind(this)
-    // this.addMusic = this._addMusic.bind(this)
+    this.onChange = this._onChange.bind(this);
+    this.toggleBlockType = (type) => this._toggleBlockType(type);
+    this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+    this.addImage = this._addImage.bind(this);
+    this.addLink = this._addLink.bind(this);
+    this.updateImage = this._updateImage.bind(this);
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
     this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
 
     this.mediaBlockRenderer = this.mediaBlockRenderer.bind(this);
     this.media = this._media.bind(this);
 
-    // this.undo = this._undo.bind(this)
-    // this.redo = this._redo.bind(this)
+    this.checkUpload = this.checkUpload.bind(this);
   }
 
   componentDidMount() {
-    this.onChange(this.state.editorState)
-    this.props.getEditor(this.refs.editor)
+    this.onChange(this.state.editorState);
+    this.props.getEditor(this.refs.editor);
+
+    this.props.getCheckUpload(this.checkUpload);
   }
 
   _onChange(editorState) {
@@ -328,132 +338,6 @@ export class MyEditor extends React.Component {
     )
   }
 
-  /*
-  _addVideo() {
-
-    let url = prompt("请输入视频地址，目前支持优酷、腾讯视频、YouTuBe","");
-
-    if (!url) return;
-
-    if (url.indexOf('qq.com') > -1) {
-
-      let id = url.match(/\?vid\=([0-9a-zA-z\_]{1,})$/) || []
-      id = id && id.length > 0 ? id[1] : ''
-
-      if (!id) {
-        id = url.match(/\/([0-9a-zA-z\_]{1,})\.html/)
-        id = id && id.length > 0 ? id[1] : ''
-      }
-
-      if (id) {
-        this._promptForMedia('qq', id)
-      } else {
-        alert('地址匹配失败')
-      }
-
-    } else if (url.indexOf('youku.com') > -1) {
-
-      let id = url.match(/\/id\_(.*)\.html/)
-      id = id && id.length > 0 ? id[1] : ''
-
-      if (id) {
-        this._promptForMedia('youku', id)
-      } else {
-        alert('地址匹配失败')
-      }
-
-    } else if (url.indexOf('youtube.com') > -1) {
-
-      let id = url.match(/\/watch\?v\=([0-9a-zA-z\_\-]{1,})$/) || []
-      id = id && id.length > 0 ? id[1] : ''
-
-      if (id) {
-        this._promptForMedia('youtube', id)
-      } else {
-        alert('地址匹配失败')
-      }
-
-    } else {
-      alert('地址匹配失败')
-    }
-
-  }
-  */
-
-  _addImage(data) {
-    this._promptForMedia('image', data);
-  }
-
-  _updateImage(url, file) {
-
-    // console.log(url);
-    // console.log(file);
-
-    const { editorState } = this.state;
-
-    let content = editorState.getCurrentContent();
-
-    let json = convertToRaw(content);
-
-    // json = JSON.parse(JSON.stringify(json));
-
-
-    for (let i in json.entityMap) {
-
-      let data = json.entityMap[i].data;
-      let type = json.entityMap[i].type;
-
-      if (type == 'image' && data && data.name == file.name) {
-        // console.log('1111');
-        data.src = url;
-      }
-
-      json.entityMap[i].data = data;
-    }
-
-    // console.log(json);
-
-    this.setState({
-      editorState: EditorState.createWithContent(convertFromRaw(json), decorator)
-    });
-
-    // console.log(url);
-    // console.log(json);
-
-    // console.log(url);
-    // console.log(convertToRaw(content));
-  }
-
-  /*
-  _addMusic() {
-
-    let url = prompt("请输入网易音乐的播放地址","");
-
-    if (!url) {
-      return
-    }
-
-    if (url.indexOf('music.163.com') > -1) {
-
-      let id = url.match(/\?id\=([0-9]{1,})$/) || [];
-      id = id && id.length > 0 ? id[1] : '';
-
-      if (id && url.indexOf('song') > -1) {
-        this._promptForMedia('163-music-song', id)
-      } else if (id && url.indexOf('playlist') > -1) {
-        this._promptForMedia('163-music-playlist', id)
-      } else {
-        alert('不能匹配该地址')
-      }
-
-    } else {
-      alert('不能匹配该地址')
-    }
-
-  }
-  */
-
-  /*
   _addLink(e) {
 
     const { editorState } = this.state;
@@ -483,23 +367,96 @@ export class MyEditor extends React.Component {
     }
 
   }
-  */
+
+  _addImage(data) {
+    this._promptForMedia('image', data);
+  }
+
+  _updateImage(url, file) {
+
+    const self = this;
+    const { editorState } = self.state;
+    const contentState = editorState.getCurrentContent();
+
+    contentState.blockMap.map(item=>{
+      item.findEntityRanges(i=>{
+
+        let key = i.getEntity();
+
+        if (key) {
+
+          let type = contentState.getEntity(key).getType();
+          if (type == 'image') {
+            let data = contentState.getEntity(key).getData();
+            if (data.name == file.name) {
+              data.src = url;
+              contentState.replaceEntityData(key, data);
+            }
+          }
+
+        }
+
+      });
+    });
+
+    self.refs.editor.blur();
+    self.refs.editor.focus();
+  }
+
+  // 检查是否有未上传的文件
+  checkUpload() {
+
+    const self = this;
+    const { editorState } = self.state;
+    const contentState = editorState.getCurrentContent();
+
+    let allUploaded = true;
+
+    contentState.blockMap.map(item=>{
+      item.findEntityRanges(i=>{
+
+        let key = i.getEntity();
+
+        if (key) {
+
+          let type = contentState.getEntity(key).getType();
+
+          if (type == 'image') {
+
+            let data = contentState.getEntity(key).getData();
+            if (data.name && !data.src) {
+              allUploaded = false;
+            }
+
+          }
+
+        }
+
+      });
+    });
+
+    return allUploaded
+  }
 
   _promptForMedia(type, data) {
 
     const { editorState } = this.state;
     let oldEditorState = editorState;
 
+    let entityKey = null;
+
     data.map(item=>{
 
       const contentState = oldEditorState.getCurrentContent();
+      //
+
       const contentStateWithEntity = contentState.createEntity(
         'image',
         'IMMUTABLE',
         item
       );
 
-      const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+      entityKey = contentStateWithEntity.getLastCreatedEntityKey();
 
       let newEditorState = AtomicBlockUtils.insertAtomicBlock(
         oldEditorState,
@@ -511,6 +468,9 @@ export class MyEditor extends React.Component {
     });
 
     this.onChange(oldEditorState);
+
+    const self = this;
+
   }
 
   _handleKeyCommand(command) {
@@ -540,20 +500,6 @@ export class MyEditor extends React.Component {
     return getDefaultKeyBinding(e);
   }
 
-  /*
-  _undo() {
-    const that = this
-    this.onChange(EditorState.undo(this.state.editorState))
-    setTimeout(()=>{
-      that.onChange(EditorState.redo(that.state.editorState))
-      that.state.editorState.focus()
-    })
-  }
-  _redo() {
-    this.onChange(EditorState.redo(this.state.editorState))
-  }
-  */
-
   _media (props) {
 
     const { editorState } = this.state;
@@ -565,7 +511,6 @@ export class MyEditor extends React.Component {
     const type = entity.getType();
 
     let media;
-    // console.log(entity.getData());
 
     if (type === 'link') {
       media = <a href={src} target="_blank" rel="nofollow">{src}</a>;
@@ -596,7 +541,10 @@ export class MyEditor extends React.Component {
     if (block.getType() === 'atomic') {
       return {
         component: this.media,
-        editable: false
+        editable: false,
+        props: {
+          foo: 'bar'
+        }
       };
     }
     // return null;
@@ -617,11 +565,9 @@ export class MyEditor extends React.Component {
                 editorState={editorState}
                 toggleBlockType={this.toggleBlockType}
                 toggleInlineStyle={this.toggleInlineStyle}
-                // addVideo={this.addVideo}
-                // addLink={this.addLink}
                 addImage={this.addImage}
+                addLink={this.addLink}
                 updateImage={this.updateImage}
-                // addMusic={this.addMusic}
                 expandControl={expandControl}
                 handleExpandControl={()=>{
                   self.setState({
@@ -648,13 +594,6 @@ export class MyEditor extends React.Component {
   }
 }
 
-MyEditor.defaultProps = {
-  displayControls: true,
-  syncContent: null,
-  content: '',
-  readOnly: false,
-  getEditor: (editor)=>{},
-  placeholder: '请输入正文'
-}
+
 
 export default MyEditor

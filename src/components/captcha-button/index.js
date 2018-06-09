@@ -54,23 +54,27 @@ export default class CaptchaButton extends Component {
       }).showToast();
       this.setState({ loading: false });
       return
-    } else {
-      this.setState({ loading: false, countdown: 60  });
     }
 
-    // 发送成功后倒计时
-    let run = () =>{
+    this.setState({ loading: false, countdown: 60  }, ()=>{
 
-      if (!self._reactInternalInstance) return
-      if (self.state.countdown == 0) {
-        self.setState({ loading: false })
-        return
+      // 发送成功后倒计时
+      let run = () =>{
+
+        // if (!self._reactInternalInstance) return
+        if (self.state.countdown == 0) {
+          self.setState({ loading: false })
+          return
+        }
+        self.setState({ countdown: self.state.countdown - 1 })
+        setTimeout(()=>{ run() }, 1000)
       }
-      self.setState({ countdown: self.state.countdown - 1 })
-      setTimeout(()=>{ run() }, 1000)
-    }
 
-    run();
+      run();
+
+    });
+
+
   }
 
   render() {

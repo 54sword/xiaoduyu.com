@@ -18,7 +18,7 @@ class Notice extends Component {
         'binding_finished': '绑定成功',
         'create_user_failed': '创建用户失败',
         'create_oauth_failed': '创建账户失败',
-        'block_account': '您的账户被封，如有疑问请联系：'+contact_email
+        'block_account': '您的账号被禁止使用，如有疑问请联系：'+contact_email
       },
       tips: ''
     }

@@ -35,6 +35,7 @@ export default ({ query, mutation, headers = { role: 'user' }, fetchPolicy = 'ne
     return fn(options).then(res=>{
       resolve([null, res]);
     }).catch(res=>{
+      // console.log(res.graphQLErrors);
       if (res.graphQLErrors.length > 0) {
         resolve([res.graphQLErrors]);
       } else {

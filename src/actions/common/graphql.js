@@ -75,7 +75,7 @@ const convertParamsFormat = (params) => {
     arr.push(i+':'+v)
   }
 
-  
+
   // console.log(arr);
 
   let str = '(' + arr.join(',') + ')';
@@ -145,6 +145,11 @@ export default ({
     return fn(options).then(res=>{
       resolve([ null, res.data[api] ]);
     }).catch(res=>{
+
+      res.graphQLErrors.map(item=>{
+        item = converterErrorInfo(item);
+      });
+
       if (res.graphQLErrors.length > 0) {
         resolve([res.graphQLErrors[0]]);
       } else {
@@ -153,4 +158,20 @@ export default ({
     });
   });
 
+}
+
+
+// 合成
+let synthesis = (string, key, value) => {
+  return string.replace(new RegExp("({"+key+"})","g"), value)
+}
+
+const converterErrorInfo = (res) => {
+  // 参数替换
+  if (res.data && res.data.error_data) {
+    for (let n in res.data.error_data) {
+      res.message = synthesis(res.message, n, res.data.error_data[n])
+    }
+  }
+  return res
 }
