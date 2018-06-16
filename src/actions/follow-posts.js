@@ -1,43 +1,31 @@
-import Ajax from '../common/ajax'
 
-export function follow({ id, callback = ()=>{} }) {
-  return (dispatch, getState) => {
+import graphql from './common/graphql';
 
-    let accessToken = getState().user.accessToken
+const follow = (status) => {
+  return ({ id, callback = ()=>{} }) => {
+    return (dispatch, getState) => {
+      return new Promise(async resolve => {
 
-    Ajax({
-      url: '/add-follow',
-      type: 'post',
-      data: { posts_id: id },
-      headers: { AccessToken: accessToken },
-      callback: (result)=>{
-        if (result && result.success) {
-          dispatch({ type: 'UPDATE_POSTS_FOLLOW', id, followStatus: true  })
-        }
-        callback(result)
-      }
-    })
+        let [ err, res ] = await graphql({
+          type: 'mutation',
+          api: 'addFollow',
+          args: { posts_id: id, status },
+          fields: `success`,
+          headers: {
+            accessToken: getState().user.accessToken
+          }
+        });
 
+        if (err) return resolve([ err ? err.message : '未知错误' ]);
+
+        dispatch({ type: 'UPDATE_POSTS_FOLLOW', id, followStatus: status  });
+
+      })
+    }
   }
 }
 
-export function unfollow({ id, callback = ()=>{} }) {
-  return (dispatch, getState) => {
-
-    let accessToken = getState().user.accessToken
-
-    Ajax({
-      url: '/remove-follow',
-      type: 'post',
-      data: { posts_id: id },
-      headers: { AccessToken: accessToken },
-      callback: (result)=>{
-        if (result && result.success) {
-          dispatch({ type: 'UPDATE_POSTS_FOLLOW', id, followStatus: false  })
-        }
-        callback(result)
-      }
-    })
-
-  }
-}
+// 关注
+exports.follow = follow(true);
+// 取消关注
+exports.unfollow = follow(false);

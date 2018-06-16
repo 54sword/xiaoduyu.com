@@ -28,4 +28,6 @@ psd
 dist
 config/index.js
 config/test.js
+config/index_*.js
 *.DS_Store
+package-lock.json

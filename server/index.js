@@ -1,4 +1,0 @@
-require('babel-register');
-require('babel-polyfill');
-require('css-modules-require-hook/preset');
-require('./server');

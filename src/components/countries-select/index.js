@@ -3,21 +3,37 @@ import PropTypes from 'prop-types'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { fetchCountries } from '../../actions/countries'
+import { loadCountries } from '../../actions/countries'
 import { getCountries } from '../../reducers/countries'
 
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
-class CountriesSelect extends Component {
+
+@connect(
+  (state, props) => ({
+    countries: getCountries(state)
+  }),
+  dispatch => ({
+    loadCountries: bindActionCreators(loadCountries, dispatch)
+  })
+)
+@CSSModules(styles)
+export default class CountriesSelect extends Component {
+
+  static defaultProps = {
+    onChange: ()=>{},
+    initValue: '+86'
+  }
 
   constructor(props) {
     super(props)
   }
 
-  componentWillMount() {
-    const { countries, fetchCountries, onChange, initValue } = this.props
-    if (countries.length == 0) fetchCountries({})
+  componentDidMount() {
+    const { countries, loadCountries, onChange, initValue } = this.props
+
+    if (countries.length == 0) loadCountries()
     onChange(initValue)
   }
 
@@ -33,30 +49,3 @@ class CountriesSelect extends Component {
   }
 
 }
-
-CountriesSelect.defaultProps = {
-  onChange: ()=>{},
-  initValue: '+86'
-}
-
-CountriesSelect.propTypes = {
-  fetchCountries: PropTypes.func.isRequired,
-  countries: PropTypes.array.isRequired
-}
-
-const mapStateToProps = (state, props) => {
-  return {
-    countries: getCountries(state)
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchCountries: bindActionCreators(fetchCountries, dispatch),
-    getCountries: bindActionCreators(getCountries, dispatch)
-  }
-}
-
-CountriesSelect = CSSModules(CountriesSelect, styles)
-
-export default connect(mapStateToProps, mapDispatchToProps)(CountriesSelect)

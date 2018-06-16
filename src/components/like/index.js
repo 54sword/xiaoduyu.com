@@ -1,22 +1,40 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import React, { Component } from 'react';
+// import PropTypes from 'prop-types'
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+// redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { showSign } from '../../actions/sign';
+import { isMember } from '../../reducers/user';
+import { like, unlike } from '../../actions/like';
 
-import { showSign } from '../../actions/sign'
-import { getAccessToken } from '../../reducers/user'
-import { like, unlike } from '../../actions/like'
+// style
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
-export class LikeButton extends Component {
+@connect(
+  (state, props) => ({
+    isMember: isMember(state)
+  }),
+  dispatch => ({
+    showSign: bindActionCreators(showSign, dispatch),
+    like: bindActionCreators(like, dispatch),
+    unlike: bindActionCreators(unlike, dispatch)
+  })
+)
+@CSSModules(styles)
+export default class LikeButton extends Component {
 
   constructor(props) {
     super(props)
     this.handleLike = this.handleLike.bind(this)
   }
 
-  handleLike(e) {
+  stopPropagation(e) {
+    e.stopPropagation();
+  }
+
+  async handleLike(e) {
 
     e.stopPropagation()
 
@@ -39,32 +57,34 @@ export class LikeButton extends Component {
 
     if (status) {
 
-      unlike({
+      let [ err, res ] = await unlike({
         type: type,
         target_id: targetId
-      }, (result) => {
+      });
 
-        if (!result.success) {
-          alert(result.error)
-          return
-        }
-
-      })
+      if (err) {
+        Toastify({
+          text: err,
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+        }).showToast();
+      }
 
     } else {
 
-      like({
+      let [ err, res ] = await like({
         type: type,
         target_id: targetId,
         mood: 1
-      }, (result) => {
+      });
 
-        if (!result.success) {
-          alert(result.error)
-          return
-        }
-
-      })
+      if (err) {
+        Toastify({
+          text: err,
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+        }).showToast();
+      }
 
     }
 
@@ -73,44 +93,18 @@ export class LikeButton extends Component {
   render () {
 
     const { reply, comment, posts } = this.props
-    const { isSignin, showSign } = this.props
+    const { isMember, showSign } = this.props
     const like = comment || reply || posts
 
-    if (!isSignin) {
-      // return (<span></span>)
-      return (<a href="javascript:void(0)" onClick={showSign}>赞 {like.like_count && like.like_count > 0 ? like.like_count : null}</a>)
+    if (!isMember) {
+      return (<a href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>赞</a>)
     }
 
     return (
-      <a
-        href="javascript:void(0)"
-        className={like.like ? 'black-10' : ''}
-        onClick={(e)=>{this.handleLike(e)}}>
-        {like.like ? "已赞" : '赞'}
-        </a>
+      <a href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}} styleName="hover">
+        {like.like ? <span>已赞</span> : '赞'}
+        {like.like ? <span>取消赞</span> : null}
+      </a>
     )
   }
 }
-
-LikeButton.propTypes = {
-  showSign: PropTypes.func.isRequired,
-  isSignin: PropTypes.bool.isRequired,
-  like: PropTypes.func.isRequired,
-  unlike: PropTypes.func.isRequired
-}
-
-function mapStateToProps(state, props) {
-  return {
-    isSignin: getAccessToken(state) ? true : false
-  }
-}
-
-function mapDispatchToProps(dispatch, props) {
-  return {
-    showSign: bindActionCreators(showSign, dispatch),
-    like: bindActionCreators(like, dispatch),
-    unlike: bindActionCreators(unlike, dispatch)
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LikeButton)

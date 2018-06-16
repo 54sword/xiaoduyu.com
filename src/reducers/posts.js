@@ -5,18 +5,13 @@ let initialState = {}
 export default function posts(state = initialState, action = {}) {
   switch (action.type) {
 
+    case 'SET_POSTS':
+      return merge({}, action.state, {})
+
     case 'SET_POSTS_LIST_BY_NAME':
       var { name, data } = action
       state[name] = data
       return merge({}, state, {})
-
-    // case 'ADD_POSTS':
-    //   var { posts } = action
-    //   state.other.data = posts
-    //   return merge({}, state, {})
-
-    case 'SET_POSTS':
-      return merge({}, action.state, {})
 
     // 更新所有列表中 questionid 的 follow 状态
     case 'UPDATE_POSTS_FOLLOW':
@@ -84,27 +79,40 @@ export default function posts(state = initialState, action = {}) {
         })
       }
       return merge({}, state, {})
-    /*
-    case 'UPDATE_ANSWER_LIKE_IN_POSTS':
-      var { id, status } = action
 
+    case 'UPDATE_POST':
+      var { id, update } = action
       for (let i in state) {
-        let data = state[i].data
-        if (data.length > 0) {
-
-          data.map((question, key)=>{
-            question.answers.map((answer, index)=>{
-              if (answer._id == id) {
-                state[i].data[key].answers[index].like_count += status ? 1 : -1
-                state[i].data[key].answers[index].like = status
-              }
-            })
-          })
-
-        }
+        state[i].data.map(item => {
+          if (item._id == id) {
+            for (let i in update) item[i] = update[i]
+          }
+        })
       }
       return merge({}, state, {})
-      */
+
+    case 'REMOVE_POSTS_BY_ID':
+
+      var { id } = action
+
+      for (let i in state) {
+
+        if (i == id) {
+          delete state[i]
+        } else {
+          let data = state[i].data
+          if (data.length > 0) {
+            for (let n = 0, max = data.length; n < max; n++) {
+              if (data[n]._id == id) {
+                data.splice(n, 1)
+                break
+              }
+            }
+          }
+        }
+      }
+
+      return merge({}, state, {})
 
     default:
       return state;
@@ -112,6 +120,10 @@ export default function posts(state = initialState, action = {}) {
 }
 
 export const getPostsListByName = (state, name) => {
+  return state.posts[name] ? state.posts[name] : {}
+}
+
+export const getPostsListByListId = (state, name) => {
   return state.posts[name] ? state.posts[name] : {}
 }
 
@@ -123,11 +135,11 @@ export const getPostsById = (state, id) => {
     let list = posts[i].data
     for (let n = 0, max = list.length; n < max; n++) {
       if (list[n]._id == id) {
-        return [list[n]]
+        return list[n]
       }
     }
   }
 
-  return []
+  return null
 
 }

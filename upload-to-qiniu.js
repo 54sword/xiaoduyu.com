@@ -2,7 +2,7 @@
 // 上传build目录里面的文件到七牛
 var glob = require("glob");
 var qiniu = require("qiniu");
-var config = require('./config');
+var config = require("./config");
 
 //需要填写你的 Access Key 和 Secret Key
 qiniu.conf.ACCESS_KEY = config.qiniu.accessKey;
@@ -75,3 +75,6 @@ glob("./dist/*", {}, function (er, files) {
   run()
 
 })
+
+
+// process.exit()

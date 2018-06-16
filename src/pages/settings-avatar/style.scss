@@ -1,0 +1,30 @@
+.avatar{
+  width:100%;
+  text-align: center;
+  background-color: #fff;
+  padding:20px 0 20px 0;
+  margin-bottom:10px;
+
+  img{
+    max-width:300px;
+    border-radius: 50%;
+  }
+}
+
+/*
+.upload-button{
+  div{ width:100%; }
+  button{
+    width:100%;
+    line-height: 50px;
+    border: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: hand;
+    cursor: pointer;
+  }
+}
+*/
+
+.upload{
+  text-align: center;
+}

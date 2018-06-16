@@ -6,7 +6,7 @@
   }
 
   var clientHeight = document.documentElement.clientHeight
-  
+
   window.addEventListener('resize', (e)=>{
     clientHeight = document.documentElement.clientHeight
   }, false)
@@ -25,19 +25,22 @@
 
   var update = function() {
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
-        elements = document.getElementsByClassName('load-demand')
+        elements = document.getElementsByClassName('load-demand');
 
     for (var i = 0, max = elements.length; i < max; i++) {
 
-      if (elements[i].innerHTML != '') continue
+      let content = elements[i].getAttribute('data-load-demand');
 
-      var y1 = getElementViewTop(elements[i])
-      var y2 = y1 + elements[i].offsetHeight
+      if (content == '') continue;
+
+      var y1 = getElementViewTop(elements[i]);
+      var y2 = y1 + elements[i].offsetHeight;
 
       if (scrollTop <= y1 && y1 < scrollTop + clientHeight ||
         scrollTop < y2 && y2 < scrollTop + clientHeight
       ) {
-        elements[i].innerHTML = elements[i].getAttribute('data-load-demand')
+        elements[i].innerHTML += elements[i].getAttribute('data-load-demand');
+        elements[i].setAttribute('data-load-demand', '');
       }
     }
   }

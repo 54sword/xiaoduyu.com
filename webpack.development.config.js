@@ -1,36 +1,83 @@
-var webpack = require('webpack');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
+const HtmlwebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
-var ROOT_PATH = path.resolve(__dirname);
-var NODE_MODULES_PATH = path.resolve(ROOT_PATH, 'node_modules');
+const config = require('./config');
 
-var config = require('./config')
+const extractSass = new ExtractTextPlugin({
+  filename: "[name].css",
+  disable: true,
+  allChunks: true,
+  ignoreOrder: true
+});
 
 module.exports = {
 
-  devtool: '#inline-source-map',
+  devtool: 'source-map',
+
   entry: {
     app: [
-      './src/main',
-      'webpack-hot-middleware/client?noInfo=true&reload=true',
+      'babel-polyfill',
+      'bootstrap/dist/css/bootstrap.min.css',
+      './src/client/index',
+      'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
     ],
+    // 一些主要依赖打包在一起
+    /*
     vendors: [
       'react',
       'react-dom',
       'react-router',
-      'babel-polyfill',
       'redux',
       'react-redux',
-      'react-ga',
       'react-document-meta',
-      'react-cookie',
-      'react-tabs',
       'axios',
-      'draft-js',
-      'webpack-hot-middleware/client?noInfo=true&reload=true',
+      'jquery',
+      'popper.js',
+      'bootstrap/dist/js/bootstrap.min.js',
+      'apollo-client',
+      'graphql',
+      'graphql-tag',
+      'socket.io-client',
+      // 'draft-js',
+      // 'redraft'
+      // 'reactjs-localstorage',
+      // 'react-ga',
+      // 'react-css-modules'
     ]
+    */
+
+    vendors: [
+      'react',
+      'react-dom',
+      'react-router',
+      'react-router-dom',
+      'redux',
+      'react-redux',
+      'react-document-meta',
+      'axios',
+      'jquery',
+      'popper.js',
+      'bootstrap/dist/js/bootstrap.min.js',
+      'apollo-client',
+      'graphql',
+      'graphql-tag'
+    ],
+    vendors2: [
+      'socket.io-client',
+      'draft-js',
+      'redraft',
+      'reactjs-localstorage',
+      'react-ga',
+      'react-css-modules',
+      'lodash',
+      'qrcode.react',
+      'whatwg-fetch'
+    ]
+
   },
 
   output: {
@@ -39,69 +86,120 @@ module.exports = {
     publicPath: config.public_path + "/"
   },
 
-  resolve: {
-    extensions: ['', '.js', '.jsx'],
+  resolveLoader: {
+    moduleExtensions: ["-loader"]
   },
 
   module: {
-    loaders: [
+    rules: [
+
+      // js 文件解析
       {
         test: /\.js$/i,
         exclude: /node_modules/,
-        loader: 'babel?presets[]=es2015,presets[]=react,presets[]=stage-0',
+        loader: 'babel',
+        query: {
+          cacheDirectory: true,
+          plugins: [
+            // http://technologyadvice.github.io/es7-decorators-babel6/
+            'transform-decorators-legacy'
+          ],
+          presets: ['es2015', 'react', 'stage-0']
+        }
       },
+
+      // scss 文件解析
       {
-        test: /\.scss$/i,
-        loader: ExtractTextPlugin.extract('style',
-          `css?modules&importLoaders=1&localIdentName=${config.class_scoped_name}!resolve-url!sass`),
-        include: path.resolve(__dirname, 'src')
+        test: /\.scss$/,
+        include: path.resolve(__dirname, 'src'),
+        use: extractSass.extract({
+          use: [
+            {
+              loader: `css`,
+              options: {
+                modules: true,
+                localIdentName: config.class_scoped_name,
+                minimize: true
+              }
+            },
+            {
+              loader: `sass`,
+            }
+          ],
+          fallback: "style"
+        })
       },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css') },
-      { test: /\.(png|jpg|gif)$/, loader: 'url?limit=40000' },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
+
+      // 支持
+      {
+        test: /\.css$/,
+        use: extractSass.extract({
+          use: [{ loader: `css` }],
+          fallback: "style"
+        })
+      },
+
+      // 小于8K的图片，转 base64
+      { test: /\.(png|jpg|gif)$/, loader: 'url?limit=8192' },
+
+      // 小于8K的字体，转 base64
+      { test: /\.(ttf|eot|svg|woff|woff2)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file?limit=8192" }
+
     ]
   },
 
   plugins: [
 
-    new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
-
-    new ExtractTextPlugin('common.css', {
-      allChunks: true
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
     }),
 
+    // 定义环境变量
     new webpack.DefinePlugin({
+      // 是否是生产环境
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
-      '__NODE__': JSON.stringify(false)
+      // 是否是 Node
+      '__NODE__': JSON.stringify(process.env.__NODE__),
+      // 是否是开发环境
+      '__DEV__': JSON.stringify(process.env.NODE_ENV == 'development')
     }),
+
+    extractSass,
+
+    new webpack.optimize.CommonsChunkPlugin({
+      name:['app','vendors','vendors2'],
+      minChunks:2
+    }),
+
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'common',
+    //   filename: 'common.bundle.js'
+    // }),
 
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, 'dist/index.ejs'),
       template: 'src/view/index.html',
-      public_path: config.public_path + '/',
-      cdn: config.qiniu.url + '/',
-      analysis_script: config.analysis_script,
+      head: config.head,
       meta: '<%- meta %>',
       htmlDom: '<%- html %>',
-      reduxState: '<%- reduxState %>'
+      reduxState: '<%- reduxState %>',
+      analysis_script: config.analysis_script,
+      inject: false
+      // chunks: [ "common", "app", "vendors"], // 选择使用哪些生成的文件
+      // chunksSortMode: "auto" // manual根据chunks的位置手动排序
     }),
 
-    // new HtmlwebpackPlugin({
-    //   filename: path.resolve(__dirname, 'dist/not-found.ejs'),
-    //   template: 'src/view/not-found.html',
-    //   public_path: config.public_path + '/',
-    //   cdn: config.qiniu.url + '/'
-    // }),
-
     new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    // new ManifestPlugin()
+    // new webpack.NoEmitOnErrorsPlugin(),
 
-    // new BundleAnalyzerPlugin()
-    // new OfflinePlugin()
+    // new ServiceWorkerWebpackPlugin({
+    //   entry: path.join(__dirname, 'client/sw.js'),
+    // })
+
   ]
 }

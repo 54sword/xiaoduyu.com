@@ -1,0 +1,207 @@
+
+$height: 50px;
+
+.navbar{
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100%;
+  // background-color: rgba(255,255,255,0.7);
+  // background-color: rgba(255,255,255,.9);
+  // -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: #fff;
+  // border-bottom: 1px solid #d0d3d7 !important;
+  box-shadow: 0 0px 3px rgba(0,0,0,.15);
+  z-index: 999;
+
+  @media (min-width: 0px) and (max-width: 767px) {
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  }
+
+  :global{
+    .active{
+      color: #007aff !important;
+      // border-top: 2px solid #484848 !important;
+    }
+  }
+
+}
+
+.logo{
+  float:left;
+  a{
+    // width: 90px;
+    height: $height;
+    line-height: $height;
+    display: block;
+    color:#484848;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right:10px;
+    // background-image: url('//img.haosuzhou.com/acgnz-logo-svg.svg');
+    // background-size: contain;
+    // background-repeat: no-repeat;
+    // background-position: center;
+    img {
+      width: 90px;
+    }
+
+    @media (min-width: 0px) and (max-width: 991px) {
+      height: 40px;
+      line-height: 40px;
+      margin-left: 15px;
+    }
+
+  }
+}
+
+.topics-bar{
+  float:left;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+
+  @media (min-width: 992px) and (max-width: 10000000px) {
+    width: auto;
+  }
+
+  > div{
+    overflow: hidden;
+    height: 50px;
+    @media (min-width: 0px) and (max-width: 991px) {
+      height: 40px;
+    }
+  }
+
+  ul{
+
+    width: 100%;
+    padding:0 0 30px 0;
+    margin:0px;
+    white-space: nowrap;
+    overflow-x: scroll;
+  }
+
+  li{
+    list-style-type: none;
+    display: inline-block;
+  }
+
+}
+
+.user-bar{
+  float:right;
+  padding:0px;
+  margin:0px;
+  height: 50px;
+
+  @media (min-width: 0px) and (max-width: 991px) {
+    height: 40px;
+  }
+
+  li{
+    list-style-type: none;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .link{
+    @media (min-width: 0px) and (max-width: 991px) {
+      line-height: 50px;
+    }
+  }
+
+}
+
+.link{
+  display: block;
+  color:#666;
+  font-size: 15px;
+  padding:0 15px 0 15px;
+  height: $height;
+  line-height: $height;
+  text-decoration: none;
+  cursor: hand;
+  cursor: pointer;
+
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space:nowrap;
+  font-style:normal;
+
+  @media (min-width: 0px) and (max-width: 991px) {
+    height: 40px;
+    line-height: 40px;
+  }
+
+  &:hover{
+    color: #484848;
+  }
+
+}
+
+.unread{
+  position: absolute;
+  height: 16px;
+  line-height: 16px;
+  padding:0px 5px 0px 5px;
+  margin:12px 0 0 -3px;
+  border-radius: 20px;
+  background-color: red;
+  color:#fff;
+  font-size: 11px;
+}
+
+.red-point{
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 4px;
+  margin:15px 0 0 0;
+}
+
+.search{
+  width: 150px;
+  border-radius: 4px;
+  height: 30px;
+  border: 1px solid #dbdbdb;
+  padding:0 35px 0 10px;
+  @media (min-width: 0px) and (max-width: 360px) {
+    width: 100px;
+  }
+}
+
+.search-submit{
+  width: 35px;
+  height: 30px;
+  margin-left:-35px;
+  position: absolute;
+  border: none;
+  background-color: rgba(0,0,0,0);
+  background-image: url(./images/search.png);
+  background-size: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+  &:hover{
+    cursor: hand;
+    cursor: pointer;
+    background-image: url(./images/search-active.png);
+  }
+}
+
+.avatar{
+  display: block;
+  width: 26px;
+  height: 26px;
+  background-size: cover;
+  border-radius: 50%;
+  margin-top:12px;
+  cursor: hand;
+  cursor: pointer;
+}
+
+.search-form{
+  margin-top:10px;
+}

@@ -1,70 +1,52 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import DocumentMeta from 'react-document-meta'
+import React, { Component } from 'react';
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { getUnreadNotice } from '../../reducers/user'
+// redux
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { getUnreadNotice } from '../../reducers/website';
 
-import config from '../../../config'
-import weixin from '../../common/weixin'
+// https://github.com/kodyl/react-document-meta
+import DocumentMeta from 'react-document-meta';
 
+import { name } from '../../../config';
+
+@connect(
+  (state, props) => ({
+    unreadNotice: getUnreadNotice(state)
+  }),
+  dispatch => ({
+  })
+)
 export class Meta extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
 
-    const { unreadNotice } = this.props
+    let metaObj = {};
 
-    let meta = {
-      title: config.name,
-      description: config.description
+    const { title, description, canonical, meta, unreadNotice } = this.props;
+
+    if (title) {
+      metaObj.title = title + ' - ' + name;
+    } else {
+      metaObj.title = name;
     }
 
-    if (this.props.meta) {
-      meta = this.props.meta
-      meta.title += ' - '+config.name
-    }
+    if (description) metaObj.description = description;
+    if (canonical) metaObj.canonical = canonical;
+    if (meta) metaObj.title = meta;
 
-    if (unreadNotice.length > 0) {
-      meta.title = '('+unreadNotice.length+')' + meta.title
-    }
-
-    if (weixin.in) {
-      document.title = meta.title
-      var oHead = document.getElementsByTagName('body')[0]
-      var oScript= document.createElement("iframe")
-      oScript.src = '//qncdn.xiaoduyu.com/64.png'
-      // oScript.src = window.location.origin + "/favicon.png"
-      oScript.style.display = 'none'
-      oScript.onload = ()=> {
-        setTimeout(()=>{ oHead.removeChild(oScript)}, 0)
-      }
-      oHead.appendChild(oScript)
+    if (unreadNotice && unreadNotice.length > 0) {
+      metaObj.title = `(${unreadNotice.length}条通知) ${metaObj.title}`
     }
 
     return (
-      <DocumentMeta {...meta} />
+      <DocumentMeta {...metaObj} />
     )
   }
 }
 
-Meta.propTypes = {
-  unreadNotice: PropTypes.array.isRequired
-}
-
-const mapStateToProps = (state) => {
-  return {
-    unreadNotice: getUnreadNotice(state)
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-  }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(Meta)
+export default Meta;

@@ -1,0 +1,45 @@
+/*
+.item{
+  display: block;
+  padding:10px 15px 10px 15px;
+  border-bottom: 1px solid #e6e8eb;
+  a {
+    color:#444;
+    font-size: 14px;
+    &:hover{
+      color:#333;
+    }
+  }
+}
+
+.avatar{
+  position: absolute;
+  margin-left:-34px;
+  padding-right: 15px;
+  > img{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
+}
+*/
+
+.a{
+
+  padding-left:50px;
+  a {
+    color:#484848;
+    &:hover{
+      color:#0070c9;
+    }
+  }
+
+  img{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: #efefef;
+    margin-left:-35px;
+    border-radius: 50%;
+  }
+}

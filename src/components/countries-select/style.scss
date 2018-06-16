@@ -1,17 +1,18 @@
 .select {
-  border-radius: 3px;
-  height: 40px;
-  border:none;
+  border-radius: 5px;
+  height: 38px;
+  border:1px solid #ced4da;
   padding-right: 25px;
   /*很关键：将默认的select选择框样式清除*/
   appearance:none;
   -moz-appearance:none;
   -webkit-appearance:none;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  color: #a7a7a7;
+  color: #484848;
   background-image: url("./images/select.png");
   background-repeat: no-repeat;
   background-position: right center;
   background-size: 22px;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left:15px;
 }

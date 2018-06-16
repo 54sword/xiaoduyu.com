@@ -1,6 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import Qiniu from 'react-qiniu'
+// import PropTypes from 'prop-types'
+import Qiniu from './qiniu.js'
 
 import styles from './style.scss'
 
@@ -8,9 +8,27 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getQiNiuToken } from '../../actions/qiniu'
 
+import connectReudx from '../../common/connect-redux'
 import Loading from '../../components/loading'
 
+@connect(
+  (state, props) => ({
+  }),
+  dispatch => ({
+    getQiNiuToken: bindActionCreators(getQiNiuToken, dispatch)
+  })
+)
 export class QiniuUploadImage extends React.Component {
+
+  static defaultProps = {
+    displayLoading: true,
+    text: "上传图片",
+    multiple: true,
+    beforeUpload: (s)=>{},
+    upload: (s)=>{},
+    onDrop: (files)=>{},
+    onUpload: (file)=>{}
+  }
 
   constructor (props) {
     super(props)
@@ -24,25 +42,60 @@ export class QiniuUploadImage extends React.Component {
     }
 
     this.onDrop = this._onDrop.bind(this)
-    this.onUpload = this._onUpload.bind(this)
+    this.onUpload = this.onUpload.bind(this)
   }
 
-  componentWillMount() {
+  async componentDidMount() {
 
-    const self = this
     const { getQiNiuToken } = this.props
 
-    getQiNiuToken({
-      callback: (data) =>{
-        if (data) {
-          self.setState({ token: data.token, url: data.url })
-        }
-      }
-    })
+    let [err, result] = await getQiNiuToken()
+
+    if (result) {
+      this.setState({ token: result.token, url: result.url })
+    }
 
   }
 
-  _onUpload(files) {
+  onUpload(files) {
+
+    const self = this
+    const { beforeUpload, upload } = this.props
+    const { url } = this.state
+
+    self.setState({ loading: true })
+
+    let count = 0;
+
+    // console.log(files);
+
+    // console.log(files);
+
+    beforeUpload(files);
+
+    files.map(item=>{
+
+      item.upload().then((res)=>{
+
+
+        res.text().then(res=>{
+
+          res = JSON.parse(res);
+
+          upload(url+'/'+res.key, item);
+
+          count = count + 1;
+
+          if (count >= files.length) {
+            self.setState({ loading: false })
+          }
+
+        });
+      });
+    });
+
+    /*
+    return
 
     const self = this
     const { upload, onUpload } = this.props
@@ -80,6 +133,7 @@ export class QiniuUploadImage extends React.Component {
       }
 
     })
+    */
   }
 
   _onDrop(files) {
@@ -89,57 +143,28 @@ export class QiniuUploadImage extends React.Component {
 
   render() {
 
+    // console.log(this.state.token);
+
     if (!this.state.token) {
       return (<span></span>)
     }
 
     const { loading, token } = this.state
-    const { multiple, name, displayLoading } = this.props
+    const { multiple, name, displayLoading, text } = this.props
 
     return (
-      <div>
-        {displayLoading && loading ? <Loading /> : null}
         <Qiniu
-          onDrop={this.onDrop}
-          size={100}
+          text={text}
+          // onDrop={this.onDrop}
+          // size={100}
           multiple={multiple}
           accept="image/*"
           token={this.state.token}
-          uploadKey={this.state.uploadKey}
-          maxSize="1Mb"
-          onUpload={this.onUpload}>
-            {name}
-        </Qiniu>
-      </div>
+          // uploadKey={this.state.uploadKey}
+          // maxSize="1Mb"
+          onUpload={this.onUpload} />
     );
   }
 }
-
-QiniuUploadImage.defaultProps = {
-  displayLoading: true,
-  name: '上传图片',
-  multiple: true,
-  upload: (s)=>{},
-  onDrop: (files)=>{},
-  onUpload: (file)=>{}
-}
-
-QiniuUploadImage.propTypes = {
-  getQiNiuToken: PropTypes.func.isRequired
-}
-
-const mapStateToProps = (state) => {
-  return {
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getQiNiuToken: bindActionCreators(getQiNiuToken, dispatch)
-  }
-}
-
-QiniuUploadImage = connect(mapStateToProps,mapDispatchToProps)(QiniuUploadImage)
-
 
 export default QiniuUploadImage

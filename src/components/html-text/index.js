@@ -1,13 +1,99 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import { Link, browserHistory } from 'react-router'
+import React, { Component } from 'react';
+// import { Link } from 'react-router-dom';
 
-import styles from './style.scss'
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
 import Device from '../../common/device'
 
+import Utils from '../../common/utils'
+
+
+function randomString(len) {
+　　len = len || 32;
+　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+　　var maxPos = $chars.length;
+　　var pwd = '';
+　　for (let i = 0; i < len; i++) {
+　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　}
+　　return pwd;
+}
+
+const linkOptimization = (str) => {
+
+  if (!str) return '';
+
+  str = str.replace('&nbsp;', ' ');
+
+  let imgReg = /<a(.*?)>(.*?)<\/a>/gi;
+
+  let aList = [];
+  let arr = str.match(imgReg);
+
+  if (arr && arr.length > 0) {
+    str.match(imgReg).map(item=>{
+      let id = '#'+randomString(18)+'#';
+
+      aList.push({
+        id,
+        value: item
+      });
+
+      str = str.replace(item, id);
+    });
+  }
+  
+  let linkReg = /(http:\/\/|https:\/\/|www\.|magnet\:\?xt\=)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+
+  let links = str.match(linkReg);
+
+
+  if (links && links.length > 0) {
+
+    function sortNumber(a,b) {
+      return b.length - a.length;
+    }
+
+    links = links.sort(sortNumber);
+
+    let _links = [];
+
+    links.map(item=>{
+
+      let id = '#'+randomString(18)+'#';
+
+      _links.push({
+        id,
+        value: item
+      })
+      str = str.replace(item, id);
+    });
+
+    _links.map(item=>{
+      if (Device.isMobileDevice()) {
+        str = str.replace(item.id, `<a href=${item.value} rel="nofollow">${item.value}</a>`);
+      } else {
+        str = str.replace(item.id, `<a href=${item.value} target="_blank" rel="nofollow">${item.value}</a>`);
+      }
+
+    })
+
+  }
+
+  if (aList.length > 0) {
+    aList.map(item=>{
+      str = str.replace(item.id, item.value);
+    })
+  }
+
+  return str;
+
+}
 
 const converVideo = (html) => {
+
+  html = linkOptimization(html);
 
   // youku
   let re = /\<div data\-youku\=\"(.*?)\"\>\<\/div\>/g
@@ -21,10 +107,7 @@ const converVideo = (html) => {
 
     voides.map(div=>{
 
-      const id = div.split(re)[1]
-
-
-
+      const id = div.split(re)[1];
 
       // let url = "http://player.youku.com/player.php/sid/"+id+"/v.swf"
       // let media = `<embed ref="embed" src="${url}"></embed>`
@@ -97,20 +180,34 @@ const converVideo = (html) => {
 
   }
 
-  re = /\<img src\=\"(.*?)\"\>/g
-  let imgs = html.match(re)
 
-  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+  // 图片处理
+  re = /\<img src\=\"(.*?)\"\>/g;
+
+  let imgs = [...new Set(html.match(re))];
+
+  // 获取页面中所有的图片
+  let allImage = Utils.abstractImagesFromHTML(html);
+  allImage.map((item,index)=>{
+    allImage[index] = item.split('?')[0];
+  });
+  allImage = "['"+allImage.join("','")+"']";
 
   if (imgs && imgs.length > 0) {
 
-    imgs.map(img=>{
-      let i = img.match(srcReg)[1]
-      html = html.replace(img, `<div class="load-demand" data-load-demand="<img src=\'${i}?auto-orient/imageView2/2/w/900\' />"></div>`)
-    })
+    imgs.map((img, index)=>{
 
+      let _img = img;
+
+      // 如果url中包含“?”,需要将其转译成字符串
+      _img = _img.replace(/\?/g, "\\?");
+
+      html = html.replace(new RegExp(_img,"gm"), '<div onclick="webPictureViewer('+allImage+','+index+');" class="load-demand text-center" data-load-demand=\''+img+'\'></div>');
+    })
   }
 
+
+  // music
   re = /\<div data\-163musicsong\=\"(.*?)\"\>/g
   let musics = html.match(re)
 
@@ -133,7 +230,7 @@ const converVideo = (html) => {
       const id = div.split(re)[1]
       let url = "//music.163.com/outchain/player?type=0&id="+id+"&auto=0&height=430"
       html = html.replace(div, `<iframe type="music" ref="iframe" src="${url}" height="450"></iframe>`)
-    })
+    });
 
   }
 
@@ -154,32 +251,65 @@ const converVideo = (html) => {
 
 }
 
+@CSSModules(styles)
 export class HTMLText extends Component {
+
+  static defaultProps = {
+    // 隐藏一半
+    hiddenHalf: false
+  }
 
   constructor(props) {
     super(props)
-
-    const { content } = this.props
     this.state = {
-      content: content
+      content: ''
     }
   }
 
   componentDidMount() {
+
+    const self = this;
+    let { content, hiddenHalf } = this.props;
+
+    if (hiddenHalf && content) {
+      content = content.substr(0, parseInt(content.length/2));
+    }
+
     this.setState({
-      content: converVideo(this.state.content)
-    })
+      content: converVideo(content)
+    });
+
+  }
+
+  componentWillReceiveProps(props) {
+    if (this.props.content != props.content) {
+      this.props = props;
+      this.componentDidMount()
+    }
   }
 
   render() {
+    const { content } = this.state;
+    const { hiddenHalf } = this.props;
 
-    const { content } = this.state
+    if (!content) '';
 
-    return (
-      <div className={styles.content}>
-        {<div dangerouslySetInnerHTML={{__html:content}} />}
-      </div>
-    )
+    return <div>
+      <div
+        ref="contentDom"
+        className={styles.content} dangerouslySetInnerHTML={{__html:content}}
+      />
+
+      {hiddenHalf && content ?
+        <div styleName="more-tips">
+          <div><span styleName="lock">剩余50%的内容登陆后可查看</span></div>
+          <div styleName="sign">
+            <a href="javascript:void(0)" className="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#sign" data-type="sign-up">注册</a>
+            <a href="javascript:void(0)" className="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#sign" data-type="sign-in">登录</a>
+          </div>
+        </div> : null}
+
+    </div>
   }
 }
 

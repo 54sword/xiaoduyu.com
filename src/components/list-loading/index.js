@@ -1,36 +1,30 @@
-import React, { Component } from 'react'
-
+import React from 'react'
+import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
-class ListLoading extends React.PureComponent {
+@CSSModules(styles)
+export default class ListLoading extends React.PureComponent {
 
-  constructor(props) {
-    super(props)
+  static defaultProps = {
+    loading: false
   }
 
   render () {
 
-    const { loading, more, handleLoad } = this.props
+    const { loading } = this.props
 
-    let dom
-
-    if (loading && more) {
-      dom = '正在加载...'
-    } else if (!loading && more) {
-      dom = <a href="javascript:void(0)" className={styles.more} onClick={handleLoad}>点击加载更多</a>
-    } else if (!more) {
-      return (<span></span>)
+    if (loading) {
+      return (<div styleName="box">
+          <div styleName="ball-pulse-sync">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>)
     }
 
-    return (<div className={styles.box}>{dom}</div>)
+    return ''
+
   }
 
 }
-
-ListLoading.defaultProps = {
-  loading: false,
-  more: false,
-  handleLoad: ()=>{}
-}
-
-export default ListLoading

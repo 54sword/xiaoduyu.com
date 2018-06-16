@@ -1,12 +1,16 @@
 
-@import "../../containers/global/base.scss";
 
 .content{
 
   line-height: 180%;
   word-break: break-all;
   word-wrap: break-word;
-  
+
+  h2{
+    font-size: 18px;
+    padding:0px;
+    margin:0px;
+  }
 
   blockquote{
     border-left:5px solid #c6c6c6;
@@ -20,22 +24,34 @@
   }
 
   pre{
-    padding:15px;
-    background-color: #f4f4f4;
-    margin:15px 0 15px 0;
+    // padding:15px;
+    background-color: #222;
+    // margin:15px 0 15px 0;
     overflow-x:scroll;
+    margin:5px 0 5px 0;
+    padding:15px;
+    border-radius: 4px;
+    color:#a8ff60;
+    max-height: 400px;
+    max-width: 100%;
+    overflow: auto;
+    white-space: nowrap;
   }
 
   ol{
     list-style-type: decimal;
     padding-left:20px;
-    margin:15px 0 15px 0;
+    // margin:15px 0 15px 0;
+    margin:0px;
+    padding:0 0 0 16px;
   }
 
   ul{
     list-style-type: disc;
     padding-left:20px;
-    margin:15px 0 15px 0;
+    // margin:15px 0 15px 0;
+    margin:0px;
+    padding:0 0 0 16px;
   }
 
   embed, iframe{
@@ -50,21 +66,59 @@
 
   img{
     max-width: 100%;
-    margin:10px 0 10px 0;
+    max-height: 450px;
+    min-width: 20px;
+    min-height: 20px;
+    // background-color: #efefef;
+    // margin:0 auto;
+    // margin:10px 0 10px 0;
   }
 
   p{
+    margin:0px;
+    padding:0px;
     min-height: 15px;
   }
 
   a{
-    color:$blue;
+    color:rgb(46, 150, 226);
+    margin:0px;
+    padding:0px;
   }
 
-  @include respond-to(sm) {
-    embed, iframe{
-      width:100%;
-      min-height: 216px;
+}
+
+.more-tips{
+  position: relative;
+  width: 100%;
+  text-align: center;
+  // background-color: #333;
+  height: 100px;
+  // line-height: 30px;
+  // line-height: 80px;
+  padding-top:80px;
+  top:-60px;
+  color:#007bff;
+  margin-bottom: 30px;
+  // background: linear-gradient(to bottom,  #fff 0%,#fff 100%);
+
+  // background: -webkit-gradient(linear, 0 0, 0 100%, from(#eee 0%), to(#aaa 100%)); /** Chrome Safari **/
+// background: -moz-linear-gradient(top, #eee, #aaa); /** FireFox **/
+// background: -o-linear-gradient(top, #eee, #aaa);  /** Opear **/
+background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 60%);  /** IE9 IE10 **/
+
+  .lock{
+    background-image: url(./images/lock.png);
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left:20px;
+  }
+
+  .sign{
+    margin-top:15px;
+    > a{
+      margin:0 10px 0 10px;
     }
   }
 

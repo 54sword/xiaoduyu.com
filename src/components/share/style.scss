@@ -1,3 +1,8 @@
+
+.container{
+  display: inline-block;
+}
+
 .share{
 
   li{
@@ -63,7 +68,7 @@
     width:100%;
     height: 200px;
     padding-top:40px;
-    background-image: url('./images/arrow@3x.png');
+    background-image: url('./images/arrow.png');
     background-repeat: no-repeat;
     background-position: right 13px top 0;
     background-size: 50px;

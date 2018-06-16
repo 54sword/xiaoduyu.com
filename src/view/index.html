@@ -2,35 +2,36 @@
 <html>
 <head>
   <meta charset="utf-8" />
+
+  <!-- 自定义 head -->
+  <%= htmlWebpackPlugin.options.head %>
+
+  <!-- 自定义 meta -->
   <%= htmlWebpackPlugin.options.meta %>
-  <!--
-  <meta http-equiv="Expires" content="0">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Cache-control" content="no-cache">
-  <meta http-equiv="Cache" content="no-cache">
-  <meta content="yes" name="apple-mobile-web-app-capable" />
-  <meta content="yes" name="apple-touch-fullscreen" />
-  <meta content="telephone=no,email=no" name="format-detection" />
-  -->
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-  <!--
-  <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.cdn %>64.png" type="image/png" />
-  <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.options.cdn %>512.png" />
-  -->
+
+  <!-- 打包 css -->
+  <% for (var i in htmlWebpackPlugin.files.css) { %>
+    <link href="<%= htmlWebpackPlugin.files.css[i] %>" rel="stylesheet"></head>
+  <% } %>
+
 </head>
-<body>
-  <!--[if lt IE 8]>
-	<style type="text/css">
-		body{ padding:0; margin:0; }
-		.no-supper{ width:100%; min-height: 100px; text-align: center; line-height:100px; background-color:#FFBD91; color:#000; position: fixed; top:100%; margin-top:-100px; z-index: 999; }
-		.no-supper a{ color:#45a7ff; }
-	</style>
-	<div class="no-supper">
-		您的浏览器版本较低，可能存在安全风险，请升级到最新IE浏览器。亦可下载 <a href="http://se.360.cn/" target="_blank">360安全浏览器</a> 或 <a href="https://chrome.google.com/" target="_blank">Google Chrome</a>
-	</div>
-  <![endif]-->
+<body class="default-theme">
+  
+  <!-- app 视图 -->
   <div id="app"><%= htmlWebpackPlugin.options.htmlDom %></div>
-  <script>window.__initState__ = <%= htmlWebpackPlugin.options.reduxState %></script>
+
+  <!-- redux -->
+  <script>
+    window.__initState__ = <%= htmlWebpackPlugin.options.reduxState %>
+  </script>
+
+  <!-- 打包 js -->
+  <% for (var i in htmlWebpackPlugin.files.js) { %>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[i] %>"></script>
+  <% } %>
+
+  <!-- 统计代码 -->
   <div style="display:none"><%= htmlWebpackPlugin.options.analysis_script %></div>
+
 </body>
 </html>

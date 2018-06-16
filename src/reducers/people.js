@@ -1,32 +1,29 @@
 
 import merge from 'lodash/merge'
 
-let initialState = {
-  other: {
-    data: []
-  }
-}
+let initialState = {}
 
-export default function peoples(state = initialState, action = {}) {
+export default function people(state = initialState, action = {}) {
   switch (action.type) {
+
+    case 'SET_PEOPLE':
+      return merge({}, action.state, {})
 
     case 'SET_PEOPLE_LIST_BY_NAME':
       var { name, data } = action
       state[name] = data
       return merge({}, state, {})
 
-    /*
-    // 添加新的列表
-    case 'SET_PEOPLE_LIST':
-      var { name, filters, data, loading, more } = action
-      state[name] = {
-        filters: filters,
-        data: data,
-        loading: loading,
-        more: more
+    case 'UPDATE_PEOPLE':
+      var { id, update } = action
+      for (let i in state) {
+        state[i].data.map(item => {
+          if (item._id == id) {
+            for (let i in update) item[i] = update[i]
+          }
+        })
       }
       return merge({}, state, {})
-    */
 
     // 添加单个人到other
     case 'ADD_PEOPLE':
@@ -39,8 +36,8 @@ export default function peoples(state = initialState, action = {}) {
       var { peopleId, followStatus, selfId } = action
 
       for (let i in state) {
-        let peoples = state[i].data
-        peoples.map((item)=>{
+        let people = state[i].data
+        people.map((item)=>{
           // 更新用户粉丝数量和状态
           if (item._id == peopleId) {
             item.fans_count += followStatus ? 1 : -1
@@ -65,31 +62,24 @@ export const getPeopleListByName = (state, name)=>{
   return state.people[name] ? state.people[name] : {}
 }
 
-export function getPeoples(state, name) {
-  return state.peoples[name] ? state.peoples[name].data : []
-}
+export const getPeopleById = (state, id) => {
 
-export function getLoading(state, name) {
-  return state.peoples[name] ? state.peoples[name].loading : true
-}
+  let list = state.people;
 
-export function getMore(state, name) {
-  return state.peoples[name] ? state.peoples[name].more : true
-}
+  for (let i in list) {
+    if (i == id) {
+      return list[i].data[0];
+    }
+  }
 
-// 获取agents
-export function getPeopleById(state, id) {
-
-  let peopleList = state.people
-
-  for (let i in peopleList) {
-    let peoples = peopleList[i].data
+  for (let i in list) {
+    let peoples = list[i].data;
     for (let n = 0, max = peoples.length; n < max; n++) {
       if (peoples[n]._id == id) {
-        return [peoples[n]]
+        return peoples[n]
       }
     }
   }
 
-  return []
+  return null
 }

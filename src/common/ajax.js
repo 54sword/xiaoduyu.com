@@ -1,114 +1,81 @@
 
 import config from '../../config'
-import errors from '../../config/errors'
+// import errors from '../../config/errors'
 import axios from 'axios'
+// import Promise from 'promise'
 
-const converterErrorInfo = (res) => {
-
-  if (res.error) {
-    res._error = res.error
-    if (typeof(res.error) == 'number') {
-      res.error = errors[res.error] || '未知错误: '+res.error
-    } else {
-      for (let i in res.error) {
-        res.error[i] = errors[res.error[i]] || '未知错误: '+res.error[i]
-      }
-    }
-  }
-
-  // 参数替换
-  if (res.error_data) {
-
-    if (typeof(res.error) == 'string') {
-      res.error = res.error.format(res.error_data);
-    } else if (typeof(res.error) == 'object') {
-      for (let i in res.error) {
-        res.error[i] = errors[res.error[i]] || '未知错误: '+res.error[i]
-        res.error[i] = res.error[i].format(res.error_data);
-      }
-    }
-
-  }
-
-  return res
-
-}
-
-const AJAX = ({ api_url = '', url = '', type = 'get', params = {}, data = {}, headers = {}, callback = ()=>{} }) => {
+const AJAX = ({
+    domain = config.api_url,
+    apiVerstion = '/' + config.api_verstion,
+    url = '',
+    type = 'get',
+    data = {},
+    headers = {}
+  }) => {
 
   let option = {
-    url: config.api_url + '/' + config.api_verstion + url,
-    method: type
+    url: domain + apiVerstion + url,
+    method: type,
+    dataType : 'json'
   }
 
-  if (!api_url) option.url = config.api_url + '/' + config.api_verstion + url
-  if (api_url) option.url = api_url + url
-
   if (type == 'get') {
-    params._t = new Date().getTime()
-    option.params = params
+    data._t = new Date().getTime()
+    // data._t = parseInt(new Date().getTime()/8000)
+    option.params = JSON.stringify(data)
   } else if (type == 'post') {
     option.data = data
   }
 
-  // let token
-
   if (headers && headers.AccessToken) {
     option.headers = headers
-    // token = headers.AccessToken
   }
 
-  if (type == 'post' && headers.AccessToken) {
-    option.data.access_token = headers.AccessToken
-    // token = option.data.access_token
-    delete option.headers
-  }
+  // headers['Accept'] = "application/json"
+  // headers['Content-Type'] = "application/json"
+  headers['Role'] = "admin"
 
-  // console.log(option);
-  // console.log(token);
-  if (config.debug && console.debug) console.debug('请求: ', option)
+  // if (type == 'post' && headers.AccessToken) {
+  //   option.data.access_token = headers.AccessToken
+  //   delete option.headers
+  // }
+
+
+  if (typeof __DEV__ != 'undefined' && __DEV__) {
+    console.debug('[发起' + option.method  + '请求] '+option.url, data)
+    // console.debug('[参数]', data)
+  }
 
   return axios(option).then(resp => {
-    if (config.debug && console.debug) console.debug('返回: ', resp)
+    if (typeof __DEV__ != 'undefined' && __DEV__) console.debug('[结果] '+option.url, resp.data)
 
     if (resp && resp.data) {
       let res = resp.data
-      res = converterErrorInfo(res)
-      callback(res)
+      // res = converterErrorInfo(res)
+      // resolve(res)
+      return res
     } else {
-      callback(null)
+      return null
+      // reject(null)
     }
 
   })
   .catch(function (error) {
-    if (config.debug && console.debug) console.error('返回: ', error)
+    if (typeof __DEV__ != 'undefined' && __DEV__) console.warn('[结果] '+option.url, error.response.data)
 
     if (error && error.response && error.response.data) {
-
-      /*
-      if (error.response.status == 401 && option.data.access_token) {
-        AJAX({
-          url: '/exchange-new-token',
-          type: 'post',
-          data: { access_token: option.data.access_token },
-          callback: (res)=>{
-            console.log('执行到了这了');
-            // console.log(res);
-            callback(null)
-          }
-        })
-        return
-      }
-      */
-
-      let res = error.response.data
-      res = converterErrorInfo(res)
-      callback(res)
+      // let res = error.response.data
+      // res = converterErrorInfo(res)
+      return error.response.data
+      // resolve(res)
     } else {
-      callback(null)
+      return null
+      // reject(null)
     }
 
-  });
+  })
+
+  // })
 }
 
 export default AJAX

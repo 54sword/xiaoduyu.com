@@ -1,5 +1,29 @@
 
 import Ajax from '../common/ajax'
+import graphql from './common/graphql'
+
+export const oAuthUnbinding = ({ args }) => {
+  return (dispatch, getState) => {
+  return new Promise(async resolve => {
+
+    let [ err, res ] = await graphql({
+      type: 'mutation',
+      api: 'oAuthUnbinding',
+      args,
+      fields: `success`,
+      headers: { accessToken: getState().user.accessToken }
+    });
+
+    if (err) {
+      resolve([err])
+    } else {
+      resolve([null, res])
+    }
+
+  })
+  }
+}
+
 
 export function unbindingQQ({ callback }) {
   return (dispatch, getState) => {

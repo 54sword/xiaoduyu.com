@@ -1,0 +1,17 @@
+.hover{
+  span:nth-child(1){
+    display: inherit;
+  }
+  span:nth-child(2){
+    display: none;
+  }
+
+  &:hover{
+    span:nth-child(1){
+      display: none;
+    }
+    span:nth-child(2){
+      display: inherit;
+    }
+  }
+}
