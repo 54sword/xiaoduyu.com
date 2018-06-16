@@ -91,12 +91,13 @@ export const loadUserInfo = ({ accessToken = null }) => {
         qq
         github
         phone
+        area_code
         find_notification_at
         last_find_posts_at
         `,
         headers: { accessToken }
       });
-
+      
       if (err) {
         resolve([err])
       } else {

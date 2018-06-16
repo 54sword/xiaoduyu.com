@@ -17,30 +17,34 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
 
     constructor() {
       super();
+      this.updateState = this.updateState.bind(this);
       this.state = { Component }
     }
+    
+    componentWillMount() {
+      if (typeof window == 'undefined' || typeof document == 'undefined') return;
+      asyncComponent.load().then(this.updateState);
+    }
 
-    componentDidMount() {
-      // 客户端加载异步组件
-      const self = this;
-      asyncComponent.load().then(()=>{
-        if (self.state.Component !== Component) {
-          self.setState({ Component });
-        }
-      });
+    updateState() {
+      if (this.state.Component !== Component) {
+        this.setState({
+          Component,
+        });
+      }
     }
 
     render() {
-
       const { Component } = this.state;
 
       if (Component) return <Component {...this.props} />;
+
       if (Placeholder) {
         return <Placeholder {...this.props} />;
       } else {
         return <Loading text="组件装载中..." />;
       }
-
     }
+
   }
 }

@@ -55,13 +55,13 @@ app.use('/sign', sign());
 app.get('*', async (req, res) => {
 
   const store = configureStore(JSON.parse(initialStateJSON));
-  
+
   let user = null, err;
   let accessToken = req.cookies[auth_cookie_name] || '';
 
   // 验证 token 是否有效
   if (accessToken) {
-
+    
     [ err, user ] = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
 
     // 如果是拉黑的用户，阻止登陆，并提示

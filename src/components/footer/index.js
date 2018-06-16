@@ -26,7 +26,7 @@ export class Footer extends React.Component {
     });
 
   }
-
+  
   top() {
     $('body,html').animate({
       scrollTop: 0
@@ -35,6 +35,7 @@ export class Footer extends React.Component {
 
   render() {
     return(<div styleName="main">
+
       <span className="d-none d-lg-block">
         <a id="back-to-top"
            href="javascript:void(0)"
@@ -44,9 +45,9 @@ export class Footer extends React.Component {
       </span>
 
       <Bundle load={() => import('../global')}>
-      {(Global) => {
-        return (<Global />)
-      }}
+        {(Global) => {
+          return (<Global />)
+        }}
       </Bundle>
 
     </div>)

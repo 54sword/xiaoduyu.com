@@ -4,7 +4,9 @@ import merge from 'lodash/merge'
 let initialState = {
   profile: {},
   accessToken: '',
-  expires: 0
+  expires: 0,
+  // 身份验证后，获取的解锁token
+  unlockToken: ''
 }
 
 export default function user(state = initialState, action = {}) {
@@ -20,9 +22,13 @@ export default function user(state = initialState, action = {}) {
       state.accessToken = ''
       state.expires = 0
       return state
-      
+
     case 'SET_USER':
       state.profile = action.userinfo
+      return merge({}, state, {})
+
+    case 'ADD_UNLOCK_TOKEN':
+      state.unlockToken = action.unlockToken
       return merge({}, state, {})
 
     default:
@@ -48,3 +54,6 @@ exports.getProfile = (state) => {
 
 // 获取 access token
 exports.getAccessToken = (state) => state.user.accessToken
+
+// 获取用户身份解锁token
+exports.getUnlockToken = (state) => state.user.unlockToken

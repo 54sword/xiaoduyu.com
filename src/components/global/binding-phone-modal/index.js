@@ -1,23 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 // import PropTypes from 'prop-types'
+import { reactLocalStorage } from 'reactjs-localstorage';
 
 // redux
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { loadUserInfo } from '../../../actions/user'
-import { addPhone } from '../../../actions/phone'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { loadUserInfo } from '../../../actions/user';
+import { addPhone } from '../../../actions/phone';
+import { getProfile } from '../../../reducers/user';
 
 // components
-import CaptchaButton from '../../captcha-button'
-import CountriesSelect from '../../countries-select'
-import Modal from '../../bootstrap/modal'
+import CaptchaButton from '../../captcha-button';
+import CountriesSelect from '../../countries-select';
+import Modal from '../../bootstrap/modal';
 
 // styles
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
 @connect(
   (state, props) => ({
+    me: getProfile(state)
   }),
   dispatch => ({
     addPhone: bindActionCreators(addPhone, dispatch),
@@ -39,6 +42,36 @@ class BindingPhone extends Component {
     }
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
+  }
+
+  componentDidMount() {
+
+    const { me } = this.props;
+
+    /**
+     * 如果是登陆用户，没有绑定手机号，每三天提醒一次绑定手机号
+     */
+    if (me && !me.phone) {
+
+      let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
+      let nowTimestamps = new Date().getTime();
+
+      if (nowTimestamps - timestamps > 1000 * 60 * 60 * 24 * 2) {
+
+        reactLocalStorage.set('binding-phone-tips', nowTimestamps);
+
+        setTimeout(()=>{
+
+          $('#binding-phone').modal({
+            show: true
+          }, {});
+
+        }, 3000);
+
+      }
+
+    }
+
   }
 
   async submit() {
@@ -74,6 +107,9 @@ class BindingPhone extends Component {
         duration: 3000,
         backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
       }).showToast();
+
+      loadUserInfo({});
+      $(`#binding-phone`).modal('hide');
 
     }
 

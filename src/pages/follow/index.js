@@ -12,7 +12,7 @@ import { getProfile } from '../../reducers/user';
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
-// import Sidebar from '../../components/sidebar';
+import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
 
 
@@ -114,6 +114,7 @@ export class Follow extends React.Component {
 
       <Meta title="关注" />
 
+
       <NewPostsButton />
 
       {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
@@ -123,11 +124,13 @@ export class Follow extends React.Component {
         filters={general}
         scrollLoad={true}
         />
+
       {/*
       <div className="container">
         <div className="row">
           <div className="col-md-9">
             <NewPostsButton />
+            {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
             <PostsList
               id={'follow'}
               filters={general}
@@ -146,6 +149,7 @@ export class Follow extends React.Component {
         </div>
       </div>
       */}
+
 
     </div>)
   }

@@ -10,7 +10,7 @@ import Sign from '../sign';
 import EditorModalComment from './editor-comment-modal';
 import ReportModal from './report-modal';
 import BindingPhone from './binding-phone-modal';
-
+import UnlockToken from './unlock-token-modal';
 
 @connect(
   (state, props) => ({
@@ -35,6 +35,7 @@ class Global extends Component {
         {me ? <EditorModalComment /> : null}
         {me ? <ReportModal /> : null}
         {me ? <BindingPhone /> : null}
+        {me ? <UnlockToken /> : null}
       </div>)
   }
 }

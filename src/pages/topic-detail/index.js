@@ -12,7 +12,7 @@ import { getTopicListByKey } from '../../reducers/topic';
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
-// import Sidebar from '../../components/sidebar';
+import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
 import Follow from '../../components/follow';
 
@@ -172,10 +172,18 @@ export class TopicsDetail extends React.Component {
     super(props)
   }
 
+  componentWillMount() {
+    // 服务端渲染，404内容显示处理
+    const { topicList, notFoundPgae } = this.props;
+    if (topicList && topicList.data && !topicList.data[0]) {
+      notFoundPgae('话题不存在')
+    }
+  }
+
   componentDidMount() {
 
-    const { topicList, loadTopics } = this.props
-    const { id } = this.props.match.params
+    const { topicList, loadTopics } = this.props;
+    const { id } = this.props.match.params;
 
     if (!topicList) {
       loadTopics({
@@ -249,27 +257,29 @@ export class TopicsDetail extends React.Component {
         </div>
         : null}
 
-      {topic.parent_id ?
-        <NewPostsButton />
-        : null}
+        {topic.parent_id ?
+          <NewPostsButton />
+          : null}
 
-      <PostsList
-        id={pathname + search}
-        filters={general}
-        scrollLoad={true}
-        />
+        <PostsList
+          id={pathname + search}
+          filters={general}
+          scrollLoad={true}
+          />
 
       {/*
       <div className="container">
 
       <div className="row">
         <div className="col-md-9">
+
           <NewPostsButton />
           <PostsList
             id={pathname + search}
             filters={general}
             scrollLoad={true}
             />
+
         </div>
         <div className="col-md-3">
           <Sidebar

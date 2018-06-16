@@ -21,7 +21,7 @@ var device = (function() {
   };
 
   Device.prototype.getCurrentDeviceId = function() {
-
+    
     // 如果是服务器，那么就不存在 window 和 document 全局变量，因此不继续执行
     if (typeof window == 'undefined' || typeof document == 'undefined') {
       return 1

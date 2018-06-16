@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 // import Loadable from 'react-loadable';
 
 // redux
@@ -20,6 +20,12 @@ import { Countdown } from '../../common/date';
 // styles
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
+
+const Topic = ({ match }) => (
+  <div>
+    <h3>{match.params.topicId}</h3>
+  </div>
+);
 
 @connect(
   (state, props) => ({
@@ -77,133 +83,106 @@ export class Settings extends Component {
     }
 
     // 邮箱
-    let email = ''
-
-    // 重置邮箱
-    if (me.email) {
-      email = (<Link className="list-group-item" to="/settings/email">
+    let email = (<Link className="list-group-item" to="/settings/email">
           <div className="d-flex justify-content-between">
             <span>邮箱</span>
-            <span>{me.email}</span>
+            <span>{me.email || '未绑定'}</span>
           </div>
-        </Link>)
-    }
+        </Link>);
 
-    if (!me.email) {
-      email = (<Link className="list-group-item" to="/settings/binding-email">
-          <div className="d-flex justify-content-between">
-            <span>邮箱</span>
-            <span>未绑定</span>
-          </div>
-        </Link>)
-    }
-
-    let phone = ''
-
-    if (me.phone) {
-      phone = (<Link className="list-group-item" to="/settings/binding-phone">
-          <div className="d-flex justify-content-between">
-            <span>手机号</span>
-            <span>{me.phone}</span>
-          </div>
-        </Link>)
-    }
-
-    if (!me.phone) {
-      phone = (<Link className="list-group-item" to="/settings/binding-phone">
-          <div className="d-flex justify-content-between">
-            <span>手机号</span>
-            <span>未绑定</span>
-          </div>
-        </Link>)
-    }
+    let phone = (<Link className="list-group-item" to="/settings/binding-phone">
+        <div className="d-flex justify-content-between">
+          <span>手机号</span>
+          <span>{me.phone || '未绑定'}</span>
+        </div>
+      </Link>);
 
     return (
       <div>
         <Meta title='设置' />
         <div styleName="main">
 
-            <div className="list-group mb-2">
-              <Link className="list-group-item" to="/settings/avatar">
+          <div className="list-group mb-2">
+            <Link className="list-group-item" to="/settings/avatar">
+              <div className="d-flex justify-content-between">
+                <span>头像</span>
+                <span>
+                  <img src={me.avatar_url} styleName="avatar" />
+                </span>
+              </div>
+            </Link>
+            {resetNickname}
+            <Link className="list-group-item" to="/settings/gender">
+              <div className="d-flex justify-content-between">
+                <span>性别</span>
+                <span>{typeof me.gender != 'undefined' ? (me.gender == 1 ? '男' : '女') : ''}</span>
+              </div>
+            </Link>
+            <Link className="list-group-item" to="/settings/brief">
+              <div className="d-flex justify-content-between">
+                <span>个性签名</span>
+                <span>{me.brief}</span>
+              </div>
+            </Link>
+          </div>
+
+          <div className="list-group mb-2">
+            {me.email ? <Link className="list-group-item" to="/settings/password">修改密码</Link> : null}
+          </div>
+
+          <div className="list-group mb-2">
+            {email}
+            {phone}
+            <Link className="list-group-item" to="/settings/oauth/qq">
+              <div className="d-flex justify-content-between">
+                <span>QQ</span>
+                <span>{me.qq ? '已绑定' : '未绑定' }</span>
+              </div>
+            </Link>
+            <Link className="list-group-item" to="/settings/oauth/weibo">
+              <div className="d-flex justify-content-between">
+                <span>微博</span>
+                <span>{me.weibo ? '已绑定' : '未绑定' }</span>
+              </div>
+            </Link>
+            <Link className="list-group-item" to="/settings/oauth/github">
+              <div className="d-flex justify-content-between">
+                <span>GitHub</span>
+                <span>{me.github ? '已绑定' : '未绑定' }</span>
+              </div>
+            </Link>
+          </div>
+
+          <div className="list-group mb-2">
+
+            {me.block_people_count > 0 ?
+              <Link className="list-group-item" to="/block/peoples">
                 <div className="d-flex justify-content-between">
-                  <span>头像</span>
-                  <span>
-                    <img src={me.avatar_url} styleName="avatar" />
-                  </span>
+                  <span>你不感兴趣的用户</span>
+                  <span>{me.block_people_count} 个人</span>
                 </div>
               </Link>
-              {resetNickname}
-              <Link className="list-group-item" to="/settings/gender">
+              : null}
+
+            {me.block_posts_count > 0 ?
+              <Link className="list-group-item" to="/block/posts">
                 <div className="d-flex justify-content-between">
-                  <span>性别</span>
-                  <span>{typeof me.gender != 'undefined' ? (me.gender == 1 ? '男' : '女') : ''}</span>
+                  <span>你不感兴趣的帖子</span>
+                  <span>{me.block_posts_count} 个帖子</span>
                 </div>
               </Link>
-              <Link className="list-group-item" to="/settings/brief">
+              : null}
+
+            {me.block_comment_count > 0 ?
+              <Link className="list-group-item" to="/block/comments">
                 <div className="d-flex justify-content-between">
-                  <span>个性签名</span>
-                  <span>{me.brief}</span>
+                  <span>你不感兴趣的评论</span>
+                  <span>{me.block_comment_count} 个评论</span>
                 </div>
               </Link>
-            </div>
+              : null}
 
-            <div className="list-group mb-2">
-              {me.email ? <Link className="list-group-item" to="/settings/password">修改密码</Link> : null}
-            </div>
-
-            <div className="list-group mb-2">
-              {email}
-              {phone}
-              <Link className="list-group-item" to="/settings/oauth/qq">
-                <div className="d-flex justify-content-between">
-                  <span>QQ</span>
-                  <span>{me.qq ? '已绑定' : '未绑定' }</span>
-                </div>
-              </Link>
-              <Link className="list-group-item" to="/settings/oauth/weibo">
-                <div className="d-flex justify-content-between">
-                  <span>微博</span>
-                  <span>{me.weibo ? '已绑定' : '未绑定' }</span>
-                </div>
-              </Link>
-              <Link className="list-group-item" to="/settings/oauth/github">
-                <div className="d-flex justify-content-between">
-                  <span>GitHub</span>
-                  <span>{me.github ? '已绑定' : '未绑定' }</span>
-                </div>
-              </Link>
-            </div>
-
-            <div className="list-group mb-2">
-
-              {me.block_people_count > 0 ?
-                <Link className="list-group-item" to="/block/peoples">
-                  <div className="d-flex justify-content-between">
-                    <span>你不感兴趣的用户</span>
-                    <span>{me.block_people_count} 个人</span>
-                  </div>
-                </Link>
-                : null}
-
-              {me.block_posts_count > 0 ?
-                <Link className="list-group-item" to="/block/posts">
-                  <div className="d-flex justify-content-between">
-                    <span>你不感兴趣的帖子</span>
-                    <span>{me.block_posts_count} 个帖子</span>
-                  </div>
-                </Link>
-                : null}
-
-              {me.block_comment_count > 0 ?
-                <Link className="list-group-item" to="/block/comments">
-                  <div className="d-flex justify-content-between">
-                    <span>你不感兴趣的评论</span>
-                    <span>{me.block_comment_count} 个评论</span>
-                  </div>
-                </Link>
-                : null}
-
-            </div>
+          </div>
 
         </div>
       </div>

@@ -140,16 +140,7 @@ class EditorPosts extends React.Component {
     let self = this
     let { title } = this.refs
     let { addPosts, updatePosts } = this.props
-    const { loading, _id, topic, contentStateJSON, contentHTML, type, successCallback, editorElement } = this.state
-
-    if (!this.checkUpload()) {
-      Toastify({
-        text: '有图片上传中，请等待上传完成后再提交',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #0988fe, #1c75fb)'
-      }).showToast();
-      return;
-    }
+    const { loading, _id, topic, contentStateJSON, contentHTML, type, successCallback, editorElement } = this.state;
 
     if (loading) return
     if (!topic) return alert('您还未选择话题')

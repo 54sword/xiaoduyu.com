@@ -27,5 +27,5 @@ const fn = (api) => {
   }
 }
 
-exports.updatePhone = fn('updatePhone');
+// exports.updatePhone = fn('updatePhone');
 exports.addPhone = fn('addPhone');

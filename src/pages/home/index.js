@@ -8,7 +8,7 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 // import Sidebar from '../../components/sidebar';
-// import Bundle from '../../components/bundle';
+import Bundle from '../../components/bundle';
 import NewPostsButton from '../../components/new-posts-button';
 
 // style
@@ -103,18 +103,19 @@ export class Home extends React.Component {
               scrollLoad={true}
               />
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3 d-none">
 
-          <Bundle load={() => import('../../components/sidebar')}>
-            {(Sidebar) => {
-              return (<Sidebar recommendPostsDom={<PostsList id={'_home'} itemName="posts-item-title" filters={recommend} />} />)
-            }}
-          </Bundle>
+            <Bundle load={() => import('../../components/sidebar')}>
+              {(Sidebar) => {
+                return (<Sidebar recommendPostsDom={<PostsList id={'_home'} itemName="posts-item-title" filters={recommend} />} />)
+              }}
+            </Bundle>
 
           </div>
         </div>
       </div>
       */}
+
 
     </div>)
   }

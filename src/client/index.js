@@ -3,19 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import ReactGA from 'react-ga';
-import { reactLocalStorage } from 'reactjs-localstorage';
 
 import configureStore from '../store';
 import createRouter from '../router';
 import startSocket from '../socket';
-
-
-// components
-// import Sign from '../components/sign';
-// import EditorModalComment from '../components/global/editor-comment-modal';
-// import ReportModal from '../components/global/report-modal';
-// import BindingPhone from '../components/global/binding-phone-modal';
-
 
 import { debug, GA } from '../../config';
 
@@ -31,22 +22,22 @@ import '../pages/global.scss';
 
 // https://github.com/apvarun/toastify-js
 // Toastify 全局的轻消息
-import '../vendors/toastify-js/toastify.js'
-import '../vendors/toastify-js/toastify.css'
+import '../vendors/toastify-js/toastify.js';
+import '../vendors/toastify-js/toastify.css';
 
 // 网页图片浏览器
 // WebPictureViewer(['https://avatars3.githubusercontent.com/u/888115?v=3&s=40']);
-import '../vendors/web-picture-viewer.js'
+import '../vendors/web-picture-viewer.js';
 
 // ArriveFooter 监听抵达页尾的事件
-import '../vendors/arrive-footer.js'
+import '../vendors/arrive-footer.js';
 
 /**
  * 懒加载图片、Dom
  * 使用方式
  * 给dom添加class="load-demand"、data-load-demand="<div></div> or <img />"
  **/
-import '../vendors/load-demand'
+import '../vendors/load-demand';
 
 
 // [todo]
@@ -57,14 +48,16 @@ import '../vendors/load-demand'
 //   console.log("Don't support serviceWorker")
 // }
 
-
-
 // 从页面中获取服务端生产redux数据，作为客户端redux初始值
 const store = configureStore(window.__initState__);
 
 import { getProfile } from '../reducers/user';
+import { getUnlockTokenByCookie } from '../actions/unlock-token';
 
 let userinfo = getProfile(store.getState());
+
+// 从cookie中获取unlock token，并添加到redux
+getUnlockTokenByCookie()(store.dispatch, store.getState);
 
 let logPageView = ()=>{};
 
@@ -80,11 +73,11 @@ if (GA) {
 
 const RouterDom = createRouter(userinfo, logPageView).dom;
 
-if (__DEV__) {
+// if (__DEV__) {
   // 开发模式下，首屏内容会使用服务端渲染的html代码，
   // 而热更新代码是客户端代码，清空app里面的html，强制用客户端的代码作为显示
-  document.getElementById('app').innerHTML = ''
-}
+  // document.getElementById('app').innerHTML = ''
+// }
 
 startSocket(store);
 
@@ -95,28 +88,3 @@ ReactDOM.hydrate((
     </BrowserRouter>
   </Provider>
 ), document.getElementById('app'));
-
-
-/**
- * 如果是登陆用户，没有绑定手机号，每三天提醒一次绑定手机号
- */
-if (userinfo && !userinfo.phone) {
-
-  let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
-  let nowTimestamps = new Date().getTime();
-
-  if (nowTimestamps - timestamps > 1000 * 60 * 60 * 24 * 2) {
-
-    reactLocalStorage.set('binding-phone-tips', nowTimestamps);
-
-    setTimeout(()=>{
-
-      $('#binding-phone').modal({
-        show: true
-      }, {});
-
-    }, 3000);
-
-  }
-
-}

@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { withRouter } from 'react-router';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { forgot } from '../../actions/forgot';
-// import { sendEmailCaptcha, resetPasswordByCaptcha } from '../../actions/account';
-// import { addCaptcha }  from '../../actions/captcha';
-// import { signin } from '../../actions/sign';
 
 // components
 import Shell from '../../components/shell';
@@ -16,12 +12,11 @@ import Meta from '../../components/meta';
 import CaptchaButton from '../../components/captcha-button';
 
 
+@withRouter
 @connect(
   (state, props) => ({
   }),
   dispatch => ({
-    // sendEmailCaptcha: bindActionCreators(sendEmailCaptcha, dispatch),
-    // resetPasswordByCaptcha: bindActionCreators(resetPasswordByCaptcha, dispatch),
     forgot: bindActionCreators(forgot, dispatch)
   })
 )
@@ -57,7 +52,27 @@ export class Forgot extends Component {
       args.phone = account.value;
     }
 
-    await forgot({ args });
+    let [ err, res ] = await forgot({ args });
+
+    if (err) {
+      Toastify({
+        text: err.message,
+        duration: 3000,
+        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+      }).showToast();
+    } else if (res && res.success) {
+      
+      Toastify({
+        text: '修改成功，请登陆',
+        duration: 7000,
+        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+      }).showToast();
+      this.props.history.push(`/`);
+
+      setTimeout(()=>{
+        $('#sign').modal({ show: true }, { 'data-type': 'sign-in' });
+      }, 500);
+    }
 
     return false;
   }
@@ -105,26 +120,6 @@ export class Forgot extends Component {
           </div>
           <button type="submit" className="btn btn-primary">提交</button>
         </form>
-
-        {/*
-        <div className="container">
-
-          <div className="list">
-            <input type="text" placeholder="请输入你的注册手机号或邮箱" ref="account" />
-            <input type="text" placeholder="输入验证码" ref="captcha" />
-            <div>
-              <CaptchaButton onClick={this.sendCaptcha} />
-            </div>
-            <input type="password" placeholder="新密码" ref="newPassword" />
-            <input type="password" placeholder="重复新密码" ref="confirmNewPassword" />
-          </div>
-
-          <div className="list">
-            <input type="submit" className="button center" onClick={this.submit} value="提交" />
-          </div>
-
-        </div>
-        */}
 
       </div>
     )

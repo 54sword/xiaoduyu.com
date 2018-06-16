@@ -14,6 +14,8 @@ export const forgot = ({ args }) => {
         `
       });
 
+      resolve([ err, res ]);
+      
     })
   }
 }
