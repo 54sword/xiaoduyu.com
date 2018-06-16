@@ -1,6 +1,6 @@
 {
   "name": "xiaoduyu.com",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "React 同构脚手架（内置基础的网站功能，让大家更快上手）",
   "scripts": {
     "dev": "NODE_ENV=development __NODE__=false BABEL_ENV=server webpack --progress --colors --config webpack.development.config.js && NODE_ENV=development __NODE__=true BABEL_ENV=server node src/server ",
