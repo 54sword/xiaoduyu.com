@@ -38,7 +38,7 @@ class StringToColor {
       }
       return hash;
     };
-
+    
     return StringToColor.intToRGB(hashCode(str));
   }
 
@@ -78,10 +78,9 @@ export class PeopleDetailHead extends React.Component {
         }
       })(store.dispatch, store.getState);
 
-
       // 没有找到帖子，设置页面 http code 为404
-      if (err || data.length == 0) {
-        resolve({ code: 404 });
+      if (err || !data || data.length == 0) {
+        resolve({ code: 404, text: '该用户不存在' });
       } else {
         resolve({ code: 200 });
       }
@@ -94,29 +93,24 @@ export class PeopleDetailHead extends React.Component {
     this.state = {}
   }
 
-  componentWillMount() {
-    // 服务端渲染，404内容显示处理
-    const { list, notFoundPgae } = this.props;
-    if (list && list.data && !list.data[0]) {
-      notFoundPgae('该用户不存在')
-    }
-  }
-
   async componentDidMount() {
 
-    const { id, loadPeopleList, list, notFoundPgae } = this.props;
+    let { id, loadPeopleList, list, notFoundPgae } = this.props;
+    let err;
 
     if (!list || !list.data) {
 
-      await loadPeopleList({
+      [ err, list ] = await loadPeopleList({
         name:id,
         filters: {
           variables: { _id: id, blocked: false }
         }
       });
 
-      this.componentWillMount();
+    }
 
+    if (list && list.data && !list.data[0]) {
+      notFoundPgae('该用户不存在');
     }
 
   }

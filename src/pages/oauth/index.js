@@ -7,6 +7,7 @@ import { saveSignInCookie } from '../../actions/sign';
 
 // components
 import Shell from '../../components/shell';
+import Meta from '../../components/meta';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -30,10 +31,10 @@ class OAuth extends Component {
 
     const { access_token = '', expires = 0, landing_page = '/' } = this.props.location.params;
     const { saveSignInCookie } = this.props;
-
+    
     if (access_token) {
       let [ err, res ] = await saveSignInCookie({ access_token });
-      
+
       if (res && res.success) {
         window.location.href = landing_page;
       } else {
@@ -48,7 +49,10 @@ class OAuth extends Component {
   }
 
   render() {
-    return (<div styleName="container">登录跳转中...</div>)
+    return (<div styleName="container">
+      <Meta title="登陆中..." />
+      登录跳转中...
+    </div>)
   }
 
 }

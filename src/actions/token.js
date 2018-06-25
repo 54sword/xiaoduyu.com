@@ -1,7 +1,5 @@
 import Ajax from '../common/ajax'
 import cookie from 'react-cookie'
-// console.log(cookie);
-
 import { auth_cookie_name } from '../../config'
 
 export function addAccessToken({ access_token, expires }) {

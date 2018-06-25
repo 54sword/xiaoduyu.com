@@ -1,4 +1,3 @@
-import Ajax from '../common/ajax'
 
 export function setOnlineUserCount(count) {
   return (dispatch, getState) => {

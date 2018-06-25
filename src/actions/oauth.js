@@ -1,6 +1,5 @@
-
-import Ajax from '../common/ajax'
-import graphql from './common/graphql'
+import Ajax from '../common/ajax';
+import graphql from '../common/graphql';
 
 export const oAuthUnbinding = ({ args }) => {
   return (dispatch, getState) => {

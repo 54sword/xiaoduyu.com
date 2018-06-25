@@ -1,7 +1,8 @@
 import React from 'react';
 
 // components
-import Bundle from '../bundle';
+// import Bundle from '../bundle';
+import { AsyncComponent } from '../generate-async-component';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -26,7 +27,7 @@ export class Footer extends React.Component {
     });
 
   }
-  
+
   top() {
     $('body,html').animate({
       scrollTop: 0
@@ -44,11 +45,11 @@ export class Footer extends React.Component {
            ></a>
       </span>
 
-      <Bundle load={() => import('../global')}>
+      <AsyncComponent load={() => import('../global')}>
         {(Global) => {
           return (<Global />)
         }}
-      </Bundle>
+      </AsyncComponent>
 
     </div>)
   }

@@ -1,5 +1,5 @@
 
-import graphql from './common/graphql'
+import graphql from '../common/graphql';
 
 export const forgot = ({ args }) => {
   return (dispatch, getState) => {
@@ -15,7 +15,7 @@ export const forgot = ({ args }) => {
       });
 
       resolve([ err, res ]);
-      
+
     })
   }
 }

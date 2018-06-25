@@ -1,5 +1,5 @@
 
-import graphql from './common/graphql';
+import graphql from '../common/graphql';
 import loadList from './common/new-load-list';
 
 export const loadBlockList = ({ id, args, select, restart }) => {

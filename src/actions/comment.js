@@ -1,8 +1,6 @@
-
 import { DateDiff } from '../common/date';
-
 import loadList from './common/new-load-list';
-import graphql from './common/graphql';
+import graphql from '../common/graphql';
 
 const processCommentList = (list) => {
   list.map(item=>{

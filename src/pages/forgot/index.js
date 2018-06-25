@@ -61,7 +61,7 @@ export class Forgot extends Component {
         backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
       }).showToast();
     } else if (res && res.success) {
-      
+
       Toastify({
         text: '修改成功，请登陆',
         duration: 7000,

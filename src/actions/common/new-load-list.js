@@ -1,5 +1,5 @@
 
-import grapgQLClient from '../../common/grapgql-client'
+import grapgQLClient from '../../common/graphql-client'
 import merge from 'lodash/merge'
 
 // 将参数对象转换成，GraphQL提交参数的格式
@@ -61,8 +61,6 @@ export default ({
       return
     }
 
-
-
     if (!Reflect.has(list, 'data')) list.data = []
     if (!Reflect.has(list, 'filters')) {
       if (!Reflect.has(filters, 'page_number')) filters.page_number = 1
@@ -91,8 +89,6 @@ export default ({
       }
     }`
 
-    // console.log(sql);
-
     let option = {
       query:sql,
       headers
@@ -100,9 +96,12 @@ export default ({
 
     let [ err, res ] = await grapgQLClient(option);
 
+    // console.log(err);
+    // console.log(res);
+
     if (err) {
       resolve([ err ]);
-      callback([ err]);
+      callback([ err ]);
       return
     }
 

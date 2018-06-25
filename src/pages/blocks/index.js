@@ -1,15 +1,9 @@
 import React from 'react';
 
-// redux
-
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import BlockList from '../../components/block/list';
-
-// style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
 
 export class Blocks extends React.Component {
 

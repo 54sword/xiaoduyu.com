@@ -1,5 +1,4 @@
-
-import graphql from './common/graphql'
+import graphql from '../common/graphql';
 
 const fn = (api) => {
   return ({ args = {}, fields = `success` }) => {
@@ -27,5 +26,4 @@ const fn = (api) => {
   }
 }
 
-// exports.updatePhone = fn('updatePhone');
 exports.addPhone = fn('addPhone');

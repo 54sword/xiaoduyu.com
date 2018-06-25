@@ -1,5 +1,5 @@
 import cookie from 'react-cookies';
-import graphql from './common/graphql';
+import graphql from '../common/graphql';
 
 export const getUnlockToken = ({ args }) => {
   return (dispatch, getState) => {
@@ -11,7 +11,7 @@ export const getUnlockToken = ({ args }) => {
         fields: `unlock_token`,
         headers: { accessToken: getState().user.accessToken }
       });
-      
+
       resolve([ err, res ]);
 
       if (res && res.unlock_token) {

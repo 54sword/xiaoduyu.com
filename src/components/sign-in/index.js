@@ -6,7 +6,7 @@ import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { signIn, hideSign } from '../../actions/sign'
+import { signIn } from '../../actions/sign'
 import { addCaptcha } from '../../actions/captcha'
 import { getCaptchaById } from '../../reducers/captcha'
 
@@ -103,7 +103,7 @@ export default class Signin extends Component {
   }
 
   toForgot () {
-    this.props.hideSign();
+    // this.props.hideSign();
     browserHistory.push('/forgot');
   }
 

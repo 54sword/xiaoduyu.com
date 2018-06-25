@@ -12,7 +12,6 @@ import { signIn, signUp } from '../../actions/sign'
 import CaptchaButton from '../captcha-button';
 import CountriesSelect from '../countries-select';
 
-
 // styles
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'

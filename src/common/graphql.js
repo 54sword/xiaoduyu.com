@@ -4,7 +4,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 import fetch from "node-fetch";
 
-import { graphql_url } from '../../../config';
+import { graphql_url } from '../../config';
 
 const client = new ApolloClient({
   // 如果开启ssrMode, fetchPolicy: 'network-only' 则会无效

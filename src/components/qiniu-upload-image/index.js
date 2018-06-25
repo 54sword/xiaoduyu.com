@@ -8,7 +8,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getQiNiuToken } from '../../actions/qiniu'
 
-import connectReudx from '../../common/connect-redux'
 import Loading from '../../components/loading'
 
 @connect(

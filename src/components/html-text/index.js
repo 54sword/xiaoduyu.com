@@ -43,7 +43,7 @@ const linkOptimization = (str) => {
       str = str.replace(item, id);
     });
   }
-  
+
   let linkReg = /(http:\/\/|https:\/\/|www\.|magnet\:\?xt\=)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
 
   let links = str.match(linkReg);
@@ -266,7 +266,7 @@ export class HTMLText extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
 
     const self = this;
     let { content, hiddenHalf } = this.props;
@@ -275,10 +275,13 @@ export class HTMLText extends Component {
       content = content.substr(0, parseInt(content.length/2));
     }
 
+    this.state.content = converVideo(content);
+
+    /*
     this.setState({
       content: converVideo(content)
     });
-
+    */
   }
 
   componentWillReceiveProps(props) {

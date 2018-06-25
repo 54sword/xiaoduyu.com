@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 // 生成异步加载组件
-import { asyncRouteComponent } from '../components/generateAsyncComponent.js';
-
+import { asyncRouteComponent } from '../components/generate-async-component.js';
 import Head from '../components/head';
 import Footer from '../components/footer';
+
+// console.log(AsyncComponent);
 
 // import GlobalComponents from '../components/global';
 // import Bundle from '../components/bundle';
@@ -15,7 +16,6 @@ import Footer from '../components/footer';
 // import EditorModalComment from '../components/global/editor-comment-modal';
 // import ReportModal from '../components/global/report-modal';
 // import BindingPhone from '../components/global/binding-phone-modal';
-
 
 /**
  * 创建路由

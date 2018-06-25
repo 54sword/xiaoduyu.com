@@ -11,10 +11,7 @@ import { isMember } from '../../reducers/user';
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-// import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';
-// import PostsList from '../../components/posts/list';
-// import PostsDetailC from '../../components/posts/detail';
 import HTMLText from '../../components/html-text';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
@@ -35,7 +32,6 @@ import styles from './style.scss';
 @CSSModules(styles)
 export class CommentDetail extends React.Component {
 
-  /*
   // 服务端渲染
   // 加载需要在服务端渲染的数据
   static loadData({ store, match }) {
@@ -43,8 +39,8 @@ export class CommentDetail extends React.Component {
 
       const { id } = match.params;
 
-      const [ err, data ] = await loadPostsList({
-        id: id,
+      const [ err, data ] = await loadCommentList({
+        name: 'single_'+id,
         filters: {
           variables: {
             _id: id,
@@ -54,29 +50,29 @@ export class CommentDetail extends React.Component {
         }
       })(store.dispatch, store.getState);
 
-      // 没有找到帖子，设置页面 http code 为404
-      if (err || data.length == 0) {
-        resolve({ code:404 });
-      } else {
+      if (data && data.data && data.data.length > 0) {
         resolve({ code:200 });
+      } else {
+        resolve({ code:404, text: '该评论不存在' });
       }
 
     })
   }
-  */
 
   constructor(props) {
     super(props);
   }
-
+  
   async componentDidMount() {
 
     const { id } = this.props.match.params;
 
-    const { list, loadList, notFoundPgae } = this.props;
+    let { list, loadList, notFoundPgae } = this.props;
+    let err;
 
     if (!list || !list.data) {
-      let [ err, res ] = await this.props.loadList({
+
+      [ err, list ] = await this.props.loadList({
         name:'single_'+id,
         filters: {
           variables: {
@@ -87,12 +83,11 @@ export class CommentDetail extends React.Component {
         }
       });
 
-      if (err || res && res.data && !res.data[0]) {
-        notFoundPgae('该帖子不存在');
-      }
-
     }
 
+    if (list && list.data && !list.data[0]) {
+      notFoundPgae('该评论不存在');
+    }
 
   }
 
@@ -104,18 +99,11 @@ export class CommentDetail extends React.Component {
 
     const { id } = this.props.match.params;
 
-    // 404 处理
-    // if (data && data.length == 0) {
-      // return '404 Not Found';
-    // }
-
-    if (loading || !comment) {
-      return <Loading />
-    }
+    if (loading || !comment) return <Loading />;
 
     return(<div>
 
-      {<Meta title={comment ? comment.posts_id.title : '加载中...'} />}
+      <Meta title={`${comment.posts_id.title} - ${comment.user_id.nickname}的评论`} />
 
       <div styleName="title">
         <Link to={`/posts/${comment.posts_id._id}`}>

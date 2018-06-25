@@ -1,10 +1,6 @@
-
-import Ajax from '../common/ajax'
-// import Promise from 'promise'
-import grapgQLClient from '../common/grapgql-client'
-
-// import loadList from './common/load-list'
-import loadList from './common/new-load-list'
+import Ajax from '../common/ajax';
+import grapgQLClient from '../common/graphql-client';
+import loadList from './common/new-load-list';
 
 export function addTopic({ filters, callback = ()=>{} }) {
   return async (dispatch, getState) => {
@@ -45,7 +41,6 @@ export function addTopic({ filters, callback = ()=>{} }) {
       headers: accessToken ? { 'AccessToken': accessToken, role: 'admin' } : null
     })
 
-    // if (err) return alert('提交失败')
   }
 }
 
@@ -97,25 +92,6 @@ export const updateTopic = ({ data = {} }) => {
       dispatch({ type: 'UPDATE_TOPIC', id: data._id, update: data })
     }
 
-    /*
-    const accessToken = getState().user.accessToken
-    return new Promise(async (resolve, reject) => {
-      Ajax({
-        url: '/topic/update',
-        type: 'post',
-        data,
-        headers: { AccessToken: accessToken }
-      }).then((res) => {
-        // 更新redux state
-        if (res && res.success && data.query && data.query._id) {
-          // 更新 redux state 里面，相同的topic的数据
-          dispatch({ type: 'UPDATE_TOPIC', id: data.query._id, update: data.update })
-        }
-        resolve(res)
-      }).catch(reject)
-    })
-    */
-
     })
   }
 }
@@ -163,7 +139,11 @@ export function unfollowTopic({ id, callback }) {
 
 
 export function loadTopics({ id, filters = {}, restart = false  }) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
+
+    // console.log(filters);
+    // console.log(dispatch);
+    // console.log(getState);
 
     if (!filters.select) {
       filters.select = `
@@ -210,7 +190,7 @@ export function loadTopics({ id, filters = {}, restart = false  }) {
       reducerName: 'topic',
       api: '/topic',
       actionType: 'SET_TOPIC_LIST_BY_NAME'
-    })
+    });
   }
 }
 
@@ -227,81 +207,5 @@ export function loadTopicById({ id, callback = ()=>{} }) {
       restart: true
     })(dispatch, getState)
 
-    /*
-    Ajax({
-      url: '/topic',
-      params: { topic_id: id },
-      callback: (res)=>{
-        if (res && res.success && res.data && res.data.length > 0) {
-          dispatch({ type: 'ADD_NODE', node: res.data[0] })
-          callback(res.data[0])
-        } else {
-          callback(null)
-        }
-
-      }
-    })
-    */
-
   }
 }
-
-
-/*
-export function loadTopics({ name, filters = {}, callback = ()=>{} }) {
-  return (dispatch, getState) => {
-
-    const accessToken = getState().user.accessToken
-    let list = getState().topic[name] || {}
-
-    if (typeof(list.more) != 'undefined' && !list.more || list.loading) return
-
-    if (!Reflect.has(list, 'data')) list.data = []
-
-    if (!Reflect.has(list, 'filters')) {
-
-      if (!Reflect.has(filters, 'query')) filters.query = {}
-      if (!Reflect.has(filters, 'select')) filters.select = { '__v': 0 }
-      if (!Reflect.has(filters, 'options')) filters.options = {}
-      if (!Reflect.has(filters.options, 'skip')) filters.options.skip = 0
-      if (!Reflect.has(filters.options, 'limit')) filters.options.limit = 15
-
-      list.filters = filters
-    } else {
-      // 如果以及存在筛选条件，那么下次请求，进行翻页
-      filters = list.filters
-      filters.options.skip += filters.options.limit
-    }
-
-    if (!Reflect.has(list, 'more')) list.more = true
-    // if (!Reflect.has(list, 'count')) list.count = 0
-    if (!Reflect.has(list, 'loading')) list.loading = true
-
-    dispatch({ type: 'SET_TOPIC_LIST_BY_NAME', name, data: list })
-
-    let headers = {}
-
-    if (accessToken) {
-      headers.AccessToken = accessToken
-    } else {
-      headers = null
-    }
-
-    return Ajax({ url: '/topic', data: filters, headers }).then((res)=>{
-
-      list.loading = false
-
-      if (res.success) {
-        list.more = res.data.length < filters.options.limit ? false : true
-        list.data = list.data.concat(res.data)
-        list.filters = filters
-        // list.count = 0
-      }
-
-      dispatch({ type: 'SET_TOPIC_LIST_BY_NAME', name, data: list })
-      callback(res)
-    })
-
-  }
-}
-*/

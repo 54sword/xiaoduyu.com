@@ -15,6 +15,7 @@ import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
 import Follow from '../../components/follow';
+import Loading from '../../components/ui/loading';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -97,12 +98,9 @@ const generatePostsFilters = (topic, search) => {
 }
 
 @connect(
-  (state, props) => {
-    return {
-      topicList: getTopicListByKey(state, props.match.params.id)
-      // childTopicList: getTopicListByKey(state, props.match.params.id+'-children')
-    }
-  },
+  (state, props) => ({
+    topicList: getTopicListByKey(state, props.match.params.id)
+  }),
   dispatch => ({
     loadTopics: bindActionCreators(loadTopics, dispatch)
   })
@@ -162,36 +160,31 @@ export class TopicsDetail extends React.Component {
         });
 
       } else {
-        resolve({ code:404 });
+        resolve({ code:404, text: '该话题不存在' });
       }
 
     })
   }
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
-  componentWillMount() {
-    // 服务端渲染，404内容显示处理
-    const { topicList, notFoundPgae } = this.props;
-    if (topicList && topicList.data && !topicList.data[0]) {
-      notFoundPgae('话题不存在')
-    }
-  }
+  async componentDidMount() {
 
-  componentDidMount() {
-
-    const { topicList, loadTopics } = this.props;
+    let { list, loadTopics, notFoundPgae } = this.props;
     const { id } = this.props.match.params;
+    let err, res;
 
-    if (!topicList) {
-      loadTopics({
+    if (!list || !list.data) {
+      [ err, list ] = await loadTopics({
         id: id,
-        filters: {
-          variables: { _id: id }
-        }
+        filters: { variables: { _id: id } }
       });
+    }
+
+    if (list && list.data && !list.data[0]) {
+      notFoundPgae('该话题不存在');
     }
 
   }
@@ -210,8 +203,9 @@ export class TopicsDetail extends React.Component {
     const { pathname, search } = this.props.location;
     const { topicList } = this.props;
     const topic = topicList && topicList.data[0] ? topicList.data[0] : null;
+    const { loading } = topicList || {};
 
-    if (!topic) return '';
+    if (loading || !topic) return (<Loading />);
 
     const { general, recommend } = generatePostsFilters(topic, search);
 

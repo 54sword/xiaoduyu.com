@@ -1,11 +1,6 @@
-import grapgQLClient from '../common/grapgql-client'
-
-import Ajax from '../common/ajax'
-import merge from 'lodash/merge'
-
-import graphql from './common/graphql'
-
-import loadList from './common/new-load-list'
+import grapgQLClient from '../common/graphql-client';
+import graphql from '../common/graphql';
+import loadList from './common/new-load-list';
 
 const processNotificationList = (list) => {
 
@@ -197,29 +192,6 @@ export function updateNotification(filters) {
   }
 }
 
-/*
-export function updateNotification({ query = {}, update = {}, options = {} }) {
-  return (dispatch, getState) => {
-
-    let accessToken = getState().user.accessToken
-
-    return Ajax({
-      url: '/user-notification/update',
-      type: 'post',
-      data: { query, update, options },
-      headers: { 'AccessToken': accessToken }
-    }).then((result) => {
-
-      if (result && result.success) {
-        dispatch({ type: 'UPDATE_NOTIFICATION', id: query._id, update })
-      }
-
-    })
-  }
-}
-*/
-
-
 // 更新通知中的评论
 let updateCommentState = (comment, notices) => {
 
@@ -344,105 +316,10 @@ export const loadNewNotifications = ({ name }) => {
     dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice });
     dispatch({ type: 'SET_NOTIFICATION_LIST_BY_NAME', name, data: list });
 
-    /*
-    Ajax({
-      url: '/notifications',
-      type: 'post',
-      data: {
-        per_page: 25,
-        gt_create_at: list.data[0] ? list.data[0].create_at : 0,
-        access_token: accessToken
-      },
-      callback: (res)=>{
-
-        comment = updateCommentState(comment, res.data)
-        posts = updatePosts(posts, res.data)
-        followPeople = updateFollowPeople(followPeople, me._id, res.data)
-
-        let index = res.data.length
-        while (index--) {
-          let item = res.data[index]
-          list.data.unshift(item)
-          let _index = unreadNotice.indexOf(item._id)
-          if (_index != -1) unreadNotice.splice(_index, 1)
-        }
-
-        if (followPeople.count > 0) {
-          me.fans_count = me.fans_count + followPeople.count
-          dispatch({ type: 'SET_USER', userinfo: me })
-          dispatch({ type: 'SET_FOLLOW_PEOPLE', state: followPeople.state })
-        }
-
-        dispatch({ type: 'SET_POSTS', state: posts })
-        dispatch({ type: 'SET_COMMENT', state: comment })
-        dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice })
-        dispatch({ type: 'SET_NOTIFICATION_LIST_BY_NAME', name, data: list })
-
-        callback(res)
-      }
-    })
-    */
-
   }
 }
 
 
-/*
-export function loadNewNotifications({ name, callback = ()=>{} }) {
-  return (dispatch, getState) => {
-
-    let accessToken = getState().user.accessToken
-    let unreadNotice = getState().user.unreadNotice
-    let list = getState().notification[name] || null
-    let comment = getState().comment
-    let posts = getState().posts
-    let followPeople = getState().followPeople
-    let me = getState().user.profile
-
-    if (unreadNotice.length == 0 || !list || !list.data) {
-      return
-    }
-
-    Ajax({
-      url: '/notifications',
-      type: 'post',
-      data: {
-        per_page: 25,
-        gt_create_at: list.data[0] ? list.data[0].create_at : 0,
-        access_token: accessToken
-      },
-      callback: (res)=>{
-
-        comment = updateCommentState(comment, res.data)
-        posts = updatePosts(posts, res.data)
-        followPeople = updateFollowPeople(followPeople, me._id, res.data)
-
-        let index = res.data.length
-        while (index--) {
-          let item = res.data[index]
-          list.data.unshift(item)
-          let _index = unreadNotice.indexOf(item._id)
-          if (_index != -1) unreadNotice.splice(_index, 1)
-        }
-
-        if (followPeople.count > 0) {
-          me.fans_count = me.fans_count + followPeople.count
-          dispatch({ type: 'SET_USER', userinfo: me })
-          dispatch({ type: 'SET_FOLLOW_PEOPLE', state: followPeople.state })
-        }
-
-        dispatch({ type: 'SET_POSTS', state: posts })
-        dispatch({ type: 'SET_COMMENT', state: comment })
-        dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice })
-        dispatch({ type: 'SET_NOTIFICATION_LIST_BY_NAME', name, data: list })
-
-        callback(res)
-      }
-    })
-
-  }
-}
-*/
 
 let loading = false;
 
@@ -469,37 +346,6 @@ export const loadUnreadCount = () => {
     });
   }
 }
-
-// 加载未读通知数量
-/*
-export function loadUnreadCount({ callback=()=>{} }) {
-  return (dispatch, getState) => {
-
-    let accessToken = getState().user.accessToken
-
-    if (loading && accessToken) return
-
-    loading = true
-
-    return Ajax({
-      url: '/unread-notifications',
-      type: 'get',
-      headers: { AccessToken: accessToken },
-      callback: (result) => {
-        loading = false
-
-        if (result && result.success) {
-          dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice: result.data })
-        }
-
-        callback(result)
-
-      }
-    })
-
-  }
-}
-*/
 
 // 取消某个通知
 export const cancelNotiaction = ({ id, callback = ()=>{} }) => {

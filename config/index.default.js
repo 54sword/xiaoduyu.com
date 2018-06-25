@@ -8,7 +8,7 @@ let config = {
   name: '小度鱼',
 
   // logo: '//localhost:4000/logo.png',
-  
+
   // 添加内容到模版的head中
   head: `
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
@@ -46,6 +46,15 @@ let config = {
   GA: '',
   // 添加分析统计脚本，字符串
   analysis_script: ``,
+
+  // amp 配置
+  amp: {
+    logo: {
+      url: 'https://imgs.huarenhouse.com/logo-600-60.png',
+      width: '600',
+      height: '60'
+    }
+  },
 
   // https 用于域名的验证的路径 [选填]
 	// https://github.com/xdtianyu/scripts/blob/master/lets-encrypt/README-CN.md

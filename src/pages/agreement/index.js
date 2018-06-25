@@ -16,7 +16,7 @@ class Agreement extends React.PureComponent {
   render() {
     return (<div styleName="container">
 
-      <Meta meta={'用户协议'} />
+      <Meta title={'用户协议'} />
 
       <h1>用户协议</h1>
       <div>

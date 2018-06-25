@@ -3,7 +3,8 @@ import React from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { saveScrollPosition, setScrollPosition } from '../actions/scroll.js';
+import { saveScrollPosition, setScrollPosition } from '../actions/scroll';
+import { addVisitHistory } from '../actions/history';
 
 // components
 import Head from './head';
@@ -27,7 +28,8 @@ const Shell = (Component) => {
     (state, props) => ({}),
     dispatch => ({
       saveScrollPosition: bindActionCreators(saveScrollPosition, dispatch),
-      setScrollPosition: bindActionCreators(setScrollPosition, dispatch)
+      setScrollPosition: bindActionCreators(setScrollPosition, dispatch),
+      addVisitHistory: bindActionCreators(addVisitHistory, dispatch)
     })
   )
   class Shell extends React.Component {
@@ -69,14 +71,25 @@ const Shell = (Component) => {
     }
 
     componentWillMount() {
+
+      const self = this;
       const { pathname, search } = this.props.location;
       this.props.location.params = search ? parseUrl(search) : {};
+
+      if (this.props.staticContext) {
+        const { code, text } = this.props.staticContext;
+        if (code == 404) {
+          this.state.notFoundPgae = text || '404 NOT FOUND'
+        }
+      }
+
     }
 
     // 组件加载完成
     componentDidMount() {
       const { pathname, search } = this.props.location;
       this.props.setScrollPosition(pathname + search);
+      this.props.addVisitHistory(pathname + search);
     }
 
     componentWillReceiveProps(props) {
@@ -93,7 +106,7 @@ const Shell = (Component) => {
       const { pathname, search } = this.props.location;
       this.props.saveScrollPosition(pathname + search);
     }
-
+    
     render() {
 
       const self = this;
@@ -105,7 +118,7 @@ const Shell = (Component) => {
           <Component
             {...this.props}
             notFoundPgae={content=>{
-              self.setState({ notFoundPgae: content || '404 NOT FOUND' })
+              self.setState({ notFoundPgae: content || '404 NOT FOUND' });
             }}
           />}
       </div>)

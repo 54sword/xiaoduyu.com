@@ -4,7 +4,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
-import DocumentMeta from 'react-document-meta';
+// import DocumentMeta from 'react-document-meta';
+import MetaTagsServer from 'react-meta-tags/server';
+import {MetaTagsContext} from 'react-meta-tags';
 
 // 服务端渲染依赖
 import React from 'react';
@@ -23,6 +25,7 @@ import { initialStateJSON } from '../reducers';
 // 配置
 import { port, auth_cookie_name, ssl_verification_path } from '../../config';
 import sign from './sign';
+import AMP from './amp';
 import webpackHotMiddleware from './webpack-hot-middleware';
 
 
@@ -49,6 +52,9 @@ if (ssl_verification_path) {
   app.use(express.static(path.join(__dirname, ssl_verification_path)));
 }
 
+// amp
+app.use('/amp', AMP());
+
 // 登录、退出
 app.use('/sign', sign());
 
@@ -61,7 +67,7 @@ app.get('*', async (req, res) => {
 
   // 验证 token 是否有效
   if (accessToken) {
-    
+
     [ err, user ] = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
 
     // 如果是拉黑的用户，阻止登陆，并提示
@@ -133,19 +139,28 @@ app.get('*', async (req, res) => {
 
   // 获取路由dom
   const _Router = router.dom;
+  const metaTagsInstance = MetaTagsServer();
 
   let html = ReactDOMServer.renderToString(
     <Provider store={store}>
-      <StaticRouter location={req.url} context={context}>
-        <_Router />
-      </StaticRouter>
+      <MetaTagsContext extract = {metaTagsInstance.extract}>
+        <StaticRouter location={req.url} context={context}>
+          <_Router />
+        </StaticRouter>
+      </MetaTagsContext>
     </Provider>
   );
-
+  
   let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
 
   // 获取页面的meta，嵌套到模版中
-  let meta = DocumentMeta.renderAsHTML();
+  // let meta = DocumentMeta.renderAsHTML();
+
+
+
+  let meta = metaTagsInstance.renderToString();
+  // console.log(meta);
+  // console.log(metaTagsInstance.renderToString());
 
   if (context.code == 301) {
     res.writeHead(301, {

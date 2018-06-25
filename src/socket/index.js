@@ -1,24 +1,19 @@
-
 import io from 'socket.io-client';
 
-import config from '../../config';
+// config
+import { socket_url } from '../../config';
 
 // redux actions
 import { loadUnreadCount, cancelNotiaction } from '../actions/notification';
-import { loadNewPosts } from '../actions/posts';
 import { setOnlineUserCount } from '../actions/website';
 import { newPostsTips } from '../actions/posts';
-// import { exchangeTokenTimer } from '../actions/token'
 
 export default ({ dispatch, getState }) => {
 
   // 用于判断是否登录
   const me = getState().user.profile;
 
-
-  let socket = io.connect(config.socket_url);
-
-  // console.log(socket);
+  let socket = io.connect(socket_url);
 
   socket.on("connect", function() {
 

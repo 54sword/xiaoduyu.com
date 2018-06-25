@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types'
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { showSign } from '../../actions/sign';
 import { isMember } from '../../reducers/user';
 import { like, unlike } from '../../actions/like';
 
@@ -17,7 +15,6 @@ import styles from './style.scss';
     isMember: isMember(state)
   }),
   dispatch => ({
-    showSign: bindActionCreators(showSign, dispatch),
     like: bindActionCreators(like, dispatch),
     unlike: bindActionCreators(unlike, dispatch)
   })
@@ -93,7 +90,7 @@ export default class LikeButton extends Component {
   render () {
 
     const { reply, comment, posts } = this.props
-    const { isMember, showSign } = this.props
+    const { isMember } = this.props
     const like = comment || reply || posts
 
     if (!isMember) {

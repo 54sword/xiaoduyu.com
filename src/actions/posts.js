@@ -1,16 +1,7 @@
-import grapgQLClient from '../common/grapgql-client'
-
-import { reactLocalStorage } from 'reactjs-localstorage'
-
-// import merge from 'lodash/merge'
-import Ajax from '../common/ajax'
-// import Promise from 'promise'
-
-import { DateDiff } from '../common/date'
-// import loadList from './common/load-list'
-import loadList from './common/new-load-list'
-
-import graphql from './common/graphql';
+import { reactLocalStorage } from 'reactjs-localstorage';
+import { DateDiff } from '../common/date';
+import loadList from './common/new-load-list';
+import graphql from '../common/graphql';
 
 // 添加问题
 export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
@@ -18,7 +9,6 @@ export function addPosts({ title, detail, detailHTML, topicId, device, type, cal
 
     return new Promise(async resolve => {
 
-      // detail, detail_html: detailHTML,
       let [ err, res ] = await graphql({
         type: 'mutation',
         api: 'addPosts',
@@ -32,84 +22,11 @@ export function addPosts({ title, detail, detailHTML, topicId, device, type, cal
 
       resolve([ err, res ]);
 
-      // if (err) return resolve([ err ? err.message : '未知错误' ]);
-
-      // dispatch({ type: 'UPDATE_POSTS_FOLLOW', id, followStatus: status  });
-
-    })
-
-    /*
-    let accessToken = getState().user.accessToken
-
-    return Ajax({
-      url: '/add-posts',
-      type:'post',
-      data: {
-        title: title, detail: detail, detail_html: detailHTML,
-        topic_id: topicId, device_id: device, type: type
-      },
-      headers: { AccessToken: accessToken },
-      callback
-    })
-    */
-
-  }
-}
-
-/*
-export function updatePostsById({ id, typeId, topicId, title, content, contentHTML, callback = ()=>{} }) {
-  return (dispatch, getState) => {
-
-    let accessToken = getState().user.accessToken
-    let state = getState().posts
-
-    return Ajax({
-      url: '/update-posts',
-      type:'post',
-      data: {
-        id: id, type: typeId, title: title,
-        topic_id: topicId, content: content, content_html: contentHTML
-      },
-      headers: { AccessToken: accessToken },
-      callback: (res)=>{
-
-        if (!res || !res.success) {
-          callback(res)
-          return
-        }
-
-        loadPostsById({
-          id,
-          callback: (posts)=> {
-
-            if (!posts) {
-              return callback(null)
-            }
-
-            for (let i in state) {
-              let data = state[i].data
-              if (data.length > 0) {
-                for (let n = 0, max = data.length; n < max; n++) {
-                  if (data[n]._id == id) {
-                    state[i].data[n] = posts
-                  }
-                }
-              }
-            }
-
-            dispatch({ type: 'SET_POSTS', state })
-            callback(res)
-
-          }
-        })(dispatch, getState)
-
-      }
     })
 
   }
 }
 
-*/
 
 export function loadPostsList({ id, filters, restart = false }) {
   return async (dispatch, getState) => {
@@ -120,20 +37,6 @@ export function loadPostsList({ id, filters, restart = false }) {
     }
 
     if (!filters.select) {
-
-      /*
-      comment{
-        _id
-        user_id{
-          _id
-          nickname
-          brief
-          avatar_url
-        }
-        content_html
-        create_at
-      }
-       */
 
       // content
       filters.select = `
@@ -187,48 +90,6 @@ export function loadPostsList({ id, filters, restart = false }) {
   }
 }
 
-/*
-Ajax({
-  apiVerstion: '',
-  url: '/graphql',
-  type: 'post',
-  data: {
-    query: `
-      {
-        posts(limit:10) {
-          _id
-          title
-        }
-      }
-    `,
-    variables: null,
-    operationName: null
-  }
-}).then(res=>{
-  console.log(res);
-})
-*/
-
-/*
-export function loadPostsById({ id, callback = ()=>{} }) {
-  return (dispatch, getState) => {
-
-
-
-    return loadPostsList({
-      name: id,
-      filters: { posts_id: id, per_page: 1, draft: 1 },
-      restart: true,
-      callback: (result)=>{
-        if (!result || !result.success || !result.data || result.data.length == 0) {
-          return callback(null)
-        }
-        callback(result.data[0])
-      }
-    })(dispatch, getState)
-  }
-}
-*/
 
 export function viewPostsById({ id, callback = ()=>{ } }) {
   return async (dispatch, getState) => {
@@ -262,18 +123,6 @@ export function viewPostsById({ id, callback = ()=>{ } }) {
 
     }
 
-    /*
-    return Ajax({
-      url: '/view-posts',
-      params: { posts_id: id },
-      callback: (result) => {
-        if (result && result.success) {
-          dispatch({ type: 'UPDATE_POSTS_VIEW', id: id })
-        }
-        callback(result)
-      }
-    })
-    */
   }
 }
 
@@ -321,35 +170,6 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, topicName,
   })
   }
 }
-
-/*
-export function updataDelete({ id, status }) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
-    return Ajax({
-      url: '/posts/update-delete',
-      type: 'post',
-      data: { id, status, access_token: accessToken },
-    }).then((result) => {
-      dispatch({ type: 'UPDATE_POST_DELETE', id: id, status: status ? true : false })
-    })
-  }
-}
-
-export function updataWeaken({ id, status }) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
-    return Ajax({
-      url: '/posts/update-weaken',
-      type: 'post',
-      data: { id, status, access_token: accessToken },
-    }).then((result) => {
-      dispatch({ type: 'UPDATE_POST_WEAKEN', id: id, status: status ? true : false })
-    })
-  }
-}
-*/
-
 
 const abstractImages = (str) => {
 
@@ -444,32 +264,12 @@ const processPostsList = (list) => {
     if (posts.sort_by_date) posts._sort_by_date = DateDiff(posts.sort_by_date);
     if (posts.last_comment_at) posts._last_comment_at = DateDiff(posts.last_comment_at);
 
-    /*
-    if (posts.comment) {
-      posts.comment.map(function(comment){
-
-        comment.images = abstractImages(comment.content_html)
-
-        comment._create_at = DateDiff(comment.create_at)
-
-        let text = comment.content_html.replace(/(<img.*?)>/gi,"[图片]")
-
-        text = text.replace(/<[^>]+>/g,"")
-        if (text.length > 140) text = text.slice(0, 140)+'...'
-        comment.content_summary = text
-
-      })
-    }
-    */
-
-  })
+  });
 
   return list
 
 }
 
-// 首页拉取新的帖子的时间
-// let lastFetchAt = null;
 
 // 获取新的主题，插入到 follow posts list
 export function loadNewPosts(timestamp) {
@@ -512,33 +312,6 @@ export function loadNewPosts(timestamp) {
 }
 
 
-/*
-// 显示新的帖子
-export function showNewPosts() {
-  return (dispatch, getState) => {
-
-    let homeList = getState().posts['home']
-    let newList = getState().posts['new']
-
-    let i = newList.data.length
-    while (i--) {
-      homeList.data.unshift(newList.data[i])
-    }
-
-    lastFetchAt = newList.data[0].create_at
-
-    window.scrollTo(0, 0)
-    dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name:'home', data: homeList })
-
-    setTimeout(()=>{
-      dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name:'new', data: { data: [] } })
-    }, 100)
-
-  }
-}
-*/
-
-
 // 新主题通知
 export const newPostsTips = () => {
   return async (dispatch, getState) => {
@@ -568,10 +341,3 @@ export const newPostsTips = () => {
 
   }
 }
-
-// 移除提醒
-// export const removeNewPostsTips = () => {
-//   return async (dispatch, getState) => {
-//     dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips: {} });
-//   }
-// }

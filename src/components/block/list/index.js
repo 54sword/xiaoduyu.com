@@ -118,7 +118,7 @@ export class BlockList extends React.Component {
 
           {item.people_id ?
             <div styleName="people">
-              <img src={item.people_id.avatar} />
+              <img src={item.people_id.avatar_url} />
               {item.people_id.nickname}
             </div>
             : null}

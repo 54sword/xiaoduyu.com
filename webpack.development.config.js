@@ -57,7 +57,7 @@ module.exports = {
       'react-router-dom',
       'redux',
       'react-redux',
-      'react-document-meta',
+      'react-meta-tags',
       'axios',
       'jquery',
       'popper.js',
@@ -181,7 +181,7 @@ module.exports = {
 
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, 'dist/index.ejs'),
-      template: 'src/view/index.html',
+      template: 'src/views/index.html',
       head: config.head,
       meta: '<%- meta %>',
       htmlDom: '<%- html %>',

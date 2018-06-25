@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MetaTags from 'react-meta-tags';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -6,7 +7,7 @@ import { connect } from 'react-redux';
 import { getUnreadNotice } from '../../reducers/website';
 
 // https://github.com/kodyl/react-document-meta
-import DocumentMeta from 'react-document-meta';
+// import DocumentMeta from 'react-document-meta';
 
 import { name } from '../../../config';
 
@@ -27,7 +28,7 @@ export class Meta extends Component {
 
     let metaObj = {};
 
-    const { title, description, canonical, meta, unreadNotice } = this.props;
+    const { title, description, canonical, meta, link, unreadNotice } = this.props;
 
     if (title) {
       metaObj.title = title + ' - ' + name;
@@ -37,15 +38,24 @@ export class Meta extends Component {
 
     if (description) metaObj.description = description;
     if (canonical) metaObj.canonical = canonical;
-    if (meta) metaObj.title = meta;
+    if (meta) metaObj.meta = meta;
+    if (link) metaObj.link = link;
 
     if (unreadNotice && unreadNotice.length > 0) {
       metaObj.title = `(${unreadNotice.length}条通知) ${metaObj.title}`
     }
+    return (<MetaTags>
+            <title>
+              {unreadNotice && unreadNotice.length > 0 ? `(${unreadNotice.length}条通知)` : ''}
+              {title || name}
+              {title ? ` - ${name}` : ''}
+            </title>
+            {this.props.children}
+          </MetaTags>)
 
-    return (
-      <DocumentMeta {...metaObj} />
-    )
+    // return (
+    //   <DocumentMeta {...metaObj} />
+    // )
   }
 }
 

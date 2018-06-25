@@ -85,7 +85,7 @@ export default class Head extends React.Component {
     const { q = '' } = params;
     search.value = decodeURIComponent(q);
   }
-
+  
   componentWillReceiveProps(props) {
     const { search } = this.refs;
     // 组件url发生变化

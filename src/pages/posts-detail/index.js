@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { name, domain_name } from '../../../config';
+
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -53,11 +55,11 @@ export class PostsDetail extends React.Component {
         }
       })(store.dispatch, store.getState);
 
-      // 没有找到帖子，设置页面 http code 为404
-      if (err || data.length == 0) {
-        resolve({ code:404 });
-      } else {
+      if (data && data.data && data.data.length > 0) {
         resolve({ code:200 });
+      } else {
+        // 没有找到帖子，设置页面 http code 为404
+        resolve({ code:404, text: '该帖子不存在' });
       }
 
     })
@@ -67,22 +69,16 @@ export class PostsDetail extends React.Component {
     super(props);
   }
 
-  componentWillMount() {
-    // 服务端渲染，404内容显示处理
-    const { list, notFoundPgae } = this.props;
-    if (list && list.data && !list.data[0]) {
-      notFoundPgae('该帖子不存在')
-    }
-  }
-
   async componentDidMount() {
 
     const { id } = this.props.match.params;
-    const { list, loadPostsList, viewPostsById } = this.props;
+    let { list, loadPostsList, viewPostsById, notFoundPgae } = this.props;
+    let err;
 
+    // 如果已经存在 list，说明redux已经存在该帖子数据，则可以不重新请求
     if (!list || !list.data) {
 
-      await loadPostsList({
+      [ err, list ] = await loadPostsList({
         id,
         filters: {
           variables: {
@@ -93,11 +89,13 @@ export class PostsDetail extends React.Component {
         }
       });
 
-      this.componentWillMount();
-
     }
 
-    viewPostsById({ id });
+    if (list && list.data && !list.data[0]) {
+      notFoundPgae('该帖子不存在');
+    } else {
+      viewPostsById({ id });
+    }
 
   }
 
@@ -109,20 +107,21 @@ export class PostsDetail extends React.Component {
 
     if (loading || !posts) return (<Loading />);
 
-    /*
-    <meta itemprop="name" content="这是分享的标题"/>
-    <meta itemprop="image" content="http://imgcache.qq.com/qqshow/ac/v4/global/logo.png" />
-    <meta name="description" itemprop="description" content="这是要分享的内容" />
-
-    作者：白吴
-    链接：https://www.zhihu.com/question/21925276/answer/91091778
-    来源：知乎
-    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-     */
-
     return(<div styleName="box">
 
-      <Meta title={posts ? posts.title : '加载中...'} />
+      <Meta title={posts.title}>
+        <meta name="description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
+        <link rel="canonical" href={`${domain_name}/posts/${posts._id}`} />
+        <link rel="amphtml" href={`${domain_name}/amp/posts/${posts._id}`} />
+
+        <meta property="og:locale" content="zh_CN" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={posts.title} />
+        <meta property="og:description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
+        <meta property="og:url" content={`${domain_name}/posts/${posts._id}`} />
+        <meta property="og:site_name" content={name} />
+      </Meta>
+
 
       {/*<div className="row">*/}
 
@@ -153,8 +152,6 @@ export class PostsDetail extends React.Component {
               <EditorComment posts_id={posts._id} />
             </div>
             : null}
-
-
 
         {/*
         <div className="col-md-3">

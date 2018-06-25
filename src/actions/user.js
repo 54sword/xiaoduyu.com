@@ -1,12 +1,13 @@
-import Ajax from '../common/ajax'
-// import Promise from 'promise'
-
-
-import grapgQLClient from '../common/grapgql-client'
-import graphql from './common/graphql'
+import graphql from '../common/graphql';
 
 function setUser(userinfo) {
   return { type: 'SET_USER', userinfo }
+}
+
+export function addAccessToken({ accessToken }) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'ADD_ACCESS_TOKEN', accessToken });
+  }
 }
 
 export function removeAccessToken() {
@@ -18,46 +19,7 @@ export const loadUserInfo = ({ accessToken = null }) => {
 
     return new Promise(async (resolve, reject) => {
 
-      accessToken = accessToken || getState().user.accessToken
-      // (randomString:"${new Date().getTime()+accessToken}")
-      /*
-      let sql = `
-      {
-        selfInfo{
-          _id
-          nickname_reset_at
-          create_at
-          last_sign_at
-          blocked
-          role
-          avatar
-          brief
-          source
-          posts_count
-          comment_count
-          fans_count
-          like_count
-          follow_people_count
-          follow_topic_count
-          follow_posts_count
-          block_people_count
-          block_posts_count
-          block_comment_count
-          gender
-          nickname
-          banned_to_post
-          avatar_url
-          email
-          weibo
-          qq
-          github
-          phone
-          find_notification_at
-          last_find_posts_at
-        }
-      }
-      `;
-      */
+      accessToken = accessToken || getState().user.accessToken;
 
       let [ err, res ] = await graphql({
         api: 'selfInfo',
@@ -97,7 +59,7 @@ export const loadUserInfo = ({ accessToken = null }) => {
         `,
         headers: { accessToken }
       });
-      
+
       if (err) {
         resolve([err])
       } else {
@@ -164,91 +126,3 @@ export function updatePassword(args) {
     })
   }
 }
-
-/*
-export const loadUserInfo = ({ accessToken = null }) => {
-  return (dispatch, getState) => {
-
-    accessToken = accessToken || getState().user.accessToken
-
-
-    return new Promise((resolve, reject) => {
-
-      return Ajax({
-        url: '/user',
-        type: 'post',
-        headers: { AccessToken: accessToken }
-      }).then(res => {
-        if (res && res.success) {
-          dispatch({ type: 'SET_USER', userinfo: res.data })
-        }
-        resolve(res)
-      }).catch(reject)
-
-    })
-
-  }
-}
-
-
-export function resetAvatar({ avatar, callback }) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
-
-    return Ajax({
-      url: '/reset-avatar',
-      type: 'post',
-      data: { avatar: avatar },
-      headers: { AccessToken: accessToken },
-      callback
-    })
-
-  }
-}
-
-export function resetNickname({ nickname, callback }) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
-
-    return Ajax({
-      url: '/reset-nickname',
-      type: 'post',
-      data: { nickname: nickname },
-      headers: { AccessToken: accessToken },
-      callback
-    })
-
-  }
-}
-
-export function resetGender({ gender, callback }) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
-
-    return Ajax({
-      url: '/reset-gender',
-      type: 'post',
-      data: { gender: gender },
-      headers: { AccessToken: accessToken },
-      callback
-    })
-
-  }
-}
-
-export function resetBrief({ brief, callback }) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
-
-    return Ajax({
-      url: '/reset-brief',
-      type: 'post',
-      data: { brief: brief },
-      headers: { AccessToken: accessToken },
-      callback
-    })
-
-  }
-}
-
-*/

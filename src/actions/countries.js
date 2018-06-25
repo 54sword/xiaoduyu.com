@@ -1,42 +1,33 @@
-import grapgQLClient from '../common/grapgql-client'
+import graphql from '../common/graphql';
 
-export const loadCountries = ()=>{
-  return async (dispatch, getState) => {
-
-    let [ err, res ] = await grapgQLClient({
-      query:`
-        {
-          countries{
-            code
-            name
-            abbr
-          }
-        }
-      `
-    })
-
-    if (!err) {
-      dispatch({ type: 'SET_COUNTRIES', countries: res.data.countries })
-    }
-
-  }
-}
-
-
-/*
-import Ajax from '../common/ajax'
-
-export function fetchCountries({ callback = ()=>{} }) {
+// 获取国家
+export function loadCountries() {
   return (dispatch, getState) => {
-    return Ajax({
-      url:'/countries',
-      callback: (result) => {
-        if (result && result.success) {
-          dispatch({ type: 'SET_COUNTRIES', countries: result.data })
-        }
-        callback(result)
+  return new Promise(async resolve => {
+
+      let countries = getState().countries;
+
+      if (countries && countries.length > 0) {
+        resolve([null, countries]);
+        return
       }
-    })
+
+      let [ err, res ] = await graphql({
+        api: 'countries',
+        fields: `
+          code
+          name
+          abbr
+        `,
+      });
+
+      if (!err) {
+        dispatch({ type: 'SET_COUNTRIES', countries: res });
+        resolve([null, res])
+      } else {
+        resolve([err])
+      }
+
+  })
   }
 }
-*/

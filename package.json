@@ -1,6 +1,6 @@
 {
   "name": "xiaoduyu.com",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "React 同构脚手架（内置基础的网站功能，让大家更快上手）",
   "scripts": {
     "dev": "NODE_ENV=development __NODE__=false BABEL_ENV=server webpack --progress --colors --config webpack.development.config.js && NODE_ENV=development __NODE__=true BABEL_ENV=server node src/server ",
@@ -42,6 +42,7 @@
     "react-dom": "^16.2.0",
     "react-ga": "^2.5.0",
     "react-headroom": "^2.2.2",
+    "react-meta-tags": "^0.4.1",
     "react-redux": "^5.0.6",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

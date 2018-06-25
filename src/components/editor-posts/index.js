@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types'
 import { reactLocalStorage } from 'reactjs-localstorage';
 
 // redux
@@ -8,7 +7,6 @@ import { connect } from 'react-redux';
 import { addPosts, updatePosts } from '../../actions/posts';
 import { loadTopics } from '../../actions/topic';
 import { getTopicById, getTopicListByName } from '../../reducers/topic';
-import { getPostsTypeById } from '../../reducers/posts-types';
 
 // components
 import Device from '../../common/device';
@@ -22,8 +20,7 @@ import styles from './style.scss';
 
 @connect(
   (state, props) => ({
-    topicList: getTopicListByName(state, 'new-posts'),
-    getPostsTypeById: id => getPostsTypeById(state, id)
+    topicList: getTopicListByName(state, 'new-posts')
   }),
   dispatch => ({
     addPosts: bindActionCreators(addPosts, dispatch),
@@ -46,7 +43,7 @@ class EditorPosts extends React.Component {
   constructor(props) {
     super(props)
 
-    const { _id, type, topic_id, title, content, content_html, getPostsTypeById, successCallback } = props
+    const { _id, type, topic_id, title, content, content_html, successCallback } = props
 
     this.state = {
       _id: _id || '',
@@ -56,7 +53,6 @@ class EditorPosts extends React.Component {
       topic: topic_id || null,
       displayTopicsContainer: false,
       editor: <div></div>,
-      type: getPostsTypeById(type),
       successCallback: successCallback,
       loading: false,
       editorElement: null
@@ -102,7 +98,7 @@ class EditorPosts extends React.Component {
           <Editor
             syncContent={this.handleContentChange}
             content={_content}
-            placeholder={type.content}
+            placeholder={'请输入正文'}
             expandControl={true}
             getEditor={(editor)=>{ self.setState({ editorElement: editor }) }}
             getCheckUpload={(checkUpload) =>{
@@ -140,7 +136,7 @@ class EditorPosts extends React.Component {
     let self = this
     let { title } = this.refs
     let { addPosts, updatePosts } = this.props
-    const { loading, _id, topic, contentStateJSON, contentHTML, type, successCallback, editorElement } = this.state;
+    const { loading, _id, topic, contentStateJSON, contentHTML, successCallback, editorElement } = this.state;
 
     if (loading) return
     if (!topic) return alert('您还未选择话题')
@@ -199,7 +195,7 @@ class EditorPosts extends React.Component {
       detailHTML: contentHTML,
       topicId: topic._id,
       device: parseInt(Device.getCurrentDeviceId()),
-      type: type._id
+      type: 1
     });
 
     if (res && res.success) {
@@ -243,7 +239,7 @@ class EditorPosts extends React.Component {
   }
 
   render() {
-    const { editor, topic, type, displayTopicsContainer, loading } = this.state
+    const { editor, topic, displayTopicsContainer, loading } = this.state
     const { topicList } = this.props
 
 
@@ -322,7 +318,7 @@ class EditorPosts extends React.Component {
                 <div styleName="choose-topic-button" onClick={this.showTopicContainer}>{topic ? topic.name : '选择话题'}</div>
               </div>
               <div className="col-md-10">
-                <input styleName="title" ref="title" type="text" onChange={this.titleChange} placeholder={type.title}  />
+                <input styleName="title" ref="title" type="text" onChange={this.titleChange} placeholder="请输入标题"  />
               </div>
             </div>
 

@@ -4,12 +4,6 @@ import { Link } from 'react-router-dom';
 // config
 import { original_api_domain } from '../../../config';
 
-// redux
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { hideSign } from '../../actions/sign';
-import { getSignStatus } from '../../reducers/sign';
-
 // components
 import SignIn from '../sign-in';
 import SignUp from '../sign-up';
@@ -19,15 +13,6 @@ import Modal from '../bootstrap/modal';
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
-
-@connect(
-  (state, props) => ({
-    display: getSignStatus(state)
-  }),
-  dispatch => ({
-    hideSign: bindActionCreators(hideSign, dispatch)
-  })
-)
 @CSSModules(styles)
 export default class Sign extends Component {
 
@@ -58,8 +43,6 @@ export default class Sign extends Component {
   }
 
   render () {
-
-    const { display, hideSign } = this.props
     const { type } = this.state
 
     const body = (<div styleName="layer">
@@ -87,7 +70,7 @@ export default class Sign extends Component {
             <fieldset><legend>或</legend></fieldset>
 
             {type == 'sign-in' ? <div>
-                <SignIn hideSign={hideSign} displayComponent={this.displayComponent} />
+                <SignIn displayComponent={this.displayComponent} />
                 <div>
                   没有账号？ <a href="javascript:void(0)" onClick={this.displayComponent}>注册</a>
                 </div>
@@ -95,7 +78,7 @@ export default class Sign extends Component {
               </div>
               : null}
             {type == 'sign-up' ? <div>
-                <SignUp hideSign={hideSign} displayComponent={this.displayComponent} />
+                <SignUp displayComponent={this.displayComponent} />
                 <div>
                   已经有账号了？ <a href="javascript:void(0)" onClick={this.displayComponent}>登录</a>
                 </div>

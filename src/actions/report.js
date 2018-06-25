@@ -1,5 +1,5 @@
 
-import graphql from './common/graphql';
+import graphql from '../common/graphql';
 
 export function loadReportTypes() {
   return (dispatch, getState) => {

@@ -1,5 +1,5 @@
-import Ajax from '../common/ajax'
-import grapgQLClient from '../common/grapgql-client'
+
+import grapgQLClient from '../common/graphql-client';
 
 export function getQiNiuToken() {
   return (dispatch, getState) => {
@@ -33,20 +33,3 @@ export function getQiNiuToken() {
 
   }
 }
-
-/*
-export function getQiNiuToken() {
-  return (dispatch, getState) => {
-
-    const accessToken = getState().user.accessToken
-    return new Promise((resolve, reject) => {
-      Ajax({
-        url: '/get-qiniu-token',
-        type: 'post',
-        headers: { AccessToken: accessToken }
-      }).then(resolve).catch(reject)
-    })
-
-  }
-}
-*/

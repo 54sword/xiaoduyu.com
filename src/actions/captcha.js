@@ -1,6 +1,4 @@
-
-import graphql from './common/graphql'
-
+import graphql from '../common/graphql';
 
 /**
  * [添加] 验证码

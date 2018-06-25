@@ -181,6 +181,7 @@ export default class PostsItem extends React.PureComponent {
                 data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}>
                 </i>
               <b>{posts.user_id.nickname}</b>
+              {/*<span styleName="people-brief">{posts.user_id.brief}</span>*/}
             </Link>
 
             {/* dropdown-menu */}

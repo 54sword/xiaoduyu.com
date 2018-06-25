@@ -1,10 +1,6 @@
-import grapgQLClient from '../common/grapgql-client'
-
-import Ajax from '../common/ajax'
-// import merge from 'lodash/merge'
-import { DateDiff } from '../common/date'
-
-import loadList from './common/new-load-list'
+import grapgQLClient from '../common/grapgql-client';
+import { DateDiff } from '../common/date';
+import loadList from './common/new-load-list';
 
 export function loadBroadcastList({ name, filters = {}, restart = false }) {
   return (dispatch, getState) => {
@@ -101,25 +97,6 @@ export function updateBroadcast(filters) {
     dispatch({ type: 'UPDATE_BROADCAST', id: _id, update: filters })
   }
 }
-
-/*
-export function updateBroadcast({ query = {}, update = {}, options = {} }) {
-  return (dispatch, getState) => {
-    let accessToken = getState().user.accessToken
-    return Ajax({
-      url: '/notification/update',
-      type: 'post',
-      data: { query, update, options },
-      headers: { 'AccessToken': accessToken }
-    }).then((result) => {
-      if (result && result.success) {
-        dispatch({ type: 'UPDATE_BROADCAST', id: query._id, update })
-      }
-    })
-  }
-}
-*/
-
 
 // 加工问题列表
 const processData = (list) => {
