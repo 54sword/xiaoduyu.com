@@ -1,35 +1,24 @@
-
-import grapgQLClient from '../common/graphql-client';
+import graphql from '../common/graphql';
 
 export function getQiNiuToken() {
   return (dispatch, getState) => {
-
     return new Promise(async (resolve, reject) => {
 
-      let accessToken = getState().user.accessToken
-
-      let sql = `
-      {
-        qiniuToken{
+      let [ err, res ] = await graphql({
+        api: 'qiniuToken',
+        fields: `
           token
           url
-        }
-      }
-      `
-
-      let [ err, res ] = await grapgQLClient({
-        query:sql,
-        headers: { AccessToken: accessToken },
-        fetchPolicy: 'network-only'
-      })
+        `,
+        headers: { accessToken: getState().user.accessToken }
+      });
 
       if (err) {
-        reject([err])
+        resolve([err])
       } else {
-        resolve([null, res.data.qiniuToken])
+        resolve([null, res])
       }
 
     })
-
   }
 }

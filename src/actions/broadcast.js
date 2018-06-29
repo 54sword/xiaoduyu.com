@@ -1,10 +1,9 @@
-import grapgQLClient from '../common/grapgql-client';
+
 import { DateDiff } from '../common/date';
-import loadList from './common/new-load-list';
+import loadList from '../common/graphql-load-list';//'./common/new-load-list';
 
 export function loadBroadcastList({ name, filters = {}, restart = false }) {
   return (dispatch, getState) => {
-
 
     if (!filters.select) {
       filters.select = `
@@ -48,7 +47,7 @@ export function loadBroadcastList({ name, filters = {}, restart = false }) {
   }
 }
 
-
+/*
 export function updateBroadcast(filters) {
   return async (dispatch, getState) => {
 
@@ -97,6 +96,7 @@ export function updateBroadcast(filters) {
     dispatch({ type: 'UPDATE_BROADCAST', id: _id, update: filters })
   }
 }
+*/
 
 // 加工问题列表
 const processData = (list) => {

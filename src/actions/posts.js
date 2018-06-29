@@ -1,6 +1,6 @@
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { DateDiff } from '../common/date';
-import loadList from './common/new-load-list';
+import loadList from '../common/graphql-load-list';
 import graphql from '../common/graphql';
 
 // 添加问题

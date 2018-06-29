@@ -12,90 +12,12 @@ const client = new ApolloClient({
   // ssrMode: process && process.env && process.env.__NODE__ ? process.env.__NODE__ : false,
   link: new HttpLink({
     uri: graphql_url,
-    fetch: fetch
+    fetch
   }),
   cache: new InMemoryCache({
     addTypename: false
   })
 });
-
-function StringAs(string) {
-    return '"' + string.replace(/(\\|\"|\n|\r|\t)/g, "\\$1") + '"';
-}
-
-
-// 将参数对象转换成，GraphQL提交参数的格式
-const convertParamsFormat = (params) => {
-
-  // delete params.content;
-  // delete params.title;
-
-  let arr = [];
-  for (let i in params) {
-    let v = '';
-    switch (typeof params[i]) {
-
-      case 'string':
-        /*
-        try {
-          let _s = JSON.parse(params[i]);
-
-          if (_s && _s.blocks) {
-            // console.log(i);
-            // params[i] = params[i].replace(/\"/g, '\\"');
-            params[i] = StringAs(params[i])
-            // params[i] = params[i].replace(/\"/g, '\\"');
-          }
-          // JSON.parse(params[i]);
-          // console.log(JSON.parse(params[i]).blocks);
-          // 如果字符串中，包含"，添加转译符\"
-
-
-        } catch (err) {
-          params[i] = params[i].replace(/\"/g, '\\"');
-        }
-        */
-
-
-        // params[i] = StringAs(params[i]);
-
-        // if (i == 'content') {
-          // params[i] = params[i].replace(/\"/g, '\\"');
-        // } else if (i == 'title' || i == 'content_html'){
-          // params[i] = params[i].replace(new RegExp('"', 'g'),"\\\"");
-          // params[i] = params[i].replace(/\"/g, '/\/\"');
-        // }
-
-        v = StringAs(params[i]);
-
-        break;
-      case 'number': v = params[i]; break;
-      default: v = params[i];
-    }
-    arr.push(i+':'+v)
-  }
-
-
-  // console.log(arr);
-
-  let str = '(' + arr.join(',') + ')';
-
-  // str = encodeURIComponent(str);
-
-  // console.log(str);
-
-  // str = str.replace(/\"/g, '\\"');
-
-  // console.log(str);
-
-  if (arr.length > 0) {
-    return str;
-  } else {
-    return '';
-  }
-
-}
-
 
 /**
  * graphql 请求封装
@@ -116,8 +38,6 @@ export default ({
 }) => {
 
   args = convertParamsFormat(args);
-
-  // console.log(args);
 
   let sql = `${type}{
     ${api}${args}{
@@ -160,12 +80,44 @@ export default ({
 
 }
 
+const StringAs = (string) => {
+  return '"' + string.replace(/(\\|\"|\n|\r|\t)/g, "\\$1") + '"';
+}
 
-// 合成
-let synthesis = (string, key, value) => {
+// 将参数对象转换成，GraphQL提交参数的格式
+const convertParamsFormat = (params) => {
+
+  let arr = [];
+
+  for (let i in params) {
+    let v = '';
+    switch (typeof params[i]) {
+      case 'string':
+        v = StringAs(params[i]);
+        break;
+      // case 'number': v = params[i]; break;
+      default: v = params[i];
+    }
+    arr.push(i+':'+v)
+  }
+
+  let str = '(' + arr.join(',') + ')';
+
+  return arr.length > 0 ? str : '';
+}
+
+/**
+ * 将字符串中的变量，替换成具体的值
+ * @param  {String}  string 需要替换的字符串
+ * @param  {String}  key    变量名
+ * @param  {String}  value  变量值
+ * @return {String}
+ */
+const synthesis = (string, key, value) => {
   return string.replace(new RegExp("({"+key+"})","g"), value)
 }
 
+// 将错误信息进行转换
 const converterErrorInfo = (res) => {
   // 参数替换
   if (res.data && res.data.error_data) {

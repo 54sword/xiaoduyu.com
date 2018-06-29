@@ -31,7 +31,7 @@ import webpackHotMiddleware from './webpack-hot-middleware';
 
 // actions
 import { loadUserInfo } from '../actions/user';
-import { saveAccessToken } from '../actions/access-token';
+import { addAccessToken } from '../actions/token';
 
 const app = express();
 
@@ -77,7 +77,7 @@ app.get('*', async (req, res) => {
       return;
     }
 
-    if (user) store.dispatch(saveAccessToken({ access_token: accessToken }));
+    if (user) store.dispatch(addAccessToken({ access_token: accessToken }));
   }
 
   const router = createRouter(user);
@@ -150,7 +150,7 @@ app.get('*', async (req, res) => {
       </MetaTagsContext>
     </Provider>
   );
-  
+
   let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
 
   // 获取页面的meta，嵌套到模版中

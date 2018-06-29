@@ -14,9 +14,12 @@ export function removeAccessToken() {
   return { type: 'REMOVE_ACCESS_TOKEN' }
 }
 
+/**
+ * 获取用户信息
+ * @param  {String} accessToken 访问的token
+ */
 export const loadUserInfo = ({ accessToken = null }) => {
   return (dispatch, getState) => {
-
     return new Promise(async (resolve, reject) => {
 
       accessToken = accessToken || getState().user.accessToken;
@@ -68,8 +71,6 @@ export const loadUserInfo = ({ accessToken = null }) => {
       }
 
     })
-
-
   }
 }
 

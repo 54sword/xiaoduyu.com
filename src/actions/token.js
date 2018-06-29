@@ -1,11 +1,12 @@
-import Ajax from '../common/ajax'
-import cookie from 'react-cookie'
-import { auth_cookie_name } from '../../config'
+// import Ajax from '../common/ajax'
+// import cookie from 'react-cookies'
+// import { auth_cookie_name } from '../../config'
 
 export function addAccessToken({ access_token, expires }) {
   return { type: 'ADD_ACCESS_TOKEN', access_token, expires }
 }
 
+/*
 // 登录
 export function exchangeNewToken({ accessToken, callback = ()=>{} }) {
   return (dispatch, getState) => {
@@ -145,6 +146,7 @@ export const exchangeTokenTimer = () => {
 
   }
 }
+*/
 
 /*
 // 旧令牌交换新令牌的定时器

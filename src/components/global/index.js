@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { getProfile } from '../../reducers/user';
 
 // components
-import Sign from '../sign';
+import SignModal from './sign-modal';
 import EditorModalComment from './editor-comment-modal';
 import ReportModal from './report-modal';
 import BindingPhone from './binding-phone-modal';
@@ -31,7 +31,7 @@ class Global extends Component {
 
     return (<div>
 
-        {!me ? <Sign /> : null}
+        {!me ? <SignModal /> : null}
         {me ? <EditorModalComment /> : null}
         {me ? <ReportModal /> : null}
         {me ? <BindingPhone /> : null}

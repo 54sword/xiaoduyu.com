@@ -1,6 +1,8 @@
 import React from 'react';
 import Loading from './ui/loading';
 
+let count = 0;
+
 /**
  * 异步路由组件（页面）
  * @param  {Component} loader 需要加载的组件
@@ -40,9 +42,8 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
 
     updateState() {
       if (this.state.Component !== Component) {
-        this.setState({
-          Component,
-        });
+        count++;
+        this.setState({ Component });
       }
     }
 
@@ -50,6 +51,14 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
       const { Component } = this.state;
 
       if (Component) return <Component {...this.props} />;
+
+      // 处理客户端渲染首屏，先出现 “组件装载中...”，在出现内容的清空
+      // 如果是在客户端，并且是第一个异步Page组件，loading过程中的 Placeholder 使用页面本身的内容。
+      if (typeof window != 'undefined' && typeof document != 'undefined') {
+        if (count < 1) {
+          return <div dangerouslySetInnerHTML={{__html:document.getElementById('page-component').innerHTML}} />
+        }
+      }
 
       if (Placeholder) {
         return <Placeholder {...this.props} />;

@@ -1,6 +1,6 @@
-import grapgQLClient from '../common/graphql-client';
+// import grapgQLClient from '../common/graphql-client';
 import graphql from '../common/graphql';
-import loadList from './common/new-load-list';
+import loadList from '../common/graphql-load-list';//'./common/new-load-list';
 
 const processNotificationList = (list) => {
 
@@ -143,6 +143,7 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
   }
 }
 
+/*
 export function updateNotification(filters) {
   return async (dispatch, getState) => {
 
@@ -191,6 +192,7 @@ export function updateNotification(filters) {
     dispatch({ type: 'UPDATE_NOTIFICATION', id: _id, update: filters })
   }
 }
+*/
 
 // 更新通知中的评论
 let updateCommentState = (comment, notices) => {

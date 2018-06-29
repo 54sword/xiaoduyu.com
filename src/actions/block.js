@@ -1,6 +1,6 @@
 
 import graphql from '../common/graphql';
-import loadList from './common/new-load-list';
+import loadList from '../common/graphql-load-list';//'./common/new-load-list';
 
 export const loadBlockList = ({ id, args, select, restart }) => {
   return (dispatch, getState) => {

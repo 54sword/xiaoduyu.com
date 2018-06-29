@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+// redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { loadCountries } from '../../actions/countries'
 import { getCountries } from '../../reducers/countries'
 
+// styles
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
@@ -22,7 +24,7 @@ import styles from './style.scss'
 export default class CountriesSelect extends Component {
 
   static defaultProps = {
-    onChange: ()=>{},
+    onChange: PropTypes.func.isRequired,
     initValue: '+86'
   }
 
@@ -31,8 +33,7 @@ export default class CountriesSelect extends Component {
   }
 
   componentDidMount() {
-    const { countries, loadCountries, onChange, initValue } = this.props
-
+    const { countries, loadCountries, onChange, initValue } = this.props;
     if (countries.length == 0) loadCountries()
     onChange(initValue)
   }

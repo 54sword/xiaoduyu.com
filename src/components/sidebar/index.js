@@ -14,7 +14,7 @@ import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
 // components
-import SignIn from '../sign-in';
+// import SignIn from '../sign-in';
 import PostsList from '../../components/posts/list';
 
 @connect(

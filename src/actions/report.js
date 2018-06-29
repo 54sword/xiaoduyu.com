@@ -24,7 +24,6 @@ export function loadReportTypes() {
   }
 }
 
-
 export function addReport({ data }) {
   return (dispatch, getState) => {
     return new Promise(async (resolve, reject) => {

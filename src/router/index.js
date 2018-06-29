@@ -413,20 +413,22 @@ export default (user, logPageView = ()=>{}) => {
           <Route key={index} path={route.path} exact={route.exact} component={route.head} />
         ))}
       </Switch>
-
-      <Switch>
-        {/*routeArr.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)*/}
-        {routeArr.map((route, index) => {
-          if (route.component) {
-            return (<Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              render={props => route.enter(route.component, props, route)}
-            />)
-          }
-        })}
-      </Switch>
+      
+      <div id="page-component">
+        <Switch>
+          {/*routeArr.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)*/}
+          {routeArr.map((route, index) => {
+            if (route.component) {
+              return (<Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                render={props => route.enter(route.component, props, route)}
+              />)
+            }
+          })}
+        </Switch>
+      </div>
 
       <Footer />
 

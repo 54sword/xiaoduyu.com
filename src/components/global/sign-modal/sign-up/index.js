@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 
 // tools
-import Device from '../../common/device'
+import Device from '../../../../common/device'
 
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { signIn, signUp } from '../../actions/sign'
+import { signIn, signUp } from '../../../../actions/sign'
 
 // components
-import CaptchaButton from '../captcha-button';
-import CountriesSelect from '../countries-select';
+import CaptchaButton from '../../../captcha-button';
+import CountriesSelect from '../../../countries-select';
 
 // styles
 import CSSModules from 'react-css-modules'
@@ -31,10 +31,19 @@ export default class SignUp extends Component {
     super(props)
     this.state = {
       areaCode: '',
-      type:'phone'
+      type:'phone',
+      show: false
     }
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
+  }
+
+  componentDidMount() {
+
+    this.setState({
+      show: true
+    });
+
   }
 
   async submit(event) {
@@ -136,7 +145,7 @@ export default class SignUp extends Component {
 
   render () {
     const self = this;
-    const { type } = this.state;
+    const { type, show } = this.state;
 
     return (
       <div styleName="signup">
@@ -157,11 +166,11 @@ export default class SignUp extends Component {
 
         <div>
           <input type="text" className="form-control" placeholder="输入 6 位验证码" ref="captcha" />
-          <span styleName="captcha-button"><CaptchaButton onClick={this.sendCaptcha} /></span>
+          <span styleName="captcha-button">{show ? <CaptchaButton onClick={this.sendCaptcha} /> : null}</span>
         </div>
 
         <div><input type="password" className="form-control" ref="password" placeholder="密码" /></div>
-
+        
         <div styleName="gender">性别
 
           <div className="form-check form-check-inline">

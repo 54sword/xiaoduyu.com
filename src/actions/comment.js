@@ -1,5 +1,5 @@
 import { DateDiff } from '../common/date';
-import loadList from './common/new-load-list';
+import loadList from '../common/graphql-load-list';//'./common/new-load-list';
 import graphql from '../common/graphql';
 
 const processCommentList = (list) => {

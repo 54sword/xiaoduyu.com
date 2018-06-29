@@ -6,9 +6,9 @@ import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { signIn } from '../../actions/sign'
-import { addCaptcha } from '../../actions/captcha'
-import { getCaptchaById } from '../../reducers/captcha'
+import { signIn } from '../../../../actions/sign'
+import { addCaptcha } from '../../../../actions/captcha'
+import { getCaptchaById } from '../../../../reducers/captcha'
 
 @connect(
   (state, props) => ({
@@ -44,7 +44,13 @@ export default class Signin extends Component {
   }
 
   componentDidMount() {
-    this.getCaptcha();
+
+    const self = this;
+
+    $('#sign').on('show.bs.modal', function (e) {
+      self.getCaptcha();
+    });
+
   }
 
   getCaptcha() {

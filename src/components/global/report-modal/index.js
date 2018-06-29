@@ -42,13 +42,12 @@ export default class ReportModal extends Component {
   componentDidMount () {
     const self = this;
 
-    const { types, loadReportTypes } = this.props;
+    $(`#report`).on('show.bs.modal',  async (e) => {
 
-    if (!types) {
-      loadReportTypes();
-    }
+      const { types, loadReportTypes } = self.props;
 
-    $(`#report`).on('show.bs.modal', function (e) {
+      if (!types) await loadReportTypes();
+
       const { posts, comment, user } = e.relatedTarget;
       self.setState({ posts, comment, user });
     });
