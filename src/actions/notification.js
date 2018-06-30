@@ -143,7 +143,7 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
   }
 }
 
-/*
+
 export function updateNotification(filters) {
   return async (dispatch, getState) => {
 
@@ -192,7 +192,6 @@ export function updateNotification(filters) {
     dispatch({ type: 'UPDATE_NOTIFICATION', id: _id, update: filters })
   }
 }
-*/
 
 // 更新通知中的评论
 let updateCommentState = (comment, notices) => {
