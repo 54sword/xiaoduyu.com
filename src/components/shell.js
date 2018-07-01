@@ -106,22 +106,24 @@ const Shell = (Component) => {
       const { pathname, search } = this.props.location;
       this.props.saveScrollPosition(pathname + search);
     }
-    
+
     render() {
 
       const self = this;
       const { notFoundPgae } = this.state;
 
-      return (<div className="container">
-        {notFoundPgae ?
-          <div>{notFoundPgae}</div> :
-          <Component
-            {...this.props}
-            notFoundPgae={content=>{
-              self.setState({ notFoundPgae: content || '404 NOT FOUND' });
-            }}
-          />}
-      </div>)
+
+      if (notFoundPgae) {
+        return (<div>{notFoundPgae}</div>)
+      } else {
+        return (<Component
+          {...this.props}
+          notFoundPgae={content=>{
+            self.setState({ notFoundPgae: content || '404 NOT FOUND' });
+          }}
+        />);
+      }
+
     }
 
   }

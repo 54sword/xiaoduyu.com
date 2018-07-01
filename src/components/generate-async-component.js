@@ -35,8 +35,8 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
       this.state = { Component }
     }
 
-    componentWillMount() {
-      if (typeof window == 'undefined' || typeof document == 'undefined') return;
+    componentDidMount() {
+      // if (typeof window == 'undefined' || typeof document == 'undefined') return;
       asyncComponent.load().then(this.updateState);
     }
 
@@ -56,7 +56,7 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
       // 如果是在客户端，并且是第一个异步Page组件，loading过程中的 Placeholder 使用页面本身的内容。
       if (typeof window != 'undefined' && typeof document != 'undefined') {
         if (count < 1) {
-          return <div dangerouslySetInnerHTML={{__html:document.getElementById('page-component').innerHTML}} />
+          return <div dangerouslySetInnerHTML={{__html:document.getElementById('page-component').firstChild.innerHTML}} />
         }
       }
 
@@ -65,6 +65,7 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
       } else {
         return <Loading text="组件装载中..." />;
       }
+
     }
 
   }

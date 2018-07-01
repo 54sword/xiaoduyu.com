@@ -117,7 +117,7 @@ app.get('*', async (req, res) => {
   });
 
   let context = {
-    // code
+    code: 200
     // url
   };
 
@@ -150,6 +150,8 @@ app.get('*', async (req, res) => {
       </MetaTagsContext>
     </Provider>
   );
+
+  // console.log(html);
 
   let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
 

@@ -81,10 +81,12 @@ const RouterDom = createRouter(userinfo, logPageView).dom;
 
 startSocket(store);
 
-ReactDOM.hydrate((
+
+ReactDOM.hydrate(
   <Provider store={store}>
     <BrowserRouter>
       <RouterDom />
     </BrowserRouter>
-  </Provider>
-), document.getElementById('app'));
+  </Provider>,
+  document.getElementById('app')
+);

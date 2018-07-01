@@ -1,21 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import Loadable from 'react-loadable';
 
 // 生成异步加载组件
 import { asyncRouteComponent } from '../components/generate-async-component.js';
 import Head from '../components/head';
 import Footer from '../components/footer';
 
-// console.log(AsyncComponent);
 
-// import GlobalComponents from '../components/global';
-// import Bundle from '../components/bundle';
-
-// import Sign from '../components/sign';
-// import EditorModalComment from '../components/global/editor-comment-modal';
-// import ReportModal from '../components/global/report-modal';
-// import BindingPhone from '../components/global/binding-phone-modal';
+const Loading = () => <div>Loading...</div>;
 
 /**
  * 创建路由
@@ -81,6 +75,12 @@ export default (user, logPageView = ()=>{}) => {
       component: asyncRouteComponent({
         loader: () => import('../pages/home')
       }),
+
+      // component: Loadable({
+      //   loader: () => import('../pages/home'),
+      //   loading: Loading,
+      // }),
+
       enter: triggerEnter
     },
 
@@ -391,6 +391,10 @@ export default (user, logPageView = ()=>{}) => {
     {
       path: '**',
       head: Head,
+      // component: Loadable({
+      //   loader: () => import('../pages/not-found'),
+      //   loading: Loading,
+      // }),
       component: asyncRouteComponent({
         loader: () => import('../pages/not-found')
       }),
@@ -413,10 +417,9 @@ export default (user, logPageView = ()=>{}) => {
           <Route key={index} path={route.path} exact={route.exact} component={route.head} />
         ))}
       </Switch>
-      
-      <div id="page-component">
+
+      <div id="page-component" className="container">
         <Switch>
-          {/*routeArr.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)*/}
           {routeArr.map((route, index) => {
             if (route.component) {
               return (<Route
