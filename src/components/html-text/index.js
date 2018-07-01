@@ -287,7 +287,7 @@ export class HTMLText extends Component {
   componentWillReceiveProps(props) {
     if (this.props.content != props.content) {
       this.props = props;
-      this.componentDidMount()
+      this.componentWillMount();
     }
   }
 
