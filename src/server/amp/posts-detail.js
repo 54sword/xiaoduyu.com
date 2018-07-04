@@ -1,6 +1,6 @@
 
 // config
-import { name, domain_name, amp } from '../../../config'
+import { name, domain_name, amp, favicon } from '../../../config'
 
 // tools
 import { abstractImagesFromHTML } from '../../common/utils';
@@ -138,7 +138,8 @@ exports.show = async (req, res, next) => {
     website_name: name,
     domain_name,
     posts,
-    commentList
+    commentList,
+    favicon
   });
 
 

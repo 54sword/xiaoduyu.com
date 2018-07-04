@@ -9,6 +9,8 @@ let config = {
 
   // logo: '//localhost:4000/logo.png',
 
+  favicon: '<link rel="icon" href="//img.haosuzhou.com/acgnz-icon-100.png" type="image/png" />',
+
   // 添加内容到模版的head中
   head: `
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
@@ -70,6 +72,8 @@ let config = {
   }
 
 }
+
+config.head += config.favicon;
 
 // 开发环境配置
 if (process.env.NODE_ENV == 'development') {

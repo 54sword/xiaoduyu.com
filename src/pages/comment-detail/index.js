@@ -62,7 +62,7 @@ export class CommentDetail extends React.Component {
   constructor(props) {
     super(props);
   }
-  
+
   async componentDidMount() {
 
     const { id } = this.props.match.params;
