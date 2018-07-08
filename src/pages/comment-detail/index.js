@@ -126,13 +126,14 @@ export class CommentDetail extends React.Component {
           }}
           />
       </div>
-
+      
       {isMember ?
         <div className="mt-2 mb-4">
           <EditorComment
             posts_id={comment.posts_id._id}
             parent_id={comment._id}
             reply_id={comment._id}
+            placeholder={'回复 '+comment.user_id.nickname}
             />
         </div>
         : null}

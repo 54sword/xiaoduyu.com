@@ -36,6 +36,7 @@ export default class CommentEditor extends Component {
     posts_id: '',
     parent_id: '',
     reply_id: '',
+    placeholder: '写评论...',
     // content: '',
     successCallback: ()=>{},
     getEditor: (editor)=>{}
@@ -58,7 +59,7 @@ export default class CommentEditor extends Component {
   async componentDidMount() {
 
     const self = this;
-    let { _id, parent_id, posts_id, reply_id, getEditor, loadCommentList } = this.props;
+    let { _id, parent_id, posts_id, reply_id, getEditor, loadCommentList, placeholder } = this.props;
 
     let editComment =  '';
 
@@ -99,7 +100,7 @@ export default class CommentEditor extends Component {
         getEditor(editor);
       },
       displayControls: true,
-      placeholder:"写评论...",
+      placeholder,
       getCheckUpload: (checkUpload) =>{
         self.checkUpload = checkUpload;
       }

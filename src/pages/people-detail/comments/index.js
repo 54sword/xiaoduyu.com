@@ -13,7 +13,7 @@ class PeopleDetailPosts extends React.Component {
     super(props);
     this.state = {}
   }
-  
+
   render() {
     const { id } = this.props.match.params;
 

@@ -45,14 +45,14 @@ export class Home extends React.Component {
             filters: general
           })(store.dispatch, store.getState);
           resolve([ err, result ])
-        }),
-        new Promise(async resolve => {
-          let [ err, result ] = await loadPostsList({
-            id: '_home',
-            filters: recommend
-          })(store.dispatch, store.getState);
-          resolve([ err, result ])
         })
+        // new Promise(async resolve => {
+        //   let [ err, result ] = await loadPostsList({
+        //     id: '_home',
+        //     filters: recommend
+        //   })(store.dispatch, store.getState);
+        //   resolve([ err, result ])
+        // })
       ]).then(value=>{
         resolve({ code:200 });
       });
