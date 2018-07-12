@@ -300,10 +300,10 @@ export const loadNewNotifications = ({ name }) => {
 
     let index = res.data.length;
     while (index--) {
-      let item = res.data[index]
-      list.data.unshift(item)
-      let _index = unreadNotice.indexOf(item._id)
-      if (_index != -1) unreadNotice.splice(_index, 1)
+      let item = res.data[index];
+      list.data.unshift(item);
+      let _index = unreadNotice.indexOf(item._id);
+      if (_index != -1) unreadNotice.splice(_index, 1);
     }
 
     if (followPeople.count > 0) {
@@ -328,16 +328,14 @@ export const loadUnreadCount = () => {
   return (dispatch, getState) => {
     return new Promise(async resolve => {
 
-      let accessToken = getState().user.accessToken
+      let accessToken = getState().user.accessToken;
 
       if (loading || !accessToken) return;
 
       let [ err, res ] = await graphql({
         api: 'fetchUnreadUserNotification',
         fields: `ids`,
-        headers: {
-          accessToken: getState().user.accessToken
-        }
+        headers: { accessToken }
       });
 
       if (res) {

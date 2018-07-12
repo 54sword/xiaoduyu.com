@@ -170,7 +170,7 @@ export default class SignUp extends Component {
         </div>
 
         <div><input type="password" className="form-control" ref="password" placeholder="密码" /></div>
-        
+
         <div styleName="gender">性别
 
           <div className="form-check form-check-inline">

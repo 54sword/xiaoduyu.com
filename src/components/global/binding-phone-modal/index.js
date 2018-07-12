@@ -47,6 +47,7 @@ class BindingPhone extends Component {
 
   componentDidMount() {
 
+    const self = this;
     const { me } = this.props;
 
     /**
@@ -63,10 +64,6 @@ class BindingPhone extends Component {
 
         setTimeout(()=>{
 
-          $('#binding-phone').modal({
-            show: true
-          }, {});
-
           $('#binding-phone').on('show.bs.modal', function (e) {
             self.setState({ show: true });
           });
@@ -74,6 +71,10 @@ class BindingPhone extends Component {
           $('#binding-phone').on('hide.bs.modal', function (e) {
             self.setState({ show: false });
           });
+
+          $('#binding-phone').modal({
+            show: true
+          }, {});
 
         }, 3000);
 
@@ -153,7 +154,7 @@ class BindingPhone extends Component {
 
           <div>亲爱的用户，应2017年10月1日起实施的《中华人民共和国网络安全法》要求，网站须强化用户实名认证机制。您需要验证手机方可使用社区功能，烦请您将账号与手机进行绑定。</div>
           <br />
-          
+
           <div className="form-group">
             <div className="container">
               <div className="row">

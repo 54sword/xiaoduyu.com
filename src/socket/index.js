@@ -19,24 +19,24 @@ export default ({ dispatch, getState }) => {
 
     // 更新在线用户
     this.on("online-user-count", (count) => {
-      dispatch(setOnlineUserCount(count));
+      setOnlineUserCount(count)(dispatch, getState);
     });
 
     // 通知
     this.on("notiaction", (addresseeIds) => {
       if (me && me._id && addresseeIds.indexOf(me._id) != -1) {
-        dispatch(loadUnreadCount());
+        loadUnreadCount()(dispatch, getState);
       }
     });
 
     // 取消通知
     this.on("cancel-notiaction", (id) => {
-      dispatch(cancelNotiaction({id}));
+      cancelNotiaction({id})(dispatch, getState);
     });
 
     // 最帖子通知
     this.on("new-posts", (timestamp) => {
-      dispatch(newPostsTips());
+      newPostsTips()(dispatch, getState);
     });
 
   });
@@ -47,8 +47,8 @@ export default ({ dispatch, getState }) => {
   });
 
   if (me && me._id) {
-    dispatch(loadUnreadCount({}));
-    dispatch(newPostsTips());
+    loadUnreadCount({})(dispatch, getState);
+    newPostsTips()(dispatch, getState);
   }
 
 }

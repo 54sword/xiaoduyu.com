@@ -5,7 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadNotifications, updateNotification } from '../../../actions/notification';
+import { loadNotifications } from '../../../actions/notification';
 import { getNotificationByName } from '../../../reducers/notification';
 
 // tools
@@ -27,8 +27,8 @@ import styles from './style.scss';
     notification: getNotificationByName(state, props.name)
   }),
   dispatch => ({
-    loadNotifications: bindActionCreators(loadNotifications, dispatch),
-    updateNotification: bindActionCreators(updateNotification, dispatch)
+    loadNotifications: bindActionCreators(loadNotifications, dispatch)
+    // updateNotification: bindActionCreators(updateNotification, dispatch)
   })
 )
 @CSSModules(styles)
@@ -46,20 +46,11 @@ export default class NotificationList extends Component {
     loadNotifications: PropTypes.func.isRequired
   }
 
-  /*
-  static mapStateToProps = (state, props) => {
-    return {
-      notification: getNotificationByName(state, props.name)
-    }
-  }
-
-  static mapDispatchToProps = { loadNotifications, updateNotification }
-  */
 
   constructor(props) {
     super(props)
     this.handleLoad = this.handleLoad.bind(this)
-    this.updateNotification = this.updateNotification.bind(this)
+    // this.updateNotification = this.updateNotification.bind(this)
   }
 
   componentDidMount() {
@@ -79,11 +70,11 @@ export default class NotificationList extends Component {
     }
   }
 
-  updateNotification(id, data) {
-    const { updateNotification } = this.props
-    data._id = id
-    updateNotification(data)
-  }
+  // updateNotification(id, data) {
+  //   const { updateNotification } = this.props
+  //   data._id = id
+  //   updateNotification(data)
+  // }
 
   handleLoad() {
     const { name, filters, loadNotifications } = this.props

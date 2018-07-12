@@ -12,7 +12,17 @@ import ListLoading from '../../list-loading'
 import Pagination from '../../pagination'
 
 
-export class NotificationList extends Component {
+@connect(
+  (state, props) => ({
+    notification: getBroadcastListByName(state, props.name)
+  }),
+  dispatch => ({
+    loadBroadcastList: bindActionCreators(loadBroadcastList, dispatch),
+    updateBroadcast: bindActionCreators(updateBroadcast, dispatch)
+  })
+)
+@CSSModules
+export default class NotificationList extends Component {
 
   static propTypes = {
     // 列表名称
@@ -140,6 +150,6 @@ export class NotificationList extends Component {
   }
 }
 
-NotificationList = CSSModules(NotificationList, styles)
+// NotificationList = CSSModules(NotificationList, styles)
 
-export default connectReudx(NotificationList)
+// export default connectReudx(NotificationList)

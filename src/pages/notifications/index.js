@@ -39,7 +39,7 @@ export class Notifications extends Component {
   componentDidMount() {
     const { list, unreadNotice, loadNewNotifications } = this.props;
     if (unreadNotice.length > 0 && list && list.data && list.data.length > 0) {
-      loadNewNotifications({ name: 'index' })
+      loadNewNotifications({ name: 'index' });
     }
   }
 
