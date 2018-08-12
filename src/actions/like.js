@@ -26,6 +26,8 @@ const like = (status) => {
         } else if (data.type == 'posts') {
           dispatch({ type: 'UPDATE_POSTS_LIKE_STATUS', id: data.target_id, status: status})
         }
+        
+        resolve([ null, res ]);
 
       })
     }

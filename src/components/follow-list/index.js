@@ -86,10 +86,11 @@ export default class CommentList extends Component {
 
           if (people) {
             return (<div key={people._id} className="list-group-item" styleName="people-item">
-              <img styleName="avatar" src={people.avatar} />
+              <img styleName="avatar" src={people.avatar_url} />
               <div className="d-flex justify-content-between">
                 <div>
                   <Link to={`/people/${people._id}`} styleName="link"><b>{people.nickname}</b></Link>
+                  {people.brief ? <div>{people.brief}</div> : null}
                   <div styleName="people-status">
                     {people.posts_count ? <span>帖子 {people.posts_count}</span> : null}
                     {people.comment_count ? <span>评论 {people.comment_count}</span> : null}

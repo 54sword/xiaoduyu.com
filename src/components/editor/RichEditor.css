@@ -34,7 +34,6 @@
 
 .RichEditor-editor .public-DraftStyleDefault-pre {
   background-color: #222;
-  overflow-x:scroll;
   margin:5px 0 5px 0;
   padding:10px 15px 10px 15px;
   border-radius: 4px;

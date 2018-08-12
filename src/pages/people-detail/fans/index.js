@@ -15,7 +15,7 @@ class PeopleDetailPosts extends React.Component {
     super(props);
     this.state = {}
   }
-
+  
   render() {
     const { id } = this.props.match.params;
 
@@ -35,11 +35,12 @@ class PeopleDetailPosts extends React.Component {
               _id
               nickname
               create_at
-              avatar
               fans_count
               comment_count
               follow_people_count
               follow
+              avatar_url
+              brief
             }
           `}
         />}

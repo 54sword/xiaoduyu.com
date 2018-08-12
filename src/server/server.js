@@ -23,7 +23,7 @@ import { initialStateJSON } from '../reducers';
 // import { saveAccessToken, saveUserInfo } from '../actions/user';
 
 // 配置
-import { port, auth_cookie_name, ssl_verification_path } from '../../config';
+import { port, auth_cookie_name } from '../../config';
 import sign from './sign';
 import AMP from './amp';
 import webpackHotMiddleware from './webpack-hot-middleware';
@@ -47,10 +47,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compress());
 app.use(express.static(__dirname + '/../../dist'));
-
-if (ssl_verification_path) {
-  app.use(express.static(path.join(__dirname, ssl_verification_path)));
-}
 
 // amp
 app.use('/amp', AMP());

@@ -399,8 +399,15 @@ export class MyEditor extends React.Component {
       });
     });
 
-    self.refs.editor.blur();
-    self.refs.editor.focus();
+    this.onChange(
+      RichUtils.toggleInlineStyle(
+        this.state.editorState,
+        null
+      )
+    );
+
+    // self.refs.editor.blur();
+    // self.refs.editor.focus();
   }
 
   // 检查是否有未上传的文件

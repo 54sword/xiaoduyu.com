@@ -6,7 +6,8 @@
 
 .people-item{
   padding-left:75px;
-  height: 80px;
+  // height: 80px;
+  min-height: 80px;
 
   .avatar{
     position: absolute;
@@ -22,7 +23,7 @@
       margin-right:10px;
     }
   }
-
+  
 }
 
 

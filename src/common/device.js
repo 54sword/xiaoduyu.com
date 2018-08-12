@@ -8,7 +8,8 @@ var device = (function() {
       3: 'mac',
       4: 'ipad',
       5: 'iphone',
-      6: 'android'
+      6: 'android',
+      7: 'ios-app'
     };
     this.show = {
       1: '',
@@ -16,12 +17,13 @@ var device = (function() {
       3: '',
       4: '来自 iPad',
       5: '来自 iPhone',
-      6: '来自 Android'
+      6: '来自 Android',
+      7: '来自 IPhone APP'
     };
   };
 
   Device.prototype.getCurrentDeviceId = function() {
-    
+
     // 如果是服务器，那么就不存在 window 和 document 全局变量，因此不继续执行
     if (typeof window == 'undefined' || typeof document == 'undefined') {
       return 1

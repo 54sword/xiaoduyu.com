@@ -48,7 +48,7 @@ let config = {
   GA: '',
   // 添加分析统计脚本，字符串
   analysis_script: ``,
-
+  
   // amp 配置
   amp: {
     logo: {
@@ -57,10 +57,6 @@ let config = {
       height: '60'
     }
   },
-
-  // https 用于域名的验证的路径 [选填]
-	// https://github.com/xdtianyu/scripts/blob/master/lets-encrypt/README-CN.md
-	ssl_verification_path: '',
 
   // 用于将前端静态资源上传到七牛
   qiniu: {

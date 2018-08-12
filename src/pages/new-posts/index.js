@@ -97,7 +97,7 @@ class createPosts extends React.Component {
   successCallback(posts) {
 
     const { posts_id } = this.props.location.params;
-    
+
     if (posts_id) {
       this.props.history.push(`/posts/${posts_id}`)
     } else {

@@ -115,7 +115,7 @@ export class Settings extends Component {
             <Link className="list-group-item" to="/settings/gender">
               <div className="d-flex justify-content-between">
                 <span>性别</span>
-                <span>{typeof me.gender != 'undefined' ? (me.gender == 1 ? '男' : '女') : ''}</span>
+                <span>{me.gender != null ? (me.gender == 1 ? '男' : '女') : ''}</span>
               </div>
             </Link>
             <Link className="list-group-item" to="/settings/brief">

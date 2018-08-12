@@ -46,7 +46,7 @@ const follow = (status) => {
             accessToken: getState().user.accessToken
           }
         });
-
+        
         if (err) return resolve([ err ? err.message : '未知错误' ]);
 
         if (args.posts_id) {
@@ -58,6 +58,8 @@ const follow = (status) => {
           dispatch({ type: 'UPDATE_FOLLOW', id: args.topic_id, followStatus: status, selfId: me._id });
           dispatch({ type: 'UPDATE_TOPIC_FOLLOW', id:args.topic_id, followStatus: status });
         }
+
+        resolve([null, res]);
 
       })
     }

@@ -38,7 +38,7 @@ class StringToColor {
       }
       return hash;
     };
-    
+
     return StringToColor.intToRGB(hashCode(str));
   }
 
@@ -137,7 +137,9 @@ export class PeopleDetailHead extends React.Component {
             <img styleName="avatar" src={people.avatar_url.replace('thumbnail/!50', 'thumbnail/!300')} />
             <div styleName="nickname">
               {people.nickname}
-              {Reflect.has(people, 'gender') ? <span styleName={people.gender == 1 ? 'male' : 'female'}></span> : null}
+              {Reflect.has(people, 'gender') && people.gender != null ?
+                <span styleName={people.gender == 1 ? 'male' : 'female'}></span>
+                : null}
             </div>
             <div>{people.brief}</div>
           </div>
