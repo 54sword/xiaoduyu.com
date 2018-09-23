@@ -48,7 +48,7 @@ let config = {
   GA: '',
   // 添加分析统计脚本，字符串
   analysis_script: ``,
-  
+
   // amp 配置
   amp: {
     logo: {

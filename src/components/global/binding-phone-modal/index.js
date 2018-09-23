@@ -28,7 +28,7 @@ import styles from './style.scss';
   })
 )
 @CSSModules(styles)
-class BindingPhone extends Component {
+export default class BindingPhone extends Component {
 
   static defaultProps = {
     show: ()=>{},
@@ -39,7 +39,8 @@ class BindingPhone extends Component {
     super(props)
     this.state = {
       areaCode: '',
-      show: false
+      show: false,
+      isMount: true
     }
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
@@ -53,35 +54,37 @@ class BindingPhone extends Component {
     /**
      * 如果是登陆用户，没有绑定手机号，每三天提醒一次绑定手机号
      */
-    if (me && !me.phone) {
+    if (me && me.phone) return;
+    
+    let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
+    let nowTimestamps = new Date().getTime();
 
-      let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
-      let nowTimestamps = new Date().getTime();
+    if (nowTimestamps - timestamps < 1000 * 60 * 60 * 24 * 2) return;
 
-      if (nowTimestamps - timestamps > 1000 * 60 * 60 * 24 * 2) {
+    setTimeout(()=>{
 
+      if (!this.state.isMount) return;
+
+      $('#binding-phone').on('show.bs.modal', (e) => {
         reactLocalStorage.set('binding-phone-tips', nowTimestamps);
+        self.setState({ show: true });
+      });
 
-        setTimeout(()=>{
+      $('#binding-phone').on('hide.bs.modal', (e) => {
+        // if (!this.state.isMount) return;
+        self.setState({ show: false });
+      });
 
-          $('#binding-phone').on('show.bs.modal', function (e) {
-            self.setState({ show: true });
-          });
+      $('#binding-phone').modal({
+        show: true
+      }, {});
 
-          $('#binding-phone').on('hide.bs.modal', function (e) {
-            self.setState({ show: false });
-          });
+    }, 2000);
 
-          $('#binding-phone').modal({
-            show: true
-          }, {});
+  }
 
-        }, 3000);
-
-      }
-
-    }
-
+  componentWillUnmount() {
+    this.state.isMount = false;
   }
 
   async submit() {
@@ -178,5 +181,3 @@ class BindingPhone extends Component {
       />)
   }
 }
-
-export default BindingPhone;

@@ -126,7 +126,7 @@ export class CommentDetail extends React.Component {
           }}
           />
       </div>
-      
+
       {isMember ?
         <div className="mt-2 mb-4">
           <EditorComment
