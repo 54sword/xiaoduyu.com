@@ -27,6 +27,7 @@ const Topic = ({ match }) => (
   </div>
 );
 
+@Shell
 @connect(
   (state, props) => ({
     me: getProfile(state)
@@ -36,7 +37,7 @@ const Topic = ({ match }) => (
   })
 )
 @CSSModules(styles)
-export class Settings extends Component {
+export default class Settings extends Component {
 
   constructor(props) {
     super(props)
@@ -127,7 +128,7 @@ export class Settings extends Component {
           </div>
 
           <div className="list-group mb-2">
-            {me.email ? <Link className="list-group-item" to="/settings/password">修改密码</Link> : null}
+            {me.email || me.phone ? <Link className="list-group-item" to="/settings/password">修改密码</Link> : null}
           </div>
 
           <div className="list-group mb-2">
@@ -191,5 +192,3 @@ export class Settings extends Component {
   }
 
 }
-
-export default Shell(Settings);

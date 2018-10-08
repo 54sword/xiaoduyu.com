@@ -225,7 +225,7 @@ export default (user, logPageView = ()=>{}) => {
       component: asyncRouteComponent({
         loader: () => import('../pages/forgot')
       }),
-      enter: requireTourists
+      enter: triggerEnter
     },
 
     {

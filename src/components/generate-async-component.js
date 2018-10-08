@@ -55,8 +55,9 @@ exports.asyncRouteComponent = ({ loader, Placeholder }) => {
       // 处理客户端渲染首屏，先出现 “组件装载中...”，在出现内容的清空
       // 如果是在客户端，并且是第一个异步Page组件，loading过程中的 Placeholder 使用页面本身的内容。
       if (typeof window != 'undefined' && typeof document != 'undefined') {
-        if (count < 1) {
-          return <div dangerouslySetInnerHTML={{__html:document.getElementById('page-component').firstChild.innerHTML}} />
+        let pageComponent = document.getElementById('page-component') || null;
+        if (count < 1 && pageComponent && pageComponent.firstChild) {
+          return <div dangerouslySetInnerHTML={{__html:pageComponent.firstChild.innerHTML}} />
         }
       }
 

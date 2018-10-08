@@ -1,13 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // redux
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { updatePassword } from '../../actions/user'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { updatePassword } from '../../actions/user';
 
 // components
-import Shell from '../../components/shell'
-import Meta from '../../components/meta'
+import Shell from '../../components/shell';
+import Meta from '../../components/meta';
 
 @connect(
   (state, props) => ({
@@ -92,14 +93,19 @@ export class ResetPassword extends Component {
               <input type="password" className="form-control" placeholder="当前密码" ref="currentPassword"></input>
             </div>
 
+            <div>
+              <Link to="/forgot">忘记当前密码？找回密码</Link>
+              <br /><br />
+            </div>
+
             <div className="form-group">
               <input type="password" className="form-control" placeholder="新密码" ref="newPassword"></input>
             </div>
-            
+
             <div className="form-group">
               <input type="password" className="form-control" placeholder="重复新密码" ref="confirmNewPassword"></input>
             </div>
-
+            
             <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
 
           </div>
