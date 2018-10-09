@@ -26,4 +26,4 @@ const fn = (api) => {
   }
 }
 
-exports.addPhone = fn('addPhone');
+export const addPhone = fn('addPhone');

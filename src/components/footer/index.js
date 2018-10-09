@@ -2,7 +2,11 @@ import React from 'react';
 
 // components
 // import Bundle from '../bundle';
-import { AsyncComponent } from '../generate-async-component';
+// import { AsyncComponent } from '../generate-async-component';
+
+// import('../global')
+
+import Aglobal from '../global';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -45,11 +49,15 @@ export class Footer extends React.Component {
            ></a>
       </span>
 
+      <Aglobal />
+
+      {/*
       <AsyncComponent load={() => import('../global')}>
         {(Global) => {
           return (<Global />)
         }}
       </AsyncComponent>
+      */}
 
     </div>)
   }

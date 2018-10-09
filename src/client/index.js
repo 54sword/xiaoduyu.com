@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { StaticRouter, matchPath } from 'react-router';
 import ReactGA from 'react-ga';
 
 import configureStore from '../store';
@@ -10,10 +11,11 @@ import startSocket from '../socket';
 
 import { debug, GA } from '../../config';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'jquery'
-// import 'popper.js'
-// import 'bootstrap/dist/js/bootstrap.min.js'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery';
+import 'popper.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
+
 import '../pages/global.scss';
 
 
@@ -71,22 +73,51 @@ if (GA) {
   }
 }
 
-const RouterDom = createRouter(userinfo, logPageView).dom;
+const run = async () => {
 
-// if (__DEV__) {
-  // 开发模式下，首屏内容会使用服务端渲染的html代码，
-  // 而热更新代码是客户端代码，清空app里面的html，强制用客户端的代码作为显示
-  // document.getElementById('app').innerHTML = ''
-// }
+  const router = createRouter(userinfo, logPageView);
+  const RouterDom = router.dom;
 
-startSocket(store);
+  // const RouterDom = createRouter(userinfo, logPageView).dom;
 
+  // if (__DEV__) {
+    // 开发模式下，首屏内容会使用服务端渲染的html代码，
+    // 而热更新代码是客户端代码，清空app里面的html，强制用客户端的代码作为显示
+    // document.getElementById('app').innerHTML = ''
+  // }
 
-ReactDOM.hydrate(
-  <Provider store={store}>
-    <BrowserRouter>
-      <RouterDom />
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('app')
-);
+  startSocket(store);
+
+  let _route = null;
+
+  router.list.some(route => {
+    let match = matchPath(window.location.pathname, route);
+    if (match && match.path) {
+      _route = route;
+      return true;
+    }
+  });
+
+  // 预先加载首屏的js（否则会出现，loading 一闪的情况）
+  // if (_route && _route.component && _route.component.preload && _route.loadData) {
+    // await _route.component.preload();
+  // }
+
+  ReactDOM.hydrate(
+    <Provider store={store}>
+      <BrowserRouter>
+        <RouterDom />
+      </BrowserRouter>
+    </Provider>,
+    document.getElementById('app')
+  );
+
+  if (process.env.NODE_ENV === 'development') {
+    if (module.hot) {
+      module.hot.accept();
+    }
+  }
+
+}
+
+run();

@@ -1,7 +1,12 @@
 "use strict";
 var React = require("react");
 
-class Iframe extends React.Component {
+export default class Iframe extends React.Component {
+
+  static propTypes = {
+    src: React.PropTypes.string.isRequired
+  }
+
 // var Iframe = React.createClass({
     // displayName: "iframe"
 
@@ -37,8 +42,10 @@ allowfullscreen
     }
 }
 
-Iframe.propTypes = {
-  src: React.PropTypes.string.isRequired
-}
+// Iframe.propTypes = {
+  // src: React.PropTypes.string.isRequired
+// }
 
-module.exports = Iframe;
+// module.exports = Iframe;
+
+// export default Iframe;

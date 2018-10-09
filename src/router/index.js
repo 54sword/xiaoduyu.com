@@ -4,12 +4,12 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 // 生成异步加载组件
-import { asyncRouteComponent } from '../components/generate-async-component.js';
+// import { asyncRouteComponent } from '../components/generate-async-component.js';
 import Head from '../components/head';
 import Footer from '../components/footer';
+import Loading from '../components/ui/loading';
 
-
-const Loading = () => <div>Loading...</div>;
+// const Loading = () => <div>Loading...</div>;
 
 /**
  * 创建路由
@@ -72,14 +72,14 @@ export default (user, logPageView = ()=>{}) => {
       exact: true,
       head: Head,
       // component: import('../pages/home'),
-      component: asyncRouteComponent({
-        loader: () => import('../pages/home')
-      }),
-
-      // component: Loadable({
-      //   loader: () => import('../pages/home'),
-      //   loading: Loading,
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/home')
       // }),
+
+      component: Loadable({
+        loader: () => import('../pages/home'),
+        loading: () => <Loading />
+      }),
 
       enter: triggerEnter
     },
@@ -89,9 +89,15 @@ export default (user, logPageView = ()=>{}) => {
       exact: true,
       head: Head,
       // component: import('../pages/follow'),
-      component: asyncRouteComponent({
-        loader: () => import('../pages/follow')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/follow')
+      // }),
+
+      component: Loadable({
+        loader: () => import('../pages/follow'),
+        loading: () => <Loading />
       }),
+
       enter: requireAuth
     },
 
@@ -100,9 +106,15 @@ export default (user, logPageView = ()=>{}) => {
       exact: true,
       head: Head,
       // component: import('../pages/topic-detail'),
-      component: asyncRouteComponent({
-        loader: () => import('../pages/topic-detail')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/topic-detail')
+      // }),
+
+      component: Loadable({
+        loader: () => import('../pages/topic-detail'),
+        loading: () => <Loading />
       }),
+
       enter: triggerEnter
     },
 
@@ -110,9 +122,15 @@ export default (user, logPageView = ()=>{}) => {
       path: '/posts/:id',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/posts-detail')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/posts-detail')
+      // }),
+
+      component: Loadable({
+        loader: () => import('../pages/posts-detail'),
+        loading: () => <Loading />
       }),
+
       enter: triggerEnter
     },
 
@@ -120,9 +138,15 @@ export default (user, logPageView = ()=>{}) => {
       path: '/comment/:id',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/comment-detail')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/comment-detail')
+      // }),
+
+      component: Loadable({
+        loader: () => import('../pages/comment-detail'),
+        loading: () => <Loading />
       }),
+
       enter: triggerEnter
     },
 
@@ -130,8 +154,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/people/:id',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/people-detail/posts')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/people-detail/posts')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/people-detail/posts'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -140,8 +168,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/people/:id/comments',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/people-detail/comments')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/people-detail/comments')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/people-detail/comments'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -150,8 +182,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/people/:id/fans',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/people-detail/fans')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/people-detail/fans')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/people-detail/fans'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -160,8 +196,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/people/:id/follow/posts',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/people-detail/follow-posts')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/people-detail/follow-posts')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/people-detail/follow-posts'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -170,8 +210,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/people/:id/follow/peoples',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/people-detail/follow-peoples')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/people-detail/follow-peoples')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/people-detail/follow-peoples'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -180,8 +224,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/people/:id/follow/topics',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/people-detail/follow-topics')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/people-detail/follow-topics')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/people-detail/follow-topics'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -190,8 +238,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/notifications',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/notifications')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/notifications')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/notifications'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -200,8 +252,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/search',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/search')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/search')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/search'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -222,8 +278,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/forgot',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/forgot')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/forgot')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/forgot'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -232,8 +292,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/new-posts',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/new-posts')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/new-posts')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/new-posts'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -242,8 +306,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/settings',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/settings')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/settings')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/settings'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -252,8 +320,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/settings/avatar',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/settings-avatar')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/settings-avatar')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/settings-avatar'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -262,8 +334,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/settings/nickname',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/settings-nickname')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/settings-nickname')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/settings-nickname'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -272,8 +348,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/settings/gender',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/settings-gender')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/settings-gender')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/settings-gender'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -282,8 +362,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/settings/brief',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/settings-brief')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/settings-brief')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/settings-brief'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -292,8 +376,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/settings/password',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/settings-password')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/settings-password')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/settings-password'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -302,8 +390,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/settings/oauth/:oauthName',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/settings-oauth')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/settings-oauth')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/settings-oauth'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -312,8 +404,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/settings/binding-phone',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/binding-phone')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/binding-phone')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/binding-phone'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -322,8 +418,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/settings/email',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/settings-email')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/settings-email')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/settings-email'),
+        loading: () => <Loading />
       }),
       enter: requireAuth
     },
@@ -332,8 +432,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/oauth',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/oauth')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/oauth')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/oauth'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -342,8 +446,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/notice',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/notice')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/notice')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/notice'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -352,8 +460,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/block/peoples',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/blocks')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/blocks')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/blocks'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -362,8 +474,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/block/posts',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/blocks')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/blocks')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/blocks'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -372,8 +488,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/block/comments',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/blocks')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/blocks')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/blocks'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -382,8 +502,12 @@ export default (user, logPageView = ()=>{}) => {
       path: '/agreement',
       exact: true,
       head: Head,
-      component: asyncRouteComponent({
-        loader: () => import('../pages/agreement')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/agreement')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/agreement'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     },
@@ -395,8 +519,12 @@ export default (user, logPageView = ()=>{}) => {
       //   loader: () => import('../pages/not-found'),
       //   loading: Loading,
       // }),
-      component: asyncRouteComponent({
-        loader: () => import('../pages/not-found')
+      // component: asyncRouteComponent({
+      //   loader: () => import('../pages/not-found')
+      // }),
+      component: Loadable({
+        loader: () => import('../pages/not-found'),
+        loading: () => <Loading />
       }),
       enter: triggerEnter
     }

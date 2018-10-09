@@ -3,7 +3,7 @@ import graphql from '../common/graphql';
 import loadList from '../common/graphql-load-list';//'./common/new-load-list';
 
 // 关注
-exports.findFollows = ({ id, args, fields, restart = false }) => {
+export const findFollows = ({ id, args, fields, restart = false }) => {
   return (dispatch, getState) => {
     return new Promise(async resolve => {
 
@@ -29,7 +29,7 @@ exports.findFollows = ({ id, args, fields, restart = false }) => {
 
 
 
-const follow = (status) => {
+const _follow = (status) => {
   return ({ args }) => {
     return (dispatch, getState) => {
       return new Promise(async resolve => {
@@ -46,7 +46,7 @@ const follow = (status) => {
             accessToken: getState().user.accessToken
           }
         });
-        
+
         if (err) return resolve([ err ? err.message : '未知错误' ]);
 
         if (args.posts_id) {
@@ -67,6 +67,6 @@ const follow = (status) => {
 }
 
 // 关注
-exports.follow = follow(true);
+export const follow = _follow(true);
 // 取消关注
-exports.unfollow = follow(false);
+export const unfollow = _follow(false);

@@ -134,10 +134,11 @@ export default class PostsList extends Component {
     if (!loading && data && data.length == 0 && !more) {
       return <div className="text-center mt-4 md-4">没有查询到结果</div>
     }
-
+    
+    //  ref="posts-list"
     return (<div>
 
-      <div ref="posts-list">
+      <div>
         {data && data.map(posts=>{
           if (itemName == 'posts-item') {
             return (<PostsItem key={posts._id} posts={posts} />)

@@ -1,6 +1,6 @@
 import graphql from '../common/graphql';
 
-const like = (status) => {
+const _like = (status) => {
   return (data) => {
     return (dispatch, getState) => {
       return new Promise(async resolve => {
@@ -26,7 +26,7 @@ const like = (status) => {
         } else if (data.type == 'posts') {
           dispatch({ type: 'UPDATE_POSTS_LIKE_STATUS', id: data.target_id, status: status})
         }
-        
+
         resolve([ null, res ]);
 
       })
@@ -35,6 +35,6 @@ const like = (status) => {
 }
 
 // 关注
-exports.like = like(true);
+export const like = _like(true);
 // 取消关注
-exports.unlike = like(false);
+export const unlike = _like(false);

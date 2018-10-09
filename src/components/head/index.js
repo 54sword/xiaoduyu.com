@@ -67,7 +67,7 @@ export default class Head extends React.Component {
   componentDidMount() {
 
     const { topicList, loadTopics } = this.props;
-    const { search } = this.refs;
+    const { search } = this.state;
 
     if (!topicList) {
       loadTopics({
@@ -87,7 +87,7 @@ export default class Head extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    const { search } = this.refs;
+    const { search } = this.state;
     // 组件url发生变化
     if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
       let params = props.location.search ? parseUrl(props.location.search) : {};
@@ -110,7 +110,7 @@ export default class Head extends React.Component {
 
   search(event) {
     event.preventDefault();
-    const { search } = this.refs;
+    const { search } = this.state;
 
     if (!search.value) return search.focus();
     this.props.history.push(`/search?q=${search.value}`);
@@ -141,7 +141,10 @@ export default class Head extends React.Component {
     }
 
     let search = (<form onSubmit={this.search} styleName="search-form">
-                    <input type="text" styleName="search" placeholder="搜索" ref="search" />
+                    <input type="text" styleName="search" placeholder="搜索" ref={(e)=>{
+                      this.state.search = e;
+                      console.log(this.state.search);
+                    }} />
                     <button type="submit" styleName="search-submit"></button>
                   </form>)
 

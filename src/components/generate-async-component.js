@@ -15,7 +15,7 @@ let count = 0;
  *   loader: () => import('../pages/comment-detail')
  * })
  */
-exports.asyncRouteComponent = ({ loader, Placeholder }) => {
+export const asyncRouteComponent = ({ loader, Placeholder }) => {
 
   let Component = null;
 

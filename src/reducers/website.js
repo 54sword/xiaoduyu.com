@@ -50,11 +50,11 @@ export function getGoBack(state) {
 }
 
 // 获取未读通知数
-exports.getUnreadNotice = (state) => {
+export const getUnreadNotice = (state) => {
   return state.website.unreadNotice
 }
 
 // 获取帖子的提醒
-exports.getPostsTips = (state) => {
+export const getPostsTips = (state) => {
   return state.website.newPostsTips
 }

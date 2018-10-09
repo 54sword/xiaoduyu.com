@@ -38,12 +38,12 @@ export default function user(state = initialState, action = {}) {
 }
 
 // 是否是会员
-exports.isMember = (state) => {
+export const isMember = (state) => {
   return state.user.profile && state.user.profile._id ? true : false;
 }
 
 // 获取个人信息
-exports.getProfile = (state) => {
+export const getProfile = (state) => {
   if (state.user.profile._id) {
     return state.user.profile
   } else {
@@ -53,7 +53,7 @@ exports.getProfile = (state) => {
 
 
 // 获取 access token
-exports.getAccessToken = (state) => state.user.accessToken
+export const getAccessToken = (state) => state.user.accessToken
 
 // 获取用户身份解锁token
-exports.getUnlockToken = (state) => state.user.unlockToken
+export const getUnlockToken = (state) => state.user.unlockToken

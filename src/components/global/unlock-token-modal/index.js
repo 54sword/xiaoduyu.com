@@ -45,7 +45,7 @@ class UnlockToken extends Component {
 
     const self = this
     const { getUnlockToken } = this.props
-    const { select, captcha } = this.refs
+    const { select, captcha } = this.state
 
     if (!captcha.value) return captcha.focus();
 
@@ -71,7 +71,7 @@ class UnlockToken extends Component {
         duration: 3000,
         backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
       }).showToast();
-      
+
       $(`#unlock-token-modal`).modal('hide');
     }
 
@@ -79,7 +79,7 @@ class UnlockToken extends Component {
 
   sendCaptcha(callback) {
 
-    const { select } = this.refs
+    const { select } = this.state
 
     callback({
       id: 'unlock-token',
@@ -106,7 +106,7 @@ class UnlockToken extends Component {
           <div className="form-group">
             <div className="container">
               <div className="row">
-              <select className="form-control" id="exampleFormControlSelect1" ref="select">
+              <select className="form-control" id="exampleFormControlSelect1" ref={(e)=>{ this.state.select = e; }} >
                 {me.phone ? <option value="phone">使用 {me.phone} 验证</option> : null}
                 {me.email ? <option value="email">使用 {me.email} 验证</option> : null}
               </select>
@@ -115,7 +115,7 @@ class UnlockToken extends Component {
           </div>
 
           <div className="form-group">
-            <input className="form-control" type="text" placeholder="输入6位数验证码" ref="captcha" />
+            <input className="form-control" type="text" placeholder="输入6位数验证码" ref={(e)=>{ this.state.captcha = e; }} />
             <div>
               <CaptchaButton onClick={this.sendCaptcha} />
             </div>

@@ -55,7 +55,7 @@ export default class BindingPhone extends Component {
      * 如果是登陆用户，没有绑定手机号，每三天提醒一次绑定手机号
      */
     if (me && me.phone) return;
-    
+
     let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
     let nowTimestamps = new Date().getTime();
 
@@ -91,8 +91,8 @@ export default class BindingPhone extends Component {
 
     const self = this
     const { loadUserInfo, addPhone } = this.props
-    const { phone, captcha } = this.refs
-    const { areaCode } = this.state
+    // const { phone, captcha } = this.refs
+    const { phone, captcha, areaCode } = this.state
 
     if (!phone.value) return phone.focus();
     if (!captcha.value) return captcha.focus();
@@ -129,8 +129,8 @@ export default class BindingPhone extends Component {
   }
 
   sendCaptcha(callback) {
-    const { phone } = this.refs
-    const { areaCode } = this.state
+    // const { phone } = this.refs;
+    const { phone, areaCode } = this.state;
 
     if (!phone.value) return phone.focus();
 
@@ -162,13 +162,13 @@ export default class BindingPhone extends Component {
             <div className="container">
               <div className="row">
                 <div className="col-3">{show ? <CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} /> : null}</div>
-                <div className="col-9"><input className="form-control" type="text" placeholder="请输入您的手机号" ref="phone" /></div>
+                <div className="col-9"><input className="form-control" type="text" placeholder="请输入您的手机号" ref={(e)=>{ this.state.phone = e; }} /></div>
               </div>
             </div>
           </div>
 
           <div className="form-group">
-            <input className="form-control" type="text" placeholder="输入6位数验证码" ref="captcha" />
+            <input className="form-control" type="text" placeholder="输入6位数验证码" ref={(e)=>{ this.state.captcha = e; }} />
             <div>
               <CaptchaButton onClick={this.sendCaptcha} />
             </div>

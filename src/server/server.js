@@ -5,8 +5,8 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
 // import DocumentMeta from 'react-document-meta';
-import MetaTagsServer from 'react-meta-tags/server';
-import {MetaTagsContext} from 'react-meta-tags';
+// import MetaTagsServer from 'react-meta-tags/server';
+// import {MetaTagsContext} from 'react-meta-tags';
 
 // 服务端渲染依赖
 import React from 'react';
@@ -25,8 +25,8 @@ import { initialStateJSON } from '../reducers';
 // 配置
 import { port, auth_cookie_name } from '../../config';
 import sign from './sign';
-import AMP from './amp';
-import webpackHotMiddleware from './webpack-hot-middleware';
+// import AMP from './amp';
+// import webpackHotMiddleware from './webpack-hot-middleware';
 
 
 // actions
@@ -39,17 +39,18 @@ const app = express();
 // ***** 注意 *****
 // 不要改变如下代码执行位置，否则热更新会失效
 // 开发环境开启修改代码后热更新
-if (process.env.NODE_ENV === 'development') webpackHotMiddleware(app);
+// if (process.env.NODE_ENV === 'development') webpackHotMiddleware(app);
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compress());
-app.use(express.static(__dirname + '/../../dist'));
+// app.use(express.static(__dirname + '/../../dist'));
+app.use(express.static('./dist/client'));
 
 // amp
-app.use('/amp', AMP());
+// app.use('/amp', AMP());
 
 // 登录、退出
 app.use('/sign', sign());
@@ -117,6 +118,7 @@ app.get('*', async (req, res) => {
     // url
   };
 
+  /*
   // 加载异步路由组件
   const loadAsyncRouterComponent = () => {
     return new Promise(async (resolve) => {
@@ -132,18 +134,28 @@ app.get('*', async (req, res) => {
     // 在服务端加载异步组件
     context = await loadAsyncRouterComponent();
   }
+  */
+
+
 
   // 获取路由dom
   const _Router = router.dom;
-  const metaTagsInstance = MetaTagsServer();
+  // const metaTagsInstance = MetaTagsServer();
+
+  if (_route.loadData) {
+    context = await _route.loadData({ store, match: _match });
+    // console.log(context);
+  }
+
+  await _route.component.preload();
 
   let html = ReactDOMServer.renderToString(
     <Provider store={store}>
-      <MetaTagsContext extract = {metaTagsInstance.extract}>
+      {/* <MetaTagsContext extract = {metaTagsInstance.extract}> */}
         <StaticRouter location={req.url} context={context}>
           <_Router />
         </StaticRouter>
-      </MetaTagsContext>
+      {/* </MetaTagsContext> */}
     </Provider>
   );
 
@@ -156,7 +168,7 @@ app.get('*', async (req, res) => {
 
 
 
-  let meta = metaTagsInstance.renderToString();
+  let meta = '';//metaTagsInstance.renderToString();
   // console.log(meta);
   // console.log(metaTagsInstance.renderToString());
 
@@ -166,7 +178,7 @@ app.get('*', async (req, res) => {
     });
   } else {
     res.status(context.code);
-    res.render('../dist/index.ejs', { html, reduxState, meta });
+    res.render('../dist/server/index.ejs', { html, reduxState, meta });
   }
 
   res.end();

@@ -56,7 +56,7 @@ export default class ReportModal extends Component {
   async submit() {
 
     const { submitting, posts, comment, user, type } = this.state;
-    const { detail } = this.refs;
+    const { detail } = this.state;
     const { addReport } = this.props;
 
     if (!type) {
@@ -157,7 +157,7 @@ export default class ReportModal extends Component {
             })}
           </div>
           <div styleName="detail">
-            <textarea placeholder="补充举报说明" className="border" ref="detail"></textarea>
+            <textarea placeholder="补充举报说明" className="border" ref={(e)=>{ this.state.detail = e; }}></textarea>
           </div>
           <div>
             <button onClick={this.submit} type="button" className="btn btn-primary">{submitting ? '提交中...' : '提交'}</button>
