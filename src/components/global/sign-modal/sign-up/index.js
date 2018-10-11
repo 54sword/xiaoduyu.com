@@ -53,7 +53,7 @@ export default class SignUp extends Component {
     let self = this;
 
 
-    let { nickname, account, password, male, female, captcha } = this.refs;
+    let { nickname, account, password, male, female, captcha } = this.state;
 
     const { areaCode } = this.state;
     const { signUp, signIn } = this.props;
@@ -150,43 +150,39 @@ export default class SignUp extends Component {
     return (
       <div styleName="signup">
 
-        <div><input type="text" className="form-control" ref="nickname" placeholder="名字" /></div>
+        <div><input type="text" className="form-control" ref={(e)=>{this.state.nickname=e;}} placeholder="名字" /></div>
 
         {type == 'phone' ?
           <div className="container">
             <div className="row justify-content-between">
               <div className="col-4"><CountriesSelect onChange={(res)=>{ self.state.areaCode = res }} /></div>
-              <div className="col-8"><input type="text" className="form-control" ref="account" placeholder="手机号" /></div>
+              <div className="col-8"><input type="text" className="form-control" ref={(e)=>{this.state.account=e;}} placeholder="手机号" /></div>
             </div>
           </div>
           :
           <div>
-            <input type="text" className="form-control" ref="account" placeholder="邮箱" />
+            <input type="text" className="form-control" ref={(e)=>{this.state.account=e;}} placeholder="邮箱" />
           </div>}
 
         <div>
-          <input type="text" className="form-control" placeholder="输入 6 位验证码" ref="captcha" />
+          <input type="text" className="form-control" placeholder="输入 6 位验证码" ref={(e)=>{this.state.captcha=e;}} />
           <span styleName="captcha-button">{show ? <CaptchaButton onClick={this.sendCaptcha} /> : null}</span>
         </div>
 
-        <div><input type="password" className="form-control" ref="password" placeholder="密码" /></div>
+        <div><input type="password" className="form-control" ref={(e)=>{this.state.password=e;}} placeholder="密码" /></div>
 
         <div styleName="gender">性别
 
           <div className="form-check form-check-inline">
-            <input className="form-check-input" type="radio" name="gender" id="male" value="男" ref="male" />
+            <input className="form-check-input" type="radio" name="gender" id="male" value="男" ref={(e)=>{this.state.male=e;}} />
             <label className="form-check-label" htmlFor="male">男</label>
           </div>
 
           <div className="form-check form-check-inline">
-            <input className="form-check-input" type="radio" name="gender" id="female" value="女" ref="female" />
+            <input className="form-check-input" type="radio" name="gender" id="female" value="女" ref={(e)=>{this.state.female=e;}} />
             <label className="form-check-label" htmlFor="female">女</label>
           </div>
 
-          {/*
-          <input type="radio" name="gender" ref="male" />男
-          <input type="radio" name="gender" ref="female" />女
-          */}
         </div>
 
         <div>

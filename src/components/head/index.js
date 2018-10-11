@@ -143,7 +143,7 @@ export default class Head extends React.Component {
     let search = (<form onSubmit={this.search} styleName="search-form">
                     <input type="text" styleName="search" placeholder="搜索" ref={(e)=>{
                       this.state.search = e;
-                      console.log(this.state.search);
+                      // console.log(this.state.search);
                     }} />
                     <button type="submit" styleName="search-submit"></button>
                   </form>)

@@ -2,14 +2,13 @@
 // 上传build目录里面的文件到七牛
 var glob = require("glob");
 var qiniu = require("qiniu");
-var config = require("./config");
 
 //需要填写你的 Access Key 和 Secret Key
-qiniu.conf.ACCESS_KEY = config.qiniu.accessKey;
-qiniu.conf.SECRET_KEY = config.qiniu.secretKey;
+qiniu.conf.ACCESS_KEY = 'V7Tt-TvFyxpd0r6w0iyg6L4PkZOv0oRUsB1xymfm';
+qiniu.conf.SECRET_KEY = 'CIK0hDp3gPBBxaEA_gHyWiqVgmDldoG4a_yDg4iE';
 
 //要上传的空间
-var bucket = config.qiniu.bucket;
+var bucket = 'qn-cdn';
 
 //构建上传策略函数
 function uptoken(bucket, key) {
@@ -54,7 +53,7 @@ function upload(files, callback) {
 
 
 // 读取build下面所有的目录
-glob("./dist/*", {}, function (er, files) {
+glob("./dist/client/*", {}, function (er, files) {
 
   var index = files.length
 

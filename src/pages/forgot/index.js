@@ -12,6 +12,7 @@ import Meta from '../../components/meta';
 import CaptchaButton from '../../components/captcha-button';
 
 
+@Shell
 @withRouter
 @connect(
   (state, props) => ({
@@ -20,10 +21,11 @@ import CaptchaButton from '../../components/captcha-button';
     forgot: bindActionCreators(forgot, dispatch)
   })
 )
-export class Forgot extends Component {
+export default class Forgot extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {};
     this.submit = this.submit.bind(this);
     this.sendCaptcha = this.sendCaptcha.bind(this);
   }
@@ -32,7 +34,7 @@ export class Forgot extends Component {
 
     event.preventDefault();
 
-    const { account, captcha, newPassword, confirmNewPassword } = this.refs;
+    const { account, captcha, newPassword, confirmNewPassword } = this.state;
     const { forgot } = this.props;
 
     if (!account.value) return account.focus();
@@ -79,7 +81,7 @@ export class Forgot extends Component {
 
   sendCaptcha(callback) {
 
-    const { account } = this.refs
+    const { account } = this.state
 
     if (!account.value) return account.focus()
 
@@ -103,20 +105,20 @@ export class Forgot extends Component {
         <form onSubmit={this.submit}>
           <div className="form-group">
             <label htmlFor="exampleInputEmail1">请输入你的注册手机号或邮箱</label>
-            <input type="text" className="form-control" placeholder="请输入你的注册手机号或邮箱" ref="account" />
+            <input type="text" className="form-control" placeholder="请输入你的注册手机号或邮箱" ref={e=>{ this.state.account = e; }} />
           </div>
           <div className="form-group">
             <label htmlFor="exampleInputPassword1">输入验证码</label>
             <CaptchaButton onClick={this.sendCaptcha} />
-            <input type="text" className="form-control" placeholder="输入验证码" ref="captcha" />
+            <input type="text" className="form-control" placeholder="输入验证码" ref={e=>{ this.state.captcha = e; }} />
           </div>
           <div className="form-group">
             <label htmlFor="exampleInputPassword1">新密码</label>
-            <input type="password" className="form-control" placeholder="新密码" ref="newPassword" />
+            <input type="password" className="form-control" placeholder="新密码" ref={e=>{ this.state.newPassword = e; }} />
           </div>
           <div className="form-group">
             <label htmlFor="exampleInputPassword1">重复新密码</label>
-            <input type="password" className="form-control" placeholder="重复新密码" ref="confirmNewPassword" />
+            <input type="password" className="form-control" placeholder="重复新密码" ref={e=>{ this.state.confirmNewPassword = e; }} />
           </div>
           <button type="submit" className="btn btn-primary">提交</button>
         </form>
@@ -127,5 +129,3 @@ export class Forgot extends Component {
   }
 
 }
-
-export default Shell(Forgot)

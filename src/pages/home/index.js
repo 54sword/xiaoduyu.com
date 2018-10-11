@@ -33,32 +33,8 @@ let recommend = {
   }
 }
 
-export class Home extends React.Component {
-
-  static loadData({ store, match }) {
-    return new Promise(resolve => {
-
-      Promise.all([
-        new Promise(async resolve => {
-          let [ err, result ] = await loadPostsList({
-            id: 'home',
-            filters: general
-          })(store.dispatch, store.getState);
-          resolve([ err, result ])
-        })
-        // new Promise(async resolve => {
-        //   let [ err, result ] = await loadPostsList({
-        //     id: '_home',
-        //     filters: recommend
-        //   })(store.dispatch, store.getState);
-        //   resolve([ err, result ])
-        // })
-      ]).then(value=>{
-        resolve({ code:200 });
-      });
-
-    })
-  }
+@Shell
+export default class Home extends React.Component {
 
   constructor(props) {
     super(props);
@@ -121,5 +97,3 @@ export class Home extends React.Component {
   }
 
 }
-
-export default Shell(Home);

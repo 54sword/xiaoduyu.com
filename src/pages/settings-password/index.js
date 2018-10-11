@@ -10,6 +10,7 @@ import { updatePassword } from '../../actions/user';
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 
+@Shell
 @connect(
   (state, props) => ({
   }),
@@ -17,7 +18,7 @@ import Meta from '../../components/meta';
     updatePassword: bindActionCreators(updatePassword, dispatch)
   })
 )
-export class ResetPassword extends Component {
+export default class ResetPassword extends Component {
 
   constructor(props) {
     super(props)
@@ -105,7 +106,7 @@ export class ResetPassword extends Component {
             <div className="form-group">
               <input type="password" className="form-control" placeholder="重复新密码" ref="confirmNewPassword"></input>
             </div>
-            
+
             <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
 
           </div>
@@ -118,5 +119,3 @@ export class ResetPassword extends Component {
   }
 
 }
-
-export default Shell(ResetPassword)

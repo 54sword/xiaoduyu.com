@@ -9,6 +9,12 @@ import Head from '../components/head';
 import Footer from '../components/footer';
 import Loading from '../components/ui/loading';
 
+import PostsDetailLoadData from '../pages/posts-detail/load-data';
+import CommentDetailLoadData from '../pages/comment-detail/load-data';
+import FollowLoadData from '../pages/follow/load-data';
+import HomeLoadData from '../pages/home/load-data';
+import TopicDetailLoadData from '../pages/topic-detail/load-data';
+
 // const Loading = () => <div>Loading...</div>;
 
 /**
@@ -71,16 +77,11 @@ export default (user, logPageView = ()=>{}) => {
       path: '/',
       exact: true,
       head: Head,
-      // component: import('../pages/home'),
-      // component: asyncRouteComponent({
-      //   loader: () => import('../pages/home')
-      // }),
-
       component: Loadable({
         loader: () => import('../pages/home'),
         loading: () => <Loading />
       }),
-
+      loadData: HomeLoadData,
       enter: triggerEnter
     },
 
@@ -88,16 +89,11 @@ export default (user, logPageView = ()=>{}) => {
       path: '/follow',
       exact: true,
       head: Head,
-      // component: import('../pages/follow'),
-      // component: asyncRouteComponent({
-      //   loader: () => import('../pages/follow')
-      // }),
-
       component: Loadable({
         loader: () => import('../pages/follow'),
         loading: () => <Loading />
       }),
-
+      loadData: FollowLoadData,
       enter: requireAuth
     },
 
@@ -105,16 +101,11 @@ export default (user, logPageView = ()=>{}) => {
       path: '/topic/:id',
       exact: true,
       head: Head,
-      // component: import('../pages/topic-detail'),
-      // component: asyncRouteComponent({
-      //   loader: () => import('../pages/topic-detail')
-      // }),
-
       component: Loadable({
         loader: () => import('../pages/topic-detail'),
         loading: () => <Loading />
       }),
-
+      loadData: TopicDetailLoadData,
       enter: triggerEnter
     },
 
@@ -122,15 +113,11 @@ export default (user, logPageView = ()=>{}) => {
       path: '/posts/:id',
       exact: true,
       head: Head,
-      // component: asyncRouteComponent({
-      //   loader: () => import('../pages/posts-detail')
-      // }),
-
       component: Loadable({
         loader: () => import('../pages/posts-detail'),
         loading: () => <Loading />
       }),
-
+      loadData: PostsDetailLoadData,
       enter: triggerEnter
     },
 
@@ -138,15 +125,11 @@ export default (user, logPageView = ()=>{}) => {
       path: '/comment/:id',
       exact: true,
       head: Head,
-      // component: asyncRouteComponent({
-      //   loader: () => import('../pages/comment-detail')
-      // }),
-
       component: Loadable({
         loader: () => import('../pages/comment-detail'),
         loading: () => <Loading />
       }),
-
+      loadData: CommentDetailLoadData,
       enter: triggerEnter
     },
 
@@ -545,7 +528,7 @@ export default (user, logPageView = ()=>{}) => {
           <Route key={index} path={route.path} exact={route.exact} component={route.head} />
         ))}
       </Switch>
-
+      
       <div id="page-component" className="container">
         <Switch>
           {routeArr.map((route, index) => {

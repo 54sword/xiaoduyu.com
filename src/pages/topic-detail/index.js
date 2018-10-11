@@ -97,6 +97,7 @@ const generatePostsFilters = (topic, search) => {
 
 }
 
+@Shell
 @connect(
   (state, props) => ({
     topicList: getTopicListByKey(state, props.match.params.id)
@@ -106,65 +107,7 @@ const generatePostsFilters = (topic, search) => {
   })
 )
 @CSSModules(styles)
-export class TopicsDetail extends React.Component {
-
-  // 服务端渲染
-  // 加载需要在服务端渲染的数据
-  static loadData({ store, match }) {
-    return new Promise(async (resolve, reject) => {
-
-      const { id } = match.params;
-      let err, result;
-
-      [ err, result ] = await loadTopics({
-        id: id,
-        filters: { variables: { _id: id } }
-      })(store.dispatch, store.getState);
-
-      if (!err && result && result.data && result.data[0]) {
-
-        let { general, recommend } = generatePostsFilters(result.data[0], match.search);
-
-        if (!general.query.topic_id) {
-          resolve({ code:200 });
-          return
-        }
-
-        Promise.all([
-          new Promise(async resolve => {
-            [ err, result ] = await loadPostsList({
-              id: match.pathname + match.search,
-              filters: general
-            })(store.dispatch, store.getState);
-            resolve([ err, result ])
-          }),
-          /*
-          new Promise(async resolve => {
-
-            [ err, result ] = await loadTopics({
-              id: id+'-children',
-              filters: { variables: { parent_id: id } }
-            })(store.dispatch, store.getState);
-
-            resolve([ err, result ]);
-
-            // [ err, result ] = await loadPostsList({
-            //   id: '_'+match.pathname,
-            //   filters: recommend
-            // })(store.dispatch, store.getState);
-            // resolve([ err, result ])
-          })
-          */
-        ]).then(value=>{
-          resolve({ code:200 });
-        });
-
-      } else {
-        resolve({ code:404, text: '该话题不存在' });
-      }
-
-    })
-  }
+export default class TopicsDetail extends React.Component {
 
   constructor(props) {
     super(props);
@@ -291,5 +234,3 @@ export class TopicsDetail extends React.Component {
   }
 
 }
-
-export default Shell(TopicsDetail);

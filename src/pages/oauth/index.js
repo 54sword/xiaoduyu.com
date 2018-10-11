@@ -13,6 +13,7 @@ import Meta from '../../components/meta';
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
+@Shell
 @connect(
   (state, props) => ({
   }),
@@ -21,7 +22,7 @@ import styles from './style.scss';
   })
 )
 @CSSModules(styles)
-class OAuth extends Component {
+export default class OAuth extends Component {
 
   constructor(props) {
     super(props)
@@ -31,7 +32,7 @@ class OAuth extends Component {
 
     const { access_token = '', expires = 0, landing_page = '/' } = this.props.location.params;
     const { saveSignInCookie } = this.props;
-    
+
     if (access_token) {
       let [ err, res ] = await saveSignInCookie({ access_token });
 
@@ -56,5 +57,3 @@ class OAuth extends Component {
   }
 
 }
-
-export default Shell(OAuth)

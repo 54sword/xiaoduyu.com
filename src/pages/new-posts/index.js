@@ -12,6 +12,7 @@ import Meta from '../../components/meta';
 import PostsEditor from '../../components/editor-posts';
 import Loading from '../../components/ui/loading';
 
+@Shell
 @connect(
   (state, props) => ({
   }),
@@ -19,7 +20,7 @@ import Loading from '../../components/ui/loading';
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
   })
 )
-class createPosts extends React.Component {
+export default class createPosts extends React.Component {
 
   constructor(props) {
     super(props);
@@ -121,5 +122,3 @@ class createPosts extends React.Component {
   }
 
 }
-
-export default Shell(createPosts)

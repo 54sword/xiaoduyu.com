@@ -26,9 +26,10 @@ let general = {
   }
 }
 
+@Shell
 @withRouter
 @CSSModules(styles)
-export class Search extends React.Component {
+export default class Search extends React.Component {
 
   constructor(props) {
     super(props);
@@ -154,5 +155,3 @@ export class Search extends React.Component {
   }
 
 }
-
-export default Shell(Search);

@@ -7,7 +7,8 @@ import FollowList from '../../../components/follow-list';
 
 import PeopleList from '../../../components/people/list';
 
-class PeopleDetailPosts extends React.Component {
+@Shell
+export default class PeopleDetailPosts extends React.Component {
 
   static loadData = PeopleDetailHead.loadData
 
@@ -15,7 +16,7 @@ class PeopleDetailPosts extends React.Component {
     super(props);
     this.state = {}
   }
-  
+
   render() {
     const { id } = this.props.match.params;
 
@@ -49,6 +50,3 @@ class PeopleDetailPosts extends React.Component {
   }
 
 }
-
-
-export default Shell(PeopleDetailPosts);

@@ -49,6 +49,7 @@ let recommend = {
   `
 }
 
+@Shell
 @connect(
   (state, props) => ({
     me: getProfile(state),
@@ -59,32 +60,7 @@ let recommend = {
   })
 )
 @CSSModules(styles)
-export class Follow extends React.Component {
-
-  static loadData({ store, match }) {
-    return new Promise(resolve => {
-
-      Promise.all([
-        new Promise(async resolve => {
-          let [ err, result ] = await loadPostsList({
-            id: 'follow',
-            filters: general
-          })(store.dispatch, store.getState);
-          resolve([ err, result ])
-        })
-        // new Promise(async resolve => {
-        //   let [ err, result ] = await loadPostsList({
-        //     id: '_follow',
-        //     filters: recommend
-        //   })(store.dispatch, store.getState);
-        //   resolve([ err, result ])
-        // })
-      ]).then(value=>{
-        resolve({ code:200 });
-      });
-
-    })
-  }
+export default class Follow extends React.Component {
 
   constructor(props) {
     super(props);
@@ -155,5 +131,3 @@ export class Follow extends React.Component {
   }
 
 }
-
-export default Shell(Follow);

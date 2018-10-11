@@ -19,6 +19,7 @@ import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
 
+@Shell
 @connect(
   (state, props) => ({
     me: getProfile(state),
@@ -30,7 +31,7 @@ import styles from './style.scss';
   })
 )
 @CSSModules(styles)
-export class Notifications extends Component {
+export default class Notifications extends Component {
 
   constructor(props) {
     super(props)
@@ -79,7 +80,3 @@ export class Notifications extends Component {
     </div>)
   }
 }
-
-
-
-export default Shell(Notifications)

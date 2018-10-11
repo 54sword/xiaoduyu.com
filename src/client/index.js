@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { StaticRouter, matchPath } from 'react-router';
 import ReactGA from 'react-ga';
+import createHistory from "history/createBrowserHistory";
+
 
 import configureStore from '../store';
 import createRouter from '../router';
@@ -41,6 +43,10 @@ import '../vendors/arrive-footer.js';
  **/
 import '../vendors/load-demand';
 
+
+window._history = createHistory();
+
+// console.log(_history);
 
 // [todo]
 // import runtime from 'serviceworker-webpack-plugin/lib/runtime'
@@ -100,13 +106,13 @@ const run = async () => {
 
   // 预先加载首屏的js（否则会出现，loading 一闪的情况）
   // if (_route && _route.component && _route.component.preload && _route.loadData) {
-    // await _route.component.preload();
+    await _route.component.preload();
   // }
 
   ReactDOM.hydrate(
     <Provider store={store}>
       <BrowserRouter>
-        <RouterDom />
+        {RouterDom()}
       </BrowserRouter>
     </Provider>,
     document.getElementById('app')

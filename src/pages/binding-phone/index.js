@@ -18,6 +18,7 @@ import CountriesSelect from '../../components/countries-select';
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
+@Shell
 @withRouter
 @connect(
   (state, props) => ({
@@ -30,7 +31,7 @@ import styles from './style.scss';
   })
 )
 @CSSModules(styles)
-export class SettingsPhone extends Component {
+export default class SettingsPhone extends Component {
 
   constructor(props) {
     super(props)
@@ -166,5 +167,3 @@ export class SettingsPhone extends Component {
   }
 
 }
-
-export default Shell(SettingsPhone)

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MetaTags from 'react-meta-tags';
+import MetaTags, { ReactTitle } from 'react-meta-tags';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -18,7 +18,7 @@ import { name } from '../../../config';
   dispatch => ({
   })
 )
-export class Meta extends Component {
+export default class Meta extends Component {
 
   constructor(props) {
     super(props);
@@ -26,10 +26,11 @@ export class Meta extends Component {
 
   render() {
 
-    let metaObj = {};
+    // let metaObj = {};
 
     const { title, description, canonical, meta, link, unreadNotice } = this.props;
 
+    /*
     if (title) {
       metaObj.title = title + ' - ' + name;
     } else {
@@ -44,19 +45,30 @@ export class Meta extends Component {
     if (unreadNotice && unreadNotice.length > 0) {
       metaObj.title = `(${unreadNotice.length}条通知) ${metaObj.title}`
     }
-    return (<MetaTags>
+    */
+
+    let _title = '';
+
+    if (unreadNotice && unreadNotice.length > 0) _title += `(${unreadNotice.length}条通知)` ;
+    _title += title || name;
+    if (title) _title += ` - ${name}`;
+
+    return (<div>
+      <ReactTitle title={_title} />
+      {this.props.children ? <MetaTags>{this.props.children}</MetaTags> : null}
+    </div>)
+
+    return (<div><MetaTags>
             <title>
               {unreadNotice && unreadNotice.length > 0 ? `(${unreadNotice.length}条通知)` : ''}
               {title || name}
               {title ? ` - ${name}` : ''}
             </title>
-            {this.props.children}
-          </MetaTags>)
+            {this.props.children ? this.props.children : null}
+          </MetaTags></div>)
 
     // return (
     //   <DocumentMeta {...metaObj} />
     // )
   }
 }
-
-export default Meta;

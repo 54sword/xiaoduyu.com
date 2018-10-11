@@ -72,6 +72,17 @@ export default class PostsItem extends React.PureComponent {
     }
   }
 
+  componentDidCatch(error, info) {
+
+    console.log(error);
+    console.log(info);
+
+    // Display fallback UI
+    // this.setState({ hasError: true });
+    // You can also log the error to an error reporting service
+    // logErrorToMyService(error, info);
+  }
+
   // 更新
   updateFooter() {
 

@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = require('../index');
 
@@ -83,7 +84,11 @@ module.exports = {
     new webpack.DefinePlugin({
       __SERVER__: 'true',
       __CLIENT__: 'false'
-    })
+    }),
+
+    new CopyWebpackPlugin([
+      { from: 'src/server/amp/views', to: 'views/' }
+    ])
 
   ]
 }

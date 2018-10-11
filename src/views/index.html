@@ -9,10 +9,6 @@
   <!-- 自定义 meta -->
   <%= htmlWebpackPlugin.options.meta %>
 
-  <!-- 打包 css -->
-  <% for (var i in htmlWebpackPlugin.files.css) { %>
-    <link href="<%= htmlWebpackPlugin.files.css[i] %>" rel="stylesheet"></head>
-  <% } %>
 
 </head>
 <body class="default-theme">
@@ -24,11 +20,6 @@
   <script>
     window.__initState__ = <%= htmlWebpackPlugin.options.reduxState %>
   </script>
-
-  <!-- 打包 js -->
-  <% for (var i in htmlWebpackPlugin.files.js) { %>
-    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[i] %>"></script>
-  <% } %>
 
   <!-- 统计代码 -->
   <div style="display:none"><%= htmlWebpackPlugin.options.analysis_script %></div>

@@ -11,6 +11,7 @@ import { updateUser, loadUserInfo } from '../../actions/user'
 import Shell from '../../components/shell'
 import Meta from '../../components/meta'
 
+@Shell
 @connect(
   (state, props) => ({
     me: getProfile(state)
@@ -20,7 +21,7 @@ import Meta from '../../components/meta'
     updateUser: bindActionCreators(updateUser, dispatch)
   })
 )
-export class ResetBrief extends Component {
+export default class ResetBrief extends Component {
 
   constructor(props) {
     super(props)
@@ -97,35 +98,3 @@ export class ResetBrief extends Component {
   }
 
 }
-
-/*
-ResetBrief.contextTypes = {
-  router: PropTypes.object.isRequired
-}
-
-ResetBrief.propTypes = {
-  me: PropTypes.object.isRequired,
-  resetBrief: PropTypes.func.isRequired,
-  loadUserInfo: PropTypes.func.isRequired
-}
-
-function mapStateToProps(state) {
-  return {
-    me: getProfile(state)
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    resetBrief: bindActionCreators(resetBrief, dispatch),
-    loadUserInfo: bindActionCreators(loadUserInfo, dispatch)
-  }
-}
-
-ResetBrief = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ResetBrief)
-*/
-
-export default Shell(ResetBrief)

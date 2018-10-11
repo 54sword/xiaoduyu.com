@@ -31,3 +31,4 @@ config/test.js
 config/index_*.js
 *.DS_Store
 package-lock.json
+upload-to-qiniu.js

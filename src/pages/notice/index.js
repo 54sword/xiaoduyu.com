@@ -6,7 +6,8 @@ import { contact_email } from '../../../config'
 import Shell from '../../components/shell'
 import Meta from '../../components/meta'
 
-class Notice extends Component {
+@Shell
+export default class Notice extends Component {
 
   constructor(props) {
     super(props)
@@ -49,6 +50,3 @@ class Notice extends Component {
     )
   }
 }
-
-
-export default Shell(Notice)

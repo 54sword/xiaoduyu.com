@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
+// import { browserHistory } from 'react-router'
+
 
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
@@ -39,7 +40,7 @@ export default class Signin extends Component {
     super(props)
     this.state = {}
     this.signin = this.signin.bind(this)
-    this.toForgot = this.toForgot.bind(this)
+    // this.toForgot = this.toForgot.bind(this)
     this.getCaptcha = this.getCaptcha.bind(this)
   }
 
@@ -110,10 +111,11 @@ export default class Signin extends Component {
     return false;
   }
 
-  toForgot () {
+  // toForgot () {
     // this.props.hideSign();
-    browserHistory.push('/forgot');
-  }
+    // browserHistory.push('/forgot');
+    // _history.push('/forgot');
+  // }
 
   render () {
 

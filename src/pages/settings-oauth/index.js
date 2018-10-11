@@ -17,6 +17,7 @@ import Meta from '../../components/meta'
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
+@Shell
 @connect(
   (state, props) => ({
     me: getProfile(state),
@@ -28,7 +29,7 @@ import styles from './style.scss'
   })
 )
 @CSSModules(styles)
-export class settingsOauth extends Component {
+export default class settingsOauth extends Component {
 
   constructor(props) {
     super(props)
@@ -76,7 +77,7 @@ export class settingsOauth extends Component {
         let [ err, res ] = await oAuthUnbinding({
           args: { name: oauthName }
         });
-        
+
         await loadUserInfo({});
 
         this.componentDidMount();
@@ -127,5 +128,3 @@ export class settingsOauth extends Component {
   }
 
 }
-
-export default Shell(settingsOauth)

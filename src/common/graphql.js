@@ -2,7 +2,8 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
-import fetch from "node-fetch";
+// import fetch from "node-fetch";
+import fetch from "cross-fetch";
 
 import { graphql_url } from '../../config';
 

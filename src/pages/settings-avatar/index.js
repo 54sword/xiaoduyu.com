@@ -19,6 +19,7 @@ import QiniuUploadImage from '../../components/qiniu-upload-image';
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
+@Shell
 @connect(
   (state, props) => ({
     me: getProfile(state)
@@ -29,7 +30,7 @@ import styles from './style.scss';
   })
 )
 @CSSModules(styles)
-export class ResetAvatar extends Component {
+export default class ResetAvatar extends Component {
 
   constructor(props) {
     super(props)
@@ -113,5 +114,3 @@ export class ResetAvatar extends Component {
   }
 
 }
-
-export default Shell(ResetAvatar)

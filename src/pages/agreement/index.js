@@ -11,8 +11,9 @@ import Meta from '../../components/meta'
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
+@Shell
 @CSSModules(styles)
-class Agreement extends React.PureComponent {
+export default class Agreement extends React.PureComponent {
   render() {
     return (<div styleName="container">
 
@@ -175,5 +176,3 @@ class Agreement extends React.PureComponent {
   }
 
 }
-
-export default Shell(Agreement)

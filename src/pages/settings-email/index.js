@@ -13,6 +13,7 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import CaptchaButton from '../../components/captcha-button';
 
+@Shell
 @withRouter
 @connect(
   (state, props) => ({
@@ -24,7 +25,7 @@ import CaptchaButton from '../../components/captcha-button';
     addEmail: bindActionCreators(addEmail, dispatch)
   })
 )
-export class SettingsEmail extends Component {
+export default class SettingsEmail extends Component {
 
   constructor(props) {
     super(props);
@@ -132,5 +133,3 @@ export class SettingsEmail extends Component {
   }
 
 }
-
-export default Shell(SettingsEmail)

@@ -20,6 +20,7 @@ import Loading from '../../components/ui/loading';
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
+@Shell
 @connect(
   (state, props) => ({
     isMember: isMember(state),
@@ -30,34 +31,7 @@ import styles from './style.scss';
   })
 )
 @CSSModules(styles)
-export class CommentDetail extends React.Component {
-
-  // 服务端渲染
-  // 加载需要在服务端渲染的数据
-  static loadData({ store, match }) {
-    return new Promise(async (resolve, reject) => {
-
-      const { id } = match.params;
-
-      const [ err, data ] = await loadCommentList({
-        name: 'single_'+id,
-        filters: {
-          variables: {
-            _id: id,
-            deleted: false,
-            weaken: false
-          }
-        }
-      })(store.dispatch, store.getState);
-
-      if (data && data.data && data.data.length > 0) {
-        resolve({ code:200 });
-      } else {
-        resolve({ code:404, text: '该评论不存在' });
-      }
-
-    })
-  }
+export default class CommentDetail extends React.Component {
 
   constructor(props) {
     super(props);
@@ -143,5 +117,3 @@ export class CommentDetail extends React.Component {
   }
 
 }
-
-export default Shell(CommentDetail);

@@ -10,6 +10,7 @@ import { loadUserInfo, updateUser } from '../../actions/user'
 import Shell from '../../components/shell'
 import Meta from '../../components/meta'
 
+@Shell
 @connect(
   (state, props) => ({
     me: getProfile(state)
@@ -19,7 +20,7 @@ import Meta from '../../components/meta'
     updateUser: bindActionCreators(updateUser, dispatch)
   })
 )
-export class ResetGender extends Component {
+export default class ResetGender extends Component {
 
   constructor(props) {
     super(props)
@@ -41,7 +42,7 @@ export class ResetGender extends Component {
     });
 
     if (err) {
-      
+
       Toastify({
         text: err.message,
         duration: 3000,
@@ -87,5 +88,3 @@ export class ResetGender extends Component {
   }
 
 }
-
-export default Shell(ResetGender)

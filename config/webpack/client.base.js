@@ -14,7 +14,7 @@ module.exports = {
 
   entry: {
     app: [
-      '@babel/polyfill/noConflict',
+      '@babel/polyfill',
       './src/client/index.js'
     ]
   },
@@ -41,8 +41,8 @@ module.exports = {
           enforce: true
         },
         commons: {
-          test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
           chunks: 'all'
         }
       }
@@ -119,9 +119,11 @@ module.exports = {
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, '../../dist/server/index.ejs'),
       template: 'src/views/index.html',
-      headMeta: '<%- meta %>',
+      meta: '<%- meta %>',
       htmlDom: '<%- html %>',
-      reduxState: '<%- reduxState %>'
+      reduxState: '<%- reduxState %>',
+      head: config.head,
+      analysis_script: config.analysis_script
     }),
 
     // serviceworker 还在研究中

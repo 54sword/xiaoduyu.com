@@ -10,6 +10,7 @@ import { updateUser, loadUserInfo } from '../../actions/user'
 import Shell from '../../components/shell'
 import Meta from '../../components/meta'
 
+@Shell
 @connect(
   (state, props) => ({
     me: getProfile(state)
@@ -19,7 +20,7 @@ import Meta from '../../components/meta'
     updateUser: bindActionCreators(updateUser, dispatch)
   })
 )
-export class ResetNickname extends Component {
+export default class ResetNickname extends Component {
 
   constructor(props) {
     super(props)
@@ -97,5 +98,3 @@ export class ResetNickname extends Component {
   }
 
 }
-
-export default Shell(ResetNickname)

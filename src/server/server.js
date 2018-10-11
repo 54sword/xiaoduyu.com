@@ -5,8 +5,8 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
 // import DocumentMeta from 'react-document-meta';
-// import MetaTagsServer from 'react-meta-tags/server';
-// import {MetaTagsContext} from 'react-meta-tags';
+import MetaTagsServer from 'react-meta-tags/server';
+import {MetaTagsContext} from 'react-meta-tags';
 
 // 服务端渲染依赖
 import React from 'react';
@@ -25,7 +25,7 @@ import { initialStateJSON } from '../reducers';
 // 配置
 import { port, auth_cookie_name } from '../../config';
 import sign from './sign';
-// import AMP from './amp';
+import AMP from './amp';
 // import webpackHotMiddleware from './webpack-hot-middleware';
 
 
@@ -50,7 +50,7 @@ app.use(compress());
 app.use(express.static('./dist/client'));
 
 // amp
-// app.use('/amp', AMP());
+app.use('/amp', AMP());
 
 // 登录、退出
 app.use('/sign', sign());
@@ -136,41 +136,34 @@ app.get('*', async (req, res) => {
   }
   */
 
-
-
   // 获取路由dom
   const _Router = router.dom;
-  // const metaTagsInstance = MetaTagsServer();
+  const metaTagsInstance = MetaTagsServer();
 
   if (_route.loadData) {
     context = await _route.loadData({ store, match: _match });
-    // console.log(context);
+  }
+
+  if (_route.head && _route.head.loadData) {
+    await _route.head.loadData({ store, match: _match })
   }
 
   await _route.component.preload();
 
   let html = ReactDOMServer.renderToString(
     <Provider store={store}>
-      {/* <MetaTagsContext extract = {metaTagsInstance.extract}> */}
+      <MetaTagsContext extract={metaTagsInstance.extract}>
         <StaticRouter location={req.url} context={context}>
           <_Router />
         </StaticRouter>
-      {/* </MetaTagsContext> */}
+      </MetaTagsContext>
     </Provider>
   );
-
-  // console.log(html);
 
   let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
 
   // 获取页面的meta，嵌套到模版中
-  // let meta = DocumentMeta.renderAsHTML();
-
-
-
-  let meta = '';//metaTagsInstance.renderToString();
-  // console.log(meta);
-  // console.log(metaTagsInstance.renderToString());
+  let meta = metaTagsInstance.renderToString();
 
   if (context.code == 301) {
     res.writeHead(301, {

@@ -5,7 +5,8 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import BlockList from '../../components/block/list';
 
-export class Blocks extends React.Component {
+@Shell
+export default class Blocks extends React.Component {
 
   constructor(props) {
     super(props);
@@ -38,5 +39,3 @@ export class Blocks extends React.Component {
   }
 
 }
-
-export default Shell(Blocks);

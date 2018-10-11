@@ -5,7 +5,8 @@ import Meta from '../../../components/meta';
 import PeopleDetailHead from '../../../components/people-detail-head';
 import PostsList from '../../../components/posts/list';
 
-class PeopleDetailPosts extends React.Component {
+@Shell
+export default class PeopleDetailPosts extends React.Component {
 
   static loadData = PeopleDetailHead.loadData
 
@@ -36,6 +37,3 @@ class PeopleDetailPosts extends React.Component {
   }
 
 }
-
-
-export default Shell(PeopleDetailPosts);
