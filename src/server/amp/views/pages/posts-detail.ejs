@@ -3,7 +3,7 @@
   <head>
     <% include ../includes/head.ejs %>
 
-    <title>小度鱼</title>
+    <title><%- website_name %></title>
     <link rel="canonical" href="<%- domain_name %>/posts/<%- posts._id %>">
 
     <meta property="og:locale" content="zh_CN" />
@@ -168,7 +168,7 @@
           <a href="<%- domain_name %>/posts/<%- posts._id %>">还有 <%- posts.comment_count - commentList.length %> 条评论，查看全部</a>
         </div>
       <% } %>
-
+      
       <!-- comment end -->
 
     </div>
@@ -178,7 +178,7 @@
       <p>当前这是一个AMP页面，如果你想参与本帖讨论，请打开完整版</p>
       <p><a href="<%- domain_name %>/posts/<%- posts._id %>"><%- domain_name %>/posts/<%- posts._id %></a></p>
       <br />
-      <p>© <%- new Date().getFullYear() %> 小度鱼</p>
+      <p>© <%- new Date().getFullYear() %> <%- website_name %></p>
     </div>
     <!-- footer end -->
 

@@ -263,7 +263,7 @@ const updateFollowPeople = (state, selfId, notices) => {
   }
 }
 
-
+// 获取新的未读通知
 export const loadNewNotifications = ({ name }) => {
   return async (dispatch, getState) => {
 
@@ -277,7 +277,6 @@ export const loadNewNotifications = ({ name }) => {
         followPeople = state.followPeople,
         me = state.user.profile;
 
-
     if (unreadNotice.length == 0 || !list || !list.data) {
       return
     }
@@ -286,9 +285,11 @@ export const loadNewNotifications = ({ name }) => {
       name:'new',
       filters: {
         variables: {
-          page_size: unreadNotice.length,
-          start_create_at: list.data[0] ? list.data[0].create_at : '',
-          sort_by: 'create_at'
+          page_size: 20,
+          // page_size: unreadNotice.length,
+          _id: unreadNotice.join(','),
+          // start_create_at: list.data[0] ? list.data[0].create_at : '',
+          sort_by: 'create_at:1'
         }
       },
       restart: true
@@ -298,13 +299,12 @@ export const loadNewNotifications = ({ name }) => {
     posts = updatePosts(posts, res.data);
     followPeople = updateFollowPeople(followPeople, me._id, res.data);
 
-    let index = res.data.length;
-    while (index--) {
-      let item = res.data[index];
+    // 未读通知中，删除已加载的通知
+    res.data.map(item=>{
       list.data.unshift(item);
       let _index = unreadNotice.indexOf(item._id);
       if (_index != -1) unreadNotice.splice(_index, 1);
-    }
+    });
 
     if (followPeople.count > 0) {
       me.fans_count = me.fans_count + followPeople.count;
@@ -319,8 +319,6 @@ export const loadNewNotifications = ({ name }) => {
 
   }
 }
-
-
 
 let loading = false;
 
