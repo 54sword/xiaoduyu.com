@@ -11,7 +11,7 @@
     <meta property="og:title" content="<%- posts.title %>" />
     <meta property="og:description" content="<%- posts.description %>" />
     <meta property="og:url" content="<%- domain_name %>/posts/<%- posts._id %>" />
-    <meta property="og:site_name" content="小度鱼" />
+    <meta property="og:site_name" content="<%- website_name %>" />
 
     <script type="application/ld+json">
       {
@@ -168,7 +168,7 @@
           <a href="<%- domain_name %>/posts/<%- posts._id %>">还有 <%- posts.comment_count - commentList.length %> 条评论，查看全部</a>
         </div>
       <% } %>
-      
+
       <!-- comment end -->
 
     </div>

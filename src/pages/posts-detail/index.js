@@ -86,7 +86,6 @@ export default class PostsDetail extends React.Component {
         <meta name="description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
         <link rel="canonical" href={`${domain_name}/posts/${posts._id}`} />
         <link rel="amphtml" href={`${domain_name}/amp/posts/${posts._id}`} />
-
         <meta property="og:locale" content="zh_CN" />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={posts.title} />
