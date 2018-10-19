@@ -1,12 +1,12 @@
 import io from 'socket.io-client';
 
 // config
-import { socket_url } from '../../config';
+import { socket_url } from '../../../config';
 
 // redux actions
-import { loadUnreadCount, cancelNotiaction } from '../actions/notification';
-import { setOnlineUserCount } from '../actions/website';
-import { newPostsTips } from '../actions/posts';
+import { loadUnreadCount, cancelNotiaction } from '../../actions/notification';
+import { setOnlineUserCount } from '../../actions/website';
+import { newPostsTips } from '../../actions/posts';
 
 export default ({ dispatch, getState }) => {
 

@@ -2,22 +2,22 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
-// import fetch from "node-fetch";
-import fetch from "cross-fetch";
+import fetch from "node-fetch";
+// import fetch from "cross-fetch";
 
 import { graphql_url } from '../../config';
 
+// https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
+
+const cache = new InMemoryCache();
+
 const client = new ApolloClient({
-  // 如果开启ssrMode, fetchPolicy: 'network-only' 则会无效
-  ssrMode: false,
-  // ssrMode: process && process.env && process.env.__NODE__ ? process.env.__NODE__ : false,
+  ssrMode: false, //__SERVER__ ? true : false,
   link: new HttpLink({
     uri: graphql_url,
     fetch
   }),
-  cache: new InMemoryCache({
-    addTypename: false
-  })
+  cache
 });
 
 /**
@@ -64,6 +64,7 @@ export default ({
 
   return new Promise(resolve=>{
     return fn(options).then(res=>{
+
       resolve([ null, res.data[api] ]);
     }).catch(res=>{
 

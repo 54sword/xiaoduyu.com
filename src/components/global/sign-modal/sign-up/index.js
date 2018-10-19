@@ -124,8 +124,8 @@ export default class SignUp extends Component {
 
   sendCaptcha(callback) {
 
-    const { account } = this.refs;
-    const { areaCode } = this.state;
+    // const { account } = this.refs;
+    const { areaCode, account } = this.state;
 
     if (!account.value) return account.focus();
 

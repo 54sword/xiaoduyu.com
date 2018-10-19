@@ -58,8 +58,6 @@ export default class Home extends React.Component {
     return(<div>
       <Meta />
 
-      <NewPostsButton />
-
       <PostsList
         id={'home'}
         filters={general}

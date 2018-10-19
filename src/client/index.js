@@ -9,7 +9,7 @@ import createHistory from "history/createBrowserHistory";
 
 import configureStore from '../store';
 import createRouter from '../router';
-import startSocket from '../socket';
+import startSocket from './socket';
 
 import { debug, GA } from '../../config';
 

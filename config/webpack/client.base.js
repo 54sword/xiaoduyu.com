@@ -8,7 +8,7 @@ const config = require('../index');
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-
+  
   name: 'client',
   target: 'web',
 
@@ -119,7 +119,7 @@ module.exports = {
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, '../../dist/server/index.ejs'),
       template: 'src/views/index.html',
-      meta: '<%- meta %>',
+      metaDom: '<%- meta %>',
       htmlDom: '<%- html %>',
       reduxState: '<%- reduxState %>',
       head: config.head,

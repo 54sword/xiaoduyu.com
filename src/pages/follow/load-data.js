@@ -11,7 +11,7 @@ let general = {
 
 export default ({ store, match }) => {
   return new Promise(resolve => {
-    
+
     Promise.all([
       new Promise(async resolve => {
         let [ err, result ] = await loadPostsList({
@@ -28,6 +28,11 @@ export default ({ store, match }) => {
       //   resolve([ err, result ])
       // })
     ]).then(value=>{
+
+      // console.log('1111111');
+
+      // console.log(value);
+
       resolve({ code:200 });
     });
 

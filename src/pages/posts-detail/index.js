@@ -1,6 +1,7 @@
 import React from 'react';
+import AdSense from 'react-adsense';
 
-import { name, domain_name } from '../../../config';
+import { name, domain_name, Goole_AdSense } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -18,7 +19,6 @@ import PostsList from '../../components/posts/list';
 import PostsDetailC from '../../components/posts/detail';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
-
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -100,6 +100,9 @@ export default class PostsDetail extends React.Component {
         {/*<div className="col-md-9">*/}
 
           <PostsDetailC id={posts._id} />
+          
+          {!isMember && Goole_AdSense && Goole_AdSense.postsDetail ?
+            <AdSense.Google {...Goole_AdSense.postsDetail} /> : null}
 
           {posts.comment_count > 0 ?
             <div className="card">
@@ -124,6 +127,9 @@ export default class PostsDetail extends React.Component {
               <EditorComment posts_id={posts._id} />
             </div>
             : null}
+
+
+          {/*<AdPostsDetail />*/}
 
         {/*
         <div className="col-md-3">

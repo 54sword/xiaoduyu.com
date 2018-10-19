@@ -1,10 +1,9 @@
 
-import path from 'path';
+// import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import compress from 'compression';
-// import DocumentMeta from 'react-document-meta';
+// import compress from 'compression';
 import MetaTagsServer from 'react-meta-tags/server';
 import {MetaTagsContext} from 'react-meta-tags';
 
@@ -20,13 +19,11 @@ import configureStore from '../store';
 import createRouter from '../router';
 // 路由初始化的redux内容
 import { initialStateJSON } from '../reducers';
-// import { saveAccessToken, saveUserInfo } from '../actions/user';
 
 // 配置
 import { port, auth_cookie_name } from '../../config';
 import sign from './sign';
 import AMP from './amp';
-// import webpackHotMiddleware from './webpack-hot-middleware';
 
 
 // actions
@@ -36,16 +33,10 @@ import { addAccessToken } from '../actions/token';
 const app = express();
 
 
-// ***** 注意 *****
-// 不要改变如下代码执行位置，否则热更新会失效
-// 开发环境开启修改代码后热更新
-// if (process.env.NODE_ENV === 'development') webpackHotMiddleware(app);
-
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(compress());
+// app.use(compress());
 // app.use(express.static(__dirname + '/../../dist'));
 app.use(express.static('./dist/client'));
 
@@ -118,27 +109,33 @@ app.get('*', async (req, res) => {
     // url
   };
 
-  /*
-  // 加载异步路由组件
-  const loadAsyncRouterComponent = () => {
-    return new Promise(async (resolve) => {
-      await _route.component.load(async (ResolvedComponent)=>{
-        let loadData = ResolvedComponent.WrappedComponent.defaultProps.loadData;
-        let result = await loadData({ store, match: _match });
-        resolve(result);
-      });
-    });
-  }
-
-  if (_route.component.load) {
-    // 在服务端加载异步组件
-    context = await loadAsyncRouterComponent();
-  }
-  */
-
   // 获取路由dom
   const _Router = router.dom;
   const metaTagsInstance = MetaTagsServer();
+
+  // console.log(_route);
+  // console.log(_match);
+
+  // console.log(_Router);
+
+  // console.log(_route.enter.toString());
+
+  /*
+  context = _route.enter(_route.component, {}, _route);
+
+  if (context && context.code && context.code == 302) {
+    console.log('===');
+    res.writeHead(302, {
+      Location: context.url
+    });
+    res.end();
+    return
+  }
+  */
+
+  // console.log('======')
+  // console.log(_route);
+  // console.log(s);
 
   if (_route.loadData) {
     context = await _route.loadData({ store, match: _match });
@@ -148,25 +145,31 @@ app.get('*', async (req, res) => {
     await _route.head.loadData({ store, match: _match })
   }
 
-  await _route.component.preload();
+  if (_route.component && _route.component.preload) {
+    await _route.component.preload();
+  }
+  
+  let _mainContent = (<Provider store={store}>
+        <MetaTagsContext extract={metaTagsInstance.extract}>
+          <StaticRouter location={req.url} context={context}>
+            <_Router />
+          </StaticRouter>
+        </MetaTagsContext>
+      </Provider>);
 
-  let html = ReactDOMServer.renderToString(
-    <Provider store={store}>
-      <MetaTagsContext extract={metaTagsInstance.extract}>
-        <StaticRouter location={req.url} context={context}>
-          <_Router />
-        </StaticRouter>
-      </MetaTagsContext>
-    </Provider>
-  );
 
-  let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
+  // html
+  let html = ReactDOMServer.renderToString(_mainContent);
 
   // 获取页面的meta，嵌套到模版中
   let meta = metaTagsInstance.renderToString();
 
-  if (context.code == 301) {
-    res.writeHead(301, {
+  // redux
+  let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
+
+
+  if (context.code == 302) {
+    res.writeHead(302, {
       Location: context.url
     });
   } else {

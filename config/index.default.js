@@ -46,6 +46,21 @@ let config = {
 
   // google 分析
   GA: '',
+  
+  // google广告
+  Goole_AdSense: {
+    /*
+    // 详情页面的广告
+    postsDetail: {
+      client: '',
+      slot: '',
+      style: { display: 'block' },
+      format: 'auto',
+      responsive: 'true'
+    }
+    */
+  },
+
   // 添加分析统计脚本，字符串
   analysis_script: ``,
 
