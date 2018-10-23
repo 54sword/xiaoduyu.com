@@ -6,17 +6,21 @@ import { createLogger } from 'redux-logger';
 let middleware = [ thunk ];
 
 // 如果是在客户端环境，并且是开发模式，那么打印redux日志
-if (process.env.NODE_ENV == 'development' && __CLIENT__) middleware.push(createLogger());
+if (process.env.NODE_ENV == 'development' && __CLIENT__) {
+  middleware.push(createLogger());
+}
 
 export default function configureStore(initialState) {
+
   const store = createStore(
     rootReducer,
     initialState,
     compose(
-      applyMiddleware(...middleware),
+      applyMiddleware(...middleware)
     )
-  )
-
+  );
+  
+  /*
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
@@ -24,6 +28,7 @@ export default function configureStore(initialState) {
       store.replaceReducer(nextRootReducer);
     });
   }
+  */
 
   return store;
 }

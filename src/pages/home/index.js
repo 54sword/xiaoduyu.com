@@ -1,13 +1,13 @@
 import React from 'react';
 
 // redux
-import { loadPostsList } from '../../actions/posts';
+// import { loadPostsList } from '../../actions/posts';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
-// import Sidebar from '../../components/sidebar';
+import Sidebar from '../../components/sidebar';
 // import Bundle from '../../components/bundle';
 import NewPostsButton from '../../components/new-posts-button';
 
@@ -25,7 +25,7 @@ let general = {
 
 let recommend = {
   variables: {
-    sort_by: "comment_count,like_count,sort_by_date",
+    sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
     deleted: false,
     weaken: false,
     page_size: 10,
@@ -58,18 +58,18 @@ export default class Home extends React.Component {
     return(<div>
       <Meta />
 
+      {/*
       <PostsList
         id={'home'}
         filters={general}
         scrollLoad={true}
         />
+      */}
 
-      {/*
+
       <div className="container">
         <div className="row">
-          <div className="col-md-9">
-
-            <NewPostsButton />
+          <div className="col-md-8">
 
             <PostsList
               id={'home'}
@@ -77,18 +77,17 @@ export default class Home extends React.Component {
               scrollLoad={true}
               />
           </div>
-          <div className="col-md-3 d-none">
-
-            <Bundle load={() => import('../../components/sidebar')}>
-              {(Sidebar) => {
-                return (<Sidebar recommendPostsDom={<PostsList id={'_home'} itemName="posts-item-title" filters={recommend} />} />)
-              }}
-            </Bundle>
-
+          <div className="col-md-4">
+            <Sidebar
+              recommendPostsDom={(<PostsList
+                id={'_home'}
+                itemName="posts-item-title"
+                filters={recommend}
+                />)}
+              />
           </div>
         </div>
       </div>
-      */}
 
 
     </div>)

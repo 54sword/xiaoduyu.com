@@ -105,6 +105,17 @@ export default class PostsItem extends React.PureComponent {
 
   expandContent() {
 
+    const { posts } = this.props;
+
+    $('#posts-modal').modal({
+      show: true
+    }, {
+      postsId: posts._id
+    });
+
+    /*
+    return;
+
     const self = this;
     const { posts, viewPostsById } = this.props;
 
@@ -126,6 +137,7 @@ export default class PostsItem extends React.PureComponent {
     this.updateFooter();
 
     $(window).scroll(this.updateFooter);
+    */
   }
 
   collapseContent() {
@@ -161,6 +173,9 @@ export default class PostsItem extends React.PureComponent {
 
     const { posts, isMember } = this.props;
     const { expandContent, expandComment } = this.state;
+
+
+    // console.log(posts);
 
     // console.log(posts.images);
 
@@ -199,9 +214,7 @@ export default class PostsItem extends React.PureComponent {
             </Link>
 
             {/* dropdown-menu */}
-            <div styleName="menu">
-              <ReportMenu posts={posts} />
-            </div>
+
             {/* dropdown-menu end */}
 
             <div>
@@ -209,11 +222,48 @@ export default class PostsItem extends React.PureComponent {
               {posts.view_count ? <span>{posts.view_count}次浏览</span> : null}
               {posts.like_count ? <span>{posts.like_count} 个赞</span> : null}
               {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
+              {/*posts.comment_count ? <span>{posts.comment_count}评论</span> : null*/}
               <span>{posts._create_at}</span>
             </div>
 
           </div>
           : null}
+
+
+            {/*<ReportMenu posts={posts} />*/}
+
+            {(()=>{
+
+              // console.log(posts);
+
+              if (posts.comment_count == 0) {
+                return;
+              }
+
+              // let images = [];
+              //
+              // posts.comment.map(item=>{
+              //   if (images.indexOf(item.user_id.avatar_url) == -1 && item.user_id._id != posts.user_id._id) {
+              //     images.push(item.user_id.avatar_url);
+              //   }
+              // });
+
+
+              return (<div styleName="comment-people-list">
+
+                        {/*images.map((item, index)=>{
+                          return (<span key={item} style={{zIndex:10-index}}>
+                            <img src={item} />
+                          </span>)
+                        })*/}
+
+                        <span><div styleName="comment-count">{posts.comment_count}</div></span>
+
+                      </div>)
+
+            })()}
+
+
       </div>
 
       <div styleName="title">
@@ -252,25 +302,19 @@ export default class PostsItem extends React.PureComponent {
         <div styleName="footer">
           <div id={posts._id+'-footer'}>
 
-            <div className="container">
-            <div styleName="footer-main" className="row">
 
-                <div className="col-10" styleName="actions">
-                    <a href="javascript:void(0)">
-                      {posts.comment_count ? posts.comment_count + ' 条评论' : '评论'}
-                    </a>
+            <div styleName="footer-main">
+
+                <div styleName="actions">
                   <Like posts={posts} />
+                  <a href="javascript:void(0)">
+                    {posts.comment_count ? posts.comment_count + ' 条评论' : '评论'}
+                  </a>
                   <Follow posts={posts} />
                   <Share posts={posts} />
                   <EditButton posts={posts} />
                 </div>
-                <div className="col-2 text-right" styleName="actions">
-                  {expandContent ?
-                    <a href="javascript:void(0)" onClick={this.collapseContent} styleName="collapse">收起</a>
-                    : null}
-                </div>
 
-            </div>
             </div>
 
           </div>

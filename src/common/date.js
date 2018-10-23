@@ -81,7 +81,8 @@ export function DateDiff(date1, date2) {
       break;
     default:
       var dateArr = getDateArray(date1);
-      time = dateArr[0]+'年'+parseInt(dateArr[1])+'月';
+      time = dateArr[0]+'/'+parseInt(dateArr[1])+'/'+parseInt(dateArr[2]);
+      // time = dateArr[0]+'年'+parseInt(dateArr[1])+'月';
   }
 
   return time;

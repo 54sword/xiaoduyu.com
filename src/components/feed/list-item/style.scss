@@ -5,8 +5,13 @@
   margin-bottom: 12px;
   background-color: #fff;
   padding:20px;
+
+  // box-shadow: 0 5px 10px rgba(0,0,0,.05);
+
+  border:1px solid #efefef;
+
   &:hover{
-    background-color:rgba(255,255,255,.85);
+    // background-color:rgba(255,255,255,.85);
     cursor: hand;
     cursor: pointer;
   }
@@ -48,6 +53,8 @@
 
 .head{
 
+  position: relative;
+
   font-size: 12px;
   z-index: 999;
   padding:0 0 10px 50px;
@@ -80,9 +87,9 @@
     width:100%;
     line-height: 20px;
 
-    .menu{
-      float:right;
-    }
+    // .menu{
+      // float:right;
+    // }
 
     a{
       // color:#ABA8A6;
@@ -121,11 +128,10 @@
 }
 
 .title{
-  font-size: 17px;
+  font-size: 18px;
   word-break:break-all;
   word-wrap:break-word;
   font-weight: bold;
-  // padding:0 15px 0 15px;
   a{
     color:#3a3b3f !important;
   }
@@ -137,11 +143,11 @@
 }
 
 .content{
-  // font-size: 14px;
+  font-size: 14px;
   word-break:break-all;
   word-wrap:break-word;
   line-height: 22px;
-  color:#4a4b50;
+  color:#4a4c52;
   // padding:5px 15px 0 15px;
 }
 
@@ -186,7 +192,7 @@
 
 .footer{
   width: 100%;
-  height: 40px;
+  // height: 40px;
   display: block;
 
   .actions{
@@ -227,7 +233,7 @@
 
   .footer-main{
     width: 100%;
-    padding:10px 0 10px 0;
+    padding:10px 0 0px 0;
     // line-height: 40px;
     margin:0px;
     // padding-left: 15px;
@@ -262,5 +268,52 @@
     width: 100%;
     height: 150px;
     margin-bottom:10px;
+  }
+}
+
+.comment-people-list{
+  position: absolute;
+  top:0px;
+  left:100%;
+  // width: 100px;
+  margin-left:-10px;
+  background-color: #333;
+
+  span{
+    white-space:nowrap;
+    // width: 30px;
+    display: inline-block;
+    // vertical-align: top;
+    // list-style: none;
+    // margin:0px;
+    // padding:0px;
+    margin-left:-15px;
+  }
+
+  .comment-count{
+    position: absolute;
+    font-size: 13px;
+    // margin-right:8px;
+    // color:rgb(138, 138, 138);
+    // margin-top:1px;
+    // height: 22px;
+    // min-width: 22px;
+    min-width: 20px;
+    padding:0 6px 0 6px;
+    border-radius: 30px;
+    background-color: #aeb0bd;
+    // line-height: 24px;
+    text-align: center;
+    color:#fff;
+    margin-left:0px;
+  }
+
+  img{
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    background-color: #fff;
   }
 }

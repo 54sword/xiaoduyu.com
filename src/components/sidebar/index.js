@@ -68,13 +68,19 @@ export default class Sidebar extends React.Component {
         :
         null}
 
-      {/*
-      <div className="card">
-        <div className="card-header">新人</div>
-        <div className="card-body">
+      {!isMember ?
+        <div className="card">
+          <div className="card-body" styleName="slogan">
+            <h1>小度鱼是什么社区？</h1>
+            <h2>可能是技术人交流的地方</h2>
+            <div>
+              <a href="#" className="btn btn-primary">登陆 注册</a>
+            </div>
+            <div>下载小度鱼APP</div>
+          </div>
         </div>
-      </div>
-      */}
+        : null}
+
 
       {recommendPostsDom ?
         <div className="card">
@@ -86,9 +92,19 @@ export default class Sidebar extends React.Component {
           </div>
         </div>
         : null}
+        
+      <div className="card">
+        <div className="card-header">小度鱼开源</div>
+        <div className="card-body">
+          <div>Web前端</div>
+          <div>API后台</div>
+          <div>iOS、Android（React Native）移动端</div>
+          <div>后台管理</div>
+          <div>React同构脚手架</div>
+        </div>
+      </div>
 
       <div styleName="footer">
-        {/*
         <div>
           <a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源代码</a>
           <a href="mailto:shijian.wu@hotmail.com">联系作者</a>
@@ -97,7 +113,6 @@ export default class Sidebar extends React.Component {
           {onlineCOunt} 人在线
         </div>
         <p>©{new Date().getFullYear()} {name} (浙ICP备14013796号-3)</p>
-        */}
       </div>
 
     </div>)

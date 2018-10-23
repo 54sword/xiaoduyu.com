@@ -145,40 +145,27 @@ export default class Head extends React.Component {
                       this.state.search = e;
                       // console.log(this.state.search);
                     }} />
-                    {/*<button type="submit" styleName="search-submit"></button>*/}
+                    <button type="submit" styleName="search-submit"></button>
                   </form>)
 
     return (<div>
-
-      <header>
+      <Headroom><header>
       <nav styleName="navbar">
-      <div className="d-flex justify-content-between">
+      <div className="container d-flex justify-content-between">
 
         {/* logo */}
         <div styleName="navbar-left">
 
           <div>
-            <Link to="/">
+            <Link to="/" styleName="logo">
               <img src={domain_name+'/logo.png'} />
             </Link>
           </div>
 
-          <div styleName="topics-nav">
-            <ul>
-              {nav.map(item=><li key={item.to}>
-                <NavLink exact to={item.to} styleName="link">
-                  {item.name}
-                  {item.tips ? <span styleName="red-point"></span> : null}
-                </NavLink>
-              </li>)}
-            </ul>
-          </div>
-
           <div>
             <div className="d-none d-md-block d-lg-block d-xl-block">{search}</div>
-            {/*<Link styleName="link" className="d-block d-md-none d-lg-none d-xl-none" to="/search">搜索</Link>*/}
+            <Link styleName="link" className="d-block d-md-none d-lg-none d-xl-none" to="/search">搜索</Link>
           </div>
-
 
         </div>
 
@@ -189,7 +176,7 @@ export default class Head extends React.Component {
           <ul styleName="user-bar">
             <li>
               <NavLink exact to="/notifications" styleName="link">
-                通知123
+                通知
                 {unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}
               </NavLink>
             </li>
@@ -214,8 +201,9 @@ export default class Head extends React.Component {
 
       </div>
 
-      {/*
       <div styleName="topics-bar">
+
+        <div className="container">
 
         <div >
           <div>
@@ -230,15 +218,15 @@ export default class Head extends React.Component {
           </div>
         </div>
 
+        </div>
 
       </div>
-      */}
 
       </nav>
 
 
     </header>
-
+    </Headroom>
     <div styleName="header-space"></div>
     </div>)
 

@@ -19,6 +19,7 @@ export default class Notice extends Component {
         'binding_finished': '绑定成功',
         'create_user_failed': '创建用户失败',
         'create_oauth_failed': '创建账户失败',
+        'invalid_token': '无效的登陆令牌，请重新登陆',
         'block_account': '您的账号被禁止使用，如有疑问请联系：'+contact_email
       },
       tips: ''

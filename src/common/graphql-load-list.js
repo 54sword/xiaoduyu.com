@@ -91,7 +91,9 @@ export default ({
         args: s,
         fields: `count`,
         headers: { 'AccessToken': state.user.accessToken }
-      })
+      });
+
+      // console.log(data);
 
       if (data) list.count = data.count;
 

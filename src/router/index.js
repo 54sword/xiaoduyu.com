@@ -95,7 +95,7 @@ export default (user, logPageView = ()=>{}) => {
         loader: () => import('../pages/follow'),
         loading: () => <Loading />
       }),
-      loadData: FollowLoadData,
+      // loadData: FollowLoadData,
       enter: requireAuth
     },
 

@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-
 import merge from 'lodash/merge';
 
 import scroll from './scroll';
@@ -18,6 +17,7 @@ import follow from './follow';
 import reportTypes from './report-types';
 import block from './block';
 import broadcast from './broadcast';
+import feed from './feed';
 
 let states = {
   scroll,
@@ -35,10 +35,11 @@ let states = {
   follow,
   reportTypes,
   block,
-  broadcast
+  broadcast,
+  feed
 }
 
-let _states = {}
+let _states = {};
 
 for (let i in states) {
   _states[i] = merge({}, states[i](), {});

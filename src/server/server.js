@@ -1,17 +1,20 @@
-
-// import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-// import compress from 'compression';
-import MetaTagsServer from 'react-meta-tags/server';
-import {MetaTagsContext} from 'react-meta-tags';
+import compress from 'compression';
 
+// 客户端
+import MetaTagsServer from 'react-meta-tags/server';
+import { MetaTagsContext } from 'react-meta-tags';
 // 服务端渲染依赖
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router';
 import { Provider } from 'react-redux';
+
+// redux actions
+import { loadUserInfo } from '../actions/user';
+import { addAccessToken } from '../actions/token';
 
 // 路由配置
 import configureStore from '../store';
@@ -22,23 +25,21 @@ import { initialStateJSON } from '../reducers';
 
 // 配置
 import { port, auth_cookie_name } from '../../config';
+
+// 路由
 import sign from './sign';
 import AMP from './amp';
 
 
-// actions
-import { loadUserInfo } from '../actions/user';
-import { addAccessToken } from '../actions/token';
 
 const app = express();
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-// app.use(compress());
-// app.use(express.static(__dirname + '/../../dist'));
+app.use(compress());
 app.use(express.static('./dist/client'));
+app.use(express.static('./public'));
 
 // amp
 app.use('/amp', AMP());
@@ -58,11 +59,20 @@ app.get('*', async (req, res) => {
 
     [ err, user ] = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
 
-    // 如果是拉黑的用户，阻止登陆，并提示
     if (err && err.blocked) {
+
+      // 如果是拉黑的用户，阻止登陆，并提示
       res.clearCookie(auth_cookie_name);
       res.redirect('/notice?notice=block_account');
       return;
+
+    } else if (err && err.message && err.message == 'invalid token') {
+
+      // 无效的令牌
+      res.clearCookie(auth_cookie_name);
+      res.redirect('/notice?notice=invalid_token');
+      return;
+
     }
 
     if (user) store.dispatch(addAccessToken({ access_token: accessToken }));
@@ -148,7 +158,7 @@ app.get('*', async (req, res) => {
   if (_route.component && _route.component.preload) {
     await _route.component.preload();
   }
-  
+
   let _mainContent = (<Provider store={store}>
         <MetaTagsContext extract={metaTagsInstance.extract}>
           <StaticRouter location={req.url} context={context}>

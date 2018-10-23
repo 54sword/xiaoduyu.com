@@ -15,7 +15,7 @@ const client = new ApolloClient({
     fetch: fetch
   }),
   cache: new InMemoryCache({
-    addTypename: false
+    // addTypename: false
   })
 });
 

@@ -11,7 +11,7 @@ import { getProfile } from '../../reducers/user';
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-import PostsList from '../../components/posts/list';
+import FeedList from '../../components/feed/list';
 import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
 
@@ -23,10 +23,10 @@ import styles from './style.scss';
 
 let general = {
   variables: {
-    method: 'user_follow',
-    sort_by: "sort_by_date",
-    deleted: false,
-    weaken: false
+    // method: 'user_follow',
+    sort_by: "create_at:-1"
+    // deleted: false,
+    // weaken: false
   }
 }
 
@@ -90,7 +90,7 @@ export default class Follow extends React.Component {
 
       <Meta title="关注" />
 
-
+      {/*
       <NewPostsButton />
 
       {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
@@ -100,6 +100,26 @@ export default class Follow extends React.Component {
         filters={general}
         scrollLoad={true}
         />
+      */}
+
+
+        <div className="container">
+          <div className="row">
+            <div className="col-md-8">
+
+            {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
+
+              <FeedList
+                id={'follow'}
+                filters={general}
+                scrollLoad={true}
+                />
+            </div>
+            <div className="col-md-4">
+              <Sidebar />
+            </div>
+          </div>
+        </div>
 
       {/*
       <div className="container">

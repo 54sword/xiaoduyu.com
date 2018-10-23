@@ -5,6 +5,9 @@
   margin-bottom: 12px;
   background-color: #fff;
   padding:20px;
+
+  border:1px solid #efefef;
+
   &:hover{
     background-color:rgba(255,255,255,.85);
     cursor: hand;
@@ -218,7 +221,7 @@
   }
 
   .collapse{
-    background-image: url(./images/collapse.png);
+    // background-image: url(./images/collapse.png);
     background-repeat: no-repeat;
     padding-left:18px;
     background-size: 14px;
@@ -263,4 +266,42 @@
     height: 150px;
     margin-bottom:10px;
   }
+}
+
+
+.posts-item{
+  // border:1px solid #e6e6e6;
+  background-color: #f6f9fb;
+  padding:15px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.posts-item-avatar{
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.posts-item-nickname{
+  // padding-left:28px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.posts-item-title{
+  margin-top:5px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.posts-item-reply{
+  margin-top:5px;
+  font-size: 13px;
+}
+
+
+.content_summary{
+  font-size: 16px;
 }

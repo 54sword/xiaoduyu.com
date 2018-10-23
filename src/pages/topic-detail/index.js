@@ -164,9 +164,12 @@ export default class TopicsDetail extends React.Component {
 
       <Meta title={topic.name} />
 
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8">
+
       {topic.parent_id ?
         <div styleName="topic-info">
-          <img src={topic.avatar} styleName="avatar" />
           <div styleName="name">
             <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>
             {topic.name}
@@ -187,7 +190,6 @@ export default class TopicsDetail extends React.Component {
         <div styleName="topic-nav">
           {topic.children.map(item=>{
             return (<Link to={`/topic/${item._id}`} key={item._id}>
-                <img src={item.avatar} />
                 {item.name}
               </Link>)
           })}
@@ -203,6 +205,20 @@ export default class TopicsDetail extends React.Component {
           filters={general}
           scrollLoad={true}
           />
+
+
+          </div>
+          <div className="col-md-4">
+            <Sidebar
+              recommendPostsDom={(<PostsList
+                id={'_'+pathname}
+                itemName="posts-item-title"
+                filters={recommend} />)}
+              />
+          </div>
+        </div>
+      </div>
+
 
       {/*
       <div className="container">

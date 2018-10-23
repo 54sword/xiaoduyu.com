@@ -1,9 +1,21 @@
 import React from 'react'
 
-export default ({ id = '', title = '', body = '', footer = '' }) => {
+export default ({ id = '', title = '', body = '', footer = '', position = '', size = '' }) => {
+
+  let className = 'modal-dialog';
+
+  if (!position) {
+    className += ' modal-dialog-centered';
+  } else if (position == 'top') {
+  }
+
+  if (size) {
+    className += ' modal-lg';
+  }
+
   return (
     <div className="modal fade" id={id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div className="modal-dialog modal-dialog-centered" role="document">
+      <div className={className} role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{title}</h5>

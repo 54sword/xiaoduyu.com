@@ -5,12 +5,13 @@ import { withRouter } from 'react-router-dom';
 // 依赖的外部功能
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../../actions/posts';
-import { getPostsListByName } from '../../../reducers/posts';
+import { loadFeedList } from '../../../actions/feed';
+import { getFeedListByName } from '../../../reducers/feed';
 
 // 依赖组件
 import PostsItem from '../../feed/list-item';
-import PostsItemTitle from '../../posts/posts-item-title';
+import CommentItem from '../../feed/list-comment-item';
+// import PostsItemTitle from '../../posts/posts-item-title';
 // import ListLoading from '../../list-loading';
 import Pagination from '../../pagination';
 import Loading from '../../ui/loading';
@@ -40,10 +41,10 @@ function getTop(e) {
 @withRouter
 @connect(
   (state, props) => ({
-    postsList: getPostsListByName(state, props.id)
+    list: getFeedListByName(state, props.id)
   }),
   dispatch => ({
-    loadPostsList: bindActionCreators(loadPostsList, dispatch)
+    loadList: bindActionCreators(loadFeedList, dispatch)
   })
 )
 @CSSModules(styles)
@@ -74,8 +75,9 @@ export default class PostsList extends Component {
   }
 
   componentDidMount() {
-    const { postsList, loadPostsList, id, scrollLoad } = this.props;
-    if (!postsList.data) this.loadDate();
+
+    const { list, loadList, id, scrollLoad } = this.props;
+    if (!list.data) this.loadDate();
     if (scrollLoad) ArriveFooter.add(id, this.loadDate);
 
     // this.state.positionY = getTop(this.refs['posts-list']) - 60;
@@ -119,32 +121,42 @@ export default class PostsList extends Component {
   }
 
   async loadDate(restart = false) {
-    const { id, filters, loadPostsList } = this.props;
+    const { id, filters, loadList } = this.props;
     let _filters = JSON.parse(JSON.stringify(filters));
-    await loadPostsList({ id, filters: _filters, restart });
+    await loadList({ id, filters: _filters, restart });
   }
 
   render () {
 
-    const { id, postsList, itemName, showPagination, scrollLoad } = this.props;
-    const { data, loading, more, count, filters = {} } = postsList;
-    const { positionY } = this.state
+    const { id, list, itemName, showPagination, scrollLoad } = this.props;
+    const { data, loading, more, count, filters = {} } = list;
+    const { positionY } = this.state;
+
+    // console.log(list);
 
     // 没有结果
     if (!loading && data && data.length == 0 && !more) {
       return <div className="text-center mt-4 md-4">没有查询到结果</div>
     }
 
+    console.log(list);
+
     //  ref="posts-list"
     return (<div>
 
       <div>
-        {data && data.map(posts=>{
-          if (itemName == 'posts-item') {
-            return (<PostsItem key={posts._id} posts={posts} />)
-          } else if (itemName == 'posts-item-title') {
-            return (<PostsItemTitle key={posts._id} posts={posts} />)
+        {data && data.map(item=>{
+          if (item.posts_id) {
+            return (<PostsItem key={item._id} posts={item.posts_id} />)
+          } else if (item.comment_id) {
+            return (<CommentItem key={item._id} comment={item.comment_id} />)
           }
+          // if (itemName == 'posts-item') {
+            // return (<PostsItem key={posts._id} posts={posts} />)
+          // }
+          // else if (itemName == 'posts-item-title') {
+            // return (<PostsItemTitle key={posts._id} posts={posts} />)
+          // }
         })}
       </div>
 

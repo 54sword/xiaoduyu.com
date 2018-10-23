@@ -9,15 +9,15 @@ a{
 
 :global{
 .default-theme{
-  
-  @media (min-width: 760px) {
+
+  @media (min-width: 1080px) {
     .container {
-      max-width: 760px;
+      max-width: 1080px;
     }
   }
 
   font-size: 14px;
-  background-color: #e6e8eb;
+  background-color: #eaedf0;//#edf0f3;//#e7eaed;//
   color:#474747;
 
   .container{
@@ -27,23 +27,26 @@ a{
 
   .row{
     > div{
-      padding-right: 5px;
-      padding-left: 5px;
+      padding-right: 6px;
+      padding-left: 6px;
     }
   }
 
   .card{
     border: none;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    overflow: hidden;
   }
 
   .card-header{
-    padding:5px 15px 5px 15px;
+    padding:15px 15px 15px 15px;
     border-bottom: 1px solid #e6e8eb;
+    background-color: #fff;
   }
 
   .card-body{
-    padding:0px;
+    padding:15px 20px 15px 20px;
   }
 
   .jumbotron{
@@ -106,9 +109,19 @@ a{
     }
   }
 
-
-
   /* border end */
+
+  /* button */
+
+  .btn{
+    border-radius: 30px;
+    padding:7px 25px 7px 25px;
+    background-color: #4170ea;
+    border: none;
+    font-size: 14px;
+  }
+
+  /* button end */
 
 }
 
