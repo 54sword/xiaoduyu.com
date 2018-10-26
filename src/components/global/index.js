@@ -12,6 +12,7 @@ import ReportModal from './report-modal';
 import BindingPhone from './binding-phone-modal';
 import UnlockToken from './unlock-token-modal';
 import PostsModal from '../posts/modal';
+import CommentModal from '../comment/modal';
 
 @connect(
   (state, props) => ({
@@ -33,11 +34,14 @@ class Global extends Component {
     return (<div>
 
         <PostsModal />
+        <CommentModal />
+        
         {!me ? <SignModal /> : null}
         {me ? <EditorModalComment /> : null}
         {me ? <ReportModal /> : null}
         {me ? <BindingPhone /> : null}
         {me ? <UnlockToken /> : null}
+
       </div>)
   }
 }

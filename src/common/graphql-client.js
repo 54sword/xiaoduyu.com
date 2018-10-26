@@ -25,6 +25,9 @@ export default ({ query, mutation, headers = { role: 'user' }, fetchPolicy = 'ne
 
   options.fetchPolicy = fetchPolicy;
 
+
+
+
   if (query) options.query = gql`${query}`;
   if (mutation) options.mutation = gql`${mutation}`;
   if (headers) options.context.headers = headers;

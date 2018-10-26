@@ -9,7 +9,7 @@ import { loadPostsList } from '../../../actions/posts';
 import { getPostsListByName } from '../../../reducers/posts';
 
 // 依赖组件
-import PostsItem from '../../feed/list-item';
+import PostsItem from '../posts-item';
 import PostsItemTitle from '../../posts/posts-item-title';
 // import ListLoading from '../../list-loading';
 import Pagination from '../../pagination';

@@ -121,14 +121,14 @@ export default class Head extends React.Component {
     const { me, isMember, topicList, unreadNotice, postsTips } = this.props;
 
     let nav = [
-      { to: '/', name: '全部' }
+      { to: '/', name: '首页' }
     ];
 
     if (isMember) {
       if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
-        nav.unshift({ to: '/follow', name: '关注', tips: true });
+        nav.push({ to: '/follow', name: '关注', tips: true });
       } else {
-        nav.unshift({ to: '/follow', name: '关注' });
+        nav.push({ to: '/follow', name: '关注' });
       }
     }
 
@@ -189,13 +189,18 @@ export default class Head extends React.Component {
           <ul styleName="user-bar">
             <li>
               <NavLink exact to="/notifications" styleName="link">
-                通知123
+                通知
                 {unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}
               </NavLink>
             </li>
             <li>
-              <div styleName="avatar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                style={{backgroundImage:`url(${me.avatar_url})`}}>
+              <div
+                styleName="avatar-area"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+                <div styleName="avatar" style={{backgroundImage:`url(${me.avatar_url})`}}></div>
+                <div>{me.nickname}</div>
               </div>
               <div className="dropdown-menu dropdown-menu-right">
                 <Link className="dropdown-item" to={`/people/${me._id}`}>我的主页</Link>

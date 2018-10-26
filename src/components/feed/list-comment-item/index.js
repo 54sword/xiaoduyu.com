@@ -46,16 +46,25 @@ export default class PostsItem extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      expand: false
+    }
+    this.handleExpand = this.handleExpand.bind(this);
+  }
+
+  handleExpand (e) {
+    e.stopPropagation();
+    this.setState({ expand: this.state.expand ? false : true });
   }
 
   render () {
 
     const { comment, isMember } = this.props;
+    const { expand } = this.state;
 
-    // console.log(comment);
+    console.log(comment);
 
-    return (<div styleName={"item"}>
+    return (<div styleName={"item"} onClick={!expand ? this.handleExpand : null} >
 
         <div styleName="head">
 
@@ -86,7 +95,7 @@ export default class PostsItem extends React.PureComponent {
                 {posts.like_count ? <span>{posts.like_count} 个赞</span> : null}
                 {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
                 */}
-                <span>{comment.create_at}</span>
+                <span>{comment._create_at}</span>
               </div>
 
 
@@ -100,7 +109,7 @@ export default class PostsItem extends React.PureComponent {
         </div>
         */}
         {comment.content_summary ?
-          <HTMLText content={comment.content_summary} />
+          <div styleName="content"><HTMLText content={comment.content_summary} /></div>
           : null}
 
         {comment.images && comment.images.length > 0 ?
@@ -115,10 +124,29 @@ export default class PostsItem extends React.PureComponent {
         {(()=>{
 
           if (comment.reply_id) {
-            return (<div styleName="posts-item">
+            return (<div
+              styleName="posts-item"
+              onClick={(e)=>{
+
+                e.stopPropagation();
+
+                window.open(`/comment/${comment.parent_id || comment._id}`);
+
+                /*
+                $('#comment-modal').modal({
+                  show: true
+                }, {
+                  commentId: comment.parent_id || comment._id
+                });
+                */
+
+              }}
+              >
               <div>
-                {/*<img styleName="posts-item-avatar" src={comment.reply_id.user_id.avatar_url} />*/}
-                <div><span styleName="posts-item-nickname">{comment.reply_id.user_id.nickname}</span> {comment.reply_id.create_at}</div>
+                <div styleName="posts-item-avatar">
+                  <img src={comment.reply_id.user_id.avatar_url} />
+                </div>
+                <div><span styleName="posts-item-nickname">{comment.reply_id.user_id.nickname}</span></div>
               </div>
               <div styleName="posts-item-reply">{comment.reply_id.content_summary}</div>
               {comment.reply_id.images && comment.reply_id.images.map(item=>{
@@ -128,28 +156,44 @@ export default class PostsItem extends React.PureComponent {
           }
 
           if (comment.posts_id) {
-            return (<div styleName="posts-item" onClick={()=>{
+            return (<div styleName="posts-item" onClick={(e)=>{
 
+              e.stopPropagation();
+
+              window.open(`/posts/${comment.posts_id._id}`);
+              /*
               $('#posts-modal').modal({
                 show: true
               }, {
                 postsId: comment.posts_id._id
               });
+              */
 
             }}>
-              <div>
-                {/*<img styleName="posts-item-avatar" src={comment.posts_id.user_id.avatar_url} />*/}
-                <div><span styleName="posts-item-nickname">{comment.posts_id.user_id.nickname}</span> {comment.posts_id._create_at}</div>
+              {/*<div>
+                <img styleName="posts-item-avatar" src={comment.posts_id.user_id.avatar_url} />
+                <div><span styleName="posts-item-nickname">{comment.posts_id.user_id.nickname}</span></div>
               </div>
+              */}
               <div styleName="posts-item-title">{comment.posts_id.title}</div>
               {comment.posts_id.content_summary ? <div>{comment.posts_id.content_summary}</div> : null}
-              {comment.posts_id.images && comment.posts_id.images.map(item=>{
+              {/*comment.posts_id.images && comment.posts_id.images.map(item=>{
                 return <img key={item} src={item} width={70} height={70} />
-              })}
+              })*/}
             </div>)
           }
 
         })()}
+
+        {expand && isMember && comment ?
+          <div>
+            <Editor
+              posts_id={comment.posts_id._id}
+              parent_id={comment.parent_id || ''}
+              reply_id={comment._id}
+              />
+          </div>
+          : null}
 
       </div>)
 

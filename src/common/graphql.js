@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import fetch from "node-fetch";
 // import fetch from "cross-fetch";
 
-import { graphql_url } from '../../config';
+import { graphql_url, debug } from '../../config';
 
 // https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
 
@@ -45,6 +45,8 @@ export default ({
       ${fields}
     }
   }`;
+
+  if (debug) console.log(sql);
 
   let options = {
     context: {

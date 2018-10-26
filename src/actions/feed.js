@@ -131,6 +131,91 @@ export function loadFeedList({ id, filters, restart = false }) {
 
     if (!filters.select) {
 
+
+      // content
+      filters.select = `
+      _id
+      user_id{
+        _id
+        nickname
+        brief
+        avatar_url
+      }
+      posts_id{
+        _id
+        comment_count
+        content_html
+        create_at
+        deleted
+        device
+        follow_count
+        ip
+        last_comment_at
+        like_count
+        recommend
+        sort_by_date
+        title
+        topic_id{
+          _id
+          name
+        }
+        type
+        user_id{
+          _id
+          nickname
+          brief
+          avatar_url
+        }
+        verify
+        view_count
+        weaken
+        follow
+        like
+      }
+      comment_id{
+        _id
+        parent_id
+        user_id{
+          _id
+          nickname
+          brief
+          avatar
+          avatar_url
+        }
+        posts_id{
+          _id
+          user_id{
+            _id
+            nickname
+            brief
+            avatar
+            avatar_url
+          }
+          title
+          content_html
+          create_at
+        }
+        like_count
+        reply_count
+        create_at
+        content_html
+        parent_id
+        reply_id{
+        	_id
+          content_html
+          create_at
+          user_id{
+            _id
+            nickname
+            brief
+            avatar
+            avatar_url
+          }
+      	}
+      }
+      `
+
+      /*
       // content
       filters.select = `
       _id
@@ -178,6 +263,7 @@ export function loadFeedList({ id, filters, restart = false }) {
       }
       comment_id{
         _id
+        parent_id
         user_id{
           _id
           nickname
@@ -202,6 +288,7 @@ export function loadFeedList({ id, filters, restart = false }) {
         reply_count
         create_at
         content_html
+        parent_id
         reply_id{
         	_id
           content_html
@@ -216,6 +303,7 @@ export function loadFeedList({ id, filters, restart = false }) {
       	}
       }
       `
+      */
     }
 
     return loadList({
@@ -400,11 +488,13 @@ const processPostsList = (list) => {
       // if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
       item.comment_id.content_summary = textContent;
 
+      if (item.comment_id.create_at) item.comment_id._create_at = DateDiff(item.comment_id.create_at);
+
       if (item.comment_id.reply_id) {
 
         let textContent = Utils.htmlToString(item.comment_id.reply_id.content_html);
 
-        if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
+        if (textContent.length > 70) textContent = textContent.slice(0, 70)+'...';
         item.comment_id.reply_id.content_summary = textContent;
 
         item.comment_id.reply_id.images = Utils.abstractImagesFromHTML(item.comment_id.reply_id.content_html);
@@ -418,7 +508,7 @@ const processPostsList = (list) => {
 
         let textContent = Utils.htmlToString(posts.content_html);
 
-        if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
+        if (textContent.length > 70) textContent = textContent.slice(0, 70)+'...';
         posts.content_summary = textContent;
 
         if (posts.create_at) posts._create_at = DateDiff(posts.create_at);

@@ -4,6 +4,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadPostsList } from '../../actions/posts';
+
 import { getPostsTips } from '../../reducers/website';
 import { loadNewPosts } from '../../actions/posts';
 import { getProfile } from '../../reducers/user';
@@ -12,6 +13,7 @@ import { getProfile } from '../../reducers/user';
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import FeedList from '../../components/feed/list';
+import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
 
@@ -116,7 +118,22 @@ export default class Follow extends React.Component {
                 />
             </div>
             <div className="col-md-4">
-              <Sidebar />
+              <Sidebar
+                recommendPostsDom={(<PostsList
+                  id={'_follow'}
+                  itemName="posts-item-title"
+                  filters={{
+                    variables: {
+                      method: 'user_follow',
+                      sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+                      deleted: false,
+                      weaken: false,
+                      page_size: 10,
+                      start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
+                    }
+                  }}
+                  />)}
+                />
             </div>
           </div>
         </div>

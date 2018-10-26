@@ -9,7 +9,7 @@ import { loadFeedList } from '../../../actions/feed';
 import { getFeedListByName } from '../../../reducers/feed';
 
 // 依赖组件
-import PostsItem from '../../feed/list-item';
+import PostsItem from '../../posts/posts-item';
 import CommentItem from '../../feed/list-comment-item';
 // import PostsItemTitle from '../../posts/posts-item-title';
 // import ListLoading from '../../list-loading';
