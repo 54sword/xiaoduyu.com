@@ -9,8 +9,8 @@ import Device from '../../../common/device';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../../reducers/user';
-import { viewPostsById } from '../../../actions/posts';
+import { isMember } from '../../../store/reducers/user';
+import { viewPostsById } from '../../../store/actions/posts';
 
 // components
 import HTMLText from '../../html-text';
@@ -281,7 +281,7 @@ export default class PostsItem extends React.PureComponent {
           </div>
         : null)*/}
 
-        {expandContent ?
+
         <div styleName="footer">
           <div id={posts._id+'-footer'}>
 
@@ -308,7 +308,7 @@ export default class PostsItem extends React.PureComponent {
 
           </div>
         </div>
-        : null}
+
 
       {expandContent ?
         <div onClick={this.stopPropagation}>

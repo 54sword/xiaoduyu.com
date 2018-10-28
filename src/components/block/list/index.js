@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadBlockList, removeBlock } from '../../../actions/block';
-import { getBlockListByName } from '../../../reducers/block';
+import { loadBlockList, removeBlock } from '../../../store/actions/block';
+import { getBlockListByName } from '../../../store/reducers/block';
 
 // components
 import HTMLText from '../../html-text';

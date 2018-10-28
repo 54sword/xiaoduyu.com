@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { forgot } from '../../actions/forgot';
+import { forgot } from '../../store/actions/forgot';
 
 // components
 import Shell from '../../components/shell';

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getCommentListByName } from '../../../reducers/comment';
-import { loadCommentList } from '../../../actions/comment';
+import { getCommentListByName } from '../../../store/reducers/comment';
+import { loadCommentList } from '../../../store/actions/comment';
 
 // components
 import ListLoading from '../../list-loading';

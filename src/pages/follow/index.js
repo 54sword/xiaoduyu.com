@@ -3,11 +3,11 @@ import React from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../actions/posts';
+import { loadPostsList } from '../../store/actions/posts';
 
-import { getPostsTips } from '../../reducers/website';
-import { loadNewPosts } from '../../actions/posts';
-import { getProfile } from '../../reducers/user';
+import { getPostsTips } from '../../store/reducers/website';
+import { loadNewPosts } from '../../store/actions/posts';
+import { getProfile } from '../../store/reducers/user';
 
 // components
 import Shell from '../../components/shell';
@@ -16,6 +16,7 @@ import FeedList from '../../components/feed/list';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
+import Box from '../../components/box';
 
 
 // style
@@ -105,17 +106,42 @@ export default class Follow extends React.Component {
       */}
 
 
+      <Box>
+
+        <div>
+          {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
+            <FeedList
+              id={'follow'}
+              filters={general}
+              scrollLoad={true}
+              />
+        </div>
+
+        <Sidebar
+          recommendPostsDom={(<PostsList
+            id={'_follow'}
+            itemName="posts-item-title"
+            filters={{
+              variables: {
+                method: 'user_follow',
+                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+                deleted: false,
+                weaken: false,
+                page_size: 10,
+                start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
+              }
+            }}
+            />)}
+          />
+
+      </Box>
+
+      {/*
         <div className="container">
           <div className="row">
             <div className="col-md-8">
 
-            {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
 
-              <FeedList
-                id={'follow'}
-                filters={general}
-                scrollLoad={true}
-                />
             </div>
             <div className="col-md-4">
               <Sidebar
@@ -137,6 +163,7 @@ export default class Follow extends React.Component {
             </div>
           </div>
         </div>
+      */}
 
       {/*
       <div className="container">

@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { loadCountries } from '../../actions/countries'
-import { getCountries } from '../../reducers/countries'
+import { loadCountries } from '../../store/actions/countries'
+import { getCountries } from '../../store/reducers/countries'
 
 // styles
 import CSSModules from 'react-css-modules'

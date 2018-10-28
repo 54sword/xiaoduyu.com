@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../reducers/user';
+import { isMember } from '../../store/reducers/user';
 
 // style
 import CSSModules from 'react-css-modules';

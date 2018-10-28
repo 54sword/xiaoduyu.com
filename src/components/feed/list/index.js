@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 // 依赖的外部功能
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadFeedList } from '../../../actions/feed';
-import { getFeedListByName } from '../../../reducers/feed';
+import { loadFeedList } from '../../../store/actions/feed';
+import { getFeedListByName } from '../../../store/reducers/feed';
 
 // 依赖组件
 import PostsItem from '../../posts/posts-item';
@@ -139,7 +139,7 @@ export default class PostsList extends Component {
       return <div className="text-center mt-4 md-4">没有查询到结果</div>
     }
 
-    console.log(list);
+    // console.log(list);
 
     //  ref="posts-list"
     return (<div>

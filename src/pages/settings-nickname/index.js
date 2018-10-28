@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getProfile } from '../../reducers/user'
-import { updateUser, loadUserInfo } from '../../actions/user'
+import { getProfile } from '../../store/reducers/user'
+import { updateUser, loadUserInfo } from '../../store/actions/user'
 
 // components
 import Shell from '../../components/shell'

@@ -1,4 +1,4 @@
-import { loadPostsList, viewPostsById } from '../../actions/posts';
+import { loadPostsList, viewPostsById } from '../../store/actions/posts';
 
 export default ({ store, match }) => {
   return new Promise(async (resolve, reject) => {

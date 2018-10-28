@@ -5,8 +5,8 @@ import { withRouter, Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadNotifications } from '../../../actions/notification';
-import { getNotificationByName } from '../../../reducers/notification';
+import { loadNotifications } from '../../../store/actions/notification';
+import { getNotificationByName } from '../../../store/reducers/notification';
 
 // tools
 import { DateDiff } from '../../../common/date';

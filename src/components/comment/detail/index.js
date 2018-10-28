@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import { loadCommentList } from '../../actions/comment';
 // import { getCommentListById } from '../../reducers/comment';
-import { isMember } from '../../../reducers/user';
+import { isMember } from '../../../store/reducers/user';
 
 // components
 // import Shell from '../../components/shell';

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import connectReudx from '../../../common/connect-redux'
 
-import { loadTopics } from '../../../actions/topic'
-import { getTopicListByName } from '../../../reducers/topic'
+import { loadTopics } from '../../../store/actions/topic'
+import { getTopicListByName } from '../../../store/reducers/topic'
 
 import TopicItem from '../list-item'
 import ListLoading from '../../list-loading'
@@ -89,7 +89,7 @@ export class TopicList extends Component {
     const { data, loading, more, count, filters = {} } = topicList
 
     return (<div>
-      
+
       <ul className="list-group">
         {data && data.map((topic, index) => {
           return(<li key={topic._id} className="list-group-item">

@@ -10,6 +10,7 @@ import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
 // import Bundle from '../../components/bundle';
 import NewPostsButton from '../../components/new-posts-button';
+import Box from '../../components/box';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -34,6 +35,7 @@ let recommend = {
 }
 
 @Shell
+@CSSModules(styles)
 export default class Home extends React.Component {
 
   constructor(props) {
@@ -42,53 +44,20 @@ export default class Home extends React.Component {
 
   render() {
 
-    const { pathname, search } = this.props.location;
-    const { isMember } = this.props;
-
-    {/*
-    <Sidebar
-      recommendPostsDom={(<PostsList
-        id={'_home'}
-        itemName="posts-item-title"
-        filters={recommend}
-      />)}
-      />
-    */}
-
     return(<div>
+
       <Meta />
 
-      {/*
-      <PostsList
-        id={'home'}
-        filters={general}
-        scrollLoad={true}
-        />
-      */}
-
-
-      <div className="container">
-        <div className="row">
-          <div className="col-md-8">
-
-            <PostsList
-              id={'home'}
-              filters={general}
-              scrollLoad={true}
-              />
-          </div>
-          <div className="col-md-4">
-            <Sidebar
-              recommendPostsDom={(<PostsList
-                id={'_home'}
-                itemName="posts-item-title"
-                filters={recommend}
-                />)}
-              />
-          </div>
-        </div>
-      </div>
-
+      <Box>
+        <PostsList id={'home'} filters={general} scrollLoad={true} />
+        <Sidebar
+          recommendPostsDom={(<PostsList
+            id={'_home'}
+            itemName="posts-item-title"
+            filters={recommend}
+            />)}
+          />
+      </Box>
 
     </div>)
   }

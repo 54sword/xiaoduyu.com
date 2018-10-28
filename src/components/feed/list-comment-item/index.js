@@ -9,8 +9,8 @@ import Device from '../../../common/device';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../../reducers/user';
-import { viewPostsById } from '../../../actions/posts';
+import { isMember } from '../../../store/reducers/user';
+import { viewPostsById } from '../../../store/actions/posts';
 
 // components
 import HTMLText from '../../html-text';
@@ -62,7 +62,7 @@ export default class PostsItem extends React.PureComponent {
     const { comment, isMember } = this.props;
     const { expand } = this.state;
 
-    console.log(comment);
+    // console.log(comment);
 
     return (<div styleName={"item"} onClick={!expand ? this.handleExpand : null} >
 

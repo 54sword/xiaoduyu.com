@@ -4,9 +4,9 @@ import Modal from '../../bootstrap/modal';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadCommentList } from '../../../actions/comment';
-import { getCommentListById } from '../../../reducers/comment';
-import { isMember } from '../../../reducers/user';
+import { loadCommentList } from '../../../store/actions/comment';
+import { getCommentListById } from '../../../store/reducers/comment';
+import { isMember } from '../../../store/reducers/user';
 
 // style
 // import CSSModules from 'react-css-modules';

@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../../actions/posts';
-import { getPostsById } from '../../../reducers/posts';
-import { isMember } from '../../../reducers/user';
+import { loadPostsList } from '../../../store/actions/posts';
+import { getPostsById } from '../../../store/reducers/posts';
+import { isMember } from '../../../store/reducers/user';
 
 // style
 import CSSModules from 'react-css-modules'

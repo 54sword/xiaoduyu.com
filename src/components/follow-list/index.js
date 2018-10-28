@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { findFollows } from '../../actions/follow';
-import { getFollowListByName } from '../../reducers/follow';
+import { findFollows } from '../../store/actions/follow';
+import { getFollowListByName } from '../../store/reducers/follow';
 
 // components
 import Follow from '../follow';

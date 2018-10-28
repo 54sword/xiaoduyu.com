@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPeopleList } from '../../../actions/people'
-import { getPeopleListByName } from '../../../reducers/people'
+import { loadPeopleList } from '../../../store/actions/people'
+import { getPeopleListByName } from '../../../store/reducers/people'
 
 // components
 import PeopleItem from '../list-item'

@@ -1,4 +1,5 @@
 import React from 'react';
+import Loadable from 'react-loadable';
 
 // components
 // import Bundle from '../bundle';
@@ -11,6 +12,11 @@ import Aglobal from '../global';
 // style
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
+
+// const LoadableFooter = Loadable({
+//   loader: () => import('../global'),
+//   loading: () => <div>loading...</div>
+// });
 
 @CSSModules(styles)
 export class Footer extends React.Component {
@@ -50,6 +56,10 @@ export class Footer extends React.Component {
       </span>
 
       <Aglobal />
+
+      {/*
+      <LoadableFooter />
+      */}
 
       {/*
       <AsyncComponent load={() => import('../global')}>

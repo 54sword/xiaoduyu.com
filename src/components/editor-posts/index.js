@@ -4,9 +4,9 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addPosts, updatePosts } from '../../actions/posts';
-import { loadTopics } from '../../actions/topic';
-import { getTopicById, getTopicListByName } from '../../reducers/topic';
+import { addPosts, updatePosts } from '../../store/actions/posts';
+import { loadTopics } from '../../store/actions/topic';
+import { getTopicById, getTopicListByName } from '../../store/reducers/topic';
 
 // components
 import Device from '../../common/device';

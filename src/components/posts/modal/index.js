@@ -5,7 +5,7 @@ import Modal from '../../bootstrap/modal';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../../reducers/user';
+import { isMember } from '../../../store/reducers/user';
 // import { getReportTypes } from '../../../reducers/report-types';
 // import { loadReportTypes, addReport } from '../../../actions/report';
 

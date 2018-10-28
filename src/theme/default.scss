@@ -1,4 +1,7 @@
 
+
+@import "./global";
+
 /**
  * 覆盖默认的 bootstrap 的样式
  */
@@ -10,9 +13,9 @@ a{
 :global{
 .default-theme{
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1050px) {
     .container {
-      max-width: 1080px;
+      max-width: 1050px;
     }
   }
 

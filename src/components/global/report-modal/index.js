@@ -5,8 +5,8 @@ import Modal from '../../bootstrap/modal';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getReportTypes } from '../../../reducers/report-types';
-import { loadReportTypes, addReport } from '../../../actions/report';
+import { getReportTypes } from '../../../store/reducers/report-types';
+import { loadReportTypes, addReport } from '../../../store/actions/report';
 
 
 // style

@@ -5,9 +5,9 @@ import { original_api_domain } from '../../../config'
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getProfile, getAccessToken } from '../../reducers/user'
-import { updateUser, loadUserInfo } from '../../actions/user'
-import { oAuthUnbinding } from '../../actions/oauth'
+import { getProfile, getAccessToken } from '../../store/reducers/user'
+import { updateUser, loadUserInfo } from '../../store/actions/user'
+import { oAuthUnbinding } from '../../store/actions/oauth'
 
 // components
 import Shell from '../../components/shell'

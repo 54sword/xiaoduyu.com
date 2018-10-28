@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 // redux
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getProfile } from '../../reducers/user'
+import { getProfile } from '../../store/reducers/user'
 
 // components
 import EditorCommentModal from '../editor-comment-modal';
@@ -32,7 +32,7 @@ export default class EditButton extends Component {
   }
 
   render() {
-    
+
     const self = this;
     const { me, posts, comment } = this.props;
 

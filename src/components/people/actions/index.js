@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { updatePeople } from '../../../actions/people'
+import { updatePeople } from '../../../store/actions/people'
 import connectRedux from '../../../common/connect-redux'
 
 class PeopleActions extends Component {

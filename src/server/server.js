@@ -3,25 +3,37 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
 
-// 客户端
-import MetaTagsServer from 'react-meta-tags/server';
-import { MetaTagsContext } from 'react-meta-tags';
 // 服务端渲染依赖
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router';
 import { Provider } from 'react-redux';
+import MetaTagsServer from 'react-meta-tags/server';
+import { MetaTagsContext } from 'react-meta-tags';
+import Loadable from 'react-loadable';
 
 // redux actions
-import { loadUserInfo } from '../actions/user';
-import { addAccessToken } from '../actions/token';
+import { loadUserInfo } from '../store/actions/user';
+
+
+import ReadyStoreData from './ready-store-data';
 
 // 路由配置
 import configureStore from '../store';
+
+
+/*
+// https://redux.js.org/api/store#subscribe
+const unsubscribe = store.subscribe(function(){})
+*/
+
 // 路由组件
 import createRouter from '../router';
+
+
+
 // 路由初始化的redux内容
-import { initialStateJSON } from '../reducers';
+// import { initialStateJSON } from '../store/reducers';
 
 // 配置
 import { port, auth_cookie_name } from '../../config';
@@ -29,6 +41,7 @@ import { port, auth_cookie_name } from '../../config';
 // 路由
 import sign from './sign';
 import AMP from './amp';
+
 
 
 
@@ -41,51 +54,78 @@ app.use(compress());
 app.use(express.static('./dist/client'));
 app.use(express.static('./public'));
 
+app.use(function (req, res, next) {
+  // 计算页面加载完成花费的时间
+  var exec_start_at = Date.now();
+  var _send = res.send;
+  res.send = function () {
+    // 发送Header
+    res.set('X-Execution-Time', String(Date.now() - exec_start_at) + ' ms');
+    // 调用原始处理函数
+    return _send.apply(res, arguments);
+  };
+  next();
+});
+
 // amp
 app.use('/amp', AMP());
 
 // 登录、退出
 app.use('/sign', sign());
 
-app.get('*', async (req, res) => {
+app.get('*', async function (req, res) {
 
-  const store = configureStore(JSON.parse(initialStateJSON));
+  let store = configureStore();
 
   let user = null, err;
   let accessToken = req.cookies[auth_cookie_name] || '';
 
-  // 验证 token 是否有效
-  if (accessToken) {
+  // 准备数据，如果有token，获取用户信息并返回
+  [ err, user ] = await ReadyStoreData(store, accessToken);
 
-    [ err, user ] = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
+  if (err && err.blocked) {
 
-    if (err && err.blocked) {
+    // 如果是拉黑的用户，阻止登陆，并提示
+    res.clearCookie(auth_cookie_name);
+    res.redirect('/notice?notice=block_account');
+    return;
 
-      // 如果是拉黑的用户，阻止登陆，并提示
-      res.clearCookie(auth_cookie_name);
-      res.redirect('/notice?notice=block_account');
-      return;
+  } else if (err && err.message && err.message == 'invalid token') {
 
-    } else if (err && err.message && err.message == 'invalid token') {
+    // 无效的令牌
+    res.clearCookie(auth_cookie_name);
+    res.redirect('/notice?notice=invalid_token');
+    return;
 
-      // 无效的令牌
-      res.clearCookie(auth_cookie_name);
-      res.redirect('/notice?notice=invalid_token');
-      return;
-
-    }
-
-    if (user) store.dispatch(addAccessToken({ access_token: accessToken }));
   }
 
   const router = createRouter(user);
 
-  let _route = null,
-      _match = null;
+  const promises = [];
+
+  let _route = null;
 
   router.list.some(route => {
 
-    let match = matchPath(req.url.split('?')[0], route);
+    let match = matchPath(req.path, route);
+
+    if (match) {
+
+      _route = route;
+
+      // match.pathname = req._parsedOriginalUrl.pathname || '/';
+      match.search = req._parsedOriginalUrl.search || '';
+
+      //  && !user
+      if (route.loadData) {
+        promises.push(route.loadData({ store, match }));
+      }
+
+    }
+
+    return match;
+
+    /*
     if (match && match.path) {
       _route = route;
       _match = match;
@@ -111,53 +151,45 @@ app.get('*', async (req, res) => {
     if (_route && _match) {
       return true;
     }
+    */
 
   });
 
   let context = {
     code: 200
-    // url
   };
 
   // 获取路由dom
   const _Router = router.dom;
   const metaTagsInstance = MetaTagsServer();
 
-  // console.log(_route);
-  // console.log(_match);
-
-  // console.log(_Router);
-
-  // console.log(_route.enter.toString());
-
-  /*
-  context = _route.enter(_route.component, {}, _route);
-
-  if (context && context.code && context.code == 302) {
-    console.log('===');
-    res.writeHead(302, {
-      Location: context.url
-    });
-    res.end();
-    return
-  }
-  */
-
-  // console.log('======')
-  // console.log(_route);
-  // console.log(s);
-
-  if (_route.loadData) {
-    context = await _route.loadData({ store, match: _match });
+  // 路由权限控制
+  switch (_route.enter) {
+    case 'everybody':
+      break;
+    case 'tourists':
+      if (user) {
+        res.redirect('/');
+        return;
+      }
+      break;
+    case 'member':
+      if (!user) {
+        res.redirect('/');
+        return;
+      }
+      break;
   }
 
-  if (_route.head && _route.head.loadData) {
-    await _route.head.loadData({ store, match: _match })
-  }
 
-  if (_route.component && _route.component.preload) {
-    await _route.component.preload();
-  }
+  await Loadable.preloadAll();
+  // _route.component.preload();
+
+  await Promise.all(promises).then(value=>{
+    if (value && value[0]) {
+      context = value[0];
+    }
+  });
 
   let _mainContent = (<Provider store={store}>
         <MetaTagsContext extract={metaTagsInstance.extract}>
@@ -188,6 +220,11 @@ app.get('*', async (req, res) => {
   }
 
   res.end();
+
+  // 释放store内存
+  store = null;
+
+  // console.log(process.memoryUsage());
 
 });
 

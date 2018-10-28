@@ -3,22 +3,34 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 import fetch from "node-fetch";
-// import fetch from "cross-fetch";
 
-import { graphql_url } from '../../config';
+import config, { debug, graphql_url } from '../../config';
+
+import To from './to';
 
 // https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
 
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  ssrMode: false, //__SERVER__ ? true : false,
+  ssrMode: __SERVER__ ? true : false, //__SERVER__ ? true : false,
   link: new HttpLink({
     uri: graphql_url,
     fetch
   }),
   cache
 });
+
+/*
+client.onResetStore(()=>{
+  console.log('缓存清空');
+});
+*/
+
+// 最后一次清理缓存的时间
+var lastCacheTime = 0;
+
+// console.log(client);
 
 /**
  *
@@ -57,7 +69,7 @@ const client = new ApolloClient({
  *		}));
  */
 
-export default ({
+export default async ({
 	type = 'query',
   headers = {},
   cache = false,
@@ -66,68 +78,100 @@ export default ({
 
 	let sql = '';
 
+  let _apis = [];
+
 	apis.map(({ aliases, api, args, fields })=>{
+
+    _apis.push(api);
 
 		args = convertParamsFormat(args);
 
-		if (!aliases) aliases = api;
+		if (aliases) aliases += ': ';
 
-		aliases = aliases +': ';
+    sql += `
+      ${aliases || ''}${api}${args}
+    `;
 
-		if (fields) {
-			sql += `
-				${aliases}${api}${args}{
-					${fields}
-				}
-			`;
-		} else {
-			sql += `
-				${aliases}${api}${args}
-			`;
-		}
+    if (fields) {
+      sql += `{
+        ${fields}
+      }`
+    }
 
 	});
 
-  console.log(`${type}{ ${sql} }`);
+	sql = gql`${type}{
+    ${sql}
+  }`;
 
-	sql = gql`${type}{ ${sql} }`;
+  // if (debug) {
+    // console.log(_apis.join(','));
+  // }
 
   let options = {
     context: {
       headers
     },
-    fetchPolicy: cache ? 'cache' : (!type ? 'network-only' : 'no-cache')
+    fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache')//cache ? 'cache' : (!type ? 'network-only' : 'no-cache')
   }
 
-  let fn;
+  let resetStore = false;
 
-  if (type == 'query') {
+  if (__SERVER__) {
+
+    if (config.cache <= 0) {
+      // 不开启缓存
+      options.fetchPolicy = 'no-cache';
+    } else if (new Date().getTime() - lastCacheTime > config.cache) {
+      resetStore = true;
+      // 超过缓存事件，清空所有缓存
+      await client.resetStore();
+    }
+
+  }
+
+  let fn = client.query;
+
+  if (type == 'query' || !type) {
     options.query = sql;
-    fn = client.query;
   } else if (type == 'mutation') {
     options.mutation = sql;
     fn = client.mutate;
   }
 
-  return new Promise((resolve, reject) => {
-    return fn(options).then(res=>{
-      resolve(res);
-    }).catch(res=>{
+  return To(new Promise((resolve, reject) => {
 
-      res.graphQLErrors.map(item=>{
-        item = converterErrorInfo(item);
-      });
+    fn(options).then(res=>{
+
+      if (__SERVER__) {
+        // 请求成功，设置最近一次缓存事件
+        if (resetStore) {
+          lastCacheTime = parseInt(new Date().getTime());
+        }
+      }
+
+      if (apis.length == 1) {
+        resolve(res.data[apis[0].api]);
+      } else {
+        resolve(res.data);
+      }
+
+    }).catch(res=>{
 
       console.log(res);
 
-      if (res.graphQLErrors.length > 0) {
+      if (res.graphQLErrors && res.graphQLErrors.length != 0) {
+        res.graphQLErrors.map(item=>{
+          item = converterErrorInfo(item);
+        });
         reject(res.graphQLErrors);
-      } else {
-        reject('未知错误');
       }
 
+      reject('未知错误');
+
     });
-  });
+
+  }));
 
 }
 

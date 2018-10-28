@@ -4,11 +4,15 @@ import io from 'socket.io-client';
 import { socket_url } from '../../../config';
 
 // redux actions
-import { loadUnreadCount, cancelNotiaction } from '../../actions/notification';
-import { setOnlineUserCount } from '../../actions/website';
-import { newPostsTips } from '../../actions/posts';
+import { loadUnreadCount, cancelNotiaction } from '../../store/actions/notification';
+import { setOnlineUserCount } from '../../store/actions/website';
+import { newPostsTips } from '../../store/actions/posts';
 
-export default ({ dispatch, getState }) => {
+export default function ({ dispatch, getState }) {
+
+  const handleActions = function(action, params = null) {
+    action(params)(dispatch, getState);
+  }
 
   // 用于判断是否登录
   const me = getState().user.profile;
@@ -18,37 +22,37 @@ export default ({ dispatch, getState }) => {
   socket.on("connect", function() {
 
     // 更新在线用户
-    this.on("online-user-count", (count) => {
-      setOnlineUserCount(count)(dispatch, getState);
+    this.on("online-user-count", function(count) {
+      handleActions(setOnlineUserCount, count);
     });
 
     // 通知
-    this.on("notiaction", (addresseeIds) => {
+    this.on("notiaction", function(addresseeIds) {
       if (me && me._id && addresseeIds.indexOf(me._id) != -1) {
-        loadUnreadCount()(dispatch, getState);
+        handleActions(loadUnreadCount);
       }
     });
 
     // 取消通知
-    this.on("cancel-notiaction", (id) => {
-      cancelNotiaction({id})(dispatch, getState);
+    this.on("cancel-notiaction", function(id) {
+      handleActions(cancelNotiaction, {id});
     });
 
     // 最帖子通知
-    this.on("new-posts", (timestamp) => {
-      newPostsTips()(dispatch, getState);
+    this.on("new-posts", function(timestamp) {
+      handleActions(newPostsTips);
     });
 
   });
 
   // 如果断开了连接，尝试重新连接
-  socket.on('disconnect', () => {
+  socket.on('disconnect', function() {
     // startSocket()
   });
 
   if (me && me._id) {
-    loadUnreadCount({})(dispatch, getState);
-    newPostsTips()(dispatch, getState);
+    handleActions(loadUnreadCount, {});
+    handleActions(newPostsTips);
   }
 
 }

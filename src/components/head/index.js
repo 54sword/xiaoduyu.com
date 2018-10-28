@@ -9,11 +9,11 @@ import parseUrl from '../../common/parse-url';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { signOut } from '../../actions/sign';
-import { isMember, getProfile } from '../../reducers/user';
-import { loadTopics } from '../../actions/topic';
-import { getTopicListByKey } from '../../reducers/topic';
-import { getUnreadNotice, getPostsTips } from '../../reducers/website';
+import { signOut } from '../../store/actions/sign';
+import { isMember, getProfile } from '../../store/reducers/user';
+import { loadTopics } from '../../store/actions/topic';
+import { getTopicListByKey } from '../../store/reducers/topic';
+import { getUnreadNotice, getPostsTips } from '../../store/reducers/website';
 // import { loadNewPosts } from '../../actions/posts';
 
 // style

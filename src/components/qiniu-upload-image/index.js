@@ -6,7 +6,7 @@ import styles from './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getQiNiuToken } from '../../actions/qiniu'
+import { getQiNiuToken } from '../../store/actions/qiniu'
 
 import Loading from '../../components/loading'
 

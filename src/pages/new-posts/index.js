@@ -3,8 +3,8 @@ import React from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../actions/posts';
-import { getPostsById } from '../../reducers/posts';
+import { loadPostsList } from '../../store/actions/posts';
+import { getPostsById } from '../../store/reducers/posts';
 
 // components
 import Shell from '../../components/shell';

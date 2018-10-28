@@ -6,7 +6,7 @@ import { reactLocalStorage } from 'reactjs-localstorage'
 // reudx
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { addComment, updateComment, loadCommentList } from '../../actions/comment'
+import { addComment, updateComment, loadCommentList } from '../../store/actions/comment'
 
 // tools
 import Device from '../../common/device'

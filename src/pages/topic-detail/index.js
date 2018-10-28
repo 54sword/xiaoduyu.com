@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadTopics } from '../../actions/topic';
-import { loadPostsList } from '../../actions/posts';
-import { getTopicListByKey } from '../../reducers/topic';
+import { loadTopics } from '../../store/actions/topic';
+import { loadPostsList } from '../../store/actions/posts';
+import { getTopicListByKey } from '../../store/reducers/topic';
 
 // components
 import Shell from '../../components/shell';
@@ -16,6 +16,7 @@ import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
 import Follow from '../../components/follow';
 import Loading from '../../components/ui/loading';
+import Box from '../../components/box';
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -164,6 +165,60 @@ export default class TopicsDetail extends React.Component {
 
       <Meta title={topic.name} />
 
+      <Box>
+
+        <div>
+
+        {topic.parent_id ?
+          <div styleName="topic-info">
+            <div styleName="name">
+              <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>
+              {topic.name}
+            </div>
+            <div>{topic.brief}</div>
+            <div styleName="status">
+              {topic.posts_count ? <span>{topic.posts_count} 帖子</span> : null}
+              {topic.comment_count ? <span>{topic.comment_count} 评论</span> : null}
+              {topic.follow_count ? <span>{topic.follow_count} 关注</span> : null}
+            </div>
+            <div>
+              <Follow topic={topic} />
+            </div>
+          </div>
+          : null}
+
+        {topic.children && topic.children.length > 0 ?
+          <div styleName="topic-nav">
+            {topic.children.map(item=>{
+              return (<Link to={`/topic/${item._id}`} key={item._id}>
+                  {item.name}
+                </Link>)
+            })}
+          </div>
+          : null}
+
+          {topic.parent_id ?
+            <NewPostsButton />
+            : null}
+
+          <PostsList
+            id={pathname + search}
+            filters={general}
+            scrollLoad={true}
+            />
+
+        </div>
+
+        <Sidebar
+          recommendPostsDom={(<PostsList
+            id={'_'+pathname}
+            itemName="posts-item-title"
+            filters={recommend} />)}
+          />
+
+      </Box>
+
+      {/*
       <div className="container">
         <div className="row">
           <div className="col-md-8">
@@ -218,7 +273,7 @@ export default class TopicsDetail extends React.Component {
           </div>
         </div>
       </div>
-
+      */}
 
       {/*
       <div className="container">

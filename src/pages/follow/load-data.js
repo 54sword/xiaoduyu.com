@@ -1,4 +1,4 @@
-import { loadPostsList } from '../../actions/posts';
+import { loadPostsList } from '../../store/actions/posts';
 
 let general = {
   variables: {

@@ -5,9 +5,9 @@ import { name } from '../../../config';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../actions/posts';
-import { isMember, getProfile } from '../../reducers/user';
-import { getOnlineUserCount } from '../../reducers/website';
+import { loadPostsList } from '../../store/actions/posts';
+import { isMember, getProfile } from '../../store/reducers/user';
+import { getOnlineUserCount } from '../../store/reducers/website';
 
 // style
 import CSSModules from 'react-css-modules';
@@ -111,9 +111,11 @@ export default class Sidebar extends React.Component {
           <a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源代码</a>
           <a href="mailto:shijian.wu@hotmail.com">联系作者</a>
         </div>
+        {/*
         <div>
           {onlineCOunt} 人在线
         </div>
+        */}
         <p>©{new Date().getFullYear()} {name} (浙ICP备14013796号-3)</p>
       </div>
 

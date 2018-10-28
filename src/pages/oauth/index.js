@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { saveSignInCookie } from '../../actions/sign';
+import { saveSignInCookie } from '../../store/actions/sign';
 
 // components
 import Shell from '../../components/shell';

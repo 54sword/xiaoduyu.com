@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../reducers/user';
-import { like, unlike } from '../../actions/like';
+import { isMember } from '../../store/reducers/user';
+import { like, unlike } from '../../store/actions/like';
 
 // style
 import CSSModules from 'react-css-modules';

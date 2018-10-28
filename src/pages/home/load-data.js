@@ -1,4 +1,4 @@
-import { loadPostsList } from '../../actions/posts';
+import { loadPostsList } from '../../store/actions/posts';
 
 let general = {
   variables: {
@@ -9,8 +9,16 @@ let general = {
 }
 
 export default ({ store, match }) => {
-  return new Promise(resolve => {
-    
+  return new Promise(async resolve => {
+
+    await loadPostsList({
+       id: 'home',
+       filters: general
+    })(store.dispatch, store.getState);
+
+    resolve({ code:200 });
+
+    /*
     Promise.all([
       new Promise(async resolve => {
         let [ err, result ] = await loadPostsList({
@@ -29,6 +37,7 @@ export default ({ store, match }) => {
     ]).then(value=>{
       resolve({ code:200 });
     });
+    */
 
   })
 }

@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import CSSModules from 'react-css-modules'
 import styles from './style.scss'
 
-import { getProfile } from '../../../reducers/user'
-import { showSign } from '../../../actions/sign'
+import { getProfile } from '../../../store/reducers/user'
+import { showSign } from '../../../store/actions/sign'
 
 import connectReudx from '../../../common/connect-redux'
 
