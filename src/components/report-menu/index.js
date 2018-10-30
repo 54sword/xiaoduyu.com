@@ -7,9 +7,9 @@ import { connect } from 'react-redux';
 // import { showSign } from '../../actions/sign';
 // import { isMember } from '../../reducers/user';
 // import { like, unlike } from '../../actions/like';
-import { loadReportTypes } from '../../actions/report';
-import { addBlock } from '../../actions/block';
-import { isMember } from '../../reducers/user';
+import { loadReportTypes } from '../../store/actions/report';
+import { addBlock } from '../../store/actions/block';
+import { isMember } from '../../store/reducers/user';
 
 // style
 import CSSModules from 'react-css-modules';

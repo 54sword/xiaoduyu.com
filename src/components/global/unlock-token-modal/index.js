@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadUserInfo } from '../../../actions/user';
-import { getUnlockToken } from '../../../actions/unlock-token';
-import { getProfile } from '../../../reducers/user';
+import { loadUserInfo } from '../../../store/actions/user';
+import { getUnlockToken } from '../../../store/actions/unlock-token';
+import { getProfile } from '../../../store/reducers/user';
 
 // components
 import CaptchaButton from '../../captcha-button';

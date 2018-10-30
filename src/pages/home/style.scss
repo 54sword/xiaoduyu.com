@@ -9,3 +9,16 @@
   margin-bottom:10px;
   border-radius: 5px;
 }
+
+.box{
+  position: relative;
+  padding-right:312px;
+}
+
+.box-right{
+  position: absolute;
+  top:0px;
+  left:100%;
+  width: 300px;
+  margin-left: -300px;
+}

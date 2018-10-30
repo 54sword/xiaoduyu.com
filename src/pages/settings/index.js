@@ -6,8 +6,8 @@ import { Route, Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { signOut } from '../../actions/sign';
-import { getProfile } from '../../reducers/user';
+import { signOut } from '../../store/actions/sign';
+import { getProfile } from '../../store/reducers/user';
 
 // components
 import Shell from '../../components/shell';

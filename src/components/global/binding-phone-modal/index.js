@@ -5,9 +5,9 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadUserInfo } from '../../../actions/user';
-import { addPhone } from '../../../actions/phone';
-import { getProfile } from '../../../reducers/user';
+import { loadUserInfo } from '../../../store/actions/user';
+import { addPhone } from '../../../store/actions/phone';
+import { getProfile } from '../../../store/reducers/user';
 
 // components
 import CaptchaButton from '../../captcha-button';

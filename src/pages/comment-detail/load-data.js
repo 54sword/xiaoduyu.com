@@ -1,4 +1,4 @@
-import { loadCommentList } from '../../actions/comment';
+import { loadCommentList } from '../../store/actions/comment';
 
 export default ({ store, match }) => {
   return new Promise(async (resolve, reject) => {

@@ -15,24 +15,32 @@ import styles from './style.scss';
 export class Share extends Component {
 
   static propTypes = {
-    posts: PropTypes.object
+    posts: PropTypes.object,
+    comment: PropTypes.object
   }
 
   constructor(props) {
     super(props);
+    
+    const { posts, comment } = this.props;
 
-    const { posts } = this.props;
-
-    // console.log(posts);
-
-    this.state = {
+    let state = {
       displayTips: false,
-      showQrcode: false,
-      title: posts.title,
-      summary: posts.content_summary,
-      pics: posts.coverImage || '',
-      url: domain_name +'/posts/'+posts._id
+      showQrcode: false
     }
+
+    if (posts) {
+      state.title = posts.title;
+      state.summary = posts.content_summary;
+      state.pics = posts.coverImage || '';
+      state.url = domain_name +'/posts/'+posts._id;
+    }
+
+    if (comment) {
+      console.log(comment);
+    }
+
+    this.state = state;
 
     this.shareToWeibo = this._shareToWeibo.bind(this);
     this.shareToTwitter = this._shareToTwitter.bind(this);

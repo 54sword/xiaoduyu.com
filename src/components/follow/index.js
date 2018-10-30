@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 // import { follow, unfollow } from '../../actions/follow-posts'
-import { follow, unfollow } from '../../actions/follow'
-import { getProfile } from '../../reducers/user'
+import { follow, unfollow } from '../../store/actions/follow'
+import { getProfile } from '../../store/reducers/user'
 
 // style
 import CSSModules from 'react-css-modules';

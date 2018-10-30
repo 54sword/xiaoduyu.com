@@ -18,7 +18,7 @@ import 'jquery';
 import 'popper.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
-import '../pages/global.scss';
+import '../theme/default.scss';
 
 
 
@@ -59,8 +59,8 @@ window._history = createHistory();
 // 从页面中获取服务端生产redux数据，作为客户端redux初始值
 const store = configureStore(window.__initState__);
 
-import { getProfile } from '../reducers/user';
-import { getUnlockTokenByCookie } from '../actions/unlock-token';
+import { getProfile } from '../store/reducers/user';
+import { getUnlockTokenByCookie } from '../store/actions/unlock-token';
 
 let userinfo = getProfile(store.getState());
 

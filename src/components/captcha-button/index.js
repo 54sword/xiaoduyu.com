@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addCaptcha } from '../../actions/captcha';
+import { addCaptcha } from '../../store/actions/captcha';
 
 // styles
 import CSSModules from 'react-css-modules';

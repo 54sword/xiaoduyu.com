@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 
 // redux
-import { loadPostsList } from '../../actions/posts';
+import { loadPostsList } from '../../store/actions/posts';
 import parseUrl from '../../common/parse-url';
 
 // components

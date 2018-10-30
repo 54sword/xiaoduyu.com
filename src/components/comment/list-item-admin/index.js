@@ -10,9 +10,9 @@ import styles from './style.scss'
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateComment } from '../../../actions/comment'
-import { showSign } from '../../../actions/sign'
-import { getProfile } from '../../../reducers/user'
+import { updateComment } from '../../../store/actions/comment'
+import { showSign } from '../../../store/actions/sign'
+import { getProfile } from '../../../store/reducers/user'
 
 // import LikeButton from '../like'
 import HTMLText from '../../html-text'

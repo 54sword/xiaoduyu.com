@@ -4,7 +4,7 @@ import MetaTags, { ReactTitle } from 'react-meta-tags';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getUnreadNotice } from '../../reducers/website';
+import { getUnreadNotice } from '../../store/reducers/website';
 
 import { name } from '../../../config';
 

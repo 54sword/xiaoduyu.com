@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 // import { browserHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 
-import { updatePosts } from '../../../actions/posts'
+import { updatePosts } from '../../../store/actions/posts'
 import connectReudx from '../../../common/connect-redux'
 
 export class PostsAdminAction extends Component {

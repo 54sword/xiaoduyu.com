@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadCommentList } from '../../actions/comment';
-import { getCommentListById } from '../../reducers/comment';
-import { isMember } from '../../reducers/user';
+import { loadCommentList } from '../../store/actions/comment';
+import { getCommentListById } from '../../store/reducers/comment';
+import { isMember } from '../../store/reducers/user';
 
 // components
 import Shell from '../../components/shell';

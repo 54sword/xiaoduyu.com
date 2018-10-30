@@ -6,9 +6,9 @@ import { name, domain_name, Goole_AdSense } from '../../../config';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList, viewPostsById } from '../../actions/posts';
-import { getPostsListByListId } from '../../reducers/posts';
-import { isMember } from '../../reducers/user';
+import { loadPostsList, viewPostsById } from '../../store/actions/posts';
+import { getPostsListByListId } from '../../store/reducers/posts';
+import { isMember } from '../../store/reducers/user';
 
 // components
 import Shell from '../../components/shell';
@@ -100,7 +100,7 @@ export default class PostsDetail extends React.Component {
         {/*<div className="col-md-9">*/}
 
           <PostsDetailC id={posts._id} />
-          
+
           {!isMember && Goole_AdSense && Goole_AdSense.postsDetail ?
             <AdSense.Google {...Goole_AdSense.postsDetail} /> : null}
 

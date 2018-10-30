@@ -8,9 +8,9 @@ import styles from './style.scss';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateComment } from '../../../actions/comment';
+import { updateComment } from '../../../store/actions/comment';
 // import { showSign } from '../../../actions/sign';
-import { isMember, getProfile } from '../../../reducers/user';
+import { isMember, getProfile } from '../../../store/reducers/user';
 
 // components
 import LikeButton from '../../like';

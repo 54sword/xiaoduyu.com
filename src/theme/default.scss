@@ -1,4 +1,7 @@
 
+
+@import "./global";
+
 /**
  * 覆盖默认的 bootstrap 的样式
  */
@@ -10,15 +13,15 @@ a{
 :global{
 .default-theme{
 
-  @media (min-width: 1080px) {
+  @media (min-width: 1050px) {
     .container {
-      max-width: 1080px;
+      max-width: 1050px;
     }
   }
 
   font-size: 14px;
   background-color: #eaedf0;//#edf0f3;//#e7eaed;//
-  color:#474747;
+  color:#484848;
 
   .container{
     padding-right: 10px;
@@ -40,7 +43,7 @@ a{
   }
 
   .card-header{
-    padding:15px 15px 15px 15px;
+    padding:8px 15px 8px 15px;
     border-bottom: 1px solid #e6e8eb;
     background-color: #fff;
   }

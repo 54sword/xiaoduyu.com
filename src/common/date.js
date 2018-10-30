@@ -74,14 +74,14 @@ export function DateDiff(date1, date2) {
       time = hours + '小时前';
       break;
     // 一年内
-    case timestamp >= 86400 && timestamp < 31536000:
+    case timestamp >= 86400 && timestamp < 604800:
       // var dateArr = getDateArray(date1);
       // time = parseInt(dateArr[1])+'月'+parseInt(dateArr[2])+'日 '+dateArr[3]+':'+dateArr[4];
       time = parseInt(timestamp / 86400) + '天前';
       break;
     default:
       var dateArr = getDateArray(date1);
-      time = dateArr[0]+'/'+parseInt(dateArr[1])+'/'+parseInt(dateArr[2]);
+      time = dateArr[0]+'-'+parseInt(dateArr[1])+'-'+parseInt(dateArr[2]) + ' '+dateArr[3]+':'+dateArr[4];
       // time = dateArr[0]+'年'+parseInt(dateArr[1])+'月';
   }
 

@@ -3,7 +3,7 @@ $height: 45px;
 
 .navbar{
   position: fixed;
-  z-index: 100;
+  z-index: 99;
   // top:0;
   // left:0;
   width: 100%;
@@ -17,8 +17,12 @@ $height: 45px;
   // box-shadow: rgba(22, 23, 26, 0.14902) 0px 4px 8px;
 
   // background-color: rgba(255,255,255,1);
-  // border-bottom: 1px solid #333;
-  box-shadow: 0 1px 0 #eaedf0;
+  border-bottom: 1px solid #eaedf0;
+
+  // box-shadow: rgba(116, 129, 141, 0.0980392) 0px 1px 1px 0px;
+
+  // box-shadow: 0 1px 0 #eaedf0;
+  // box-shadow: 0 10px 60px 0 rgba(0, 0, 0, 0.03);
   // box-shadow: 0 0 20px rgba(0,0,0,.06);
   // z-index: 999;
 
@@ -122,10 +126,16 @@ $height: 45px;
     // height: 40px;
   // }
 
+  color:#717479;
+
   li{
     list-style-type: none;
     display: inline-block;
     vertical-align: top;
+  }
+
+  a{
+    color:#717479;
   }
 
 
@@ -201,7 +211,7 @@ $height: 45px;
   margin-left: 15px;
   // background-color: #efefef;
   border-bottom:1px solid #eaedf0;
-  
+
   background-image: url(./images/search.png);
   background-size: 22px;
   background-position: left center;
@@ -231,15 +241,28 @@ $height: 45px;
   }
 }
 
-.avatar{
-  display: block;
-  width: 26px;
-  height: 26px;
-  background-size: cover;
-  border-radius: 50%;
-  margin-top:12px;
+.avatar-area{
+
+  white-space:nowrap;
   cursor: hand;
   cursor: pointer;
+  height: 45px;
+  font-size: 14px;
+
+  > div{
+    float:left;
+    line-height: 45px;
+  }
+
+  .avatar{
+    width: 25px;
+    height: 25px;
+    background-size: cover;
+    border-radius: 50%;
+    margin-top:10px;
+    margin-right:10px;
+  }
+
 }
 
 

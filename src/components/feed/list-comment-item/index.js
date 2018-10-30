@@ -9,8 +9,8 @@ import Device from '../../../common/device';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../../reducers/user';
-import { viewPostsById } from '../../../actions/posts';
+import { isMember } from '../../../store/reducers/user';
+import { viewPostsById } from '../../../store/actions/posts';
 
 // components
 import HTMLText from '../../html-text';
@@ -46,16 +46,23 @@ export default class PostsItem extends React.PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      expand: false
+    }
+    this.handleExpand = this.handleExpand.bind(this);
+  }
+
+  handleExpand (e) {
+    if (e) e.stopPropagation();
+    this.setState({ expand: this.state.expand ? false : true });
   }
 
   render () {
 
-    const { comment, isMember } = this.props;
+    const { comment, posts, isMember } = this.props;
+    const { expand } = this.state;
 
-    // console.log(comment);
-
-    return (<div styleName={"item"}>
+    return (<div styleName={"item"} onClick={!expand ? this.handleExpand : null} >
 
         <div styleName="head">
 
@@ -86,7 +93,7 @@ export default class PostsItem extends React.PureComponent {
                 {posts.like_count ? <span>{posts.like_count} 个赞</span> : null}
                 {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
                 */}
-                <span>{comment.create_at}</span>
+                <span>{comment._create_at}</span>
               </div>
 
 
@@ -100,7 +107,7 @@ export default class PostsItem extends React.PureComponent {
         </div>
         */}
         {comment.content_summary ?
-          <HTMLText content={comment.content_summary} />
+          <div styleName="content"><HTMLText content={comment.content_summary} /></div>
           : null}
 
         {comment.images && comment.images.length > 0 ?
@@ -114,11 +121,24 @@ export default class PostsItem extends React.PureComponent {
 
         {(()=>{
 
+          // 如果有parent_id，表示该条评论是回复，如果不存在reply_id，那么reply被删除
+          if (comment.parent_id && !comment.reply_id) {
+            return (<div styleName="posts-item">回复被删除</div>)
+          }
+
           if (comment.reply_id) {
-            return (<div styleName="posts-item">
+            return (<div
+              styleName="posts-item"
+              onClick={(e)=>{
+                e.stopPropagation();
+                window.open(`/comment/${comment.parent_id || comment._id}`);
+              }}
+              >
               <div>
-                {/*<img styleName="posts-item-avatar" src={comment.reply_id.user_id.avatar_url} />*/}
-                <div><span styleName="posts-item-nickname">{comment.reply_id.user_id.nickname}</span> {comment.reply_id.create_at}</div>
+                <div styleName="posts-item-avatar">
+                  <img src={comment.reply_id.user_id.avatar_url} />
+                </div>
+                <div><span styleName="posts-item-nickname">{comment.reply_id.user_id.nickname}</span></div>
               </div>
               <div styleName="posts-item-reply">{comment.reply_id.content_summary}</div>
               {comment.reply_id.images && comment.reply_id.images.map(item=>{
@@ -127,29 +147,53 @@ export default class PostsItem extends React.PureComponent {
             </div>)
           }
 
-          if (comment.posts_id) {
-            return (<div styleName="posts-item" onClick={()=>{
-
-              $('#posts-modal').modal({
-                show: true
-              }, {
-                postsId: comment.posts_id._id
-              });
-
+          if (posts) {
+            return (<div styleName="posts-item" onClick={(e)=>{
+              e.stopPropagation();
+              window.open(`/posts/${posts._id}`);
             }}>
-              <div>
-                {/*<img styleName="posts-item-avatar" src={comment.posts_id.user_id.avatar_url} />*/}
-                <div><span styleName="posts-item-nickname">{comment.posts_id.user_id.nickname}</span> {comment.posts_id._create_at}</div>
+              {/*<div>
+                <img styleName="posts-item-avatar" src={comment.posts_id.user_id.avatar_url} />
+                <div><span styleName="posts-item-nickname">{comment.posts_id.user_id.nickname}</span></div>
               </div>
-              <div styleName="posts-item-title">{comment.posts_id.title}</div>
-              {comment.posts_id.content_summary ? <div>{comment.posts_id.content_summary}</div> : null}
-              {comment.posts_id.images && comment.posts_id.images.map(item=>{
+              */}
+              <div styleName="posts-item-title">{posts.title}</div>
+              {posts.content_summary ? <div>{posts.content_summary}</div> : null}
+              {/*comment.posts_id.images && comment.posts_id.images.map(item=>{
                 return <img key={item} src={item} width={70} height={70} />
-              })}
+              })*/}
             </div>)
           }
 
         })()}
+
+        {expand && isMember && comment ?
+          <div>
+
+            <div>
+              {comment.parent_id ? <Like reply={comment}  /> : <Like comment={comment}  />}
+            </div>
+
+            <div>
+
+              <Editor
+                posts_id={posts._id}
+                parent_id={comment.parent_id || ''}
+                reply_id={comment._id}
+                successCallback={()=>{
+                  this.handleExpand();
+                  Toastify({
+                    text: '提交成功',
+                    duration: 3000,
+                    backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+                  }).showToast();
+                }}
+                />
+
+            </div>
+
+          </div>
+          : null}
 
       </div>)
 

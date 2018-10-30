@@ -4,9 +4,9 @@ import { withRouter } from 'react-router';
 // redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getProfile, getUnlockToken } from '../../reducers/user';
-import { loadUserInfo } from '../../actions/user';
-import { addPhone } from '../../actions/phone';
+import { getProfile, getUnlockToken } from '../../store/reducers/user';
+import { loadUserInfo } from '../../store/actions/user';
+import { addPhone } from '../../store/actions/phone';
 
 // components
 import Shell from '../../components/shell';

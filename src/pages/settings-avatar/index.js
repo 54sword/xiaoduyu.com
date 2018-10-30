@@ -7,8 +7,8 @@ import avatarPicker from '../../vendors/avatar-picker';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getProfile } from '../../reducers/user';
-import { loadUserInfo, updateUser } from '../../actions/user';
+import { getProfile } from '../../store/reducers/user';
+import { loadUserInfo, updateUser } from '../../store/actions/user';
 
 // components
 import Shell from '../../components/shell';

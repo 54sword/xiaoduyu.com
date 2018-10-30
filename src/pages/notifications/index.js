@@ -10,10 +10,10 @@ import Loading from '../../components/ui/loading';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getProfile } from '../../reducers/user';
-import { getUnreadNotice } from '../../reducers/website';
-import { loadNewNotifications } from '../../actions/notification';
-import { getNotificationByName } from '../../reducers/notification';
+import { getProfile } from '../../store/reducers/user';
+import { getUnreadNotice } from '../../store/reducers/website';
+import { loadNewNotifications } from '../../store/actions/notification';
+import { getNotificationByName } from '../../store/reducers/notification';
 
 // style
 import CSSModules from 'react-css-modules';

@@ -3,8 +3,8 @@ import React from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { saveScrollPosition, setScrollPosition } from '../actions/scroll';
-import { addVisitHistory } from '../actions/history';
+import { saveScrollPosition, setScrollPosition } from '../store/actions/scroll';
+import { addVisitHistory } from '../store/actions/history';
 
 // components
 import Head from './head';
@@ -105,6 +105,17 @@ const Shell = (Component) => {
     componentWillUnmount() {
       const { pathname, search } = this.props.location;
       this.props.saveScrollPosition(pathname + search);
+    }
+
+    componentDidCatch(error, info) {
+
+      console.log(error);
+      console.log(info);
+      
+      // Display fallback UI
+      // this.setState({ hasError: true });
+      // You can also log the error to an error reporting service
+      // logErrorToMyService(error, info);
     }
 
     render() {

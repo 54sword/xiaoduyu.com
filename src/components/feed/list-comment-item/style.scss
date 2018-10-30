@@ -2,14 +2,15 @@
 .item{
   width: 100%;
   border-radius: 12px;
+  overflow: hidden;
   margin-bottom: 12px;
   background-color: #fff;
-  padding:20px;
+  // padding:20px;
 
   border:1px solid #efefef;
 
   &:hover{
-    background-color:rgba(255,255,255,.85);
+    background-color:rgba(255,255,255,.95);
     cursor: hand;
     cursor: pointer;
   }
@@ -53,7 +54,7 @@
 
   font-size: 12px;
   z-index: 999;
-  padding:0 0 10px 50px;
+  padding:20px 20px 10px 70px;
 
   .avatar{
     position: absolute;
@@ -66,6 +67,16 @@
     img{
       width: 40px;
       height: 40px;
+    }
+    &:after {
+      border: 1px solid rgba(0, 0, 0, .1);
+      border-radius: 50%;
+      bottom: 0;
+      content: '';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
   }
 
@@ -140,11 +151,12 @@
 }
 
 .content{
+  padding:0 20px 0 20px;
   // font-size: 14px;
-  word-break:break-all;
-  word-wrap:break-word;
-  line-height: 22px;
-  color:#4a4b50;
+  // word-break:break-all;
+  // word-wrap:break-word;
+  // line-height: 22px;
+  // color:#4a4b50;
   // padding:5px 15px 0 15px;
 }
 
@@ -272,9 +284,11 @@
 .posts-item{
   // border:1px solid #e6e6e6;
   background-color: #f6f9fb;
-  padding:15px;
+  // border-top: 1px solid #efefef;
+  padding:10px 15px 10px 15px;
   border-radius: 6px;
-  margin-top: 10px;
+  // margin-top: 10px;
+  margin:10px 10px 10px 10px;
 }
 
 .posts-item-avatar{
@@ -282,17 +296,33 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  overflow: hidden;
+  line-height: 100%;
+  img{
+    width: 20px;
+    height: 20px;
+  }
+  &:after {
+      border: 1px solid rgba(0, 0, 0, .1);
+      bottom: 0;
+      border-radius: 50%;
+      content: '';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+  }
 }
 
 .posts-item-nickname{
-  // padding-left:28px;
+  padding-left:28px;
   font-weight: bold;
   font-size: 13px;
 }
 
 .posts-item-title{
   margin-top:5px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: bold;
 }
 

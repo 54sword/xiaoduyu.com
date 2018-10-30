@@ -12,6 +12,9 @@ export default ({
   filters,
   schemaName = '',
   processList = data => data,
+  cache = false,
+  api = '',
+  type = 'query',
   // accessToken = '',
   callback = () => {}
 }) => {
@@ -22,6 +25,10 @@ export default ({
         list = state[reducerName][name] || {};
 
     filters = filters.variables || filters.query || {};
+
+    if (!api) {
+      api = schemaName;
+    }
 
     // 让列表重新开始
     if (restart) list = {};
@@ -56,10 +63,11 @@ export default ({
     if (actionType) dispatch({ type: actionType, name, data: list });
 
     let [ err, data ] = await graphql({
-      api: schemaName,
+      api,
       args: filters,
       fields: select,
-      headers: { 'AccessToken': state.user.accessToken }
+      headers: { accessToken: state.user.accessToken },
+      cache
     });
 
     if (err) {
@@ -87,10 +95,11 @@ export default ({
       delete s.sort_by;
 
       let [ err, data ] = await graphql({
-        api: 'count' + schemaName.charAt(0).toUpperCase() + schemaName.slice(1),
+        type,
+        api: 'count' + api.charAt(0).toUpperCase() + api.slice(1),
         args: s,
         fields: `count`,
-        headers: { 'AccessToken': state.user.accessToken }
+        headers: { accessToken: state.user.accessToken }
       });
 
       // console.log(data);

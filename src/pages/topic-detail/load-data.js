@@ -1,5 +1,5 @@
-import { loadTopics } from '../../actions/topic';
-import { loadPostsList } from '../../actions/posts';
+import { loadTopics } from '../../store/actions/topic';
+import { loadPostsList } from '../../store/actions/posts';
 /**
  * 分析url上面的参数
  * @param  {String} search location.search
@@ -101,7 +101,7 @@ export default ({ store, match }) => {
       Promise.all([
         new Promise(async resolve => {
           [ err, result ] = await loadPostsList({
-            id: match.pathname + match.search,
+            id: match.url + match.search,
             filters: general
           })(store.dispatch, store.getState);
           resolve([ err, result ])

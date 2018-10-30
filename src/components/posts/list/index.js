@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom';
 // 依赖的外部功能
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../../actions/posts';
-import { getPostsListByName } from '../../../reducers/posts';
+import { loadPostsList } from '../../../store/actions/posts';
+import { getPostsListByName } from '../../../store/reducers/posts';
 
 // 依赖组件
-import PostsItem from '../../feed/list-item';
+import PostsItem from '../posts-item';
 import PostsItemTitle from '../../posts/posts-item-title';
 // import ListLoading from '../../list-loading';
 import Pagination from '../../pagination';

@@ -9,8 +9,8 @@ import Device from '../../../common/device';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../../reducers/user';
-import { viewPostsById } from '../../../actions/posts';
+import { isMember } from '../../../store/reducers/user';
+import { viewPostsById } from '../../../store/actions/posts';
 
 // components
 import HTMLText from '../../html-text';
@@ -53,7 +53,7 @@ export default class PostsItem extends React.PureComponent {
       expandComment: posts.expandComment || false
     }
     this.expandContent = this.expandContent.bind(this);
-    this.expandComment = this.expandComment.bind(this);
+    // this.expandComment = this.expandComment.bind(this);
     this.collapseContent = this.collapseContent.bind(this);
     this.updateFooter = this.updateFooter.bind(this);
   }
@@ -123,25 +123,30 @@ export default class PostsItem extends React.PureComponent {
     posts.expandContent = true;
     posts.expandComment = true;
 
-    this.updateFooter();
+    // this.updateFooter();
 
-    $(window).scroll(this.updateFooter);
+    // $(window).scroll(this.updateFooter);
   }
 
   collapseContent() {
+
     const { posts } = this.props;
+
+    posts.expandContent = false;
+    posts.expandComment = false;
+
     this.setState({
       expandContent: false,
       expandComment: false
     });
-    posts.expandContent = false;
-    posts.expandComment = false;
 
-    this.updateFooter();
+    // console.log('11111');
+    // this.updateFooter();
 
-    $(window).unbind('scroll', this.updateFooter);
+    // $(window).unbind('scroll', this.updateFooter);
   }
 
+  /*
   expandComment(e) {
 
     e.stopPropagation();
@@ -152,6 +157,7 @@ export default class PostsItem extends React.PureComponent {
     });
     posts.expandComment = this.state.expandComment ? false : true;
   }
+  */
 
   stopPropagation(e) {
     e.stopPropagation();
@@ -182,7 +188,7 @@ export default class PostsItem extends React.PureComponent {
       coverImage = posts.coverImage;
     }
 
-    return (<div id={posts._id} styleName={"item"} onClick={this.expandContent}>
+    return (<div id={posts._id} styleName={"item"} onClick={!expandContent ? this.expandContent : null}>
 
       <div styleName="head">
         {typeof posts.user_id == 'object' ?
@@ -220,7 +226,34 @@ export default class PostsItem extends React.PureComponent {
         <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
       </div>
 
-      {posts.content_summary ?
+
+      {(()=>{
+
+        if (expandContent) {
+          return (<div styleName="content">
+            <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
+          </div>)
+        }
+
+        if (posts.content_summary) {
+          return (<div styleName="content">
+            <div>
+              {posts.content_summary}
+            </div>
+            {posts.images && posts.images.length > 0 ?
+              <div styleName="images">
+                {posts.images.map((item, index)=>{
+                  if (index > 9) return;
+                  return <span key={item} styleName="image-item" style={{backgroundImage:`url(${item})`}}></span>
+                })}
+              </div>
+              : null}
+          </div>)
+        }
+
+      })()}
+
+      {/*posts.content_summary ?
         <div styleName="content">
           <div>
             {posts.content_summary}
@@ -234,7 +267,7 @@ export default class PostsItem extends React.PureComponent {
             </div>
             : null}
         </div>
-      : null}
+      : null*/}
 
       {/*expandContent ?
         <div styleName="content">
@@ -248,7 +281,7 @@ export default class PostsItem extends React.PureComponent {
           </div>
         : null)*/}
 
-        {/*
+        {expandContent ?
         <div styleName="footer">
           <div id={posts._id+'-footer'}>
 
@@ -275,9 +308,10 @@ export default class PostsItem extends React.PureComponent {
 
           </div>
         </div>
-        */}
+        : null}
 
-      {/*expandComment ?
+
+      {expandContent ?
         <div onClick={this.stopPropagation}>
 
             <CommentList
@@ -300,7 +334,7 @@ export default class PostsItem extends React.PureComponent {
               : null}
 
         </div>
-        : null*/}
+        : null}
 
     </div>)
 
