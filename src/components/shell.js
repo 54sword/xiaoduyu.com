@@ -107,6 +107,17 @@ const Shell = (Component) => {
       this.props.saveScrollPosition(pathname + search);
     }
 
+    componentDidCatch(error, info) {
+
+      console.log(error);
+      console.log(info);
+      
+      // Display fallback UI
+      // this.setState({ hasError: true });
+      // You can also log the error to an error reporting service
+      // logErrorToMyService(error, info);
+    }
+
     render() {
 
       const self = this;

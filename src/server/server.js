@@ -30,8 +30,6 @@ const unsubscribe = store.subscribe(function(){})
 // 路由组件
 import createRouter from '../router';
 
-
-
 // 路由初始化的redux内容
 // import { initialStateJSON } from '../store/reducers';
 
@@ -113,10 +111,8 @@ app.get('*', async function (req, res) {
 
       _route = route;
 
-      // match.pathname = req._parsedOriginalUrl.pathname || '/';
       match.search = req._parsedOriginalUrl.search || '';
 
-      //  && !user
       if (route.loadData) {
         promises.push(route.loadData({ store, match }));
       }
@@ -124,35 +120,6 @@ app.get('*', async function (req, res) {
     }
 
     return match;
-
-    /*
-    if (match && match.path) {
-      _route = route;
-      _match = match;
-      _match.pathname = req.url.split('?')[0];
-      _match.search = req.url.split('?')[1] ? '?'+req.url.split('?')[1] : '';
-      return true;
-    }
-    if (route.routes) {
-
-      route.routes.some(route => {
-
-        let match = matchPath(req.url.split('?')[0], route);
-
-        if (match && match.path) {
-          _route = route;
-          _match = match;
-          return true;
-        }
-
-      })
-    }
-
-    if (_route && _match) {
-      return true;
-    }
-    */
-
   });
 
   let context = {
@@ -185,11 +152,16 @@ app.get('*', async function (req, res) {
   await Loadable.preloadAll();
   // _route.component.preload();
 
-  await Promise.all(promises).then(value=>{
-    if (value && value[0]) {
-      context = value[0];
-    }
-  });
+  if (promises.length > 0) {
+
+    await Promise.all(promises).then(value=>{
+      if (value && value[0]) {
+        context = value[0];
+      }
+    });
+
+  }
+
 
   let _mainContent = (<Provider store={store}>
         <MetaTagsContext extract={metaTagsInstance.extract}>

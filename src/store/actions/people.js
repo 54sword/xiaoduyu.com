@@ -60,7 +60,7 @@ export function loadPeopleList({ name, filters = {}, restart = false, accessToke
 
       schemaName: 'users',
       reducerName: 'people',
-      api: 'people',
+      api: 'users',
       actionType: 'SET_PEOPLE_LIST_BY_NAME'
     })
   }

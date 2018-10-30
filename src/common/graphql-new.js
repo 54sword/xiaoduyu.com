@@ -158,16 +158,17 @@ export default async ({
 
     }).catch(res=>{
 
-      console.log(res);
-
       if (res.graphQLErrors && res.graphQLErrors.length != 0) {
         res.graphQLErrors.map(item=>{
           item = converterErrorInfo(item);
         });
-        reject(res.graphQLErrors);
-      }
 
-      reject('未知错误');
+        // console.log(res.graphQLErrors[0]);
+
+        reject(res.graphQLErrors[0]);
+      } else {
+        reject('未知错误');
+      }
 
     });
 

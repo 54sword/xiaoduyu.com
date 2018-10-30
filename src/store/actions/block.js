@@ -48,7 +48,7 @@ export const loadBlockList = ({ id, args, select, restart }) => {
 
         schemaName: 'blocks',
         reducerName: 'block',
-        api: '/blocks',
+        api: 'blocks',
         actionType: 'SET_BLOCK_LIST_BY_NAME'
       })
 

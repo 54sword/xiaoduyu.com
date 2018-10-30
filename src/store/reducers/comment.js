@@ -39,8 +39,8 @@ export default function() {
 
         return merge({}, state, {})
 
-      case 'UPLOAD_COMMENT_LIKE_STATUS':
-        var { id, status } = action
+      case 'UPDATE_COMMENT_LIKE':
+        var { id, status } = action;
 
         for (let i in state) {
 

@@ -146,10 +146,10 @@ export default class PostsList extends Component {
 
       <div>
         {data && data.map(item=>{
-          if (item.posts_id) {
+          if (item.comment_id) {
+            return (<CommentItem key={item._id} posts={item.posts_id} comment={item.comment_id} />)
+          } else if (item.posts_id) {
             return (<PostsItem key={item._id} posts={item.posts_id} />)
-          } else if (item.comment_id) {
-            return (<CommentItem key={item._id} comment={item.comment_id} />)
           }
           // if (itemName == 'posts-item') {
             // return (<PostsItem key={posts._id} posts={posts} />)

@@ -13,7 +13,7 @@ import PostsDetailLoadData from '../pages/posts-detail/load-data';
 import CommentDetailLoadData from '../pages/comment-detail/load-data';
 import HomeLoadData from '../pages/home/load-data';
 import TopicDetailLoadData from '../pages/topic-detail/load-data';
-
+import PeopleDetailLoadData from '../pages/people-detail/load-data';
 
   // 路由数组
 export default [
@@ -85,6 +85,7 @@ export default [
       loader: () => import('../pages/people-detail/posts'),
       loading: () => <Loading />
     }),
+    loadData: PeopleDetailLoadData,
     enter: 'everybody'
   },
 

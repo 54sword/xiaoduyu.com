@@ -23,12 +23,11 @@ export default function(store, accessToken) {
       filters: { variables: { type: "parent", recommend: true } }
     })(store.dispatch, store.getState);
 
-
     if (accessToken) {
       let res = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
       resolve(res);
     } else {
-      resolve();
+      resolve([]);
     }
 
   });

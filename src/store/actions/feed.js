@@ -132,6 +132,91 @@ export function loadFeedList({ id, filters, restart = false }) {
     if (!filters.select) {
 
 
+/*
+filters.select = `
+_id
+user_id{
+  _id
+  nickname
+  brief
+  avatar_url
+}
+posts_id{
+  _id
+  comment_count
+  content_html
+  create_at
+  deleted
+  device
+  follow_count
+  ip
+  last_comment_at
+  like_count
+  recommend
+  sort_by_date
+  title
+  topic_id{
+    _id
+    name
+  }
+  type
+  user_id{
+    _id
+    nickname
+    brief
+    avatar_url
+  }
+  verify
+  view_count
+  weaken
+  follow
+  like
+}
+comment_id{
+  _id
+  parent_id
+  like
+  user_id{
+    _id
+    nickname
+    brief
+    avatar
+    avatar_url
+  }
+  posts_id{
+    _id
+    user_id{
+      _id
+      nickname
+      brief
+      avatar
+      avatar_url
+    }
+    title
+    content_html
+    create_at
+  }
+  like_count
+  reply_count
+  create_at
+  content_html
+  parent_id
+  reply_id{
+    _id
+    content_html
+    create_at
+    user_id{
+      _id
+      nickname
+      brief
+      avatar
+      avatar_url
+    }
+  }
+}
+`
+ */
+
       // content
       filters.select = `
       _id
@@ -160,12 +245,6 @@ export function loadFeedList({ id, filters, restart = false }) {
           name
         }
         type
-        user_id{
-          _id
-          nickname
-          brief
-          avatar_url
-        }
         verify
         view_count
         weaken
@@ -175,26 +254,7 @@ export function loadFeedList({ id, filters, restart = false }) {
       comment_id{
         _id
         parent_id
-        user_id{
-          _id
-          nickname
-          brief
-          avatar
-          avatar_url
-        }
-        posts_id{
-          _id
-          user_id{
-            _id
-            nickname
-            brief
-            avatar
-            avatar_url
-          }
-          title
-          content_html
-          create_at
-        }
+        like
         like_count
         reply_count
         create_at
@@ -214,96 +274,6 @@ export function loadFeedList({ id, filters, restart = false }) {
       	}
       }
       `
-
-      /*
-      // content
-      filters.select = `
-      _id
-      user_id{
-        _id
-        nickname
-        brief
-        avatar_url
-      }
-      posts_id{
-        _id
-        user_id{
-          _id
-          nickname
-          brief
-          avatar_url
-        }
-        like_count
-        comment_count
-        view_count
-        follow_count
-        create_at
-        device
-        title
-        content_html
-  			comment{
-          _id
-          user_id{
-            _id
-            nickname
-            brief
-            avatar_url
-          }
-          like_count
-          reply_count
-          create_at
-          content_html
-          like
-        }
-        topic_id{
-          _id
-          name
-          avatar
-        }
-      }
-      comment_id{
-        _id
-        parent_id
-        user_id{
-          _id
-          nickname
-          brief
-          avatar
-          avatar_url
-        }
-        posts_id{
-          _id
-          user_id{
-            _id
-            nickname
-            brief
-            avatar
-            avatar_url
-          }
-          title
-          content_html
-          create_at
-        }
-        like_count
-        reply_count
-        create_at
-        content_html
-        parent_id
-        reply_id{
-        	_id
-          content_html
-          create_at
-          user_id{
-            _id
-            nickname
-            brief
-            avatar
-            avatar_url
-          }
-      	}
-      }
-      `
-      */
     }
 
     return loadList({
@@ -447,6 +417,8 @@ const processPostsList = (list) => {
 
       let posts = item.posts_id;
 
+      item.posts_id.user_id = item.user_id;
+
       if (posts.content_html) {
 
         // 提取内容中所有的图片地址
@@ -476,6 +448,7 @@ const processPostsList = (list) => {
 
     if (item.comment_id) {
 
+      item.comment_id.user_id = item.user_id;
 
       item.comment_id.images = Utils.abstractImagesFromHTML(item.comment_id.content_html);
 

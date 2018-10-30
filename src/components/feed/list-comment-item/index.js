@@ -53,16 +53,14 @@ export default class PostsItem extends React.PureComponent {
   }
 
   handleExpand (e) {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     this.setState({ expand: this.state.expand ? false : true });
   }
 
   render () {
 
-    const { comment, isMember } = this.props;
+    const { comment, posts, isMember } = this.props;
     const { expand } = this.state;
-
-    // console.log(comment);
 
     return (<div styleName={"item"} onClick={!expand ? this.handleExpand : null} >
 
@@ -123,23 +121,17 @@ export default class PostsItem extends React.PureComponent {
 
         {(()=>{
 
+          // 如果有parent_id，表示该条评论是回复，如果不存在reply_id，那么reply被删除
+          if (comment.parent_id && !comment.reply_id) {
+            return (<div styleName="posts-item">回复被删除</div>)
+          }
+
           if (comment.reply_id) {
             return (<div
               styleName="posts-item"
               onClick={(e)=>{
-
                 e.stopPropagation();
-
                 window.open(`/comment/${comment.parent_id || comment._id}`);
-
-                /*
-                $('#comment-modal').modal({
-                  show: true
-                }, {
-                  commentId: comment.parent_id || comment._id
-                });
-                */
-
               }}
               >
               <div>
@@ -155,28 +147,18 @@ export default class PostsItem extends React.PureComponent {
             </div>)
           }
 
-          if (comment.posts_id) {
+          if (posts) {
             return (<div styleName="posts-item" onClick={(e)=>{
-
               e.stopPropagation();
-
-              window.open(`/posts/${comment.posts_id._id}`);
-              /*
-              $('#posts-modal').modal({
-                show: true
-              }, {
-                postsId: comment.posts_id._id
-              });
-              */
-
+              window.open(`/posts/${posts._id}`);
             }}>
               {/*<div>
                 <img styleName="posts-item-avatar" src={comment.posts_id.user_id.avatar_url} />
                 <div><span styleName="posts-item-nickname">{comment.posts_id.user_id.nickname}</span></div>
               </div>
               */}
-              <div styleName="posts-item-title">{comment.posts_id.title}</div>
-              {comment.posts_id.content_summary ? <div>{comment.posts_id.content_summary}</div> : null}
+              <div styleName="posts-item-title">{posts.title}</div>
+              {posts.content_summary ? <div>{posts.content_summary}</div> : null}
               {/*comment.posts_id.images && comment.posts_id.images.map(item=>{
                 return <img key={item} src={item} width={70} height={70} />
               })*/}
@@ -187,11 +169,29 @@ export default class PostsItem extends React.PureComponent {
 
         {expand && isMember && comment ?
           <div>
-            <Editor
-              posts_id={comment.posts_id._id}
-              parent_id={comment.parent_id || ''}
-              reply_id={comment._id}
-              />
+
+            <div>
+              {comment.parent_id ? <Like reply={comment}  /> : <Like comment={comment}  />}
+            </div>
+
+            <div>
+
+              <Editor
+                posts_id={posts._id}
+                parent_id={comment.parent_id || ''}
+                reply_id={comment._id}
+                successCallback={()=>{
+                  this.handleExpand();
+                  Toastify({
+                    text: '提交成功',
+                    duration: 3000,
+                    backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+                  }).showToast();
+                }}
+                />
+
+            </div>
+
           </div>
           : null}
 

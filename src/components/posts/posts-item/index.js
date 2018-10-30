@@ -281,7 +281,7 @@ export default class PostsItem extends React.PureComponent {
           </div>
         : null)*/}
 
-
+        {expandContent ?
         <div styleName="footer">
           <div id={posts._id+'-footer'}>
 
@@ -308,6 +308,7 @@ export default class PostsItem extends React.PureComponent {
 
           </div>
         </div>
+        : null}
 
 
       {expandContent ?

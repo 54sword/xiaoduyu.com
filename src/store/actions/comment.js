@@ -183,7 +183,7 @@ export function loadCommentList({ name, filters = {}, restart = false }) {
 
       schemaName: 'comments',
       reducerName: 'comment',
-      api: '/comments',
+      api: 'comments',
       actionType: 'SET_COMMENT_LIST_BY_NAME'
     })
   }
