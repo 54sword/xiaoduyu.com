@@ -19,8 +19,4 @@ describe('>>>posts --- Shallow Render REACT COMPONENTS',()=>{
     it('+++ render the DUMB component', () => {
        expect(wrapper.length).toEqual(1)
     });
-
-    it('+++ contains header - h2', () => {
-        expect(wrapper.contains(<div styleName="analysis-title">市场分析</div>)).toBe(true)
-    });
 });
