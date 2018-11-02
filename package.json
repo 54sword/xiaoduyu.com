@@ -8,7 +8,8 @@
     "pro": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js && node ./dist/server/server.js",
     "dist": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js",
     "server": "node ./dist/server/server.js",
-    "test": "webpack --config config/webpack/client.pro.js"
+    "test": "webpack --config config/webpack/client.pro.js",
+    "unit_test": "jest --config config/unit_test/jest.config.js"
   },
   "engines": {
     "node": ">=8.6.0"
@@ -20,6 +21,8 @@
     "apollo-client": "^2.4.2",
     "apollo-link-http": "^1.5.5",
     "axios": "^0.18.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.1.3",
     "compression": "^1.7.3",
@@ -53,7 +56,9 @@
     "redraft": "^0.10.2",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
+    "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
+    "regenerator-runtime": "^0.12.1",
     "serviceworker-webpack-plugin": "^1.0.1",
     "socket.io-client": "^2.1.1"
   },
@@ -80,6 +85,7 @@
     "enzyme-adapter-react-16": "^1.6.0",
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
     "memeye": "^1.0.3",
     "mini-css-extract-plugin": "^0.4.4",
