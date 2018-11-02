@@ -245,6 +245,12 @@ comment_id{
           name
         }
         type
+        user_id{
+          _id
+          nickname
+          brief
+          avatar_url
+        }
         verify
         view_count
         weaken
@@ -417,7 +423,7 @@ const processPostsList = (list) => {
 
       let posts = item.posts_id;
 
-      item.posts_id.user_id = item.user_id;
+      // item.posts_id.user_id = item.user_id;
 
       if (posts.content_html) {
 

@@ -18,7 +18,7 @@ export const addCaptcha = ({ id = new Date().getTime(), args, fields = `success`
         api: 'addCaptcha',
         args,
         fields,
-        headers: accessToken ? { 'AccessToken': accessToken } : null
+        headers: accessToken ? { 'accessToken': accessToken } : {}
       });
 
       if (res && res._id && res.url) {

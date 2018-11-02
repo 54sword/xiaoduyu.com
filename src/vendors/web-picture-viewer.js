@@ -781,7 +781,7 @@ window.webPictureViewer = (function () {
 			event.preventDefault();
 			self.hide();
 		};
-		
+
 		this.$marklayer.onclick = function(event) {
 			event.preventDefault();
 			// if (event.target.localName != 'img') {

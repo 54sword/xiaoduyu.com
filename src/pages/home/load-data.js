@@ -10,7 +10,7 @@ let general = {
 
 export default ({ store, match }) => {
   return new Promise(async resolve => {
-
+    
     await loadPostsList({
        id: 'home',
        filters: general
@@ -18,26 +18,5 @@ export default ({ store, match }) => {
 
     resolve({ code:200 });
 
-    /*
-    Promise.all([
-      new Promise(async resolve => {
-        let [ err, result ] = await loadPostsList({
-          id: 'home',
-          filters: general
-        })(store.dispatch, store.getState);
-        resolve([ err, result ])
-      })
-      // new Promise(async resolve => {
-      //   let [ err, result ] = await loadPostsList({
-      //     id: '_home',
-      //     filters: recommend
-      //   })(store.dispatch, store.getState);
-      //   resolve([ err, result ])
-      // })
-    ]).then(value=>{
-      resolve({ code:200 });
-    });
-    */
-
-  })
+  });
 }
