@@ -18,6 +18,7 @@ import HTMLText from '../../html-text';
 // import EditorCommentModal from '../../editor-comment-modal';
 import EditButton from '../../edit-button';
 import ReportMenu from '../../report-menu';
+import CommentButton from '../button';
 
 @connect(
   (state, props) => ({
@@ -115,7 +116,10 @@ export default class CommentItem extends Component {
 
       <div styleName="footer">
         <div styleName="actions">
-          {isMember ?
+
+          <CommentButton comment={comment} />
+
+          {/*isMember ?
             <a href="javascript:void(0)" onClick={((comment)=>{
               return ()=>{
                 $('#editor-comment-modal').modal({
@@ -128,9 +132,9 @@ export default class CommentItem extends Component {
               }
             })(comment)}>回复</a>
             :
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">回复</a>}
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">回复</a>*/}
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
-          <EditButton comment={comment} />
+          {/*<EditButton comment={comment} />*/}
         </div>
       </div>
 

@@ -18,7 +18,7 @@ import CommentList from '../../comment/list';
 import Editor from '../../editor-comment';
 import Follow from '../../follow';
 import Like from '../../like';
-import EditButton from '../../edit-button';
+// import EditButton from '../../edit-button';
 import ReportMenu from '../../report-menu';
 // import Bundle from '../../bundle';
 import Share from '../../share';

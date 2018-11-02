@@ -42,7 +42,7 @@ export default class EditButton extends Component {
       return (
         <a href="javascript:void(0)" onClick={((comment)=>{
           return (e)=>{
-
+            
             e.stopPropagation();
 
             $('#editor-comment-modal').modal({

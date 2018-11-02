@@ -23,6 +23,8 @@ import ReportMenu from '../../report-menu';
 // import Bundle from '../../bundle';
 import Share from '../../share';
 
+import GridListImage from '../../grid-list-image';
+
 
 // styles
 import CSSModules from 'react-css-modules';
@@ -79,21 +81,21 @@ export default class PostsItem extends React.PureComponent {
               </Link>
 
               {/* dropdown-menu */}
-              {/*
+
               <div styleName="menu">
                 <ReportMenu comment={comment} />
               </div>
-              */}
+
               {/* dropdown-menu end */}
 
               <div>
-                {/*
-                <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
-                {posts.view_count ? <span>{posts.view_count}次浏览</span> : null}
-                {posts.like_count ? <span>{posts.like_count} 个赞</span> : null}
-                {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
-                */}
                 <span>{comment._create_at}</span>
+                {/*<span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>*/}
+                {/*posts.view_count ? <span>{posts.view_count}次浏览</span> : null*/}
+                {comment.like_count ? <span>{comment.like_count} 个赞</span> : null}
+                {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
+                {/*posts.follow_count ? <span>{posts.follow_count}人关注</span> : null*/}
+
               </div>
 
 
@@ -106,18 +108,34 @@ export default class PostsItem extends React.PureComponent {
           <HTMLText content={comment.content_html} />
         </div>
         */}
-        {comment.content_summary ?
+        {!expand ?
+          (comment.content_summary ?
+            <div styleName="content"><HTMLText content={comment.content_summary} /></div> : null)
+          : <div styleName="content"><HTMLText content={comment.content_html} /></div>}
+
+        {/*comment.content_summary ?
           <div styleName="content"><HTMLText content={comment.content_summary} /></div>
+          : null*/}
+
+        {!expand && comment.images && comment.images.length > 0 ?
+          <div style={{width:'70%',marginLeft:'20px'}}><GridListImage images={comment.images} /></div>
           : null}
 
-        {comment.images && comment.images.length > 0 ?
+          {/*
           <div styleName="images">
+
             {comment.images.map((item, index)=>{
-              if (index > 9) return;
+              if (index > 5) return;
+              return (<div
+                  key={item}
+                  styleName="image-item"
+                  className="load-demand"
+                  data-load-demand={`<div style="background-image:url('${item}')"></div>`}>
+                  </div>)
               return <span key={item} styleName="image-item" style={{backgroundImage:`url(${item})`}}></span>
-            })}
+            })
           </div>
-          : null}
+          */}
 
         {(()=>{
 
@@ -135,10 +153,11 @@ export default class PostsItem extends React.PureComponent {
               }}
               >
               <div>
-                <div styleName="posts-item-avatar">
+                {/*<div styleName="posts-item-avatar">
                   <img src={comment.reply_id.user_id.avatar_url} />
                 </div>
-                <div><span styleName="posts-item-nickname">{comment.reply_id.user_id.nickname}</span></div>
+                */}
+                <div><span styleName="posts-item-nickname">{comment.reply_id.user_id.nickname}</span><span styleName="create-at">{comment.reply_id._create_at}</span></div>
               </div>
               <div styleName="posts-item-reply">{comment.reply_id.content_summary}</div>
               {comment.reply_id.images && comment.reply_id.images.map(item=>{
@@ -148,15 +167,15 @@ export default class PostsItem extends React.PureComponent {
           }
 
           if (posts) {
+
             return (<div styleName="posts-item" onClick={(e)=>{
               e.stopPropagation();
               window.open(`/posts/${posts._id}`);
             }}>
-              {/*<div>
-                <img styleName="posts-item-avatar" src={comment.posts_id.user_id.avatar_url} />
-                <div><span styleName="posts-item-nickname">{comment.posts_id.user_id.nickname}</span></div>
+              <div>
+                {/*<img styleName="posts-item-avatar" src={posts.user_id.avatar_url} />*/}
+                <div><span styleName="posts-item-nickname">{posts.user_id.nickname}</span><span styleName="create-at">{posts._create_at}</span></div>
               </div>
-              */}
               <div styleName="posts-item-title">{posts.title}</div>
               {posts.content_summary ? <div>{posts.content_summary}</div> : null}
               {/*comment.posts_id.images && comment.posts_id.images.map(item=>{
@@ -170,16 +189,18 @@ export default class PostsItem extends React.PureComponent {
         {expand && isMember && comment ?
           <div>
 
-            <div>
+            <div styleName="actions-bar" className="d-flex justify-content-between">
               {comment.parent_id ? <Like reply={comment}  /> : <Like comment={comment}  />}
+              <a href="javascript:void(0)" onClick={this.handleExpand}>收起</a>
             </div>
 
             <div>
 
               <Editor
                 posts_id={posts._id}
-                parent_id={comment.parent_id || ''}
+                parent_id={comment.parent_id || comment._id}
                 reply_id={comment._id}
+                placeholder={`回复 ${comment.user_id.nickname}`}
                 successCallback={()=>{
                   this.handleExpand();
                   Toastify({

@@ -31,9 +31,9 @@ export default class Meta extends Component {
     _title += title || name;
     if (title) _title += ` - ${name}`;
 
-    return (<div>
+    return (<>
       <ReactTitle title={_title} />
       {this.props.children ? <MetaTags>{this.props.children}</MetaTags> : null}
-    </div>)
+    </>)
   }
 }

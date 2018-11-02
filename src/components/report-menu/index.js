@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types'
+import { withRouter } from 'react-router';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -10,20 +11,24 @@ import { connect } from 'react-redux';
 import { loadReportTypes } from '../../store/actions/report';
 import { addBlock } from '../../store/actions/block';
 import { isMember } from '../../store/reducers/user';
+import { getProfile } from '../../store/reducers/user';
 
 // style
 import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
+
 @connect(
   (state, props) => ({
-    isMember: isMember(state)
+    isMember: isMember(state),
+    me: getProfile(state)
   }),
   dispatch => ({
     loadReportTypes: bindActionCreators(loadReportTypes, dispatch),
     addBlock: bindActionCreators(addBlock, dispatch)
   })
 )
+@withRouter
 @CSSModules(styles)
 export default class ReportMenu extends Component {
 
@@ -32,11 +37,30 @@ export default class ReportMenu extends Component {
     this.stopPropagation = this.stopPropagation.bind(this);
     this.report = this.report.bind(this);
     this.block = this.block.bind(this);
+    this.edit = this.edit.bind(this);
   }
 
   stopPropagation(e) {
     e.stopPropagation();
     this.props.loadReportTypes();
+  }
+
+  edit (e) {
+    e.stopPropagation();
+
+    const { posts, comment } = this.props;
+
+    if (comment) {
+      $('#editor-comment-modal').modal({
+        show: true
+      }, {
+        type:'edit',
+        comment
+      });
+    } else {
+      this.props.history.push(`/new-posts?posts_id=${posts._id}`);
+    }
+
   }
 
   async block(e) {
@@ -96,12 +120,18 @@ export default class ReportMenu extends Component {
 
   render () {
 
-    if (!this.props.isMember) return '';
+    const { posts, comment, isMember, me } = this.props;
+
+    if (!isMember) return '';
 
     return (<span>
       {/* dropdown-menu */}
       <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={this.stopPropagation}></a>
       <div className="dropdown-menu">
+        {posts && posts.user_id._id == me._id ||
+          comment && comment.user_id._id == me._id ?
+          <a className="dropdown-item" href="javascript:void(0)" onClick={this.edit}>编辑</a>
+          : null}
         <a className="dropdown-item" href="javascript:void(0)" onClick={this.block}>不感兴趣</a>
         <a className="dropdown-item" href="javascript:void(0)" onClick={this.report}>举报</a>
       </div>

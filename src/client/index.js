@@ -36,6 +36,8 @@ import '../vendors/web-picture-viewer.js';
 // ArriveFooter 监听抵达页尾的事件
 import '../vendors/arrive-footer.js';
 
+import '../vendors/expand-button.js';
+
 /**
  * 懒加载图片、Dom
  * 使用方式

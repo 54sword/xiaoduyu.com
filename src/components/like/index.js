@@ -89,18 +89,21 @@ export default class LikeButton extends Component {
 
   render () {
 
-    const { reply, comment, posts } = this.props
-    const { isMember } = this.props
-    const like = comment || reply || posts
+    const { reply, comment, posts, isMember } = this.props;
+    const like = comment || reply || posts;
 
     if (!isMember) {
-      return (<a href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>赞</a>)
+      return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>{like.like_count ? like.like_count+' 次赞' : '赞'}</a>)
     }
+
+    return (<a styleName="button" href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}}>
+      <span>{like.like_count ? like.like_count+' 次赞' : '赞'}</span>
+    </a>)
 
     return (
       <a href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}} styleName="hover">
-        {like.like ? <span>已赞</span> : '赞'}
-        {like.like ? <span>取消赞</span> : null}
+        {like.like ? <span>{like.like_count || ''}已赞</span> : '赞'}
+        {like.like ? <span>{like.like_count || ''}取消赞</span> : null}
       </a>
     )
   }

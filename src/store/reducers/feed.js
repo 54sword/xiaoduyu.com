@@ -23,12 +23,13 @@ export default function() {
           state[i].data.map((item, key)=>{
             if (item.comment_id && item.comment_id._id == id) {
               state[i].data[key].comment_id.like = status;
+              state[i].data[key].comment_id.like_count += status ? 1 : -1;
             }
           })
         }
 
         return merge({}, state, {});
-        
+
       case 'CLEAN':
         return {}
 

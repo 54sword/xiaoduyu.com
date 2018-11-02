@@ -136,6 +136,7 @@ export default async ({
     options.query = sql;
   } else if (type == 'mutation') {
     options.mutation = sql;
+    options.fetchPolicy = 'no-cache';
     fn = client.mutate;
   }
 

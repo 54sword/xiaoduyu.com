@@ -21,7 +21,7 @@ export class Share extends Component {
 
   constructor(props) {
     super(props);
-    
+
     const { posts, comment } = this.props;
 
     let state = {
@@ -109,8 +109,8 @@ export class Share extends Component {
     const { url, displayTips, showQrcode } = this.state;
 
     return <div styleName="container" onClick={this.stopPropagation}>
-
-      <a id="share-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分享</a>
+      
+      <a styleName="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分享</a>
 
       <div>
         <div className="dropdown-menu" aria-labelledby="share-dropdown">

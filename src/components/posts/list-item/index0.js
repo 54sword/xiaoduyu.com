@@ -60,9 +60,8 @@ export default class PostsItem extends React.PureComponent {
 
   componentDidMount() {
     if (this.state.expandContent) {
-      const self = this;
+      this.updateFooter();
       $(window).scroll(this.updateFooter);
-      self.updateFooter();
     }
   }
 
@@ -70,17 +69,6 @@ export default class PostsItem extends React.PureComponent {
     if (this.state.expandContent) {
       $(window).unbind('scroll', this.updateFooter);
     }
-  }
-
-  componentDidCatch(error, info) {
-
-    console.log(error);
-    console.log(info);
-
-    // Display fallback UI
-    // this.setState({ hasError: true });
-    // You can also log the error to an error reporting service
-    // logErrorToMyService(error, info);
   }
 
   // 更新
@@ -103,7 +91,12 @@ export default class PostsItem extends React.PureComponent {
 
   }
 
-  expandContent() {
+  expandContent(e) {
+
+    var selectionObj = window.getSelection();
+    var selectedText = selectionObj.toString();
+
+    if (selectedText) return;
 
     const self = this;
     const { posts, viewPostsById } = this.props;
@@ -123,12 +116,19 @@ export default class PostsItem extends React.PureComponent {
     posts.expandContent = true;
     posts.expandComment = true;
 
-    // this.updateFooter();
+    $(window).scroll(this.updateFooter);
 
-    // $(window).scroll(this.updateFooter);
+    setTimeout(()=>{
+      this.updateFooter();
+    }, 500);
   }
 
   collapseContent() {
+
+    var selectionObj = window.getSelection();
+    var selectedText = selectionObj.toString();
+
+    if (selectedText) return;
 
     const { posts } = this.props;
 
@@ -141,9 +141,11 @@ export default class PostsItem extends React.PureComponent {
     });
 
     // console.log('11111');
-    // this.updateFooter();
+    this.updateFooter();
 
-    // $(window).unbind('scroll', this.updateFooter);
+    $(window).unbind('scroll', this.updateFooter);
+
+
   }
 
   /*
@@ -168,27 +170,18 @@ export default class PostsItem extends React.PureComponent {
     const { posts, isMember } = this.props;
     const { expandContent, expandComment } = this.state;
 
-    // console.log(posts.images);
-
-    /**
-    onClick={()=>{
-      // $('#sign').show('')
-      $('#posts').modal({
-        show: true
-      }, {
-        postsId:posts._id
-      });
-    }}
-    */
-
     let coverImage = '';
-
 
     if (posts.content_summary && posts.content_summary.length > 100 && posts.coverImage) {
       coverImage = posts.coverImage;
     }
 
-    return (<div id={posts._id} styleName={"item"} onClick={!expandContent ? this.expandContent : null}>
+    //
+    // {!expandContent ? this.expandContent : this.collapseContent}
+
+    return (<div id={posts._id} styleName={expandContent ? 'item-active' : 'item'}>
+
+      <div onClick={!expandContent ? this.expandContent : null} styleName="item-head">
 
       <div styleName="head">
         {typeof posts.user_id == 'object' ?
@@ -253,6 +246,8 @@ export default class PostsItem extends React.PureComponent {
 
       })()}
 
+
+
       {/*posts.content_summary ?
         <div styleName="content">
           <div>
@@ -299,7 +294,7 @@ export default class PostsItem extends React.PureComponent {
                 </div>
                 <div className="col-2 text-right" styleName="actions">
                   {expandContent ?
-                    <a href="javascript:void(0)" onClick={this.collapseContent} styleName="collapse">收起</a>
+                    <a href="javascript:void(0)" onClick={this.collapseContent} styleName="collapse">折叠</a>
                     : null}
                 </div>
 
@@ -310,6 +305,7 @@ export default class PostsItem extends React.PureComponent {
         </div>
         : null}
 
+      </div>
 
       {expandContent ?
         <div onClick={this.stopPropagation}>
