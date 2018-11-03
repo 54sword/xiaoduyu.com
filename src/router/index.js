@@ -4,14 +4,14 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 // import Loadable from 'react-loadable';
 
 // 生成异步加载组件
-// import { AsyncComponent } from '../components/generate-async-component';
+import { AsyncComponent } from '../components/generate-async-component';
 
 import routerList from './list';
 
 
 // const LoadableComponent = Loadable({
 //   loader: () => import('../components/footer'),
-//   loading: <div>loading...</div>,
+//   loading: <div>loading...</div>
 // });
 
 // import Footer from '../components/footer';
@@ -28,9 +28,6 @@ export default (user, logPageView = ()=>{}) => {
     // 任何人
     everybody: (Layout, props, route) => {
 
-      // console.log(props);
-      // console.log(route);
-
       logPageView();
 
       // if (route.routes) {
@@ -41,9 +38,6 @@ export default (user, logPageView = ()=>{}) => {
     },
     // 游客
     tourists: (Layout, props, route) => {
-
-      // console.log(props);
-      // console.log(route);
 
       logPageView();
 
@@ -98,18 +92,11 @@ export default (user, logPageView = ()=>{}) => {
           })}
         </Switch>
       </div>
-
-      {/*
-      <div>
-      <LoadableComponent />
-      </div>
-      */}
-
-      {/*
+      
       <AsyncComponent load={() => import('../components/footer')}>
         {Component => <Component />}
       </AsyncComponent>
-      */}
+     
 
     </div>)
 

@@ -1,19 +1,16 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
-// import { Route, Switch, Redirect } from 'react-router-dom';
 import Loadable from 'react-loadable';
-
-// 生成异步加载组件
-// import { AsyncComponent, asyncRouteComponent } from '../components/generate-async-component';
 
 import Head from '../components/head';
 import Loading from '../components/ui/loading';
 
+// 服务端加载数据的方法
 import PostsDetailLoadData from '../pages/posts-detail/load-data';
 import CommentDetailLoadData from '../pages/comment-detail/load-data';
 import HomeLoadData from '../pages/home/load-data';
 import TopicDetailLoadData from '../pages/topic-detail/load-data';
 import PeopleDetailLoadData from '../pages/people-detail/load-data';
+import NotFoundLoadData from '../pages/not-found/load-data';
 
   // 路由数组
 export default [
@@ -21,11 +18,14 @@ export default [
     path: '/',
     exact: true,
     head: Head,
+    // 页面组件
     component: Loadable({
       loader: () => import('../pages/home'),
       loading: () => <Loading />
     }),
+    // 需要服务端加载的数据
     loadData: HomeLoadData,
+    // 允许进入的用户类型
     enter: 'everybody'
   },
 
@@ -146,6 +146,72 @@ export default [
 
   {
     path: '/notifications',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/notifications'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
+  {
+    path: '/notifications/all',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/notifications'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
+  {
+    path: '/notifications/unread',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/notifications'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
+  {
+    path: '/notifications/comment',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/notifications'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
+  {
+    path: '/notifications/reply',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/notifications'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
+  {
+    path: '/notifications/follow',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/notifications'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
+  {
+    path: '/notifications/like',
     exact: true,
     head: Head,
     component: Loadable({
@@ -360,6 +426,7 @@ export default [
       loader: () => import('../pages/not-found'),
       loading: () => <Loading />
     }),
+    loadData: NotFoundLoadData,
     enter: 'everybody'
   }
 

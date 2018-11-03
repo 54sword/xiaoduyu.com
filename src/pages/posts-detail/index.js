@@ -13,12 +13,15 @@ import { isMember } from '../../store/reducers/user';
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-// import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';
 import PostsList from '../../components/posts/list';
 import PostsDetailC from '../../components/posts/detail';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
+
+
+import Box from '../../components/box';
+import Sidebar from '../../components/sidebar';
 
 // styles
 import './style.scss';
@@ -78,7 +81,7 @@ export default class PostsDetail extends React.Component {
 
     if (loading || !posts) return (<Loading />);
 
-    return(<div styleName="box">
+    return(<Box><div styleName="box">
 
       <Meta title={posts.title}>
         <meta name="description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
@@ -156,7 +159,9 @@ export default class PostsDetail extends React.Component {
       {/*</div>*/}
       {/*</div>*/}
 
-    </div>)
+    </div>
+    <Sidebar />
+    </Box>)
   }
 
 }

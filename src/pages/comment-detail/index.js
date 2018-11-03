@@ -16,6 +16,9 @@ import HTMLText from '../../components/html-text';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
 
+import Box from '../../components/box';
+import Sidebar from '../../components/sidebar';
+
 // styles
 import './style.scss';
 
@@ -51,7 +54,28 @@ export default class CommentDetail extends React.Component {
             _id: id,
             deleted: false,
             weaken: false
+          },
+          select: `
+          content_html
+          create_at
+          reply_count
+          like_count
+          device
+          _id
+          update_at
+          like
+          user_id {
+            _id
+            nickname
+            brief
+            avatar_url
           }
+          posts_id{
+            _id
+            title
+            content_html
+          }
+          `
         }
       });
 
@@ -73,7 +97,7 @@ export default class CommentDetail extends React.Component {
 
     if (loading || !comment) return <Loading />;
 
-    return(<div>
+    return(<Box><div>
 
       <Meta title={`${comment.posts_id.title} - ${comment.user_id.nickname}的评论`} />
 
@@ -81,6 +105,7 @@ export default class CommentDetail extends React.Component {
         <Link to={`/posts/${comment.posts_id._id}`}>
           <h1>{comment.posts_id.title}</h1>
         </Link>
+        {comment.posts_id.content_html ? <div>{comment.posts_id.content_html}</div> : null}
       </div>
 
       <div styleName="content">
@@ -111,7 +136,11 @@ export default class CommentDetail extends React.Component {
         : null}
 
 
-    </div>)
+    </div>
+
+    <Sidebar />
+
+    </Box>)
   }
 
 }

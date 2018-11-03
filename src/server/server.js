@@ -12,26 +12,13 @@ import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
 import Loadable from 'react-loadable';
 
-// redux actions
-import { loadUserInfo } from '../store/actions/user';
+// 准备store的数据
+import readyStoreData from './ready-store-data';
 
-
-import ReadyStoreData from './ready-store-data';
-
-// 路由配置
-import configureStore from '../store';
-
-
-/*
-// https://redux.js.org/api/store#subscribe
-const unsubscribe = store.subscribe(function(){})
-*/
+import createStore from '../store';
 
 // 路由组件
 import createRouter from '../router';
-
-// 路由初始化的redux内容
-// import { initialStateJSON } from '../store/reducers';
 
 // 配置
 import { port, auth_cookie_name } from '../../config';
@@ -39,9 +26,6 @@ import { port, auth_cookie_name } from '../../config';
 // 路由
 import sign from './sign';
 import AMP from './amp';
-
-
-
 
 const app = express();
 
@@ -65,7 +49,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-// amp
+// amp页面
 app.use('/amp', AMP());
 
 // 登录、退出
@@ -73,28 +57,25 @@ app.use('/sign', sign());
 
 app.get('*', async function (req, res) {
 
-  let store = configureStore();
-
   let user = null, err;
   let accessToken = req.cookies[auth_cookie_name] || '';
 
+  // 创建新的store
+  let store = createStore();
+
   // 准备数据，如果有token，获取用户信息并返回
-  [ err, user ] = await ReadyStoreData(store, accessToken);
+  [ err, user ] = await readyStoreData(store, accessToken);
 
   if (err && err.blocked) {
-
     // 如果是拉黑的用户，阻止登陆，并提示
     res.clearCookie(auth_cookie_name);
     res.redirect('/notice?notice=block_account');
     return;
-
   } else if (err && err.message && err.message == 'invalid token') {
-
     // 无效的令牌
     res.clearCookie(auth_cookie_name);
     res.redirect('/notice?notice=invalid_token');
     return;
-
   }
 
   const router = createRouter(user);
@@ -108,60 +89,54 @@ app.get('*', async function (req, res) {
     let match = matchPath(req.path, route);
 
     if (match) {
-
       _route = route;
-
       match.search = req._parsedOriginalUrl.search || '';
-
+      // 需要在服务端加载的数据
       if (route.loadData) {
         promises.push(route.loadData({ store, match }));
       }
-
     }
 
     return match;
   });
 
+  // 路由权限控制
+  switch (_route.enter) {
+    // 任何人
+    case 'everybody':
+      break;
+    // 游客
+    case 'tourists':
+      if (user) {
+        res.status(403);
+        return res.redirect('/');
+      }
+      break;
+    // 注册会员
+    case 'member':
+      if (!user) {
+        res.status(403);
+        return res.redirect('/');
+      }
+      break;
+  }
+
   let context = {
     code: 200
   };
-
+  
   // 获取路由dom
   const _Router = router.dom;
   const metaTagsInstance = MetaTagsServer();
 
-  // 路由权限控制
-  switch (_route.enter) {
-    case 'everybody':
-      break;
-    case 'tourists':
-      if (user) {
-        res.redirect('/');
-        return;
-      }
-      break;
-    case 'member':
-      if (!user) {
-        res.redirect('/');
-        return;
-      }
-      break;
-  }
-
-
-  await Loadable.preloadAll();
-  // _route.component.preload();
+  // await Loadable.preloadAll();
+  await _route.component.preload();
 
   if (promises.length > 0) {
-
     await Promise.all(promises).then(value=>{
-      if (value && value[0]) {
-        context = value[0];
-      }
+      if (value && value[0]) context = value[0];
     });
-
   }
-
 
   let _mainContent = (<Provider store={store}>
         <MetaTagsContext extract={metaTagsInstance.extract}>
@@ -181,7 +156,6 @@ app.get('*', async function (req, res) {
   // redux
   let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
 
-
   if (context.code == 302) {
     res.writeHead(302, {
       Location: context.url
@@ -195,8 +169,6 @@ app.get('*', async function (req, res) {
 
   // 释放store内存
   store = null;
-
-  // console.log(process.memoryUsage());
 
 });
 

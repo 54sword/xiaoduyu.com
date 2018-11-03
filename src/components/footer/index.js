@@ -1,5 +1,5 @@
 import React from 'react';
-import Loadable from 'react-loadable';
+// import Loadable from 'react-loadable';
 
 // components
 // import Bundle from '../bundle';
@@ -55,9 +55,7 @@ export class Footer extends React.Component {
 
       <Aglobal />
 
-      {/*
-      <LoadableFooter />
-      */}
+      {/* <LoadableFooter /> */}
 
       {/*
       <AsyncComponent load={() => import('../global')}>

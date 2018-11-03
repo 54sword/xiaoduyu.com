@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react';
 
 // config
-import { name } from '../../../config'
+import { name } from '../../../config';
 
 // components
-import Shell from '../../components/shell'
-import Meta from '../../components/meta'
+import Shell from '../../components/shell';
+import Meta from '../../components/meta';
 
 // styles
 import './style.scss'

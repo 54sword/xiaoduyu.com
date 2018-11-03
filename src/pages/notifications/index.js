@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 
-// components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
-import NotificationList from '../../components/user-notification/list';
-// import Sidebar from '../../components/sidebar';
-import Loading from '../../components/ui/loading';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -15,19 +10,30 @@ import { getUnreadNotice } from '../../store/reducers/website';
 import { loadNewNotifications } from '../../store/actions/notification';
 import { getNotificationByName } from '../../store/reducers/notification';
 
+
+// components
+import Shell from '../../components/shell';
+import Meta from '../../components/meta';
+import NotificationList from '../../components/user-notification/list';
+// import Sidebar from '../../components/sidebar';
+import Loading from '../../components/ui/loading';
+import Box from '../../components/box';
+
 // style
 import './style.scss';
 
 
 @Shell
 @connect(
-  (state, props) => ({
-    me: getProfile(state),
-    unreadNotice: getUnreadNotice(state),
-    list: getNotificationByName(state, 'index'),
-    // 未读通知
-    newList: getNotificationByName(state, 'new')
-  }),
+  (state, props) => {
+    return {
+      me: getProfile(state),
+      unreadNotice: getUnreadNotice(state),
+      list: getNotificationByName(state, props.location.pathname),
+      // 未读通知
+      newList: getNotificationByName(state, 'new')
+    }
+  },
   dispatch => ({
     loadNewNotifications: bindActionCreators(loadNewNotifications, dispatch)
   })
@@ -35,7 +41,46 @@ import './style.scss';
 export default class Notifications extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      typeList: {
+        'unread': {
+          name: '未读消息',
+          filters: {
+            has_read: false
+          }
+        },
+        'all': {
+          name: '全部',
+          filters: {
+          }
+        },
+        'comment': {
+          name: '评论',
+          filters: {
+            type: 'comment'
+          }
+        },
+        'reply': {
+          name: '回复',
+          filters: {
+            type: 'reply'
+          }
+        },
+        'follow': {
+          name: '关注',
+          filters: {
+            type: 'follow-you'
+          }
+        },
+        'like': {
+          name: '赞',
+          filters: {
+            type: 'like-comment,like-reply,like-posts'
+          }
+        }
+      }
+    }
   }
 
   componentDidMount() {
@@ -49,8 +94,29 @@ export default class Notifications extends Component {
 
     const self = this;
     const { me, list, unreadNotice, newList } = this.props;
+    const { typeList } = this.state;
+    const { pathname } = this.props.location;
 
-    return (<div>
+    let filters = {};
+
+    let type;
+    
+    if (pathname == '/notifications') {
+      type = typeList['unread'];
+    } else {
+      type = typeList[pathname.replace('/notifications/', '')];
+    }
+
+    if (!type) {
+      return (<div>没有该分类</div>)
+    }
+
+    filters = type.filters;
+
+    filters.addressee_id = me._id;
+    filters.sort_by = 'create_at:-1';
+
+    return (<Box><div>
       <Meta title="通知" />
 
       {(()=>{
@@ -60,28 +126,23 @@ export default class Notifications extends Component {
           return <div onClick={()=>{ self.componentDidMount() }} styleName="unread-tip">你有 {unreadNotice.length} 未读通知</div>
         }
       })()}
-
+      
       <NotificationList
-        name={"index"}
+        name={pathname}
         filters={{
-          variables: {
-            addressee_id: me._id,
-            sort_by: 'create_at:-1'
-          }
+          variables: filters
         }}
       />
 
-      {/*
-      <div className="row">
-        <div className="col-sm-9">
-
-        </div>
-        <div className="col-sm-3">
-          <Sidebar />
-        </div>
-      </div>
-      */}
-
-    </div>)
+    </div>
+    <div>
+      <ul className="list-group">
+        {Reflect.ownKeys(typeList).map(item=>{
+          let _type = typeList[item];
+          return (<Link to={`/notifications/${item}`} key={item} className={`list-group-item ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
+        })}
+      </ul>
+    </div>
+    </Box>)
   }
 }

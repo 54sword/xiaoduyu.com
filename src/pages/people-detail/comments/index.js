@@ -1,24 +1,20 @@
 import React from 'react';
 
 import Shell from '../../../components/shell';
-import Meta from '../../../components/meta';
+// import Meta from '../../../components/meta';
 import PeopleDetailHead from '../../../components/people-detail-head';
 import CommentList from '../../../components/comment/list';
+import Box from '../../../components/box';
+import Sidebar from '../../../components/sidebar';
 
 @Shell
-export default class PeopleDetailPosts extends React.Component {
-
-  static loadData = PeopleDetailHead.loadData
-
-  constructor(props) {
-    super(props);
-    this.state = {}
-  }
+export default class PeopleDetailPosts extends React.PureComponent {
 
   render() {
     const { id } = this.props.match.params;
-
-    return (<PeopleDetailHead
+    
+    return (<Box>
+      <PeopleDetailHead
         {...this.props}
         id={id}
         body={<div style={{backgroundColor:'#fff'}}><CommentList
@@ -34,7 +30,9 @@ export default class PeopleDetailPosts extends React.Component {
           }}
           scrollLoad={true}
         /></div>}
-      />)
+      />
+      <Sidebar />
+    </Box>)
   }
 
 }

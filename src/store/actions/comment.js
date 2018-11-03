@@ -102,7 +102,10 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
 }
 
 export function loadCommentList({ name, filters = {}, restart = false }) {
+  
   return (dispatch, getState) => {
+
+    console.log(filters);
 
     if (!filters.select) {
       filters.select = `

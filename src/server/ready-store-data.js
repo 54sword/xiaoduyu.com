@@ -1,14 +1,14 @@
 
 import { loadReportTypes } from '../store/actions/report';
-import { getReportTypes } from '../store/reducers/report-types';
+// import { getReportTypes } from '../store/reducers/report-types';
 import { loadTopics } from '../store/actions/topic';
-import { getTopicListByKey } from '../store/reducers/topic';
+// import { getTopicListByKey } from '../store/reducers/topic';
 import { loadUserInfo } from '../store/actions/user';
 
 // redux 中的数据清理、以及准备一些经常不变的数据
 
-export default function(store, accessToken) {
-  return new Promise (async resolve=>{
+export default (store, accessToken) => {
+  return new Promise (async resolve => {
 
     // =======================================================
     // store的数据，如果不清空，store的数据会一直存在

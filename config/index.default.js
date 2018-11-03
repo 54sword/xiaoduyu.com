@@ -25,7 +25,7 @@ let config = {
   //  服务端口
   port: 4000,
 
-  // 登录 token cookie 的名称
+  // 认证cookie名称（储存Token）
   auth_cookie_name: 'xiaoduyu',
 
   // https://github.com/css-modules/css-modules

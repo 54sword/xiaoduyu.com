@@ -1,8 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 
-// redux
-import { loadPostsList } from '../../store/actions/posts';
 import parseUrl from '../../common/parse-url';
 
 // components
@@ -10,9 +8,9 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import PeopleList from '../../components/people/list';
-// import Sidebar from '../../components/sidebar';
-// import Bundle from '../../components/bundle';
-// import NewPostsButton from '../../components/new-posts-button';
+
+import Box from '../../components/box';
+import Sidebar from '../../components/sidebar';
 
 // style
 import './style.scss';
@@ -91,10 +89,9 @@ export default class Search extends React.Component {
 
   render() {
 
-    const self = this;
     const { q, type } = this.state;
 
-    return(<div>
+    return(<Box><div>
       <Meta title="搜索" />
 
       <form className="container" onSubmit={this.search}>
@@ -113,10 +110,10 @@ export default class Search extends React.Component {
 
       <ul className="nav" styleName="tab-bar">
         <li className="nav-item">
-          <a className="nav-link" styleName={type == '' ? 'active' : null} href="javascript:void(0)" onClick={()=>{ self.switchType(''); }}>帖子</a>
+          <a className="nav-link" styleName={type == '' ? 'active' : ''} href="javascript:void(0)" onClick={()=>{ this.switchType(''); }}>帖子</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link"  styleName={type == 'user' ? 'active' : null} href="javascript:void(0)" onClick={()=>{ self.switchType('user'); }}>用户</a>
+          <a className="nav-link"  styleName={type == 'user' ? 'active' : ''} href="javascript:void(0)" onClick={()=>{ this.switchType('user'); }}>用户</a>
         </li>
       </ul>
 
@@ -149,7 +146,11 @@ export default class Search extends React.Component {
 
       })()}
 
-    </div>)
+    </div>
+
+    <Sidebar />
+
+    </Box>)
   }
 
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -20,17 +20,17 @@ import './style.scss';
     saveSignInCookie: bindActionCreators(saveSignInCookie, dispatch)
   })
 )
-export default class OAuth extends Component {
+export default class OAuth extends PureComponent {
 
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+    // super(props)
+  // }
 
   async componentDidMount() {
 
     const { access_token = '', expires = 0, landing_page = '/' } = this.props.location.params;
     const { saveSignInCookie } = this.props;
-
+    
     if (access_token) {
       let [ err, res ] = await saveSignInCookie({ access_token });
 

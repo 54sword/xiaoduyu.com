@@ -99,7 +99,7 @@ export default class Forgot extends Component {
   render() {
 
     return (
-      <div>
+      <div style={{backgroundColor:'#fff',padding:'20px'}}>
         <Meta title="忘记密码" />
 
         <form onSubmit={this.submit}>
