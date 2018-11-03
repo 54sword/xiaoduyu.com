@@ -7,8 +7,7 @@ import { isMember } from '../../../store/reducers/user';
 // import { like, unlike } from '../../store/actions/like';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './index.scss';
+import './index.scss';
 
 @connect(
   (state, props) => ({
@@ -19,7 +18,6 @@ import styles from './index.scss';
     // unlike: bindActionCreators(unlike, dispatch)
   })
 )
-@CSSModules(styles)
 export default class LikeButton extends Component {
 
   constructor(props) {

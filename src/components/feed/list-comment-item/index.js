@@ -27,8 +27,7 @@ import GridListImage from '../../grid-list-image';
 
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @withRouter
 @connect(
@@ -38,7 +37,6 @@ import styles from './style.scss';
   dispatch => ({
   })
 )
-@CSSModules(styles)
 export default class PostsItem extends React.PureComponent {
 
   static propTypes = {

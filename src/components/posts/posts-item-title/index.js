@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import CSSModules from 'react-css-modules';
 
 // import HTMLText from '../../html-text';
-import styles from './style.scss';
+import './style.scss';
 
-@CSSModules(styles)
 export default class PostsItemTitle extends React.PureComponent {
 
   static propTypes = {

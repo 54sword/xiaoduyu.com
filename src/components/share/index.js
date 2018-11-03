@@ -7,11 +7,9 @@ import { domain_name, name } from '../../../config'
 import weixin from '../../common/weixin'
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @withRouter
-@CSSModules(styles)
 export class Share extends Component {
 
   static propTypes = {

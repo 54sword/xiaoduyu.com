@@ -15,8 +15,8 @@ import Pagination from '../../pagination';
 import Loading from '../../ui/loading';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+// import CSSModules from 'react-css-modules';
+import './style.scss';
 
 /**
  * 帖子列表组件
@@ -36,7 +36,7 @@ import styles from './style.scss';
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
   })
 )
-@CSSModules(styles)
+// @CSSModules(styles)
 export default class PostsList extends Component {
 
   static defaultProps = {

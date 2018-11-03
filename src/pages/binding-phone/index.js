@@ -15,8 +15,7 @@ import CaptchaButton from '../../components/captcha-button';
 import CountriesSelect from '../../components/countries-select';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @Shell
 @withRouter
@@ -30,7 +29,6 @@ import styles from './style.scss';
     addPhone: bindActionCreators(addPhone, dispatch)
   })
 )
-@CSSModules(styles)
 export default class SettingsPhone extends Component {
 
   constructor(props) {

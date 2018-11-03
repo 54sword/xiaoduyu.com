@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 import { isMember } from '../../store/reducers/user';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -17,7 +16,6 @@ import styles from './style.scss';
   dispatch => ({
   })
 )
-@CSSModules(styles)
 export class NewPostsButton extends React.Component {
 
   constructor(props) {

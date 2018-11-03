@@ -17,8 +17,8 @@ import { getUnreadNotice, getPostsTips } from '../../store/reducers/website';
 // import { loadNewPosts } from '../../actions/posts';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+// import CSSModules from 'react-css-modules';
+import './style.scss';
 
 @withRouter
 @connect(
@@ -35,7 +35,7 @@ import styles from './style.scss';
     // loadNewPosts: bindActionCreators(loadNewPosts, dispatch)
   })
 )
-@CSSModules(styles)
+// @CSSModules(styles)
 export default class Head extends React.Component {
 
   // 服务端渲染

@@ -18,8 +18,7 @@ import HTMLText from '../../html-text';
 import Loading from '../../ui/loading';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -30,7 +29,6 @@ import styles from './style.scss';
     // loadList: bindActionCreators(loadCommentList, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CommentDetail extends React.Component {
 
   static propTypes = {

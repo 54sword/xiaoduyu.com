@@ -14,8 +14,7 @@ import To from '../../common/to';
 import Editor from '../editor';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 
 @connect(
@@ -28,7 +27,6 @@ import styles from './style.scss';
     updatePosts: bindActionCreators(updatePosts, dispatch)
   })
 )
-@CSSModules(styles)
 class EditorPosts extends React.Component {
 
   static defaultProps = {

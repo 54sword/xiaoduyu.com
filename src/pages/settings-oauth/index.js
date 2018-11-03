@@ -14,8 +14,7 @@ import Shell from '../../components/shell'
 import Meta from '../../components/meta'
 
 // styles
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 @Shell
 @connect(
@@ -28,7 +27,6 @@ import styles from './style.scss'
     oAuthUnbinding: bindActionCreators(oAuthUnbinding, dispatch)
   })
 )
-@CSSModules(styles)
 export default class settingsOauth extends Component {
 
   constructor(props) {

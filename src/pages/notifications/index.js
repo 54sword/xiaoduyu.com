@@ -16,8 +16,7 @@ import { loadNewNotifications } from '../../store/actions/notification';
 import { getNotificationByName } from '../../store/reducers/notification';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 
 @Shell
@@ -33,7 +32,6 @@ import styles from './style.scss';
     loadNewNotifications: bindActionCreators(loadNewNotifications, dispatch)
   })
 )
-@CSSModules(styles)
 export default class Notifications extends Component {
 
   constructor(props) {

@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 import { addCaptcha } from '../../store/actions/captcha';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -17,7 +16,6 @@ import styles from './style.scss';
     addCaptcha: bindActionCreators(addCaptcha, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CaptchaButton extends Component {
 
   static propTypes = {

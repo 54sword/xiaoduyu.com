@@ -10,8 +10,7 @@ import { loadReportTypes, addReport } from '../../../store/actions/report';
 
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -22,7 +21,6 @@ import styles from './style.scss';
     addReport: bindActionCreators(addReport, dispatch)
   })
 )
-@CSSModules(styles)
 export default class ReportModal extends Component {
 
   constructor(props) {

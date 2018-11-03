@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import 'whatwg-fetch';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './qiniu.scss';
+// import CSSModules from 'react-css-modules';
+import './qiniu.scss';
 
-@CSSModules(styles)
+// @CSSModules(styles)
 export default class Qiniu extends React.Component {
 
   static defaultProps = {

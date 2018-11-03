@@ -18,8 +18,7 @@ import Meta from '../../components/meta';
 import { Countdown } from '../../common/date';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 const Topic = ({ match }) => (
   <div>
@@ -36,7 +35,6 @@ const Topic = ({ match }) => (
     signOut: bindActionCreators(signOut, dispatch)
   })
 )
-@CSSModules(styles)
 export default class Settings extends Component {
 
   constructor(props) {

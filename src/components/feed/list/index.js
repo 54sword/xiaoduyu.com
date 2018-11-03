@@ -17,8 +17,7 @@ import Pagination from '../../pagination';
 import Loading from '../../ui/loading';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss'
+import './style.scss'
 
 /*
 //获取元素的纵坐标
@@ -47,7 +46,6 @@ function getTop(e) {
     loadList: bindActionCreators(loadFeedList, dispatch)
   })
 )
-@CSSModules(styles)
 export default class PostsList extends Component {
 
   static defaultProps = {

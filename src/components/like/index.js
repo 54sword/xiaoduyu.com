@@ -7,8 +7,8 @@ import { isMember } from '../../store/reducers/user';
 import { like, unlike } from '../../store/actions/like';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+// import CSSModules from 'react-css-modules';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -19,7 +19,7 @@ import styles from './style.scss';
     unlike: bindActionCreators(unlike, dispatch)
   })
 )
-@CSSModules(styles)
+// @CSSModules(styles)
 export default class LikeButton extends Component {
 
   constructor(props) {
@@ -99,12 +99,13 @@ export default class LikeButton extends Component {
     return (<a styleName="button" href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}}>
       <span>{like.like_count ? like.like_count+' 次赞' : '赞'}</span>
     </a>)
-
+    /*
     return (
       <a href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}} styleName="hover">
         {like.like ? <span>{like.like_count || ''}已赞</span> : '赞'}
         {like.like ? <span>{like.like_count || ''}取消赞</span> : null}
       </a>
     )
+    */
   }
 }

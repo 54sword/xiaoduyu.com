@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react'
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './index.scss';
+import './index.scss';
 
-@CSSModules(styles)
 export default class Box extends PureComponent {
 
   render() {

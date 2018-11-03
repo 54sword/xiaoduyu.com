@@ -14,8 +14,7 @@ import { isMember } from '../../store/reducers/user';
 import { getProfile } from '../../store/reducers/user';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 
 @connect(
@@ -29,7 +28,6 @@ import styles from './style.scss';
   })
 )
 @withRouter
-@CSSModules(styles)
 export default class ReportMenu extends Component {
 
   constructor(props) {

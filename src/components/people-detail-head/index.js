@@ -15,8 +15,7 @@ import Loading from '../ui/loading';
 import ReportMenu from '../report-menu';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 // import To from '../../common/to';
 
@@ -52,7 +51,6 @@ class StringToColor {
     loadPeopleList: bindActionCreators(loadPeopleList, dispatch)
   })
 )
-@CSSModules(styles)
 export class PeopleDetailHead extends React.Component {
 
   static propTypes = {

@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link, browserHistory } from 'react-router-dom'
 
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 // import { bindActionCreators } from 'redux'
 // import { connect } from 'react-redux'
@@ -32,7 +31,6 @@ import HTMLText from '../../html-text'
     updateComment: bindActionCreators(updateComment, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CommentItem extends PureComponent {
 
   static propTypes = {

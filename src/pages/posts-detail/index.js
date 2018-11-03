@@ -21,8 +21,7 @@ import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @Shell
 @connect(
@@ -35,7 +34,6 @@ import styles from './style.scss';
     viewPostsById: bindActionCreators(viewPostsById, dispatch)
   })
 )
-@CSSModules(styles)
 export default class PostsDetail extends React.Component {
 
   constructor(props) {

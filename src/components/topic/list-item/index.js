@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 import { getProfile } from '../../../store/reducers/user'
 import { showSign } from '../../../store/actions/sign'
@@ -74,6 +73,6 @@ TopicItem.propTypes = {
   showSign: PropTypes.func.isRequired
 }
 
-TopicItem = CSSModules(TopicItem, styles)
+// TopicItem = CSSModules(TopicItem, styles)
 
 export default connectReudx(TopicItem)

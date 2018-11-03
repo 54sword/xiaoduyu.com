@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 // import { browserHistory } from 'react-router'
 
 
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -32,7 +31,6 @@ import { getCaptchaById } from '../../../../store/reducers/captcha'
     signIn: bindActionCreators(signIn, dispatch)
   })
 )
-@CSSModules(styles)
 export default class Signin extends Component {
 
   constructor(props) {

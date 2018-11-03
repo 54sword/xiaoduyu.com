@@ -20,8 +20,7 @@ import Box from '../../components/box';
 
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 
 let general = {
@@ -62,7 +61,6 @@ let recommend = {
     loadNewPosts: bindActionCreators(loadNewPosts, dispatch)
   })
 )
-@CSSModules(styles)
 export default class Follow extends React.Component {
 
   constructor(props) {

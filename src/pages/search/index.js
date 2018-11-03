@@ -15,8 +15,7 @@ import PeopleList from '../../components/people/list';
 // import NewPostsButton from '../../components/new-posts-button';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 let general = {
   variables: {
@@ -28,7 +27,6 @@ let general = {
 
 @Shell
 @withRouter
-@CSSModules(styles)
 export default class Search extends React.Component {
 
   constructor(props) {

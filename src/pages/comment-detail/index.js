@@ -17,8 +17,7 @@ import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @Shell
 @connect(
@@ -30,7 +29,6 @@ import styles from './style.scss';
     loadList: bindActionCreators(loadCommentList, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CommentDetail extends React.Component {
 
   constructor(props) {

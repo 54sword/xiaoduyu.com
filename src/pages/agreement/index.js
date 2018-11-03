@@ -8,11 +8,9 @@ import Shell from '../../components/shell'
 import Meta from '../../components/meta'
 
 // styles
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 @Shell
-@CSSModules(styles)
 export default class Agreement extends React.PureComponent {
   render() {
     return (<div styleName="container">

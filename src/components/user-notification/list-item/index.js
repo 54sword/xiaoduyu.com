@@ -17,10 +17,8 @@ import HTMLText from '../../html-text';
 import Pagination from '../../pagination';
 
 // style
-import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
-@CSSModules(styles)
 export default class NotificationListItem extends Component {
 
   static propTypes = {

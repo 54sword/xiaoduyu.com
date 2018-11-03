@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, browserHistory } from 'react-router-dom';
 
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -30,7 +29,6 @@ import CommentButton from '../button';
     updateComment: bindActionCreators(updateComment, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CommentItem extends Component {
 
   static propTypes = {

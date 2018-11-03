@@ -26,7 +26,6 @@ import EditorComment from '../../editor-comment';
     loadList: bindActionCreators(loadCommentList, dispatch)
   })
 )
-// @CSSModules(styles)
 export default class PostsModal extends Component {
 
   constructor(props) {

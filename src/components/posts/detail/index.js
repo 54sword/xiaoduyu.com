@@ -10,8 +10,7 @@ import { getPostsById } from '../../../store/reducers/posts';
 import { isMember } from '../../../store/reducers/user';
 
 // style
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 // components
 import HTMLText from '../../html-text';
@@ -36,7 +35,6 @@ import Share from '../../share';
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
   })
 )
-@CSSModules(styles)
 export default class PostsDetail extends React.Component {
 
   static propTypes = {

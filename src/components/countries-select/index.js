@@ -8,8 +8,7 @@ import { loadCountries } from '../../store/actions/countries'
 import { getCountries } from '../../store/reducers/countries'
 
 // styles
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 
 @connect(
@@ -20,7 +19,6 @@ import styles from './style.scss'
     loadCountries: bindActionCreators(loadCountries, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CountriesSelect extends Component {
 
   static defaultProps = {

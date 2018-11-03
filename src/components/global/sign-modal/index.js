@@ -10,10 +10,8 @@ import SignUp from './sign-up';
 import Modal from '../../bootstrap/modal';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
-@CSSModules(styles)
 export default class SignModal extends Component {
 
   constructor(props) {

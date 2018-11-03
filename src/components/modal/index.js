@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+// import CSSModules from 'react-css-modules'
+import './style.scss'
 import Keydown from '../../common/keydown'
 
 class Modal extends Component {
@@ -86,6 +86,6 @@ Modal.defaultProps = {
   modalStyle: {}
 }
 
-Modal = CSSModules(Modal, styles)
+// Modal = CSSModules(Modal, styles)
 
 export default Modal

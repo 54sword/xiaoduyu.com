@@ -11,8 +11,7 @@ import { isMember } from '../../../store/reducers/user';
 
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 import PostsDetail from '../detail';
 import CommentList from '../../comment/list';
@@ -28,7 +27,6 @@ import EditorComment from '../../editor-comment';
     // addReport: bindActionCreators(addReport, dispatch)
   })
 )
-@CSSModules(styles)
 export default class PostsModal extends Component {
 
   constructor(props) {

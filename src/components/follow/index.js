@@ -9,8 +9,7 @@ import { follow, unfollow } from '../../store/actions/follow'
 import { getProfile } from '../../store/reducers/user'
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -21,7 +20,6 @@ import styles from './style.scss';
     unfollow: bindActionCreators(unfollow, dispatch)
   })
 )
-@CSSModules(styles)
 export default class FollowPosts extends Component {
 
   static propTypes = {

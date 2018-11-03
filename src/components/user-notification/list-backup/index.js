@@ -17,8 +17,7 @@ import HTMLText from '../../html-text';
 import Pagination from '../../pagination';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @withRouter
 @connect(
@@ -30,7 +29,6 @@ import styles from './style.scss';
     updateNotification: bindActionCreators(updateNotification, dispatch)
   })
 )
-@CSSModules(styles)
 export default class NotificationList extends Component {
 
   static propTypes = {

@@ -10,8 +10,7 @@ import { isMember, getProfile } from '../../store/reducers/user';
 import { getOnlineUserCount } from '../../store/reducers/website';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 // components
 // import SignIn from '../sign-in';
@@ -26,7 +25,6 @@ import PostsList from '../../components/posts/list';
   dispatch => ({
   })
 )
-@CSSModules(styles)
 export default class Sidebar extends React.Component {
 
   static defaultProps = {

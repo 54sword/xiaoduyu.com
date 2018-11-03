@@ -19,8 +19,8 @@ import Loading from '../../components/ui/loading';
 import Box from '../../components/box';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+// import CSSModules from 'react-css-modules';
+import './style.scss';
 
 /**
  * 分析url上面的参数
@@ -107,7 +107,7 @@ const generatePostsFilters = (topic, search) => {
     loadTopics: bindActionCreators(loadTopics, dispatch)
   })
 )
-@CSSModules(styles)
+// @CSSModules(styles)
 export default class TopicsDetail extends React.Component {
 
   constructor(props) {

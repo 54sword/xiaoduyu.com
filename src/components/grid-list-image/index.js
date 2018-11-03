@@ -1,10 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from 'react';
 
-import CSSModules from 'react-css-modules'
-import styles from './index.scss'
+import './index.scss';
 
-
-@CSSModules(styles)
 export default class GridListImage extends PureComponent {
 
   render() {

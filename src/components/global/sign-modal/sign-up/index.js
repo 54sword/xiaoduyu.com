@@ -13,8 +13,7 @@ import CaptchaButton from '../../../captcha-button';
 import CountriesSelect from '../../../countries-select';
 
 // styles
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 @connect(
   (state, props) => ({
@@ -24,7 +23,6 @@ import styles from './style.scss'
     signIn: bindActionCreators(signIn, dispatch)
   })
 )
-@CSSModules(styles)
 export default class SignUp extends Component {
 
   constructor(props) {

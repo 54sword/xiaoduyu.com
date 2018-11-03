@@ -10,8 +10,7 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @Shell
 @connect(
@@ -21,7 +20,6 @@ import styles from './style.scss';
     saveSignInCookie: bindActionCreators(saveSignInCookie, dispatch)
   })
 )
-@CSSModules(styles)
 export default class OAuth extends Component {
 
   constructor(props) {

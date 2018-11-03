@@ -16,8 +16,7 @@ import Meta from '../../components/meta';
 import QiniuUploadImage from '../../components/qiniu-upload-image';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @Shell
 @connect(
@@ -29,7 +28,6 @@ import styles from './style.scss';
     updateUser: bindActionCreators(updateUser, dispatch)
   })
 )
-@CSSModules(styles)
 export default class ResetAvatar extends Component {
 
   constructor(props) {

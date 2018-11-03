@@ -79,8 +79,8 @@ module.exports = {
               // modules: true,
               // localIdentName: config.class_scoped_name
             }
-          }
-          // { loader: `sass` },
+          },
+          { loader: `sass` }
         ]
       },
 

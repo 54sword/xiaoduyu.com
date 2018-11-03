@@ -13,8 +13,7 @@ import CountriesSelect from '../../countries-select';
 import Modal from '../../bootstrap/modal';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -24,7 +23,6 @@ import styles from './style.scss';
     getUnlockToken: bindActionCreators(getUnlockToken, dispatch)
   })
 )
-@CSSModules(styles)
 class UnlockToken extends Component {
 
   static defaultProps = {

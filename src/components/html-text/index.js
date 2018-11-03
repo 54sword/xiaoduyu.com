@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 import Device from '../../common/device'
 
@@ -251,7 +250,6 @@ const converVideo = (html) => {
 
 }
 
-@CSSModules(styles)
 export class HTMLText extends Component {
 
   static defaultProps = {
@@ -299,7 +297,7 @@ export class HTMLText extends Component {
 
     return <div>
       <div
-        className={styles.content} dangerouslySetInnerHTML={{__html:content}}
+        styleName="content" dangerouslySetInnerHTML={{__html:content}}
       />
 
       {hiddenHalf && content ?

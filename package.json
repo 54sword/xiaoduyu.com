@@ -85,7 +85,6 @@
     "nodemon": "^1.18.4",
     "postcss-scss": "^2.0.0",
     "qiniu": "^6.1.13",
-    "react-css-modules": "^4.7.2",
     "react-loadable": "^5.5.0",
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",

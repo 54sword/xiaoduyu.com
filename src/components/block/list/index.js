@@ -12,8 +12,7 @@ import HTMLText from '../../html-text';
 import Loading from '../../ui/loading';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -24,7 +23,6 @@ import styles from './style.scss';
     removeBlock: bindActionCreators(removeBlock, dispatch)
   })
 )
-@CSSModules(styles)
 export class BlockList extends React.Component {
 
   static defaultProps = {

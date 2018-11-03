@@ -12,8 +12,7 @@ import { getFollowListByName } from '../../store/reducers/follow';
 import Follow from '../follow';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -23,7 +22,6 @@ import styles from './style.scss';
     load: bindActionCreators(findFollows, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CommentList extends Component {
 
   static defaultProps = {
