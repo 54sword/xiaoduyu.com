@@ -8,7 +8,7 @@
     "pro": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js && node ./dist/server/server.js",
     "dist": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js",
     "server": "node ./dist/server/server.js",
-    "test": "webpack --config config/webpack/client.pro.js"
+    "test": "webpack --config config/webpack/client.dev.js"
   },
   "engines": {
     "node": ">=8.6.0"
@@ -63,6 +63,7 @@
     "@babel/plugin-proposal-decorators": "^7.1.2",
     "@babel/plugin-proposal-function-bind": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-react-jsx": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
@@ -72,6 +73,7 @@
     "@babel/preset-stage-0": "^7.0.0",
     "@babel/register": "^7.0.0",
     "babel-loader": "^8.0.4",
+    "babel-plugin-react-css-modules": "^3.4.2",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.3",
     "css-hot-loader": "^1.4.2",
@@ -81,6 +83,7 @@
     "memeye": "^1.0.3",
     "mini-css-extract-plugin": "^0.4.4",
     "nodemon": "^1.18.4",
+    "postcss-scss": "^2.0.0",
     "qiniu": "^6.1.13",
     "react-css-modules": "^4.7.2",
     "react-loadable": "^5.5.0",

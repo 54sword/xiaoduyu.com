@@ -4,17 +4,30 @@ import React from 'react';
 import Loadable from 'react-loadable';
 
 // 生成异步加载组件
-import { AsyncComponent, asyncRouteComponent } from '../components/generate-async-component';
+// import { AsyncComponent, asyncRouteComponent } from '../components/generate-async-component';
 
-import Head from '../components/head';
-import Loading from '../components/ui/loading';
+// import Head from '../components/head';
+// import Loading from '../components/ui/loading';
 
-import PostsDetailLoadData from '../pages/posts-detail/load-data';
-import CommentDetailLoadData from '../pages/comment-detail/load-data';
-import HomeLoadData from '../pages/home/load-data';
-import TopicDetailLoadData from '../pages/topic-detail/load-data';
-import PeopleDetailLoadData from '../pages/people-detail/load-data';
+// import PostsDetailLoadData from '../pages/posts-detail/load-data';
+// import CommentDetailLoadData from '../pages/comment-detail/load-data';
+// import HomeLoadData from '../pages/home/load-data';
+// import TopicDetailLoadData from '../pages/topic-detail/load-data';
+// import PeopleDetailLoadData from '../pages/people-detail/load-data';
 
+export default [
+  {
+    path: '**',
+    // head: Head,
+    component: Loadable({
+      loader: () => import('../pages/test'),
+      loading: () => <div>loading...</div>
+    }),
+    enter: 'everybody'
+  }
+];
+
+/*
   // 路由数组
 export default [
   {
@@ -363,3 +376,4 @@ export default [
     enter: 'everybody'
   }
 ];
+*/

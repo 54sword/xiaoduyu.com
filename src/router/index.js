@@ -4,7 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 // import Loadable from 'react-loadable';
 
 // 生成异步加载组件
-import { AsyncComponent } from '../components/generate-async-component';
+// import { AsyncComponent } from '../components/generate-async-component';
 
 import routerList from './list';
 
@@ -105,9 +105,11 @@ export default (user, logPageView = ()=>{}) => {
       </div>
       */}
 
+      {/*
       <AsyncComponent load={() => import('../components/footer')}>
         {Component => <Component />}
       </AsyncComponent>
+      */}
 
     </div>)
 

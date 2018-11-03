@@ -1,6 +1,6 @@
 
 
-@import "./global";
+@import url('global.css'); 
 
 /**
  * 覆盖默认的 bootstrap 的样式
@@ -20,7 +20,7 @@ a{
   }
 
   font-size: 14px;
-  background-color: #eaedf0;//#edf0f3;//#e7eaed;//
+  background-color: #eaedf0;
   color:#484848;
 
   .container{

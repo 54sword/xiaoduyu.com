@@ -20,13 +20,15 @@ import Follow from '../../follow';
 import Like from '../../like';
 import EditButton from '../../edit-button';
 import ReportMenu from '../../report-menu';
+// import Bundle from '../../bundle';
 import Share from '../../share';
 import CommentButton from '../../comment/button';
 import GridListImage from '../../grid-list-image';
 
+
 // styles
-// import CSSModules from 'react-css-modules';
-import './style.scss';
+import CSSModules from 'react-css-modules';
+import styles from './style.scss';
 
 @withRouter
 @connect(
@@ -37,83 +39,88 @@ import './style.scss';
     viewPostsById: bindActionCreators(viewPostsById, dispatch)
   })
 )
-// @CSSModules(styles)
-export default class PostsListItem extends React.PureComponent {
+@CSSModules(styles)
+export default class PostsItem extends React.PureComponent {
 
   static propTypes = {
     // 帖子对象
-    posts: PropTypes.shape({
-      view_count: PropTypes.number.isRequired,
-      comment_count: PropTypes.number.isRequired,
-      like_count: PropTypes.number.isRequired,
-      follow_count: PropTypes.number.isRequired,
-      like: PropTypes.boolean,
-      follow: PropTypes.boolean,
-      content_html: PropTypes.string.isRequired,
-      content_summary: PropTypes.string,
-      title: PropTypes.string.isRequired,
-      recommend: PropTypes.boolean,
-      _create_at: PropTypes.string.isRequired,
-      topic_id: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      }),
-      user_id: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        nickname: PropTypes.string.isRequired,
-        avatar_url: PropTypes.string.isRequired
-      })
-    })
+    posts: PropTypes.object.isRequired
   }
 
   constructor(props) {
     super(props);
+    const { posts } = this.props;
     this.state = {
-      expand: false
+      expandContent: false,
+      expandComment: false
+      // expandContent: posts.expandContent || false,
+      // expandComment: posts.expandComment || false
     }
-    this.expand = this.expand.bind(this);
+    this.expandContent = this.expandContent.bind(this);
+    // this.expandComment = this.expandComment.bind(this);
+    this.collapseContent = this.collapseContent.bind(this);
   }
-  
-  /*
+
   componentDidMount() {
     const { posts } = this.props;
-    if (this.state.expand) {
+    if (this.state.expandContent) {
       ExpandButton.add(posts._id);
     }
   }
 
   componentWillUnmount() {
     const { posts } = this.props;
-    if (this.state.expand) {
+    if (this.state.expandContent) {
       ExpandButton.clean(posts._id);
     }
   }
-  */
 
-  expand(e) {
+  expandContent(e) {
 
     var selectionObj = window.getSelection();
     var selectedText = selectionObj.toString();
 
     if (selectedText) return;
 
+    const self = this;
     const { posts, viewPostsById } = this.props;
 
-    if (!this.state.expand) {
-
-      // 如果移动设备，打开详情页面
-      if (Device.isMobileDevice()) {
-        return this.props.history.push(`/posts/${posts._id}`)
-      }
-
-      viewPostsById({ id: posts._id });
-      ExpandButton.add(posts._id);
-    } else {
-      ExpandButton.clean(posts._id);
+    // 如果移动设备，打开详情页面
+    if (Device.isMobileDevice()) {
+      this.props.history.push(`/posts/${posts._id}`)
+      return
     }
 
-    this.setState({ expand: this.state.expand ? false : true });
-    // posts.expand = true;
+    viewPostsById({ id: posts._id });
+
+    this.setState({
+      expandContent: true,
+      expandComment: true
+    });
+    posts.expandContent = true;
+    posts.expandComment = true;
+
+    ExpandButton.add(posts._id);
+  }
+
+  collapseContent() {
+
+    var selectionObj = window.getSelection();
+    var selectedText = selectionObj.toString();
+
+    if (selectedText) return;
+
+    const { posts } = this.props;
+
+    posts.expandContent = false;
+    posts.expandComment = false;
+
+    this.setState({
+      expandContent: false,
+      expandComment: false
+    });
+
+    ExpandButton.clean(posts._id);
 
   }
 
@@ -124,7 +131,7 @@ export default class PostsListItem extends React.PureComponent {
   render () {
 
     const { posts, isMember } = this.props;
-    const { expand } = this.state;
+    const { expandContent, expandComment } = this.state;
 
     let coverImage = '';
 
@@ -133,11 +140,11 @@ export default class PostsListItem extends React.PureComponent {
     }
 
     //
-    // {!expand ? this.expand : this.collapseContent}
+    // {!expandContent ? this.expandContent : this.collapseContent}
 
     return (<div id={posts._id} styleName='item'>
 
-      <div onClick={!expand ? this.expand : null} styleName="item-head">
+      <div onClick={!expandContent ? this.expandContent : null} styleName="item-head">
 
       <div styleName="head">
         {typeof posts.user_id == 'object' ?
@@ -179,7 +186,7 @@ export default class PostsListItem extends React.PureComponent {
 
       {(()=>{
 
-        if (expand) {
+        if (expandContent) {
           return (<div styleName="content">
             <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
           </div>)
@@ -208,7 +215,7 @@ export default class PostsListItem extends React.PureComponent {
 
       })()}
 
-      {/*!expand ?
+      {/*!expandContent ?
         <div styleName="status-bar">
           {posts.view_count ? <span>{posts.view_count} 次浏览</span> : null}
           {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
@@ -233,7 +240,7 @@ export default class PostsListItem extends React.PureComponent {
         </div>
       : null*/}
 
-      {/*expand ?
+      {/*expandContent ?
         <div styleName="content">
           <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
         </div> : (posts.content_summary ?
@@ -247,7 +254,7 @@ export default class PostsListItem extends React.PureComponent {
 
 
         <div styleName="footer">
-          {expand ?
+          {expandContent ?
           <div>
 
             <div className="container">
@@ -261,10 +268,10 @@ export default class PostsListItem extends React.PureComponent {
                   {/*<EditButton posts={posts} />*/}
                 </div>
 
-                {expand ?
+                {expandContent ?
                   <div className="col-2 text-right" styleName="actions">
-                    <a href="javascript:void(0)" id={posts._id+'-footer'} onClick={this.expand} styleName="collapse-float">收起</a>
-                    <a href="javascript:void(0)" onClick={this.expand} styleName="collapse">收起</a>
+                    <a href="javascript:void(0)" id={posts._id+'-footer'} onClick={this.collapseContent} styleName="collapse-float">收起</a>
+                    <a href="javascript:void(0)" onClick={this.collapseContent} styleName="collapse">收起</a>
                   </div>
                   : null}
 
@@ -279,7 +286,7 @@ export default class PostsListItem extends React.PureComponent {
 
       </div>
 
-      {expand ?
+      {expandContent ?
         <div onClick={this.stopPropagation}>
 
             <CommentList

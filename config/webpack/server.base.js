@@ -43,8 +43,24 @@ module.exports = {
       {
         test: /\.js$/i,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: 'babel',
+        query: {
+          plugins: [
+            [
+              'react-css-modules',
+              {
+                "generateScopedName": "[name]_[local]__[hash:base64:5]",
+                "filetypes": {
+                  ".scss": {
+                    "syntax": "postcss-scss"
+                  }
+                }
+              }
+            ]
+          ]
+        }
       },
+
 
       // scss 文件解析
       {
@@ -55,16 +71,16 @@ module.exports = {
             options: {
               modules: true,
               localIdentName: config.class_scoped_name,
-              minimize: true,
-              sourceMap: true
+              // minimize: true,
+              // sourceMap: true
 
               // camelCase: true,
               // importLoaders: 1,
               // modules: true,
               // localIdentName: config.class_scoped_name
             }
-          },
-          { loader: `sass` },
+          }
+          // { loader: `sass` },
         ]
       },
 
@@ -74,7 +90,7 @@ module.exports = {
         use: [
           { loader: `css/locals` }
         ]
-      },
+      }
 
     ]
   },
