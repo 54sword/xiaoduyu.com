@@ -91,7 +91,7 @@ export default class LikeButton extends Component {
 
     const { reply, comment, posts, isMember } = this.props;
     const like = comment || reply || posts;
-
+    
     if (!isMember) {
       return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>{like.like_count ? like.like_count+' 次赞' : '赞'}</a>)
     }

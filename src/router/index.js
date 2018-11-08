@@ -8,6 +8,7 @@ import { AsyncComponent } from '../components/generate-async-component';
 
 import routerList from './list';
 
+// const OtherComponent = lazy(() => import('../components/footer'));
 
 // const LoadableComponent = Loadable({
 //   loader: () => import('../components/footer'),
@@ -92,7 +93,8 @@ export default (user, logPageView = ()=>{}) => {
           })}
         </Switch>
       </div>
-      
+
+
       <AsyncComponent load={() => import('../components/footer')}>
         {Component => <Component />}
       </AsyncComponent>

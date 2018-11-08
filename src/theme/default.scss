@@ -8,6 +8,7 @@
 
 a{
   text-decoration: none !important;
+  color:#4170ea;
 }
 
 :global{
@@ -20,7 +21,7 @@ a{
   }
 
   font-size: 14px;
-  background-color: #eaedf0;
+  background-color: #eaedf0;//#eaedf0;
   color:#484848;
 
   .container{
@@ -117,11 +118,21 @@ a{
   /* button */
 
   .btn{
-    border-radius: 30px;
-    padding:7px 25px 7px 25px;
-    background-color: #4170ea;
-    border: none;
+    border-radius: 40px;
     font-size: 14px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    line-height: 100%;
+  }
+
+  .btn-primary{
+    background-color: #4170ea;
+    color:#fff;
+    border:1px solid #4170ea;
+    &:hover{
+      background-color: #547de8;
+      color:#fff;
+    }
   }
 
   /* button end */

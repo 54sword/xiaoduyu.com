@@ -304,8 +304,6 @@
   }
 
   .collapse-float{
-    // opacity: 0;
-    // left:100%;
     display: none;
     position:fixed;
     background-image: url(./images/collapse.png);
@@ -315,8 +313,7 @@
     background-position: left 5px center;
     color:#96999f;
     bottom:15px;
-    // left:-15px;
-    margin-left: -50px;
+    margin-left: 50px;
     background-color: #fff;
     border:1px solid #eaedf0;
     border-radius: 6px;
@@ -324,12 +321,18 @@
     &:hover{
       background-color: #eaedf0;
     }
+
+    @media (min-width: 0px) and (max-width: 660px) {
+      margin-left: 15px;
+    }
+
+
   }
 
   :global{
     .fixed{
       display: block;
-      // opacity: 1;
     }
   }
+
 }

@@ -82,7 +82,19 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/people-detail/posts'),
+      loader: () => import('../pages/people-detail'),
+      loading: () => <Loading />
+    }),
+    loadData: PeopleDetailLoadData,
+    enter: 'everybody'
+  },
+
+  {
+    path: '/people/:id/posts',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/people-detail'),
       loading: () => <Loading />
     }),
     loadData: PeopleDetailLoadData,
@@ -94,7 +106,7 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/people-detail/comments'),
+      loader: () => import('../pages/people-detail'),
       loading: () => <Loading />
     }),
     enter: 'everybody'
@@ -105,7 +117,7 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/people-detail/fans'),
+      loader: () => import('../pages/people-detail'),
       loading: () => <Loading />
     }),
     enter: 'everybody'
@@ -116,7 +128,7 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/people-detail/follow-posts'),
+      loader: () => import('../pages/people-detail'),
       loading: () => <Loading />
     }),
     enter: 'everybody'
@@ -127,7 +139,7 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/people-detail/follow-peoples'),
+      loader: () => import('../pages/people-detail'),
       loading: () => <Loading />
     }),
     enter: 'everybody'
@@ -138,7 +150,7 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/people-detail/follow-topics'),
+      loader: () => import('../pages/people-detail'),
       loading: () => <Loading />
     }),
     enter: 'everybody'
@@ -270,7 +282,7 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/settings-avatar'),
+      loader: () => import('../pages/settings'),
       loading: () => <Loading />
     }),
     enter: 'member'
@@ -281,7 +293,7 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/settings-nickname'),
+      loader: () => import('../pages/settings'),
       loading: () => <Loading />
     }),
     enter: 'member'
@@ -292,7 +304,7 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/settings-gender'),
+      loader: () => import('../pages/settings'),
       loading: () => <Loading />
     }),
     enter: 'member'
@@ -303,7 +315,7 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/settings-brief'),
+      loader: () => import('../pages/settings'),
       loading: () => <Loading />
     }),
     enter: 'member'
@@ -314,23 +326,35 @@ export default [
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/settings-password'),
+      loader: () => import('../pages/settings'),
       loading: () => <Loading />
     }),
     enter: 'member'
   },
 
   {
-    path: '/settings/oauth/:oauthName',
+    path: '/settings/oauth',
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/settings-oauth'),
+      loader: () => import('../pages/settings'),
       loading: () => <Loading />
     }),
     enter: 'member'
   },
 
+  {
+    path: '/settings/phone',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/settings'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
+  /*
   {
     path: '/settings/binding-phone',
     exact: true,
@@ -341,13 +365,25 @@ export default [
     }),
     enter: 'member'
   },
+  */
 
   {
     path: '/settings/email',
     exact: true,
     head: Head,
     component: Loadable({
-      loader: () => import('../pages/settings-email'),
+      loader: () => import('../pages/settings'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
+  {
+    path: '/settings/block',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/settings'),
       loading: () => <Loading />
     }),
     enter: 'member'

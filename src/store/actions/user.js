@@ -57,15 +57,18 @@ export const loadUserInfo = ({ accessToken }) => {
         area_code
         find_notification_at
         last_find_posts_at
+        has_password
         `,
         headers: {
           accessToken: accessToken || getState().user.accessToken
         }
       });
 
+      
       if (err) {
         resolve([err])
       } else {
+        // res.phone = '';
         dispatch({ type: 'SET_USER', userinfo: res });
         if (accessToken) {
           dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken });

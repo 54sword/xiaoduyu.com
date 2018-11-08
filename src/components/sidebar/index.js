@@ -5,7 +5,7 @@ import { name } from '../../../config';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../store/actions/posts';
+// import { loadPostsList } from '../../store/actions/posts';
 import { isMember, getProfile } from '../../store/reducers/user';
 import { getOnlineUserCount } from '../../store/reducers/website';
 
@@ -13,14 +13,13 @@ import { getOnlineUserCount } from '../../store/reducers/website';
 import './style.scss';
 
 // components
-// import SignIn from '../sign-in';
-import PostsList from '../../components/posts/list';
+// import PostsList from '../../components/posts/list';
 
 @connect(
   (state, props) => ({
     me: getProfile(state),
     isMember: isMember(state),
-    onlineCOunt: getOnlineUserCount(state)
+    onlineCount: getOnlineUserCount(state)
   }),
   dispatch => ({
   })
@@ -38,7 +37,7 @@ export default class Sidebar extends React.Component {
 
   render() {
 
-    const { isMember, me, recommendPostsDom, onlineCOunt } = this.props
+    const { isMember, me, recommendPostsDom, onlineCount } = this.props
 
     /*
     <div className="card">
@@ -50,13 +49,29 @@ export default class Sidebar extends React.Component {
     </div>
     */
 
-    return(<div>
+    let footer = (<div styleName="footer">
+                    <div>
+                      <a href="mailto:shijian.wu@hotmail.com">联系作者</a>
+                    </div>
+                    {/*
+                    <div>
+                      {onlineCount} 人在线
+                    </div>
+                    */}
+                    
+                    2017-{new Date().getFullYear()} {name}<br />
+                    <a href="http://www.miitbeian.gov.cn" target="_blank">浙ICP备14013796号-3</a>
+                  </div>);
 
-      {/*!isMember ?
-        <div className="card">
-          <div className="card-body"><SignIn /></div>
-        </div> :
-        null*/}
+    if (this.props.children) {
+      return (<div>
+        {this.props.children}
+        <br />
+        {footer}
+      </div>);
+    }
+
+    return(<div>
 
       {isMember ?
           <div>
@@ -94,29 +109,18 @@ export default class Sidebar extends React.Component {
         : null}
 
       <div className="card">
-        <div className="card-header">小度鱼开源</div>
+        <div className="card-header">小度鱼社区相关开源</div>
         <div className="card-body">
-          <div>Web前端</div>
-          <div>API后台</div>
-          <div>iOS、Android（React Native）移动端</div>
-          <div>后台管理</div>
-          <div>React同构脚手架</div>
+          <div><a href="https://github.com/54sword/xiaoduyu.com" target="_blank">前端（React）</a></div>
+          <div><a href="https://github.com/54sword/api.xiaoduyu.com" target="_blank">后端（NodeJS+Express+MongoDB）</a></div>
+          <div><a href="https://github.com/54sword/xiaoduyuReactNative" target="_blank">移动端（React Native）</a></div>
+          <div><a href="https://github.com/54sword/admin.xiaoduyu.com" target="_blank">后台管理（React）</a></div>
+          <div><a href="https://github.com/54sword/react-starter" target="_blank">React同构脚手架</a></div>
         </div>
       </div>
-
-      <div styleName="footer">
-        <div>
-          <a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源代码</a>
-          <a href="mailto:shijian.wu@hotmail.com">联系作者</a>
-        </div>
-        {/*
-        <div>
-          {onlineCOunt} 人在线
-        </div>
-        */}
-        <p>©{new Date().getFullYear()} {name} (浙ICP备14013796号-3)</p>
-      </div>
-
+      
+      {footer}
+        
     </div>)
   }
 

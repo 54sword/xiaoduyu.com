@@ -57,21 +57,20 @@ export default class BindingPhone extends Component {
     let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
     let nowTimestamps = new Date().getTime();
 
+    $('#binding-phone').on('show.bs.modal', (e) => {
+      reactLocalStorage.set('binding-phone-tips', nowTimestamps);
+      self.setState({ show: true });
+    });
+
+    $('#binding-phone').on('hide.bs.modal', (e) => {
+      self.setState({ show: false });
+    });
+
     if (nowTimestamps - timestamps < 1000 * 60 * 60 * 24 * 2) return;
 
     setTimeout(()=>{
 
       if (!this.state.isMount) return;
-
-      $('#binding-phone').on('show.bs.modal', (e) => {
-        reactLocalStorage.set('binding-phone-tips', nowTimestamps);
-        self.setState({ show: true });
-      });
-
-      $('#binding-phone').on('hide.bs.modal', (e) => {
-        // if (!this.state.isMount) return;
-        self.setState({ show: false });
-      });
 
       $('#binding-phone').modal({
         show: true

@@ -78,7 +78,7 @@ export default class NotificationList extends Component {
     const { name, filters, loadNotifications } = this.props
     loadNotifications({ name, filters })
   }
-
+  
   render() {
 
     const { notification, location } = this.props
@@ -86,6 +86,9 @@ export default class NotificationList extends Component {
 
     return (
         <div>
+
+          {!loading && !more ? <div style={{textAlign:'center'}}>没有通知</div> : null}
+
           <div className="list-group" styleName="list">
             {data && data.map(notification => {
               return (<Item notification={notification} key={notification._id} />)

@@ -13,7 +13,7 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
-import NewPostsButton from '../../components/new-posts-button';
+// import NewPostsButton from '../../components/new-posts-button';
 import Follow from '../../components/follow';
 import Loading from '../../components/ui/loading';
 import Box from '../../components/box';
@@ -196,10 +196,6 @@ export default class TopicsDetail extends React.Component {
             })}
           </div>
           : null}
-
-          {topic.parent_id ?
-            <NewPostsButton />
-            : null}
 
           <PostsList
             id={pathname + search}

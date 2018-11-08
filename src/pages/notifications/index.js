@@ -118,14 +118,23 @@ export default class Notifications extends Component {
 
     return (<Box><div>
       <Meta title="通知" />
+      
+      <div styleName="nav-bar" className="d-block d-md-block d-lg-none d-xl-none">
+        <ul className="nav nav-pills nav-justified">
+          {Reflect.ownKeys(typeList).map(item=>{
+            let _type = typeList[item];
+            return (<Link to={`/notifications/${item}`} key={item} className={`nav-link ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
+          })}
+        </ul>
+      </div>
 
-      {(()=>{
+      {/*(()=>{
         if (newList && newList.loading) {
           return <Loading />
         } else if (unreadNotice.length > 0 && list && list.data && list.data.length > 0) {
           return <div onClick={()=>{ self.componentDidMount() }} styleName="unread-tip">你有 {unreadNotice.length} 未读通知</div>
         }
-      })()}
+      })()*/}
       
       <NotificationList
         name={pathname}

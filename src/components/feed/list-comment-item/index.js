@@ -135,6 +135,36 @@ export default class PostsItem extends React.PureComponent {
           </div>
           */}
 
+        {expand && isMember && comment ?
+          <div>
+
+            <div styleName="actions-bar" className="d-flex justify-content-between">
+              {comment.parent_id ? <Like reply={comment}  /> : <Like comment={comment}  />}
+              <a href="javascript:void(0)" onClick={this.handleExpand}>收起</a>
+            </div>
+
+            <div>
+
+              <Editor
+                posts_id={posts._id}
+                parent_id={comment.parent_id || comment._id}
+                reply_id={comment._id}
+                placeholder={`回复 ${comment.user_id.nickname}`}
+                successCallback={()=>{
+                  this.handleExpand();
+                  Toastify({
+                    text: '提交成功',
+                    duration: 3000,
+                    backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+                  }).showToast();
+                }}
+                />
+
+            </div>
+
+          </div>
+          : null}
+
         {(()=>{
 
           // 如果有parent_id，表示该条评论是回复，如果不存在reply_id，那么reply被删除
@@ -184,35 +214,7 @@ export default class PostsItem extends React.PureComponent {
 
         })()}
 
-        {expand && isMember && comment ?
-          <div>
 
-            <div styleName="actions-bar" className="d-flex justify-content-between">
-              {comment.parent_id ? <Like reply={comment}  /> : <Like comment={comment}  />}
-              <a href="javascript:void(0)" onClick={this.handleExpand}>收起</a>
-            </div>
-
-            <div>
-
-              <Editor
-                posts_id={posts._id}
-                parent_id={comment.parent_id || comment._id}
-                reply_id={comment._id}
-                placeholder={`回复 ${comment.user_id.nickname}`}
-                successCallback={()=>{
-                  this.handleExpand();
-                  Toastify({
-                    text: '提交成功',
-                    duration: 3000,
-                    backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-                  }).showToast();
-                }}
-                />
-
-            </div>
-
-          </div>
-          : null}
 
       </div>)
 

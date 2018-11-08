@@ -172,6 +172,8 @@ export default class PostsListItem extends React.PureComponent {
           : null}
       </div>
 
+
+
       <div styleName="title">
         <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
       </div>
@@ -187,9 +189,22 @@ export default class PostsListItem extends React.PureComponent {
 
         if (posts.content_summary) {
           return (<div styleName="content">
+
             <div>
               {posts.content_summary}
             </div>
+
+            {/*posts.images && posts.images.length > 0 ?
+              <div style={{
+                // float:'right',
+                width:'200px',
+                height:'120px',
+                backgroundImage: 'url('+posts.images[0]+')',
+                backgroundSize:'cover',
+                backgroundPosition:'center'
+              }}></div>
+            : null*/}
+
 
             {/*posts.images && posts.images.length > 0 ?
               <div style={{width:'60%',marginTop:'10px'}}><GridListImage images={posts.images} /></div>

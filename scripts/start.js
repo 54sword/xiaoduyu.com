@@ -29,13 +29,13 @@ const start = async () => {
   rimraf.sync('./dist');
 
 
-  clientConfig.entry.app.unshift(`webpack-hot-middleware/client?path=http://localhost:${WEBPACK_PORT}/__webpack_hmr`);
+  clientConfig.entry.app.unshift(`webpack-hot-middleware/client?path=${config.public_path.split(':')[0]}:${WEBPACK_PORT}/__webpack_hmr`);
 
   clientConfig.output.hotUpdateMainFilename =  `[hash].hot-update.json`;
   clientConfig.output.hotUpdateChunkFilename = `[id].[hash].hot-update.js`;
 
-  clientConfig.output.publicPath = `http://localhost:${WEBPACK_PORT}/`;
-  serverConfig.output.publicPath = `http://localhost:${WEBPACK_PORT}/`;
+  clientConfig.output.publicPath = `${config.public_path.split(':')[0]}:${WEBPACK_PORT}/`;
+  serverConfig.output.publicPath = `${config.public_path.split(':')[0]}:${WEBPACK_PORT}/`;
 
   const clientCompiler = webpack([clientConfig, serverConfig]);
 

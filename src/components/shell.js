@@ -26,7 +26,8 @@ export default (Component) => {
     constructor(props) {
       super(props);
       this.state = {
-        notFoundPgae: ''
+        notFoundPgae: '',
+        hasError: ''
       }
     }
 
@@ -74,17 +75,22 @@ export default (Component) => {
       console.log(info);
       
       // Display fallback UI
-      // this.setState({ hasError: true });
+      this.setState({ hasError: error });
       // You can also log the error to an error reporting service
       // logErrorToMyService(error, info);
     }
 
     render() {
 
-      const { notFoundPgae } = this.state;
+      const { notFoundPgae, hasError } = this.state;
 
       if (notFoundPgae) {
         return (<div>{notFoundPgae}</div>)
+      } else if (hasError) {
+        return (<div>
+          <div>页面发生错误</div>
+          <div>{hasError}</div>
+        </div>)
       } else {
         return (<Component
           {...this.props}

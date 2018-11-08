@@ -54,7 +54,7 @@
 
   font-size: 12px;
   z-index: 999;
-  padding:20px 20px 10px 70px;
+  padding:20px 20px 0px 70px;
 
   .avatar{
     position: absolute;
@@ -151,7 +151,7 @@
 }
 
 .content{
-  padding:0 20px 0 20px;
+  padding:10px 20px 10px 20px;
   // font-size: 14px;
   // word-break:break-all;
   // word-wrap:break-word;
@@ -309,13 +309,9 @@
 
 
 .posts-item{
-  // border:1px solid #e6e6e6;
   background-color: #f6f9fb;
-  // border-top: 1px solid #efefef;
+  border-top: 1px solid #f0f3f5;
   padding:15px 20px 15px 20px;
-  // border-radius: 6px;
-  margin-top: 10px;
-  // margin:10px 10px 10px 10px;
 }
 
 .posts-item-avatar{

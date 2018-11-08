@@ -53,10 +53,20 @@ export default class LikeButton extends Component {
 
   }
 
+  stopPropagation(e) {
+    e.stopPropagation();
+  }
+
   render () {
 
-    const { reply, comment, posts } = this.props;
+    const { reply, comment, posts, isMember } = this.props;
     const target = comment || reply || posts;
+
+    if (!isMember) {
+      return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>
+        <span>{target.comment_count ? target.comment_count+' 条评论' : '评论'}</span>
+      </a>)
+    }
 
     return (<a styleName="button" href="javascript:void(0)" onClick={this.onClick}>
       <span>{target.comment_count ? target.comment_count+' 条评论' : '评论'}</span>
