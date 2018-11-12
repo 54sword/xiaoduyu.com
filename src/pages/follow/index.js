@@ -5,9 +5,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadPostsList } from '../../store/actions/posts';
 
-import { getPostsTips } from '../../store/reducers/website';
-import { loadNewPosts } from '../../store/actions/posts';
+import { hasNewFeed } from '../../store/reducers/website';
+import { loadNewFeed } from '../../store/actions/feed';
 import { getProfile } from '../../store/reducers/user';
+import { getFeedListByName } from '../../store/reducers/feed';
 
 // components
 import Shell from '../../components/shell';
@@ -15,7 +16,7 @@ import Meta from '../../components/meta';
 import FeedList from '../../components/feed/list';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
-import NewPostsButton from '../../components/new-posts-button';
+// import NewPostsButton from '../../components/new-posts-button';
 import Box from '../../components/box';
 
 
@@ -55,10 +56,11 @@ let recommend = {
 @connect(
   (state, props) => ({
     me: getProfile(state),
-    postsTips: getPostsTips(state)
+    hasNewFeed: hasNewFeed(state),
+    list: getFeedListByName(state, 'feed')
   }),
   dispatch => ({
-    loadNewPosts: bindActionCreators(loadNewPosts, dispatch)
+    loadNewFeed: bindActionCreators(loadNewFeed, dispatch)
   })
 )
 export default class Follow extends React.Component {
@@ -69,23 +71,16 @@ export default class Follow extends React.Component {
 
   componentDidMount() {
 
-    const { me, postsTips, loadNewPosts } = this.props;
+    const { list, hasNewFeed, loadNewFeed } = this.props;
 
-    if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
-      loadNewPosts();
-    }
+    if (list && hasNewFeed) loadNewFeed();
 
   }
 
   render() {
 
     const self = this;
-    const { me, postsTips, loadNewPosts } = this.props;
-    let tips = false;
-
-    if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
-      tips = true;
-    }
+    const { me, hasNewFeed, loadNewFeed } = this.props;
 
     return(<div>
 
@@ -94,7 +89,7 @@ export default class Follow extends React.Component {
       {/*
       <NewPostsButton />
 
-      {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
+      {tips ? <div onClick={()=>{ loadNewFeed(); }} styleName="unread-tip">有新的帖子</div> : null}
 
       <PostsList
         id={'follow'}
@@ -107,14 +102,14 @@ export default class Follow extends React.Component {
       <Box>
 
         <div>
-          {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
+          {hasNewFeed ? <div onClick={()=>{ loadNewFeed(); }} styleName="unread-tip">有新的帖子</div> : null}
             <FeedList
               id={'follow'}
               filters={general}
               scrollLoad={true}
               />
         </div>
-
+        
         <Sidebar
           recommendPostsDom={(<PostsList
             id={'_follow'}

@@ -1,34 +1,10 @@
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { DateDiff } from '../../common/date';
 import loadList from '../../common/graphql-load-list';
-import graphql from '../../common/graphql';
-import graphqlClient from '../../common/graphql-new';
-import To from '../../common/to';
+// import graphql from '../../common/graphql';
+// import graphqlClient from '../../common/graphql-new';
+// import To from '../../common/to';
 import Utils from '../../common/utils';
-
-// 添加问题
-export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
-  return (dispatch, getState) => {
-
-    return new Promise(async resolve => {
-
-      let [ err, res ] = await graphql({
-        type: 'mutation',
-        api: 'addPosts',
-        args: { title, content: detail, content_html: detailHTML, topic_id: topicId, device_id: device, type },
-        fields: `
-          success
-          _id
-        `,
-        headers: { accessToken: getState().user.accessToken }
-      });
-
-      resolve([ err, res ]);
-
-    })
-
-  }
-}
 
 
 export function loadFeedList({ id, filters, restart = false }) {
@@ -36,190 +12,17 @@ export function loadFeedList({ id, filters, restart = false }) {
 
     let accessToken = accessToken || getState().user.accessToken;
 
-    /*
-    console.log(filters.variables);
-
-    let [ err ,res ] = await To(graphqlClient({
-      headers: accessToken ? { 'AccessToken': accessToken } : null,
-      apis: [
-        {
-          api: 'posts',
-          args: filters.variables,
-          fields:  `
-            _id
-            comment_count
-            content_html
-            create_at
-            deleted
-            device
-            follow_count
-            ip
-            last_comment_at
-            like_count
-            recommend
-            sort_by_date
-            title
-            topic_id{
-              _id
-              name
-            }
-            type
-            user_id{
-              _id
-              nickname
-              brief
-              avatar_url
-            }
-            verify
-            view_count
-            weaken
-            follow
-            like
-          `
-        },
-        {
-          api: 'comments',
-          args: filters.variables,
-          fields:  `
-            _id
-            content_html
-            create_at
-            reply_count
-            like_count
-            update_at
-            posts_id{
-              _id
-              title
-            }
-            reply_id{
-              _id
-              content_html
-              user_id{
-                _id
-                nickname
-                avatar_url
-              }
-            }
-          `
-        }
-      ]
-    }));
-
-    let feedList = [];
-
-    res.data.posts.map(item=>{
-      item.__type = 'posts';
-      feedList.push(item);
-    });
-
-    res.data.comments.map(item=>{
-      item.__type = 'comment';
-      feedList.push(item);
-    });
-
-    feedList.sort(function(a,b){
-      return new Date(a.create_at).getTime() < new Date(b.create_at).getTime() ? 1 : -1
-    });
-
-    console.log(feedList);
-    */
-
-    // if (id == 'follow') {
+    if (id == 'follow') {
       // 移除提醒
-      // dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips: {} });
-    // }
+      dispatch({ type: 'HAS_NEW_FEED', status: false });
+    }
 
     if (!filters.select) {
-
-
-/*
-filters.select = `
-_id
-user_id{
-  _id
-  nickname
-  brief
-  avatar_url
-}
-posts_id{
-  _id
-  comment_count
-  content_html
-  create_at
-  deleted
-  device
-  follow_count
-  ip
-  last_comment_at
-  like_count
-  recommend
-  sort_by_date
-  title
-  topic_id{
-    _id
-    name
-  }
-  type
-  user_id{
-    _id
-    nickname
-    brief
-    avatar_url
-  }
-  verify
-  view_count
-  weaken
-  follow
-  like
-}
-comment_id{
-  _id
-  parent_id
-  like
-  user_id{
-    _id
-    nickname
-    brief
-    avatar
-    avatar_url
-  }
-  posts_id{
-    _id
-    user_id{
-      _id
-      nickname
-      brief
-      avatar
-      avatar_url
-    }
-    title
-    content_html
-    create_at
-  }
-  like_count
-  reply_count
-  create_at
-  content_html
-  parent_id
-  reply_id{
-    _id
-    content_html
-    create_at
-    user_id{
-      _id
-      nickname
-      brief
-      avatar
-      avatar_url
-    }
-  }
-}
-`
- */
 
       // content
       filters.select = `
       _id
+      create_at
       user_id{
         _id
         nickname
@@ -300,122 +103,8 @@ comment_id{
   }
 }
 
-
-export function viewPostsById({ id, callback = ()=>{ } }) {
-  return async (dispatch, getState) => {
-
-    // 浏览次数累计
-    let viewPosts = reactLocalStorage.get('view-posts') || '';
-    let lastViewPostsAt = reactLocalStorage.get('last-viewed-posts-at') || new Date().getTime();
-
-    // 如果超过1小时，那么浏览数据清零
-    if (new Date().getTime() - lastViewPostsAt > 3600000) viewPosts = '';
-
-    viewPosts = viewPosts.split(',');
-
-    if (!viewPosts[0]) viewPosts = [];
-
-    if (viewPosts.indexOf(id) == -1) {
-      viewPosts.push(id);
-      reactLocalStorage.set('view-posts', viewPosts.join(','));
-      reactLocalStorage.set('last-viewed-posts-at', new Date().getTime());
-
-      let [ err, res ] = await graphql({
-        type: 'mutation',
-        api: 'viewPosts',
-        args: { posts_id: id },
-        fields: `success`
-      });
-
-      if (res && res.success) {
-        dispatch({ type: 'UPDATE_POSTS_VIEW', id: id })
-      }
-
-    }
-
-  }
-}
-
-
-export function updatePosts({ id, title, detail, detailHTML, topicId, topicName, device, type }) {
-  return async (dispatch, getState) => {
-  return new Promise(async (resolve, reject) => {
-
-    let args = {
-      _id: id, title, content: detail, content_html: detailHTML, topic_id: topicId
-    }
-
-    let [ err, res ] = await graphql({
-      type: 'mutation',
-      api: 'updatePosts',
-      args: JSON.parse(JSON.stringify(args)),
-      fields: `
-        success
-      `,
-      headers: { accessToken: getState().user.accessToken }
-    });
-
-    if (err) {
-      return reject(err)
-    }
-
-    args.topic_id = {
-      _id: topicId,
-      name: topicName
-    }
-
-    dispatch({ type: 'UPDATE_POST', id: id, update: args });
-    let postsList = getState().posts;
-
-    for (let i in postsList) {
-      if (postsList[i].data) {
-        postsList[i].data = processPostsList(postsList[i].data)
-      }
-    }
-
-    dispatch({ type: 'UPDATE_POST', state: postsList })
-
-    resolve(res)
-
-  })
-  }
-}
-
-
-
-// 图像优化，给html中的img图片，增加一些七牛参数，优化最大宽度，格式等
-const imageOptimization = (str) => {
-
-  let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
-  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-
-  let result = [];
-  let img;
-  while (img = imgReg.exec(str)) {
-    let oldImgDom = img[0];
-
-    if (oldImgDom) {
-
-      let _img = oldImgDom.match(srcReg);
-
-      if (_img && _img[1]) {
-        let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/800/auto-orient/format/jpg');
-        str = str.replace(oldImgDom, newImg);
-      }
-
-    }
-
-  }
-
-  return str
-
-}
-
-
 // 加工问题列表
 const processPostsList = (list) => {
-
-  // console.log(list);
 
   list.map(function(item){
 
@@ -441,7 +130,7 @@ const processPostsList = (list) => {
         posts.content_summary = textContent;
 
         // 获取内容中所有的图片
-        posts.content_html = imageOptimization(posts.content_html);
+        posts.content_html = Utils.htmlImageOptimization(posts.content_html);
       }
 
       if (posts.create_at) posts._create_at = DateDiff(posts.create_at);
@@ -508,22 +197,21 @@ const processPostsList = (list) => {
 
 
 // 获取新的主题，插入到 follow posts list
-export function loadNewPosts(timestamp) {
+export function loadNewFeed(timestamp) {
   return async (dispatch, getState) => {
 
     let profile =  getState().user.profile;
-    let postsList = getState().posts['follow'] || {};
-    let lastPosts = postsList.data ? postsList.data[0] : null;
+    let list = getState().feed['follow'] || {};
+    let lastFeed = list.data ? list.data[0] : null;
 
-    if (!lastPosts) return;
+    if (!lastFeed) return;
 
-    let [ err, res ] = await loadPostsList({
-      id:'new-posts',
+    let [ err, res ] = await loadFeedList({
+      id:'new-feed',
       filters:{
         variables: {
-          method: 'user_follow',
-          start_create_at: new Date(new Date(lastPosts.create_at).getTime() + 1000)+'',
-          sort_by: 'create_at'
+          start_create_at: new Date(new Date(lastFeed.create_at).getTime() + 1000)+'',
+          sort_by: "create_at:-1",
         }
       },
       restart: true
@@ -534,13 +222,20 @@ export function loadNewPosts(timestamp) {
       // 填写新帖子到顶部
       let i = res.data.length;
       while (i--) {
-        postsList.data.unshift(res.data[i]);
+        list.data.unshift(res.data[i]);
       }
-      dispatch({ type: 'SET_POSTS_LIST_BY_NAME', name: 'follow', data: postsList });
+      dispatch({ type: 'SET_FEED_LIST_BY_NAME', name: 'follow', data: list });
+
+      if (new Date(list.data[0].create_at).getTime() < new Date(profile.last_find_feed_at).getTime()) {
+        dispatch({ type: 'HAS_NEW_FEED', status: true });
+      } else {
+        dispatch({ type: 'HAS_NEW_FEED', status: false });
+      }
 
       // 更新最近获取follow帖子的时间
-      profile.last_find_posts_at = postsList.data[0].create_at;
+      profile.last_find_posts_at = list.data[0].create_at;
       dispatch({ type: 'SET_USER', userinfo: profile });
+
     }
 
   }
@@ -548,20 +243,17 @@ export function loadNewPosts(timestamp) {
 }
 
 
-// 新主题通知
-export const newPostsTips = () => {
+// 获取最新一条feed，然后根据创建日期，判断是否有新的feed
+export const updateNewstFeedCreateDate = () => {
   return async (dispatch, getState) => {
 
-    let newPostsTips = getState().website.newPostsTips;
+    let profile =  getState().user.profile;
 
-    let [ err, res ] = await loadPostsList({
-      id: 'tips_follow',
+    let [ err, res ] = await loadFeedList({
+      id: 'newest-feed-create-at',
       filters: {
         variables: {
-          method: 'user_follow',
-          sort_by: "create_at",
-          deleted: false,
-          weaken: false,
+          sort_by: "create_at:-1",
           page_size:1
         },
         select: `create_at`
@@ -570,10 +262,16 @@ export const newPostsTips = () => {
     })(dispatch, getState);
 
     if (res && res.data && res.data.length > 0) {
-      newPostsTips['/follow'] = res.data[0].create_at;
-    }
 
-    dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips });
+      let feed = res.data[0];
+
+      if (new Date(feed.create_at).getTime() > new Date(profile.last_find_feed_at).getTime()) {
+        dispatch({ type: 'HAS_NEW_FEED', status: true });
+      }
+
+    } else {
+      dispatch({ type: 'HAS_NEW_FEED', status: false });
+    }
 
   }
 }

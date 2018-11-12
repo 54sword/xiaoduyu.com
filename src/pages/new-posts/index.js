@@ -34,7 +34,7 @@ export default class createPosts extends React.Component {
 
   async componentDidMount() {
 
-    const { posts_id } = this.props.location.params;
+    const { posts_id, topic_id } = this.props.location.params;
     const { loadPostsList, notFoundPgae } = this.props;
 
     if (posts_id) {

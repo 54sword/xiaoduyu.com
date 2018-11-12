@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
-
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -10,18 +9,15 @@ import { getUnreadNotice } from '../../store/reducers/website';
 import { loadNewNotifications } from '../../store/actions/notification';
 import { getNotificationByName } from '../../store/reducers/notification';
 
-
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import NotificationList from '../../components/user-notification/list';
-// import Sidebar from '../../components/sidebar';
 import Loading from '../../components/ui/loading';
 import Box from '../../components/box';
 
 // style
 import './style.scss';
-
 
 @Shell
 @connect(
@@ -85,18 +81,21 @@ export default class Notifications extends Component {
 
   componentDidMount() {
     const { list, unreadNotice, loadNewNotifications } = this.props;
-    if (unreadNotice.length > 0 && list && list.data && list.data.length > 0) {
-      loadNewNotifications({ name: 'index' });
+    const { pathname } = this.props.location;
+
+    if (pathname == '/notifications' &&
+        unreadNotice.length > 0 && list && list.data && list.data.length > 0
+    ) {
+      loadNewNotifications({ name: '/notifications' });
     }
   }
 
   render () {
 
-    const self = this;
-    const { me, list, unreadNotice, newList } = this.props;
+    const { me, list, unreadNotice, newList, loadNewNotifications } = this.props;
     const { typeList } = this.state;
     const { pathname } = this.props.location;
-
+    
     let filters = {};
 
     let type;
@@ -117,6 +116,7 @@ export default class Notifications extends Component {
     filters.sort_by = 'create_at:-1';
 
     return (<Box><div>
+      
       <Meta title="通知" />
       
       <div styleName="nav-bar" className="d-block d-md-block d-lg-none d-xl-none">
@@ -128,13 +128,21 @@ export default class Notifications extends Component {
         </ul>
       </div>
 
-      {/*(()=>{
+      {(()=>{
+
+        if (pathname != '/notifications') return;
+
+        // console.log(unreadNotice);
+        
         if (newList && newList.loading) {
           return <Loading />
-        } else if (unreadNotice.length > 0 && list && list.data && list.data.length > 0) {
-          return <div onClick={()=>{ self.componentDidMount() }} styleName="unread-tip">你有 {unreadNotice.length} 未读通知</div>
+        } else if (unreadNotice.length > 0) {
+          return <div onClick={()=>{
+            loadNewNotifications({ name: '/notifications' });
+            // this.componentDidMount(); 
+          }} styleName="unread-tip">你有 {unreadNotice.length} 未读通知</div>
         }
-      })()*/}
+      })()}
       
       <NotificationList
         name={pathname}
@@ -148,7 +156,7 @@ export default class Notifications extends Component {
       <ul className="list-group">
         {Reflect.ownKeys(typeList).map(item=>{
           let _type = typeList[item];
-          return (<Link to={`/notifications/${item}`} key={item} className={`list-group-item ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
+          return (<Link to={`/notifications${item == 'unread' ? '' : '/'+item}`} key={item} className={`list-group-item ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
         })}
       </ul>
     </div>

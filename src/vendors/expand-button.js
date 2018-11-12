@@ -44,10 +44,14 @@
     }
 
     for (let i in list) {
-      list[i] = {
-        y: $('#'+i).offset().top,
-        height: $('#'+i).height()
+
+      if ($('#'+i)) {
+        list[i] = {
+          y: $('#'+i).offset().top,
+          height: $('#'+i).height()
+        }
       }
+
     }
 
   }

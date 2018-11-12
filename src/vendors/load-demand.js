@@ -1,5 +1,10 @@
-(function(){
 
+/**
+ * 按需加载
+ * 使用例子：<div class="load-demand" data-load-demand="<img src='***' />"></div>
+ * */
+(function(){
+  
   // 如果是服务器，那么就不存在 window 和 document 全局变量，因此不继续执行
   if (typeof window == 'undefined' || typeof document == 'undefined') {
     return
@@ -33,13 +38,15 @@
 
       if (content == '') continue;
 
+      content = decodeURIComponent(content);
+
       var y1 = getElementViewTop(elements[i])
       var y2 = y1 + elements[i].offsetHeight
       
       if (scrollTop <= y1 && y1 < scrollTop + clientHeight ||
         scrollTop < y2 && y2 < scrollTop + clientHeight
       ) {
-        elements[i].innerHTML = elements[i].getAttribute('data-load-demand') + elements[i].innerHTML;
+        elements[i].innerHTML = content + elements[i].innerHTML;
         elements[i].setAttribute('data-load-demand', '');
       }
     }

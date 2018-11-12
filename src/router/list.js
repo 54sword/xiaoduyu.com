@@ -178,6 +178,7 @@ export default [
     enter: 'member'
   },
 
+  /*
   {
     path: '/notifications/unread',
     exact: true,
@@ -188,6 +189,7 @@ export default [
     }),
     enter: 'member'
   },
+  */
 
   {
     path: '/notifications/comment',
@@ -450,6 +452,17 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/agreement'),
+      loading: () => <Loading />
+    }),
+    enter: 'everybody'
+  },
+
+  {
+    path: '/apps',
+    exact: true,
+    // head: Head,
+    component: Loadable({
+      loader: () => import('../pages/apps'),
       loading: () => <Loading />
     }),
     enter: 'everybody'

@@ -1,5 +1,6 @@
 import React from 'react';
 import { reactLocalStorage } from 'reactjs-localstorage';
+import { withRouter } from 'react-router';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -17,6 +18,7 @@ import Editor from '../editor';
 import './style.scss';
 
 
+@withRouter
 @connect(
   (state, props) => ({
     topicList: getTopicListByName(state, 'new-posts')
@@ -64,15 +66,17 @@ class EditorPosts extends React.Component {
   }
 
 
-  componentDidMount() {
+  async componentDidMount() {
 
     const self = this;
     const { _id, type, title, contentStateJSON } = this.state;
     const { topicList, loadTopics } = this.props;
 
+    const { topic_id } = this.props.location.params;
+    
     // 加载话题
     if (!topicList.data) {
-      loadTopics({
+      await loadTopics({
         id: 'new-posts',
         filters: {
           variables: {
@@ -82,6 +86,24 @@ class EditorPosts extends React.Component {
         }
       });
     }
+
+    if (topic_id) {
+
+      let topic;
+
+      this.props.topicList.data.map(item=>{
+        item.children.map(item=>{
+          if (item._id == topic_id) topic = item;
+        })
+      });
+
+      if (topic) {
+        this.setState({ topic })
+      }
+      
+    }
+
+
 
     if (_id) {
       var _content = contentStateJSON

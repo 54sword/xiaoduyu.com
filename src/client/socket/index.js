@@ -6,7 +6,8 @@ import { socket_url } from '../../../config';
 // redux actions
 import { loadUnreadCount, cancelNotiaction } from '../../store/actions/notification';
 import { setOnlineUserCount } from '../../store/actions/website';
-import { newPostsTips } from '../../store/actions/posts';
+// import { newPostsTips } from '../../store/actions/posts';
+import { updateNewstFeedCreateDate } from '../../store/actions/feed';
 
 export default function ({ dispatch, getState }) {
 
@@ -32,15 +33,19 @@ export default function ({ dispatch, getState }) {
         handleActions(loadUnreadCount);
       }
     });
-
+    
     // 取消通知
     this.on("cancel-notiaction", function(id) {
       handleActions(cancelNotiaction, {id});
     });
 
     // 最帖子通知
-    this.on("new-posts", function(timestamp) {
-      handleActions(newPostsTips);
+    // this.on("new-posts", function(timestamp) {
+      // handleActions(updateNewstFeedCreateDate);
+    // });
+
+    this.on('new-feed', function(feed){
+      handleActions(updateNewstFeedCreateDate);
     });
 
   });
@@ -52,7 +57,7 @@ export default function ({ dispatch, getState }) {
 
   if (me && me._id) {
     handleActions(loadUnreadCount, {});
-    handleActions(newPostsTips);
+    handleActions(updateNewstFeedCreateDate);
   }
 
 }

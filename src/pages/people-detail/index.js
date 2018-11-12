@@ -18,6 +18,7 @@ import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';
 import FollowList from '../../components/follow-list';
 import PostsList from '../../components/posts/list';
+import FeedList from '../../components/feed/list';
 
 // styles
 import './index.scss';
@@ -70,6 +71,21 @@ export default class PeopleDetailHead extends React.Component {
 
     this.state = {
       typeList: {
+
+        '/': (<FeedList
+          id={id}
+          filters={{
+            variables: {
+              user_id: id,
+              // method: 'user_follow',
+              sort_by: "create_at:-1"
+              // deleted: false,
+              // weaken: false
+            }
+          }}
+          scrollLoad={true}
+        />),
+
         '/comments': (<CommentList
           name={id}
           filters={{
@@ -189,14 +205,11 @@ export default class PeopleDetailHead extends React.Component {
         }
       });
 
-      // console.log(err);
-      // console.log(list)
-
     }
-
-    // if (list && list.data && !list.data[0]) {
-      // notFoundPgae('该用户不存在');
-    // }
+    
+    if (list && list.data && !list.data[0]) {
+      notFoundPgae('该用户不存在');
+    }
 
   }
 
@@ -212,9 +225,7 @@ export default class PeopleDetailHead extends React.Component {
 
     pathname = pathname.replace('/people/'+people._id, '');
 
-    if (!pathname) {
-      pathname = '/posts'
-    }
+    if (!pathname) pathname = '/';
     
     return (<Box>
       <div>
@@ -238,76 +249,38 @@ export default class PeopleDetailHead extends React.Component {
             <div>{people.brief}</div>
           </div>
 
-          {/* 
-          <div styleName="tab">
-            <NavLink exact to={`/people/${people._id}`}>
-                <span>{people.posts_count > 0 ? people.posts_count : 0}</span>帖子
-              </NavLink>
-            
-            <NavLink exact to={`/people/${people._id}/comments`}>
-              <span>{people.comment_count > 0 ? people.comment_count : 0}</span>评论
-              </NavLink>
-            
-            <NavLink exact to={`/people/${people._id}/follow/topics`}>
-              <span>{people.follow_topic_count > 0 ? people.follow_topic_count : 0}</span>话题
-              </NavLink>
-
-            <NavLink exact to={`/people/${people._id}/follow/peoples`}>
-              <span>{people.follow_people_count > 0 ? people.follow_people_count : 0}</span>关注的人
-              </NavLink>
-            <NavLink exact to={`/people/${people._id}/fans`}>
-              <span>{people.fans_count > 0 ? people.fans_count : 0}</span>粉丝
-              </NavLink>
-            
-          </div>
-          */}
-
         </div>
 
-        <div>
-          {typeList[pathname]}
-        </div>
+        <div>{typeList[pathname]}</div>
 
       </div>
       
       <Sidebar>
         <div className="list-group">
-
-          <div className="list-group-item">
-            <NavLink exact to={`/people/${people._id}`}>
+          
+          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}`}>
             动态
-            </NavLink>
-          </div>
-        
-          <div className="list-group-item">
-            <NavLink exact to={`/people/${people._id}/posts`}>
-            帖子 {people.posts_count > 0 ? people.posts_count : 0}
-            </NavLink>
-          </div>
-            
-          <div className="list-group-item">
-            <NavLink exact to={`/people/${people._id}/fans`}>
-              粉丝 {people.fans_count > 0 ? people.fans_count : 0}
-            </NavLink>
-          </div>
+          </NavLink>
+      
+          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/posts`}>
+            帖子 {people.posts_count > 0 ? <span class="badge badge-primary badge-pill">{people.posts_count}</span> : 0}
+          </NavLink>
 
-          <div className="list-group-item">
-            <NavLink exact to={`/people/${people._id}/follow/peoples`}>
-            关注的人{people.follow_people_count > 0 ? people.follow_people_count : 0}
-            </NavLink>
-          </div>
+          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/fans`}>
+            粉丝 {people.fans_count > 0 ? <span class="badge badge-primary badge-pill">{people.fans_count}</span> : 0}
+          </NavLink>
+
+          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/follow/peoples`}>
+            关注的人{people.follow_people_count > 0 ? <span class="badge badge-primary badge-pill">{people.follow_people_count}</span> : 0}
+          </NavLink>
           
-          <div className="list-group-item">
-            <NavLink exact to={`/people/${people._id}/follow/posts`}>
-              关注的帖子{people.follow_posts_count > 0 ? people.follow_posts_count : 0}
-            </NavLink>
-          </div>
+          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/follow/posts`}>
+            关注的帖子{people.follow_posts_count > 0 ? <span class="badge badge-primary badge-pill">{people.follow_posts_count}</span> : 0}
+          </NavLink>
           
-          <div className="list-group-item">
-            <NavLink exact to={`/people/${people._id}/follow/topics`}>
-              关注的话题 {people.follow_topic_count > 0 ? people.follow_topic_count : 0}
-            </NavLink>
-          </div>
+          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/follow/topics`}>
+            关注的话题 {people.follow_topic_count > 0 ? <span class="badge badge-primary badge-pill">{people.follow_topic_count}</span> : 0}
+          </NavLink>
 
         </div>
       </Sidebar>

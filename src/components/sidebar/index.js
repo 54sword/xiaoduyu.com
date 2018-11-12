@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import QRCode from 'qrcode.react';
 
-import { name } from '../../../config';
+import { name, domain_name } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -28,16 +30,29 @@ export default class Sidebar extends React.Component {
 
   static defaultProps = {
     // 推荐帖子html
-    recommendPostsDom: ''
+    recommendPostsDom: '',
+    showFooter: true
   }
 
   constructor(props) {
     super(props);
+    this.state = {
+      appsUrl: ''
+    }
+  }
+
+  componentDidMount() {
+
+    this.setState({
+      appsUrl: window.location.origin+'/apps'
+    })
+
   }
 
   render() {
 
-    const { isMember, me, recommendPostsDom, onlineCount } = this.props
+    const { isMember, me, recommendPostsDom, onlineCount, showFooter } = this.props
+    const { appsUrl } = this.state;
 
     /*
     <div className="card">
@@ -47,11 +62,15 @@ export default class Sidebar extends React.Component {
         </Link>
       </div>
     </div>
+
     */
 
     let footer = (<div styleName="footer">
                     <div>
                       <a href="mailto:shijian.wu@hotmail.com">联系作者</a>
+                      {isMember ?
+                        <Link to="/new-posts?topic_id=58b7f69ee2c9ef85541619d5">建议与反馈</Link> :
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in">建议与反馈</a>}
                     </div>
                     {/*
                     <div>
@@ -62,6 +81,7 @@ export default class Sidebar extends React.Component {
                     2017-{new Date().getFullYear()} {name}<br />
                     <a href="http://www.miitbeian.gov.cn" target="_blank">浙ICP备14013796号-3</a>
                   </div>);
+    if (!showFooter) footer = null;
 
     if (this.props.children) {
       return (<div>
@@ -85,11 +105,11 @@ export default class Sidebar extends React.Component {
         <div className="card">
           <div className="card-body" styleName="slogan">
             <h1>小度鱼是什么社区？</h1>
-            <h2>自然生长的讨论型社区</h2>
-            <div><a href="#">建议</a> <a href="#">反馈</a></div>
+            <h2>自然生长的交流讨论社区</h2>
+            {/*<div><a href="#">建议</a> <a href="#">反馈</a></div>*/}
             {/*<h2>可能是技术人交流的地方</h2>*/}
             <div>
-              <a href="#" className="btn btn-primary">加入社区</a>
+              <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in" className="btn btn-primary">加入社区</a>
             </div>
             <div>下载小度鱼APP</div>
           </div>
@@ -107,7 +127,19 @@ export default class Sidebar extends React.Component {
           </div>
         </div>
         : null}
+        
+      <div className="card">
+        <div className="card-header">APP下载</div>
+        <div className="card-body">
+          
+          <div className="text-center">
+            {appsUrl ? <QRCode value={appsUrl} />: null}
+            <div className="mt-1" style={{color:'#888'}}>iOS / Android 扫码直接下载</div>
+          </div>
 
+        </div>
+      </div>
+        
       <div className="card">
         <div className="card-header">小度鱼社区相关开源</div>
         <div className="card-body">

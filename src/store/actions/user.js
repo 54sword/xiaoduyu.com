@@ -57,6 +57,7 @@ export const loadUserInfo = ({ accessToken }) => {
         area_code
         find_notification_at
         last_find_posts_at
+        last_find_feed_at
         has_password
         `,
         headers: {

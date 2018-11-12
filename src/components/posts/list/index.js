@@ -39,6 +39,13 @@ import './style.scss';
 // @CSSModules(styles)
 export default class PostsList extends Component {
 
+  static propTypes = {
+    // 列表id
+    id: PropTypes.string.isRequired,
+    // 列表的筛选条件
+    filters: PropTypes.object.isRequired
+  }
+
   static defaultProps = {
     // 显示项
     itemName: 'posts-item',
@@ -46,13 +53,6 @@ export default class PostsList extends Component {
     showPagination: false,
     // 滚动底部加载更多
     scrollLoad: false
-  }
-
-  static propTypes = {
-    // 列表id
-    id: PropTypes.string.isRequired,
-    // 列表的筛选条件
-    filters: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -92,7 +92,7 @@ export default class PostsList extends Component {
 
     // 没有结果
     if (!loading && data && data.length == 0 && !more) {
-      return <div className="text-center mt-4 md-4">没有查询到结果</div>
+      return <div className="text-center">没有数据</div>
     }
 
     return (<>

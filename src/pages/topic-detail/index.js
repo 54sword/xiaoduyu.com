@@ -107,7 +107,6 @@ const generatePostsFilters = (topic, search) => {
     loadTopics: bindActionCreators(loadTopics, dispatch)
   })
 )
-// @CSSModules(styles)
 export default class TopicsDetail extends React.Component {
 
   constructor(props) {
@@ -168,20 +167,22 @@ export default class TopicsDetail extends React.Component {
       <Box>
 
         <div>
-
+          
         {topic.parent_id ?
-          <div styleName="topic-info">
-            <div styleName="name">
-              <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>
-              {topic.name}
-            </div>
-            <div>{topic.brief}</div>
-            <div styleName="status">
-              {topic.posts_count ? <span>{topic.posts_count} 帖子</span> : null}
-              {topic.comment_count ? <span>{topic.comment_count} 评论</span> : null}
-              {topic.follow_count ? <span>{topic.follow_count} 关注</span> : null}
-            </div>
+          <div styleName="topic-info"  className="d-flex justify-content-between">
             <div>
+              <div styleName="name" className="load-demand" data-load-demand={encodeURIComponent(`<img src=${topic.avatar} />`)}>
+                <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>
+                {topic.name}
+              </div>
+              <div>{topic.brief}</div>
+              <div styleName="status">
+                {topic.posts_count ? <span>{topic.posts_count} 帖子</span> : null}
+                {topic.comment_count ? <span>{topic.comment_count} 评论</span> : null}
+                {topic.follow_count ? <span>{topic.follow_count} 关注</span> : null}
+              </div>
+            </div>
+            <div styleName="actions">
               <Follow topic={topic} />
             </div>
           </div>

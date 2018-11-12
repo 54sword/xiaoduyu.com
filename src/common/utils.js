@@ -63,6 +63,30 @@ const htmlImgToText = (html) => {
 
 }
 
+// 图像优化，给html中的img图片，增加一些七牛参数，优化最大宽度，格式等
+const htmlImageOptimization = str => {
+
+  let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
+  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+
+  let img;
+
+  while (img = imgReg.exec(str)) {
+    let oldImgDom = img[0];
+    if (oldImgDom) {
+      let _img = oldImgDom.match(srcReg);
+      if (_img && _img[1]) {
+        let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/800/auto-orient/format/jpg');
+        str = str.replace(oldImgDom, newImg);
+      }
+    }
+  }
+
+  return str;
+  
+}
+
 exports.abstractImagesFromHTML = abstractImagesFromHTML;
 exports.htmlToString = htmlToString;
 exports.htmlImgToText = htmlImgToText;
+exports.htmlImageOptimization = htmlImageOptimization;

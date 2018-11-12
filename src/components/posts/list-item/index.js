@@ -147,7 +147,7 @@ export default class PostsListItem extends React.PureComponent {
               <i
                 styleName="avatar"
                 className="load-demand"
-                data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}>
+                data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}>
                 </i>
               <b>{posts.user_id.nickname}</b>
               {/*<span styleName="people-brief">{posts.user_id.brief}</span>*/}

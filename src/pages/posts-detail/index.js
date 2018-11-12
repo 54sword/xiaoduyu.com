@@ -81,6 +81,10 @@ export default class PostsDetail extends React.Component {
 
     if (loading || !posts) return (<Loading />);
 
+    console.log(posts);
+
+    const author = posts.user_id;
+
     return(<Box><div styleName="box">
 
       <Meta title={posts.title}>
@@ -160,7 +164,56 @@ export default class PostsDetail extends React.Component {
       {/*</div>*/}
 
     </div>
-    <Sidebar />
+    <Sidebar>
+      <div className="card">
+        <div className="card-header">作者</div>
+        <div className="card-body">
+          <div styleName="nickname"><img src={author.avatar_url} width="50" height="50" />{author.nickname}</div>
+          {author.brief ? <div>{author.brief}</div> : null}
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-header">作者其他帖子</div>
+        <div className="card-body">
+          <PostsList
+            id={'author-hot-'+posts.user_id._id}
+            itemName="posts-item-title"
+            filters={{
+              variables: {
+                user_id: posts.user_id._id,
+                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+                deleted: false,
+                weaken: false,
+                page_size: 10,
+                start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
+              }
+            }}
+            />
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-header">相似话题</div>
+        <div className="card-body">
+          <PostsList
+            id={'hot-'+posts._id}
+            itemName="posts-item-title"
+            filters={{
+              variables: {
+                topic_id: posts.topic_id._id,
+                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+                deleted: false,
+                weaken: false,
+                page_size: 10,
+                start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
+              }
+            }}
+            />
+        </div>
+      </div>
+
+    </Sidebar>
     </Box>)
   }
 

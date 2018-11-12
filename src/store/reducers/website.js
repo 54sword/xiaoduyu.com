@@ -7,15 +7,22 @@ export default function() {
     onlineUserCount: 0,
     goBack: true,
     unreadNotice: [],
-    newPostsTips: {}
+    newPostsTips: {},
+    // 最新一条feed创建日期（用户关注的feed流）
+    newestFeedCreateAt: '',
+    // 是否有新的feed
+    hasNewFeed: false
   }
   
   return function website(state = initialState, action = {}) {
 
     switch (action.type) {
-
+      
       case 'SET_ONLINE_USER_COUNT':
-        state.onlineUserCount = action.count
+        if (action.count == state.onlineUserCount) {
+          return state;
+        }
+        state.onlineUserCount = action.count;
         return merge({}, state, {})
 
       case 'SET_GO_BACK':
@@ -34,6 +41,15 @@ export default function() {
       // 添加新主题提醒
       case 'ADD_NEW_POSTS_TIPS':
         state.newPostsTips = action.newPostsTips;
+        return merge({}, state, {})
+
+      // 最新一条feed创建日期
+      case 'NEWEST_FEED_CREATE_AT':
+        state.newestFeedCreateAt = action.newestFeedCreateAt;
+        return merge({}, state, {})
+    
+      case 'HAS_NEW_FEED':
+        state.hasNewFeed = action.status;
         return merge({}, state, {})
 
       // 清空
@@ -70,4 +86,12 @@ export const getUnreadNotice = (state) => {
 // 获取帖子的提醒
 export const getPostsTips = (state) => {
   return state.website.newPostsTips
+}
+
+export const getNewstFeedCreateAt = (state) => {
+  return state.website.newestFeedCreateAt
+}
+
+export const hasNewFeed = (state) => {
+  return state.website.hasNewFeed
 }

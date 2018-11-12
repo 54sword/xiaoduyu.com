@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/sign';
 import { isMember, getProfile } from '../../store/reducers/user';
 import { getTopicListByKey } from '../../store/reducers/topic';
-import { getUnreadNotice, getPostsTips } from '../../store/reducers/website';
+import { getUnreadNotice, hasNewFeed } from '../../store/reducers/website';
 
 // style
 import './style.scss';
@@ -24,7 +24,7 @@ import './style.scss';
     isMember: isMember(state),
     topicList: getTopicListByKey(state, 'head'),
     unreadNotice: getUnreadNotice(state),
-    postsTips: getPostsTips(state)
+    hasNewFeed: hasNewFeed(state)
   }),
   dispatch => ({
     signOut: bindActionCreators(signOut, dispatch)
@@ -79,18 +79,14 @@ export default class Head extends React.Component {
 
   render() {
 
-    const { me, isMember, topicList, unreadNotice, postsTips } = this.props;
+    const { me, isMember, topicList, unreadNotice, hasNewFeed } = this.props;
 
     let nav = [
       { to: '/', name: '首页' }
     ];
-
+    
     if (isMember) {
-      if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
-        nav.push({ to: '/follow', name: '关注', tips: true });
-      } else {
-        nav.push({ to: '/follow', name: '关注' });
-      }
+      nav.push({ to: '/follow', name: '关注', tips: hasNewFeed });
     }
 
     if (topicList) {

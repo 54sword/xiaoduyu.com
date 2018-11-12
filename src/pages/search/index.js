@@ -145,10 +145,12 @@ export default class Search extends React.Component {
         }
 
       })()}
-
+      
     </div>
 
-    <Sidebar />
+    <Sidebar showFooter={false}>
+      <div></div>
+    </Sidebar>
 
     </Box>)
   }
