@@ -56,22 +56,7 @@ module.exports = {
       {
         test: /\.js$/i,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          plugins: [
-            [
-              'react-css-modules',
-              {
-                "generateScopedName": config.class_scoped_name,
-                "filetypes": {
-                  ".scss": {
-                    "syntax": "postcss-scss"
-                  }
-                }
-              }
-            ]
-          ]
-        }
+        loader: 'babel-loader'
       },
       {
         test: /\.scss$/,

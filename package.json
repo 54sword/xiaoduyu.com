@@ -1,14 +1,13 @@
 {
-  "name": "react-starter",
+  "name": "xiaoduyu.com",
   "version": "2.1.0",
-  "description": "小度鱼",
+  "description": "小度鱼社区",
   "scripts": {
     "start": "NODE_ENV=development node ./scripts/start.js",
     "dev": "NODE_ENV=development webpack --config config/webpack/server.dev.js && NODE_ENV=development webpack --config config/webpack/client.dev.js && node ./dist/server/server.js",
-    "pro:test": "NODE_ENV=production webpack --config config/webpack/server.pro.js && NODE_ENV=production webpack --config config/webpack/client.pro.js && node ./dist/server/server.js",
+    "pro": "NODE_ENV=production webpack --config config/webpack/server.pro.js && NODE_ENV=production webpack --config config/webpack/client.pro.js && node ./dist/server/server.js",
     "dist": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js",
-    "server": "node ./dist/server/server.js",
-    "test": "NODE_ENV=production-test webpack --config config/webpack/server.pro.js"
+    "server": "node ./dist/server/server.js"
   },
   "engines": {
     "node": ">=8.6.0"
