@@ -137,6 +137,42 @@ a{
 
   /* button end */
 
+  .navbar-brand{
+    min-height: 45px;
+    padding:0px;
+  }
+
+  .navbar-toggler-icon{
+    width: 22px;
+    height: 22px;
+  }
+  
+  .nav-link{
+    padding:0px 10px 0 10px !important;
+    height: 45px;
+    line-height: 45px !important;
+  }
+
+  @media (min-width: 0px) and (max-width: 991.98px) {
+
+    .navbar-brand{
+      width:100%;
+      text-align: center;
+    }
+
+    .navbar-toggler{
+      top:7px;
+      left:0px;
+      position: fixed;
+      border:none;
+    }
+    .navbar-collapse{
+      // background-color: #333;
+      padding:0 10px 0 10px;
+    }
+
+  }
+
 }
 
 .modal-body{

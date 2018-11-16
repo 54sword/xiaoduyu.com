@@ -1,16 +1,34 @@
 import React, { PureComponent } from 'react';
 
+// redux
+import { connect } from 'react-redux';
+import { isMember } from '../../store/reducers/user';
+
+
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
 import Box from '../../components/box';
+import NewPostsButton from '../../components/new-posts-button';
+
+// styles
+import './index.scss';
 
 @Shell
+@connect(
+  (state, props) => ({
+    isMember: isMember(state)
+  }),
+  dispatch => ({
+  })
+)
 export default class Home extends PureComponent {
 
   render() {
+
+    const { isMember } = this.props;
 
     return(<>
 
@@ -18,6 +36,10 @@ export default class Home extends PureComponent {
 
       <Box>
 
+        <div>
+
+        <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
+          
         <PostsList
           id={'home'}
           filters={{
@@ -29,6 +51,7 @@ export default class Home extends PureComponent {
           }}
           scrollLoad={true}
           />
+        </div>
 
         <Sidebar
           recommendPostsDom={(
@@ -41,7 +64,7 @@ export default class Home extends PureComponent {
                   deleted: false,
                   weaken: false,
                   page_size: 10,
-                  start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
+                  start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
                 }
               }}
               />

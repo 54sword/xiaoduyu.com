@@ -23,10 +23,10 @@ export class NewPostsButton extends React.Component {
   }
 
   render() {
-    const { isMember } = this.props;
+    const { isMember, className } = this.props;
     //  className="d-md-none d-lg-none d-xl-none"
     if (isMember) {
-      return (<Link to="/new-posts" styleName="new-posts">创建帖子</Link>)
+      return (<Link to="/new-posts" styleName="new-posts" className={className}>创建帖子</Link>)
     }
     return '';
   }

@@ -105,7 +105,7 @@ export default class CommentDetail extends React.Component {
         <Link to={`/posts/${comment.posts_id._id}`}>
           <h1>{comment.posts_id.title}</h1>
         </Link>
-        {comment.posts_id.content_html ? <div>{comment.posts_id.content_html}</div> : null}
+        {comment.posts_id.content_html ? <HTMLText content={comment.posts_id.content_html} /> : null}
       </div>
 
       <div styleName="content">

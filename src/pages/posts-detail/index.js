@@ -168,8 +168,11 @@ export default class PostsDetail extends React.Component {
       <div className="card">
         <div className="card-header">作者</div>
         <div className="card-body">
-          <div styleName="nickname"><img src={author.avatar_url} width="50" height="50" />{author.nickname}</div>
-          {author.brief ? <div>{author.brief}</div> : null}
+          <div styleName="nickname" style={author.brief ? {} : { lineHeight:'50px'}}>
+            <img src={author.avatar_url} width="50" height="50" />
+            <b>{author.nickname}</b>
+            {author.brief ? <div>{author.brief}</div> : null}
+          </div>
         </div>
       </div>
 
@@ -186,7 +189,7 @@ export default class PostsDetail extends React.Component {
                 deleted: false,
                 weaken: false,
                 page_size: 10,
-                start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
+                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
               }
             }}
             />
@@ -206,7 +209,7 @@ export default class PostsDetail extends React.Component {
                 deleted: false,
                 weaken: false,
                 page_size: 10,
-                start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
+                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
               }
             }}
             />

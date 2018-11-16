@@ -72,7 +72,7 @@ export default class Signin extends Component {
     if (!account.value) return account.focus();
     if (!password.value) return password.focus();
     if (captcha && !captcha.value) return captcha.focus();
-
+    
     let data = {
       password: password.value
     }

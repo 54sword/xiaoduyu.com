@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
 const config = require('../index');
-const devMode = process.env.NODE_ENV !== 'production';
+const devMode = process.env.NODE_ENV == 'development' ? true : false;
 
 module.exports = {
   
@@ -62,7 +62,7 @@ module.exports = {
             [
               'react-css-modules',
               {
-                "generateScopedName": "[name]_[local]__[hash:base64:5]",
+                "generateScopedName": config.class_scoped_name,
                 "filetypes": {
                   ".scss": {
                     "syntax": "postcss-scss"
@@ -73,8 +73,6 @@ module.exports = {
           ]
         }
       },
-
-
       {
         test: /\.scss$/,
         use: [

@@ -5,9 +5,10 @@
   "scripts": {
     "start": "NODE_ENV=development node ./scripts/start.js",
     "dev": "NODE_ENV=development webpack --config config/webpack/server.dev.js && NODE_ENV=development webpack --config config/webpack/client.dev.js && node ./dist/server/server.js",
-    "pro-test": "NODE_ENV=production-test webpack --config config/webpack/server.pro.js && NODE_ENV=production webpack --config config/webpack/client.pro.js && node ./dist/server/server.js",
-    "dist": "NODE_ENV=production webpack --config config/webpack/server.pro.js && NODE_ENV=production webpack --config config/webpack/client.pro.js",
-    "server": "node ./dist/server/server.js"
+    "pro:test": "NODE_ENV=production webpack --config config/webpack/server.pro.js && NODE_ENV=production webpack --config config/webpack/client.pro.js && node ./dist/server/server.js",
+    "dist": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js",
+    "server": "node ./dist/server/server.js",
+    "test": "NODE_ENV=production-test webpack --config config/webpack/server.pro.js"
   },
   "engines": {
     "node": ">=8.6.0"
@@ -26,7 +27,7 @@
     "cross-fetch": "^2.2.2",
     "draft-js": "^0.10.5",
     "ejs": "^2.6.1",
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
     "history": "^4.7.2",

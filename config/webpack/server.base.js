@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const HtmlwebpackPlugin = require('html-webpack-plugin');
+// const HtmlwebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -49,7 +49,7 @@ module.exports = {
             [
               'react-css-modules',
               {
-                "generateScopedName": "[name]_[local]__[hash:base64:5]",
+                "generateScopedName": config.class_scoped_name,
                 "filetypes": {
                   ".scss": {
                     "syntax": "postcss-scss"

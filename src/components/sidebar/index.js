@@ -105,13 +105,13 @@ export default class Sidebar extends React.Component {
         <div className="card">
           <div className="card-body" styleName="slogan">
             <h1>小度鱼是什么社区？</h1>
-            <h2>自然生长的交流讨论社区</h2>
+            <h2>自然生长的社区</h2>
             {/*<div><a href="#">建议</a> <a href="#">反馈</a></div>*/}
             {/*<h2>可能是技术人交流的地方</h2>*/}
             <div>
               <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in" className="btn btn-primary">加入社区</a>
             </div>
-            <div>下载小度鱼APP</div>
+            {/* <div>下载小度鱼APP</div> */}
           </div>
         </div>
         : null}

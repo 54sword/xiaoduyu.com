@@ -16,7 +16,7 @@ import Meta from '../../components/meta';
 import FeedList from '../../components/feed/list';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
-// import NewPostsButton from '../../components/new-posts-button';
+import NewPostsButton from '../../components/new-posts-button';
 import Box from '../../components/box';
 
 
@@ -40,7 +40,7 @@ let recommend = {
     deleted: false,
     weaken: false,
     page_size: 10,
-    start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30) + ''
+    start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
   },
   select: `
     _id
@@ -87,7 +87,7 @@ export default class Follow extends React.Component {
       <Meta title="关注" />
 
       {/*
-      <NewPostsButton />
+      
 
       {tips ? <div onClick={()=>{ loadNewFeed(); }} styleName="unread-tip">有新的帖子</div> : null}
 
@@ -102,6 +102,7 @@ export default class Follow extends React.Component {
       <Box>
 
         <div>
+          <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
           {hasNewFeed ? <div onClick={()=>{ loadNewFeed(); }} styleName="unread-tip">有新的帖子</div> : null}
             <FeedList
               id={'follow'}
@@ -121,7 +122,7 @@ export default class Follow extends React.Component {
                 deleted: false,
                 weaken: false,
                 page_size: 10,
-                start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
+                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
               }
             }}
             />)}

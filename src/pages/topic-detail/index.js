@@ -17,6 +17,7 @@ import Sidebar from '../../components/sidebar';
 import Follow from '../../components/follow';
 import Loading from '../../components/ui/loading';
 import Box from '../../components/box';
+import NewPostsButton from '../../components/new-posts-button';
 
 // styles
 // import CSSModules from 'react-css-modules';
@@ -91,7 +92,7 @@ const generatePostsFilters = (topic, search) => {
       query: Object.assign({}, query, {
         sort_by: "comment_count,like_count,sort_by_date",
         page_size: 10,
-        start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30) + ''
+        start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
       })
     }
   }
@@ -187,6 +188,8 @@ export default class TopicsDetail extends React.Component {
             </div>
           </div>
           : null}
+
+        <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
 
         {topic.children && topic.children.length > 0 ?
           <div styleName="topic-nav">

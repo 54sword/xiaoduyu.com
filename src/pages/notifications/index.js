@@ -123,7 +123,7 @@ export default class Notifications extends Component {
         <ul className="nav nav-pills nav-justified">
           {Reflect.ownKeys(typeList).map(item=>{
             let _type = typeList[item];
-            return (<Link to={`/notifications/${item}`} key={item} className={`nav-link ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
+            return (<Link to={`/notifications${item == 'unread' ? '' : '/'+item}`} key={item} className={`nav-link ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
           })}
         </ul>
       </div>
