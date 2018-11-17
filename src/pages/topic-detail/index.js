@@ -13,7 +13,6 @@ import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
-// import NewPostsButton from '../../components/new-posts-button';
 import Follow from '../../components/follow';
 import Loading from '../../components/ui/loading';
 import Box from '../../components/box';
@@ -137,7 +136,6 @@ export default class TopicsDetail extends React.Component {
     if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
       this.props = props;
       this.componentDidMount();
-      // window.scrollTo(0, 0);
     }
   }
 
@@ -218,89 +216,6 @@ export default class TopicsDetail extends React.Component {
 
       </Box>
 
-      {/*
-      <div className="container">
-        <div className="row">
-          <div className="col-md-8">
-
-      {topic.parent_id ?
-        <div styleName="topic-info">
-          <div styleName="name">
-            <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>
-            {topic.name}
-          </div>
-          <div>{topic.brief}</div>
-          <div styleName="status">
-            {topic.posts_count ? <span>{topic.posts_count} 帖子</span> : null}
-            {topic.comment_count ? <span>{topic.comment_count} 评论</span> : null}
-            {topic.follow_count ? <span>{topic.follow_count} 关注</span> : null}
-          </div>
-          <div>
-            <Follow topic={topic} />
-          </div>
-        </div>
-        : null}
-
-      {topic.children && topic.children.length > 0 ?
-        <div styleName="topic-nav">
-          {topic.children.map(item=>{
-            return (<Link to={`/topic/${item._id}`} key={item._id}>
-                {item.name}
-              </Link>)
-          })}
-        </div>
-        : null}
-
-        {topic.parent_id ?
-          <NewPostsButton />
-          : null}
-
-        <PostsList
-          id={pathname + search}
-          filters={general}
-          scrollLoad={true}
-          />
-
-
-          </div>
-          <div className="col-md-4">
-            <Sidebar
-              recommendPostsDom={(<PostsList
-                id={'_'+pathname}
-                itemName="posts-item-title"
-                filters={recommend} />)}
-              />
-          </div>
-        </div>
-      </div>
-      */}
-
-      {/*
-      <div className="container">
-
-      <div className="row">
-        <div className="col-md-9">
-
-          <NewPostsButton />
-          <PostsList
-            id={pathname + search}
-            filters={general}
-            scrollLoad={true}
-            />
-
-        </div>
-        <div className="col-md-3">
-          <Sidebar
-            recommendPostsDom={(<PostsList
-              id={'_'+pathname}
-              itemName="posts-item-title"
-              filters={recommend} />)}
-            />
-        </div>
-      </div>
-
-      </div>
-      */}
     </div>)
   }
 

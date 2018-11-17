@@ -76,27 +76,6 @@ module.exports = {
           { loader: `sass` }
         ]
       },
-      
-      /*
-      // scss 文件解析
-      {
-        test: /\.scss$/,
-        use: [
-          'css-hot-loader',
-          { loader: MiniCssExtractPlugin.loader },
-          {
-            loader: `css`,
-            options: {
-              modules: true,
-              localIdentName: config.class_scoped_name,
-              minimize: true,
-              sourceMap: true
-            }
-          },
-          { loader: `sass` }
-        ]
-      },
-      */
 
       // css 解析
       {
@@ -107,7 +86,6 @@ module.exports = {
           { loader: `css` }
         ]
       },
-      
 
       // 小于8K的图片，转 base64
       { test: /\.(png|jpg|gif)$/, loader: 'url?limit=8192' },
@@ -145,6 +123,7 @@ module.exports = {
       reduxState: '<%- reduxState %>',
       head: config.head,
       analysis_script: config.analysis_script
+      // inject: false
     }),
 
     // serviceworker 还在研究中

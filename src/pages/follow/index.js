@@ -3,8 +3,6 @@ import React from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../store/actions/posts';
-
 import { hasNewFeed } from '../../store/reducers/website';
 import { loadNewFeed } from '../../store/actions/feed';
 import { getProfile } from '../../store/reducers/user';
@@ -79,25 +77,11 @@ export default class Follow extends React.Component {
 
   render() {
 
-    const self = this;
     const { me, hasNewFeed, loadNewFeed } = this.props;
 
     return(<div>
 
       <Meta title="关注" />
-
-      {/*
-      
-
-      {tips ? <div onClick={()=>{ loadNewFeed(); }} styleName="unread-tip">有新的帖子</div> : null}
-
-      <PostsList
-        id={'follow'}
-        filters={general}
-        scrollLoad={true}
-        />
-      */}
-
 
       <Box>
 
@@ -129,61 +113,6 @@ export default class Follow extends React.Component {
           />
 
       </Box>
-
-      {/*
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8">
-
-
-            </div>
-            <div className="col-md-4">
-              <Sidebar
-                recommendPostsDom={(<PostsList
-                  id={'_follow'}
-                  itemName="posts-item-title"
-                  filters={{
-                    variables: {
-                      method: 'user_follow',
-                      sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
-                      deleted: false,
-                      weaken: false,
-                      page_size: 10,
-                      start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30)+''
-                    }
-                  }}
-                  />)}
-                />
-            </div>
-          </div>
-        </div>
-      */}
-
-      {/*
-      <div className="container">
-        <div className="row">
-          <div className="col-md-9">
-            <NewPostsButton />
-            {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
-            <PostsList
-              id={'follow'}
-              filters={general}
-              scrollLoad={true}
-              />
-          </div>
-          <div className="col-md-3">
-            <Sidebar
-              recommendPostsDom={(<PostsList
-                id={'_follow'}
-                itemName="posts-item-title"
-                filters={recommend}
-                />)}
-              />
-          </div>
-        </div>
-      </div>
-      */}
-
 
     </div>)
   }

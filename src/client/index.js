@@ -11,7 +11,7 @@ import configureStore from '../store';
 import createRouter from '../router';
 import startSocket from './socket';
 
-import { debug, GA } from '../../config';
+import { debug, GA, analysis_script } from '../../config';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery';
@@ -125,6 +125,8 @@ const run = async () => {
       module.hot.accept();
     }
   }
+
+  $('body').append(`<div style="display:none">${analysis_script}</div>`);
 
 }
 

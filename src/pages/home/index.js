@@ -1,10 +1,5 @@
 import React, { PureComponent } from 'react';
 
-// redux
-import { connect } from 'react-redux';
-import { isMember } from '../../store/reducers/user';
-
-
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
@@ -13,44 +8,32 @@ import Sidebar from '../../components/sidebar';
 import Box from '../../components/box';
 import NewPostsButton from '../../components/new-posts-button';
 
-// styles
-import './index.scss';
-
 @Shell
-@connect(
-  (state, props) => ({
-    isMember: isMember(state)
-  }),
-  dispatch => ({
-  })
-)
 export default class Home extends PureComponent {
 
   render() {
 
-    const { isMember } = this.props;
-
     return(<>
-
+      
       <Meta />
 
       <Box>
 
         <div>
 
-        <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
+          <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
           
-        <PostsList
-          id={'home'}
-          filters={{
-            variables: {
-              sort_by: "sort_by_date",
-              deleted: false,
-              weaken: false
-            }
-          }}
-          scrollLoad={true}
-          />
+          <PostsList
+            id={'home'}
+            filters={{
+              variables: {
+                sort_by: "sort_by_date",
+                deleted: false,
+                weaken: false
+              }
+            }}
+            scrollLoad={true}
+            />
         </div>
 
         <Sidebar

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import QRCode from 'qrcode.react';
+// import AdSense from 'react-adsense';
 
-import { name, domain_name } from '../../../config';
+import { name, domain_name, Goole_AdSense, client_download_url } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -16,6 +17,7 @@ import './style.scss';
 
 // components
 // import PostsList from '../../components/posts/list';
+import AdsByGoogle from '../../components/adsbygoogle';
 
 @connect(
   (state, props) => ({
@@ -37,13 +39,15 @@ export default class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      appsUrl: ''
+      appsUrl: '',
+      loadCompleted: false
     }
   }
 
   componentDidMount() {
 
     this.setState({
+      loadCompleted: true,
       appsUrl: window.location.origin+'/apps'
     })
 
@@ -52,7 +56,7 @@ export default class Sidebar extends React.Component {
   render() {
 
     const { isMember, me, recommendPostsDom, onlineCount, showFooter } = this.props
-    const { appsUrl } = this.state;
+    const { appsUrl, loadCompleted } = this.state;
 
     /*
     <div className="card">
@@ -104,7 +108,7 @@ export default class Sidebar extends React.Component {
       {!isMember ?
         <div className="card">
           <div className="card-body" styleName="slogan">
-            <h1>小度鱼是什么社区？</h1>
+            <h1>{name}是什么社区？</h1>
             <h2>自然生长的社区</h2>
             {/*<div><a href="#">建议</a> <a href="#">反馈</a></div>*/}
             {/*<h2>可能是技术人交流的地方</h2>*/}
@@ -116,6 +120,13 @@ export default class Sidebar extends React.Component {
         </div>
         : null}
 
+      {Goole_AdSense.sidebar ?
+        <div className="card">
+          <div className="card-body text-center">
+            <div style={{margin:"5px auto 0 auto"}}><AdsByGoogle {...Goole_AdSense.sidebar} /></div>
+          </div>
+        </div>
+        : null}
 
       {recommendPostsDom ?
         <div className="card">
@@ -127,18 +138,20 @@ export default class Sidebar extends React.Component {
           </div>
         </div>
         : null}
-        
-      <div className="card">
-        <div className="card-header">APP下载</div>
-        <div className="card-body">
-          
-          <div className="text-center">
-            {appsUrl ? <QRCode value={appsUrl} />: null}
-            <div className="mt-1" style={{color:'#888'}}>iOS / Android 扫码直接下载</div>
-          </div>
+      
+      {client_download_url ?
+        <div className="card">
+          <div className="card-header">APP下载</div>
+          <div className="card-body">
+            
+            <div className="text-center">
+              {appsUrl ? <QRCode value={appsUrl} />: null}
+              <div className="mt-1" style={{color:'#888'}}>iOS / Android 扫码直接下载</div>
+            </div>
 
+          </div>
         </div>
-      </div>
+        : null}
         
       <div className="card">
         <div className="card-header">小度鱼社区相关开源</div>

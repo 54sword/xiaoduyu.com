@@ -1,5 +1,5 @@
 import React from 'react';
-import AdSense from 'react-adsense';
+// import AdSense from 'react-adsense';
 
 import { name, domain_name, Goole_AdSense } from '../../../config';
 
@@ -19,9 +19,9 @@ import PostsDetailC from '../../components/posts/detail';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
 
-
 import Box from '../../components/box';
 import Sidebar from '../../components/sidebar';
+import AdsByGoogle from '../../components/adsbygoogle';
 
 // styles
 import './style.scss';
@@ -81,8 +81,6 @@ export default class PostsDetail extends React.Component {
 
     if (loading || !posts) return (<Loading />);
 
-    console.log(posts);
-
     const author = posts.user_id;
 
     return(<Box><div styleName="box">
@@ -100,14 +98,10 @@ export default class PostsDetail extends React.Component {
       </Meta>
 
 
-      {/*<div className="row">*/}
-
-        {/*<div className="col-md-9">*/}
-
           <PostsDetailC id={posts._id} />
 
           {!isMember && Goole_AdSense && Goole_AdSense.postsDetail ?
-            <AdSense.Google {...Goole_AdSense.postsDetail} /> : null}
+            <div style={{marginBottom:'12px'}}><AdsByGoogle {...Goole_AdSense.postsDetail} /></div> : null}
 
           {posts.comment_count > 0 ?
             <div className="card">
@@ -117,6 +111,8 @@ export default class PostsDetail extends React.Component {
                 name={posts._id}
                 filters={{
                   variables: {
+                    deleted: false,
+                    weaken: false,
                     posts_id: posts._id,
                     parent_id: 'not-exists',
                     page_size:10
@@ -132,36 +128,6 @@ export default class PostsDetail extends React.Component {
               <EditorComment posts_id={posts._id} />
             </div>
             : null}
-
-
-          {/*<AdPostsDetail />*/}
-
-        {/*
-        <div className="col-md-3">
-          {posts && posts.topic_id && posts.topic_id._id ?
-            <Sidebar
-              recommendPostsDom={(<PostsList
-                id={`sidebar-${posts._id}`}
-                itemName="posts-item-title"
-                // showPagination={false}
-                filters={{
-                  variables: {
-                    sort_by: "comment_count,like_count,create_at",
-                    deleted: false,
-                    weaken: false,
-                    page_size: 10,
-                    topic_id: posts.topic_id._id,
-                    start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 7)+''
-                  }
-                }}
-                />)}
-              />
-            : null}
-        </div>
-        */}
-
-      {/*</div>*/}
-      {/*</div>*/}
 
     </div>
     <Sidebar>
