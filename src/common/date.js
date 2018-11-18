@@ -37,6 +37,8 @@ const getDateArray = function(date) {
 }
 
 
+
+
 // 计算两个日期的间隔时间
 export function DateDiff(date1, date2) {
 
@@ -73,15 +75,28 @@ export function DateDiff(date1, date2) {
       var minutes = parseInt( (timestamp - (3600 * hours) ) / 60 );
       time = hours + '小时前';
       break;
+    case timestamp >= 86400 && timestamp < 2592000:
+      time = parseInt(timestamp / 86400) + '天前';
+      break;
     // 一年内
-    case timestamp >= 86400 && timestamp < 31536000:
+    case timestamp >= 2592000 && timestamp < 604800:
       // var dateArr = getDateArray(date1);
       // time = parseInt(dateArr[1])+'月'+parseInt(dateArr[2])+'日 '+dateArr[3]+':'+dateArr[4];
       time = parseInt(timestamp / 86400) + '天前';
       break;
     default:
       var dateArr = getDateArray(date1);
-      time = dateArr[0]+'年'+parseInt(dateArr[1])+'月';
+
+      if (dateArr[0] == new Date().getFullYear()) {
+        // time = dateArr[1]+'-'+dateArr[2] + ' '+dateArr[3]+':'+dateArr[4];
+        time = dateArr[1]+'-'+dateArr[2];
+      } else {
+        // time = dateArr[0]+'-'+dateArr[1]+'-'+dateArr[2] + ' '+dateArr[3]+':'+dateArr[4];
+        time = dateArr[0]+'-'+dateArr[1]+'-'+dateArr[2];
+      }
+
+
+      // time = dateArr[0]+'年'+parseInt(dateArr[1])+'月';
   }
 
   return time;

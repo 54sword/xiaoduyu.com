@@ -5,15 +5,14 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { findFollows } from '../../actions/follow';
-import { getFollowListByName } from '../../reducers/follow';
+import { findFollows } from '../../store/actions/follow';
+import { getFollowListByName } from '../../store/reducers/follow';
 
 // components
 import Follow from '../follow';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -23,7 +22,6 @@ import styles from './style.scss';
     load: bindActionCreators(findFollows, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CommentList extends Component {
 
   static defaultProps = {

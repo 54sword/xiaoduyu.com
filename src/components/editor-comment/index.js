@@ -6,7 +6,7 @@ import { reactLocalStorage } from 'reactjs-localstorage'
 // reudx
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { addComment, updateComment, loadCommentList } from '../../actions/comment'
+import { addComment, updateComment, loadCommentList } from '../../store/actions/comment'
 
 // tools
 import Device from '../../common/device'
@@ -15,8 +15,7 @@ import Device from '../../common/device'
 import Editor from '../editor'
 
 // styles
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 @connect(
   (state, props) => ({
@@ -27,7 +26,6 @@ import styles from './style.scss'
     loadCommentList: bindActionCreators(loadCommentList, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CommentEditor extends Component {
 
   static defaultProps = {

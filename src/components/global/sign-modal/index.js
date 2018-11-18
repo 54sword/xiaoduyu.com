@@ -10,10 +10,8 @@ import SignUp from './sign-up';
 import Modal from '../../bootstrap/modal';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
-@CSSModules(styles)
 export default class SignModal extends Component {
 
   constructor(props) {
@@ -41,7 +39,7 @@ export default class SignModal extends Component {
     });
 
   }
-
+  
   render () {
     const { type } = this.state
 
@@ -85,7 +83,9 @@ export default class SignModal extends Component {
               </div>
               : null}
 
-            <div>登录即表示你同意网站的《<Link to="/agreement" onClick={()=>{ $('#sign').modal('hide'); }}>用户协议</Link>》</div>
+            <div>登录即表示你同意网站的《<Link to="/agreement" onClick={()=>{
+                $('#sign').modal('hide');
+            }}>用户协议</Link>》</div>
           </div>);
 
     return (<div>

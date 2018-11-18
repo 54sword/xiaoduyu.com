@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
+// import { browserHistory } from 'react-router'
 
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+
+import './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { signIn } from '../../../../actions/sign'
-import { addCaptcha } from '../../../../actions/captcha'
-import { getCaptchaById } from '../../../../reducers/captcha'
+import { signIn } from '../../../../store/actions/sign'
+import { addCaptcha } from '../../../../store/actions/captcha'
+import { getCaptchaById } from '../../../../store/reducers/captcha'
 
 @connect(
   (state, props) => ({
@@ -31,7 +31,6 @@ import { getCaptchaById } from '../../../../reducers/captcha'
     signIn: bindActionCreators(signIn, dispatch)
   })
 )
-@CSSModules(styles)
 export default class Signin extends Component {
 
   constructor(props) {
@@ -39,7 +38,7 @@ export default class Signin extends Component {
     super(props)
     this.state = {}
     this.signin = this.signin.bind(this)
-    this.toForgot = this.toForgot.bind(this)
+    // this.toForgot = this.toForgot.bind(this)
     this.getCaptcha = this.getCaptcha.bind(this)
   }
 
@@ -62,16 +61,18 @@ export default class Signin extends Component {
     event.preventDefault();
 
     const { signIn } = this.props;
-    const account = this.refs.account;
-    const password = this.refs.password;
-    const submit = this.refs.submit;
-    const captcha = this.refs.captcha;
+    // const account = this.refs.account;
+    // const password = this.refs.password;
+    // const submit = this.refs.submit;
+    // const captcha = this.refs.captcha;
     const captchaId = this.state.captchaId;
+
+    const { account, password, submit, captcha } = this.state;
 
     if (!account.value) return account.focus();
     if (!password.value) return password.focus();
     if (captcha && !captcha.value) return captcha.focus();
-
+    
     let data = {
       password: password.value
     }
@@ -108,10 +109,11 @@ export default class Signin extends Component {
     return false;
   }
 
-  toForgot () {
+  // toForgot () {
     // this.props.hideSign();
-    browserHistory.push('/forgot');
-  }
+    // browserHistory.push('/forgot');
+    // _history.push('/forgot');
+  // }
 
   render () {
 
@@ -120,17 +122,17 @@ export default class Signin extends Component {
     return (<form onSubmit={this.signin} className="signin">
 
         <div>
-          <input type="text" className="form-control" ref="account" placeholder="手机号或邮箱" />
+          <input type="text" className="form-control" ref={(e)=>{ this.state.account = e; }} placeholder="手机号或邮箱" />
         </div>
 
-        <div><input type="password" className="form-control"  ref="password" placeholder="密码" onFocus={(e)=>{ e.target.value = ''; }} /></div>
+        <div><input type="password" className="form-control" ref={(e)=>{ this.state.password = e; }} placeholder="密码" onFocus={(e)=>{ e.target.value = ''; }} /></div>
 
         {captcha ? <div>
-            <input type="text" className="form-control" placeholder="请输入验证码" ref="captcha" onFocus={(e)=>{ e.target.value = ''; }} />
+            <input type="text" className="form-control" placeholder="请输入验证码" ref={(e)=>{ this.state.captcha = e; }} onFocus={(e)=>{ e.target.value = ''; }} />
             <img styleName="captcha-image" onClick={this.getCaptcha} src={captcha.url} />
           </div> : null}
 
-        <div><input type="submit" ref="submit" className="btn btn-primary" value="登录" /></div>
+        <div><input type="submit" ref={(e)=>{ this.state.submit = e; }} className="btn btn-primary" value="登录" /></div>
 
       </form>)
   }

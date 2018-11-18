@@ -4,22 +4,23 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadTopics } from '../../actions/topic';
-import { loadPostsList } from '../../actions/posts';
-import { getTopicListByKey } from '../../reducers/topic';
+import { loadTopics } from '../../store/actions/topic';
+import { loadPostsList } from '../../store/actions/posts';
+import { getTopicListByKey } from '../../store/reducers/topic';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
-import NewPostsButton from '../../components/new-posts-button';
 import Follow from '../../components/follow';
 import Loading from '../../components/ui/loading';
+import Box from '../../components/box';
+import NewPostsButton from '../../components/new-posts-button';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+// import CSSModules from 'react-css-modules';
+import './style.scss';
 
 /**
  * 分析url上面的参数
@@ -90,13 +91,14 @@ const generatePostsFilters = (topic, search) => {
       query: Object.assign({}, query, {
         sort_by: "comment_count,like_count,sort_by_date",
         page_size: 10,
-        start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30) + ''
+        start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
       })
     }
   }
 
 }
 
+@Shell
 @connect(
   (state, props) => ({
     topicList: getTopicListByKey(state, props.match.params.id)
@@ -105,66 +107,7 @@ const generatePostsFilters = (topic, search) => {
     loadTopics: bindActionCreators(loadTopics, dispatch)
   })
 )
-@CSSModules(styles)
-export class TopicsDetail extends React.Component {
-
-  // 服务端渲染
-  // 加载需要在服务端渲染的数据
-  static loadData({ store, match }) {
-    return new Promise(async (resolve, reject) => {
-
-      const { id } = match.params;
-      let err, result;
-
-      [ err, result ] = await loadTopics({
-        id: id,
-        filters: { variables: { _id: id } }
-      })(store.dispatch, store.getState);
-
-      if (!err && result && result.data && result.data[0]) {
-
-        let { general, recommend } = generatePostsFilters(result.data[0], match.search);
-
-        if (!general.query.topic_id) {
-          resolve({ code:200 });
-          return
-        }
-
-        Promise.all([
-          new Promise(async resolve => {
-            [ err, result ] = await loadPostsList({
-              id: match.pathname + match.search,
-              filters: general
-            })(store.dispatch, store.getState);
-            resolve([ err, result ])
-          }),
-          /*
-          new Promise(async resolve => {
-
-            [ err, result ] = await loadTopics({
-              id: id+'-children',
-              filters: { variables: { parent_id: id } }
-            })(store.dispatch, store.getState);
-
-            resolve([ err, result ]);
-
-            // [ err, result ] = await loadPostsList({
-            //   id: '_'+match.pathname,
-            //   filters: recommend
-            // })(store.dispatch, store.getState);
-            // resolve([ err, result ])
-          })
-          */
-        ]).then(value=>{
-          resolve({ code:200 });
-        });
-
-      } else {
-        resolve({ code:404, text: '该话题不存在' });
-      }
-
-    })
-  }
+export default class TopicsDetail extends React.Component {
 
   constructor(props) {
     super(props);
@@ -193,7 +136,6 @@ export class TopicsDetail extends React.Component {
     if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
       this.props = props;
       this.componentDidMount();
-      // window.scrollTo(0, 0);
     }
   }
 
@@ -221,53 +163,42 @@ export class TopicsDetail extends React.Component {
 
       <Meta title={topic.name} />
 
-      {topic.parent_id ?
-        <div styleName="topic-info">
-          <img src={topic.avatar} styleName="avatar" />
-          <div styleName="name">
-            <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>
-            {topic.name}
-          </div>
-          <div>{topic.brief}</div>
-          <div styleName="status">
-            {topic.posts_count ? <span>{topic.posts_count} 帖子</span> : null}
-            {topic.comment_count ? <span>{topic.comment_count} 评论</span> : null}
-            {topic.follow_count ? <span>{topic.follow_count} 关注</span> : null}
-          </div>
-          <div>
-            <Follow topic={topic} />
-          </div>
-        </div>
-        : null}
+      <Box>
 
-      {topic.children && topic.children.length > 0 ?
-        <div styleName="topic-nav">
-          {topic.children.map(item=>{
-            return (<Link to={`/topic/${item._id}`} key={item._id}>
-                <img src={item.avatar} />
-                {item.name}
-              </Link>)
-          })}
-        </div>
-        : null}
-
+        <div>
+          
         {topic.parent_id ?
-          <NewPostsButton />
+          <div styleName="topic-info"  className="d-flex justify-content-between">
+            <div>
+              <div styleName="name" className="load-demand" data-load-demand={encodeURIComponent(`<img src=${topic.avatar} />`)}>
+                <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>
+                {topic.name}
+              </div>
+              <div>{topic.brief}</div>
+              <div styleName="status">
+                {topic.posts_count ? <span>{topic.posts_count} 帖子</span> : null}
+                {topic.comment_count ? <span>{topic.comment_count} 评论</span> : null}
+                {topic.follow_count ? <span>{topic.follow_count} 关注</span> : null}
+              </div>
+            </div>
+            <div styleName="actions">
+              <Follow topic={topic} />
+            </div>
+          </div>
           : null}
 
-        <PostsList
-          id={pathname + search}
-          filters={general}
-          scrollLoad={true}
-          />
+        <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
 
-      {/*
-      <div className="container">
+        {topic.children && topic.children.length > 0 ?
+          <div styleName="topic-nav">
+            {topic.children.map(item=>{
+              return (<Link to={`/topic/${item._id}`} key={item._id}>
+                  {item.name}
+                </Link>)
+            })}
+          </div>
+          : null}
 
-      <div className="row">
-        <div className="col-md-9">
-
-          <NewPostsButton />
           <PostsList
             id={pathname + search}
             filters={general}
@@ -275,21 +206,17 @@ export class TopicsDetail extends React.Component {
             />
 
         </div>
-        <div className="col-md-3">
-          <Sidebar
-            recommendPostsDom={(<PostsList
-              id={'_'+pathname}
-              itemName="posts-item-title"
-              filters={recommend} />)}
-            />
-        </div>
-      </div>
 
-      </div>
-      */}
+        <Sidebar
+          recommendPostsDom={(<PostsList
+            id={'_'+pathname}
+            itemName="posts-item-title"
+            filters={recommend} />)}
+          />
+
+      </Box>
+
     </div>)
   }
 
 }
-
-export default Shell(TopicsDetail);

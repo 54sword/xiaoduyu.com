@@ -2,7 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Iframe extends React.Component {
+export default class Iframe extends React.Component {
+
+  static propTypes = {
+    src: PropTypes.string.isRequired
+  }
+
 // var Iframe = React.createClass({
     // displayName: "iframe"
 
@@ -38,8 +43,8 @@ allowfullscreen
     }
 }
 
-Iframe.propTypes = {
-  src: PropTypes.string.isRequired
-}
+// Iframe.propTypes = {
+  // src: PropTypes.string.isRequired
+// }
 
-module.exports = Iframe;
+// module.exports = Iframe;

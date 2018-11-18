@@ -5,8 +5,8 @@ import { withRouter, Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadNotifications, updateNotification } from '../../../actions/notification';
-import { getNotificationByName } from '../../../reducers/notification';
+import { loadNotifications, updateNotification } from '../../../store/actions/notification';
+import { getNotificationByName } from '../../../store/reducers/notification';
 
 // tools
 import { DateDiff } from '../../../common/date';
@@ -17,10 +17,8 @@ import HTMLText from '../../html-text';
 import Pagination from '../../pagination';
 
 // style
-import CSSModules from 'react-css-modules';
 import styles from './style.scss';
 
-@CSSModules(styles)
 export default class NotificationListItem extends Component {
 
   static propTypes = {

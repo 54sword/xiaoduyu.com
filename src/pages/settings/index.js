@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types'
-import { Route, Link } from 'react-router-dom';
-// import Loadable from 'react-loadable';
+import { Link } from 'react-router-dom';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { signOut } from '../../actions/sign';
-import { getProfile } from '../../reducers/user';
+import { signOut } from '../../store/actions/sign';
+import { getProfile } from '../../store/reducers/user';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-// import Sidebar from '../../components/sidebar';
+import Box from '../../components/box';
+import Avatar from '../../components/settings/avatar';
+import Brief from '../../components/settings/brief';
+import Email from '../../components/settings/email';
+import Gender from '../../components/settings/gender';
+import Nickname from '../../components/settings/nickname';
+import Oauth from '../../components/settings/oauth';
+import Password from '../../components/settings/password';
+import Phone from '../../components/settings/phone';
+import Block from '../../components/settings/block';
 
 // tools
-import { Countdown } from '../../common/date';
+// import { Countdown } from '../../common/date';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
-
-const Topic = ({ match }) => (
-  <div>
-    <h3>{match.params.topicId}</h3>
-  </div>
-);
+import './style.scss';
 
 @Shell
 @connect(
@@ -36,11 +36,63 @@ const Topic = ({ match }) => (
     signOut: bindActionCreators(signOut, dispatch)
   })
 )
-@CSSModules(styles)
 export default class Settings extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      typeList: {
+          account: {
+            name: '账号与密码',
+            url: '/settings',
+          },
+          avatar: {
+            name: '头像',
+            url: '/settings/avatar',
+            components: Avatar
+          },
+          brief: {
+            name: '个性签名',
+            url: '/settings/brief',
+            components: Brief
+          },
+          // email: {
+          //   name: '邮箱',
+          //   url: '/settings/email',
+          //   components: Email
+          // },
+          gender: {
+            name: '性别',
+            url: '/settings/gender',
+            components: Gender
+          },
+          nickname: {
+            name: '昵称',
+            url: '/settings/nickname',
+            components: Nickname
+          },
+          nickname: {
+            name: '屏蔽',
+            url: '/settings/block',
+            components: Block
+          },
+          // oauth: {
+          //   name: '第三方社交账号',
+          //   url: '/settings/oauth',
+          //   components: Oauth
+          // },
+          // password: {
+          //   name: '密码',
+          //   url: '/settings/password',
+          //   components: Password
+          // }
+          // password: {
+          //   name: '手机',
+          //   url: '/settings/phone',
+          //   components: Phone
+          // }
+      }
+    }
     this.handleSignout = this.handleSignout.bind(this)
   }
 
@@ -54,140 +106,63 @@ export default class Settings extends Component {
 
   render() {
 
+    const { me } = this.props;
+    const { pathname } = this.props.location;
+    const { typeList } = this.state;
 
-    const { me } = this.props
+    let type;
 
-    // 昵称
-    let resetNickname = (<Link className="list-group-item" to="/settings/nickname">
-      <div className="d-flex justify-content-between">
-        <span>修改名字</span>
-        <span>{me.nickname}</span>
-      </div>
-    </Link>)
-
-    const countdown = Countdown(new Date(), me.nickname_reset_at)
-
-    let timer = ''
-
-    if (countdown.days > 0) timer += countdown.days + '天'
-    if (countdown.hours > 0) timer += countdown.hours + '小时'
-    if (countdown.mintues > 0) timer += countdown.mintues + '分钟'
-
-    // 上次修改的事件，要小于120天 // 1036800
-    if (timer) {
-      resetNickname = <a className="list-group-item" href="javascript:void(0);">
-        <div className="d-flex justify-content-between">
-          <span>修改名字</span>
-          <span>{me.nickname} ({timer}后才能修改)</span>
-        </div>
-      </a>
+    if (pathname == '/settings') {
+      type = typeList['account'];
+    } else {
+      Reflect.ownKeys(typeList).map(item=>{
+        let _type = typeList[item];
+        if (_type.url == pathname) type = _type;
+      });
     }
 
-    // 邮箱
-    let email = (<Link className="list-group-item" to="/settings/email">
-          <div className="d-flex justify-content-between">
-            <span>邮箱</span>
-            <span>{me.email || '未绑定'}</span>
-          </div>
-        </Link>);
+    if (!type) {
+      return (<div>设置项不存在</div>);
+    }
 
-    let phone = (<Link className="list-group-item" to="/settings/binding-phone">
-        <div className="d-flex justify-content-between">
-          <span>手机号</span>
-          <span>{me.phone || '未绑定'}</span>
-        </div>
-      </Link>);
-
-    return (
+    return (<Box>
       <div>
-        <Meta title='设置' />
-        <div styleName="main">
 
-          <div className="list-group mb-2">
-            <Link className="list-group-item" to="/settings/avatar">
-              <div className="d-flex justify-content-between">
-                <span>头像</span>
-                <span>
-                  <img src={me.avatar_url} styleName="avatar" />
-                </span>
-              </div>
-            </Link>
-            {resetNickname}
-            <Link className="list-group-item" to="/settings/gender">
-              <div className="d-flex justify-content-between">
-                <span>性别</span>
-                <span>{me.gender != null ? (me.gender == 1 ? '男' : '女') : ''}</span>
-              </div>
-            </Link>
-            <Link className="list-group-item" to="/settings/brief">
-              <div className="d-flex justify-content-between">
-                <span>个性签名</span>
-                <span>{me.brief}</span>
-              </div>
-            </Link>
-          </div>
+        <Meta title={type ? type.name : '设置'} />
 
-          <div className="list-group mb-2">
-            {me.email || me.phone ? <Link className="list-group-item" to="/settings/password">修改密码</Link> : null}
-          </div>
-
-          <div className="list-group mb-2">
-            {email}
-            {phone}
-            <Link className="list-group-item" to="/settings/oauth/qq">
-              <div className="d-flex justify-content-between">
-                <span>QQ</span>
-                <span>{me.qq ? '已绑定' : '未绑定' }</span>
-              </div>
-            </Link>
-            <Link className="list-group-item" to="/settings/oauth/weibo">
-              <div className="d-flex justify-content-between">
-                <span>微博</span>
-                <span>{me.weibo ? '已绑定' : '未绑定' }</span>
-              </div>
-            </Link>
-            <Link className="list-group-item" to="/settings/oauth/github">
-              <div className="d-flex justify-content-between">
-                <span>GitHub</span>
-                <span>{me.github ? '已绑定' : '未绑定' }</span>
-              </div>
-            </Link>
-          </div>
-
-          <div className="list-group mb-2">
-
-            {me.block_people_count > 0 ?
-              <Link className="list-group-item" to="/block/peoples">
-                <div className="d-flex justify-content-between">
-                  <span>你不感兴趣的用户</span>
-                  <span>{me.block_people_count} 个人</span>
-                </div>
-              </Link>
-              : null}
-
-            {me.block_posts_count > 0 ?
-              <Link className="list-group-item" to="/block/posts">
-                <div className="d-flex justify-content-between">
-                  <span>你不感兴趣的帖子</span>
-                  <span>{me.block_posts_count} 个帖子</span>
-                </div>
-              </Link>
-              : null}
-
-            {me.block_comment_count > 0 ?
-              <Link className="list-group-item" to="/block/comments">
-                <div className="d-flex justify-content-between">
-                  <span>你不感兴趣的评论</span>
-                  <span>{me.block_comment_count} 个评论</span>
-                </div>
-              </Link>
-              : null}
-
-          </div>
-
+        <div styleName="nav-bar" className="d-block d-md-block d-lg-none d-xl-none">
+          <ul className="nav nav-pills nav-justified">
+            {Reflect.ownKeys(typeList).map(item=>{
+              let _type = typeList[item];
+              return (<Link to={_type.url} key={_type.url} className={`nav-link ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
+            })}
+          </ul>
         </div>
+
+
+        {type && type.components ? <type.components />
+          :
+          <div>
+            <Password />
+            <Phone />
+            <Email />
+            <Oauth />
+          </div>}
+
       </div>
-    )
+
+      <div>
+
+        <ul className="list-group">
+          {Reflect.ownKeys(typeList).map(item=>{
+            let _type = typeList[item];
+            return (<Link to={_type.url} key={_type.url} className={`list-group-item ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
+          })}
+        </ul>
+          
+      </div>
+          
+      </Box>)
 
   }
 

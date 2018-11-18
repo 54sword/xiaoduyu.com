@@ -5,12 +5,10 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 
 @withRouter
-@CSSModules(styles)
 export class Pagination extends Component {
 
   constructor(props) {

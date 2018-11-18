@@ -1,8 +1,8 @@
 
 import express from 'express';
-import postsDetail from './posts-detail';
+import * as postsDetail from './posts-detail';
 
-module.exports = () => {
+export default () => {
   const router = express.Router();
   router.get('/posts/:id', postsDetail.show);
   return router;

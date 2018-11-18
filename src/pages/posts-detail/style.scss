@@ -6,6 +6,7 @@
 .comment-list{
   background-color: #fff;
   border-radius: 4px;
+  padding:0 !important;
 
   :global{
 
@@ -24,4 +25,16 @@
   margin-bottom:40px;
   border-radius: 4px;
   overflow: hidden;
+}
+
+
+.nickname{
+  padding-left:60px;
+  min-height: 50px;
+  // line-height: 50px;
+  img{
+    position: absolute;
+    border-radius: 50%;
+    margin-left:-60px;
+  }
 }

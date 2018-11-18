@@ -4,9 +4,9 @@ import { Link } from 'react-router'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { followTopic, unfollowTopic } from '../../../../actions/topic'
-import { getAccessToken } from '../../../../reducers/user'
-import { showSign } from '../../../../actions/sign'
+import { followTopic, unfollowTopic } from '../../../../store/actions/topic'
+import { getAccessToken } from '../../../../store/reducers/user'
+import { showSign } from '../../../../store/actions/sign'
 
 export class FollowTopic extends Component {
 

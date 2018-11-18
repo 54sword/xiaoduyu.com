@@ -1,18 +1,17 @@
-import React, { Component } from 'react'
+import React from 'react';
 
 // config
-import { name } from '../../../config'
+import { name } from '../../../config';
 
 // components
-import Shell from '../../components/shell'
-import Meta from '../../components/meta'
+import Shell from '../../components/shell';
+import Meta from '../../components/meta';
 
 // styles
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
-@CSSModules(styles)
-class Agreement extends React.PureComponent {
+@Shell
+export default class Agreement extends React.PureComponent {
   render() {
     return (<div styleName="container">
 
@@ -175,5 +174,3 @@ class Agreement extends React.PureComponent {
   }
 
 }
-
-export default Shell(Agreement)

@@ -1,175 +1,174 @@
-
-import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
-// import DocumentMeta from 'react-document-meta';
-import MetaTagsServer from 'react-meta-tags/server';
-import {MetaTagsContext} from 'react-meta-tags';
 
 // 服务端渲染依赖
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router';
 import { Provider } from 'react-redux';
+import MetaTagsServer from 'react-meta-tags/server';
+import { MetaTagsContext } from 'react-meta-tags';
+import Loadable from 'react-loadable';
 
-// 路由配置
-import configureStore from '../store';
+// 准备store的数据
+import readyStoreData from './ready-store-data';
+
+import createStore from '../store';
+
 // 路由组件
 import createRouter from '../router';
-// 路由初始化的redux内容
-import { initialStateJSON } from '../reducers';
-// import { saveAccessToken, saveUserInfo } from '../actions/user';
 
 // 配置
 import { port, auth_cookie_name } from '../../config';
+
+// 路由
 import sign from './sign';
 import AMP from './amp';
-import webpackHotMiddleware from './webpack-hot-middleware';
-
-
-// actions
-import { loadUserInfo } from '../actions/user';
-import { addAccessToken } from '../actions/token';
 
 const app = express();
-
-
-// ***** 注意 *****
-// 不要改变如下代码执行位置，否则热更新会失效
-// 开发环境开启修改代码后热更新
-if (process.env.NODE_ENV === 'development') webpackHotMiddleware(app);
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(compress());
-app.use(express.static(__dirname + '/../../dist'));
+app.use(express.static('./dist/client'));
+app.use(express.static('./public'));
 
-// amp
+app.use(function (req, res, next) {
+  // 计算页面加载完成花费的时间
+  var exec_start_at = Date.now();
+  var _send = res.send;
+  res.send = function () {
+    // 发送Header
+    res.set('X-Execution-Time', String(Date.now() - exec_start_at) + ' ms');
+    // 调用原始处理函数
+    return _send.apply(res, arguments);
+  };
+  next();
+});
+
+// amp页面
 app.use('/amp', AMP());
 
 // 登录、退出
 app.use('/sign', sign());
 
-app.get('*', async (req, res) => {
-
-  const store = configureStore(JSON.parse(initialStateJSON));
+app.get('*', async function (req, res) {
 
   let user = null, err;
   let accessToken = req.cookies[auth_cookie_name] || '';
 
-  // 验证 token 是否有效
-  if (accessToken) {
+  // 创建新的store
+  let store = createStore();
 
-    [ err, user ] = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
+  // 准备数据，如果有token，获取用户信息并返回
+  [ err, user ] = await readyStoreData(store, accessToken);
 
+  if (err && err.blocked) {
     // 如果是拉黑的用户，阻止登陆，并提示
-    if (err && err.blocked) {
-      res.clearCookie(auth_cookie_name);
-      res.redirect('/notice?notice=block_account');
-      return;
-    }
-
-    if (user) store.dispatch(addAccessToken({ access_token: accessToken }));
+    res.clearCookie(auth_cookie_name);
+    res.redirect('/notice?notice=block_account');
+    return;
+  } else if (err && err.message && err.message == 'invalid token') {
+    // 无效的令牌
+    res.clearCookie(auth_cookie_name);
+    res.redirect('/notice?notice=invalid_token');
+    return;
   }
 
   const router = createRouter(user);
 
-  let _route = null,
-      _match = null;
+  const promises = [];
+
+  let _route = null;
 
   router.list.some(route => {
 
-    let match = matchPath(req.url.split('?')[0], route);
-    if (match && match.path) {
+    let match = matchPath(req.path, route);
+
+    if (match) {
       _route = route;
-      _match = match;
-      _match.pathname = req.url.split('?')[0];
-      _match.search = req.url.split('?')[1] ? '?'+req.url.split('?')[1] : '';
-      return true;
-    }
-    if (route.routes) {
-
-      route.routes.some(route => {
-
-        let match = matchPath(req.url.split('?')[0], route);
-
-        if (match && match.path) {
-          _route = route;
-          _match = match;
-          return true;
-        }
-
-      })
+      match.search = req._parsedOriginalUrl.search || '';
+      // 需要在服务端加载的数据
+      if (route.loadData) {
+        promises.push(route.loadData({ store, match }));
+      }
     }
 
-    if (_route && _match) {
-      return true;
-    }
-
+    return match;
   });
+
+  // 路由权限控制
+  switch (_route.enter) {
+    // 任何人
+    case 'everybody':
+      break;
+    // 游客
+    case 'tourists':
+      if (user) {
+        res.status(403);
+        return res.redirect('/');
+      }
+      break;
+    // 注册会员
+    case 'member':
+      if (!user) {
+        res.status(403);
+        return res.redirect('/');
+      }
+      break;
+  }
 
   let context = {
     code: 200
-    // url
   };
-
-  // 加载异步路由组件
-  const loadAsyncRouterComponent = () => {
-    return new Promise(async (resolve) => {
-      await _route.component.load(async (ResolvedComponent)=>{
-        let loadData = ResolvedComponent.WrappedComponent.defaultProps.loadData;
-        let result = await loadData({ store, match: _match });
-        resolve(result);
-      });
-    });
-  }
-
-  if (_route.component.load) {
-    // 在服务端加载异步组件
-    context = await loadAsyncRouterComponent();
-  }
-
+  
   // 获取路由dom
   const _Router = router.dom;
   const metaTagsInstance = MetaTagsServer();
 
-  let html = ReactDOMServer.renderToString(
-    <Provider store={store}>
-      <MetaTagsContext extract = {metaTagsInstance.extract}>
-        <StaticRouter location={req.url} context={context}>
-          <_Router />
-        </StaticRouter>
-      </MetaTagsContext>
-    </Provider>
-  );
+  // await Loadable.preloadAll();
+  await _route.component.preload();
 
-  // console.log(html);
+  if (promises.length > 0) {
+    await Promise.all(promises).then(value=>{
+      if (value && value[0]) context = value[0];
+    });
+  }
 
-  let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
+  let _mainContent = (<Provider store={store}>
+        <MetaTagsContext extract={metaTagsInstance.extract}>
+          <StaticRouter location={req.url} context={context}>
+            <_Router />
+          </StaticRouter>
+        </MetaTagsContext>
+      </Provider>);
+
+
+  // html
+  let html = ReactDOMServer.renderToString(_mainContent);
 
   // 获取页面的meta，嵌套到模版中
-  // let meta = DocumentMeta.renderAsHTML();
-
-
-
   let meta = metaTagsInstance.renderToString();
-  // console.log(meta);
-  // console.log(metaTagsInstance.renderToString());
 
-  if (context.code == 301) {
-    res.writeHead(301, {
+  // redux
+  let reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
+
+  if (context.code == 302) {
+    res.writeHead(302, {
       Location: context.url
     });
   } else {
     res.status(context.code);
-    res.render('../dist/index.ejs', { html, reduxState, meta });
+    res.render('../dist/server/index.ejs', { html, reduxState, meta });
   }
 
   res.end();
+
+  // 释放store内存
+  store = null;
 
 });
 

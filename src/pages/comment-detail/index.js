@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadCommentList } from '../../actions/comment';
-import { getCommentListById } from '../../reducers/comment';
-import { isMember } from '../../reducers/user';
+import { loadCommentList } from '../../store/actions/comment';
+import { getCommentListById } from '../../store/reducers/comment';
+import { isMember } from '../../store/reducers/user';
 
 // components
 import Shell from '../../components/shell';
@@ -16,10 +16,13 @@ import HTMLText from '../../components/html-text';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
 
-// styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import Box from '../../components/box';
+import Sidebar from '../../components/sidebar';
 
+// styles
+import './style.scss';
+
+@Shell
 @connect(
   (state, props) => ({
     isMember: isMember(state),
@@ -29,35 +32,7 @@ import styles from './style.scss';
     loadList: bindActionCreators(loadCommentList, dispatch)
   })
 )
-@CSSModules(styles)
-export class CommentDetail extends React.Component {
-
-  // 服务端渲染
-  // 加载需要在服务端渲染的数据
-  static loadData({ store, match }) {
-    return new Promise(async (resolve, reject) => {
-
-      const { id } = match.params;
-
-      const [ err, data ] = await loadCommentList({
-        name: 'single_'+id,
-        filters: {
-          variables: {
-            _id: id,
-            deleted: false,
-            weaken: false
-          }
-        }
-      })(store.dispatch, store.getState);
-
-      if (data && data.data && data.data.length > 0) {
-        resolve({ code:200 });
-      } else {
-        resolve({ code:404, text: '该评论不存在' });
-      }
-
-    })
-  }
+export default class CommentDetail extends React.Component {
 
   constructor(props) {
     super(props);
@@ -79,7 +54,28 @@ export class CommentDetail extends React.Component {
             _id: id,
             deleted: false,
             weaken: false
+          },
+          select: `
+          content_html
+          create_at
+          reply_count
+          like_count
+          device
+          _id
+          update_at
+          like
+          user_id {
+            _id
+            nickname
+            brief
+            avatar_url
           }
+          posts_id{
+            _id
+            title
+            content_html
+          }
+          `
         }
       });
 
@@ -101,7 +97,7 @@ export class CommentDetail extends React.Component {
 
     if (loading || !comment) return <Loading />;
 
-    return(<div>
+    return(<Box><div>
 
       <Meta title={`${comment.posts_id.title} - ${comment.user_id.nickname}的评论`} />
 
@@ -109,6 +105,7 @@ export class CommentDetail extends React.Component {
         <Link to={`/posts/${comment.posts_id._id}`}>
           <h1>{comment.posts_id.title}</h1>
         </Link>
+        {comment.posts_id.content_html ? <HTMLText content={comment.posts_id.content_html} /> : null}
       </div>
 
       <div styleName="content">
@@ -139,9 +136,11 @@ export class CommentDetail extends React.Component {
         : null}
 
 
-    </div>)
+    </div>
+
+    <Sidebar />
+
+    </Box>)
   }
 
 }
-
-export default Shell(CommentDetail);

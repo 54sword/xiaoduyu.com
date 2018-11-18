@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../reducers/user';
+import { isMember } from '../../store/reducers/user';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -17,7 +16,6 @@ import styles from './style.scss';
   dispatch => ({
   })
 )
-@CSSModules(styles)
 export class NewPostsButton extends React.Component {
 
   constructor(props) {
@@ -25,10 +23,10 @@ export class NewPostsButton extends React.Component {
   }
 
   render() {
-    const { isMember } = this.props;
+    const { isMember, className } = this.props;
     //  className="d-md-none d-lg-none d-xl-none"
     if (isMember) {
-      return (<Link to="/new-posts" styleName="new-posts">创建帖子</Link>)
+      return (<Link to="/new-posts" styleName="new-posts" className={className}>创建帖子</Link>)
     }
     return '';
   }

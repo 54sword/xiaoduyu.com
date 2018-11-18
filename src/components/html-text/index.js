@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 import Device from '../../common/device'
 
@@ -114,7 +113,7 @@ const converVideo = (html) => {
 
       // if (Device.isMobileDevice()) {
       let url = "//player.youku.com/embed/" + id
-      let media = `<iframe ref="iframe" src="${url}"></iframe>`
+      let media = `<iframe src="${url}"></iframe>`
       // }
 
       html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
@@ -155,7 +154,7 @@ const converVideo = (html) => {
 
       // if (Device.isMobileDevice()) {
         let url = "//v.qq.com/iframe/player.html?vid="+id+"&tiny=0&auto=0"
-        let media = `<iframe ref="iframe" src="${url}"></iframe>`
+        let media = `<iframe src="${url}"></iframe>`
       // }
 
       html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
@@ -173,7 +172,7 @@ const converVideo = (html) => {
       const id = div.split(re)[1]
 
       let url = "//www.youtube.com/embed/"+id
-      let media = `<iframe ref="iframe" src="${url}"></iframe>`
+      let media = `<iframe src="${url}"></iframe>`
 
       html = html.replace(div, `<div class="load-demand" data-load-demand='${media}'></div>`)
     })
@@ -216,7 +215,7 @@ const converVideo = (html) => {
     musics.map(div=>{
       const id = div.split(re)[1]
       let url = "//music.163.com/outchain/player?type=2&id="+id+"&auto=0&height=66"
-      html = html.replace(div, `<iframe type="music" ref="iframe" src="${url}" height="86"></iframe>`)
+      html = html.replace(div, `<iframe type="music" src="${url}" height="86"></iframe>`)
     })
 
   }
@@ -229,7 +228,7 @@ const converVideo = (html) => {
     musics.map(div=>{
       const id = div.split(re)[1]
       let url = "//music.163.com/outchain/player?type=0&id="+id+"&auto=0&height=430"
-      html = html.replace(div, `<iframe type="music" ref="iframe" src="${url}" height="450"></iframe>`)
+      html = html.replace(div, `<iframe type="music" src="${url}" height="450"></iframe>`)
     });
 
   }
@@ -251,7 +250,6 @@ const converVideo = (html) => {
 
 }
 
-@CSSModules(styles)
 export class HTMLText extends Component {
 
   static defaultProps = {
@@ -299,8 +297,7 @@ export class HTMLText extends Component {
 
     return <div>
       <div
-        ref="contentDom"
-        className={styles.content} dangerouslySetInnerHTML={{__html:content}}
+        styleName="content" dangerouslySetInnerHTML={{__html:content}}
       />
 
       {hiddenHalf && content ?

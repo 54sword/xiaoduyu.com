@@ -1,29 +1,32 @@
 import React from 'react';
+// import AdSense from 'react-adsense';
 
-import { name, domain_name } from '../../../config';
+import { name, domain_name, Goole_AdSense } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList, viewPostsById } from '../../actions/posts';
-import { getPostsListByListId } from '../../reducers/posts';
-import { isMember } from '../../reducers/user';
+import { loadPostsList, viewPostsById } from '../../store/actions/posts';
+import { getPostsListByListId } from '../../store/reducers/posts';
+import { isMember } from '../../store/reducers/user';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-// import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';
 import PostsList from '../../components/posts/list';
 import PostsDetailC from '../../components/posts/detail';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
 
+import Box from '../../components/box';
+import Sidebar from '../../components/sidebar';
+import AdsByGoogle from '../../components/adsbygoogle';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
+@Shell
 @connect(
   (state, props) => ({
     isMember: isMember(state),
@@ -34,36 +37,7 @@ import styles from './style.scss';
     viewPostsById: bindActionCreators(viewPostsById, dispatch)
   })
 )
-@CSSModules(styles)
-export class PostsDetail extends React.Component {
-
-  // 服务端渲染
-  // 加载需要在服务端渲染的数据
-  static loadData({ store, match }) {
-    return new Promise(async (resolve, reject) => {
-
-      const { id } = match.params;
-
-      const [ err, data ] = await loadPostsList({
-        id: id,
-        filters: {
-          variables: {
-            _id: id,
-            deleted: false
-            // weaken: false
-          }
-        }
-      })(store.dispatch, store.getState);
-
-      if (data && data.data && data.data.length > 0) {
-        resolve({ code:200 });
-      } else {
-        // 没有找到帖子，设置页面 http code 为404
-        resolve({ code:404, text: '该帖子不存在' });
-      }
-
-    })
-  }
+export default class PostsDetail extends React.Component {
 
   constructor(props) {
     super(props);
@@ -107,13 +81,14 @@ export class PostsDetail extends React.Component {
 
     if (loading || !posts) return (<Loading />);
 
-    return(<div styleName="box">
+    const author = posts.user_id;
+
+    return(<Box><div styleName="box">
 
       <Meta title={posts.title}>
         <meta name="description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
         <link rel="canonical" href={`${domain_name}/posts/${posts._id}`} />
         <link rel="amphtml" href={`${domain_name}/amp/posts/${posts._id}`} />
-
         <meta property="og:locale" content="zh_CN" />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={posts.title} />
@@ -123,11 +98,10 @@ export class PostsDetail extends React.Component {
       </Meta>
 
 
-      {/*<div className="row">*/}
-
-        {/*<div className="col-md-9">*/}
-
           <PostsDetailC id={posts._id} />
+
+          {!isMember && Goole_AdSense && Goole_AdSense.postsDetail ?
+            <div style={{marginBottom:'12px'}}><AdsByGoogle {...Goole_AdSense.postsDetail} /></div> : null}
 
           {posts.comment_count > 0 ?
             <div className="card">
@@ -137,6 +111,8 @@ export class PostsDetail extends React.Component {
                 name={posts._id}
                 filters={{
                   variables: {
+                    deleted: false,
+                    weaken: false,
                     posts_id: posts._id,
                     parent_id: 'not-exists',
                     page_size:10
@@ -153,36 +129,61 @@ export class PostsDetail extends React.Component {
             </div>
             : null}
 
-        {/*
-        <div className="col-md-3">
-          {posts && posts.topic_id && posts.topic_id._id ?
-            <Sidebar
-              recommendPostsDom={(<PostsList
-                id={`sidebar-${posts._id}`}
-                itemName="posts-item-title"
-                // showPagination={false}
-                filters={{
-                  variables: {
-                    sort_by: "comment_count,like_count,create_at",
-                    deleted: false,
-                    weaken: false,
-                    page_size: 10,
-                    topic_id: posts.topic_id._id,
-                    start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 7)+''
-                  }
-                }}
-                />)}
-              />
-            : null}
+    </div>
+    <Sidebar>
+      <div className="card">
+        <div className="card-header">作者</div>
+        <div className="card-body">
+          <div styleName="nickname" style={author.brief ? {} : { lineHeight:'50px'}}>
+            <img src={author.avatar_url} width="50" height="50" />
+            <b>{author.nickname}</b>
+            {author.brief ? <div>{author.brief}</div> : null}
+          </div>
         </div>
-        */}
+      </div>
 
-      {/*</div>*/}
-      {/*</div>*/}
+      <div className="card">
+        <div className="card-header">作者其他帖子</div>
+        <div className="card-body">
+          <PostsList
+            id={'author-hot-'+posts.user_id._id}
+            itemName="posts-item-title"
+            filters={{
+              variables: {
+                user_id: posts.user_id._id,
+                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+                deleted: false,
+                weaken: false,
+                page_size: 10,
+                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+              }
+            }}
+            />
+        </div>
+      </div>
 
-    </div>)
+      <div className="card">
+        <div className="card-header">相似话题</div>
+        <div className="card-body">
+          <PostsList
+            id={'hot-'+posts._id}
+            itemName="posts-item-title"
+            filters={{
+              variables: {
+                topic_id: posts.topic_id._id,
+                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+                deleted: false,
+                weaken: false,
+                page_size: 10,
+                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+              }
+            }}
+            />
+        </div>
+      </div>
+
+    </Sidebar>
+    </Box>)
   }
 
 }
-
-export default Shell(PostsDetail);

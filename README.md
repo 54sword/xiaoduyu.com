@@ -1,7 +1,7 @@
-# 小度鱼（前端篇）
+# 小度鱼（前端）
 
 ### 介绍
-小度鱼，是基于 React + NodeJS + Express + MongoDB 开发的一个社区系统  
+小度鱼，是基于 React + GraphQL + NodeJS + Express + MongoDB 开发的一个社区系统  
 线上站点：[https://www.xiaoduyu.com](https://www.xiaoduyu.com)  
 ![小度鱼](https://qncdn.xiaoduyu.com/1484410571.png "小度鱼")
 
@@ -21,52 +21,48 @@
 3. cd xiaoduyu.com  
 4. npm install  
 5. cp config/index.default.js config/index.js  
-6. npm run dev  
+6. npm run start  
 7. 访问 http://localhost:4000  
 8. 完成
 ```
 
 ### 开发环境  
 
-***注意：开发环境下，代码不分片，生产环境下才会分片***
-
 ```
-npm run dev
+npm run start
 ```
 
 ### 生产环境测试
 
 
 ```
-npm run dist
-npm run server
+npm run pro
 ```
 
 ### 部署到服务器
-1、修改 config/index.js 中的 public_path、public_path 配置  
-2、打包项目
+1、打包项目
 
 ```
 npm run dist 
 ```
   
-3、将项目代码上传至你的服务器（除了node_modules，其他都上传）  
-4、服务上进入项目目录，执行如下命令，安装依赖包
+2、将 dist、package.json、package-lock.json 上传到服务器，然后执行如下命令，安装依赖包
 
 ```
 npm install
 ```
-5、启动服务  
+3、启动服务  
 
 ```
-NODE_ENV=production __NODE__=true BABEL_ENV=server node src/server
+node ./dist/server/server.js
 ```
 
-### 其他相关开源项目
- + 前端源码地址：[https://github.com/54sword/xiaoduyu.com](https://github.com/54sword/xiaoduyu.com)  
- + 后端API源码地址：[https://github.com/54sword/api.xiaoduyu.com](https://github.com/54sword/api.xiaoduyu.com)  
- + iOS、Android（ReactNative）源码地址：[https://github.com/54sword/xiaoduyuReactNative](https://github.com/54sword/xiaoduyuReactNative)  
- + 自制前端脚手架：[https://github.com/54sword/react-starter](https://github.com/54sword/react-starter)  
+### 小度鱼相关开源项目
+ + 前端：[https://github.com/54sword/xiaoduyu.com](https://github.com/54sword/xiaoduyu.com)  
+ + 后端：[https://github.com/54sword/api.xiaoduyu.com](https://github.com/54sword/api.xiaoduyu.com)  
+ + 移动端：[https://github.com/54sword/xiaoduyuReactNative](https://github.com/54sword/xiaoduyuReactNative)  
+ + 后台管理：[https://github.com/54sword/admin.xiaoduyu.com](https://github.com/54sword/admin.xiaoduyu.com)  
+ + 自制React同构脚手架：[https://github.com/54sword/react-starter](https://github.com/54sword/react-starter)  
 
 ### 开源协议
 MIT

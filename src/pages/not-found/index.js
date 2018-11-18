@@ -4,7 +4,8 @@ import React from 'react';
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 
-export class NotFound extends React.Component {
+@Shell
+export default class NotFound extends React.Component {
 
   static loadData({ store, match }) {
     return new Promise(async (resolve, reject) => {
@@ -24,5 +25,3 @@ export class NotFound extends React.Component {
   }
 
 }
-
-export default Shell(NotFound);

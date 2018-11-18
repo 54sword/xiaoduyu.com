@@ -7,32 +7,38 @@ import { domain_name, name } from '../../../config'
 import weixin from '../../common/weixin'
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @withRouter
-@CSSModules(styles)
 export class Share extends Component {
 
   static propTypes = {
-    posts: PropTypes.object
+    posts: PropTypes.object,
+    comment: PropTypes.object
   }
 
   constructor(props) {
     super(props);
 
-    const { posts } = this.props;
+    const { posts, comment } = this.props;
 
-    // console.log(posts);
-
-    this.state = {
+    let state = {
       displayTips: false,
-      showQrcode: false,
-      title: posts.title,
-      summary: posts.content_summary,
-      pics: posts.coverImage || '',
-      url: domain_name +'/posts/'+posts._id
+      showQrcode: false
     }
+
+    if (posts) {
+      state.title = posts.title;
+      state.summary = posts.content_summary;
+      state.pics = posts.coverImage || '';
+      state.url = domain_name +'/posts/'+posts._id;
+    }
+
+    if (comment) {
+      console.log(comment);
+    }
+
+    this.state = state;
 
     this.shareToWeibo = this._shareToWeibo.bind(this);
     this.shareToTwitter = this._shareToTwitter.bind(this);
@@ -101,8 +107,8 @@ export class Share extends Component {
     const { url, displayTips, showQrcode } = this.state;
 
     return <div styleName="container" onClick={this.stopPropagation}>
-
-      <a id="share-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分享</a>
+      
+      <a styleName="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分享</a>
 
       <div>
         <div className="dropdown-menu" aria-labelledby="share-dropdown">

@@ -2,17 +2,16 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link, browserHistory } from 'react-router-dom'
 
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 // import { bindActionCreators } from 'redux'
 // import { connect } from 'react-redux'
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateComment } from '../../../actions/comment'
-import { showSign } from '../../../actions/sign'
-import { getProfile } from '../../../reducers/user'
+import { updateComment } from '../../../store/actions/comment'
+import { showSign } from '../../../store/actions/sign'
+import { getProfile } from '../../../store/reducers/user'
 
 // import LikeButton from '../like'
 import HTMLText from '../../html-text'
@@ -32,7 +31,6 @@ import HTMLText from '../../html-text'
     updateComment: bindActionCreators(updateComment, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CommentItem extends PureComponent {
 
   static propTypes = {

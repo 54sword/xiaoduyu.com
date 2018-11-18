@@ -5,8 +5,8 @@ import { withRouter, Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadNotifications } from '../../../actions/notification';
-import { getNotificationByName } from '../../../reducers/notification';
+import { loadNotifications } from '../../../store/actions/notification';
+import { getNotificationByName } from '../../../store/reducers/notification';
 
 // tools
 import { DateDiff } from '../../../common/date';
@@ -18,8 +18,7 @@ import Pagination from '../../pagination';
 import Item from '../list-item';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @withRouter
 @connect(
@@ -31,7 +30,6 @@ import styles from './style.scss';
     // updateNotification: bindActionCreators(updateNotification, dispatch)
   })
 )
-@CSSModules(styles)
 export default class NotificationList extends Component {
 
   static propTypes = {
@@ -80,7 +78,7 @@ export default class NotificationList extends Component {
     const { name, filters, loadNotifications } = this.props
     loadNotifications({ name, filters })
   }
-
+  
   render() {
 
     const { notification, location } = this.props
@@ -88,6 +86,9 @@ export default class NotificationList extends Component {
 
     return (
         <div>
+
+          {!loading && !more && data && data.length == 0 ? <div style={{textAlign:'center'}}>没有通知</div> : null}
+
           <div className="list-group" styleName="list">
             {data && data.map(notification => {
               return (<Item notification={notification} key={notification._id} />)

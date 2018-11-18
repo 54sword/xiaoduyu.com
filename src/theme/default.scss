@@ -1,24 +1,28 @@
 
+
+@import url('global.scss'); 
+
 /**
  * 覆盖默认的 bootstrap 的样式
  */
 
 a{
   text-decoration: none !important;
+  color:#4170ea;
 }
 
 :global{
 .default-theme{
-  
-  @media (min-width: 760px) {
+
+  @media (min-width: 1050px) {
     .container {
-      max-width: 760px;
+      max-width: 1050px;
     }
   }
 
   font-size: 14px;
-  background-color: #e6e8eb;
-  color:#474747;
+  background-color: #eaedf0;//#eaedf0;
+  color:#484848;
 
   .container{
     padding-right: 10px;
@@ -27,23 +31,26 @@ a{
 
   .row{
     > div{
-      padding-right: 5px;
-      padding-left: 5px;
+      padding-right: 6px;
+      padding-left: 6px;
     }
   }
 
   .card{
     border: none;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    overflow: hidden;
   }
 
   .card-header{
-    padding:5px 15px 5px 15px;
+    padding:8px 15px 8px 15px;
     border-bottom: 1px solid #e6e8eb;
+    background-color: #fff;
   }
 
   .card-body{
-    padding:0px;
+    padding:15px 20px 15px 20px;
   }
 
   .jumbotron{
@@ -106,9 +113,65 @@ a{
     }
   }
 
-
-
   /* border end */
+
+  /* button */
+
+  .btn{
+    border-radius: 40px;
+    font-size: 14px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    line-height: 100%;
+  }
+
+  .btn-primary{
+    background-color: #4170ea;
+    color:#fff;
+    border:1px solid #4170ea;
+    &:hover{
+      background-color: #547de8;
+      color:#fff;
+    }
+  }
+
+  /* button end */
+
+  .navbar-brand{
+    min-height: 45px;
+    padding:0px;
+  }
+
+  .navbar-toggler-icon{
+    width: 22px;
+    height: 22px;
+  }
+  
+  .nav-link{
+    padding:0px 10px 0 10px !important;
+    height: 45px;
+    line-height: 45px !important;
+  }
+
+  @media (min-width: 0px) and (max-width: 991.98px) {
+
+    .navbar-brand{
+      width:100%;
+      text-align: center;
+    }
+
+    .navbar-toggler{
+      top:7px;
+      left:0px;
+      position: fixed;
+      border:none;
+    }
+    .navbar-collapse{
+      // background-color: #333;
+      padding:0 10px 0 10px;
+    }
+
+  }
 
 }
 

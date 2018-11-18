@@ -23,7 +23,8 @@ export default class EditorCommentModal extends Component {
     $('#'+modalId).on('show.bs.modal', function (e) {
       self.setState({
         show: true,
-        comment: e.relatedTarget.comment,
+        posts: e.relatedTarget.posts || null,
+        comment: e.relatedTarget.comment || null,
         type: e.relatedTarget.type
       });
     });
@@ -31,6 +32,7 @@ export default class EditorCommentModal extends Component {
     $('#'+modalId).on('hidden.bs.modal', function (e) {
       self.setState({
         show: false,
+        posts: null,
         comment: null,
         type: ''
       });
@@ -42,7 +44,7 @@ export default class EditorCommentModal extends Component {
   render () {
 
     const self = this;
-    const { show, type, comment, modalId } = this.state;
+    const { show, type, posts, comment, modalId } = this.state;
 
     if (!show) {
       return <Modal id={modalId} title="回复" body={''} />
@@ -59,16 +61,27 @@ export default class EditorCommentModal extends Component {
       }
     }
 
-    if (type == 'reply') {
-      title = '回复';
+    if (type == 'reply' || type == 'comment') {
+      title = type == 'reply' ? '回复' : '评论';
 
-      params = {
-        ...params,
-        id: comment._id,
-        posts_id: comment.posts_id._id || comment.posts_id,
-        parent_id: comment.parent_id || comment._id,
-        reply_id: comment._id
-      };
+      if (posts) {
+
+        params = {
+          ...params,
+          posts_id: posts._id
+        };
+
+      } else {
+
+        params = {
+          ...params,
+          id: comment._id,
+          posts_id: comment.posts_id._id || comment.posts_id,
+          parent_id: comment.parent_id || comment._id,
+          reply_id: comment._id
+        };
+
+      }
 
     } else if (type == 'edit') {
       title = '编辑';

@@ -1,14 +1,22 @@
 import React from 'react';
+// import Loadable from 'react-loadable';
 
 // components
 // import Bundle from '../bundle';
-import { AsyncComponent } from '../generate-async-component';
+// import { AsyncComponent } from '../generate-async-component';
+
+// import('../global')
+
+import Aglobal from '../global';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
-@CSSModules(styles)
+// const LoadableFooter = Loadable({
+//   loader: () => import('../global'),
+//   loading: () => <div>loading...</div>
+// });
+
 export class Footer extends React.Component {
 
   constructor(props) {
@@ -45,11 +53,17 @@ export class Footer extends React.Component {
            ></a>
       </span>
 
+      <Aglobal />
+
+      {/* <LoadableFooter /> */}
+
+      {/*
       <AsyncComponent load={() => import('../global')}>
         {(Global) => {
           return (<Global />)
         }}
       </AsyncComponent>
+      */}
 
     </div>)
   }

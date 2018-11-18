@@ -5,13 +5,12 @@ import Modal from '../../bootstrap/modal';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getReportTypes } from '../../../reducers/report-types';
-import { loadReportTypes, addReport } from '../../../actions/report';
+import { getReportTypes } from '../../../store/reducers/report-types';
+import { loadReportTypes, addReport } from '../../../store/actions/report';
 
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -22,7 +21,6 @@ import styles from './style.scss';
     addReport: bindActionCreators(addReport, dispatch)
   })
 )
-@CSSModules(styles)
 export default class ReportModal extends Component {
 
   constructor(props) {
@@ -56,7 +54,7 @@ export default class ReportModal extends Component {
   async submit() {
 
     const { submitting, posts, comment, user, type } = this.state;
-    const { detail } = this.refs;
+    const { detail } = this.state;
     const { addReport } = this.props;
 
     if (!type) {
@@ -157,7 +155,7 @@ export default class ReportModal extends Component {
             })}
           </div>
           <div styleName="detail">
-            <textarea placeholder="补充举报说明" className="border" ref="detail"></textarea>
+            <textarea placeholder="补充举报说明" className="border" ref={(e)=>{ this.state.detail = e; }}></textarea>
           </div>
           <div>
             <button onClick={this.submit} type="button" className="btn btn-primary">{submitting ? '提交中...' : '提交'}</button>

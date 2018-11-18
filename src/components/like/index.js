@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../reducers/user';
-import { like, unlike } from '../../actions/like';
+import { isMember } from '../../store/reducers/user';
+import { like, unlike } from '../../store/actions/like';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+// import CSSModules from 'react-css-modules';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -19,7 +19,7 @@ import styles from './style.scss';
     unlike: bindActionCreators(unlike, dispatch)
   })
 )
-@CSSModules(styles)
+// @CSSModules(styles)
 export default class LikeButton extends Component {
 
   constructor(props) {
@@ -89,19 +89,23 @@ export default class LikeButton extends Component {
 
   render () {
 
-    const { reply, comment, posts } = this.props
-    const { isMember } = this.props
-    const like = comment || reply || posts
-
+    const { reply, comment, posts, isMember } = this.props;
+    const like = comment || reply || posts;
+    
     if (!isMember) {
-      return (<a href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>赞</a>)
+      return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>{like.like_count ? like.like_count+' 次赞' : '赞'}</a>)
     }
 
+    return (<a styleName="button" href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}}>
+      <span>{like.like_count ? like.like_count+' 次赞' : '赞'}</span>
+    </a>)
+    /*
     return (
       <a href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}} styleName="hover">
-        {like.like ? <span>已赞</span> : '赞'}
-        {like.like ? <span>取消赞</span> : null}
+        {like.like ? <span>{like.like_count || ''}已赞</span> : '赞'}
+        {like.like ? <span>{like.like_count || ''}取消赞</span> : null}
       </a>
     )
+    */
   }
 }

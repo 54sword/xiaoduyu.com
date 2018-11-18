@@ -5,9 +5,9 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadUserInfo } from '../../../actions/user';
-import { addPhone } from '../../../actions/phone';
-import { getProfile } from '../../../reducers/user';
+import { loadUserInfo } from '../../../store/actions/user';
+import { addPhone } from '../../../store/actions/phone';
+import { getProfile } from '../../../store/reducers/user';
 
 // components
 import CaptchaButton from '../../captcha-button';
@@ -15,8 +15,7 @@ import CountriesSelect from '../../countries-select';
 import Modal from '../../bootstrap/modal';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @connect(
   (state, props) => ({
@@ -27,7 +26,6 @@ import styles from './style.scss';
     loadUserInfo: bindActionCreators(loadUserInfo, dispatch)
   })
 )
-@CSSModules(styles)
 export default class BindingPhone extends Component {
 
   static defaultProps = {
@@ -55,25 +53,24 @@ export default class BindingPhone extends Component {
      * 如果是登陆用户，没有绑定手机号，每三天提醒一次绑定手机号
      */
     if (me && me.phone) return;
-    
+
     let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
     let nowTimestamps = new Date().getTime();
+
+    $('#binding-phone').on('show.bs.modal', (e) => {
+      reactLocalStorage.set('binding-phone-tips', nowTimestamps);
+      self.setState({ show: true });
+    });
+
+    $('#binding-phone').on('hide.bs.modal', (e) => {
+      self.setState({ show: false });
+    });
 
     if (nowTimestamps - timestamps < 1000 * 60 * 60 * 24 * 2) return;
 
     setTimeout(()=>{
 
       if (!this.state.isMount) return;
-
-      $('#binding-phone').on('show.bs.modal', (e) => {
-        reactLocalStorage.set('binding-phone-tips', nowTimestamps);
-        self.setState({ show: true });
-      });
-
-      $('#binding-phone').on('hide.bs.modal', (e) => {
-        // if (!this.state.isMount) return;
-        self.setState({ show: false });
-      });
 
       $('#binding-phone').modal({
         show: true
@@ -91,8 +88,8 @@ export default class BindingPhone extends Component {
 
     const self = this
     const { loadUserInfo, addPhone } = this.props
-    const { phone, captcha } = this.refs
-    const { areaCode } = this.state
+    // const { phone, captcha } = this.refs
+    const { phone, captcha, areaCode } = this.state
 
     if (!phone.value) return phone.focus();
     if (!captcha.value) return captcha.focus();
@@ -129,8 +126,8 @@ export default class BindingPhone extends Component {
   }
 
   sendCaptcha(callback) {
-    const { phone } = this.refs
-    const { areaCode } = this.state
+    // const { phone } = this.refs;
+    const { phone, areaCode } = this.state;
 
     if (!phone.value) return phone.focus();
 
@@ -162,13 +159,13 @@ export default class BindingPhone extends Component {
             <div className="container">
               <div className="row">
                 <div className="col-3">{show ? <CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} /> : null}</div>
-                <div className="col-9"><input className="form-control" type="text" placeholder="请输入您的手机号" ref="phone" /></div>
+                <div className="col-9"><input className="form-control" type="text" placeholder="请输入您的手机号" ref={(e)=>{ this.state.phone = e; }} /></div>
               </div>
             </div>
           </div>
 
           <div className="form-group">
-            <input className="form-control" type="text" placeholder="输入6位数验证码" ref="captcha" />
+            <input className="form-control" type="text" placeholder="输入6位数验证码" ref={(e)=>{ this.state.captcha = e; }} />
             <div>
               <CaptchaButton onClick={this.sendCaptcha} />
             </div>

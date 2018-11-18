@@ -1,0 +1,186 @@
+<!doctype html>
+<html ⚡>
+  <head>
+    <% include ../includes/head.ejs %>
+
+    <title><%- website_name %></title>
+    <link rel="canonical" href="<%- domain_name %>/posts/<%- posts._id %>">
+
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="<%- posts.title %>" />
+    <meta property="og:description" content="<%- posts.description %>" />
+    <meta property="og:url" content="<%- domain_name %>/posts/<%- posts._id %>" />
+    <meta property="og:site_name" content="<%- website_name %>" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "NewsArticle",
+        "mainEntityOfPage": "<%- domain_name %>/posts/<%- posts._id %>",
+        "headline": "<%- posts.title %>",
+        "datePublished": "<%- new Date(new Date(posts.create_at).getTime()) %>",
+        "dateModified": "<%- new Date(posts.update_at) %>",
+        "description":"<%- posts.description %>",
+        "author": {
+          "@type": "Person",
+          "name": "<%- posts.user_id.nickname %>"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "<%- website_name %>",
+          "url": "<%- domain_name %>",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "<%- amp.logo.url %>",
+            "width": "<%- amp.logo.width %>",
+            "height": "<%- amp.logo.height %>"
+          }
+        },
+        "image": ["<%- posts.images.join('","') %>"]
+      }
+    </script>
+
+    <style amp-custom>
+
+      /* reset */
+      body{ font-size: 13px; font-family: sans-serif; }
+      p{ padding:0px; margin:0px; }
+      amp-img > img { object-fit: contain; }
+      a{ color:rgb(46, 150, 226); margin:0px; padding:0px; text-decoration: none; }
+
+      /* container */
+
+      #container{ padding: 0 15px 0 15px; }
+
+      /* posts */
+      #posts-head{ border-bottom: 1px solid #dbdbdb; margin-bottom: 15px; padding-bottom: 15px; }
+        #title{ margin-top: 20px; }
+          h1{ font-size: 22px; }
+        #info { margin-bottom: 5px; }
+        #info span{ color:rgb(190, 190, 190); margin-right:10px; font-size: 13px; }
+
+      #author{ height: 35px; line-height: 35px; padding-left: 45px; font-size: 14px; }
+        #author-avatar{ position: absolute; margin-left: -45px; border-radius: 50%; background-color: #dbdbdb; }
+        #nickname{ font-weight: bold; }
+        #brief{ color:#646464; }
+
+      #posts-content{ font-size: 15px; }
+
+      /* content styles */
+      .content{ max-width: 980px; font-size: 14px; line-height: 180%; word-break: break-all; word-wrap: break-word;}
+        .content amp-img{ margin:10px 0 10px 0; }
+        .content h2{ font-size: 18px; padding:0px; margin:0px; }
+        .content blockquote{ border-left:5px solid #c6c6c6; padding:10px 10px 10px 10px; background-color: #f4f4f4; margin:15px 0 15px 0; }
+        .content strong{ font-weight: bold; }
+        .content pre{
+          background-color: #222; overflow-x:scroll; margin:5px 0 5px 0; padding:15px; border-radius: 4px; color:#a8ff60;
+          max-height: 400px; max-width: 100%; overflow: auto; white-space: nowrap;
+        }
+        .content ol{ list-style-type: decimal; padding-left:20px; margin:0px; padding:0 0 0 16px; }
+        .content ul{ list-style-type: disc; padding-left:20px; margin:0px; padding:0 0 0 16px; }
+        .content embed, .content iframe{ width:100%; min-height: 420px; border: none; }
+        .content p{ margin:0px; padding:0px; min-height: 15px; }
+        .content a{ color:rgb(46, 150, 226); margin:0px; padding:0px; }
+        .more-comment{ padding:15px 0 15px 0; }
+        .more-comment a{ background-color: rgb(46, 150, 226); padding:5px 10px 5px 10px; border-radius: 3px; color:#fff; }
+
+      /* comment */
+      .comment-bar{ border-top: 1px solid #dbdbdb; height: 40px; line-height: 40px; margin-top:20px; color:rgb(154, 154, 154); }
+      .comment{ padding:15px 0 15px 0; border-bottom: 1px solid #dbdbdb; }
+      .comment-user{ padding-left:45px; margin-bottom:10px; }
+      .create_at{ color:rgb(190, 190, 190); font-size: 12px; }
+
+      /* footer */
+      .footer{ background-color: #3e4147; color:#e3e3e3; margin-top:30px; padding:20px 20px 20px 20px; font-size: 12px; }
+
+    </style>
+
+
+
+  </head>
+
+  <body>
+
+    <div id="container">
+
+      <!-- posts -->
+
+      <div id="posts-head">
+        <div id="title"><h1><%- posts.title %></h1></div>
+        <div id="author">
+          <div>
+            <amp-img id="author-avatar" width="35" height="35" alt="<%- posts.user_id.nickname %>" src="<%- posts.user_id.avatar_url %>"></amp-img>
+          </div>
+          <div>
+            <b id="nickname"><%- posts.user_id.nickname %></b><% if (posts.user_id.brief) { %><span id="brief">, <%- posts.user_id.brief %></span><% } %>
+          </div>
+        </div>
+      </div>
+
+      <div class="content" id="posts-content">
+        <div id="info">
+          <% if (posts._create_at) {%><span>帖子创建于<%- posts._create_at %></span><% } %>
+          <% if (posts._create_at) {%>
+            <span><a href="<%- domain_name %>/topic/<%- posts.topic_id._id %>"><%- posts.topic_id.name %></a> </span>
+          <% } %>
+          <% if (posts.view_count) {%><span><%- posts.view_count %> 次浏览</span><% } %>
+          <% if (posts.like_count) {%><span><%- posts.like_count %> 个赞</span><% } %>
+          <% if (posts.follow_count) {%><span><%- posts.follow_count %> 人关注</span><% } %>
+        </div>
+        <%- posts.content_html %>
+      </div>
+
+      <!-- posts end -->
+
+      <!-- comment -->
+      <% if (posts.comment_count > 0) { %>
+        <div class="comment-bar"><%- posts.comment_count %> 条评论</div>
+      <% } %>
+
+      <div>
+        <% commentList.forEach(function(comment){ %>
+          <div class="comment">
+            <div class="comment-user">
+              <div><amp-img id="author-avatar" width="35" height="35" alt="<%- comment.user_id.nickname %>" src="<%- comment.user_id.avatar_url %>"></amp-img></div>
+              <div>
+                <p><b><%- comment.user_id.nickname %></b></p>
+                <p class="create_at">
+                  <%- comment._create_at %>
+                  <% if (comment.like_count) { %>
+                    , <%- comment.like_count %>个赞
+                  <% } %>
+                </p>
+              </div>
+            </div>
+            <div class="content"><%- comment.content_html %></div>
+
+            <% if (comment.reply_count) { %>
+              <div><a href="<%- domain_name %>/comment/<%- comment._id %>">有 <%- comment.reply_count %> 条回复</a></div>
+            <% } %>
+
+          </div>
+        <% }) %>
+      </div>
+
+      <% if (posts.comment_count > commentList.length) { %>
+        <div class="more-comment">
+          <a href="<%- domain_name %>/posts/<%- posts._id %>">还有 <%- posts.comment_count - commentList.length %> 条评论，查看全部</a>
+        </div>
+      <% } %>
+
+      <!-- comment end -->
+
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+      <p>当前这是一个AMP页面，如果你想参与本帖讨论，请打开完整版</p>
+      <p><a href="<%- domain_name %>/posts/<%- posts._id %>"><%- domain_name %>/posts/<%- posts._id %></a></p>
+      <br />
+      <p>© <%- new Date().getFullYear() %> <%- website_name %></p>
+    </div>
+    <!-- footer end -->
+
+  </body>
+</html>

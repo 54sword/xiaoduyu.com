@@ -1,0 +1,29 @@
+.comment-list{
+  background-color: #fff;
+  border-radius: 4px;
+
+  :global{
+    .pagination{
+      border-top:1px solid #efefef;
+    }
+  }
+}
+
+.title{
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom:10px;
+  h1{
+    font-size: 20px;
+    padding: 0px;
+    margin:0px;
+  }
+}
+
+.content{
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom:10px;
+}

@@ -3,8 +3,8 @@ import React from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../actions/posts';
-import { getPostsById } from '../../reducers/posts';
+import { loadPostsList } from '../../store/actions/posts';
+import { getPostsById } from '../../store/reducers/posts';
 
 // components
 import Shell from '../../components/shell';
@@ -12,6 +12,7 @@ import Meta from '../../components/meta';
 import PostsEditor from '../../components/editor-posts';
 import Loading from '../../components/ui/loading';
 
+@Shell
 @connect(
   (state, props) => ({
   }),
@@ -19,7 +20,7 @@ import Loading from '../../components/ui/loading';
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
   })
 )
-class createPosts extends React.Component {
+export default class createPosts extends React.Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +34,7 @@ class createPosts extends React.Component {
 
   async componentDidMount() {
 
-    const { posts_id } = this.props.location.params;
+    const { posts_id, topic_id } = this.props.location.params;
     const { loadPostsList, notFoundPgae } = this.props;
 
     if (posts_id) {
@@ -121,5 +122,3 @@ class createPosts extends React.Component {
   }
 
 }
-
-export default Shell(createPosts)

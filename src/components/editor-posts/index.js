@@ -1,12 +1,13 @@
 import React from 'react';
 import { reactLocalStorage } from 'reactjs-localstorage';
+import { withRouter } from 'react-router';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { addPosts, updatePosts } from '../../actions/posts';
-import { loadTopics } from '../../actions/topic';
-import { getTopicById, getTopicListByName } from '../../reducers/topic';
+import { addPosts, updatePosts } from '../../store/actions/posts';
+import { loadTopics } from '../../store/actions/topic';
+import { getTopicById, getTopicListByName } from '../../store/reducers/topic';
 
 // components
 import Device from '../../common/device';
@@ -14,10 +15,10 @@ import To from '../../common/to';
 import Editor from '../editor';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 
+@withRouter
 @connect(
   (state, props) => ({
     topicList: getTopicListByName(state, 'new-posts')
@@ -28,7 +29,6 @@ import styles from './style.scss';
     updatePosts: bindActionCreators(updatePosts, dispatch)
   })
 )
-@CSSModules(styles)
 class EditorPosts extends React.Component {
 
   static defaultProps = {
@@ -66,15 +66,17 @@ class EditorPosts extends React.Component {
   }
 
 
-  componentDidMount() {
+  async componentDidMount() {
 
     const self = this;
     const { _id, type, title, contentStateJSON } = this.state;
     const { topicList, loadTopics } = this.props;
 
+    const { topic_id } = this.props.location.params;
+    
     // 加载话题
     if (!topicList.data) {
-      loadTopics({
+      await loadTopics({
         id: 'new-posts',
         filters: {
           variables: {
@@ -84,6 +86,24 @@ class EditorPosts extends React.Component {
         }
       });
     }
+
+    if (topic_id) {
+
+      let topic;
+
+      this.props.topicList.data.map(item=>{
+        item.children.map(item=>{
+          if (item._id == topic_id) topic = item;
+        })
+      });
+
+      if (topic) {
+        this.setState({ topic })
+      }
+      
+    }
+
+
 
     if (_id) {
       var _content = contentStateJSON

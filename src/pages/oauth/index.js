@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { saveSignInCookie } from '../../actions/sign';
+import { saveSignInCookie } from '../../store/actions/sign';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 
 // styles
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
+@Shell
 @connect(
   (state, props) => ({
   }),
@@ -20,12 +20,11 @@ import styles from './style.scss';
     saveSignInCookie: bindActionCreators(saveSignInCookie, dispatch)
   })
 )
-@CSSModules(styles)
-class OAuth extends Component {
+export default class OAuth extends PureComponent {
 
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+    // super(props)
+  // }
 
   async componentDidMount() {
 
@@ -56,5 +55,3 @@ class OAuth extends Component {
   }
 
 }
-
-export default Shell(OAuth)

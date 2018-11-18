@@ -5,13 +5,12 @@ import { Link } from 'react-router-dom'
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../../actions/posts';
-import { getPostsById } from '../../../reducers/posts';
-import { isMember } from '../../../reducers/user';
+import { loadPostsList } from '../../../store/actions/posts';
+import { getPostsById } from '../../../store/reducers/posts';
+import { isMember } from '../../../store/reducers/user';
 
 // style
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 // components
 import HTMLText from '../../html-text';
@@ -36,7 +35,6 @@ import Share from '../../share';
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
   })
 )
-@CSSModules(styles)
 export default class PostsDetail extends React.Component {
 
   static propTypes = {
@@ -48,27 +46,35 @@ export default class PostsDetail extends React.Component {
     this.state = {}
   }
 
-  async componentDidMount() {
-    const { id, loadPostsList } = this.props
-    await loadPostsList({
-      name: id,
+  componentDidMount() {
+    const { id, loadPostsList } = this.props;
+
+    loadPostsList({
+      id,
       filters: {
         variables: { _id: id }
       }
-      // name: id, filters: { query: { _id: id } }
     })
+  }
+
+  componentWillReceiveProps(props) {
+
+    if (props.id != this.props.id) {
+      this.props = props;
+      this.componentDidMount();
+    }
   }
 
   render() {
 
     const { posts, isMember } = this.props
 
-    if (!posts) return
+    if (!posts) return <div>loading...</div>
 
     return(<div styleName="box">
 
         <div styleName="head">
-          
+
           <Link to={`/people/${posts.user_id._id}`}>
             <img styleName="author-avatar" src={posts.user_id.avatar_url} />
             <b>{posts.user_id.nickname}</b>

@@ -1,24 +1,21 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
-// import Headroom from 'react-headroom'
+// import Headroom from 'react-headroom';
 
-import { name, logo } from '../../../config';
+import { domain_name } from '../../../config';
 import parseUrl from '../../common/parse-url';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { signOut } from '../../actions/sign';
-import { isMember, getProfile } from '../../reducers/user';
-import { loadTopics } from '../../actions/topic';
-import { getTopicListByKey } from '../../reducers/topic';
-import { getUnreadNotice, getPostsTips } from '../../reducers/website';
-// import { loadNewPosts } from '../../actions/posts';
+import { signOut } from '../../store/actions/sign';
+import { isMember, getProfile } from '../../store/reducers/user';
+import { getTopicListByKey } from '../../store/reducers/topic';
+import { getUnreadNotice, hasNewFeed } from '../../store/reducers/website';
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 @withRouter
 @connect(
@@ -27,77 +24,42 @@ import styles from './style.scss';
     isMember: isMember(state),
     topicList: getTopicListByKey(state, 'head'),
     unreadNotice: getUnreadNotice(state),
-    postsTips: getPostsTips(state)
+    hasNewFeed: hasNewFeed(state)
   }),
   dispatch => ({
-    signOut: bindActionCreators(signOut, dispatch),
-    loadTopics: bindActionCreators(loadTopics, dispatch),
-    // loadNewPosts: bindActionCreators(loadNewPosts, dispatch)
+    signOut: bindActionCreators(signOut, dispatch)
   })
 )
-@CSSModules(styles)
 export default class Head extends React.Component {
-
-  // 服务端渲染
-  // 加载需要在服务端渲染的数据
-  static loadData({ store, match }) {
-    return new Promise(async (resolve, reject) => {
-
-      let [ err, result ] = await loadTopics({
-        id: 'head',
-        filters: {
-          variables: {
-            type: "parent",
-            recommend: true
-          }
-        }
-      })(store.dispatch, store.getState);
-
-      resolve();
-    })
-  }
 
   constructor(props) {
     super(props);
     this.state = {}
     this.signOut = this.signOut.bind(this);
     this.search = this.search.bind(this);
+    this.updateSearchInputValue = this.updateSearchInputValue.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount() {    
+    this.updateSearchInputValue();
+  }
 
-    const { topicList, loadTopics } = this.props;
-    const { search } = this.refs;
-
-    if (!topicList) {
-      loadTopics({
-        id: 'head',
-        filters: {
-          variables: {
-            type: "parent",
-            recommend: true
-          }
-        }
-      });
-    }
-
+  updateSearchInputValue() {
+    const { search } = this.state;
     let params = this.props.location.search ? parseUrl(this.props.location.search) : {};
     const { q = '' } = params;
     search.value = decodeURIComponent(q);
   }
 
   componentWillReceiveProps(props) {
-    const { search } = this.refs;
     // 组件url发生变化
     if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
-      let params = props.location.search ? parseUrl(props.location.search) : {};
-      const { q = '' } = params;
-      search.value = decodeURIComponent(q);
+      this.props = props;
+      this.updateSearchInputValue();
     }
   }
 
   async signOut() {
-
     let [err, success] = await this.props.signOut();
     if (success) {
       // 退出成功跳转到首页
@@ -105,12 +67,11 @@ export default class Head extends React.Component {
     } else {
       alert('退出失败');
     }
-
   }
 
   search(event) {
     event.preventDefault();
-    const { search } = this.refs;
+    const { search } = this.state;
 
     if (!search.value) return search.focus();
     this.props.history.push(`/search?q=${search.value}`);
@@ -118,58 +79,75 @@ export default class Head extends React.Component {
 
   render() {
 
-    const { me, isMember, topicList, unreadNotice, postsTips } = this.props;
+    const { me, isMember, topicList, unreadNotice, hasNewFeed } = this.props;
 
     let nav = [
-      { to: '/', name: '发现' }
+      { to: '/', name: '首页' }
     ];
-
+    
     if (isMember) {
-      if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
-        nav.unshift({ to: '/follow', name: '关注', tips: true });
-      } else {
-        nav.unshift({ to: '/follow', name: '关注' });
-      }
+      nav.push({ to: '/follow', name: '关注', tips: hasNewFeed });
     }
 
     if (topicList) {
       topicList.data.map(item=>{
-        nav.push({
-          to: `/topic/${item._id}`, name: item.name
-        })
-      })
+        nav.push({ to: `/topic/${item._id}`, name: item.name });
+      });
     }
 
-    let search = (<form onSubmit={this.search} styleName="search-form">
-                    <input type="text" styleName="search" placeholder="搜索" ref="search" />
-                    <button type="submit" styleName="search-submit"></button>
-                  </form>)
+    return (<>
+      <header>
+      <nav styleName="navbar" className="navbar navbar-expand-lg navbar-light">
+        
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-    return (<header>
-      <nav styleName="navbar">
-      <div className="container">
-
-        {/* logo */}
-        <div styleName="logo">
-          <Link to="/">{logo ? <img src={logo} /> : name}</Link>
+        <div className="navbar-brand">
+          <Link to="/" styleName="logo">
+            <img src={domain_name+'/logo.png'} />
+          </Link>
         </div>
 
-        {/* user bar */}
-        {isMember ?
-          <ul styleName="user-bar">
-            <li>
-              <div className="d-none d-md-block d-lg-block d-xl-block">{search}</div>
-              <Link styleName="link" className="d-block d-md-none d-lg-none d-xl-none" to="/search">搜索</Link>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
+            {nav.map(item=><li key={item.to} className="nav-item">
+              <NavLink exact to={item.to} className="nav-link">
+                {item.name}
+                {item.tips ? <span styleName="red-point"></span> : null}
+              </NavLink>
+            </li>)}
+
+            <li className="nav-item">
+
+              <form onSubmit={this.search} styleName="search-form">
+                <input
+                  type="text"
+                  styleName="search"
+                  placeholder="搜索"
+                  ref={e => this.state.search = e}
+                  />
+              </form>
+
             </li>
+
+          </ul>
+
+        </div>
+
+        <div styleName="user-nav">
+          
+          {isMember ?
+            <ul>
             <li>
-              <NavLink exact to="/notifications" styleName="link">
-                通知
-                {unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}
+              <NavLink exact to="/notifications" style={unreadNotice.length > 0 ? {marginRight:'15px'} : {}}>
+                通知{unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}
               </NavLink>
             </li>
             <li>
-              <div styleName="avatar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                style={{backgroundImage:`url(${me.avatar_url})`}}>
+              <div styleName="avatar-area" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div styleName="avatar" style={{backgroundImage:`url(${me.avatar_url})`}}></div>
+                <div className="d-none d-lg-block d-xl-block" styleName="nickname">{me.nickname}</div>
               </div>
               <div className="dropdown-menu dropdown-menu-right">
                 <Link className="dropdown-item" to={`/people/${me._id}`}>我的主页</Link>
@@ -177,35 +155,73 @@ export default class Head extends React.Component {
                 <a className="dropdown-item" href="javascript:void(0)" onClick={this.signOut}>退出</a>
               </div>
             </li>
-          </ul>
-          :
-          <ul styleName="user-bar">
-            <li>
-              <div className="d-none d-md-block d-lg-block d-xl-block">{search}</div>
-              <Link styleName="link" className="d-block d-md-none d-lg-none d-xl-none" to="/search">搜索</Link>
-            </li>
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link" data-type="sign-up">注册</a></li>
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" styleName="link" data-type="sign-in">登录</a></li>
-          </ul>}
-
-        {/* topic bar */}
-        <div styleName="topics-bar">
-          <div>
-            <ul>
-              {nav.map(item=><li key={item.to}>
-                <NavLink exact to={item.to} styleName="link">
-                  {item.name}
-                  {item.tips ? <span styleName="red-point"></span> : null}
-                </NavLink>
-              </li>)}
             </ul>
-          </div>
+          : <ul>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">注册</a></li>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in">登录</a></li>
+            </ul>}
+          
         </div>
+        
+        {/* 
+        <div styleName="navbar-left">
 
-      </div>
+            <div styleName="topics-nav">
+              <ul>
+                {nav.map(item=><li key={item.to}>
+                  <NavLink exact to={item.to}>
+                    {item.name}
+                    {item.tips ? <span styleName="red-point"></span> : null}
+                  </NavLink>
+                </li>)}
+              </ul>
+            </div>
+            <div>
+              <form onSubmit={this.search} styleName="search-form">
+                <input
+                  type="text"
+                  styleName="search"
+                  placeholder="搜索"
+                  ref={e => this.state.search = e}
+                  />
+              </form>
+            </div>
+          
+        </div>
+        
+
+        <ul styleName="user-bar">
+          {isMember ?
+            <>
+            <li>
+              <NavLink exact to="/notifications" style={unreadNotice.length > 0 ? {marginRight:'15px'} : {}}>
+                通知{unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}
+              </NavLink>
+            </li>
+            <li>
+              <div styleName="avatar-area" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div styleName="avatar" style={{backgroundImage:`url(${me.avatar_url})`}}></div>
+                <div className="d-none d-md-block d-lg-block d-xl-block">{me.nickname}</div>
+              </div>
+              <div className="dropdown-menu dropdown-menu-right">
+                <Link className="dropdown-item" to={`/people/${me._id}`}>我的主页</Link>
+                <Link className="dropdown-item" to="/settings">设置</Link>
+                <a className="dropdown-item" href="javascript:void(0)" onClick={this.signOut}>退出</a>
+              </div>
+            </li>
+            </>
+          : <>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">注册</a></li>
+            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in">登录</a></li>
+            </>}
+        </ul>
+        */}
+
       </nav>
+      </header>
 
-    </header>)
+      <div styleName="header-space"></div>
+    </>)
 
   }
 

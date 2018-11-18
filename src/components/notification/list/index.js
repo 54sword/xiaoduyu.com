@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import CSSModules from 'react-css-modules'
-import styles from './style.scss'
+import './style.scss'
 
 import connectReudx from '../../../common/connect-redux'
-import { loadBroadcastList, updateBroadcast } from '../../../actions/broadcast'
-import { getBroadcastListByName } from '../../../reducers/broadcast'
+import { loadBroadcastList, updateBroadcast } from '../../../store/actions/broadcast'
+import { getBroadcastListByName } from '../../../store/reducers/broadcast'
 
 import ListLoading from '../../list-loading'
 import Pagination from '../../pagination'
@@ -21,7 +20,6 @@ import Pagination from '../../pagination'
     updateBroadcast: bindActionCreators(updateBroadcast, dispatch)
   })
 )
-@CSSModules
 export default class NotificationList extends Component {
 
   static propTypes = {

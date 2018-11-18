@@ -7,7 +7,7 @@ import { abstractImagesFromHTML } from '../../common/utils';
 import graphql from '../../common/graphql';
 import { DateDiff } from '../../common/date';
 
-exports.show = async (req, res, next) => {
+export const show = async (req, res, next) => {
 
   const { id } = req.params;
 
@@ -133,7 +133,7 @@ exports.show = async (req, res, next) => {
   // console.log(error);
   // console.log(commentList);
 
-  res.render(__dirname+'/../../views/amp/pages/posts-detail.ejs', {
+  res.render('../dist/server/views/pages/posts-detail.ejs', {
     amp,
     website_name: name,
     domain_name,

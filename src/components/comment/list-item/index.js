@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link, browserHistory } from 'react-router-dom';
 
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateComment } from '../../../actions/comment';
+import { updateComment } from '../../../store/actions/comment';
 // import { showSign } from '../../../actions/sign';
-import { isMember, getProfile } from '../../../reducers/user';
+import { isMember, getProfile } from '../../../store/reducers/user';
 
 // components
 import LikeButton from '../../like';
@@ -18,6 +17,7 @@ import HTMLText from '../../html-text';
 // import EditorCommentModal from '../../editor-comment-modal';
 import EditButton from '../../edit-button';
 import ReportMenu from '../../report-menu';
+import CommentButton from '../button';
 
 @connect(
   (state, props) => ({
@@ -29,7 +29,6 @@ import ReportMenu from '../../report-menu';
     updateComment: bindActionCreators(updateComment, dispatch)
   })
 )
-@CSSModules(styles)
 export default class CommentItem extends Component {
 
   static propTypes = {
@@ -115,7 +114,10 @@ export default class CommentItem extends Component {
 
       <div styleName="footer">
         <div styleName="actions">
-          {isMember ?
+
+          <CommentButton comment={comment} />
+
+          {/*isMember ?
             <a href="javascript:void(0)" onClick={((comment)=>{
               return ()=>{
                 $('#editor-comment-modal').modal({
@@ -128,9 +130,9 @@ export default class CommentItem extends Component {
               }
             })(comment)}>回复</a>
             :
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">回复</a>}
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">回复</a>*/}
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
-          <EditButton comment={comment} />
+          {/*<EditButton comment={comment} />*/}
         </div>
       </div>
 

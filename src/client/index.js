@@ -2,19 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { StaticRouter, matchPath } from 'react-router';
 import ReactGA from 'react-ga';
+import createHistory from "history/createBrowserHistory";
+
 
 import configureStore from '../store';
 import createRouter from '../router';
-import startSocket from '../socket';
+import startSocket from './socket';
 
-import { debug, GA } from '../../config';
+import { debug, GA, analysis_script } from '../../config';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'jquery'
-// import 'popper.js'
-// import 'bootstrap/dist/js/bootstrap.min.js'
-import '../pages/global.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery';
+import 'popper.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
+
+import '../theme/default.scss';
 
 
 
@@ -32,6 +36,8 @@ import '../vendors/web-picture-viewer.js';
 // ArriveFooter 监听抵达页尾的事件
 import '../vendors/arrive-footer.js';
 
+import '../vendors/expand-button.js';
+
 /**
  * 懒加载图片、Dom
  * 使用方式
@@ -39,6 +45,10 @@ import '../vendors/arrive-footer.js';
  **/
 import '../vendors/load-demand';
 
+
+window._history = createHistory();
+
+// console.log(_history);
 
 // [todo]
 // import runtime from 'serviceworker-webpack-plugin/lib/runtime'
@@ -51,8 +61,8 @@ import '../vendors/load-demand';
 // 从页面中获取服务端生产redux数据，作为客户端redux初始值
 const store = configureStore(window.__initState__);
 
-import { getProfile } from '../reducers/user';
-import { getUnlockTokenByCookie } from '../actions/unlock-token';
+import { getProfile } from '../store/reducers/user';
+import { getUnlockTokenByCookie } from '../store/actions/unlock-token';
 
 let userinfo = getProfile(store.getState());
 
@@ -71,22 +81,53 @@ if (GA) {
   }
 }
 
-const RouterDom = createRouter(userinfo, logPageView).dom;
+const run = async () => {
 
-// if (__DEV__) {
-  // 开发模式下，首屏内容会使用服务端渲染的html代码，
-  // 而热更新代码是客户端代码，清空app里面的html，强制用客户端的代码作为显示
-  // document.getElementById('app').innerHTML = ''
-// }
+  const router = createRouter(userinfo, logPageView);
+  const RouterDom = router.dom;
 
-startSocket(store);
+  // const RouterDom = createRouter(userinfo, logPageView).dom;
 
+  // if (__DEV__) {
+    // 开发模式下，首屏内容会使用服务端渲染的html代码，
+    // 而热更新代码是客户端代码，清空app里面的html，强制用客户端的代码作为显示
+    // document.getElementById('app').innerHTML = ''
+  // }
 
-ReactDOM.hydrate(
-  <Provider store={store}>
-    <BrowserRouter>
-      <RouterDom />
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById('app')
-);
+  startSocket(store);
+
+  let _route = null;
+
+  router.list.some(route => {
+    let match = matchPath(window.location.pathname, route);
+    if (match && match.path) {
+      _route = route;
+      return true;
+    }
+  });
+
+  // 预先加载首屏的js（否则会出现，loading 一闪的情况）
+  // if (_route && _route.component && _route.component.preload && _route.loadData) {
+    await _route.component.preload();
+  // }
+
+  ReactDOM.hydrate(
+    <Provider store={store}>
+      <BrowserRouter>
+        {RouterDom()}
+      </BrowserRouter>
+    </Provider>,
+    document.getElementById('app')
+  );
+
+  if (process.env.NODE_ENV === 'development') {
+    if (module.hot) {
+      module.hot.accept();
+    }
+  }
+
+  $('body').append(`<div style="display:none">${analysis_script}</div>`);
+
+}
+
+run();

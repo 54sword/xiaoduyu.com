@@ -63,13 +63,13 @@
   iframe[src^="//music.163.com"] {
     min-height: auto;
   }
-
+  
   img{
     max-width: 100%;
-    max-height: 450px;
+    // max-height: 1000px;
     min-width: 20px;
     min-height: 20px;
-    // background-color: #efefef;
+    background-color: #efefef;
     // margin:0 auto;
     // margin:10px 0 10px 0;
   }
@@ -81,7 +81,7 @@
   }
 
   a{
-    color:rgb(46, 150, 226);
+    color:#4170ea;
     margin:0px;
     padding:0px;
   }
@@ -100,11 +100,6 @@
   top:-60px;
   color:#007bff;
   margin-bottom: 30px;
-  // background: linear-gradient(to bottom,  #fff 0%,#fff 100%);
-
-  // background: -webkit-gradient(linear, 0 0, 0 100%, from(#eee 0%), to(#aaa 100%)); /** Chrome Safari **/
-// background: -moz-linear-gradient(top, #eee, #aaa); /** FireFox **/
-// background: -o-linear-gradient(top, #eee, #aaa);  /** Opear **/
 background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 60%);  /** IE9 IE10 **/
 
   .lock{

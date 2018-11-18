@@ -3,30 +3,31 @@ import React from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList } from '../../actions/posts';
-import { getPostsTips } from '../../reducers/website';
-import { loadNewPosts } from '../../actions/posts';
-import { getProfile } from '../../reducers/user';
+import { hasNewFeed } from '../../store/reducers/website';
+import { loadNewFeed } from '../../store/actions/feed';
+import { getProfile } from '../../store/reducers/user';
+import { getFeedListByName } from '../../store/reducers/feed';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
+import FeedList from '../../components/feed/list';
 import PostsList from '../../components/posts/list';
 import Sidebar from '../../components/sidebar';
 import NewPostsButton from '../../components/new-posts-button';
+import Box from '../../components/box';
 
 
 // style
-import CSSModules from 'react-css-modules';
-import styles from './style.scss';
+import './style.scss';
 
 
 let general = {
   variables: {
-    method: 'user_follow',
-    sort_by: "sort_by_date",
-    deleted: false,
-    weaken: false
+    // method: 'user_follow',
+    sort_by: "create_at:-1"
+    // deleted: false,
+    // weaken: false
   }
 }
 
@@ -37,7 +38,7 @@ let recommend = {
     deleted: false,
     weaken: false,
     page_size: 10,
-    start_create_at: (new Date().getTime() - 1000 * 60 * 60 * 24 * 30) + ''
+    start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
   },
   select: `
     _id
@@ -49,42 +50,18 @@ let recommend = {
   `
 }
 
+@Shell
 @connect(
   (state, props) => ({
     me: getProfile(state),
-    postsTips: getPostsTips(state)
+    hasNewFeed: hasNewFeed(state),
+    list: getFeedListByName(state, 'feed')
   }),
   dispatch => ({
-    loadNewPosts: bindActionCreators(loadNewPosts, dispatch)
+    loadNewFeed: bindActionCreators(loadNewFeed, dispatch)
   })
 )
-@CSSModules(styles)
-export class Follow extends React.Component {
-
-  static loadData({ store, match }) {
-    return new Promise(resolve => {
-
-      Promise.all([
-        new Promise(async resolve => {
-          let [ err, result ] = await loadPostsList({
-            id: 'follow',
-            filters: general
-          })(store.dispatch, store.getState);
-          resolve([ err, result ])
-        })
-        // new Promise(async resolve => {
-        //   let [ err, result ] = await loadPostsList({
-        //     id: '_follow',
-        //     filters: recommend
-        //   })(store.dispatch, store.getState);
-        //   resolve([ err, result ])
-        // })
-      ]).then(value=>{
-        resolve({ code:200 });
-      });
-
-    })
-  }
+export default class Follow extends React.Component {
 
   constructor(props) {
     super(props);
@@ -92,68 +69,52 @@ export class Follow extends React.Component {
 
   componentDidMount() {
 
-    const { me, postsTips, loadNewPosts } = this.props;
+    const { list, hasNewFeed, loadNewFeed } = this.props;
 
-    if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
-      loadNewPosts();
-    }
+    if (list && hasNewFeed) loadNewFeed();
 
   }
 
   render() {
 
-    const self = this;
-    const { me, postsTips, loadNewPosts } = this.props;
-    let tips = false;
-
-    if (postsTips['/follow'] && new Date(postsTips['/follow']).getTime() > new Date(me.last_find_posts_at).getTime()) {
-      tips = true;
-    }
+    const { me, hasNewFeed, loadNewFeed } = this.props;
 
     return(<div>
 
       <Meta title="关注" />
 
+      <Box>
 
-      <NewPostsButton />
-
-      {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
-
-      <PostsList
-        id={'follow'}
-        filters={general}
-        scrollLoad={true}
-        />
-
-      {/*
-      <div className="container">
-        <div className="row">
-          <div className="col-md-9">
-            <NewPostsButton />
-            {tips ? <div onClick={()=>{ loadNewPosts(); }} styleName="unread-tip">有新的帖子</div> : null}
-            <PostsList
+        <div>
+          <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
+          {hasNewFeed ? <div onClick={()=>{ loadNewFeed(); }} styleName="unread-tip">有新的帖子</div> : null}
+            <FeedList
               id={'follow'}
               filters={general}
               scrollLoad={true}
               />
-          </div>
-          <div className="col-md-3">
-            <Sidebar
-              recommendPostsDom={(<PostsList
-                id={'_follow'}
-                itemName="posts-item-title"
-                filters={recommend}
-                />)}
-              />
-          </div>
         </div>
-      </div>
-      */}
+        
+        <Sidebar
+          recommendPostsDom={(<PostsList
+            id={'_follow'}
+            itemName="posts-item-title"
+            filters={{
+              variables: {
+                method: 'user_follow',
+                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+                deleted: false,
+                weaken: false,
+                page_size: 10,
+                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+              }
+            }}
+            />)}
+          />
 
+      </Box>
 
     </div>)
   }
 
 }
-
-export default Shell(Follow);

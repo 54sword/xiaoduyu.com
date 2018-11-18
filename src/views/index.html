@@ -7,12 +7,7 @@
   <%= htmlWebpackPlugin.options.head %>
 
   <!-- 自定义 meta -->
-  <%= htmlWebpackPlugin.options.meta %>
-
-  <!-- 打包 css -->
-  <% for (var i in htmlWebpackPlugin.files.css) { %>
-    <link href="<%= htmlWebpackPlugin.files.css[i] %>" rel="stylesheet"></head>
-  <% } %>
+  <%= htmlWebpackPlugin.options.metaDom %>
 
 </head>
 <body class="default-theme">
@@ -24,14 +19,17 @@
   <script>
     window.__initState__ = <%= htmlWebpackPlugin.options.reduxState %>
   </script>
-
-  <!-- 打包 js -->
-  <% for (var i in htmlWebpackPlugin.files.js) { %>
-    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[i] %>"></script>
-  <% } %>
-
-  <!-- 统计代码 -->
-  <div style="display:none"><%= htmlWebpackPlugin.options.analysis_script %></div>
+  
+  <!--[if lt IE 10]>
+	<style type="text/css">
+		body{ padding:0; margin:0; }
+		.no-supper{ width:100%; min-height: 100px; text-align: center; line-height:100px; background-color:#FFBD91; color:#000; position: fixed; top:100%; margin-top:-100px; z-index: 999; }
+		.no-supper a{ color:#45a7ff; }
+	</style>
+	<div class="no-supper">
+		您的浏览器版本较低，可能存在安全风险，请升级到最新IE浏览器。亦可下载 <a href="https://chrome.google.com/" target="_blank">Google Chrome</a>
+	</div>
+  <![endif]-->
 
 </body>
 </html>

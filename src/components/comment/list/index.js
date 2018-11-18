@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getCommentListByName } from '../../../reducers/comment';
-import { loadCommentList } from '../../../actions/comment';
+import { getCommentListByName } from '../../../store/reducers/comment';
+import { loadCommentList } from '../../../store/actions/comment';
 
 // components
 import ListLoading from '../../list-loading';
@@ -69,7 +69,7 @@ export default class CommentList extends Component {
     // console.log(list);
 
     return (
-      <div ref="dom">
+      <div ref={e=>this.state.dom=e}>
 
         <div className="list-group">
           {data && data.map((comment)=>{
@@ -85,7 +85,7 @@ export default class CommentList extends Component {
           pageNumber={filters.page_number || 0}
           onChoose={(e)=>{
 
-            const { dom } = this.refs;
+            const { dom } = this.state;
             $(window).scrollTop($(dom).offset().top - 100);
             self.props.filters.variables.page_number = e;
             self.loadList(true);
