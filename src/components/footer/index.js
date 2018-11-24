@@ -43,9 +43,11 @@ export class Footer extends React.Component {
   }
 
   render() {
+
     return(<div styleName="main">
 
       <span className="d-none d-lg-block">
+
         <a id="back-to-top"
            href="javascript:void(0)"
            onClick={this.top}
@@ -57,10 +59,10 @@ export class Footer extends React.Component {
 
       {/* <LoadableFooter /> */}
 
-      {/*
+      {/* 
       <AsyncComponent load={() => import('../global')}>
         {(Global) => {
-          return (<Global />)
+          return (<Global onTest={this.onTest.bind(this)} />)
         }}
       </AsyncComponent>
       */}

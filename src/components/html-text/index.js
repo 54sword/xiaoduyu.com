@@ -19,6 +19,176 @@ function randomString(len) {
 　　return pwd;
 }
 
+/*
+// 单曲
+https://music.163.com/#/song?id=484849174
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=484849174&auto=1&height=66"></iframe>
+
+// 歌单
+https://music.163.com/#/playlist?id=2284177332
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=0&id=2284177332&auto=1&height=430"></iframe>
+
+// 专辑
+https://music.163.com/#/album?id=34420299
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=1&id=34420299&auto=1&height=430"></iframe>
+*/
+
+// 解析网页中的网易音乐地址
+function music163(html) {
+
+  let re = /(http:\/\/|https:\/\/|www\.)music\.163\.com\/\#\/(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+
+  let musics = html.match(re);
+
+  if (musics && musics.length > 0) {
+
+    musics.map(str=>{
+
+      let type = -1, id;
+
+      if (str.indexOf('/#/song?') != -1) {
+        type = 2;
+      } else if (str.indexOf('/#/playlist?') != -1) {
+        type = 0;
+      } else if (str.indexOf('/#/album?') != -1) {
+        type = 1;
+      }
+
+      try {
+        str.split('?')[1].split('&').map(s=>{
+          let arr = s.split('=');
+          if (arr[0] == 'id') id = arr[1];
+        });
+      } catch (err) {
+        console.log(err)
+      }
+
+      if (type != -1 && id) {
+
+        if (type == 2) {
+          let url = `//music.163.com/outchain/player?type=2&id=${id}&auto=0&height=66`;
+          html = html.replace(str, `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="${url}"></iframe>`)
+        } else {
+          let url = `//music.163.com/outchain/player?type=${type}&id=${id}&height=430`;
+          html = html.replace(str, `<iframe type="music" src="${url}" height="430"></iframe>`)
+        }
+
+      }
+
+    });
+
+  }
+
+  return html;
+
+}
+
+/**
+ * http://v.youku.com/v_show/id_XMzkyMzA5MDg0MA==.html?spm=a2hww.11359951.m_26673_c_32078.5~5!3~5!3~5~5~A
+* <iframe height=498 width=510 src='http://player.youku.com/embed/XMzkyMzA5MDg0MA==' frameborder=0 'allowfullscreen'></iframe>
+ */
+function youku(html) {
+
+  let re = /(http:\/\/|https:\/\/|www\.)v\.youku\.com\/v\_show\/id\_(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+
+  let arr = html.match(re);
+
+  if (!arr || arr.length == 0) return html;
+
+    arr.map(str=>{
+
+      let id;
+
+      try{
+        id = str.split('v.youku.com/v_show/id_')[1].split('.')[0];
+      } catch(err) {
+        console.log(err);
+      }
+
+      if (id) {
+        let url = `//player.youku.com/embed/${id}`;
+        html = html.replace(str, `<iframe width='100%' src='${url}' frameborder=0 'allowfullscreen'></iframe>`)
+      }
+
+    });
+
+  return html;
+
+}
+
+
+/*
+https://www.bilibili.com/video/av36317487/?spm_id_from=333.334.b_63686965665f7265636f6d6d656e64.17
+<iframe src="//player.bilibili.com/player.html?aid=36317487&cid=63759446&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+*/
+function bilibili(html) {
+
+  let re = /(https:\/\/www\.|https:\/\/|http:\/\/www.|http:\/\/|www\.)bilibili\.com\/video\/av(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+
+  let arr = html.match(re);
+
+  if (!arr || arr.length == 0) return html;
+
+    arr.map(str=>{
+
+      let id;
+
+      try{
+        id = str.split('bilibili.com/video/av')[1].split('/')[0];
+      } catch(err) {
+        console.log(err);
+      }
+      
+      if (id) {
+        let url = `//player.bilibili.com/player.html?aid=${id}`;
+        html = html.replace(str, `<iframe src="${url}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`)
+      }
+
+    });
+
+  return html;
+
+}
+/**
+ * https://www.youtube.com/watch?v=c_WCKfQCQuk
+ * <iframe width="560" height="315" src="https://www.youtube.com/embed/c_WCKfQCQuk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ */
+function youtube(html) {
+
+  let re = /(https:\/\/www\.|https:\/\/|http:\/\/www.|http:\/\/|www\.)youtube\.com\/watch\?v\=(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+
+  let arr = html.match(re);
+
+  if (!arr || arr.length == 0) return html;
+
+    arr.map(str=>{
+
+      let id;
+
+      try{
+        str.split('?')[1].split('&').map(item=>{
+          let arr = item.split('=');
+          if (arr && arr[0] == 'v') {
+            id = arr[1];
+          }
+        })
+      } catch(err) {
+        console.log(err);
+      }
+      
+      if (id) {
+        let url = `//www.youtube.com/embed/${id}`;
+        html = html.replace(str, `<iframe width="100%" style="background:#f9f9f9;" src="${url}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
+      }
+
+    });
+
+  return html;
+
+}
+
+
+// url string to a tag
 const linkOptimization = (str) => {
 
   if (!str) return '';
@@ -43,10 +213,9 @@ const linkOptimization = (str) => {
     });
   }
 
-  let linkReg = /(http:\/\/|https:\/\/|www\.|magnet\:\?xt\=)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+  let linkReg = /(http:\/\/>http:\/\/|https:\/\/|www\.|magnet\:\?xt\=)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
 
   let links = str.match(linkReg);
-
 
   if (links && links.length > 0) {
 
@@ -70,6 +239,18 @@ const linkOptimization = (str) => {
     });
 
     _links.map(item=>{
+
+      switch (true) {
+        case item.value.indexOf('youtube.com') != -1:
+          return;
+        case item.value.indexOf('youku.com') != -1:
+          return;
+        case item.value.indexOf('bilibli.com') != -1:
+          return;
+        case item.value.indexOf('music.163.com') != -1:
+          return;
+      }
+      
       if (Device.isMobileDevice()) {
         str = str.replace(item.id, `<a href=${item.value} rel="nofollow">${item.value}</a>`);
       } else {
@@ -92,7 +273,7 @@ const linkOptimization = (str) => {
 
 const converVideo = (html) => {
 
-  html = linkOptimization(html);
+  
 
   // youku
   let re = /\<div data\-youku\=\"(.*?)\"\>\<\/div\>/g
@@ -233,6 +414,9 @@ const converVideo = (html) => {
 
   }
 
+
+
+
   /*
   re = /(http\:\/\/|https\:\/\/|www\.|\s)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|\>)/g
   let links = html.match(re)
@@ -272,6 +456,14 @@ export class HTMLText extends Component {
     if (hiddenHalf && content) {
       content = content.substr(0, parseInt(content.length/2));
     }
+    
+    content = music163(content);
+    content = youku(content);
+    content = bilibili(content);
+    content = youtube(content);
+    content = linkOptimization(content);
+
+    // this.state.content = content;
 
     this.state.content = converVideo(content);
 

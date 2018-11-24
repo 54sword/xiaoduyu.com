@@ -166,6 +166,8 @@ export default async ({
 
     }).catch(res=>{
 
+      console.log(res);
+
       if (res.graphQLErrors && res.graphQLErrors.length != 0) {
         res.graphQLErrors.map(item=>{
           item = converterErrorInfo(item);

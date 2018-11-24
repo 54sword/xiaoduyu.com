@@ -107,7 +107,7 @@ export default class Sidebar extends React.Component {
 
       {!isMember ?
         <div className="card">
-          <div className="card-body" styleName="slogan">
+          <div className="card-body" styleName="slogan" style={{borderRadius:'12px'}}>
             <h1>{name}是什么社区？</h1>
             <h2>自然生长的社区</h2>
             {/*<div><a href="#">建议</a> <a href="#">反馈</a></div>*/}
@@ -119,10 +119,10 @@ export default class Sidebar extends React.Component {
           </div>
         </div>
         : null}
-
+        
       {Goole_AdSense.sidebar ?
         <div className="card">
-          <div className="card-body text-center">
+          <div className="card-body text-center" style={{borderRadius:'12px'}}>
             <div style={{margin:"5px auto 0 auto"}}><AdsByGoogle {...Goole_AdSense.sidebar} /></div>
           </div>
         </div>
@@ -158,6 +158,7 @@ export default class Sidebar extends React.Component {
         <div className="card-body">
           <div><a href="https://github.com/54sword/xiaoduyu.com" target="_blank">前端（React）</a></div>
           <div><a href="https://github.com/54sword/api.xiaoduyu.com" target="_blank">后端（NodeJS+Express+MongoDB）</a></div>
+          <div><a href="https://www.xiaoduyu.com/graphql" target="_blank">Playground(API文档+调试环境)</a></div>
           <div><a href="https://github.com/54sword/xiaoduyuReactNative" target="_blank">移动端（React Native）</a></div>
           <div><a href="https://github.com/54sword/admin.xiaoduyu.com" target="_blank">后台管理（React）</a></div>
           <div><a href="https://github.com/54sword/react-starter" target="_blank">React同构脚手架</a></div>

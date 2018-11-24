@@ -35,23 +35,32 @@ a{
       padding-left: 6px;
     }
   }
-
+  
   .card{
     border: none;
     margin-bottom: 12px;
-    border-radius: 12px;
-    overflow: hidden;
+    border-radius: none;
+    background-color: rgba(0,0,0,0);
+
+    .card-header{
+      padding:10px 15px 10px 15px;
+      border-bottom: 1px solid #e6e8eb;
+      background-color: #fff;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      font-size: 13px;
+    }
+  
+    .card-body{
+      padding:15px 20px 15px 20px;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      background-color: #fff;
+    }
+
   }
 
-  .card-header{
-    padding:8px 15px 8px 15px;
-    border-bottom: 1px solid #e6e8eb;
-    background-color: #fff;
-  }
 
-  .card-body{
-    padding:15px 20px 15px 20px;
-  }
 
   .jumbotron{
     background-color: #fff;

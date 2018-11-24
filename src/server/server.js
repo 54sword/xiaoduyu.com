@@ -10,7 +10,7 @@ import { StaticRouter, matchPath } from 'react-router';
 import { Provider } from 'react-redux';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
-import Loadable from 'react-loadable';
+// import Loadable from 'react-loadable';
 
 // 准备store的数据
 import readyStoreData from './ready-store-data';

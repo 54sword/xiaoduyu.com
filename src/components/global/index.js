@@ -27,6 +27,9 @@ class Global extends Component {
     // super(props)
   // }
 
+  componentDidMount() {
+  }
+
   render () {
 
     const { me } = this.props;
@@ -41,7 +44,6 @@ class Global extends Component {
         {me ? <ReportModal /> : null}
         {me ? <BindingPhone /> : null}
         {me ? <UnlockToken /> : null}
-
 
       </div>)
   }
