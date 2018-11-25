@@ -85,7 +85,7 @@ export default class ResetBrief extends Component {
             <div className="form-group">
               <textarea className="form-control" defaultValue={me.brief} ref="brief"></textarea>
             </div>
-            <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submitResetBrief}>保存</a>
+            <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submitResetBrief}>保存</a>
           </div>
         </div>
       </div>

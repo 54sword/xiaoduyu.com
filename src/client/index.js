@@ -126,7 +126,13 @@ const run = async () => {
     }
   }
 
+  // 添加页面第三方统计分析脚本
   $('body').append(`<div style="display:none">${analysis_script}</div>`);
+
+  // 解决在 ios safari iframe 上touchMove 滚动后，外部的点击事件会无效的问题
+  document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  });
 
 }
 

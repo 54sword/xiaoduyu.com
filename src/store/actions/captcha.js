@@ -22,12 +22,13 @@ export const addCaptcha = ({ id = new Date().getTime(), args, fields = `success`
       });
 
       if (res && res._id && res.url) {
-        dispatch({ type: 'ADD_CAPRCHA_ID', id, data: res });
+        dispatch({ type: 'ADD_CAPTCHA_ID', id, data: res });
       }
 
-      resolve([ err, res ])
+      resolve([ err, res ]);
 
-    })
+
+    });
 
   }
 }

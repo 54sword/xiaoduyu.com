@@ -112,12 +112,12 @@ export default class SettingsEmail extends Component {
                             <input className="form-control" type="text" placeholder="请输入验证码" ref="captcha" />
                             <div><CaptchaButton onClick={this.sendCaptcha} /></div>
                           </div>
-                          <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submitResetEmail}>提交</a>
+                          <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submitResetEmail}>提交</a>
                         </div>)
               } else if (me.email && !unlockToken) {
                 return (<div className="d-flex justify-content-between">
                   <div>{me.email ? me.email : null}</div>
-                  <a className="btn btn-primary" href="javascript:void(0);" data-toggle="modal" data-target="#unlock-token-modal">修改</a>
+                  <a className="btn btn-primary btn-sm" href="javascript:void(0);" data-toggle="modal" data-target="#unlock-token-modal">修改</a>
                 </div>)
               }
 

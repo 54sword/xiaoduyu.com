@@ -155,7 +155,7 @@ export default class SettingsPhone extends Component {
                   </div>
 
                   <div className="form-group">
-                    <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
+                    <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a>
                   </div>
 
                 </form>
@@ -164,7 +164,7 @@ export default class SettingsPhone extends Component {
             } else if (me.phone && !unlockToken) {
               return (<div className="d-flex justify-content-between">
                 <div>{me.phone ? me.phone : null}</div>
-                <a className="btn btn-primary" href="javascript:void(0);" data-toggle="modal" data-target="#unlock-token-modal">修改</a>
+                <a className="btn btn-primary btn-sm" href="javascript:void(0);" data-toggle="modal" data-target="#unlock-token-modal">修改</a>
               </div>)
             }
 

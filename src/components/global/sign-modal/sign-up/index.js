@@ -169,7 +169,9 @@ export default class SignUp extends Component {
 
         <div><input type="password" className="form-control" ref={(e)=>{this.state.password=e;}} placeholder="密码" /></div>
 
-        <div styleName="gender">性别
+        <div styleName="gender">
+        
+          <span>性别</span>
 
           <div className="form-check form-check-inline">
             <input className="form-check-input" type="radio" name="gender" id="male" value="男" ref={(e)=>{this.state.male=e;}} />
@@ -187,10 +189,12 @@ export default class SignUp extends Component {
           <input type="submit" className="btn btn-primary" value="注册" onClick={this.submit} />
         </div>
 
+        <div className="text-center">
         {type == 'phone' ?
           <div><a href="javascript:void(0)" onClick={()=>{ self.setState({ type: 'email' }); }}>使用邮箱注册</a></div>
           :
           <div><a href="javascript:void(0)" onClick={()=>{ self.setState({ type: 'phone' }); }}>使用手机注册</a></div>}
+        </div>
 
       </div>
     )

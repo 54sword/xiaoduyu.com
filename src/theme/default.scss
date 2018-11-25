@@ -126,14 +126,15 @@ a{
 
   /* button */
 
+  
   .btn{
-    border-radius: 40px;
-    font-size: 14px;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    line-height: 100%;
+    border-radius: 50px;
+    // font-size: 14px;
+    // padding-top: 10px;
+    // padding-bottom: 10px;
+    // line-height: 100%;
   }
-
+  
   .btn-primary{
     background-color: #4170ea;
     color:#fff;
@@ -145,6 +146,7 @@ a{
   }
 
   /* button end */
+
 
   .navbar-brand{
     min-height: 45px;
@@ -180,6 +182,19 @@ a{
       padding:0 10px 0 10px;
     }
 
+  }
+
+  /* from */
+
+  .form-control{
+    border-radius: 50px;
+    padding:0 20px 0 20px;
+  }
+
+  /* */
+  .modal-content{
+    border:none;
+    border-radius: 12px;
   }
 
 }

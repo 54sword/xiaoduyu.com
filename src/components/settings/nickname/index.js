@@ -79,7 +79,7 @@ export default class ResetNickname extends Component {
             <br />
 
             <div>
-              <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
+              <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a>
             </div>
             <br />
 

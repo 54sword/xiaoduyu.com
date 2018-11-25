@@ -105,8 +105,6 @@ export function loadCommentList({ name, filters = {}, restart = false }) {
   
   return (dispatch, getState) => {
 
-    console.log(filters);
-
     if (!filters.select) {
       filters.select = `
         content_html

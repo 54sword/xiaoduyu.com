@@ -101,11 +101,11 @@ export default async ({
   });
 
 
-  // if (debug) {
-  //   console.log(`${type}{
-  //     ${sql}
-  //   }`);
-  // }
+  if (debug) {
+    console.log(`${type}{
+      ${sql}
+    }`);
+  }
 
 	sql = gql`${type}{
     ${sql}

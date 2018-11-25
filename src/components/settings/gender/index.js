@@ -51,7 +51,6 @@ export default class ResetGender extends Component {
         duration: 3000,
         backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
       }).showToast();
-      this.props.history.goBack();
     }
 
     loadUserInfo({});
@@ -60,18 +59,23 @@ export default class ResetGender extends Component {
 
   render() {
 
-    const { me } = this.props
-
+    const { me } = this.props;
+    
     return (
       <div>
         <div className="card">
           <div className="card-header">名字</div>
           <div className="card-body" style={{padding:'20px'}}>
-            <div className="form-group">
-              <a className="form-control" href="javascript:void(0)" onClick={()=>{ this.submitResetGender(true) }}>男</a>
-            </div>
-            <div className="form-group">
-              <a className="form-control" href="javascript:void(0)" onClick={()=>{ this.submitResetGender(false) }}>女</a>
+            <div className="list-group">
+
+              <button type="button" className={`list-group-item list-group-item-action ${me.gender === 1 ? 'active' : ''}`} onClick={()=>{ this.submitResetGender(true) }}>
+                男
+              </button>
+
+              <button type="button" className={`list-group-item list-group-item-action ${me.gender === 0 ? 'active' : ''}`} onClick={()=>{ this.submitResetGender(false) }}>
+                女
+              </button>
+
             </div>
           </div>
         </div>

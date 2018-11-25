@@ -213,7 +213,7 @@ const linkOptimization = (str) => {
     });
   }
 
-  let linkReg = /(http:\/\/>http:\/\/|https:\/\/|www\.|magnet\:\?xt\=)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+  let linkReg = /(http:\/\/>http:\/\/|https:\/\/|www\.|magnet\:\?xt\=)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|\"|\'|$)/gi;
 
   let links = str.match(linkReg);
 
@@ -229,6 +229,18 @@ const linkOptimization = (str) => {
 
     links.map(item=>{
 
+      switch (true) {
+        case item.indexOf('youtube.com') != -1:
+          return;
+        case item.indexOf('youku.com') != -1:
+          return;
+        case item.indexOf('bilibli.com') != -1:
+          return;
+        case item.indexOf('music.163.com') != -1:
+          return;
+      }
+
+
       let id = '#'+randomString(18)+'#';
 
       _links.push({
@@ -239,17 +251,6 @@ const linkOptimization = (str) => {
     });
 
     _links.map(item=>{
-
-      switch (true) {
-        case item.value.indexOf('youtube.com') != -1:
-          return;
-        case item.value.indexOf('youku.com') != -1:
-          return;
-        case item.value.indexOf('bilibli.com') != -1:
-          return;
-        case item.value.indexOf('music.163.com') != -1:
-          return;
-      }
       
       if (Device.isMobileDevice()) {
         str = str.replace(item.id, `<a href=${item.value} rel="nofollow">${item.value}</a>`);
@@ -456,12 +457,15 @@ export class HTMLText extends Component {
     if (hiddenHalf && content) {
       content = content.substr(0, parseInt(content.length/2));
     }
-    
+
+
     content = music163(content);
     content = youku(content);
     content = bilibili(content);
     content = youtube(content);
+
     content = linkOptimization(content);
+
 
     // this.state.content = content;
 

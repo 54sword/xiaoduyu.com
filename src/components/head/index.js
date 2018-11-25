@@ -118,7 +118,11 @@ export default class Head extends React.Component {
               </NavLink>
             </li>)}
 
-            <li className="nav-item">
+            <li className="nav-item" className="d-block d-lg-none d-xl-none">
+              <Link to="/search" className="nav-link">搜索</Link>
+            </li>
+            
+            <li className="nav-item" className="d-none d-lg-block d-xl-block">
 
               <form onSubmit={this.search} styleName="search-form">
                 <input
@@ -128,7 +132,7 @@ export default class Head extends React.Component {
                   ref={e => this.state.search = e}
                   />
               </form>
-
+              
             </li>
 
           </ul>

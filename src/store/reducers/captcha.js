@@ -7,7 +7,7 @@ export default function() {
   return function captcha(state = initialState, action = {}) {
     switch (action.type) {
 
-      case 'ADD_CAPRCHA_ID':
+      case 'ADD_CAPTCHA_ID':
         var { id, data } = action
         state[id] = data
         return merge({}, state, {})

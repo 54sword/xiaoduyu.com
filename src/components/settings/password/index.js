@@ -96,7 +96,7 @@ export default class ResetPassword extends Component {
             if (!unlockToken) {
               return (<div className="d-flex justify-content-between">
                 <div>{me.has_password ? '已设置' : '未设置'}</div>
-                <a className="btn btn-primary" href="javascript:void(0);" data-toggle="modal" data-target="#unlock-token-modal">{me.has_password ? '修改' : '设置'}</a>
+                <a className="btn btn-primary btn-sm" href="javascript:void(0);" data-toggle="modal" data-target="#unlock-token-modal">{me.has_password ? '修改' : '设置'}</a>
               </div>)
             } else {
               return (<div>
@@ -109,7 +109,7 @@ export default class ResetPassword extends Component {
                   <input type="password" className="form-control" placeholder="重复新密码" ref="confirmNewPassword"></input>
                 </div>
     
-                <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
+                <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a>
     
               </div>)
             }

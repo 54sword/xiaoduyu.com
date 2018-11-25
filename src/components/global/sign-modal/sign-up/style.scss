@@ -14,7 +14,15 @@
 }
 
 .gender{
-  height: 30px;
+  height: 40px;
+  > span{
+    padding-right:20px;
+  }
+  label{
+    height: 30px;
+    line-height: 30px;
+    padding-right:20px;
+  }
 }
 
 .signin{
@@ -77,5 +85,7 @@
   > a{
     height: 40px;
     line-height: 40px;
+    margin-top:-54px;
+    padding-right:12px;
   }
 }
