@@ -54,6 +54,6 @@
 
   setInterval(function(){
     update()
-  }, 200)
+  }, 500)
 
 }())

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // config
-import { original_api_domain } from '../../../../config';
+import { original_api_domain, name } from '../../../../config';
 
 // components
 import SignIn from './sign-in';
@@ -12,7 +12,9 @@ import Modal from '../../bootstrap/modal';
 // styles
 import './style.scss';
 
-export default class SignModal extends Component {
+const $ = require('jquery');
+
+export class SignModal extends Component {
 
   constructor(props) {
     super(props)
@@ -42,6 +44,8 @@ export default class SignModal extends Component {
   
   render () {
     const { type } = this.state
+
+    // return <div>111</div>
 
     const body = (<div styleName="layer">
 
@@ -83,13 +87,13 @@ export default class SignModal extends Component {
         id="sign"
         header={type == 'sign-in' ? 
           <div styleName="header">
-            <h4>登录小度鱼</h4>
+            <h4>登录{name}</h4>
             <div>
               没有账号？ <a href="javascript:void(0)" onClick={this.displayComponent}>注册</a>
             </div>
           </div> :
           <div styleName="header">
-            <h4>注册小度鱼</h4>
+            <h4>注册{name}</h4>
             <div>
               已经有账号了？ <a href="javascript:void(0)" onClick={this.displayComponent}>登录</a>
             </div>
@@ -99,3 +103,5 @@ export default class SignModal extends Component {
     </div>)
   }
 }
+
+export default SignModal;

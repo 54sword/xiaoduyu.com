@@ -94,7 +94,7 @@ export default class Head extends React.Component {
         nav.push({ to: `/topic/${item._id}`, name: item.name });
       });
     }
-
+    
     return (<>
       <header>
       <nav styleName="navbar" className="navbar navbar-expand-lg navbar-light">

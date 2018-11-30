@@ -7,6 +7,9 @@ let config = {
   // 联系我们的邮箱地址
   contact_email: '***@gmail.com',
 
+  // 备案号
+  ICP_number: '浙ICP备14013796号-3',
+
   debug: false,
 
   // 服务端口

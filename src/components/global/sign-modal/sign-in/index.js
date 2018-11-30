@@ -8,6 +8,8 @@ import { signIn } from '../../../../store/actions/sign'
 import { addCaptcha } from '../../../../store/actions/captcha'
 import { getCaptchaById } from '../../../../store/reducers/captcha'
 
+const $ = require('jquery');
+
 @connect(
   (state, props) => ({
     captcha: getCaptchaById(state, 'sign-in')

@@ -1,6 +1,8 @@
 import React from 'react';
 // import Loadable from 'react-loadable';
 
+import $ from 'jquery';
+
 // components
 // import Bundle from '../bundle';
 // import { AsyncComponent } from '../generate-async-component';

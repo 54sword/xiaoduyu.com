@@ -206,10 +206,10 @@ export default class PostsListItem extends React.PureComponent {
             : null*/}
 
 
-            {/*posts.images && posts.images.length > 0 ?
+            {posts.images && posts.images.length > 0 ?
               <div style={{width:'60%',marginTop:'10px'}}><GridListImage images={posts.images} /></div>
-            : null*/}
-
+            : null}
+              
             {/*posts.images && posts.images.length > 0 ?
               <div styleName="images">
                 {posts.images.map((item, index)=>{

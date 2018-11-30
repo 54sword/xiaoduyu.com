@@ -36,7 +36,7 @@ https://music.163.com/#/album?id=34420299
 // 解析网页中的网易音乐地址
 function music163(html) {
 
-  let re = /(http:\/\/|https:\/\/|www\.)music\.163\.com\/\#\/(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+  let re = /(http:\/\/music\.163\.com|https:\/\/music\.163\.com|music\.163\.com)\/\#\/(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
 
   let musics = html.match(re);
 
@@ -89,7 +89,7 @@ function music163(html) {
  */
 function youku(html) {
 
-  let re = /(http:\/\/|https:\/\/|www\.)v\.youku\.com\/v\_show\/id\_(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+  let re = /(http:\/\/v\.youku\.com|https:\/\/v\.youku\.com|v\.youku\.com)\/v\_show\/id\_(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
 
   let arr = html.match(re);
 
@@ -123,7 +123,7 @@ https://www.bilibili.com/video/av36317487/?spm_id_from=333.334.b_63686965665f726
 */
 function bilibili(html) {
 
-  let re = /(https:\/\/www\.|https:\/\/|http:\/\/www.|http:\/\/|www\.)bilibili\.com\/video\/av(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+  let re = /(https:\/\/www\.bilibili\.com|https:\/\/bilibili\.com|http:\/\/www.bilibili\.com|http:\/\/bilibili\.com|www\.bilibili\.com|bilibili\.com)\/video\/av(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
 
   let arr = html.match(re);
 
@@ -155,7 +155,7 @@ function bilibili(html) {
  */
 function youtube(html) {
 
-  let re = /(https:\/\/www\.|https:\/\/|http:\/\/www.|http:\/\/|www\.)youtube\.com\/watch\?v\=(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+  let re = /(https:\/\/www\.youtube\.com|https:\/\/youtube\.com|http:\/\/www.youtube\.com|http:\/\/youtube\.com|www\.youtube\.com|youtube\.com)\/watch\?v\=(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
 
   let arr = html.match(re);
 
@@ -183,6 +183,47 @@ function youtube(html) {
 
     });
 
+  return html;
+
+}
+
+/**
+ * https://v.qq.com/x/cover/l19x9qoetxc5rh8/h0028rgy2x5.html(可以匹配)
+ * https://v.qq.com/x/cover/i5w51tl7vbl5mid.html(不能匹配)
+ * <iframe frameborder="0" src="https://v.qq.com/txp/iframe/player.html?vid=h0028rgy2x5" allowFullScreen="true"></iframe>
+ */
+function vqq(html) {
+
+  let re = /(https:\/\/v\.|http:\/\/v\.|v\.)qq\.com\/x\/cover\/(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+
+  let arr = html.match(re);
+
+  if (!arr || arr.length == 0) return html;
+
+    arr.map(str=>{
+
+      let id;
+
+      try{
+
+        let urlArr = str.split('?')[0].split('.');
+        urlArr = urlArr[urlArr.length - 2].split('/');
+
+        if (urlArr.length == 5) {
+          id = str.split('?')[0].split('/').pop().split('.')[0];
+        }
+        
+      } catch(err) {
+        console.log(err);
+      }
+      
+      if (id) {
+        let url = `//v.qq.com/txp/iframe/player.html?vid=${id}`;
+        html = html.replace(str, `<iframe frameborder="0" src="${url}" allowFullScreen="true"></iframe>`)
+      }
+
+    });
+    
   return html;
 
 }
@@ -226,9 +267,10 @@ const linkOptimization = (str) => {
     links = links.sort(sortNumber);
 
     let _links = [];
-
+    
     links.map(item=>{
 
+      /*
       switch (true) {
         case item.indexOf('youtube.com') != -1:
           return;
@@ -238,7 +280,10 @@ const linkOptimization = (str) => {
           return;
         case item.indexOf('music.163.com') != -1:
           return;
+        // case item.indexOf('v.qq.com') != -1:
+          // return;
       }
+      */
 
 
       let id = '#'+randomString(18)+'#';
@@ -463,8 +508,9 @@ export class HTMLText extends Component {
     content = youku(content);
     content = bilibili(content);
     content = youtube(content);
-
+    content = vqq(content);
     content = linkOptimization(content);
+    
 
 
     // this.state.content = content;

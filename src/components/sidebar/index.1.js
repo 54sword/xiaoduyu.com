@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import QRCode from 'qrcode.react';
+// import AdSense from 'react-adsense';
 
 import { name, domain_name, Goole_AdSense, client_download_url, contact_email, ICP_number } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+// import { loadPostsList } from '../../store/actions/posts';
 import { isMember, getProfile } from '../../store/reducers/user';
 import { getOnlineUserCount } from '../../store/reducers/website';
 
@@ -14,6 +16,7 @@ import { getOnlineUserCount } from '../../store/reducers/website';
 import './style.scss';
 
 // components
+// import PostsList from '../../components/posts/list';
 import AdsByGoogle from '../../components/adsbygoogle';
 
 @connect(
@@ -153,7 +156,7 @@ export default class Sidebar extends React.Component {
           </div>
         </div>
         : null}
-      
+        
       <div className="card">
         <div className="card-header">小度鱼社区相关开源</div>
         <div className="card-body">

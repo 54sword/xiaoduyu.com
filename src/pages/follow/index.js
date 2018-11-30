@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { hasNewFeed } from '../../store/reducers/website';
 import { loadNewFeed } from '../../store/actions/feed';
-import { getProfile } from '../../store/reducers/user';
+import { isMember, getProfile } from '../../store/reducers/user';
 import { getFeedListByName } from '../../store/reducers/feed';
 
 // components
@@ -53,6 +53,7 @@ let recommend = {
 @Shell
 @connect(
   (state, props) => ({
+    isMember: isMember(state),
     me: getProfile(state),
     hasNewFeed: hasNewFeed(state),
     list: getFeedListByName(state, 'feed')
@@ -77,7 +78,14 @@ export default class Follow extends React.Component {
 
   render() {
 
-    const { me, hasNewFeed, loadNewFeed } = this.props;
+    const { me, hasNewFeed, loadNewFeed, isMember } = this.props;
+
+    if (isMember) {
+      general.variables.preference = true;
+    } else {
+      general.variables.posts_id = 'exists';
+      general.variables.comment_id = 'not-exists';
+    }
 
     return(<div>
 

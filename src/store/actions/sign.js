@@ -30,7 +30,6 @@ export const signIn = ({ data }) => {
 
       if (err) return resolve([ err ? err.message : '账号或密码错误' ]);
       [ err, res ] = await saveSignInCookie(res)(dispatch, getState);
-
       if (res.success) {
         window.location.reload();
       }

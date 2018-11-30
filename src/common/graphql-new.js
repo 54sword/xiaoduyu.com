@@ -13,7 +13,7 @@ import To from './to';
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  ssrMode: __SERVER__ ? true : false, //__SERVER__ ? true : false,
+  ssrMode: typeof __SERVER__ != 'undefined' ? true : false, //__SERVER__ ? true : false,
   link: new HttpLink({
     uri: graphql_url,
     fetch
@@ -99,7 +99,6 @@ export default async ({
     }
 
   });
-
 
   if (debug) {
     console.log(`${type}{

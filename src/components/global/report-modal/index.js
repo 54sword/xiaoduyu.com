@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Modal from '../../bootstrap/modal';
 
+import $ from 'jquery';
 
 // redux
 import { bindActionCreators } from 'redux';

@@ -4,14 +4,15 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { StaticRouter, matchPath } from 'react-router';
 import ReactGA from 'react-ga';
-import createHistory from "history/createBrowserHistory";
-
+// import createHistory from "history/createBrowserHistory";
 
 import configureStore from '../store';
 import createRouter from '../router';
 import startSocket from './socket';
 
-import { debug, GA, analysis_script } from '../../config';
+import $ from 'jquery';
+
+import { GA, analysis_script } from '../../config';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery';
@@ -45,8 +46,7 @@ import '../vendors/expand-button.js';
  **/
 import '../vendors/load-demand';
 
-
-window._history = createHistory();
+// window._history = createHistory();
 
 // console.log(_history);
 
@@ -85,14 +85,6 @@ const run = async () => {
 
   const router = createRouter(userinfo, logPageView);
   const RouterDom = router.dom;
-
-  // const RouterDom = createRouter(userinfo, logPageView).dom;
-
-  // if (__DEV__) {
-    // 开发模式下，首屏内容会使用服务端渲染的html代码，
-    // 而热更新代码是客户端代码，清空app里面的html，强制用客户端的代码作为显示
-    // document.getElementById('app').innerHTML = ''
-  // }
 
   startSocket(store);
 

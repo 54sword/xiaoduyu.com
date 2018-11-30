@@ -12,7 +12,10 @@ export default class GridListImage extends PureComponent {
 
     return (<div styleName="box">
 
-      {images.map(src=>{
+      {images.map((src, index)=>{
+
+        if (index >= 9) return;
+        
         return(
           <div
             key={src}

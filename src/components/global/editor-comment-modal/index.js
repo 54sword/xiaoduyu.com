@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import Modal from '../../bootstrap/modal'
 import Editor from '../../editor-comment'
 
+import $ from 'jquery';
+
 export default class EditorCommentModal extends Component {
 
   constructor(props) {

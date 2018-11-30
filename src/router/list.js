@@ -14,6 +14,7 @@ import NotFoundLoadData from '../pages/not-found/load-data';
 
   // 路由数组
 export default [
+
   {
     path: '/',
     exact: true,
@@ -38,7 +39,7 @@ export default [
       loading: () => <Loading />
     }),
     // loadData: FollowLoadData,
-    enter: 'member'
+    enter: 'everybody'
   },
   
   {
