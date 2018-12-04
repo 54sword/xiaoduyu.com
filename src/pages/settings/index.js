@@ -43,54 +43,14 @@ export default class Settings extends Component {
     this.state = {
       typeList: {
           account: {
-            name: '账号与密码',
+            name: '账号与资料',
             url: '/settings',
           },
-          avatar: {
-            name: '头像',
-            url: '/settings/avatar',
-            components: Avatar
-          },
-          brief: {
-            name: '个性签名',
-            url: '/settings/brief',
-            components: Brief
-          },
-          // email: {
-          //   name: '邮箱',
-          //   url: '/settings/email',
-          //   components: Email
-          // },
-          gender: {
-            name: '性别',
-            url: '/settings/gender',
-            components: Gender
-          },
-          nickname: {
-            name: '昵称',
-            url: '/settings/nickname',
-            components: Nickname
-          },
-          nickname: {
+          block: {
             name: '屏蔽',
             url: '/settings/block',
             components: Block
-          },
-          // oauth: {
-          //   name: '第三方社交账号',
-          //   url: '/settings/oauth',
-          //   components: Oauth
-          // },
-          // password: {
-          //   name: '密码',
-          //   url: '/settings/password',
-          //   components: Password
-          // }
-          // password: {
-          //   name: '手机',
-          //   url: '/settings/phone',
-          //   components: Phone
-          // }
+          }
       }
     }
     this.handleSignout = this.handleSignout.bind(this)
@@ -143,6 +103,10 @@ export default class Settings extends Component {
         {type && type.components ? <type.components />
           :
           <div>
+            <Avatar />
+            <Nickname />
+            <Brief />
+            <Gender />
             <Password />
             <Phone />
             <Email />

@@ -28,7 +28,8 @@ export default class SettingsEmail extends Component {
     super(props);
     this.state = {
       unlockToken: '',
-      show: false
+      show: false,
+      loading: false
     }
     this.submitResetEmail = this.submitResetEmail.bind(this);
     this.sendCaptcha = this.sendCaptcha.bind(this);
@@ -60,6 +61,8 @@ export default class SettingsEmail extends Component {
     if (!newEmail.value) return newEmail.focus();
     if (!captcha.value) return captcha.focus();
 
+    this.setState({ loading: true });
+
     let [ err, res ] = await addEmail({
       args: {
         email: newEmail.value,
@@ -67,6 +70,8 @@ export default class SettingsEmail extends Component {
         unlock_token: unlockToken || ''
       }
     });
+
+    this.setState({ loading: false });
 
     if (res && res.success) {
 
@@ -80,9 +85,7 @@ export default class SettingsEmail extends Component {
 
       this.setState({
         show: false
-      })
-
-      // this.props.history.goBack();
+      });
 
     } else {
 
@@ -123,15 +126,15 @@ export default class SettingsEmail extends Component {
   render() {
 
     const { me } = this.props;
-    const { show } = this.state;
+    const { show, loading } = this.state;
 
     return (
       <div>
         <div className="card">
-          <div className="card-header">{!me.email ? '绑定邮箱' : '修改邮箱'}</div>
+          <div className="card-header">邮箱</div>
           <div className="card-body">
             {(()=>{
-              if (!me.email || show) {
+              if (show) {
                 return (<div>
                           <div className="form-group">
                             <input className="form-control" type="text" placeholder="请输入新的邮箱" ref={(e)=>{ this.state.newEmail = e; }} />
@@ -140,12 +143,16 @@ export default class SettingsEmail extends Component {
                             <input className="form-control" type="text" placeholder="请输入验证码" ref={(e)=>{ this.state.captcha = e; }} />
                             <div><CaptchaButton onClick={this.sendCaptcha} /></div>
                           </div>
-                          <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submitResetEmail}>提交</a>
+                          {loading ?
+                            <a className="btn btn-primary btn-sm" href="javascript:void(0);">提交中...</a>
+                            :
+                            <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submitResetEmail}>提交</a>}
+                          
                         </div>)
               } else if (!show) {
                 return (<div className="d-flex justify-content-between">
-                  <div>{me.email ? me.email : null}</div>
-                  <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.show}>修改</a>
+                  <div>{me.email ? me.email : '未绑定'}</div>
+                  <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.show}>{me.email ? '修改' : '绑定'}</a>
                 </div>)
               }
 

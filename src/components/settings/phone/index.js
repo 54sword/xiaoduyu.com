@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import { withRouter } from 'react-router';
 
 // redux
 import { connect } from 'react-redux';
@@ -9,15 +8,12 @@ import { loadUserInfo } from '../../../store/actions/user';
 import { addPhone } from '../../../store/actions/phone';
 
 // components
-// import Shell from '../../components/shell';
-// import Meta from '../../components/meta';
 import CaptchaButton from '../../captcha-button';
 import CountriesSelect from '../../countries-select';
 
 // styles
 import './style.scss';
 
-// @withRouter
 @connect(
   (state, props) => ({
     me: getProfile(state),
@@ -34,7 +30,8 @@ export default class SettingsPhone extends Component {
     super(props)
     this.state = {
       areaCode: '',
-      show: false
+      show: false,
+      loading: false
     }
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
@@ -72,6 +69,8 @@ export default class SettingsPhone extends Component {
     if (!newPhone.value) return newPhone.focus();
     if (!captcha.value) return captcha.focus();
 
+    this.setState({ loading: true });
+
     let [ err, res ] = await addPhone({
       args: {
         phone: newPhone.value,
@@ -80,6 +79,8 @@ export default class SettingsPhone extends Component {
         unlock_token: unlockToken || ''
       }
     });
+
+    this.setState({ loading: false });
 
     if (res && res.success) {
 
@@ -136,32 +137,31 @@ export default class SettingsPhone extends Component {
   render() {
 
     const { me } = this.props;
-    const { show } = this.state;
+    const { show, loading } = this.state;
     
     return (
       <div>
-        {/* <Meta title={!me.phone ? '绑定手机号' : '修改手机号'} /> */}
 
         <div className="card">
 
           <div className="card-header d-flex justify-content-between">
-            <span>绑定手机</span>
+            <span>手机号</span>
             <span></span>
           </div>
           <div className="card-body">
           {(()=>{
 
             if (!me.phone) {
-              return (<div>
+
+              return(<div className="d-flex justify-content-between">
+                <div>未绑定</div>
                 <a
-                  className="btn btn-primary"
+                  className="btn btn-primary btn-sm"
                   href="javascript:void(0);"
                   onClick={()=>{
-                    $('#binding-phone').modal({
-                      show: true
-                    }, {});
+                    $('#binding-phone').modal({ show: true }, {});
                   }}>
-                  绑定手机号
+                  绑定
                   </a>
               </div>)
             } else if (show) {
@@ -188,7 +188,10 @@ export default class SettingsPhone extends Component {
                   </div>
 
                   <div className="form-group">
-                    <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a>
+                    {loading ?
+                      <a className="btn btn-primary btn-sm" href="javascript:void(0);">提交中...</a>
+                      : <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a>}
+                    
                   </div>
 
                 </form>

@@ -21,7 +21,8 @@ export default class ResetPassword extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      show: false
+      show: false,
+      loading: false
     };
     this.submit = this.submit.bind(this);
     this.show = this.show.bind(this);
@@ -40,10 +41,14 @@ export default class ResetPassword extends Component {
       return
     }
 
+    this.setState({ loading: true });
+
     let [err, res] = await updatePassword({
       new_password: newPassword.value,
       unlock_token: unlockToken || ''
     });
+
+    this.setState({ loading: false });
 
     if (res && res.success) {
       Toastify({
@@ -95,8 +100,8 @@ export default class ResetPassword extends Component {
 
   render() {
 
-    const { me, unlockToken } = this.props;
-    const { show } = this.state;
+    const { me } = this.props;
+    const { show, loading } = this.state;
 
     if (!me.phone && !me.email) return '';
 
@@ -104,12 +109,17 @@ export default class ResetPassword extends Component {
         <div className="card">
           <div className="card-header">密码</div>
           <div className="card-body">
-
+          
           {show &&
               <div>
                 <div className="form-group"><input type="password" className="form-control" placeholder="新密码" ref={(e)=>{ this.state.newPassword = e; }}></input></div>
                 <div className="form-group"><input type="password" className="form-control" placeholder="重复新密码" ref={(e)=>{ this.state.confirmNewPassword = e; }}></input></div>
-                <div><a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a></div>
+                <div>
+                  {loading ? 
+                    <a className="btn btn-primary btn-sm" href="javascript:void(0);">提交中...</a>
+                    :
+                    <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a>}
+                </div>
               </div>}
           
           {!show &&
