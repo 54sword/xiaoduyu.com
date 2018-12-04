@@ -36,12 +36,12 @@ export default class NotificationList extends Component {
     // 列表名称
     name: PropTypes.string.isRequired,
     // 列表的筛选条件
-    filters: PropTypes.object.isRequired,
+    filters: PropTypes.object.isRequired
     // 获取当前页的 pathname、search
-    location: PropTypes.object.isRequired,
+    // location: PropTypes.object.isRequired,
 
-    notification: PropTypes.object.isRequired,
-    loadNotifications: PropTypes.func.isRequired
+    // notification: PropTypes.object.isRequired,
+    // loadNotifications: PropTypes.func.isRequired
   }
 
 
@@ -81,7 +81,7 @@ export default class NotificationList extends Component {
   
   render() {
 
-    const { notification, location } = this.props
+    const { notification } = this.props
     const { data, loading, more, count, filters = {} } = notification
 
     return (

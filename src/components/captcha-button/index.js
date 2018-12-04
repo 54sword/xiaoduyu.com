@@ -27,59 +27,115 @@ export default class CaptchaButton extends Component {
     super(props);
     this.state = {
       loading: false,
-      countdown: 0
-    }
-    this.send = this.send.bind(this);
+      countdown: 0,
+      isMount: true
+    };
+    this.add = this.add.bind(this);
+    this.handle = this.handle.bind(this);
   }
 
-  async send(data) {
+  componentWillUnmount() {
+    this.state.isMount = false;
+  }
 
-    const self = this;
-    const { addCaptcha } = this.props;
-    let { loading, countdown } = this.state;
+  add(data, callback) {
 
-    if (loading || countdown > 0) return;
+      const { addCaptcha } = this.props;
+      let { loading, countdown } = this.state;
+    
+      if (loading || countdown > 0) return resolve();
+    
+      this.setState({ loading: true });
+  
+      addCaptcha(data)
+      .then((res)=>{
 
-    this.setState({ loading: true });
+        callback(true);
+  
+        this.setState({ loading: false, countdown: 60  }, ()=>{
+    
+          // 发送成功后倒计时
+          let run = () =>{
 
-    let [ err, res ] = await addCaptcha(data);
+            if (!this.state.isMount) {
+              return;
+            }
+              
+            if (this.state.countdown == 0) {
+              this.setState({ loading: false })
+              return
+            }
+            this.setState({ countdown: this.state.countdown - 1 })
+            setTimeout(()=>{ run() }, 1000)
+          }
+          
+          run();
+      
+        });
+  
+      })
+      .catch((err)=>{
 
+        callback(false);
+
+        if (Toastify) {
+          Toastify({
+            text: err.message,
+            duration: 3000,
+            backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+          }).showToast();
+          this.setState({ loading: false });
+        }
+      })
+
+    /*
+    return;
+  
+    let [ err, res ] = addCaptcha(data);
+  
     if (err) {
-      Toastify({
-        text: err.message,
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
-      this.setState({ loading: false });
-      return
+      if (Toastify) {
+        Toastify({
+          text: err.message,
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+        }).showToast();
+        this.setState({ loading: false });
+      }
+      return;
     }
-
+      
     this.setState({ loading: false, countdown: 60  }, ()=>{
-
+  
       // 发送成功后倒计时
       let run = () =>{
-
-        // if (!self._reactInternalInstance) return
-        if (self.state.countdown == 0) {
-          self.setState({ loading: false })
+          
+        if (this.state.countdown == 0) {
+          this.setState({ loading: false })
           return
         }
-        self.setState({ countdown: self.state.countdown - 1 })
+        this.setState({ countdown: this.state.countdown - 1 })
         setTimeout(()=>{ run() }, 1000)
       }
-
+      
       run();
-
+  
     });
+    */
 
+    // };
+  }
 
+  handle() {
+    this.props.onClick((data, callback = ()=>{})=>{
+      this.add(data, callback);
+    });
   }
 
   render() {
-    const self = this;
     const { countdown } = this.state
     return (
-      <a href="javascript:void(0)" styleName="captcha-button" onClick={()=>{ self.props.onClick(self.send); }}>
+      <a href="javascript:void(0)" styleName="captcha-button" onClick={this.handle}>
         {countdown > 0 ? `发送成功 (${countdown})` : "获取验证码"}
       </a>
     )

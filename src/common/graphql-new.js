@@ -123,7 +123,7 @@ export default async ({
 
   let resetStore = false;
 
-  if (__SERVER__) {
+  if (typeof __SERVER__ != 'undefined') {
 
     if (config.cache <= 0) {
       // 不开启缓存
@@ -150,7 +150,7 @@ export default async ({
 
     fn(options).then(res=>{
 
-      if (__SERVER__) {
+      if (typeof __SERVER__ != 'undefined') {
         // 请求成功，设置最近一次缓存事件
         if (resetStore) {
           lastCacheTime = parseInt(new Date().getTime());
@@ -165,7 +165,9 @@ export default async ({
 
     }).catch(res=>{
 
-      console.log(res);
+      if (debug) {
+        console.log(res);
+      }
 
       if (res.graphQLErrors && res.graphQLErrors.length != 0) {
         res.graphQLErrors.map(item=>{

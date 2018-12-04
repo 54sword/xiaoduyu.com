@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+// import { withRouter } from 'react-router';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -20,6 +21,7 @@ import Box from '../../components/box';
 import './style.scss';
 
 @Shell
+// @withRouter
 @connect(
   (state, props) => {
     return {
@@ -94,7 +96,7 @@ export default class Notifications extends Component {
 
     const { me, list, unreadNotice, newList, loadNewNotifications } = this.props;
     const { typeList } = this.state;
-    const { pathname } = this.props.location;
+    const { pathname = 'notifications' } = this.props.location || {};
     
     let filters = {};
 

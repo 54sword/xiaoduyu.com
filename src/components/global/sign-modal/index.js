@@ -12,8 +12,6 @@ import Modal from '../../bootstrap/modal';
 // styles
 import './style.scss';
 
-const $ = require('jquery');
-
 export class SignModal extends Component {
 
   constructor(props) {

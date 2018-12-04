@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
+// import { withRouter } from 'react-router';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -9,10 +9,9 @@ import { loadUserInfo } from '../../../store/actions/user';
 import { addEmail } from '../../../store/actions/account';
 
 // components
-// import Meta from '../../components/meta';
 import CaptchaButton from '../../captcha-button';
 
-@withRouter
+// @withRouter
 @connect(
   (state, props) => ({
     me: getProfile(state),
@@ -28,14 +27,16 @@ export default class SettingsEmail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      unlockToken: ''
+      unlockToken: '',
+      show: false
     }
-    this.submitResetEmail = this.submitResetEmail.bind(this)
-    this.sendCaptcha = this.sendCaptcha.bind(this)
+    this.submitResetEmail = this.submitResetEmail.bind(this);
+    this.sendCaptcha = this.sendCaptcha.bind(this);
+    this.show = this.show.bind(this);
   }
 
   sendCaptcha(callback) {
-    const { newEmail } = this.refs;
+    const { newEmail } = this.state;
     const { me } = this.props;
 
     if (!newEmail.value) return newEmail.focus();
@@ -53,9 +54,8 @@ export default class SettingsEmail extends Component {
 
   async submitResetEmail() {
 
-    const self = this;
     const { addEmail, loadUserInfo, unlockToken } = this.props;
-    const { newEmail, captcha } = this.refs;
+    const { newEmail, captcha } = this.state;
 
     if (!newEmail.value) return newEmail.focus();
     if (!captcha.value) return captcha.focus();
@@ -77,7 +77,12 @@ export default class SettingsEmail extends Component {
       }).showToast();
 
       loadUserInfo({});
-      this.props.history.goBack();
+
+      this.setState({
+        show: false
+      })
+
+      // this.props.history.goBack();
 
     } else {
 
@@ -91,33 +96,56 @@ export default class SettingsEmail extends Component {
 
   }
 
+  show() {
+
+    const { unlockToken } = this.props;
+
+    if (!unlockToken) {
+      $('#unlock-token-modal').modal({
+        show: true
+      }, {
+        complete: (res)=>{
+          if (res) {
+            this.setState({
+              show: true
+            });
+          }
+        }
+      });
+    } else {
+      this.setState({
+        show: true
+      });
+    }
+
+  }
+
   render() {
 
-    const { me, unlockToken } = this.props;
+    const { me } = this.props;
+    const { show } = this.state;
 
     return (
       <div>
-        {/* <Meta title={!me.email ? '绑定邮箱' : '修改邮箱'} /> */}
-        
         <div className="card">
-          <div className="card-header">绑定邮箱</div>
+          <div className="card-header">{!me.email ? '绑定邮箱' : '修改邮箱'}</div>
           <div className="card-body">
             {(()=>{
-              if (!me.email || me.email && unlockToken) {
+              if (!me.email || show) {
                 return (<div>
                           <div className="form-group">
-                            <input className="form-control" type="text" placeholder="请输入新的邮箱" ref="newEmail" />
+                            <input className="form-control" type="text" placeholder="请输入新的邮箱" ref={(e)=>{ this.state.newEmail = e; }} />
                           </div>
                           <div className="form-group">
-                            <input className="form-control" type="text" placeholder="请输入验证码" ref="captcha" />
+                            <input className="form-control" type="text" placeholder="请输入验证码" ref={(e)=>{ this.state.captcha = e; }} />
                             <div><CaptchaButton onClick={this.sendCaptcha} /></div>
                           </div>
                           <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submitResetEmail}>提交</a>
                         </div>)
-              } else if (me.email && !unlockToken) {
+              } else if (!show) {
                 return (<div className="d-flex justify-content-between">
                   <div>{me.email ? me.email : null}</div>
-                  <a className="btn btn-primary btn-sm" href="javascript:void(0);" data-toggle="modal" data-target="#unlock-token-modal">修改</a>
+                  <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.show}>修改</a>
                 </div>)
               }
 

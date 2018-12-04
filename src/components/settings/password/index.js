@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -20,20 +20,18 @@ export default class ResetPassword extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      show: false
+    };
     this.submit = this.submit.bind(this);
+    this.show = this.show.bind(this);
   }
 
-  // componentDidMount() {
-    // const { currentPassword } = this.refs;
-    // currentPassword.focus();
-  // }
+  async submit(event) {
 
-  async submit() {
-    // const self = this
     const { updatePassword, unlockToken } = this.props;
-    const { newPassword, confirmNewPassword } = this.refs;
+    const { newPassword, confirmNewPassword } = this.state;
 
-    // if (!currentPassword.value) return currentPassword.focus()
     if (!newPassword.value) return newPassword.focus()
     if (!confirmNewPassword.value) return confirmNewPassword.focus()
 
@@ -43,7 +41,6 @@ export default class ResetPassword extends Component {
     }
 
     let [err, res] = await updatePassword({
-      current_password: currentPassword.value,
       new_password: newPassword.value,
       unlock_token: unlockToken || ''
     });
@@ -55,9 +52,12 @@ export default class ResetPassword extends Component {
         backgroundColor: 'linear-gradient(to right, #18c31a, #14a22f)'
       }).showToast();
 
-      // currentPassword.value = '';
       newPassword.value = '';
       confirmNewPassword.value = '';
+
+      this.setState({
+        show: false
+      })
 
     } else {
       Toastify({
@@ -67,84 +67,59 @@ export default class ResetPassword extends Component {
       }).showToast();
     }
 
-    // callback: function(result){
-    //   if (!result.success) {
-    //     alert(result.error)
-    //   } else {
-    //     alert('密码修改成功，请重新登录')
-    //     window.location.href = '/'
-    //     // self.context.router.goBack()
-    //   }
-    // }
+  }
+
+  show() {
+
+    const { unlockToken } = this.props;
+
+    if (!unlockToken) {
+      $('#unlock-token-modal').modal({
+        show: true
+      }, {
+        complete: (res)=>{
+          if (res) {
+            this.setState({
+              show: true
+            });
+          }
+        }
+      });
+    } else {
+      this.setState({
+        show: true
+      });
+    }
 
   }
 
   render() {
 
     const { me, unlockToken } = this.props;
+    const { show } = this.state;
 
-    if (!me.phone && !me.email) return null;
+    if (!me.phone && !me.email) return '';
 
     return (
-      <div>
-
         <div className="card">
           <div className="card-header">密码</div>
           <div className="card-body">
-          {(()=>{
 
-            if (!unlockToken) {
-              return (<div className="d-flex justify-content-between">
+          {show &&
+              <div>
+                <div className="form-group"><input type="password" className="form-control" placeholder="新密码" ref={(e)=>{ this.state.newPassword = e; }}></input></div>
+                <div className="form-group"><input type="password" className="form-control" placeholder="重复新密码" ref={(e)=>{ this.state.confirmNewPassword = e; }}></input></div>
+                <div><a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a></div>
+              </div>}
+          
+          {!show &&
+              <div className="d-flex justify-content-between">
                 <div>{me.has_password ? '已设置' : '未设置'}</div>
-                <a className="btn btn-primary btn-sm" href="javascript:void(0);" data-toggle="modal" data-target="#unlock-token-modal">{me.has_password ? '修改' : '设置'}</a>
-              </div>)
-            } else {
-              return (<div>
-                
-                <div className="form-group">
-                  <input type="password" className="form-control" placeholder="新密码" ref="newPassword"></input>
-                </div>
-    
-                <div className="form-group">
-                  <input type="password" className="form-control" placeholder="重复新密码" ref="confirmNewPassword"></input>
-                </div>
-    
-                <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a>
-    
-              </div>)
-            }
-
-          })()}
+                <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.show}>{me.has_password ? '修改' : '设置'}</a>
+              </div>}
+              
           </div>
-
-          {/*
-          <div className="card-body" style={{padding:'20px'}}>
-
-            <div className="form-group">
-              <input type="password" className="form-control" placeholder="当前密码" ref="currentPassword"></input>
-            </div>
-
-            <div>
-              <Link to="/forgot">忘记当前密码？找回密码</Link>
-              <br /><br />
-            </div>
-
-            <div className="form-group">
-              <input type="password" className="form-control" placeholder="新密码" ref="newPassword"></input>
-            </div>
-
-            <div className="form-group">
-              <input type="password" className="form-control" placeholder="重复新密码" ref="confirmNewPassword"></input>
-            </div>
-
-            <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
-
-          </div>
-          */}
-
         </div>
-
-      </div>
     )
 
   }

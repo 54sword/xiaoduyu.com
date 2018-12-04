@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import QRCode from 'qrcode.react';
 
-import { name, domain_name, Goole_AdSense, client_download_url, contact_email, ICP_number } from '../../../config';
+import { name, Goole_AdSense, client_download_url, contact_email, ICP_number, links } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -55,37 +55,21 @@ export default class Sidebar extends React.Component {
     const { isMember, me, recommendPostsDom, onlineCount, showFooter } = this.props
     const { appsUrl, loadCompleted } = this.state;
 
-    /*
-    <div className="card">
-      <div className="card-body">
-        <Link to="/me">
-          <img src={me.avatar_url} styleName="avatar" />{me.nickname}
-        </Link>
-      </div>
-    </div>
-
-    */
-
     let footer = (<div styleName="footer">
                     <div>
                       {contact_email && <a href={`mailto:${contact_email}`}>联系作者</a>}
                       {isMember ?
-                        <Link to="/new-posts?topic_id=5b00248182287c04dfb618ea">建议与反馈</Link> :
-                      <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in">建议与反馈</a>}
-                      {/*isMember ?
                         <Link to="/new-posts?topic_id=58b7f69ee2c9ef85541619d5">建议与反馈</Link> :
-                      <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in">建议与反馈</a>*/}
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in">建议与反馈</a>}
                     </div>
-                    {/*
-                    <div>
-                      {onlineCount} 人在线
-                    </div>
-                    */}
                     
-                    {new Date().getFullYear()} {name}<br />
+                    {new Date().getFullYear()} {name+' '}
                     {ICP_number ? <a href="http://www.miitbeian.gov.cn" target="_blank">浙ICP备14013796号-3</a> : null}
+
+                    {loadCompleted && <div>当前 {onlineCount} 人在线</div>}
                     
                   </div>);
+                  
     if (!showFooter) footer = null;
 
     if (this.props.children) {
@@ -109,14 +93,11 @@ export default class Sidebar extends React.Component {
       {!isMember ?
         <div className="card">
           <div className="card-body" styleName="slogan" style={{borderRadius:'12px'}}>
-            <h1>动漫社区</h1>
-            <h2>二次元社区</h2>
-            {/*<div><a href="#">建议</a> <a href="#">反馈</a></div>*/}
-            {/*<h2>可能是技术人交流的地方</h2>*/}
+            <h1>{name}是什么社区？</h1>
+            <h2>自然生成的社区</h2>
             <div>
               <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in" className="btn btn-primary btn-sm">加入社区</a>
             </div>
-            {/* <div>下载小度鱼APP</div> */}
           </div>
         </div>
         : null}
@@ -165,6 +146,17 @@ export default class Sidebar extends React.Component {
           <div><a href="https://github.com/54sword/react-starter" target="_blank">React同构脚手架</a></div>
         </div>
       </div>
+      
+      {links.length > 0 &&
+        <div className="card">
+          <div className="card-header">友情链接</div>
+          <div className="card-body">
+            {links.map((item, index)=>{
+              return (<div key={index}><a href={item.domain} target="_blank"><b>{item.name}</b> - {item.description}</a></div>)
+            })}
+          </div>
+        </div>}
+      
       
       {footer}
         

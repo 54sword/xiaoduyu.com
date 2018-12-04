@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
+// import { withRouter } from 'react-router';
 
 // redux
 import { connect } from 'react-redux';
@@ -17,7 +17,7 @@ import CountriesSelect from '../../countries-select';
 // styles
 import './style.scss';
 
-@withRouter
+// @withRouter
 @connect(
   (state, props) => ({
     me: getProfile(state),
@@ -33,10 +33,12 @@ export default class SettingsPhone extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      areaCode: ''
+      areaCode: '',
+      show: false
     }
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
+    this.show = this.show.bind(this)
   }
 
   sendCaptcha(callback) {
@@ -58,6 +60,7 @@ export default class SettingsPhone extends Component {
     });
 
   }
+  
 
   async submit() {
 
@@ -87,7 +90,12 @@ export default class SettingsPhone extends Component {
       }).showToast();
 
       loadUserInfo({});
-      this.props.history.goBack();
+
+      this.setState({
+        show: false
+      });
+      
+      // this.props.history.goBack();
 
     } else {
 
@@ -101,10 +109,35 @@ export default class SettingsPhone extends Component {
 
   }
 
+  show() {
+
+    const { unlockToken } = this.props;
+
+    if (!unlockToken) {
+      $('#unlock-token-modal').modal({
+        show: true
+      }, {
+        complete: (res)=>{
+          if (res) {
+            this.setState({
+              show: true
+            });
+          }
+        }
+      });
+    } else {
+      this.setState({
+        show: true
+      });
+    }
+
+  }
+
   render() {
 
-    const { me, unlockToken } = this.props
-
+    const { me } = this.props;
+    const { show } = this.state;
+    
     return (
       <div>
         {/* <Meta title={!me.phone ? '绑定手机号' : '修改手机号'} /> */}
@@ -131,10 +164,10 @@ export default class SettingsPhone extends Component {
                   绑定手机号
                   </a>
               </div>)
-            } else if (me.phone && unlockToken) {
+            } else if (show) {
 
               return (<div>
-                <form styleName="form">
+                <form>
 
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">手机号</label>
@@ -161,10 +194,10 @@ export default class SettingsPhone extends Component {
                 </form>
               </div>)
 
-            } else if (me.phone && !unlockToken) {
+            } else if (!show) {
               return (<div className="d-flex justify-content-between">
                 <div>{me.phone ? me.phone : null}</div>
-                <a className="btn btn-primary btn-sm" href="javascript:void(0);" data-toggle="modal" data-target="#unlock-token-modal">修改</a>
+                <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.show}>修改</a>
               </div>)
             }
 

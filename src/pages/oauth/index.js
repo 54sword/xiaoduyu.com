@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { saveSignInCookie } from '../../store/actions/sign';
+import { saveTokenToCookie } from '../../store/actions/sign';
 
 // components
 import Shell from '../../components/shell';
@@ -17,22 +17,32 @@ import './style.scss';
   (state, props) => ({
   }),
   dispatch => ({
-    saveSignInCookie: bindActionCreators(saveSignInCookie, dispatch)
+    saveTokenToCookie: bindActionCreators(saveTokenToCookie, dispatch)
   })
 )
-export default class OAuth extends PureComponent {
+export default class OAuth extends Component {
 
-  // constructor(props) {
-    // super(props)
-  // }
+  constructor(props) {
+    super(props)
+  }
 
-  async componentDidMount() {
+  componentDidMount() {
 
     const { access_token = '', expires = 0, landing_page = '/' } = this.props.location.params;
-    const { saveSignInCookie } = this.props;
+    const { saveTokenToCookie } = this.props;
     
     if (access_token) {
-      let [ err, res ] = await saveSignInCookie({ access_token });
+      saveTokenToCookie({ access_token }).then((res)=>{
+        if (res && res.success) {
+          window.location.href = landing_page;
+        }
+      }).catch(err=>{
+        alert('登录失败');
+        window.location.href = '/';
+      })
+
+      /*
+      console.log(landing_page);
 
       if (res && res.success) {
         window.location.href = landing_page;
@@ -40,6 +50,7 @@ export default class OAuth extends PureComponent {
         alert('登录失败');
         window.location.href = '/';
       }
+      */
 
     } else {
       window.location.href = '/';

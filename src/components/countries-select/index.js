@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 // redux
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { loadCountries } from '../../store/actions/countries'
-import { getCountries } from '../../store/reducers/countries'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { loadCountries } from '../../store/actions/countries';
+import { getCountries } from '../../store/reducers/countries';
 
 // styles
 import './style.scss'
@@ -32,8 +32,8 @@ export default class CountriesSelect extends Component {
 
   componentDidMount() {
     const { countries, loadCountries, onChange, initValue } = this.props;
-    if (countries.length == 0) loadCountries()
     onChange(initValue)
+    if (countries.length == 0) loadCountries()
   }
 
   render() {

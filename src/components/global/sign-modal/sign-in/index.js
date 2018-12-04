@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import './style.scss'
+import './style.scss';
 
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { signIn } from '../../../../store/actions/sign'
-import { addCaptcha } from '../../../../store/actions/captcha'
-import { getCaptchaById } from '../../../../store/reducers/captcha'
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { signIn } from '../../../../store/actions/sign';
+import { addCaptcha } from '../../../../store/actions/captcha';
+import { getCaptchaById } from '../../../../store/reducers/captcha';
 
-const $ = require('jquery');
+import To from '../../../../common/to';
 
 @connect(
   (state, props) => ({
@@ -31,7 +31,7 @@ const $ = require('jquery');
     signIn: bindActionCreators(signIn, dispatch)
   })
 )
-export default class Signin extends Component {
+export class SignIn extends Component {
 
   constructor(props) {
 
@@ -43,68 +43,74 @@ export default class Signin extends Component {
 
   componentDidMount() {
 
-    const self = this;
-
-    $('#sign').on('show.bs.modal', function (e) {
-      self.getCaptcha();
+    $('#sign').on('show.bs.modal', e => {
+      this.getCaptcha();
     });
 
   }
 
   getCaptcha() {
-    this.props.addCaptcha();
+    return this.props.addCaptcha();
   }
 
-  async signin(event) {
+  signin(event) {
 
-    event.preventDefault();
+    if (event) event.preventDefault();
 
-    const { signIn } = this.props;
-    const captchaId = this.state.captchaId;
+    return new Promise(async (resolve, reject)=>{
 
-    const { account, password, submit, captcha } = this.state;
+      const { signIn } = this.props;
+      const captchaId = this.state.captchaId;
 
-    if (!account.value) return account.focus();
-    if (!password.value) return password.focus();
-    if (captcha && !captcha.value) return captcha.focus();
+      const { account, password, submit, captcha } = this.state;
+
+      if (!account.value) return account.focus();
+      if (!password.value) return password.focus();
+      if (captcha && !captcha.value) return captcha.focus();
     
-    let data = {
-      password: password.value
-    }
+      let data = {
+        password: password.value
+      }
 
-    if (account.value.indexOf('@') != -1) {
-      data.email = account.value;
-    } else {
-      data.phone = account.value;
-    }
+      if (account.value.indexOf('@') != -1) {
+        data.email = account.value;
+      } else {
+        data.phone = account.value;
+      }
 
-    if (captcha) data.captcha = captcha.value;
-    if (this.props.captcha) data.captcha_id = this.props.captcha._id;
+      if (captcha) data.captcha = captcha.value;
+      if (this.props.captcha) data.captcha_id = this.props.captcha._id;
 
-    submit.value = '登录中...';
-    submit.disabled = true;
+      submit.value = '登录中...';
+      submit.disabled = true;
 
-    let [ err, result ] = await signIn({ data });
+      let [ err, result ] = await To(signIn({ data }));
+    
+      submit.value = '登录';
+      submit.disabled = false;
 
-    submit.value = '登录';
-    submit.disabled = false;
+      if (err) {
 
-    console.log(err);
-    console.log(result);
+        if (typeof Toastify != 'undefined') {
+          Toastify({
+            text: err,
+            duration: 3000,
+            backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+          }).showToast();
+        }
 
-    if (err) {
+        await this.getCaptcha();
 
-      Toastify({
-        text: err,
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        reject(err);
 
-      this.getCaptcha();
+      } else {
+        
+        resolve(result);
+      }      
 
-    }
+      return false;
 
-    return false;
+    })
   }
 
   render () {
@@ -129,3 +135,5 @@ export default class Signin extends Component {
     </form>)
   }
 }
+
+export default SignIn;

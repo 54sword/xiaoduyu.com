@@ -9,7 +9,7 @@ import graphql from '../../common/graphql';
  */
 export const addCaptcha = ({ id = new Date().getTime(), args, fields = `success`  }) => {
   return (dispatch, getState) => {
-    return new Promise(async (resolve)=> {
+    return new Promise(async (resolve, reject)=> {
 
       let accessToken = accessToken || getState().user.accessToken;
 
@@ -21,14 +21,42 @@ export const addCaptcha = ({ id = new Date().getTime(), args, fields = `success`
         headers: accessToken ? { 'accessToken': accessToken } : {}
       });
 
-      if (res && res._id && res.url) {
-        dispatch({ type: 'ADD_CAPTCHA_ID', id, data: res });
+      if (res) {
+        if (res._id && res.url) {
+          dispatch({ type: 'ADD_CAPTCHA_ID', id, data: res });
+        }
+        resolve(res);
+      } else {
+        reject(err);
       }
-
-      resolve([ err, res ]);
-
 
     });
 
+  }
+}
+
+/**
+ * 通过 captcha id 获取验证码
+ * @param {string} id captcha id
+ */
+export const getCaptcha = (args) => {
+  return (dispatch, getState) => {
+  return new Promise(async (resolve, reject)=>{
+
+    let [ err, res ] = await graphql({
+      api: 'getCaptcha',
+      args,
+      fields: `
+        captcha
+      `
+    });
+
+    if (err) {
+      reject(err)
+    } else {
+      resolve(res)
+    }
+
+  })
   }
 }

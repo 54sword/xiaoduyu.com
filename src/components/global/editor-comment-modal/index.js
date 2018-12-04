@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import Modal from '../../bootstrap/modal'
-import Editor from '../../editor-comment'
-
-import $ from 'jquery';
+import Modal from '../../bootstrap/modal';
+import Editor from '../../editor-comment';
 
 export default class EditorCommentModal extends Component {
 

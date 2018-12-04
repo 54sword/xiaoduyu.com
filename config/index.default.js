@@ -87,7 +87,14 @@ let config = {
       width: 600,
       height: 60
     }
-  }
+  },
+
+  // 友情链接
+  links: [
+    // {
+    //   name:'盗火', description:'一个年轻的知识社区', domain: 'https://react.mobi'
+    // }
+  ]
 
 }
 
