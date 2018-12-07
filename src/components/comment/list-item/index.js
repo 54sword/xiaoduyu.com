@@ -114,25 +114,8 @@ export default class CommentItem extends Component {
 
       <div styleName="footer">
         <div styleName="actions">
-
           <CommentButton comment={comment} />
-
-          {/*isMember ?
-            <a href="javascript:void(0)" onClick={((comment)=>{
-              return ()=>{
-                $('#editor-comment-modal').modal({
-                  show: true
-                }, {
-                  type:'reply',
-                  comment
-                });
-                // self.showReply(comment);
-              }
-            })(comment)}>回复</a>
-            :
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">回复</a>*/}
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
-          {/*<EditButton comment={comment} />*/}
         </div>
       </div>
 

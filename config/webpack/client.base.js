@@ -73,6 +73,17 @@ module.exports = {
               importLoaders: 1
             }
           },
+          { 
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('autoprefixer')({
+                  browsers: ['last 2 versions']
+                })
+              ]
+            }
+          },
           { loader: `sass` }
         ]
       },
@@ -83,7 +94,18 @@ module.exports = {
         use: [
           'css-hot-loader',
           { loader: MiniCssExtractPlugin.loader },
-          { loader: `css` }
+          { loader: `css` },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('autoprefixer')({
+                  browsers: ['last 2 versions']
+                })
+              ]
+            }
+          }
         ]
       },
 

@@ -13,7 +13,7 @@ import To from './to';
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  ssrMode: typeof __SERVER__ != 'undefined' ? true : false, //__SERVER__ ? true : false,
+  ssrMode: __SERVER__ ? true : false,
   link: new HttpLink({
     uri: graphql_url,
     fetch
@@ -123,7 +123,7 @@ export default async ({
 
   let resetStore = false;
 
-  if (typeof __SERVER__ != 'undefined') {
+  if (__SERVER__) {
 
     if (config.cache <= 0) {
       // 不开启缓存
@@ -150,7 +150,8 @@ export default async ({
 
     fn(options).then(res=>{
 
-      if (typeof __SERVER__ != 'undefined') {
+      if (__SERVER__) {
+        
         // 请求成功，设置最近一次缓存事件
         if (resetStore) {
           lastCacheTime = parseInt(new Date().getTime());

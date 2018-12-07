@@ -6,6 +6,7 @@
 }
 
 .navbar{
+  display: flex;
   position: fixed;
   z-index: 99;
   // height: 46px;
@@ -61,6 +62,15 @@
     margin-left: 0px;
   }
 
+}
+
+.red-point{
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 4px;
+  margin:15px 0 0 0;
 }
 
 .navbar-left{

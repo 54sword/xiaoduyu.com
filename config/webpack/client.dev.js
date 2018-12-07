@@ -2,12 +2,14 @@ const baseConfig = require('./client.base');
 const webpack = require('webpack');
 const WriteFileWebpackPlugin = require('write-file-webpack-plugin');
 // const ManifestPlugin = require('webpack-manifest-plugin');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = {
   ...baseConfig,
   plugins: [
     new WriteFileWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    // new BundleAnalyzerPlugin(),
     // new ManifestPlugin({ fileName: 'manifest.json' }),
     ...baseConfig.plugins
   ],

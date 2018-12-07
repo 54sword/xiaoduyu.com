@@ -142,7 +142,7 @@ export default class PostsListItem extends React.PureComponent {
       <div styleName="head">
         {typeof posts.user_id == 'object' ?
           <div styleName="info">
-
+            
             <Link to={`/people/${posts.user_id._id}`} onClick={this.stopPropagation}>
               <i
                 styleName="avatar"
@@ -150,7 +150,7 @@ export default class PostsListItem extends React.PureComponent {
                 data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}>
                 </i>
               <b>{posts.user_id.nickname}</b>
-              {/*<span styleName="people-brief">{posts.user_id.brief}</span>*/}
+              <span styleName="people-brief">{posts.user_id.brief}</span>
             </Link>
 
             {/* dropdown-menu */}
@@ -194,6 +194,7 @@ export default class PostsListItem extends React.PureComponent {
               {posts.content_summary}
             </div>
 
+
             {/*posts.images && posts.images.length > 0 ?
               <div style={{
                 // float:'right',
@@ -206,9 +207,9 @@ export default class PostsListItem extends React.PureComponent {
             : null*/}
 
 
-            {posts.images && posts.images.length > 0 ?
+            {/*posts.images && posts.images.length > 0 ?
               <div style={{width:'60%',marginTop:'10px'}}><GridListImage images={posts.images} /></div>
-            : null}
+            : null*/}
               
             {/*posts.images && posts.images.length > 0 ?
               <div styleName="images">

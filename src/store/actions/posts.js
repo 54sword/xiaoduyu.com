@@ -31,7 +31,7 @@ export function addPosts({ title, detail, detailHTML, topicId, device, type, cal
 export function loadPostsList({ id, filters, restart = false }) {
   return async (dispatch, getState) => {
 
-    if (id == 'follow') {
+    if (id == 'home') {
       // 移除提醒
       dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips: {} });
     }
@@ -321,13 +321,13 @@ export const newPostsTips = () => {
   return async (dispatch, getState) => {
 
     let newPostsTips = getState().website.newPostsTips;
+    let profile =  getState().user.profile;
 
     let [ err, res ] = await loadPostsList({
       id: 'tips_follow',
       filters: {
         variables: {
-          method: 'user_follow',
-          sort_by: "create_at",
+          sort_by: "sort_by_date",
           deleted: false,
           weaken: false,
           page_size:1
@@ -338,7 +338,15 @@ export const newPostsTips = () => {
     })(dispatch, getState);
 
     if (res && res.data && res.data.length > 0) {
-      newPostsTips['/follow'] = res.data[0].create_at;
+      // newPostsTips['/'] = res.data[0].create_at;
+
+      let posts = res.data[0];
+
+      if (new Date(posts.create_at).getTime() > new Date(profile.last_find_posts_at).getTime()) {
+        // dispatch({ type: 'HAS_NEW_FEED', status: true });
+        newPostsTips['/'] = true;
+      }
+
     }
 
     dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips });

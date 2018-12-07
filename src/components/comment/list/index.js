@@ -8,9 +8,9 @@ import { getCommentListByName } from '../../../store/reducers/comment';
 import { loadCommentList } from '../../../store/actions/comment';
 
 // components
-import ListLoading from '../../list-loading';
+// import ListLoading from '../../list-loading';
 import CommentItem from '../list-item';
-import Pagination from '../../pagination';
+// import Pagination from '../../pagination';
 import Paginationa from '../../paginationa';
 import Loading from '../../ui/loading';
 
@@ -66,8 +66,6 @@ export default class CommentList extends Component {
     const { name, list } = this.props;
     const { data, loading, more, filters = {}, count } = list;
 
-    // console.log(list);
-
     return (
       <div ref={e=>this.state.dom=e}>
 
@@ -84,25 +82,10 @@ export default class CommentList extends Component {
           pageSize={filters.page_size || 0}
           pageNumber={filters.page_number || 0}
           onChoose={(e)=>{
-
             const { dom } = this.state;
             $(window).scrollTop($(dom).offset().top - 100);
             self.props.filters.variables.page_number = e;
             self.loadList(true);
-
-
-
-            // $(window).height();
-
-            // console.log($(window).height());
-            // console.log($(dom).offset().top);
-
-
-            // $(window).scrollTop(100);
-
-
-
-
           }}
           />
 

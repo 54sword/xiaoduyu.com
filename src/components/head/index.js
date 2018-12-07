@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/sign';
 import { isMember, getProfile } from '../../store/reducers/user';
 import { getTopicListByKey } from '../../store/reducers/topic';
-import { getUnreadNotice, hasNewFeed } from '../../store/reducers/website';
+import { getUnreadNotice, hasNewFeed, getPostsTips } from '../../store/reducers/website';
 
 // style
 import './style.scss';
@@ -24,7 +24,8 @@ import './style.scss';
     isMember: isMember(state),
     topicList: getTopicListByKey(state, 'head'),
     unreadNotice: getUnreadNotice(state),
-    hasNewFeed: hasNewFeed(state)
+    hasNewFeed: hasNewFeed(state),
+    newPostsTips: getPostsTips(state)
   }),
   dispatch => ({
     signOut: bindActionCreators(signOut, dispatch)
@@ -79,10 +80,10 @@ export default class Head extends React.Component {
 
   render() {
 
-    const { me, isMember, topicList, unreadNotice, hasNewFeed } = this.props;
-
+    const { me, isMember, topicList, unreadNotice, hasNewFeed, newPostsTips } = this.props;
+    
     let nav = [
-      { to: '/', name: '首页' }
+      { to: '/', name: '首页', tips: newPostsTips['/'] }
     ];
     
     if (isMember) {
