@@ -94,16 +94,21 @@ export default class CommentItem extends Component {
           {reply_user && reply_user._id != comment.user_id._id
             ? <Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link>
             : null}
-        </div>
-
-        <div styleName="info">
-          {comment.like_count ? <span>赞 {comment.like_count}</span> : null}
-          {comment.reply_count ? <span>回复 {comment.reply_count}</span> : null}
           <span>{comment._create_at}</span>
         </div>
+        
+        {/* 
+        <div styleName="info">
+          
+          {comment.like_count ? <span>赞 {comment.like_count}</span> : null}
+          {comment.reply_count ? <span>回复 {comment.reply_count}</span> : null}
+          
+          <span>{comment._create_at}</span>
+        </div>
+        */}
 
       </div>
-
+        
       {/*comment.content_html ?
         <div styleName="item-body">{comment.content_html}</div>
         : null*/}
@@ -111,15 +116,17 @@ export default class CommentItem extends Component {
       {comment.content_html ?
         <div styleName="item-body"><HTMLText content={comment.content_html} /></div>
         : null}
-
+      
+      
       <div styleName="footer">
         <div styleName="actions">
           <CommentButton comment={comment} />
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
         </div>
       </div>
+      
 
-      {comment.reply && comment.reply.length > 0 ?
+      {/*comment.reply && comment.reply.length > 0 ?
         <div styleName="reply-list">
           {comment.reply.map(item=>this.renderUserView(item))}
 
@@ -130,7 +137,7 @@ export default class CommentItem extends Component {
             : null}
 
         </div>
-        : null}
+          : null*/}
 
     </div>)
   }

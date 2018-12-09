@@ -257,7 +257,8 @@ const processPostsList = (list) => {
       // 删除所有html标签
       textContent = textContent.replace(/<[^>]+>/g,"");
 
-      if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
+
+      if (textContent.length > 100) textContent = textContent.slice(0, 100)+'...';
       posts.content_summary = textContent;
 
       // 获取内容中所有的图片

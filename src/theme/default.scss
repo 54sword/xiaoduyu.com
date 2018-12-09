@@ -21,7 +21,7 @@ a{
   }
 
   font-size: 14px;
-  background-color: #eaedf0;//#eaedf0;
+  background-color: #eaedf0;
   color:#484848;
 
   .container{
@@ -46,15 +46,15 @@ a{
       padding:10px 15px 10px 15px;
       border-bottom: 1px solid #e6e8eb;
       background-color: #fff;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
+      // border-top-left-radius: 12px;
+      // border-top-right-radius: 12px;
       font-size: 13px;
     }
   
     .card-body{
       padding:15px 20px 15px 20px;
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
+      // border-bottom-left-radius: 12px;
+      // border-bottom-right-radius: 12px;
       background-color: #fff;
     }
 

@@ -81,14 +81,14 @@ export default class PostsListItem extends React.PureComponent {
       ExpandButton.add(posts._id);
     }
   }
-
+  */
   componentWillUnmount() {
     const { posts } = this.props;
     if (this.state.expand) {
       ExpandButton.clean(posts._id);
     }
   }
-  */
+  
 
   expand(e) {
 
@@ -126,20 +126,34 @@ export default class PostsListItem extends React.PureComponent {
     const { posts, isMember } = this.props;
     const { expand } = this.state;
 
-    let coverImage = '';
+    // let coverImage = '';
 
-    if (posts.content_summary && posts.content_summary.length > 100 && posts.coverImage) {
-      coverImage = posts.coverImage;
-    }
+    // if (posts.content_summary && posts.content_summary.length > 100 && posts.coverImage) {
+    //   coverImage = posts.coverImage;
+    // }
+
+    let coverImage = posts.images && posts.images[0] ? posts.images[0] : '';
 
     //
     // {!expand ? this.expand : this.collapseContent}
+    // styleName={!expand ? 'item' : 'item-active'}
+    // <div onClick={!expand ? this.expand : null} styleName='item-head'>
 
     return (<div id={posts._id} styleName='item'>
 
-      <div onClick={!expand ? this.expand : null} styleName="item-head">
+      <div
+         styleName='item-head'
+        onClick={()=>{
+          $('#posts-modal').modal({
+            show: true
+          }, {
+            posts_id: posts._id
+          });
+        }}
+        >
 
       <div styleName="head">
+
         {typeof posts.user_id == 'object' ?
           <div styleName="info">
             
@@ -150,79 +164,70 @@ export default class PostsListItem extends React.PureComponent {
                 data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}>
                 </i>
               <b>{posts.user_id.nickname}</b>
-              <span styleName="people-brief">{posts.user_id.brief}</span>
+              {/* <span styleName="people-brief">{posts.user_id.brief}</span> */}
             </Link>
 
+            {/* 
+            <div styleName="item-meta">
+              <span>{posts._create_at}</span>
+              {posts.comment_count ? <span>{posts.comment_count}条评论</span> : null}
+              {posts.like_count ? <span>{posts.like_count}次赞</span> : null}
+              {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
+            </div>
+            */}
+
             {/* dropdown-menu */}
+            {/* 
             <div styleName="menu">
               <ReportMenu posts={posts} />
             </div>
+            */}
             {/* dropdown-menu end */}
+            
 
             <div>
               <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
               <span>{posts._create_at}</span>
-              {posts.view_count ? <span>{posts.view_count}次浏览</span> : null}
-              {posts.comment_count ? <span>{posts.comment_count}条评论</span> : null}
-              {posts.like_count ? <span>{posts.like_count}次赞</span> : null}
-              {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
+              {/* {posts.view_count ? <span>{posts.view_count}次浏览</span> : null} */}
+              {/* {posts.comment_count ? <span>{posts.comment_count}条评论</span> : null} */}
+              {/* {posts.like_count ? <span>{posts.like_count}次赞</span> : null} */}
+              {/* {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null} */}
             </div>
 
           </div>
           : null}
       </div>
 
+      <div styleName={`body`}>
 
+        {/*coverImage ? <div styleName="cover-image" style={{backgroundImage:`url(${coverImage})`}}></div> : null*/}
 
-      <div styleName="title">
-        <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
-      </div>
+        <div styleName="title">
+          {/* <Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation} styleName="topic-name">{posts.topic_id.name}</Link> */}
+          <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
+        </div>
 
+        {(()=>{
 
-      {(()=>{
+          if (expand) {
+            return (<div styleName="content">
+              <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
+            </div>)
+          }
 
-        if (expand) {
-          return (<div styleName="content">
-            <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
-          </div>)
-        }
-
-        if (posts.content_summary) {
-          return (<div styleName="content">
-
-            <div>
-              {posts.content_summary}
-            </div>
-
-
-            {/*posts.images && posts.images.length > 0 ?
-              <div style={{
-                // float:'right',
-                width:'200px',
-                height:'120px',
-                backgroundImage: 'url('+posts.images[0]+')',
-                backgroundSize:'cover',
-                backgroundPosition:'center'
-              }}></div>
-            : null*/}
-
-
-            {/*posts.images && posts.images.length > 0 ?
-              <div style={{width:'60%',marginTop:'10px'}}><GridListImage images={posts.images} /></div>
-            : null*/}
-              
-            {/*posts.images && posts.images.length > 0 ?
-              <div styleName="images">
-                {posts.images.map((item, index)=>{
-                  if (index > 9) return;
-                  return <span key={item} styleName="image-item" style={{backgroundImage:`url(${item})`}}></span>
-                })}
-              </div>
+          if (posts.content_summary) {
+            return (<div styleName="content">
+              <div>{posts.content_summary}</div>
+              {/*posts.images && posts.images.length > 0 ?
+                <div style={{width:'100%',marginTop:'10px'}}><GridListImage images={posts.images} /></div>
               : null*/}
-          </div>)
-        }
+                
+            </div>)
+          }
 
-      })()}
+        })()}
+
+      </div>
 
       {/*!expand ?
         <div styleName="status-bar">
@@ -263,18 +268,19 @@ export default class PostsListItem extends React.PureComponent {
 
 
         <div styleName="footer">
-          {expand ?
+          {/* 
           <div>
 
             <div className="container">
             <div styleName="footer-main" className="row">
 
                 <div className="col-10" styleName="actions">
+                  {posts.view_count ? <a href="#">{posts.view_count} 次浏览</a> : null}
                   <CommentButton posts={posts} />
                   <Like posts={posts} />
                   <Follow posts={posts} />
                   <Share posts={posts} />
-                  {/*<EditButton posts={posts} />*/}
+                  <EditButton posts={posts} />
                 </div>
 
                 {expand ?
@@ -288,7 +294,7 @@ export default class PostsListItem extends React.PureComponent {
             </div>
 
           </div>
-          : null}
+          */}
         </div>
 
 

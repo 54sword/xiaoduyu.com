@@ -1,7 +1,7 @@
 
 .item{
 
-  // background-color: #fff;
+  // background-color: #efefef;
   // border-top:1px solid #e6e8eb;
 
   .item-head{
@@ -9,7 +9,7 @@
     font-size: 13px;
 
     padding-top:20px;
-    padding-left:70px;
+    padding-left:65px;
     line-height: 20px;
 
     .avatar{
@@ -60,11 +60,11 @@
   }
 
   .item-body{
-    padding:5px 20px 0px 20px;
+    padding:0 20px 0px 65px;
   }
 
   .footer{
-    padding:5px 0 15px 20px;
+    padding:5px 0 15px 65px;
 
     .actions{
       > a{

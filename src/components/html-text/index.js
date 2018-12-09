@@ -428,7 +428,7 @@ const converVideo = (html) => {
       // 如果url中包含“?”,需要将其转译成字符串
       _img = _img.replace(/\?/g, "\\?");
 
-      html = html.replace(new RegExp(_img,"gm"), '<div onclick="webPictureViewer('+allImage+','+index+');" class="load-demand text-center" data-load-demand=\''+img+'\'></div>');
+      html = html.replace(new RegExp(_img,"gm"), '<div onclick="webPictureViewer('+allImage+','+index+');" class="load-demand" data-load-demand=\''+img+'\'></div>');
     })
   }
 
