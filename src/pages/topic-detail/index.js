@@ -134,6 +134,8 @@ export default class TopicsDetail extends React.Component {
 
   componentWillReceiveProps(props) {
     if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
+
+      console.log('123123');
       this.props = props;
       this.componentDidMount();
     }
@@ -166,8 +168,18 @@ export default class TopicsDetail extends React.Component {
       <Box>
 
         <div>
+
+          <div styleName="topic-info"  className="d-flex justify-content-between">
+          <div>
+            <div styleName="name">
+              <img src={topic.avatar} />
+              <Link to={`/topic/${topic._id}`}>{topic.name}</Link>
+            </div>
+            <div>{topic.brief}</div>
+          </div>
+        </div>
           
-        {topic.parent_id ?
+        {/*topic.parent_id ?
           <div styleName="topic-info"  className="d-flex justify-content-between">
             <div>
               <div styleName="name" className="load-demand" data-load-demand={encodeURIComponent(`<img src=${topic.avatar} />`)}>
@@ -185,11 +197,20 @@ export default class TopicsDetail extends React.Component {
               <Follow topic={topic} />
             </div>
           </div>
-          : null}
+          : 
+          <div styleName="topic-info"  className="d-flex justify-content-between">
+          <div>
+            <div styleName="name" className="load-demand" data-load-demand={encodeURIComponent(`<img src=${topic.avatar} />`)}>
+              <Link to={`/topic/${topic._id}`}>{topic.name}</Link>
+            </div>
+            <div>{topic.brief}</div>
+          </div>
+        </div>
+        */}
 
         <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
 
-        {topic.children && topic.children.length > 0 ?
+        {/*topic.children && topic.children.length > 0 ?
           <div styleName="topic-nav">
             {topic.children.map(item=>{
               return (<Link to={`/topic/${item._id}`} key={item._id}>
@@ -197,7 +218,7 @@ export default class TopicsDetail extends React.Component {
                 </Link>)
             })}
           </div>
-          : null}
+          : null*/}
 
           <PostsList
             id={pathname + search}

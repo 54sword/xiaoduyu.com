@@ -77,7 +77,7 @@ export default class CommentItem extends Component {
       reply_user = comment.reply_id.user_id;
     }
 
-    return (<div styleName="item" key={comment._id} className="border-top">
+    return (<div styleName="item" key={comment._id}>
 
       <div styleName="item-head">
 
@@ -90,11 +90,11 @@ export default class CommentItem extends Component {
             <div styleName="avatar" className="load-demand" data-load-demand={`<img width="40" height="40" src="${comment.user_id.avatar_url}" />`}></div>
             <b>{comment.user_id.nickname}</b>
           </Link>
-          <span>{reply_user ? `回复${reply_user._id == comment.user_id._id ? '自己' : ''}` : null}</span>
-          {reply_user && reply_user._id != comment.user_id._id
+          {/* <span>{reply_user ? `回复${reply_user._id == comment.user_id._id ? '自己' : ''}` : null}</span> */}
+          {/*reply_user && reply_user._id != comment.user_id._id
             ? <Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link>
-            : null}
-          <span>{comment._create_at}</span>
+          : null*/}
+          {/* <span>{comment._create_at}</span> */}
         </div>
         
         {/* 
@@ -126,18 +126,18 @@ export default class CommentItem extends Component {
       </div>
       
 
-      {/*comment.reply && comment.reply.length > 0 ?
+      {comment.reply && comment.reply.length > 0 ?
         <div styleName="reply-list">
           {comment.reply.map(item=>this.renderUserView(item))}
 
           {comment.reply_count > comment.reply.length ?
-            <div styleName="view-all-reply" className="border-top">
+            <div styleName="view-all-reply">
               <a href={`/comment/${comment._id}`} target="_blank">还有 {comment.reply_count - comment.reply.length} 条评论，查看全部</a>
             </div>
             : null}
 
         </div>
-          : null*/}
+          : null}
 
     </div>)
   }

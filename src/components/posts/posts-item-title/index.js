@@ -22,17 +22,9 @@ export default class PostsItemTitle extends React.PureComponent {
 
     const { posts } = this.props
 
-    return (<div className="list-group-item load-demand" styleName="a"
-      data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}>
+    return (<div className="list-group-item" styleName="a">
 
-      {/*typeof posts.user_id == 'object' ?
-        <Link
-          to={`/people/${posts.user_id._id}`}
-          styleName="avatar"
-          className="load-demand"
-          data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}>
-        </Link>
-        : null*/}
+      <span className="load-demand" data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}></span>
 
       <Link
         to={`/posts/${posts._id}`}

@@ -89,16 +89,17 @@ export default class Head extends React.Component {
     if (isMember) {
       nav.push({ to: '/follow', name: '关注', tips: hasNewFeed });
     }
-
-    if (topicList) {
-      topicList.data.map(item=>{
-        nav.push({ to: `/topic/${item._id}`, name: item.name });
-      });
-    }
+    
+    // if (topicList) {
+    //   topicList.data.map(item=>{
+    //     nav.push({ to: `/topic/${item._id}`, name: item.name });
+    //   });
+    // }
     
     return (<>
       <header>
       <nav styleName="navbar" className="navbar navbar-expand-lg navbar-light">
+        <div className="container">
         
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -167,60 +168,8 @@ export default class Head extends React.Component {
             </ul>}
           
         </div>
-        
-        {/* 
-        <div styleName="navbar-left">
 
-            <div styleName="topics-nav">
-              <ul>
-                {nav.map(item=><li key={item.to}>
-                  <NavLink exact to={item.to}>
-                    {item.name}
-                    {item.tips ? <span styleName="red-point"></span> : null}
-                  </NavLink>
-                </li>)}
-              </ul>
-            </div>
-            <div>
-              <form onSubmit={this.search} styleName="search-form">
-                <input
-                  type="text"
-                  styleName="search"
-                  placeholder="搜索"
-                  ref={e => this.state.search = e}
-                  />
-              </form>
-            </div>
-          
         </div>
-        
-
-        <ul styleName="user-bar">
-          {isMember ?
-            <>
-            <li>
-              <NavLink exact to="/notifications" style={unreadNotice.length > 0 ? {marginRight:'15px'} : {}}>
-                通知{unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}
-              </NavLink>
-            </li>
-            <li>
-              <div styleName="avatar-area" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <div styleName="avatar" style={{backgroundImage:`url(${me.avatar_url})`}}></div>
-                <div className="d-none d-md-block d-lg-block d-xl-block">{me.nickname}</div>
-              </div>
-              <div className="dropdown-menu dropdown-menu-right">
-                <Link className="dropdown-item" to={`/people/${me._id}`}>我的主页</Link>
-                <Link className="dropdown-item" to="/settings">设置</Link>
-                <a className="dropdown-item" href="javascript:void(0)" onClick={this.signOut}>退出</a>
-              </div>
-            </li>
-            </>
-          : <>
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">注册</a></li>
-            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in">登录</a></li>
-            </>}
-        </ul>
-        */}
 
       </nav>
       </header>

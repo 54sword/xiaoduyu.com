@@ -34,24 +34,24 @@ export default class Home extends PureComponent {
             }}
             scrollLoad={true}
             />
-        </div>
 
+        </div>
         <Sidebar
-          recommendPostsDom={(
-            <PostsList
-              id={'_home'}
-              itemName="posts-item-title"
-              filters={{
-                variables: {
-                  sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
-                  deleted: false,
-                  weaken: false,
-                  page_size: 10,
-                  start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
-                }
-              }}
-              />
-          )}
+          // recommendPostsDom={(
+          //   <PostsList
+          //     id={'_home'}
+          //     itemName="posts-item-title"
+          //     filters={{
+          //       variables: {
+          //         sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+          //         deleted: false,
+          //         weaken: false,
+          //         page_size: 10,
+          //         start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+          //       }
+          //     }}
+          //     />
+          // )}
           />
       </Box>
 

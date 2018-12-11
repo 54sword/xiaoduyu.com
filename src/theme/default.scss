@@ -14,11 +14,13 @@ a{
 :global{
 .default-theme{
 
+  /*
   @media (min-width: 1050px) {
     .container {
       max-width: 1050px;
     }
   }
+  */
 
   font-size: 14px;
   background-color: #eaedf0;
@@ -43,7 +45,8 @@ a{
     background-color: rgba(0,0,0,0);
 
     .card-header{
-      padding:10px 15px 10px 15px;
+      // padding:0px;
+      padding:8px 15px 8px 15px;
       border-bottom: 1px solid #e6e8eb;
       background-color: #fff;
       // border-top-left-radius: 12px;
@@ -52,7 +55,7 @@ a{
     }
   
     .card-body{
-      padding:15px 20px 15px 20px;
+      padding:0px;
       // border-bottom-left-radius: 12px;
       // border-bottom-right-radius: 12px;
       background-color: #fff;
@@ -197,6 +200,10 @@ a{
     border-radius: 12px;
   }
 
+}
+
+.modal-dialog{
+  max-width: 640px;
 }
 
 .modal-body{

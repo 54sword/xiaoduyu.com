@@ -143,13 +143,14 @@ export default class PostsListItem extends React.PureComponent {
 
       <div
          styleName='item-head'
-        onClick={()=>{
-          $('#posts-modal').modal({
-            show: true
-          }, {
-            posts_id: posts._id
-          });
-        }}
+         onClick={!expand ? this.expand : null}
+        // onClick={()=>{
+        //   $('#posts-modal').modal({
+        //     show: true
+        //   }, {
+        //     posts_id: posts._id
+        //   });
+        // }}
         >
 
       <div styleName="head">
@@ -268,25 +269,27 @@ export default class PostsListItem extends React.PureComponent {
 
 
         <div styleName="footer">
-          {/* 
+
           <div>
 
             <div className="container">
             <div styleName="footer-main" className="row">
-
+                {expand ?
                 <div className="col-10" styleName="actions">
+                
                   {posts.view_count ? <a href="#">{posts.view_count} 次浏览</a> : null}
                   <CommentButton posts={posts} />
                   <Like posts={posts} />
-                  <Follow posts={posts} />
-                  <Share posts={posts} />
-                  <EditButton posts={posts} />
+                  {/* <Follow posts={posts} /> */}
+                  {/* <Share posts={posts} /> */}
+                  {/* <EditButton posts={posts} /> */}
                 </div>
+                : null}
 
                 {expand ?
                   <div className="col-2 text-right" styleName="actions">
                     <a href="javascript:void(0)" id={posts._id+'-footer'} onClick={this.expand} styleName="collapse-float">收起</a>
-                    <a href="javascript:void(0)" onClick={this.expand} styleName="collapse">收起</a>
+                    {/* <a href="javascript:void(0)" onClick={this.expand} styleName="collapse">收起</a> */}
                   </div>
                   : null}
 
@@ -294,7 +297,6 @@ export default class PostsListItem extends React.PureComponent {
             </div>
 
           </div>
-          */}
         </div>
 
 

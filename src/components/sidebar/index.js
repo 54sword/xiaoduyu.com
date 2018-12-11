@@ -82,14 +82,12 @@ export default class Sidebar extends React.Component {
 
     return(<div>
 
-      {isMember ?
+      {/*isMember ?
           <div>
           <Link to='/new-posts' styleName="new-posts" className="d-none d-md-block d-lg-block d-xl-block">创建帖子</Link>
-          {/* <a href="/new-posts" styleName="new-posts" target="_blank" className="d-none d-md-block d-lg-block d-xl-block">创建帖子</a> */}
-          {/*<div>快捷发帖，问与答，好奇心</div>*/}
           </div>
         :
-        null}
+        null*/}
 
       {!isMember ?
         <div className="card">

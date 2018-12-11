@@ -8,16 +8,16 @@
 
     font-size: 13px;
 
-    padding-top:20px;
-    padding-left:65px;
+    padding-top:10px;
+    padding-left:60px;
     line-height: 20px;
 
     .avatar{
       img{
-        float:left;
-        margin-left:-50px;
-        width: 40px;
-        height: 40px;
+        position: absolute;
+        margin-left:-45px;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
         // margin-top:-5px;
       }
@@ -60,11 +60,17 @@
   }
 
   .item-body{
-    padding:0 20px 0px 65px;
+    margin:0 20px 0px 60px;
+    background-color: #f2f5f8;
+    padding:10px;
+    border-radius: 6px;
+    display: inline-block;
+    // word-wrap: break-word;
+    // background-color: #333;
   }
 
   .footer{
-    padding:5px 0 15px 65px;
+    padding:5px 0 5px 65px;
 
     .actions{
       > a{
@@ -106,7 +112,7 @@
 
 .reply{
 
-  border-top:1px solid #e6e8eb;
+  // border-top:1px solid #e6e8eb;
   padding-top: 15px;
   padding-bottom: 15px;
 
@@ -130,6 +136,7 @@
 
   .footer{
     padding:0;
+    padding-left:45px;
 
     .actions{
       a {
@@ -158,7 +165,9 @@
   }
 
   .item-body{
-    padding-left:0px;
+    display: inline-block;
+    margin:0 0 0 50px;
+    // padding-left:0px;
   }
 
   .actions{
