@@ -1,6 +1,6 @@
 
 
-@import url('global.scss'); 
+@import url('global.scss');
 
 /**
  * 覆盖默认的 bootstrap 的样式
@@ -37,7 +37,7 @@ a{
       padding-left: 6px;
     }
   }
-  
+
   .card{
     border: none;
     margin-bottom: 12px;
@@ -49,15 +49,15 @@ a{
       padding:8px 15px 8px 15px;
       border-bottom: 1px solid #e6e8eb;
       background-color: #fff;
-      // border-top-left-radius: 12px;
-      // border-top-right-radius: 12px;
-      font-size: 13px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      font-size: 14px;
     }
-  
+
     .card-body{
       padding:0px;
-      // border-bottom-left-radius: 12px;
-      // border-bottom-right-radius: 12px;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
       background-color: #fff;
     }
 
@@ -129,15 +129,15 @@ a{
 
   /* button */
 
-  
+
   .btn{
-    border-radius: 50px;
+    // border-radius: 50px;
     // font-size: 14px;
     // padding-top: 10px;
     // padding-bottom: 10px;
     // line-height: 100%;
   }
-  
+
   .btn-primary{
     background-color: #4170ea;
     color:#fff;
@@ -160,7 +160,7 @@ a{
     width: 22px;
     height: 22px;
   }
-  
+
   .nav-link{
     padding:0px 10px 0 10px !important;
     height: 45px;
@@ -189,10 +189,10 @@ a{
 
   /* from */
 
-  .form-control{
-    border-radius: 50px;
-    padding:0 20px 0 20px;
-  }
+  // .form-control{
+    // border-radius: 50px;
+    // padding:0 10px 0 10px;
+  // }
 
   /* */
   .modal-content{
@@ -202,9 +202,9 @@ a{
 
 }
 
-.modal-dialog{
-  max-width: 640px;
-}
+// .modal-dialog{
+  // max-width: 640px;
+// }
 
 .modal-body{
   padding:0px;

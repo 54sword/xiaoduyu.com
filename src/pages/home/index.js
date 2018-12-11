@@ -8,21 +8,27 @@ import Sidebar from '../../components/sidebar';
 import Box from '../../components/box';
 import NewPostsButton from '../../components/new-posts-button';
 
+import SidebarTopic from '../../components/sidebar/topic';
+
 @Shell
 export default class Home extends PureComponent {
 
   render() {
 
     return(<>
-      
+
       <Meta />
 
       <Box>
 
         <div>
+          <SidebarTopic />
+        </div>
+
+        <div>
 
           <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
-          
+
           <PostsList
             id={'home'}
             filters={{

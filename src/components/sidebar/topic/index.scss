@@ -1,5 +1,10 @@
 .container{
 
+  padding:15px !important;
+
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+
   a {
     display:inline-block;
     color:#484848;
@@ -11,14 +16,8 @@
   .active{
     color:#fff;
     background-color: #4170ea;
-  }  
-
-  .children{
-    a{
-      font-size: 13px;
-    }
   }
-  
+
   .group{
     margin-bottom: 20px;
 
@@ -40,5 +39,3 @@
   }
 
 }
-
-

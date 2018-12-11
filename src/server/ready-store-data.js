@@ -18,10 +18,12 @@ export default (store, accessToken) => {
     // 一些经常通用数据，不会经常更新的数据，在服务器获取并储存在store中
 
     await loadReportTypes()(store.dispatch, store.getState);
+    /*
     await loadTopics({
       id: 'head',
       filters: { variables: { type: "parent", recommend: true } }
     })(store.dispatch, store.getState);
+    */
 
     if (accessToken) {
       let res = await loadUserInfo({ accessToken })(store.dispatch, store.getState);

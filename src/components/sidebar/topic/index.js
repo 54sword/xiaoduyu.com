@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { loadTopics } from '../../../store/actions/topic';
 import { getTopicListByKey } from '../../../store/reducers/topic';
 
 // style
@@ -15,6 +16,7 @@ import './index.scss';
     topicList: getTopicListByKey(state, 'head')
   }),
   dispatch => ({
+    loadTopics: bindActionCreators(loadTopics, dispatch)
   })
 )
 export default class Box extends Component {
@@ -29,6 +31,22 @@ export default class Box extends Component {
     }
   }
 
+  componentDidMount() {
+
+    const { topicList, loadTopics } = this.props;
+
+    if (!topicList ||
+        !topicList.data ||
+        !topicList.data.length
+    ) {
+      loadTopics({
+        id: 'head',
+        filters: { variables: { type: "parent", recommend: true, sort_by: 'sort:-1' } }
+      });
+    }
+
+  }
+
   handleExpand(id) {
     let { expand } = this.state;
     expand[id] = expand[id] ? false : true;
@@ -37,8 +55,8 @@ export default class Box extends Component {
 
   render() {
 
-    const { topicList } = this.props;
     const { expand, maxLenth } = this.state;
+    const { topicList } = this.props;
 
     if (!topicList) return null;
 
@@ -47,30 +65,30 @@ export default class Box extends Component {
     if (loading) return <div>loading...</div>;
     if (!data) return;
 
-    let path = this.props.match.path;
-
     // 当前topic id
     let current = '';
+    const path = this.props.match.path;
 
     if (path == '/topic/:id') {
       current = this.props.match.params.id;
     }
 
-    return (<div styleName="container">
+    return (<div className="card">
+      <div className="card-body" styleName="container">
             {data.map(item=>{
 
               return (<div key={item._id} styleName="group">
-                
+
                 <div>
                   <Link styleName={item._id == current ? 'active' : ''} to={`/topic/${item._id}`}>
                     {item.name}
                   </Link>
                 </div>
-                
-                <div styleName="children">
+
+                <div>
                   {item.children && item.children.map((subitem, index)=>{
                     if (!expand[item._id] && index > maxLenth) return;
-                    return (<Link 
+                    return (<Link
                       key={subitem._id}
                       styleName={subitem._id == current ? 'active' : ''}
                       to={`/topic/${subitem._id}`}
@@ -90,6 +108,7 @@ export default class Box extends Component {
 
               </div>)
             })}
+        </div>
       </div>)
   }
 }
