@@ -66,6 +66,10 @@ export function loadPostsList({ id, filters, restart = false }) {
           nickname
           brief
           avatar_url
+          posts_count
+          comment_count
+          fans_count
+          follow
         }
         verify
         view_count

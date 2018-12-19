@@ -81,11 +81,12 @@ const generatePostsFilters = (topic, search) => {
 export default ({ store, match }) => {
   return new Promise(async (resolve, reject) => {
 
+    // const { url } = match;
     const { id } = match.params;
     let err, result;
 
     [ err, result ] = await loadTopics({
-      id: id,
+      id,
       filters: { variables: { _id: id } }
     })(store.dispatch, store.getState);
 

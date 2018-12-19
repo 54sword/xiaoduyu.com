@@ -1,5 +1,5 @@
 import React from 'react';
-// import AdSense from 'react-adsense';
+import { withRouter } from 'react-router';
 
 import { name, domain_name, Goole_AdSense } from '../../../config';
 
@@ -18,17 +18,29 @@ import PostsList from '../../components/posts/list';
 import PostsDetailC from '../../components/posts/detail';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
+import Follow from '../../components/follow';
 
 import Box from '../../components/box';
 import Sidebar from '../../components/sidebar';
 import AdsByGoogle from '../../components/adsbygoogle';
 
+
+import GoBack from '@modules/go-back';
+
+// import Links from '../../modules/links';
+
+// layout
+import ThreeColumns from '../../layout/three-columns';
+import TwoColumns from '../../layout/two-columns';
+
 // styles
 import './style.scss';
 
 @Shell
+@withRouter
 @connect(
   (state, props) => ({
+    hasHistory: state.history.data[1],
     isMember: isMember(state),
     list: getPostsListByListId(state, props.match.params.id)
   }),
@@ -75,7 +87,7 @@ export default class PostsDetail extends React.Component {
 
   render() {
 
-    const { list, isMember } = this.props;
+    const { list, isMember, hasHistory } = this.props;
     const { loading, data } = list || {};
     const posts = data && data[0] ? data[0] : null;
 
@@ -83,107 +95,219 @@ export default class PostsDetail extends React.Component {
 
     const author = posts.user_id;
 
-    return(<Box><div styleName="box">
 
-      <Meta title={posts.title}>
-        <meta name="description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
-        <link rel="canonical" href={`${domain_name}/posts/${posts._id}`} />
-        <link rel="amphtml" href={`${domain_name}/amp/posts/${posts._id}`} />
-        <meta property="og:locale" content="zh_CN" />
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={posts.title} />
-        <meta property="og:description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
-        <meta property="og:url" content={`${domain_name}/posts/${posts._id}`} />
-        <meta property="og:site_name" content={name} />
-      </Meta>
+    return(<div>
+{/* 
+<Sidebar showFooter={false}>
 
 
-          <PostsDetailC id={posts._id} />
-
-          {!isMember && Goole_AdSense && Goole_AdSense.postsDetail ?
-            <div style={{marginBottom:'12px'}}><AdsByGoogle {...Goole_AdSense.postsDetail} /></div> : null}
-
-          {posts.comment_count > 0 ?
-            <div className="card">
-            <div className="card-header">{posts.comment_count}条评论</div>
-            <div styleName="comment-list" className="card-body">
-              <CommentList
-                name={posts._id}
-                filters={{
-                  variables: {
-                    deleted: false,
-                    weaken: false,
-                    posts_id: posts._id,
-                    parent_id: 'not-exists',
-                    page_size:10
-                  }
-                }}
-                />
-            </div>
-            </div>
-            : null}
-
-          {isMember ?
-            <div styleName="editor-comment">
-              <EditorComment posts_id={posts._id} />
-            </div>
-            : null}
-
+<div className="card">
+  <div className="card-header">作者</div>
+  <div className="card-body">
+    <div styleName="nickname" style={author.brief ? {} : { lineHeight:'50px'}}>
+      <img src={author.avatar_url} width="50" height="50" />
+      <b>{author.nickname}</b>
+      {author.brief ? <div>{author.brief}</div> : null}
     </div>
-    <Sidebar>
-      <div className="card">
-        <div className="card-header">作者</div>
-        <div className="card-body">
-          <div styleName="nickname" style={author.brief ? {} : { lineHeight:'50px'}}>
-            <img src={author.avatar_url} width="50" height="50" />
-            <b>{author.nickname}</b>
-            {author.brief ? <div>{author.brief}</div> : null}
+    
+    <div className="container">
+    <div className="row">
+      <div className="col-4 text-center">
+        <div>{author.fans_count}</div>
+        <div>粉丝</div>
+      </div>
+      <div className="col-4 text-center">
+        <div>{author.posts_count}</div>
+        <div>发帖</div>
+      </div>
+      <div className="col-4 text-center">
+        <div>{author.comment_count}</div>
+        <div>评论</div>
+      </div>
+    </div>
+    </div>
+
+    <Follow user={author} />
+
+  </div>
+</div>
+
+
+ 
+<div className="card">
+  <div className="card-header">作者其他帖子</div>
+  <div className="card-body">
+    <PostsList
+      id={'author-hot-'+posts.user_id._id}
+      itemName="posts-item-title"
+      filters={{
+        variables: {
+          user_id: posts.user_id._id,
+          sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+          deleted: false,
+          weaken: false,
+          page_size: 10,
+          start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+        }
+      }}
+      />
+  </div>
+</div>
+
+
+<div className="card">
+  <div className="card-header">相似话题</div>
+  <div className="card-body">
+    <PostsList
+      id={'hot-'+posts._id}
+      itemName="posts-item-title"
+      filters={{
+        variables: {
+          topic_id: posts.topic_id._id,
+          sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+          deleted: false,
+          weaken: false,
+          page_size: 10,
+          start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+        }
+      }}
+      />
+  </div>
+</div>
+    
+
+</Sidebar>
+*/}
+
+      <div styleName="box">
+
+        <Meta title={posts.title}>
+          <meta name="description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
+          <link rel="canonical" href={`${domain_name}/posts/${posts._id}`} />
+          <link rel="amphtml" href={`${domain_name}/amp/posts/${posts._id}`} />
+          <meta property="og:locale" content="zh_CN" />
+          <meta property="og:type" content="article" />
+          <meta property="og:title" content={posts.title} />
+          <meta property="og:description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
+          <meta property="og:url" content={`${domain_name}/posts/${posts._id}`} />
+          <meta property="og:site_name" content={name} />
+        </Meta>
+
+        <PostsDetailC id={posts._id} />
+
+        {!isMember && Goole_AdSense && Goole_AdSense.postsDetail ?
+          <div style={{marginBottom:'12px'}}><AdsByGoogle {...Goole_AdSense.postsDetail} /></div> : null}
+
+        {posts.comment_count > 0 ?
+          <div className="card">
+          <div className="card-header">{posts.comment_count}条评论</div>
+          <div styleName="comment-list" className="card-body">
+            <CommentList
+              name={posts._id}
+              filters={{
+                variables: {
+                  deleted: false,
+                  weaken: false,
+                  posts_id: posts._id,
+                  parent_id: 'not-exists',
+                  page_size:10
+                }
+              }}
+              />
           </div>
-        </div>
+          </div>
+          : null}
+
+        {isMember ?
+          <div styleName="editor-comment">
+            <EditorComment posts_id={posts._id} />
+          </div>
+          : null}
+          
       </div>
+
+{/* 
+<div>
 
       <div className="card">
-        <div className="card-header">作者其他帖子</div>
-        <div className="card-body">
-          <PostsList
-            id={'author-hot-'+posts.user_id._id}
-            itemName="posts-item-title"
-            filters={{
-              variables: {
-                user_id: posts.user_id._id,
-                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
-                deleted: false,
-                weaken: false,
-                page_size: 10,
-                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
-              }
-            }}
-            />
-        </div>
+  <div className="card-header">作者</div>
+  <div className="card-body">
+    <div styleName="nickname" style={author.brief ? {} : { lineHeight:'50px'}}>
+      <img src={author.avatar_url} width="50" height="50" />
+      <b>{author.nickname}</b>
+      {author.brief ? <div>{author.brief}</div> : null}
+    </div>
+    
+    <div className="container">
+    <div className="row">
+      <div className="col-4 text-center">
+        <div>{author.fans_count}</div>
+        <div>粉丝</div>
+      </div>
+      <div className="col-4 text-center">
+        <div>{author.posts_count}</div>
+        <div>发帖</div>
+      </div>
+      <div className="col-4 text-center">
+        <div>{author.comment_count}</div>
+        <div>评论</div>
+      </div>
+    </div>
+    </div>
+
+    <Follow user={author} />
+
+  </div>
+</div>
+
+
+ 
+<div className="card">
+  <div className="card-header">作者其他帖子</div>
+  <div className="card-body">
+    <PostsList
+      id={'author-hot-'+posts.user_id._id}
+      itemName="posts-item-title"
+      filters={{
+        variables: {
+          user_id: posts.user_id._id,
+          sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+          deleted: false,
+          weaken: false,
+          page_size: 10,
+          start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+        }
+      }}
+      />
+  </div>
+</div>
+
+
+<div className="card">
+  <div className="card-header">相似话题</div>
+  <div className="card-body">
+    <PostsList
+      id={'hot-'+posts._id}
+      itemName="posts-item-title"
+      filters={{
+        variables: {
+          topic_id: posts.topic_id._id,
+          sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+          deleted: false,
+          weaken: false,
+          page_size: 10,
+          start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
+        }
+      }}
+      />
+  </div>
+</div>
+
       </div>
 
-      <div className="card">
-        <div className="card-header">相似话题</div>
-        <div className="card-body">
-          <PostsList
-            id={'hot-'+posts._id}
-            itemName="posts-item-title"
-            filters={{
-              variables: {
-                topic_id: posts.topic_id._id,
-                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
-                deleted: false,
-                weaken: false,
-                page_size: 10,
-                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
-              }
-            }}
-            />
-        </div>
-      </div>
+*/}
 
-    </Sidebar>
-    </Box>)
+    </div>)
   }
 
 }

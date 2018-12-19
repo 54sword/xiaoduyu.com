@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import QRCode from 'qrcode.react';
 
-import { name, Goole_AdSense, client_download_url, contact_email, ICP_number, links } from '../../../config';
+import { name, Goole_AdSense, client_download_url, contact_email, ICP_number } from '../../../config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -10,11 +10,18 @@ import { connect } from 'react-redux';
 import { isMember, getProfile } from '../../store/reducers/user';
 import { getOnlineUserCount } from '../../store/reducers/website';
 
+
 // style
 import './style.scss';
 
 // components
 import AdsByGoogle from '../../components/adsbygoogle';
+import Links from '../../modules/links';
+import OpenSource from '../../modules/open-source';
+import APPDownload from '../../modules/app-download';
+import Footer from '../../modules/footer';
+import OperatingStatus from '../../modules/operating-status';
+import Case from '../../modules/case';
 
 @connect(
   (state, props) => ({
@@ -82,12 +89,12 @@ export default class Sidebar extends React.Component {
 
     return(<div>
 
-      {/*isMember ?
+      {isMember ?
           <div>
           <Link to='/new-posts' styleName="new-posts" className="d-none d-md-block d-lg-block d-xl-block">创建帖子</Link>
           </div>
         :
-        null*/}
+        null}
 
       {!isMember ?
         <div className="card">
@@ -119,45 +126,13 @@ export default class Sidebar extends React.Component {
           </div>
         </div>
         : null}
-      
-      {client_download_url ?
-        <div className="card">
-          <div className="card-header">APP下载</div>
-          <div className="card-body">
-            
-            <div className="text-center">
-              {appsUrl ? <QRCode value={appsUrl} />: null}
-              <div className="mt-1" style={{color:'#888'}}>iOS / Android 扫码直接下载</div>
-            </div>
 
-          </div>
-        </div>
-        : null}
-      
-      <div className="card">
-        <div className="card-header">小度鱼社区相关开源</div>
-        <div className="card-body">
-          <div><a href="https://github.com/54sword/xiaoduyu.com" target="_blank">前端（React）</a></div>
-          <div><a href="https://github.com/54sword/api.xiaoduyu.com" target="_blank">后端（NodeJS+Express+MongoDB）</a></div>
-          <div><a href="https://www.xiaoduyu.com/graphql" target="_blank">Playground(API文档+调试环境)</a></div>
-          <div><a href="https://github.com/54sword/xiaoduyuReactNative" target="_blank">移动端（React Native）</a></div>
-          <div><a href="https://github.com/54sword/admin.xiaoduyu.com" target="_blank">后台管理（React）</a></div>
-          <div><a href="https://github.com/54sword/react-starter" target="_blank">React同构脚手架</a></div>
-        </div>
-      </div>
-      
-      {links.length > 0 &&
-        <div className="card">
-          <div className="card-header">友情链接</div>
-          <div className="card-body">
-            {links.map((item, index)=>{
-              return (<div key={index}><a href={item.domain} target="_blank"><b>{item.name}</b> - {item.description}</a></div>)
-            })}
-          </div>
-        </div>}
-      
-      
-      {footer}
+      {/* <APPDownload /> */}
+      <OpenSource />   
+      <Case />   
+      <Links />
+      <OperatingStatus />
+      <Footer />
         
     </div>)
   }

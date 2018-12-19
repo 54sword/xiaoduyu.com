@@ -1,6 +1,6 @@
 
 .box{
-  padding:15px;
+  padding:25px;
   background-color: #fff;
   margin-bottom: 12px;
   border-radius: 4px;
@@ -19,9 +19,10 @@
 }
 
 .h1{
-  font-size: 24px;
+  font-size: 34px;
   padding:0px;
   margin:0px;
+  line-height: 140%;
 }
 
 .head{
@@ -70,12 +71,15 @@
 }
 
 .detail{
-
   width: 100%;
   margin-top: 15px;
   padding-top:10px;
   border-top:1px solid #efefef;
   margin-bottom: 10px;
+  *{
+    font-size: 15px;
+    line-height: 200%;
+  }
 }
 
 .other{

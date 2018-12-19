@@ -1,0 +1,26 @@
+.body{
+
+  padding:15px;
+
+  a{
+
+    display: block;
+    margin-bottom:10px;
+    // color:#484848;
+    font-size: 12px;
+
+    b{
+      font-size: 14px;
+    }
+
+    // &:hover{
+      // text-decoration: underline !important;
+    // }
+
+    &:last-child{
+      margin-bottom:0px;
+    }
+    
+  }
+
+}

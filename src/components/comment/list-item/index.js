@@ -81,9 +81,9 @@ export default class CommentItem extends Component {
 
       <div styleName="item-head">
 
-        <div styleName="report-button">
+        {/* <div styleName="report-button">
           <ReportMenu comment={comment} />
-        </div>
+        </div> */}
 
         <div>
           <Link to={`/people/${comment.user_id._id}`}>
@@ -94,15 +94,13 @@ export default class CommentItem extends Component {
           {/*reply_user && reply_user._id != comment.user_id._id
             ? <Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link>
           : null*/}
-          {/* <span>{comment._create_at}</span> */}
+          <span>{comment._create_at}</span>
         </div>
         
         {/* 
         <div styleName="info">
-          
           {comment.like_count ? <span>赞 {comment.like_count}</span> : null}
           {comment.reply_count ? <span>回复 {comment.reply_count}</span> : null}
-          
           <span>{comment._create_at}</span>
         </div>
         */}
@@ -117,11 +115,11 @@ export default class CommentItem extends Component {
         <div styleName="item-body"><HTMLText content={comment.content_html} /></div>
         : null}
       
-      
       <div styleName="footer">
         <div styleName="actions">
-          <CommentButton comment={comment} />
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
+          <CommentButton comment={comment} />
+          <ReportMenu comment={comment} />
         </div>
       </div>
       

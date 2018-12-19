@@ -4,20 +4,22 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadCommentList } from '../../store/actions/comment';
-import { getCommentListById } from '../../store/reducers/comment';
-import { isMember } from '../../store/reducers/user';
+import { loadCommentList } from '@actions/comment';
+import { getCommentListById } from '@reducers/comment';
+import { isMember } from '@reducers/user';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
-import CommentList from '../../components/comment/list';
-import HTMLText from '../../components/html-text';
-import EditorComment from '../../components/editor-comment';
-import Loading from '../../components/ui/loading';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
+import CommentList from '@components/comment/list';
+import HTMLText from '@components/html-text';
+import EditorComment from '@components/editor-comment';
+import Loading from '@components/ui/loading';
 
-import Box from '../../components/box';
-import Sidebar from '../../components/sidebar';
+
+import ThreeColumns from '../../layout/three-columns';
+// import Box from '../../components/box';
+// import Sidebar from '../../components/sidebar';
 
 // styles
 import './style.scss';
@@ -97,7 +99,9 @@ export default class CommentDetail extends React.Component {
 
     if (loading || !comment) return <Loading />;
 
-    return(<Box><div>
+    return(<ThreeColumns>
+      <div></div>
+      <div>
 
       <Meta title={`${comment.posts_id.title} - ${comment.user_id.nickname}的评论`} />
 
@@ -138,9 +142,8 @@ export default class CommentDetail extends React.Component {
 
     </div>
 
-    <Sidebar />
 
-    </Box>)
+    </ThreeColumns>)
   }
 
 }

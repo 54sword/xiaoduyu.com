@@ -11,7 +11,10 @@ export default function() {
     // 最新一条feed创建日期（用户关注的feed流）
     newestFeedCreateAt: '',
     // 是否有新的feed
-    hasNewFeed: false
+    hasNewFeed: false,
+
+    // 首页选中的话题，空为首页、follow为关注、其他为话题 ID
+    topicId:''
   }
   
   return function website(state = initialState, action = {}) {
@@ -50,6 +53,10 @@ export default function() {
     
       case 'HAS_NEW_FEED':
         state.hasNewFeed = action.status;
+        return merge({}, state, {})
+
+      case 'SET_TOPIC_ID':
+        state.topicId = action.topicId;
         return merge({}, state, {})
 
       // 清空
@@ -94,4 +101,8 @@ export const getNewstFeedCreateAt = (state) => {
 
 export const hasNewFeed = (state) => {
   return state.website.hasNewFeed
+}
+
+export const getTopicId = (state) => {
+  return state.website.topicId
 }

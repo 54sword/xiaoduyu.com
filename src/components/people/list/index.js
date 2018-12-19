@@ -5,13 +5,13 @@ import PropTypes from 'prop-types'
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPeopleList } from '../../../store/actions/people'
-import { getPeopleListByName } from '../../../store/reducers/people'
+import { loadPeopleList } from '@actions/people'
+import { getPeopleListByName } from '@reducers/people'
 
 // components
 import PeopleItem from '../list-item'
 import ListLoading from '../../list-loading'
-import Pagination from '../../pagination'
+// import Pagination from '../../pagination'
 
 
 @connect(
@@ -22,18 +22,13 @@ import Pagination from '../../pagination'
     loadPeopleList: bindActionCreators(loadPeopleList, dispatch)
   })
 )
-export class PeopleList extends Component{
+export default class PeopleList extends Component{
 
   static propTypes = {
     // 列表名称
     name: PropTypes.string.isRequired,
     // 列表的筛选条件
-    filters: PropTypes.object.isRequired,
-    // 获取当前页的 pathname、search
-    // location: PropTypes.object.isRequired,
-
-    loadPeopleList: PropTypes.func.isRequired,
-    peopleList: PropTypes.object.isRequired
+    filters: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -99,5 +94,3 @@ export class PeopleList extends Component{
   }
 
 }
-
-export default PeopleList

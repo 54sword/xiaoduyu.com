@@ -83,12 +83,12 @@ export default class Head extends React.Component {
     const { me, isMember, topicList, unreadNotice, hasNewFeed, newPostsTips } = this.props;
     
     let nav = [
-      { to: '/', name: '首页', tips: newPostsTips['/'] }
+      { to: '/', name: '首页' }
     ];
     
-    if (isMember) {
-      nav.push({ to: '/follow', name: '关注', tips: hasNewFeed });
-    }
+    // if (isMember) {
+      // nav.push({ to: '/follow', name: '关注', tips: hasNewFeed });
+    // }
     
     // if (topicList) {
     //   topicList.data.map(item=>{
@@ -113,13 +113,13 @@ export default class Head extends React.Component {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            {nav.map(item=><li key={item.to} className="nav-item">
+            {/*nav.map(item=><li key={item.to} className="nav-item">
               <NavLink exact to={item.to} className="nav-link">
                 {item.name}
                 {item.tips ? <span styleName="red-point"></span> : null}
               </NavLink>
-            </li>)}
-
+            </li>)*/}
+            
             <li className="nav-item" className="d-block d-lg-none d-xl-none">
               <Link to="/search" className="nav-link">搜索</Link>
             </li>
@@ -137,6 +137,8 @@ export default class Head extends React.Component {
               
             </li>
 
+
+
           </ul>
 
         </div>
@@ -145,6 +147,9 @@ export default class Head extends React.Component {
           
           {isMember ?
             <ul>
+            <li>
+              <Link to="/new-posts" className="nav-link">发帖</Link>
+            </li>
             <li>
               <NavLink exact to="/notifications" style={unreadNotice.length > 0 ? {marginRight:'15px'} : {}}>
                 通知{unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}

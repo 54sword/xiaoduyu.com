@@ -1,22 +1,9 @@
-import { loadPostsList } from '../../store/actions/posts';
 
-let general = {
-  variables: {
-    sort_by: "sort_by_date",
-    deleted: false,
-    weaken: false
-  }
-}
+import MixingFeedLoadData from '@modules/mixing-feed/load-data';
 
-export default ({ store, match }) => {
+export default ({ store, match, res, req, user }) => {
   return new Promise(async resolve => {
-    
-    await loadPostsList({
-       id: 'home',
-       filters: general
-    })(store.dispatch, store.getState);
-
+    await MixingFeedLoadData({ store, match, res, req, user });
     resolve({ code:200 });
-
   });
 }

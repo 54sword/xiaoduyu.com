@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { saveTokenToCookie } from '../../store/actions/sign';
+import { saveTokenToCookie } from '@actions/sign';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
 
 // styles
 import './style.scss';
@@ -25,7 +25,7 @@ export default class OAuth extends Component {
   constructor(props) {
     super(props)
   }
-
+  
   componentDidMount() {
 
     const { access_token = '', expires = 0, landing_page = '/' } = this.props.location.params;
@@ -39,19 +39,7 @@ export default class OAuth extends Component {
       }).catch(err=>{
         alert('登录失败');
         window.location.href = '/';
-      })
-
-      /*
-      console.log(landing_page);
-
-      if (res && res.success) {
-        window.location.href = landing_page;
-      } else {
-        alert('登录失败');
-        window.location.href = '/';
-      }
-      */
-
+      });
     } else {
       window.location.href = '/';
     }

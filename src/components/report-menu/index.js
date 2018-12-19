@@ -124,7 +124,7 @@ export default class ReportMenu extends Component {
 
     return (<span>
       {/* dropdown-menu */}
-      <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={this.stopPropagation}></a>
+      <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={this.stopPropagation}>其他</a>
       <div className="dropdown-menu">
         {posts && posts.user_id._id == me._id ||
           comment && comment.user_id._id == me._id ?

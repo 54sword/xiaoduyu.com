@@ -4,8 +4,10 @@ import React from 'react';
 import { name } from '../../../config';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
+
+import ThreeColumns from '../../layout/three-columns';
 
 // styles
 import './style.scss'
@@ -13,8 +15,10 @@ import './style.scss'
 @Shell
 export default class Agreement extends React.PureComponent {
   render() {
-    return (<div styleName="container">
+    return (<ThreeColumns>
+      <div></div>
 
+      <div styleName="container">
       <Meta title={'用户协议'} />
 
       <h1>用户协议</h1>
@@ -170,7 +174,9 @@ export default class Agreement extends React.PureComponent {
         <br />
         2、如果不同意{name}对本协议相关条款所做的修改，用户有权并应当停止使用{name}。如果用户继续使用{name}，则视为用户接受{name}对本协议相关条款所做的修改。
       </div>
-    </div>)
+      </div>
+
+    </ThreeColumns>)
   }
 
 }

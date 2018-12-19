@@ -11,7 +11,7 @@ export default class Box extends PureComponent {
 
     const row = this.props.children.length;
 
-    if (row == 3) {
+    // if (row == 3) {
       return (<div styleName="box">
           <div styleName="left">
             {this.props.children[0]}
@@ -23,7 +23,7 @@ export default class Box extends PureComponent {
             {this.props.children[2]}
           </div>
         </div>)
-    }
+    // }
 
     return (<div styleName="box two">
         <div>

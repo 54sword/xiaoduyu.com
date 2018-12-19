@@ -25,7 +25,7 @@ export default class Block extends Component {
         return (
             <div>
                 <div className="card">
-                    <div className="card-header">屏蔽</div>
+                    <div className="card-header">屏蔽管理</div>
                     <div className="card-body">
                         <div><Link to="/block/posts">屏蔽{me.block_posts_count}个帖子</Link></div>
                         <div><Link to="/block/peoples">屏蔽{me.block_people_count}个用户</Link></div>

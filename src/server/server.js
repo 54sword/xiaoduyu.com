@@ -93,7 +93,7 @@ app.get('*', async function (req, res) {
       match.search = req._parsedOriginalUrl.search || '';
       // 需要在服务端加载的数据
       if (route.loadData) {
-        promises.push(route.loadData({ store, match }));
+        promises.push(route.loadData({ store, match, res, req, user }));
       }
     }
 

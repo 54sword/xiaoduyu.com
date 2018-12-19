@@ -72,7 +72,8 @@ export default class PostsDetail extends React.Component {
     if (!posts) return <div>loading...</div>
 
     return(<div styleName="box">
-
+        
+        {/* 
         <div styleName="head">
 
           <Link to={`/people/${posts.user_id._id}`}>
@@ -92,6 +93,7 @@ export default class PostsDetail extends React.Component {
           </div>
 
         </div>
+        */}
 
         <h1 styleName="h1">{posts.title}</h1>
 

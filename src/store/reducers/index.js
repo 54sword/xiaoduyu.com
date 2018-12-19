@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
 
-import merge from 'lodash/merge';
-
 import scroll from './scroll';
 import user from './user';
 import notification from './notification';
@@ -19,31 +17,6 @@ import reportTypes from './report-types';
 import block from './block';
 import broadcast from './broadcast';
 import feed from './feed';
-
-/*
-const states = {
-  scroll,
-  user,
-  notification,
-  people,
-  history,
-  topic,
-  posts,
-  comment,
-  website,
-  countries,
-  analysis,
-  captcha,
-  follow,
-  reportTypes: ,
-  block,
-  broadcast,
-  feed
-}
-*/
-
-// export default states;
-
 
 export default function() {
 
@@ -71,22 +44,3 @@ export default function() {
 
   return combineReducers(states);
 }
-
-/*
-let _states = {};
-
-for (let i in states) {
-  _states[i] = merge({}, states[i](), {});
-}
-
-_states = JSON.stringify(_states);
-
-// export default combineReducers(states);
-
-export const initialStateJSON = _states;
-
-
-export const initialStateJSON = function() {
-  return combineReducers(JSON.parse(_states));
-}
-*/

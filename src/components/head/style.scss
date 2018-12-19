@@ -146,11 +146,13 @@
 
 .user-nav{
 
-  position: fixed;
-  left:75%;
-  width:25%;
-  top:0px;
-  text-align: right;
+  position: relative;
+    
+  // position: fixed;
+  // left:75%;
+  // width:25%;
+  // top:0px;
+  // text-align: right;
 
   @media (min-width: 0px) and (max-width: 991.98px) {
     left:60%;
@@ -182,7 +184,7 @@
   }
 
   .nickname{
-    margin-right:20px;
+    // margin-right:20px;
   }
 
 

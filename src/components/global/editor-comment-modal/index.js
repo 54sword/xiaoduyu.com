@@ -53,6 +53,7 @@ export default class EditorCommentModal extends Component {
     let title = '回复';
 
     let params = {
+      displayControls: false,
       successCallback: ()=>{
         $('#'+modalId).modal('hide');
       },

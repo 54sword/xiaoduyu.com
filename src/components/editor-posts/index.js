@@ -70,9 +70,9 @@ class EditorPosts extends React.Component {
 
     const self = this;
     const { _id, type, title, contentStateJSON } = this.state;
-    const { topicList, loadTopics } = this.props;
+    const { topic_id, topicList, loadTopics } = this.props;
 
-    const { topic_id } = this.props.location.params;
+    // const { topic_id } = this.props.location.params;
     
     // 加载话题
     if (!topicList.data) {

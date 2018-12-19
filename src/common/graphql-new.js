@@ -101,9 +101,9 @@ export default async ({
   });
 
   if (debug) {
-    console.log(`${type}{
-      ${sql}
-    }`);
+    // console.log(`${type}{
+    //   ${sql}
+    // }`);
   }
 
 	sql = gql`${type}{

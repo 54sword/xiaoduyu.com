@@ -9,7 +9,8 @@ import Meta from '../../components/meta';
 import PostsList from '../../components/posts/list';
 import PeopleList from '../../components/people/list';
 
-import Box from '../../components/box';
+import ThreeColumns from '../../layout/three-columns';
+// import Box from '../../components/box';
 import Sidebar from '../../components/sidebar';
 
 // style
@@ -93,7 +94,11 @@ export default class Search extends React.Component {
 
     const { q, type } = this.state;
 
-    return(<Box><div>
+    return(<ThreeColumns>
+      
+      <div></div>
+      
+      <div>
 
       <Meta title="搜索" />
 
@@ -142,11 +147,9 @@ export default class Search extends React.Component {
       
     </div>
 
-    <Sidebar showFooter={false}>
       <div></div>
-    </Sidebar>
 
-    </Box>)
+    </ThreeColumns>)
   }
 
 }

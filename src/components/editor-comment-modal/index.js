@@ -45,6 +45,7 @@ export default class EditorCommentModal extends Component {
     if (!show) return '';
 
     let params = {
+      displayControls: false,
       id: reply._id,
       posts_id: reply.posts_id._id || reply.posts_id,
       successCallback: self.hide,

@@ -5,8 +5,9 @@ import { createLogger } from 'redux-logger';
 
 let middleware = [ thunk ];
 
+
 // 如果是在客户端环境，并且是开发模式，那么打印redux日志
-if (process.env.NODE_ENV == 'development' && typeof __CLIENT__ != 'undefined') {
+if (process.env.NODE_ENV == 'development' && __CLIENT__) {
   middleware.push(createLogger());
 }
 

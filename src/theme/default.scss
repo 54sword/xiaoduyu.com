@@ -7,8 +7,9 @@
  */
 
 a{
-  text-decoration: none !important;
-  color:#4170ea;
+  color:#484848;
+  &:hover{ color:#484848; }
+  &:active{ color:#4170ea; }
 }
 
 :global{
@@ -29,6 +30,7 @@ a{
   .container{
     padding-right: 10px;
     padding-left: 10px;
+    max-width: 900px;
   }
 
   .row{
@@ -42,23 +44,20 @@ a{
     border: none;
     margin-bottom: 12px;
     border-radius: none;
-    background-color: rgba(0,0,0,0);
+    // background-color: rgba(0,0,0,0);
 
     .card-header{
-      // padding:0px;
       padding:8px 15px 8px 15px;
-      border-bottom: 1px solid #e6e8eb;
+      border-bottom: 1px solid #eff1f4;
       background-color: #fff;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
       font-size: 14px;
     }
 
     .card-body{
-      padding:0px;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-      background-color: #fff;
+      padding:15px;
+      // border-bottom-left-radius: 4px;
+      // border-bottom-right-radius: 4px;
+      // background-color: #fff;
     }
 
   }
@@ -130,13 +129,13 @@ a{
   /* button */
 
 
-  .btn{
+  // .btn{
     // border-radius: 50px;
     // font-size: 14px;
     // padding-top: 10px;
     // padding-bottom: 10px;
     // line-height: 100%;
-  }
+  // }
 
   .btn-primary{
     background-color: #4170ea;
