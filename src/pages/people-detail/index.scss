@@ -9,7 +9,7 @@
   overflow: hidden;
   // margin-top:50px;
   // padding-top:15px;
-  padding:20px;
+  padding:15px;
 
 
   .background{
@@ -25,6 +25,11 @@
   
   .actions{
     float:right;
+    // width:100%;
+    // position: absolute;
+    // display: block;
+    // text-align: right;
+    // background-color: #efefef;
     > a{
       display: inline-block;
       padding:0 10px 0 10px;
@@ -38,8 +43,8 @@
         color:#fff;
       }
     }
-
-    > div a {
+    
+    > div {
       margin-left:15px;
     }
   }
@@ -137,25 +142,28 @@
   }
 }
 
-/*
+
 @media (min-width: 0px) and (max-width: 767px) {
 
   .header{
 
-    margin-top:20px;
+    // margin-top:10px;
 
     .profile{
       min-height:70px;
-      padding-left:100px;
+      padding-left:80px;
     }
 
     .avatar{
-      width: 80px;
-      height: 80px;
-      margin-left:-90px;
-      margin-top:-30px;
+      width: 65px;
+      height: 65px;
+      margin-left:-80px;
+      // margin-top:-10px;
+    }
+
+    .nickname{
+      font-size: 18px;
     }
   }
 
 }
-*/

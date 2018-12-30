@@ -135,10 +135,10 @@ export default class CommentItem extends Component {
             <div styleName="avatar" className="load-demand" data-load-demand={`<img width="40" height="40" src="${comment.user_id.avatar_url}" />`}></div>
             <b>{comment.user_id.nickname}</b>
           </Link>
-          {/* <span>{reply_user ? `回复${reply_user._id == comment.user_id._id ? '自己' : ''}` : null}</span> */}
-          {/*reply_user && reply_user._id != comment.user_id._id
-            ? <Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link>
-          : null*/}
+          {/*reply_user ? <span>回复{reply_user._id == comment.user_id._id ? '自己' : ''}</span> : null*/}
+          {reply_user && reply_user._id != comment.user_id._id
+            ? <span>回复了<Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link></span>
+          : null}
           
           {comment._device ? <span>{comment._device}</span> : null}
         </div>
@@ -161,29 +161,31 @@ export default class CommentItem extends Component {
         <div styleName="item-body"><HTMLText content={comment.content_html} /></div>
         : null}
 
-      <div styleName="footer" className="d-flex justify-content-between">
-        <div styleName="actions">
-        <span>{comment._create_at}</span>
+      <div styleName="footer">
+
+        <div styleName="actions" className="d-block d-lg-none d-xl-none" style={{marginTop:'5px', marginBottom:'10px', paddingBottom:'10px', borderBottom:'1px solid #efefef'}}>
+          <span>{comment._create_at}</span>
           {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
           {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
-
-          {/* 
-          {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
-          <CommentButton comment={comment} />
-          <ReportMenu comment={comment} />
-          */}
-          
         </div>
 
-        <div styleName="actions">
+        <div className="d-flex justify-content-between">
+          <div styleName="actions" className="d-none d-lg-block d-xl-block">
+            <span>{comment._create_at}</span>
+            {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
+            {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
+          </div>
 
-          {comment.parent_id ? <LikeButton reply={comment} displayNumber={false}  /> : <LikeButton comment={comment} displayNumber={false} />}
-          <CommentButton comment={comment} />
-          <ReportMenu comment={comment} />
-
+          <div styleName="actions">
+            {comment.parent_id ? <LikeButton reply={comment} displayNumber={false}  /> : <LikeButton comment={comment} displayNumber={false} />}
+            <CommentButton comment={comment} />
+            <ReportMenu comment={comment} />
+          </div>
         </div>
 
       </div>
+
+
 
       {comment.reply && comment.reply.length > 0 ?
         <div styleName="reply-list">

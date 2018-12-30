@@ -132,7 +132,7 @@ export default class ReportMenu extends Component {
     return (<div styleName="container">
       {/* dropdown-menu */}
       <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={this.stopPropagation}></a>
-      <div className="dropdown-menu">
+      <div className="dropdown-menu dropdown-menu-right">
         {posts && posts.user_id._id == me._id ||
           comment && comment.user_id._id == me._id ?
           <a className="dropdown-item" href="javascript:void(0)" onClick={this.edit}>编辑</a>

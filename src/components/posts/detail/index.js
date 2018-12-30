@@ -91,6 +91,7 @@ export default class PostsDetail extends React.Component {
             {/* {posts.answers_count ? <span>{posts.answers_count} 个评论</span> : null} */}
             {/* {posts.follow_count ? <span>{posts.follow_count} 人关注</span> : null} */}
             <span>{posts._create_at}</span>
+            {posts._device ? <span>{posts._device}</span> : null}
           </div>
 
           {/* <Follow user={posts.user_id} /> */}
@@ -114,14 +115,20 @@ export default class PostsDetail extends React.Component {
             {posts.follow_count ? <span>{posts.follow_count} 人订阅</span> : null}
           </div>
 
-          <div styleName="actions">
+          <div styleName="actions" className="d-none d-lg-block d-xl-block">
             <Like posts={posts} displayNumber={false} />
             <Follow posts={posts} />
             <Share posts={posts} />
-            {/* <EditButton posts={posts} /> */}
             <ReportMenu />
           </div>
 
+        </div>
+        
+        <div styleName="actions" className="d-block d-lg-none d-xl-none" style={{marginTop:'10px', paddingTop:'10px', borderTop:'1px solid #efefef'}}>
+          <Like posts={posts} displayNumber={false} />
+          <Follow posts={posts} />
+          <Share posts={posts} />
+          <ReportMenu />
         </div>
 
 

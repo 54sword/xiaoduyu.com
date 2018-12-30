@@ -138,15 +138,18 @@
 }
 
 .content{
-  // font-size: 14px;
-  word-break:break-all;
-  word-wrap:break-word;
-  // line-height: 22px;
+
+  // white-space:normal;
+  // word-break:break-all;
+  // word-wrap:break-word;
+
+  word-wrap: break-word;
+  word-break: normal;
+
   line-height: 160%;
   color:#14171a;
   padding:5px 15px 0 15px;
   font-size: 14px;
-  // background-color: #efefef;
 }
 
 .status-bar{
@@ -224,9 +227,11 @@
   // padding-bottom: 5px;
 
   .actions{
+    // width:100%;
     // position: relative;
 
     // width:40%;
+
 
     > span, > a, > div{
       margin-right:20px;
@@ -238,7 +243,7 @@
     
     > span{
       color:#999;
-      font-size: 12px;
+      font-size: 13px;
     }
 
     > a, > div a{
@@ -261,7 +266,6 @@
     */
 
   }
-
 
 
   .footer-main{

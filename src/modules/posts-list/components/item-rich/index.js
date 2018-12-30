@@ -149,7 +149,7 @@ export default class PostsListItem extends React.PureComponent {
             : null}
         </div>
 
-        <div styleName={`body`}>
+        <div styleName={`body`} style={posts._coverImage ? { minHeight:'100px'} : null}>
 
           {posts._coverImage && !expand ?
             <div styleName="cover-image" style={{backgroundImage:`url(${posts._coverImage})`}}></div>
@@ -185,7 +185,7 @@ export default class PostsListItem extends React.PureComponent {
 
         <div styleName="footer">
           <div styleName="footer-main" className="d-flex justify-content-between">
-
+            
             <div styleName="actions">
               {posts.view_count ? <span>{posts.view_count} 次阅读</span> : null}
               {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
@@ -193,7 +193,7 @@ export default class PostsListItem extends React.PureComponent {
               {posts.like_count ? <span>{posts.like_count} 人赞</span> : null}
               {posts.follow_count ? <span>{posts.follow_count} 人订阅</span> : null}
             </div>
-
+            
             {expand ?
               <div styleName="actions">
                 <Like posts={posts} displayNumber={false} />

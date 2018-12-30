@@ -251,10 +251,9 @@
   }
 
   @media (min-width: 0px) and (max-width: 660px) {
-    li{
-      a{
-        padding:0px;
-      }
+    > ul > li > a{
+      padding-right:5px;
+      padding-left:5px;
     }
   }
 
