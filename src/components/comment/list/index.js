@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getCommentListByName } from '../../../store/reducers/comment';
-import { loadCommentList } from '../../../store/actions/comment';
+import { getCommentListByName } from '@reducers/comment';
+import { loadCommentList } from '@actions/comment';
 
 // components
 // import ListLoading from '../../list-loading';
@@ -39,8 +39,9 @@ export default class CommentList extends Component {
   }
 
   componentDidMount() {
-    const { list } = this.props;
-    if (!list.data || list.data.length == 0) this.loadList();
+    // const { list } = this.props;
+    // if (!list.data || list.data.length == 0) 
+    this.loadList();
     // ArriveFooter.add(this.state.name, this.loadList)
   }
 
@@ -48,7 +49,7 @@ export default class CommentList extends Component {
     // ArriveFooter.remove(this.state.name)
   }
 
-  loadList(restart = false) {
+  loadList(restart = true) {
     const { name, filters, loadCommentList } = this.props;
     loadCommentList({ name, filters, restart });
   }
@@ -61,8 +62,8 @@ export default class CommentList extends Component {
   }
 
   render () {
-
-    const self = this;
+    
+    // const self = this;
     const { name, list } = this.props;
     const { data, loading, more, filters = {}, count } = list;
 
@@ -84,11 +85,10 @@ export default class CommentList extends Component {
           onChoose={(e)=>{
             const { dom } = this.state;
             $(window).scrollTop($(dom).offset().top - 100);
-            self.props.filters.variables.page_number = e;
-            self.loadList(true);
+            this.props.filters.variables.page_number = e;
+            this.loadList(true);
           }}
           />
-
 
       </div>
     )

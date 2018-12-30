@@ -17,6 +17,7 @@ import reportTypes from './report-types';
 import block from './block';
 import broadcast from './broadcast';
 import feed from './feed';
+import tips from './tips';
 
 export default function() {
 
@@ -39,7 +40,8 @@ export default function() {
     reportTypes: reportTypes(),
     block: block(),
     broadcast: broadcast(),
-    feed: feed()
+    feed: feed(),
+    tips: tips()
   }
 
   return combineReducers(states);

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { getOnlineUserCount } from '../../store/reducers/website';
+import { getOnlineUserCount } from '@reducers/website';
 
 @connect(
   (state, props) => ({

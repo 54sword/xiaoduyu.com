@@ -19,7 +19,7 @@ import './style.scss';
 //   loading: () => <div>loading...</div>
 // });
 
-export class Footer extends React.Component {
+export default class Footer extends React.Component {
 
   constructor(props) {
     super(props);
@@ -35,6 +35,12 @@ export class Footer extends React.Component {
         $('#back-to-top').fadeOut();
       }
     });
+
+    if ($(this).scrollTop() > 0) {
+      $('#back-to-top').fadeIn();
+    } else {
+      $('#back-to-top').fadeOut();
+    }
 
   }
 
@@ -61,7 +67,7 @@ export class Footer extends React.Component {
 
       {/* <LoadableFooter /> */}
 
-      {/* 
+      {/*
       <AsyncComponent load={() => import('../global')}>
         {(Global) => {
           return (<Global onTest={this.onTest.bind(this)} />)
@@ -73,5 +79,3 @@ export class Footer extends React.Component {
   }
 
 }
-
-export default Footer;

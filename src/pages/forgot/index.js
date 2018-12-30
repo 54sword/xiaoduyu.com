@@ -4,20 +4,20 @@ import React from 'react';
 import Shell from '@components/shell';
 import Meta from '@components/meta';
 
-import ThressColumns from '../../layout/three-columns';
+import SingleColumns from '../../layout/single-columns';
 import ResetPassword from '@modules/reset-password';
 
 @Shell
 export default class Forgot extends React.PureComponent {
   render() {
     return (
-      <ThressColumns>
+      <SingleColumns>
         <div></div>
         <div>
           <Meta title="忘记密码" />
           <ResetPassword />
         </div>
-      </ThressColumns>
+      </SingleColumns>
     )
   }
 }

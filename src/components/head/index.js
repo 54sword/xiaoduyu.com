@@ -41,7 +41,7 @@ export default class Head extends React.Component {
     this.updateSearchInputValue = this.updateSearchInputValue.bind(this);
   }
 
-  componentDidMount() {    
+  componentDidMount() {
     this.updateSearchInputValue();
   }
 
@@ -81,29 +81,29 @@ export default class Head extends React.Component {
   render() {
 
     const { me, isMember, topicList, unreadNotice, hasNewFeed, newPostsTips } = this.props;
-    
+
     let nav = [
       { to: '/', name: '首页' }
     ];
-    
+
     // if (isMember) {
       // nav.push({ to: '/follow', name: '关注', tips: hasNewFeed });
     // }
-    
+
     // if (topicList) {
     //   topicList.data.map(item=>{
     //     nav.push({ to: `/topic/${item._id}`, name: item.name });
     //   });
     // }
-    
+
     return (<>
       <header>
       <nav styleName="navbar" className="navbar navbar-expand-lg navbar-light">
         <div className="container">
-        
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+        {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
-        </button>
+        </button> */}
 
         <div className="navbar-brand">
           <Link to="/" styleName="logo">
@@ -119,11 +119,11 @@ export default class Head extends React.Component {
                 {item.tips ? <span styleName="red-point"></span> : null}
               </NavLink>
             </li>)*/}
-            
-            <li className="nav-item" className="d-block d-lg-none d-xl-none">
+
+            {/* <li className="nav-item" className="d-block d-lg-none d-xl-none">
               <Link to="/search" className="nav-link">搜索</Link>
-            </li>
-            
+            </li> */}
+
             <li className="nav-item" className="d-none d-lg-block d-xl-block">
 
               <form onSubmit={this.search} styleName="search-form">
@@ -134,9 +134,8 @@ export default class Head extends React.Component {
                   ref={e => this.state.search = e}
                   />
               </form>
-              
-            </li>
 
+            </li>
 
 
           </ul>
@@ -144,12 +143,18 @@ export default class Head extends React.Component {
         </div>
 
         <div styleName="user-nav">
-          
+
           {isMember ?
             <ul>
             <li>
-              <Link to="/new-posts" className="nav-link">发帖</Link>
+              <Link to="/new-posts" styleName="create-posts" className="d-none d-lg-block d-xl-block">发帖</Link>
+              <Link to="/new-posts" className="d-lg-none d-xl-none">发帖</Link>
             </li>
+
+            <li className="d-lg-none d-xl-none">
+              <Link to="/search">搜索</Link>
+            </li>
+
             <li>
               <NavLink exact to="/notifications" style={unreadNotice.length > 0 ? {marginRight:'15px'} : {}}>
                 通知{unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}
@@ -171,7 +176,7 @@ export default class Head extends React.Component {
             <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">注册</a></li>
             <li><a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in">登录</a></li>
             </ul>}
-          
+
         </div>
 
         </div>

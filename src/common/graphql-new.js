@@ -101,9 +101,9 @@ export default async ({
   });
 
   if (debug) {
-    // console.log(`${type}{
-    //   ${sql}
-    // }`);
+    console.log(`${type}{
+      ${sql}
+    }`);
   }
 
 	sql = gql`${type}{
@@ -151,7 +151,7 @@ export default async ({
     fn(options).then(res=>{
 
       if (__SERVER__) {
-        
+
         // 请求成功，设置最近一次缓存事件
         if (resetStore) {
           lastCacheTime = parseInt(new Date().getTime());

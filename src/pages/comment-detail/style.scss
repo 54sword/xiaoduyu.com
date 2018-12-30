@@ -21,9 +21,53 @@
   }
 }
 
+.commennt-container{
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.head{
+  padding-left:70px;
+  padding-top:15px;
+  .active{
+    position: absolute;
+    width:45px;
+    height:45px;
+    margin-left:-55px;
+    border-radius: 50%;
+  }
+
+  .info{
+
+    span{
+
+      color:#999;
+      font-size: 13px;
+  
+      &:after{
+        vertical-align: top;
+        color:#cdcdcd;
+        font-size: 8px;
+        margin:0 8px 0 8px;
+        content: '•';
+      }
+  
+      &:last-child:after{
+        content: '';
+      }
+  
+    }
+
+  }
+
+}
+
 .content{
   padding: 15px;
-  background-color: #fff;
-  border-radius: 5px;
   margin-bottom:10px;
+}
+
+
+.editor{
+  margin-top: 10px;
 }

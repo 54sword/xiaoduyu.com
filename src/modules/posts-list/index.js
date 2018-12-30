@@ -11,20 +11,25 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+// import merge from 'lodash/merge';
+
+// import ContentLoader, { Facebook } from 'react-content-loader';
 
 // 依赖的外部功能
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadPostsList } from '@actions/posts';
-import { getPostsListByName } from '@reducers/posts';
-
+import { getPostsListByListId } from '@reducers/posts';
+import { isMember } from '@reducers/user';
 
 // 依赖组件
 import Pagination from '@components/pagination';
-import Loading from '@components/ui/loading';
+// import Loading from '@components/ui/loading';
+import FullLoading from '@components/ui/full-loading';
 
 import ItemRich from './components/item-rich';
 import ItemPoor from './components/item-poor';
+import NewTips from './components/new-tips';
 
 
 // styles
@@ -32,7 +37,8 @@ import './index.scss';
 
 @connect(
   (state, props) => ({
-    postsList: getPostsListByName(state, props.id)
+    isMember: isMember(state),
+    postsList: getPostsListByListId(state, props.id)
   }),
   dispatch => ({
     loadPostsList: bindActionCreators(loadPostsList, dispatch)
@@ -53,7 +59,9 @@ export default class PostsList extends Component {
     // 是否显示翻页
     showPagination: false,
     // 滚动底部加载更多
-    scrollLoad: false
+    scrollLoad: false,
+    // 是否显示tips
+    showTips: false
   }
 
   constructor(props) {
@@ -88,8 +96,8 @@ export default class PostsList extends Component {
   }
 
   render () {
-
-    const { id, postsList, itemType, showPagination } = this.props;
+    
+    const { id, postsList, itemType, showPagination, showTips, isMember } = this.props;
     const { data, loading, more, count, filters = {} } = postsList;
 
     // 没有结果
@@ -98,6 +106,8 @@ export default class PostsList extends Component {
     }
 
     return (<>
+      
+      {!loading && showTips && isMember ? <NewTips topicId={id} /> : null}
 
       {data && data.map(posts=>{
         if (itemType == 'poor') {
@@ -106,8 +116,8 @@ export default class PostsList extends Component {
           return (<ItemRich key={posts._id} posts={posts} />)
         }
       })}
-
-      {loading ? <Loading /> : null}
+      
+      {loading ? <FullLoading /> : null}
 
       {showPagination &&
         <Pagination

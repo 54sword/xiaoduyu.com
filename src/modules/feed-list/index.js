@@ -12,7 +12,9 @@ import PostsItem from '../posts-list/components/item-rich';
 import CommentItem from './components/item-comment';
 
 import Pagination from '@components/pagination';
-import Loading from '@components/ui/loading';
+// import Loading from '@components/ui/loading';
+import FullLoading from '@components/ui/full-loading';
+import NewTips from './components/new-tips';
 
 // styles
 import './index.scss'
@@ -36,15 +38,6 @@ import './index.scss'
 )
 export default class PostsList extends Component {
 
-  static defaultProps = {
-    // 显示项
-    // itemName: 'posts-item',
-    // 是否显示翻页
-    showPagination: false,
-    // 滚动底部加载更多
-    scrollLoad: false
-  }
-
   static propTypes = {
     // 列表id
     id: PropTypes.string.isRequired,
@@ -52,17 +45,25 @@ export default class PostsList extends Component {
     filters: PropTypes.object.isRequired
   }
 
+  static defaultProps = {
+    // 显示项
+    // itemName: 'posts-item',
+    // 是否显示翻页
+    showPagination: false,
+    // 滚动底部加载更多
+    scrollLoad: false,
+    // 是否显示tips
+    showTips: false
+  }
+
   constructor(props) {
     super(props);
-    this.state = {
-      // positionY: 0
-    }
+    this.state = {}
     this.loadDate = this.loadDate.bind(this)
   }
 
   componentDidMount() {
-
-    const { list, loadList, id, scrollLoad } = this.props;
+    const { list, id, scrollLoad } = this.props;
     if (!list.data) this.loadDate();
     if (scrollLoad) ArriveFooter.add(id, this.loadDate);
   }
@@ -90,9 +91,8 @@ export default class PostsList extends Component {
 
   render () {
 
-    const { list, showPagination } = this.props;
+    const { id, list, showPagination, showTips } = this.props;
     const { data, loading, more, count, filters = {} } = list;
-    // const { positionY } = this.state;
 
     // 没有结果
     if (!loading && data && data.length == 0 && !more) {
@@ -100,6 +100,8 @@ export default class PostsList extends Component {
     }
 
     return (<div>
+      
+      {!loading && showTips ? <NewTips topicId={id} /> : null}
 
       <div>
         {data && data.map(item=>{
@@ -111,7 +113,7 @@ export default class PostsList extends Component {
         })}
       </div>
 
-      {loading ? <Loading /> : null}
+      {loading ? <FullLoading /> : null}
 
       {showPagination ?
         <Pagination

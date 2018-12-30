@@ -4,14 +4,14 @@ import { withRouter } from 'react-router';
 import parseUrl from '../../common/parse-url';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
-import PostsList from '../../components/posts/list';
-import PeopleList from '../../components/people/list';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
+import PostsList from '@modules/posts-list';
+import PeopleList from '@components/people/list';
 
-import ThreeColumns from '../../layout/three-columns';
+import SingleColumns from '../../layout/single-columns';
 // import Box from '../../components/box';
-import Sidebar from '../../components/sidebar';
+// import Sidebar from '../../components/sidebar';
 
 // style
 import './style.scss';
@@ -94,17 +94,15 @@ export default class Search extends React.Component {
 
     const { q, type } = this.state;
 
-    return(<ThreeColumns>
-      
-      <div></div>
+    return(<SingleColumns>
       
       <div>
 
       <Meta title="搜索" />
 
       <form onSubmit={this.search}>
-        <div className="input-group mb-3">
-          <input type="text" className="form-control" ref="search" placeholder="输入关键词搜索" />
+        <div className="input-group">
+          <input type="text" styleName="input" className="form-control" ref="search" placeholder="输入关键词搜索" />
           <div className="input-group-append">
             <button type="submit" styleName="search-button" className="btn btn-block btn-primary">搜索</button>
           </div>
@@ -147,9 +145,8 @@ export default class Search extends React.Component {
       
     </div>
 
-      <div></div>
 
-    </ThreeColumns>)
+    </SingleColumns>)
   }
 
 }

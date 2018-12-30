@@ -11,9 +11,9 @@ export default class Box extends React.PureComponent {
         <div>
           {this.props.children[1]}
         </div>
-        {/* <div styleName="right">
+        <div styleName="right">
           {this.props.children[2]}
-        </div> */}
+        </div>
       </div>)
   }
 }

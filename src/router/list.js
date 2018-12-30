@@ -30,17 +30,17 @@ export default [
     enter: 'everybody'
   },
 
-  {
-    path: '/follow',
-    exact: true,
-    head: Head,
-    component: Loadable({
-      loader: () => import('../pages/follow'),
-      loading: () => <Loading />
-    }),
-    // loadData: FollowLoadData,
-    enter: 'everybody'
-  },
+  // {
+  //   path: '/follow',
+  //   exact: true,
+  //   head: Head,
+  //   component: Loadable({
+  //     loader: () => import('../pages/follow'),
+  //     loading: () => <Loading />
+  //   }),
+  //   // loadData: FollowLoadData,
+  //   enter: 'everybody'
+  // },
   
   {
     path: '/topic/:id',

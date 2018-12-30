@@ -4,23 +4,25 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadTopics } from '../../store/actions/topic';
-import { loadPostsList } from '../../store/actions/posts';
-import { getTopicListByKey } from '../../store/reducers/topic';
+import { loadTopics } from '@actions/topic';
+// import { loadPostsList } from '@actions/posts';
+import { getTopicListByKey } from '@reducers/topic';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 // import PostsList from '../../components/posts/list';
 import PostsList from '@modules/posts-list';
-import Sidebar from '../../components/sidebar';
-import Follow from '../../components/follow';
-import Loading from '../../components/ui/loading';
-import Box from '../../components/box';
-import NewPostsButton from '../../components/new-posts-button';
+// import Sidebar from '../../components/sidebar';
+import Follow from '@components/follow';
+import Loading from '@components/ui/full-loading';
+// import Box from '../../components/box';
+// import NewPostsButton from '../../components/new-posts-button';
+
+import SingleColumns from '../../layout/single-columns';
 
 // import SidebarTopic from '../../components/sidebar/topic';
-import Topics from '@modules/topics';
+// import Topics from '@modules/topics';
 
 // styles
 // import CSSModules from 'react-css-modules';
@@ -121,25 +123,24 @@ export default class TopicsDetail extends React.Component {
 
     let { list, loadTopics, notFoundPgae } = this.props;
     const { id } = this.props.match.params;
-    let err, res;
 
     if (!list || !list.data) {
-      [ err, list ] = await loadTopics({
+      
+      let [ err, list ] = await loadTopics({
         id: id,
         filters: { variables: { _id: id } }
       });
-    }
 
-    if (list && list.data && !list.data[0]) {
-      notFoundPgae('该话题不存在');
+      if (!list || list && list.data && !list.data[0]) {
+        notFoundPgae('该话题不存在');
+      }
+
     }
 
   }
 
   componentWillReceiveProps(props) {
     if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
-
-      // console.log('123123');
       this.props = props;
       this.componentDidMount();
     }
@@ -165,37 +166,31 @@ export default class TopicsDetail extends React.Component {
       </div>);
     }
 
-    return(<div>
+    return(<SingleColumns>
 
       <Meta title={topic.name} />
-
-      <Box>
-
-        {/* <Topics /> */}
-        <div></div>
-
+      
+      <div>
+        <div styleName="topic-info"  className="d-flex justify-content-between">
         <div>
-          <div styleName="topic-info"  className="d-flex justify-content-between">
-          <div>
-            <div styleName="name">
-              <img src={topic.avatar} />
-              <Link to={`/topic/${topic._id}`}>{topic.name}</Link>
-            </div>
-            <div>{topic.brief}</div>
+          <div styleName="name">
+            <img src={topic.avatar} />
+            <Link to={`/topic/${topic._id}`}>{topic.name}</Link>
           </div>
+          <div>{topic.brief}</div>
+          <Follow topic={topic} />
         </div>
+      </div>
 
-        <PostsList
-          id={pathname + search}
-          filters={general}
-          scrollLoad={true}
-          />
+      <PostsList
+        id={pathname + search}
+        filters={general}
+        scrollLoad={true}
+        />
 
-        </div>
+      </div>
 
-      </Box>
-
-    </div>)
+    </SingleColumns>)
   }
 
 }

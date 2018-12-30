@@ -31,5 +31,12 @@ export default function configureStore(initialState = {}) {
   }
   */
 
+  /*
+  store.subscribe(() => {
+    console.log('----');
+    // console.log(store.getState());
+  });
+  */
+
   return store;
 }

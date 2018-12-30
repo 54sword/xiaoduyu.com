@@ -14,7 +14,10 @@ import { getTopicListByKey } from '@reducers/topic';
 import { saveTopicId } from '@actions/website';
 import { isMember } from '@reducers/user';
 
-import { hasNewFeed } from '@reducers/website';
+import { loadTips } from '@actions/tips';
+import { getTipsById } from '@reducers/tips';
+
+import { hasNewFeed, getTopicId, hasNewSubscribe, hasNewExcellent } from '@reducers/website';
 
 // style
 import './index.scss';
@@ -24,11 +27,19 @@ import './index.scss';
   (state, props) => ({
     isMember: isMember(state),
     topicList: getTopicListByKey(state, 'recommend-topics'),
-    hasNewFeed: hasNewFeed(state)
+    // hasNewFeed: hasNewFeed(state),
+    // hasNewSubscribe: hasNewSubscribe(state),
+    // hasNewExcellent: hasNewExcellent(state),
+    topicId: getTopicId(state),
+    hasNewHome: getTipsById(state, 'home'),
+    hasNewFeed: getTipsById(state, 'feed'),
+    hasNewSubscribe: getTipsById(state, 'subscribe'),
+    hasNewExcellent: getTipsById(state, 'excellent')
   }),
   dispatch => ({
     loadTopics: bindActionCreators(loadTopics, dispatch),
-    saveTopicId: bindActionCreators(saveTopicId, dispatch)
+    saveTopicId: bindActionCreators(saveTopicId, dispatch),
+    loadTips: bindActionCreators(loadTips, dispatch)
   })
 )
 export default class Box extends Component {
@@ -36,7 +47,8 @@ export default class Box extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      topicId: null,
+      isMount: false,
+      // topicId: null,
       // 子话题显示长度
       maxLenth: 30,
       // 展开状态记录
@@ -47,7 +59,7 @@ export default class Box extends Component {
 
   componentDidMount() {
 
-    const { topicList, loadTopics } = this.props;
+    const { topicList, loadTopics, loadTips, isMember } = this.props;
 
     if (!topicList ||
         !topicList.data ||
@@ -59,14 +71,19 @@ export default class Box extends Component {
       });
     }
 
-    let topicId = cookie.load('topic_id') || '';
+    // let topicId = cookie.load('topic_id') || '';
 
-    this.setState({ topicId });
+    this.setState({ isMount: true });
+
+    if (isMember) {
+      loadTips();
+    }
+    
   }
 
   onClick(event, id) {
     event.preventDefault();
-    
+
     cookie.save(
       'topic_id',
       id,
@@ -75,7 +92,7 @@ export default class Box extends Component {
         expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 365)
       }
     );
-    
+
     this.setState({ topicId: id });
     this.props.saveTopicId(id);
 
@@ -91,8 +108,8 @@ export default class Box extends Component {
 
   render() {
 
-    const { topicId, expand, maxLenth } = this.state;
-    const { topicList, isMember, hasNewFeed } = this.props;
+    const { isMount, expand, maxLenth } = this.state;
+    const { topicId, topicList, isMember, hasNewFeed, hasNewSubscribe, hasNewExcellent, hasNewHome } = this.props;
 
     if (!topicList) return null;
 
@@ -104,38 +121,33 @@ export default class Box extends Component {
     return (<div className="card">
       <div className="card-body" styleName="container">
 
-        {/* <div styleName="group">
-          <div>
-            <Link to="/" styleName={topicId == '' ? 'active' : ''} onClick={e=>this.onClick(e, '')}>全部</Link>
-          </div>
-        </div> */}
-
         <div styleName="group">
+
+          <div></div>
+
           <div>
-          </div>
-          <div>
-            <Link to="/" styleName={topicId == '' ? 'active' : ''} onClick={e=>this.onClick(e, '')}>全部</Link>
-            <Link to="/" styleName={topicId == 'excellent' ? 'active' : ''} onClick={e=>this.onClick(e, 'excellent')}>优选</Link>
+            <Link to="/" styleName={topicId == '' ? 'active' : ''} onClick={e=>this.onClick(e, '')}>
+              全部
+              {isMount && hasNewHome && <span styleName="point"></span>}
+            </Link>
+            <Link to="/" styleName={topicId == 'excellent' ? 'active' : ''} onClick={e=>this.onClick(e, 'excellent')}>
+              优选
+              {isMount && hasNewExcellent && <span styleName="point"></span>}
+            </Link>
             {isMember &&
             <Link to="/follow" styleName={topicId == 'follow' ? 'active' : ''} onClick={e=>this.onClick(e, 'follow')}>
               关注
-              {hasNewFeed && <span styleName="point"></span>}
+              {/* 小红点只会在客户端显示，因此增加判断组件是否安装 */}
+              {isMount && hasNewFeed && <span styleName="point"></span>}
             </Link>}
+            {isMember &&
+            <a href="javascript:void(0)" styleName={topicId == 'subscribe' ? 'active' : ''} onClick={e=>this.onClick(e, 'subscribe')}>
+              订阅
+              {isMount && hasNewSubscribe && <span styleName="point"></span>}
+            </a>}
           </div>
-        </div>
 
-        {/*isMember ?
-          <div styleName="group">
-            <div>
-              <Link to="/follow" styleName={topicId == 'follow' ? 'active' : ''} onClick={e=>this.onClick(e, 'follow')}>关注</Link>
-              {hasNewFeed ? <span styleName="point"></span> : null}
-            </div>
-            <div>
-              <a href="#">帖子</a>
-              <a href="#">用户</a>
-            </div>
-          </div>
-        : null*/}
+        </div>
 
         {data.map(item=>{
 

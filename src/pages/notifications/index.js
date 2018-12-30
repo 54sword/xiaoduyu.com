@@ -15,10 +15,7 @@ import Meta from '@components/meta';
 import Loading from '@components/ui/loading';
 
 import UserNotificationList from '@modules/user-notification-list';
-
-import ThreeColumns from '../../layout/three-columns';
-
-// import GoBack from '@modules/go-back';
+import SingleColumns from '../../layout/single-columns';
 
 // style
 import './style.scss';
@@ -90,6 +87,7 @@ export default class Notifications extends Component {
   }
 
   componentDidMount() {
+    /*
     const { list, unreadNotice, loadNewNotifications } = this.props;
     const { pathname } = this.props.location;
 
@@ -98,6 +96,7 @@ export default class Notifications extends Component {
     ) {
       loadNewNotifications({ name: '/notifications' });
     }
+    */
   }
 
   render () {
@@ -124,20 +123,7 @@ export default class Notifications extends Component {
 
     filters.addressee_id = me._id;
 
-    return (<ThreeColumns>
-      
-      <div>
-        {/* 
-        <ul className="list-group">
-          {Reflect.ownKeys(typeList).map(item=>{
-            let _type = typeList[item];
-            return (<Link to={`/notifications${item == 'unread' ? '' : '/'+item}`} key={item} className={`list-group-item ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
-          })}
-        </ul>
-        */}
-      </div>
-
-      <div>
+    return (<SingleColumns>
       
       <Meta title="通知" />
       
@@ -151,7 +137,7 @@ export default class Notifications extends Component {
         </div>
 
         {(()=>{
-
+          
           if (pathname != '/notifications') return;
           
           if (newList && newList.loading) {
@@ -170,8 +156,6 @@ export default class Notifications extends Component {
           }}
         />
 
-      </div>
-
-    </ThreeColumns>)
+    </SingleColumns>)
   }
 }

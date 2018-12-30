@@ -14,14 +14,14 @@ import { isMember } from '../../store/reducers/user';
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import CommentList from '../../components/comment/list';
-import PostsList from '../../components/posts/list';
+// import PostsList from '../../components/posts/list';
 import PostsDetailC from '../../components/posts/detail';
 import EditorComment from '../../components/editor-comment';
 import Loading from '../../components/ui/loading';
-import Follow from '../../components/follow';
+// import Follow from '../../components/follow';
 
-import Box from '../../components/box';
-import Sidebar from '../../components/sidebar';
+// import Box from '../../components/box';
+// import Sidebar from '../../components/sidebar';
 import AdsByGoogle from '../../components/adsbygoogle';
 
 
@@ -197,7 +197,7 @@ export default class PostsDetail extends React.Component {
 
         {!isMember && Goole_AdSense && Goole_AdSense.postsDetail ?
           <div style={{marginBottom:'12px'}}><AdsByGoogle {...Goole_AdSense.postsDetail} /></div> : null}
-
+        
         {posts.comment_count > 0 ?
           <div className="card">
           <div className="card-header">{posts.comment_count}条评论</div>
@@ -210,9 +210,10 @@ export default class PostsDetail extends React.Component {
                   weaken: false,
                   posts_id: posts._id,
                   parent_id: 'not-exists',
-                  page_size:10
+                  page_size:100
                 }
               }}
+              showPagination={true}
               />
           </div>
           </div>

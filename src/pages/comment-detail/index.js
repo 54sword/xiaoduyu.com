@@ -17,7 +17,7 @@ import EditorComment from '@components/editor-comment';
 import Loading from '@components/ui/loading';
 
 
-import ThreeColumns from '../../layout/three-columns';
+import SingleColumns from '../../layout/single-columns';
 // import Box from '../../components/box';
 // import Sidebar from '../../components/sidebar';
 
@@ -99,7 +99,7 @@ export default class CommentDetail extends React.Component {
 
     if (loading || !comment) return <Loading />;
 
-    return(<ThreeColumns>
+    return(<SingleColumns>
       <div></div>
       <div>
 
@@ -112,8 +112,20 @@ export default class CommentDetail extends React.Component {
         {comment.posts_id.content_html ? <HTMLText content={comment.posts_id.content_html} /> : null}
       </div>
 
-      <div styleName="content">
-        <HTMLText content={comment.content_html} />
+      <div styleName="commennt-container">
+        <div styleName="head">
+          <img styleName="active" src={comment.user_id.avatar_url} />
+          <div>
+            <b>{comment.user_id.nickname}</b>
+          </div>
+          <div styleName="info">
+            <span>{comment._create_at}</span>
+            <span>{comment._device}</span>
+          </div>
+        </div>
+        <div styleName="content">
+          <HTMLText content={comment.content_html} />
+        </div>
       </div>
 
       <div styleName="comment-list">
@@ -129,7 +141,7 @@ export default class CommentDetail extends React.Component {
       </div>
 
       {isMember ?
-        <div className="mt-2 mb-4">
+        <div styleName="editor">
           <EditorComment
             posts_id={comment.posts_id._id}
             parent_id={comment._id}
@@ -143,7 +155,7 @@ export default class CommentDetail extends React.Component {
     </div>
 
 
-    </ThreeColumns>)
+    </SingleColumns>)
   }
 
 }

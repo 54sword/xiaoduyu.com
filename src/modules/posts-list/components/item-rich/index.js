@@ -18,14 +18,10 @@ import CommentList from '@components/comment/list';
 import Editor from '@components/editor-comment';
 import Follow from '@components/follow';
 import Like from '@components/like';
-// import EditButton from '@components/edit-button';
-// import ReportMenu from '@components/report-menu';
-// import Share from '@components/share';
-import CommentButton from '@components/comment/button';
-// import GridListImage from '@components/grid-list-image';
+import Menu from '@components/report-menu';
+import Share from '@components/share';
 
 // styles
-// import CSSModules from 'react-css-modules';
 import './index.scss';
 
 @withRouter
@@ -37,7 +33,6 @@ import './index.scss';
     viewPostsById: bindActionCreators(viewPostsById, dispatch)
   })
 )
-// @CSSModules(styles)
 export default class PostsListItem extends React.PureComponent {
 
   static propTypes = {
@@ -73,7 +68,7 @@ export default class PostsListItem extends React.PureComponent {
     }
     this.expand = this.expand.bind(this);
   }
-  
+
   /*
   componentDidMount() {
     const { posts } = this.props;
@@ -88,7 +83,7 @@ export default class PostsListItem extends React.PureComponent {
       ExpandButton.clean(posts._id);
     }
   }
-  
+
 
   expand(e) {
 
@@ -126,204 +121,113 @@ export default class PostsListItem extends React.PureComponent {
     const { posts, isMember } = this.props;
     const { expand } = this.state;
 
-    // let coverImage = '';
+    return (<div id={posts._id} styleName={`item ${expand ? '' : 'fold'}`}>
 
-    // if (posts.content_summary && posts.content_summary.length > 100 && posts.coverImage) {
-    //   coverImage = posts.coverImage;
-    // }
+      <div onClick={!expand ? this.expand : null}>
 
-    let coverImage = posts.images && posts.images[0] ? posts.images[0] : '';
+        <div styleName="head">
 
-    //
-    // {!expand ? this.expand : this.collapseContent}
-    // styleName={!expand ? 'item' : 'item-active'}
-    // <div onClick={!expand ? this.expand : null} styleName='item-head'>
+          {typeof posts.user_id == 'object' ?
+            <div styleName="info">
 
-    return (<div id={posts._id} styleName='item'>
+              <Link to={`/people/${posts.user_id._id}`} onClick={this.stopPropagation}>
+                <i
+                  styleName="avatar"
+                  className="load-demand"
+                  data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}>
+                  </i>
+                <b>{posts.user_id.nickname}</b>
+              </Link>
 
-      <div
-         styleName='item-head'
-         onClick={!expand ? this.expand : null}
-        // onClick={()=>{
-        //   $('#posts-modal').modal({
-        //     show: true
-        //   }, {
-        //     posts_id: posts._id
-        //   });
-        // }}
-        >
+              <div>
+                <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
+                <span>{posts._create_at}</span>
+                {posts._device ? <span>{posts._device}</span> : null}
+              </div>
 
-      <div styleName="head">
-
-        {typeof posts.user_id == 'object' ?
-          <div styleName="info">
-            
-            <Link to={`/people/${posts.user_id._id}`} onClick={this.stopPropagation}>
-              <i
-                styleName="avatar"
-                className="load-demand"
-                data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}>
-                </i>
-              <b>{posts.user_id.nickname}</b>
-              {/* <span styleName="people-brief">{posts.user_id.brief}</span> */}
-            </Link>
-
-            {/* 
-            <div styleName="item-meta">
-              <span>{posts._create_at}</span>
-              {posts.comment_count ? <span>{posts.comment_count}条评论</span> : null}
-              {posts.like_count ? <span>{posts.like_count}次赞</span> : null}
-              {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
-            </div>
-            */}
-
-            {/* dropdown-menu */}
-            {/* 
-            <div styleName="menu">
-              <ReportMenu posts={posts} />
-            </div>
-            */}
-            {/* dropdown-menu end */}
-            
-
-            <div>
-              <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
-              <span>{posts._create_at}</span>
-              {/* {posts.view_count ? <span>{posts.view_count}次浏览</span> : null} */}
-              {/* {posts.comment_count ? <span>{posts.comment_count}条评论</span> : null} */}
-              {/* {posts.like_count ? <span>{posts.like_count}次赞</span> : null} */}
-              {/* {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null} */}
-            </div>
-
-          </div>
-          : null}
-      </div>
-
-      <div styleName={`body`}>
-
-        {/*coverImage ? <div styleName="cover-image" style={{backgroundImage:`url(${coverImage})`}}></div> : null*/}
-
-        <div styleName="title">
-          {/* <Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation} styleName="topic-name">{posts.topic_id.name}</Link> */}
-          <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
-        </div>
-
-        {(()=>{
-
-          if (expand) {
-            return (<div styleName="content">
-              <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
-            </div>)
-          }
-
-          if (posts.content_summary) {
-            return (<div styleName="content">
-              <div>{posts.content_summary}</div>
-              {/*posts.images && posts.images.length > 0 ?
-                <div style={{width:'100%',marginTop:'10px'}}><GridListImage images={posts.images} /></div>
-              : null*/}
-                
-            </div>)
-          }
-
-        })()}
-
-      </div>
-
-      {/*!expand ?
-        <div styleName="status-bar">
-          {posts.view_count ? <span>{posts.view_count} 次浏览</span> : null}
-          {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
-          {posts.like_count ? <span>{posts.like_count} 次赞</span> : null}
-          {posts.follow_count ? <span>{posts.follow_count} 人关注</span> : null}
-        </div>
-        : null*/}
-
-      {/*posts.content_summary ?
-        <div styleName="content">
-          <div>
-            {posts.content_summary}
-          </div>
-          {posts.images && posts.images.length > 0 ?
-            <div styleName="images">
-              {posts.images.map((item, index)=>{
-                if (index > 9) return;
-                return <span key={item} styleName="image-item" style={{backgroundImage:`url(${item})`}}></span>
-              })}
             </div>
             : null}
         </div>
-      : null*/}
 
-      {/*expand ?
-        <div styleName="content">
-          <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
-        </div> : (posts.content_summary ?
-          <div styleName="content">
-            <div styleName={coverImage ? 'cover' : null}>
-              {coverImage ? <div styleName="cover-image" style={{backgroundImage:`url(${coverImage})`}}></div> : null}
-              {posts.content_summary}
-            </div>
+        <div styleName={`body`}>
+
+          {posts._coverImage && !expand ?
+            <div styleName="cover-image" style={{backgroundImage:`url(${posts._coverImage})`}}></div>
+            : null}
+
+          {posts._update_at ? <div styleName="update_at">最近一次编辑于 {posts._update_at}</div> : null}
+
+          <div styleName="title">
+            <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
           </div>
-        : null)*/}
 
+          {(()=>{
+
+            if (expand) {
+              return (<div styleName="content">
+                <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
+              </div>)
+            }
+
+            if (posts.content_summary) {
+              return (<div styleName="content">
+                <div>{posts.content_summary}</div>
+              </div>)
+            }
+
+          })()}
+
+        </div>
+
+        <div styleName="collapse-container">
+          <a href="javascript:void(0)" id={posts._id+'-footer'} onClick={this.expand} styleName="collapse-float">收起</a>
+        </div>
 
         <div styleName="footer">
+          <div styleName="footer-main" className="d-flex justify-content-between">
 
-          <div>
-
-            <div className="container">
-            <div styleName="footer-main" className="row">
-                {expand ?
-                <div className="col-10" styleName="actions">
-                
-                  {posts.view_count ? <a href="#">{posts.view_count} 次浏览</a> : null}
-                  <CommentButton posts={posts} />
-                  <Like posts={posts} />
-                  {/* <Follow posts={posts} /> */}
-                  {/* <Share posts={posts} /> */}
-                  {/* <EditButton posts={posts} /> */}
-                </div>
-                : null}
-
-                {expand ?
-                  <div className="col-2 text-right" styleName="actions">
-                    <a href="javascript:void(0)" id={posts._id+'-footer'} onClick={this.expand} styleName="collapse-float">收起</a>
-                    {/* <a href="javascript:void(0)" onClick={this.expand} styleName="collapse">收起</a> */}
-                  </div>
-                  : null}
-
+            <div styleName="actions">
+              {posts.view_count ? <span>{posts.view_count} 次阅读</span> : null}
+              {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
+              {posts.reply_count ? <span>{posts.reply_count} 条回复</span> : null}
+              {posts.like_count ? <span>{posts.like_count} 人赞</span> : null}
+              {posts.follow_count ? <span>{posts.follow_count} 人订阅</span> : null}
             </div>
-            </div>
+
+            {expand ?
+              <div styleName="actions">
+                <Like posts={posts} displayNumber={false} />
+                <Follow posts={posts} />
+                <Share posts={posts} />
+                <a href="javascript:void(0)" onClick={this.expand}>收起</a>
+                <Menu posts={posts} />
+              </div>
+              :null}
 
           </div>
         </div>
-
-
 
       </div>
 
       {expand ?
         <div onClick={this.stopPropagation}>
 
-            <CommentList
-              name={posts._id}
-              filters={{
-                variables: {
-                  posts_id: posts._id,
-                  parent_id: 'not-exists',
-                  page_size: 10,
-                  deleted: false,
-                  weaken: false
-                }
-              }}
-              />
-
-            {isMember ?
-              <div className="border-top">
-                <Editor posts_id={posts._id} />
-              </div>
-              : null}
+          <CommentList
+            name={posts._id}
+            filters={{
+              variables: {
+                posts_id: posts._id,
+                parent_id: 'not-exists',
+                page_size: 10,
+                deleted: false,
+                weaken: false
+              }
+            }}
+            />
+            
+          {isMember ?
+            <div className="border-top"><Editor posts_id={posts._id} /></div>
+            : null}
 
         </div>
         : null}

@@ -9,18 +9,19 @@ import { loadPeopleList } from '../../store/actions/people';
 import { getPeopleListByName } from '../../store/reducers/people';
 
 // components
+import Shell from '@components/shell';
 import Meta from '../../components/meta';
 // import Box from '../../components/box';
-import Follow from '../../components/follow';
+import Follow from '@components/follow';
 import Loading from '../../components/ui/loading';
 import ReportMenu from '../../components/report-menu';
-import Sidebar from '../../components/sidebar';
+// import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';
 import FollowList from '../../components/follow-list';
-import PostsList from '../../components/posts/list';
-import FeedList from '../../components/feed/list';
+import PostsList from '@modules/posts-list';
+import FeedList from '@modules/feed-list';
 
-import ThreeColumns from '../../layout/three-columns';
+import SingleColumns from '../../layout/single-columns';
 
 // styles
 import './index.scss';
@@ -53,6 +54,7 @@ class StringToColor {
 }
 */
 
+@Shell
 @connect(
   (state, props) => {
     const { id } = props.match.params;
@@ -228,37 +230,11 @@ export default class PeopleDetailHead extends React.Component {
     pathname = pathname.replace('/people/'+people._id, '');
 
     if (!pathname) pathname = '/';
+
+    // console.log(people);
     
-    return (<ThreeColumns>
+    return (<SingleColumns>
 
-
-        <div className="list-group">
-          
-          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}`}>
-            动态
-          </NavLink>
-      
-          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/posts`}>
-            帖子 {people.posts_count > 0 ? <span className="badge badge-primary badge-pill">{people.posts_count}</span> : 0}
-          </NavLink>
-
-          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/fans`}>
-            粉丝 {people.fans_count > 0 ? <span className="badge badge-primary badge-pill">{people.fans_count}</span> : 0}
-          </NavLink>
-
-          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/follow/peoples`}>
-            关注的人{people.follow_people_count > 0 ? <span className="badge badge-primary badge-pill">{people.follow_people_count}</span> : 0}
-          </NavLink>
-          
-          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/follow/posts`}>
-            关注的帖子{people.follow_posts_count > 0 ? <span className="badge badge-primary badge-pill">{people.follow_posts_count}</span> : 0}
-          </NavLink>
-          
-          <NavLink className="list-group-item d-flex justify-content-between align-items-center" exact to={`/people/${people._id}/follow/topics`}>
-            关注的话题 {people.follow_topic_count > 0 ? <span className="badge badge-primary badge-pill">{people.follow_topic_count}</span> : 0}
-          </NavLink>
-
-        </div>
 
       <div>
         <Meta title={people.nickname} />
@@ -279,11 +255,12 @@ export default class PeopleDetailHead extends React.Component {
                 <div>性别：{people.gender == 1 ? '男' : '女'}</div>
                 : null}
             <div>{people.brief}</div>
+            
           </div>
 
         </div>
 
-      <div styleName="nav-bar" className="d-block d-md-block d-lg-none d-xl-none">
+      <div styleName="nav-bar">
         <div className="nav nav-pills nav-justified">
 
           <NavLink className="nav-link" exact to={`/people/${people._id}`}>
@@ -318,7 +295,7 @@ export default class PeopleDetailHead extends React.Component {
       </div>
     
       
-    </ThreeColumns>)
+    </SingleColumns>)
 
   }
 

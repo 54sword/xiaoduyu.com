@@ -254,7 +254,7 @@ const linkOptimization = (str) => {
     });
   }
 
-  let linkReg = /(http:\/\/>http:\/\/|https:\/\/|www\.|magnet\:\?xt\=)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|\"|\'|$)/gi;
+  let linkReg = /(http:\/\/>http:\/\/|http:\/\/|https:\/\/|www\.|magnet\:\?xt\=)(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|\"|\'|$)/gi;
 
   let links = str.match(linkReg);
 
@@ -297,11 +297,14 @@ const linkOptimization = (str) => {
 
     _links.map(item=>{
       
-      if (Device.isMobileDevice()) {
-        str = str.replace(item.id, `<a href=${item.value} rel="nofollow">${item.value}</a>`);
-      } else {
-        str = str.replace(item.id, `<a href=${item.value} target="_blank" rel="nofollow">${item.value}</a>`);
-      }
+      // if (Device.isMobileDevice()) {
+        // str = str.replace(item.id, `<a href=${item.value} rel="nofollow">${item.value}</a>`);
+      // } else {
+
+        let href = item.value.indexOf('http') == -1 ? 'http:'+item.value : item.value;
+
+        str = str.replace(item.id, `<a href=${href} target="_blank" rel="nofollow">${item.value}</a>`);
+      // }
 
     })
 

@@ -13,7 +13,12 @@ export default function() {
       case 'SET_POSTS_LIST_BY_NAME':
         var { name, data } = action
         state[name] = data
-        return merge({}, state, {})
+        return merge({}, state, {});
+      
+      case 'REMOVE_POSTS_LIST_BY_ID':
+        var { id } = action;
+        if (state[id]) delete state[id];
+        return merge({}, state, {});
 
       // 更新所有列表中 questionid 的 follow 状态
       case 'UPDATE_POSTS_FOLLOW':
@@ -127,9 +132,9 @@ export default function() {
 
 }
 
-export const getPostsListByName = (state, name) => {
-  return state.posts[name] ? state.posts[name] : {}
-}
+// export const getPostsListByName = (state, name) => {
+//   return state.posts[name] ? state.posts[name] : {}
+// }
 
 export const getPostsListByListId = (state, name) => {
   return state.posts[name] ? state.posts[name] : {}

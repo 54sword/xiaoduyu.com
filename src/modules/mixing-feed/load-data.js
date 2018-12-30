@@ -29,8 +29,9 @@ export default ({ store, match, res, req, user }) => {
       }
     }
 
-    if (topicId != 'follow' && topicId != 'excellent' && ids.length == 0 ||
-        topicId == 'follow' && !user
+    if (topicId != 'follow' && topicId != 'excellent' && topicId != 'subscribe' && ids.length == 0 ||
+        topicId == 'follow' && !user ||
+        topicId == 'subscribe' && !user
     ) {
       topicId = '';
       res.clearCookie('topic_id');
@@ -43,6 +44,17 @@ export default ({ store, match, res, req, user }) => {
           deleted: false,
           weaken: false,
           recommend: true
+        }
+      }
+    }
+
+    if (topicId == 'subscribe') {
+      filters = {
+        variables: {
+          method: 'subscribe',
+          sort_by: "last_comment_at:-1",
+          deleted: false,
+          weaken: false
         }
       }
     }

@@ -7,7 +7,6 @@ import { getTopicId } from '@reducers/website';
 
 import PostsList from '@modules/posts-list';
 import FeedList from '@modules/feed-list';
-import NewFeedTips from '@modules/new-feed-tips';
 
 @connect(
   (state, props) => ({
@@ -26,7 +25,7 @@ export default class Home extends React.Component {
   render() {
 
     const { topicList, topicId } = this.props;
-
+    
     let ids = [];
     let filters = {
       variables: {
@@ -60,26 +59,42 @@ export default class Home extends React.Component {
       }
     }
 
+    if (topicId == 'subscribe') {
+      filters = {
+        variables: {
+          method: 'subscribe',
+          sort_by: "last_comment_at:-1",
+          deleted: false,
+          weaken: false
+        }
+      }
+    }
+
     if (topicId == 'follow') {
       return (<div>
-        <NewFeedTips />
         <FeedList
-        id={'follow'}
-        filters={{
-          variables: {
-            preference: true,
-            sort_by: "create_at:-1"
-          }
-        }}
-        scrollLoad={true}
-        />
-        </div>)
+          id={'feed'}
+          filters={{
+            variables: {
+              preference: true,
+              sort_by: "create_at:-1"
+            }
+          }}
+          scrollLoad={true}
+          showTips={true}
+          />
+      </div>)
     } else {
-      return (<PostsList
-        id={topicId || 'home'}
-        filters={filters}
-        scrollLoad={true}
-        />)
+      return (
+        <div>
+          <PostsList
+            id={topicId || 'home'}
+            filters={filters}
+            scrollLoad={true}
+            showTips={true}
+            />
+        </div>
+      )
     }
 
   }

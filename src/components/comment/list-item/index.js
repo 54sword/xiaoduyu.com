@@ -7,16 +7,16 @@ import './style.scss';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateComment } from '../../../store/actions/comment';
+import { updateComment, loadCommentList } from '@actions/comment';
 // import { showSign } from '../../../actions/sign';
-import { isMember, getProfile } from '../../../store/reducers/user';
+import { isMember, getProfile } from '@reducers/user';
 
 // components
-import LikeButton from '../../like';
-import HTMLText from '../../html-text';
+import LikeButton from '@components/like';
+import HTMLText from '@components/html-text';
 // import EditorCommentModal from '../../editor-comment-modal';
-import EditButton from '../../edit-button';
-import ReportMenu from '../../report-menu';
+// import EditButton from '@components/edit-button';
+import ReportMenu from '@components/report-menu';
 import CommentButton from '../button';
 
 @connect(
@@ -26,7 +26,8 @@ import CommentButton from '../button';
   }),
   dispatch => ({
     // showSign: bindActionCreators(showSign, dispatch),
-    updateComment: bindActionCreators(updateComment, dispatch)
+    updateComment: bindActionCreators(updateComment, dispatch),
+    loadCommentList: bindActionCreators(loadCommentList, dispatch)
   })
 )
 export default class CommentItem extends Component {
@@ -44,9 +45,13 @@ export default class CommentItem extends Component {
   }
 
   constructor(props) {
-    super(props)
-    this.renderUserView = this.renderUserView.bind(this)
-    this.updateComment = this.updateComment.bind(this)
+    super(props);
+    this.state = {
+      reply: []
+    }
+    this.renderUserView = this.renderUserView.bind(this);
+    this.updateComment = this.updateComment.bind(this);
+    this.loadReplyList = this.loadReplyList.bind(this);
   }
 
   updateComment(e, data) {
@@ -56,10 +61,48 @@ export default class CommentItem extends Component {
     updateComment(data)
   }
 
+  async loadReplyList(comment) {
 
+    // console.log(comment.reply);
+
+    let reply = this.state.reply[this.state.reply.length - 1] || comment.reply[comment.reply.length - 1];
+
+
+    // console.log(reply);
+
+    // const { loadCommentList } = this.props;
+    let [ err, res ] = await this.props.loadCommentList({
+      name:'new-reply',
+      filters: {
+        variables: {
+          parent_id: reply.parent_id,
+          page_size: 10,
+          deleted: false,
+          weaken: false,
+          start_create_at: reply.create_at
+        }
+      },
+      restart: true
+    });
+
+    if (res && res.data) {
+      res.data.map(item=>{
+        this.state.reply.push(item);
+      });
+    }
+
+    // console.log(comment);
+
+    this.setState({});
+
+    // console.log(err);
+    // console.log(res);
+  }
 
   // 用户的dom
   renderUserView(comment) {
+
+    // console.log(comment);
 
     let self = this
     let { me, isMember,
@@ -76,6 +119,8 @@ export default class CommentItem extends Component {
     ) {
       reply_user = comment.reply_id.user_id;
     }
+
+    // console.log(comment);
 
     return (<div styleName="item" key={comment._id}>
 
@@ -94,10 +139,11 @@ export default class CommentItem extends Component {
           {/*reply_user && reply_user._id != comment.user_id._id
             ? <Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link>
           : null*/}
-          <span>{comment._create_at}</span>
+          
+          {comment._device ? <span>{comment._device}</span> : null}
         </div>
         
-        {/* 
+        {/*
         <div styleName="info">
           {comment.like_count ? <span>赞 {comment.like_count}</span> : null}
           {comment.reply_count ? <span>回复 {comment.reply_count}</span> : null}
@@ -106,7 +152,7 @@ export default class CommentItem extends Component {
         */}
 
       </div>
-        
+
       {/*comment.content_html ?
         <div styleName="item-body">{comment.content_html}</div>
         : null*/}
@@ -114,23 +160,40 @@ export default class CommentItem extends Component {
       {comment.content_html ?
         <div styleName="item-body"><HTMLText content={comment.content_html} /></div>
         : null}
-      
-      <div styleName="footer">
+
+      <div styleName="footer" className="d-flex justify-content-between">
         <div styleName="actions">
+        <span>{comment._create_at}</span>
+          {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
+          {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
+
+          {/* 
           {comment.parent_id ? <LikeButton reply={comment}  /> : <LikeButton comment={comment}  />}
           <CommentButton comment={comment} />
           <ReportMenu comment={comment} />
+          */}
+          
         </div>
+
+        <div styleName="actions">
+
+          {comment.parent_id ? <LikeButton reply={comment} displayNumber={false}  /> : <LikeButton comment={comment} displayNumber={false} />}
+          <CommentButton comment={comment} />
+          <ReportMenu comment={comment} />
+
+        </div>
+
       </div>
-      
 
       {comment.reply && comment.reply.length > 0 ?
         <div styleName="reply-list">
           {comment.reply.map(item=>this.renderUserView(item))}
+          {this.state.reply.map(item=>this.renderUserView(item))}
 
-          {comment.reply_count > comment.reply.length ?
+          {comment.reply_count > comment.reply.length + this.state.reply.length ?
             <div styleName="view-all-reply">
-              <a href={`/comment/${comment._id}`} target="_blank">还有 {comment.reply_count - comment.reply.length} 条评论，查看全部</a>
+              <a href="javascript:void(0)" onClick={()=> this.loadReplyList(comment) }>还有 {comment.reply_count - comment.reply.length - this.state.reply.length} 条评论，加载更多</a>
+              {/* <a href={`/comment/${comment._id}`} target="_blank">还有 {comment.reply_count - comment.reply.length} 条评论，查看全部</a> */}
             </div>
             : null}
 
@@ -141,6 +204,7 @@ export default class CommentItem extends Component {
   }
 
   render () {
+
     return this.renderUserView(this.props.comment)
   }
 

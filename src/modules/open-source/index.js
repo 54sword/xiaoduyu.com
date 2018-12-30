@@ -19,7 +19,7 @@ export default class Links extends React.PureComponent {
       { name: '后台管理', description: 'React、Webpack、React-Redux、React-Router…', domain:'https://github.com/54sword/admin.xiaoduyu.com' },
       { name: '自制React同构脚手架', description: 'React、Webpack、React-Redux、React-Router…', domain:'https://github.com/54sword/react-starter' }
     ];
-
+    
     return(
       <div className="card">
         <div className="card-header">开源代码</div>

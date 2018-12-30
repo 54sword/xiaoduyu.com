@@ -4,25 +4,25 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 // functions
-import Device from '@utils/device';
+// import Device from '@utils/device';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { isMember } from '@reducers/user';
-import { viewPostsById } from '@actions/posts';
+// import { viewPostsById } from '@actions/posts';
 
 // components
 import HTMLText from '@components/html-text';
-import CommentList from '@components/comment/list';
+// import CommentList from '@components/comment/list';
 import Editor from '@components/editor-comment';
-import Follow from '@components/follow';
+// import Follow from '@components/follow';
 import Like from '@components/like';
-import EditButton from '@components/edit-button';
+// import EditButton from '@components/edit-button';
 import ReportMenu from '@components/report-menu';
 // import Bundle from '@components/bundle';
-import Share from '@components/share';
-import GridListImage from '@components/grid-list-image';
+// import Share from '@components/share';
+// import GridListImage from '@components/grid-list-image';
 
 
 // styles
@@ -46,7 +46,8 @@ export default class PostsItem extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      expand: false
+      expand: false,
+      displayReply: false
     }
     this.handleExpand = this.handleExpand.bind(this);
   }
@@ -59,7 +60,7 @@ export default class PostsItem extends React.PureComponent {
   render () {
 
     const { comment, posts, isMember } = this.props;
-    const { expand } = this.state;
+    const { expand, displayReply } = this.state;
 
     return (<div styleName={"item"} onClick={!expand ? this.handleExpand : null} >
 
@@ -79,18 +80,19 @@ export default class PostsItem extends React.PureComponent {
 
               {/* dropdown-menu */}
 
-              <div styleName="menu">
+              {/* <div styleName="menu">
                 <ReportMenu comment={comment} />
-              </div>
+              </div> */}
 
               {/* dropdown-menu end */}
 
               <div>
                 <span>{comment._create_at}</span>
+                {comment._device ? <span>{comment._device}</span> : null}
                 {/*<span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>*/}
                 {/*posts.view_count ? <span>{posts.view_count}次浏览</span> : null*/}
-                {comment.like_count ? <span>{comment.like_count} 个赞</span> : null}
-                {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
+                {/* {comment.like_count ? <span>{comment.like_count} 个赞</span> : null} */}
+                {/* {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null} */}
                 {/*posts.follow_count ? <span>{posts.follow_count}人关注</span> : null*/}
 
               </div>
@@ -105,18 +107,20 @@ export default class PostsItem extends React.PureComponent {
           <HTMLText content={comment.content_html} />
         </div>
         */}
-        {!expand ?
+        {/*!expand ?
           (comment.content_summary ?
             <div styleName="content"><HTMLText content={comment.content_summary} /></div> : null)
-          : <div styleName="content"><HTMLText content={comment.content_html} /></div>}
+          : <div styleName="content"><HTMLText content={comment.content_html} /></div>*/}
+
+        <div styleName="content"><HTMLText content={comment.content_html} /></div>
 
         {/*comment.content_summary ?
           <div styleName="content"><HTMLText content={comment.content_summary} /></div>
           : null*/}
 
-        {!expand && comment.images && comment.images.length > 0 ?
+        {/*!expand && comment.images && comment.images.length > 0 ?
           <div style={{width:'70%',marginLeft:'20px'}}><GridListImage images={comment.images} /></div>
-          : null}
+        : null*/}
 
           {/*
           <div styleName="images">
@@ -134,14 +138,84 @@ export default class PostsItem extends React.PureComponent {
           </div>
           */}
 
+
+
+        {(()=>{
+
+          // 如果有parent_id，表示该条评论是回复，如果不存在reply_id，那么reply被删除
+          if (comment.parent_id && !comment.reply_id) {
+            return (<div styleName="posts-item">回复被删除</div>)
+          }
+
+          if (comment.reply_id) {
+
+            console.log(comment.reply_id);
+
+            return (<div
+              styleName="reply-item"
+              onClick={(e)=>{
+                // e.stopPropagation();
+                // window.open(`/comment/${comment.parent_id || comment._id}`);
+              }}
+              >
+              <div>
+                {/*<div styleName="posts-item-avatar">
+                  <img src={comment.reply_id.user_id.avatar_url} />
+                </div>
+                */}
+                <div>
+                  <span styleName="posts-item-nickname">{comment.reply_id.user_id.nickname}</span>
+                  {/* <span styleName="create-at">{comment.reply_id._create_at}</span> */}
+                </div>
+              </div>
+              <div styleName="posts-item-reply">
+                {!displayReply ? comment.reply_id.content_summary : <HTMLText content={comment.reply_id.content_html} />}
+                <div><a href="javascript:void(0)" onClick={(e)=>{
+                  e.stopPropagation();
+                  this.setState({ displayReply: this.state.displayReply ? false : true });
+                }}>{!displayReply ? '展开' : '收起'}</a>
+                </div>
+              </div>
+              {/*comment.reply_id.images && comment.reply_id.images.map(item=>{
+                return <img key={item} src={item} width={70} height={70} />
+              })*/}
+            </div>)
+          }
+
+          if (posts) {
+
+            return (<div styleName="posts-item" onClick={(e)=>{
+              // e.stopPropagation();
+              // window.open(`/posts/${posts._id}`);
+            }}>
+                {/*<img styleName="posts-item-avatar" src={posts.user_id.avatar_url} />*/}
+                {/* <div><span styleName="posts-item-nickname">{posts.user_id.nickname}</span><span styleName="create-at">{posts._create_at}</span></div> */}
+              <Link to={`/posts/${posts._id}`} styleName="posts-item-title">{posts.title}</Link>
+              {posts.content_summary ? <div>{posts.content_summary}</div> : null}
+              {/*comment.posts_id.images && comment.posts_id.images.map(item=>{
+                return <img key={item} src={item} width={70} height={70} />
+              })*/}
+            </div>)
+          }
+
+        })()}
+
+        <div styleName="footer">
         {expand && isMember && comment ?
           <div>
 
             <div styleName="actions-bar" className="d-flex justify-content-between">
-              {comment.parent_id ? <Like reply={comment}  /> : <Like comment={comment}  />}
-              <a href="javascript:void(0)" onClick={this.handleExpand}>收起</a>
+              <div styleName="actions">
+                {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
+                {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
+              </div>
+              <div styleName="actions">
+                {comment.parent_id ? <Like reply={comment}  /> : <Like comment={comment}  />}
+                <a href="javascript:void(0)" onClick={this.handleExpand}>收起</a>
+                <ReportMenu comment={comment} />
+              </div>
             </div>
-
+            
             <div>
 
               <Editor
@@ -159,59 +233,11 @@ export default class PostsItem extends React.PureComponent {
                 }}
                 />
 
-            </div>
-
-          </div>
+            </div>   
+          </div>       
           : null}
 
-        {(()=>{
-
-          // 如果有parent_id，表示该条评论是回复，如果不存在reply_id，那么reply被删除
-          if (comment.parent_id && !comment.reply_id) {
-            return (<div styleName="posts-item">回复被删除</div>)
-          }
-
-          if (comment.reply_id) {
-            return (<div
-              styleName="posts-item"
-              onClick={(e)=>{
-                e.stopPropagation();
-                window.open(`/comment/${comment.parent_id || comment._id}`);
-              }}
-              >
-              <div>
-                {/*<div styleName="posts-item-avatar">
-                  <img src={comment.reply_id.user_id.avatar_url} />
-                </div>
-                */}
-                <div><span styleName="posts-item-nickname">{comment.reply_id.user_id.nickname}</span><span styleName="create-at">{comment.reply_id._create_at}</span></div>
-              </div>
-              <div styleName="posts-item-reply">{comment.reply_id.content_summary}</div>
-              {comment.reply_id.images && comment.reply_id.images.map(item=>{
-                return <img key={item} src={item} width={70} height={70} />
-              })}
-            </div>)
-          }
-
-          if (posts) {
-
-            return (<div styleName="posts-item" onClick={(e)=>{
-              e.stopPropagation();
-              window.open(`/posts/${posts._id}`);
-            }}>
-              <div>
-                {/*<img styleName="posts-item-avatar" src={posts.user_id.avatar_url} />*/}
-                <div><span styleName="posts-item-nickname">{posts.user_id.nickname}</span><span styleName="create-at">{posts._create_at}</span></div>
-              </div>
-              <div styleName="posts-item-title">{posts.title}</div>
-              {posts.content_summary ? <div>{posts.content_summary}</div> : null}
-              {/*comment.posts_id.images && comment.posts_id.images.map(item=>{
-                return <img key={item} src={item} width={70} height={70} />
-              })*/}
-            </div>)
-          }
-
-        })()}
+        </div>
 
 
 

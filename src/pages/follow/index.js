@@ -7,7 +7,7 @@ import Meta from '@components/meta';
 // modules
 import Topics from '@modules/topics';
 import FeedList from '@modules/feed-list';
-import NewFeedTips from '@modules/new-feed-tips';
+// import NewFeedTips from '@modules/new-feed-tips';
 // import AppDownload from '@modules/app-download';
 // import Links from '@modules/Links';
 // import OpenSource from '@modules/open-source';
@@ -38,7 +38,7 @@ export default class Follow extends React.PureComponent {
         </div>
         
         <div>
-          <NewFeedTips />
+          {/* <NewFeedTips /> */}
           <FeedList
             id={'follow'}
             filters={{

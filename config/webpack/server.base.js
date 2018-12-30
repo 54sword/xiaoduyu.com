@@ -13,6 +13,8 @@ module.exports = {
 
   resolve: {
     alias: {
+      // 配置文件位置
+      '@config': path.resolve('config'),
       // 模块
       '@modules': path.resolve('src/modules'),
       // 组件

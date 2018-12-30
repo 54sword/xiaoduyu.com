@@ -1,13 +1,13 @@
 
 .item{
   width: 100%;
-  border-radius: 12px;
+  border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   background-color: #fff;
   // padding:20px;
 
-  border:1px solid #efefef;
+  // border:1px solid #efefef;
 
   &:hover{
     background-color:rgba(255,255,255,.95);
@@ -54,7 +54,7 @@
 
   font-size: 12px;
   z-index: 999;
-  padding:20px 20px 0px 70px;
+  padding:15px 15px 0px 65px;
 
   .avatar{
     position: absolute;
@@ -153,7 +153,7 @@
 }
 
 .content{
-  padding:10px 20px 10px 20px;
+  padding:10px 15px 10px 15px;
   // font-size: 14px;
   // word-break:break-all;
   // word-wrap:break-word;
@@ -229,34 +229,29 @@
 }
 
 .footer{
-  width: 100%;
-  height: 40px;
-  display: block;
+  // width: 100%;
+  // height: 40px;
+  // display: block;
 
+  min-height: 15px;
+  
   .actions{
-    > a{
-      margin-right:15px;
-      color:#808080;
+
+    > span, > a, > div{
+      margin-right:20px;
       font-size:13px;
-      &:hover{
-        color:rgb(99, 99, 99);
-      }
     }
-    > a:last-child{
+    > span:last-child, > a:last-child, > div:last-child{
       margin-right:0;
     }
 
-    > div > a{
-      margin-right:15px;
-      color:#808080;
-      font-size:13px;
-      &:hover{
-        color:rgb(99, 99, 99);
-      }
+    > span{
+      color:#999;
+      font-size: 12px;
     }
 
-    > div > a:last-child{
-      margin-right:0;
+    > a, > div a{
+      color:#999;
     }
 
   }
@@ -311,9 +306,12 @@
 
 
 .posts-item{
+  border-left:4px solid #e0e3e6;
   background-color: #f6f9fb;
-  border-top: 1px solid #f0f3f5;
-  padding:15px 20px 15px 20px;
+  // border-top: 1px solid #f0f3f5;
+  padding:10px 15px 10px 15px;
+  margin:0 15px 0 15px;
+  font-size: 12px;
 }
 
 .posts-item-avatar{
@@ -346,9 +344,10 @@
 }
 
 .posts-item-title{
-  margin-top:5px;
+  margin-bottom:5px;
   font-size: 14px;
   font-weight: bold;
+  color:#14171a;
 }
 
 .posts-item-reply{
@@ -370,4 +369,14 @@
   margin-left:5px;
   font-size: 12px;
   color:rgb(177, 177, 177);
+}
+
+
+.reply-item{
+  background-color: #f2f5f8;
+  margin:0 20px 0px 15px;
+  // padding-left:15px;
+  padding:10px 10px 10px 15px;
+  border-left:4px solid #e0e3e6;
+  // border-radius: 4px;
 }

@@ -1,26 +1,34 @@
 
 import merge from 'lodash/merge'
 
+let _initialState = {
+  onlineUserCount: 0,
+  goBack: true,
+  unreadNotice: [],
+  newPostsTips: {},
+  // 最新一条feed创建日期（用户关注的feed流）
+  newestFeedCreateAt: '',
+  // 是否有新的feed
+  hasNewFeed: false,
+
+  // 订阅是否有新的更新
+  hasNewSubscribe: false,
+
+  // 优选是否有新的更新
+  hasNewExcellent: false,
+
+  // 首页选中的话题，空为首页、follow为关注、其他为话题 ID
+  topicId:''
+}
+
 export default function() {
 
-  let initialState = {
-    onlineUserCount: 0,
-    goBack: true,
-    unreadNotice: [],
-    newPostsTips: {},
-    // 最新一条feed创建日期（用户关注的feed流）
-    newestFeedCreateAt: '',
-    // 是否有新的feed
-    hasNewFeed: false,
+  let initialState = merge({}, _initialState, {});
 
-    // 首页选中的话题，空为首页、follow为关注、其他为话题 ID
-    topicId:''
-  }
-  
   return function website(state = initialState, action = {}) {
 
     switch (action.type) {
-      
+
       case 'SET_ONLINE_USER_COUNT':
         if (action.count == state.onlineUserCount) {
           return state;
@@ -50,10 +58,18 @@ export default function() {
       case 'NEWEST_FEED_CREATE_AT':
         state.newestFeedCreateAt = action.newestFeedCreateAt;
         return merge({}, state, {})
-    
+
       case 'HAS_NEW_FEED':
         state.hasNewFeed = action.status;
         return merge({}, state, {})
+
+      case 'HAS_NEW_SUBSCRIBE':
+        state.hasNewSubscribe = action.status;
+        return merge({}, state, {});
+
+      case 'HAS_NEW_EXCELLENT':
+        state.hasNewExcellent = action.status;
+        return merge({}, state, {});
 
       case 'SET_TOPIC_ID':
         state.topicId = action.topicId;
@@ -61,12 +77,7 @@ export default function() {
 
       // 清空
       case 'CLEAN':
-        return {
-          onlineUserCount: 0,
-          goBack: true,
-          unreadNotice: [],
-          newPostsTips: {}
-        }
+        return merge({}, _initialState, {});
 
       default:
         return state
@@ -101,6 +112,14 @@ export const getNewstFeedCreateAt = (state) => {
 
 export const hasNewFeed = (state) => {
   return state.website.hasNewFeed
+}
+
+export const hasNewSubscribe = (state) => {
+  return state.website.hasNewSubscribe
+}
+
+export const hasNewExcellent = (state) => {
+  return state.website.hasNewExcellent
 }
 
 export const getTopicId = (state) => {

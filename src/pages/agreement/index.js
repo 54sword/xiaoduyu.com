@@ -7,7 +7,7 @@ import { name } from '../../../config';
 import Shell from '@components/shell';
 import Meta from '@components/meta';
 
-import ThreeColumns from '../../layout/three-columns';
+import SingleColumns from '../../layout/single-columns';
 
 // styles
 import './style.scss'
@@ -15,8 +15,7 @@ import './style.scss'
 @Shell
 export default class Agreement extends React.PureComponent {
   render() {
-    return (<ThreeColumns>
-      <div></div>
+    return (<SingleColumns>
 
       <div styleName="container">
       <Meta title={'用户协议'} />
@@ -176,7 +175,7 @@ export default class Agreement extends React.PureComponent {
       </div>
       </div>
 
-    </ThreeColumns>)
+    </SingleColumns>)
   }
 
 }

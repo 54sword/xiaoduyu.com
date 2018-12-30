@@ -106,9 +106,10 @@ export class Share extends Component {
     const self = this;
     const { url, displayTips, showQrcode } = this.state;
 
-    return <div styleName="container" onClick={this.stopPropagation}>
-      
-      <a styleName="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分享</a>
+    //  onClick={this.stopPropagation}
+    return <div styleName="container">
+
+      <a href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分享</a>
 
       <div>
         <div className="dropdown-menu" aria-labelledby="share-dropdown">
