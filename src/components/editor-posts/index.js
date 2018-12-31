@@ -13,6 +13,7 @@ import { getTopicById, getTopicListByName } from '../../store/reducers/topic';
 import Device from '../../common/device';
 import To from '../../common/to';
 import Editor from '../editor';
+import Modal from '../bootstrap/modal';
 
 // styles
 import './style.scss';
@@ -65,7 +66,6 @@ class EditorPosts extends React.Component {
     this.showTopicContainer = this.showTopicContainer.bind(this)
   }
 
-
   async componentDidMount() {
 
     const self = this;
@@ -80,6 +80,7 @@ class EditorPosts extends React.Component {
         id: 'new-posts',
         filters: {
           variables: {
+            sort_by: 'sort:-1',
             parent_id: 'not-exists',
             page_size: 1000
           }
@@ -250,8 +251,9 @@ class EditorPosts extends React.Component {
   }
 
   selectedTopic(topic) {
-    this.setState({ topic:topic })
-    this.showTopicContainer()
+    this.setState({ topic:topic });
+    this.showTopicContainer();
+    $('#topics-modal').modal('hide');
   }
 
   showTopicContainer() {
@@ -287,7 +289,28 @@ class EditorPosts extends React.Component {
     return (<div>
         <div>
 
-          {displayTopicsContainer ?
+        <Modal
+        id="topics-modal"
+        header="请选择一个话题"
+        body={
+          <div styleName='topics-container'>
+            {topicList && topicList.data && topicList.data.length > 0 ? topicList.data.map(item=>{
+            return (<div key={item._id}>
+                      <div styleName='head'>{item.name}</div>
+                      <div>
+                        {item.children && item.children.map(item=>{
+                          return (<div
+                            key={item._id}
+                            styleName={topic && topic._id == item._id ? 'active' : 'topic'}
+                            onClick={()=>{this.selectedTopic(item)}}>{item.name}</div>)
+                        })}
+                      </div>
+                    </div>)
+          }) : null}
+          </div>}
+        />
+
+          {/*displayTopicsContainer ?
             <div styleName='node-selector'>
               <div styleName='mask' onClick={this.showTopicContainer}></div>
               <div styleName='topics-container'>
@@ -308,34 +331,25 @@ class EditorPosts extends React.Component {
                             </div>
                           </div>)
                 })}
-                {/*parentTopicList.map(item=>{
-                  return (<div key={item._id}>
-                            <div styleName='head'>{item.name}</div>
-                            <div>
-                              {childTopicList[item._id] && childTopicList[item._id].map(item=>{
-                                return (<div
-                                  key={item._id}
-                                  styleName={topic && topic._id == item._id ? 'active' : 'topic'}
-                                  onClick={()=>{this.selectedTopic(item)}}>{item.name}</div>)
-                              })}
-                            </div>
-                          </div>)
-                })*/}
               </div>
 
             </div>
-            : null}
-
-          {/* <div styleName='title'>
-            <div onClick={this.showTopicContainer}>{topic ? topic.name : '选择话题'}</div>
-            <input className="input" ref="title" type="text" onChange={this.titleChange} placeholder={type.title}  />
-          </div> */}
+              : null*/}
 
           <div className="container">
 
             <div className="row">
               <div className="col-md-2">
-                <div styleName="choose-topic-button" onClick={this.showTopicContainer}>{topic ? topic.name : '选择话题'}</div>
+                
+                <div
+                  styleName="choose-topic-button"
+                  // onClick={this.showTopicContainer}
+                  href="javascript:void(0)"
+                  data-toggle="modal" 
+                  data-target="#topics-modal"
+                  >
+                  {topic ? topic.name : '选择话题'}
+                </div>
               </div>
               <div className="col-md-10">
                 <input styleName="title" ref="title" type="text" onChange={this.titleChange} placeholder="请输入标题"  />
