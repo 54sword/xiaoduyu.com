@@ -341,7 +341,7 @@ class EditorPosts extends React.Component {
             <div className="row">
               <div className="col-md-2">
                 
-                <div
+                <a
                   styleName="choose-topic-button"
                   // onClick={this.showTopicContainer}
                   href="javascript:void(0)"
@@ -349,7 +349,7 @@ class EditorPosts extends React.Component {
                   data-target="#topics-modal"
                   >
                   {topic ? topic.name : '选择话题'}
-                </div>
+                </a>
               </div>
               <div className="col-md-10">
                 <input styleName="title" ref="title" type="text" onChange={this.titleChange} placeholder="请输入标题"  />
