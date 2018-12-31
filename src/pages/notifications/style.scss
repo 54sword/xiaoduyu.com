@@ -1,22 +1,23 @@
 .unread-tip{
-  width: 100%;
-  padding:5px 0 5px 0;
+  display: block;
+  width:100%;
   text-align: center;
-  background-color: rgb(255, 187, 162);
-  border: 1px solid rgb(246, 136, 95);
-  margin-bottom:10px;
-  color:rgb(203, 72, 24);
-  border-radius: 3px;
+  background-color: #c3d3fe;
+  color:#4170ea;
+  border:1px solid #81a4ff;
+  padding:5px 0 5px 0;
+  margin-bottom: 10px;
+  border-radius: 4px;
   cursor: hand;
   cursor: pointer;
   &:hover{
-    background-color: rgb(247, 171, 143);
+    background-color: #aec4fe;
   }
 }
 
 .nav-bar{
   padding:10px;
-  border-radius: 12px;
+  border-radius: 4px;
   background-color: #fff;
   margin-bottom: 12px;
 }

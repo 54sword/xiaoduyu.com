@@ -4,8 +4,8 @@ import loadList from '../../common/graphql-load-list';
 // import graphql from '../../common/graphql';
 // import graphqlClient from '../../common/graphql-new';
 // import To from '../../common/to';
-import Utils from '../../common/utils';
-
+import Utils from '@utils/utils';
+import Device from '@utils/device';
 
 export function loadFeedList({ id, filters, restart = false }) {
   return async (dispatch, getState) => {
@@ -113,6 +113,10 @@ const processPostsList = (list) => {
       let posts = item.posts_id;
 
       // item.posts_id.user_id = item.user_id;
+      
+      if (posts.device) {
+        posts._device = Device.getNameByDeviceId(posts.device);
+      }
 
       if (posts.content_html) {
 
@@ -272,6 +276,29 @@ export const updateNewstFeedCreateDate = () => {
     } else {
       dispatch({ type: 'HAS_NEW_FEED', status: false });
     }
+
+  }
+}
+
+
+// 刷新帖子列表
+export const refreshFeedListById = (id) => {
+  return (dispatch, getState) => {
+
+    let list = getState().feed[id] || null;
+
+    if (!list || !list.filters) return;
+
+    delete list.filters.page_size;
+    delete list.filters.page_number;
+
+    return loadFeedList({
+      id,
+      filters:{
+        variables: list.filters
+      },
+      restart: true
+    })(dispatch, getState);
 
   }
 }

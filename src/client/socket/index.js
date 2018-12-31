@@ -6,8 +6,11 @@ import { socket_url } from '../../../config';
 // redux actions
 import { loadUnreadCount, cancelNotiaction } from '../../store/actions/notification';
 import { setOnlineUserCount } from '../../store/actions/website';
-// import { newPostsTips } from '../../store/actions/posts';
+import { newPostsTips } from '../../store/actions/posts';
 import { updateNewstFeedCreateDate } from '../../store/actions/feed';
+
+// import { getNew } from '@actions/website';
+import { loadTips } from '@actions/tips';
 
 export default function ({ dispatch, getState }) {
 
@@ -33,7 +36,7 @@ export default function ({ dispatch, getState }) {
         handleActions(loadUnreadCount);
       }
     });
-    
+
     // 取消通知
     this.on("cancel-notiaction", function(id) {
       handleActions(cancelNotiaction, {id});
@@ -44,8 +47,18 @@ export default function ({ dispatch, getState }) {
       // handleActions(updateNewstFeedCreateDate);
     // });
 
+    this.on('recommend-posts', function(id){
+      // console.log(id);
+      // console.log('----');
+      // handleActions(updateNewstFeedCreateDate);
+      // handleActions(newPostsTips);
+      handleActions(loadTips);
+    });
+
     this.on('new-feed', function(feed){
-      handleActions(updateNewstFeedCreateDate);
+      // handleActions(updateNewstFeedCreateDate);
+      // handleActions(newPostsTips);
+      handleActions(loadTips);
     });
 
   });
@@ -55,9 +68,12 @@ export default function ({ dispatch, getState }) {
     // startSocket()
   });
 
-  if (me && me._id) {
-    handleActions(loadUnreadCount, {});
-    handleActions(updateNewstFeedCreateDate);
-  }
+  // if (me && me._id) {
+    // handleActions(loadUnreadCount, {});
+    // handleActions(updateNewstFeedCreateDate);
+    // handleActions(newPostsTips);
+
+    // handleActions(loadTips);
+  // }
 
 }

@@ -12,8 +12,9 @@ import TopicDetailLoadData from '../pages/topic-detail/load-data';
 import PeopleDetailLoadData from '../pages/people-detail/load-data';
 import NotFoundLoadData from '../pages/not-found/load-data';
 
-  // 路由数组
+// 路由数组
 export default [
+
   {
     path: '/',
     exact: true,
@@ -29,17 +30,17 @@ export default [
     enter: 'everybody'
   },
 
-  {
-    path: '/follow',
-    exact: true,
-    head: Head,
-    component: Loadable({
-      loader: () => import('../pages/follow'),
-      loading: () => <Loading />
-    }),
-    // loadData: FollowLoadData,
-    enter: 'member'
-  },
+  // {
+  //   path: '/follow',
+  //   exact: true,
+  //   head: Head,
+  //   component: Loadable({
+  //     loader: () => import('../pages/follow'),
+  //     loading: () => <Loading />
+  //   }),
+  //   // loadData: FollowLoadData,
+  //   enter: 'everybody'
+  // },
   
   {
     path: '/topic/:id',

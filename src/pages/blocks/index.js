@@ -3,7 +3,10 @@ import React from 'react';
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-import BlockList from '../../components/block/list';
+
+import BlockList from '@modules/block-list';
+
+import ThreeColumns from '../../layout/three-columns';
 
 @Shell
 export default class Blocks extends React.Component {
@@ -32,10 +35,13 @@ export default class Blocks extends React.Component {
       filters.comment_id = 'exists';
     }
 
-    return(<div>
-      <Meta title={title} />
-      <BlockList id={pathname} filters={filters} />
-    </div>)
+    return(<ThreeColumns>
+      <div></div>
+      <div>
+        <Meta title={title} />
+        <BlockList id={pathname} filters={filters} />
+      </div>
+    </ThreeColumns>)
   }
 
 }

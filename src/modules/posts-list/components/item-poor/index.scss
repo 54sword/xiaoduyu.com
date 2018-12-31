@@ -1,0 +1,24 @@
+
+.a{
+
+  font-size: 13px;
+  padding-left:45px;
+  line-height: 160%;
+
+  a {
+    color:#14171a;
+    // &:hover{
+      // text-decoration: underline !important;
+    // }
+  }
+
+  img{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: #efefef;
+    margin-left:-33px;
+    // margin-top:12px;
+    border-radius: 50%;
+  }
+}

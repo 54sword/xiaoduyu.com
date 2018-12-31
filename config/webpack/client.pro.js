@@ -1,10 +1,11 @@
 const baseConfig = require('./client.base');
 const webpack = require('webpack');
 
-// const path = require('path');
-
 const config = {
   ...baseConfig,
+  plugins: [
+    ...baseConfig.plugins
+  ],
   mode: 'production'
 }
 

@@ -1,5 +1,5 @@
 .box{
-  max-width: 850px;
+  max-width: 720px;
   margin:0 auto;
 }
 
@@ -29,8 +29,10 @@
 
 
 .nickname{
-  padding-left:60px;
+  padding:20px;
+  padding-left:70px;
   min-height: 50px;
+  
   // line-height: 50px;
   img{
     position: absolute;

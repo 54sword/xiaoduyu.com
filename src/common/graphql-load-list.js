@@ -41,7 +41,7 @@ export default ({
     }
 
     // 如果正在加载中，则阻止本次请求
-    if (list.loading) return;
+    // if (list.loading) return;
 
     if (!Reflect.has(list, 'data')) list.data = [];
 

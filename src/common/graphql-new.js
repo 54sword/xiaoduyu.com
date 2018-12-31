@@ -13,7 +13,7 @@ import To from './to';
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  ssrMode: __SERVER__ ? true : false, //__SERVER__ ? true : false,
+  ssrMode: __SERVER__ ? true : false,
   link: new HttpLink({
     uri: graphql_url,
     fetch
@@ -100,12 +100,11 @@ export default async ({
 
   });
 
-
-  // if (debug) {
-  //   console.log(`${type}{
-  //     ${sql}
-  //   }`);
-  // }
+  if (debug) {
+    console.log(`${type}{
+      ${sql}
+    }`);
+  }
 
 	sql = gql`${type}{
     ${sql}
@@ -152,6 +151,7 @@ export default async ({
     fn(options).then(res=>{
 
       if (__SERVER__) {
+
         // 请求成功，设置最近一次缓存事件
         if (resetStore) {
           lastCacheTime = parseInt(new Date().getTime());
@@ -165,6 +165,10 @@ export default async ({
       }
 
     }).catch(res=>{
+
+      if (debug) {
+        console.log(res);
+      }
 
       if (res.graphQLErrors && res.graphQLErrors.length != 0) {
         res.graphQLErrors.map(item=>{

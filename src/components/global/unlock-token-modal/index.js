@@ -33,10 +33,17 @@ class UnlockToken extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      areaCode: ''
+      areaCode: '',
+      complete: ()=>{}
     }
     this.submit = this.submit.bind(this)
     this.sendCaptcha = this.sendCaptcha.bind(this)
+  }
+
+  componentDidMount() {
+    $('#unlock-token-modal').on('show.bs.modal', (e)=>{
+      this.state.complete = e.relatedTarget.complete || function(){};
+    });
   }
 
   async submit() {
@@ -56,6 +63,8 @@ class UnlockToken extends Component {
 
     if (err) {
 
+      this.state.complete(false);
+
       Toastify({
         text: err.message,
         duration: 3000,
@@ -63,6 +72,8 @@ class UnlockToken extends Component {
       }).showToast();
 
     } else {
+      
+      this.state.complete(true);
 
       Toastify({
         text: '提交成功',
@@ -85,7 +96,12 @@ class UnlockToken extends Component {
         type: select.value == 'phone' ? 'phone-unlock-token' : 'email-unlock-token'
       },
       fields: `success`
+    },
+    (result)=>{
+      
     });
+
+ 
 
   }
 

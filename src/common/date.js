@@ -89,10 +89,10 @@ export function DateDiff(date1, date2) {
 
       if (dateArr[0] == new Date().getFullYear()) {
         // time = dateArr[1]+'-'+dateArr[2] + ' '+dateArr[3]+':'+dateArr[4];
-        time = dateArr[1]+'-'+dateArr[2];
+        time = dateArr[1]+'月'+dateArr[2]+'日';
       } else {
         // time = dateArr[0]+'-'+dateArr[1]+'-'+dateArr[2] + ' '+dateArr[3]+':'+dateArr[4];
-        time = dateArr[0]+'-'+dateArr[1]+'-'+dateArr[2];
+        time = dateArr[0]+'年'+dateArr[1]+'月'+dateArr[2]+'日';
       }
 
 

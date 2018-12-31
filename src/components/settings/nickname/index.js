@@ -18,53 +18,67 @@ import { updateUser, loadUserInfo } from '../../../store/actions/user'
 export default class ResetNickname extends Component {
 
   constructor(props) {
-    super(props)
-    this.submit = this.submit.bind(this)
-  }
-
-  componentDidMount() {
-    const { nickname } = this.refs;
-    nickname.focus();
+    super(props);
+    this.state = {
+      loading: false,
+      show: false
+    };
+    this.submit = this.submit.bind(this);
+    this.show = this.show.bind(this);
   }
 
   async submit() {
 
-    const self = this
-    const { updateUser, loadUserInfo } = this.props
-    const { nickname } = this.refs
+    const { updateUser, loadUserInfo, me } = this.props;
+    const { nickname } = this.state;
 
     if (!nickname.value) {
-      nickname.focus()
-      return
+      nickname.focus();
+      return;
     }
+
+    if (me.nickname == nickname.value) {
+      this.setState({ show: false });
+      return;
+    }
+
+    this.setState({ loading: true });
 
     let [ err, result ] = await updateUser({
       nickname: nickname.value
     });
 
     if (err) {
-
       Toastify({
         text: err.message,
         duration: 3000,
         backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
       }).showToast();
-
     } else {
       Toastify({
         text: '修改成功',
         duration: 3000,
         backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
       }).showToast();
-      this.props.history.goBack();
+
+      loadUserInfo({});
+      
+      this.setState({ show: false });
     }
 
-    loadUserInfo({});
+    this.setState({ loading: false });
+  }
+
+  show() {
+    this.setState({ show: true }, ()=>{
+      this.state.nickname.focus();
+    });
   }
 
   render() {
 
-    const { me } = this.props
+    const { me } = this.props;
+    const { show, loading } = this.state;
 
     return (
       <div>
@@ -72,16 +86,24 @@ export default class ResetNickname extends Component {
         <div className="card">
           <div className="card-header">名字</div>
           <div className="card-body" style={{padding:'20px'}}>
-            <div>
-              <input type="text" className="form-control" defaultValue={me.nickname} ref="nickname" placeholder="请输入你的名字"></input>
-            </div>
 
-            <br />
-
-            <div>
-              <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submit}>提交</a>
-            </div>
-            <br />
+            {!show ?
+              <div className="d-flex justify-content-between">
+                <div>{me.nickname || ''}</div>
+                <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.show}>修改</a>
+              </div>
+              :
+              <div>
+                <div>
+                  <input type="text" className="form-control" defaultValue={me.nickname} ref={e=>{ this.state.nickname = e; }} placeholder="请输入你的名字"></input>
+                </div>
+                <br />
+                {loading ?
+                  <a className="btn btn-primary btn-sm" href="javascript:void(0);">提交中...</a>
+                  :
+                  <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a>}
+                
+              </div>}
 
           </div>
         </div>

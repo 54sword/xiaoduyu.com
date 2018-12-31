@@ -4,20 +4,22 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadCommentList } from '../../store/actions/comment';
-import { getCommentListById } from '../../store/reducers/comment';
-import { isMember } from '../../store/reducers/user';
+import { loadCommentList } from '@actions/comment';
+import { getCommentListById } from '@reducers/comment';
+import { isMember } from '@reducers/user';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
-import CommentList from '../../components/comment/list';
-import HTMLText from '../../components/html-text';
-import EditorComment from '../../components/editor-comment';
-import Loading from '../../components/ui/loading';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
+import CommentList from '@components/comment/list';
+import HTMLText from '@components/html-text';
+import EditorComment from '@components/editor-comment';
+import Loading from '@components/ui/loading';
 
-import Box from '../../components/box';
-import Sidebar from '../../components/sidebar';
+
+import SingleColumns from '../../layout/single-columns';
+// import Box from '../../components/box';
+// import Sidebar from '../../components/sidebar';
 
 // styles
 import './style.scss';
@@ -97,7 +99,9 @@ export default class CommentDetail extends React.Component {
 
     if (loading || !comment) return <Loading />;
 
-    return(<Box><div>
+    return(<SingleColumns>
+      <div></div>
+      <div>
 
       <Meta title={`${comment.posts_id.title} - ${comment.user_id.nickname}的评论`} />
 
@@ -108,8 +112,20 @@ export default class CommentDetail extends React.Component {
         {comment.posts_id.content_html ? <HTMLText content={comment.posts_id.content_html} /> : null}
       </div>
 
-      <div styleName="content">
-        <HTMLText content={comment.content_html} />
+      <div styleName="commennt-container">
+        <div styleName="head">
+          <img styleName="active" src={comment.user_id.avatar_url} />
+          <div>
+            <b>{comment.user_id.nickname}</b>
+          </div>
+          <div styleName="info">
+            <span>{comment._create_at}</span>
+            <span>{comment._device}</span>
+          </div>
+        </div>
+        <div styleName="content">
+          <HTMLText content={comment.content_html} />
+        </div>
       </div>
 
       <div styleName="comment-list">
@@ -125,7 +141,7 @@ export default class CommentDetail extends React.Component {
       </div>
 
       {isMember ?
-        <div className="mt-2 mb-4">
+        <div styleName="editor">
           <EditorComment
             posts_id={comment.posts_id._id}
             parent_id={comment._id}
@@ -138,9 +154,8 @@ export default class CommentDetail extends React.Component {
 
     </div>
 
-    <Sidebar />
 
-    </Box>)
+    </SingleColumns>)
   }
 
 }

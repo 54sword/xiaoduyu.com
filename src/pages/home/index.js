@@ -1,60 +1,54 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
-import PostsList from '../../components/posts/list';
-import Sidebar from '../../components/sidebar';
-import Box from '../../components/box';
-import NewPostsButton from '../../components/new-posts-button';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
+
+// modules
+import Topics from '@modules/topics';
+import AppDownload from '@modules/app-download';
+import LinksExchange from '@modules/links-exchange';
+// import OpenSource from '@modules/open-source';
+import OperatingStatus from '@modules/operating-status';
+import Footer from '@modules/footer';
+import MixingFeed from '@modules/mixing-feed';
+import HotPostsList from '@modules/hot-posts-list';
+import Case from '@modules/case';
+import AdsByGoogle from '@modules/adsbygoogle';
+
+
+// layout
+import ThreeColumns from '../../layout/three-columns';
+
+import { Goole_AdSense } from '@config';
 
 @Shell
-export default class Home extends PureComponent {
+export default class Home extends React.PureComponent {
 
   render() {
 
     return(<>
-      
       <Meta />
 
-      <Box>
+      <ThreeColumns>
+        
+        <>
+          <Topics />
+          <div className="d-none d-lg-block d-xl-block"><AppDownload /></div>
+        </>
+        
+        <MixingFeed />
 
-        <div>
+        <>
+          <HotPostsList />
+          {Goole_AdSense.sidebar ? <AdsByGoogle {...Goole_AdSense.sidebar} /> : null}
+          <Case />
+          <LinksExchange />
+          <OperatingStatus />
+          <Footer />
+        </>
 
-          <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
-          
-          <PostsList
-            id={'home'}
-            filters={{
-              variables: {
-                sort_by: "sort_by_date",
-                deleted: false,
-                weaken: false
-              }
-            }}
-            scrollLoad={true}
-            />
-        </div>
-
-        <Sidebar
-          recommendPostsDom={(
-            <PostsList
-              id={'_home'}
-              itemName="posts-item-title"
-              filters={{
-                variables: {
-                  sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
-                  deleted: false,
-                  weaken: false,
-                  page_size: 10,
-                  start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
-                }
-              }}
-              />
-          )}
-          />
-      </Box>
-
+      </ThreeColumns>
     </>)
   }
 

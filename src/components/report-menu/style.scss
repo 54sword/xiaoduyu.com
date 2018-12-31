@@ -1,13 +1,23 @@
+
+.container{
+  display: inline-block;
+}
 .menu{
-  width: 30px;
-  height: 30px;
-  float:right;
+  padding-left:16px;
+  // display:inline-block;
+  // width: 16px;
+  // height: 16px;
+  // float:right;
   background-image: url(./images/more.png);
-  background-size: 20px 20px;
+  background-size: 15px 15px;
   background-position: center;
-  border-radius: 3px;
+  // border-radius: 3px;
   background-repeat: no-repeat;
+  // background-color: #efefef;
+  // &:hover{
+    // background-color:#efefef;
+  // }
   &:hover{
-    background-color:#efefef;
+    opacity: .7;
   }
 }

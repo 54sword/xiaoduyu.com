@@ -4,13 +4,14 @@ import { withRouter } from 'react-router';
 import parseUrl from '../../common/parse-url';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
-import PostsList from '../../components/posts/list';
-import PeopleList from '../../components/people/list';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
+import PostsList from '@modules/posts-list';
+import PeopleList from '@components/people/list';
 
-import Box from '../../components/box';
-import Sidebar from '../../components/sidebar';
+import SingleColumns from '../../layout/single-columns';
+// import Box from '../../components/box';
+// import Sidebar from '../../components/sidebar';
 
 // style
 import './style.scss';
@@ -48,6 +49,8 @@ export default class Search extends React.Component {
     });
 
     search.value = decodeURIComponent(q);
+
+    search.focus();
   }
 
   componentWillReceiveProps(props) {
@@ -91,31 +94,25 @@ export default class Search extends React.Component {
 
     const { q, type } = this.state;
 
-    return(<Box><div>
+    return(<SingleColumns>
+      
+      <div>
+
       <Meta title="搜索" />
 
-      <form className="container" onSubmit={this.search}>
-        <div className="row mb-2">
-
-          <div className="col-9">
-            <input type="text" className="form-control" ref="search" placeholder="输入关键词搜索" />
+      <form onSubmit={this.search}>
+        <div className="input-group">
+          <input type="text" styleName="input" className="form-control" ref="search" placeholder="输入关键词搜索" />
+          <div className="input-group-append">
+            <button type="submit" styleName="search-button" className="btn btn-block btn-primary">搜索</button>
           </div>
-
-          <div className="col-3">
-            <button type="submit" className="btn btn-block btn-primary">搜索</button>
-          </div>
-
         </div>
       </form>
 
-      <ul className="nav" styleName="tab-bar">
-        <li className="nav-item">
-          <a className="nav-link" styleName={type == '' ? 'active' : ''} href="javascript:void(0)" onClick={()=>{ this.switchType(''); }}>帖子</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link"  styleName={type == 'user' ? 'active' : ''} href="javascript:void(0)" onClick={()=>{ this.switchType('user'); }}>用户</a>
-        </li>
-      </ul>
+      <div className="nav nav-pills nav-justified" styleName="tab-bar">
+        <a className={`nav-link ${type == '' ? 'active' : ''}`} href="javascript:void(0)" onClick={()=>{ this.switchType(''); }}>帖子</a>
+        <a className={`nav-link ${type == 'user' ? 'active' : ''}`}  href="javascript:void(0)" onClick={()=>{ this.switchType('user'); }}>用户</a>
+      </div>
 
       {(()=>{
         if (!q) return
@@ -148,11 +145,8 @@ export default class Search extends React.Component {
       
     </div>
 
-    <Sidebar showFooter={false}>
-      <div></div>
-    </Sidebar>
 
-    </Box>)
+    </SingleColumns>)
   }
 
 }

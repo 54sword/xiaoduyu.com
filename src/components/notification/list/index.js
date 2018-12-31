@@ -8,7 +8,7 @@ import { loadBroadcastList, updateBroadcast } from '../../../store/actions/broad
 import { getBroadcastListByName } from '../../../store/reducers/broadcast'
 
 import ListLoading from '../../list-loading'
-import Pagination from '../../pagination'
+// import Pagination from '../../pagination'
 
 
 @connect(
@@ -28,10 +28,10 @@ export default class NotificationList extends Component {
     // 列表的筛选条件
     filters: PropTypes.object.isRequired,
     // 获取当前页的 pathname、search
-    location: PropTypes.object.isRequired,
+    // location: PropTypes.object.isRequired,
 
-    notification: PropTypes.object.isRequired,
-    loadBroadcastList: PropTypes.func.isRequired
+    // notification: PropTypes.object.isRequired,
+    // loadBroadcastList: PropTypes.func.isRequired
   }
 
   static mapStateToProps = (state, props) => {
@@ -78,7 +78,7 @@ export default class NotificationList extends Component {
 
   render() {
 
-    const { notification, location } = this.props
+    const { notification } = this.props
     const { data, loading, more, count, filters = {} } = notification
 
     return (<div>
@@ -105,13 +105,15 @@ export default class NotificationList extends Component {
       </div>
 
       <ListLoading loading={loading} />
-
+      
+      {/* 
       <Pagination
         location={location}
         count={count || 0}
         pageSize={filters.page_size || 0}
         pageNumber={filters.page_number || 0}
         />
+      */}
 
     </div>)
 

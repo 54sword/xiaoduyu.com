@@ -1,11 +1,18 @@
 
 
+:global{
+  .navbar-brand{
+    margin-right:0px;
+  }
+}
+
 .header-space{
-  height:57px;
+  height:55px;
   width: 100%;
 }
 
 .navbar{
+  display: flex;
   position: fixed;
   z-index: 99;
   // height: 46px;
@@ -22,7 +29,7 @@
   }
 
   @media (min-width: 0px) and (max-width: 660px) {
-    padding:0 5px 0 5px;
+    padding:0;
   }
 
 }
@@ -36,6 +43,8 @@
   }
 }
 
+
+
 .search-form{
   // margin-right:20px;
   margin-top:8px;
@@ -48,19 +57,34 @@
   width: 100%;
   height: 30px;
   border: none;
-  padding:0 35px 0 25px;
+  padding:0 35px 0 30px;
   margin-left: 15px;
-  border-bottom:1px solid #eaedf0;
+  // border-bottom:1px solid #f5f5f5;
   background-image: url(./images/search.png);
   background-size: 22px;
-  background-position: left center;
+  background-position: left 5px center;
   background-repeat: no-repeat;
   outline: none;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+
+  &:hover{
+    background-color: #efefef;
+  }
 
   @media (min-width: 0px) and (max-width: 991.98px) {
     margin-left: 0px;
   }
 
+}
+
+.red-point{
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 4px;
+  margin:15px 0 0 0;
 }
 
 .navbar-left{
@@ -113,7 +137,7 @@
     margin-right:20px;
     margin-top:8px;
   }
-  
+
   .search{
     max-width: 300px;
     width: 100%;
@@ -134,21 +158,23 @@
 
 .user-nav{
 
-  position: fixed;
-  left:75%;
-  width:25%;
-  top:0px;
-  text-align: right;
+  position: relative;
 
-  @media (min-width: 0px) and (max-width: 991.98px) {
-    left:60%;
-    width:40%;
-  }
-  
+  // position: fixed;
+  // left:75%;
+  // width:25%;
+  // top:0px;
+  // text-align: right;
+
+  // @media (min-width: 0px) and (max-width: 991.98px) {
+  //   left:60%;
+  //   width:40%;
+  // }
+
   ul{
     padding:0px;
     margin:0px;
-    
+
   }
 
   li{
@@ -170,7 +196,7 @@
   }
 
   .nickname{
-    margin-right:20px;
+    // margin-right:20px;
   }
 
 
@@ -186,20 +212,20 @@
     color:#fff;
     font-size: 11px;
   }
-  
+
   .avatar-area{
-  
+
     white-space:nowrap;
     cursor: hand;
     cursor: pointer;
     height: 45px;
     font-size: 14px;
-  
+
     > div{
       float:left;
       line-height: 45px;
     }
-  
+
     .avatar{
       width: 25px;
       height: 25px;
@@ -208,7 +234,27 @@
       margin-top:10px;
       margin-right:10px;
     }
-  
+
+  }
+
+  .create-posts{
+    // border:1px solid #4170ea !important;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 4px;
+    margin-top:7px;
+    color:#fff;
+    background-color:#4170ea;
+    &:hover{
+      background-color:#4e7df7;
+    }
+  }
+
+  @media (min-width: 0px) and (max-width: 660px) {
+    > ul > li > a{
+      padding-right:5px;
+      padding-left:5px;
+    }
   }
 
 }

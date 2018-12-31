@@ -4,13 +4,15 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadPostsList } from '../../store/actions/posts';
-import { getPostsById } from '../../store/reducers/posts';
+// import { getPostsById } from '../../store/reducers/posts';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
 import PostsEditor from '../../components/editor-posts';
 import Loading from '../../components/ui/loading';
+
+import SingleColumns from '../../layout/single-columns';
 
 @Shell
 @connect(
@@ -113,12 +115,12 @@ export default class createPosts extends React.Component {
 
     if (loading) return <Loading />
 
-    return (<div>
+    return (<SingleColumns>
       <Meta title={'创建帖子'} />
       {posts ?
         <PostsEditor successCallback={this.successCallback} {...posts} /> :
         <PostsEditor successCallback={this.successCallback} />}
-    </div>)
+    </SingleColumns>)
   }
 
 }

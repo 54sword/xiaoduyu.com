@@ -1,0 +1,26 @@
+.box{
+  position: relative;
+
+  padding-right:310px;
+
+  .right{
+    position: absolute;
+    top:0px;
+    left:100%;
+    width: 300px;
+    margin-left: -300px;
+  }
+
+}
+
+@media (min-width: 0px) and (max-width: 991px) {
+
+  .box{
+    padding-right: 0px;
+  }
+
+  .right{
+    display: none;
+  }
+
+}

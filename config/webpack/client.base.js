@@ -12,6 +12,21 @@ module.exports = {
   name: 'client',
   target: 'web',
 
+  resolve: {
+    alias: {
+      // 配置文件位置
+      '@config': path.resolve('config'),
+      // 模块
+      '@modules': path.resolve('src/modules'),
+      // 组件
+      '@components': path.resolve('src/components'),
+      '@actions': path.resolve('src/store/actions'),
+      '@reducers': path.resolve('src/store/reducers'),
+      // 工具
+      '@utils': path.resolve('src/common')
+    }
+  },
+
   entry: {
     app: [
       '@babel/polyfill',
@@ -73,6 +88,17 @@ module.exports = {
               importLoaders: 1
             }
           },
+          { 
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('autoprefixer')({
+                  browsers: ['last 2 versions']
+                })
+              ]
+            }
+          },
           { loader: `sass` }
         ]
       },
@@ -83,7 +109,18 @@ module.exports = {
         use: [
           'css-hot-loader',
           { loader: MiniCssExtractPlugin.loader },
-          { loader: `css` }
+          { loader: `css` },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('postcss-flexbugs-fixes'),
+                require('autoprefixer')({
+                  browsers: ['last 2 versions']
+                })
+              ]
+            }
+          }
         ]
       },
 
@@ -97,7 +134,7 @@ module.exports = {
   },
 
   plugins: [
-
+    
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"

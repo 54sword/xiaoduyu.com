@@ -11,8 +11,7 @@ import EditorModalComment from './editor-comment-modal';
 import ReportModal from './report-modal';
 import BindingPhone from './binding-phone-modal';
 import UnlockToken from './unlock-token-modal';
-// import PostsModal from '../posts/modal';
-// import CommentModal from '../comment/modal';
+import PostsToken from './posts-modal';
 
 @connect(
   (state, props) => ({
@@ -21,31 +20,20 @@ import UnlockToken from './unlock-token-modal';
   dispatch => ({
   })
 )
-class Global extends Component {
-
-  // constructor(props) {
-    // super(props)
-  // }
+export default class Global extends Component {
 
   render () {
 
     const { me } = this.props;
 
-    return (<div>
-
-        {/* <PostsModal /> */}
-        {/* <CommentModal /> */}
-
+    return (<>
         {!me ? <SignModal /> : null}
         {me ? <EditorModalComment /> : null}
         {me ? <ReportModal /> : null}
         {me ? <BindingPhone /> : null}
         {me ? <UnlockToken /> : null}
-
-
-      </div>)
+        <PostsToken />
+      </>)
   }
+  
 }
-
-
-export default Global;

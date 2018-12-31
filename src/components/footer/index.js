@@ -1,6 +1,8 @@
 import React from 'react';
 // import Loadable from 'react-loadable';
 
+import $ from 'jquery';
+
 // components
 // import Bundle from '../bundle';
 // import { AsyncComponent } from '../generate-async-component';
@@ -17,7 +19,7 @@ import './style.scss';
 //   loading: () => <div>loading...</div>
 // });
 
-export class Footer extends React.Component {
+export default class Footer extends React.Component {
 
   constructor(props) {
     super(props);
@@ -34,6 +36,12 @@ export class Footer extends React.Component {
       }
     });
 
+    if ($(this).scrollTop() > 0) {
+      $('#back-to-top').fadeIn();
+    } else {
+      $('#back-to-top').fadeOut();
+    }
+
   }
 
   top() {
@@ -43,9 +51,11 @@ export class Footer extends React.Component {
   }
 
   render() {
+
     return(<div styleName="main">
 
       <span className="d-none d-lg-block">
+
         <a id="back-to-top"
            href="javascript:void(0)"
            onClick={this.top}
@@ -60,7 +70,7 @@ export class Footer extends React.Component {
       {/*
       <AsyncComponent load={() => import('../global')}>
         {(Global) => {
-          return (<Global />)
+          return (<Global onTest={this.onTest.bind(this)} />)
         }}
       </AsyncComponent>
       */}
@@ -69,5 +79,3 @@ export class Footer extends React.Component {
   }
 
 }
-
-export default Footer;

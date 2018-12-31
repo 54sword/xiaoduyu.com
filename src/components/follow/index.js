@@ -76,19 +76,23 @@ export default class FollowPosts extends Component {
       return '';
     }
 
+    let text = '关注';
+
+    if (posts) text = '订阅';
+
     // console.log(me);
     // data-toggle="modal" data-target="#sign"
-
+    
     if (!me) {
-      return <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>关注</a>
+      return <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>{text}</a>
     } else if (target.follow) {
       return (<a href="javascript:void(0)" styleName="hover" onClick={this.unfollow}>
-        <span>已关注</span>
-        <span>取消关注</span>
+        <span>已{text}</span>
+        <span>取消{text}</span>
       </a>)
     } else {
       return (<a href="javascript:void(0)" onClick={this.follow}>
-        关注
+        {text}
       </a>)
     }
 

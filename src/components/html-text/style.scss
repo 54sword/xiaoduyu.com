@@ -2,9 +2,10 @@
 
 .content{
 
-  line-height: 180%;
+  line-height: 160%;
   word-break: break-all;
   word-wrap: break-word;
+  font-size: 14px;
 
   h2{
     font-size: 18px;
@@ -58,6 +59,10 @@
     width:100%;
     min-height: 420px;
     border: none;
+    
+    @media (min-width: 0px) and (max-width: 767px) {
+      min-height: 220px;
+    }
   }
 
   iframe[src^="//music.163.com"] {
@@ -65,8 +70,8 @@
   }
   
   img{
-    max-width: 100%;
-    // max-height: 1000px;
+    max-width: 50%;
+    max-height: 400px;
     min-width: 20px;
     min-height: 20px;
     background-color: #efefef;
@@ -100,7 +105,7 @@
   top:-60px;
   color:#007bff;
   margin-bottom: 30px;
-background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 60%);  /** IE9 IE10 **/
+  background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 60%);  /** IE9 IE10 **/
 
   .lock{
     background-image: url(./images/lock.png);

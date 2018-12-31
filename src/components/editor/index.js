@@ -144,7 +144,7 @@ const Controls = (props) => {
             }}
             text={<span className="RichEditor-styleButton image"></span>}
             />
-        {!props.expandControl ? <span onClick={props.handleExpandControl} className="RichEditor-styleButton more"></span> : null}
+        {/*!props.expandControl ? <span onClick={props.handleExpandControl} className="RichEditor-styleButton more"></span> : null*/}
 
         {/*<span className="RichEditor-styleButton video" onClick={props.addVideo}></span>*/}
         {props.expandControl ? <span className="RichEditor-styleButton link" onClick={props.addLink}></span> : null}
@@ -560,7 +560,10 @@ export class MyEditor extends React.Component {
   render() {
     const self = this
     const { editorState, readOnly, rendered, placeholder, expandControl } = this.state
-    const { displayControls } = this.props
+    const { displayControls } = this.props;
+
+    console.log(this.props);
+
 
     {/* stripPastedStyles=true 清除复制文本样式*/}
     return(<div className="RichEditor-editor">

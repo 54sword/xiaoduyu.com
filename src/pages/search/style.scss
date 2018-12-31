@@ -1,10 +1,18 @@
 .tab-bar{
   background-color: #fff;
   border-bottom: 1px solid #efefef;
-  a {
-    color:#484848;
-  }
-  .active{
-    border-bottom: 2px solid #333;
-  }
+  margin-bottom: 12px;
+  border-radius: 4px;
+  padding:5px;
+  margin-top:10px;
+}
+
+.search-button{
+  // padding:0 30px 0 30px;
+  width: 80px;
+  font-size: 14px;
+}
+
+.input{
+  border:none !important;
 }

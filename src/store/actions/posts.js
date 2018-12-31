@@ -1,7 +1,9 @@
 import { reactLocalStorage } from 'reactjs-localstorage';
-import { DateDiff } from '../../common/date';
-import loadList from '../../common/graphql-load-list';
-import graphql from '../../common/graphql';
+import { DateDiff } from '@utils/date';
+import loadList from '@utils/graphql-load-list';
+import graphql from '@utils/graphql';
+import Device from '@utils/device';
+
 
 // 添加问题
 export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
@@ -31,12 +33,12 @@ export function addPosts({ title, detail, detailHTML, topicId, device, type, cal
 export function loadPostsList({ id, filters, restart = false }) {
   return async (dispatch, getState) => {
 
-    if (id == 'follow') {
+    // if (id == 'home') {
       // 移除提醒
-      dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips: {} });
-    }
+      // dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips: {} });
+    // }
 
-    let accessToken = getState().user.accessToken
+    // let list = getState().posts[id] || null;
 
 
     if (!filters.select) {
@@ -45,17 +47,18 @@ export function loadPostsList({ id, filters, restart = false }) {
       filters.select = `
         _id
         comment_count
+        reply_count
         content_html
         create_at
         deleted
         device
         follow_count
-        ip
         last_comment_at
         like_count
         recommend
         sort_by_date
         title
+        ip
         topic_id{
           _id
           name
@@ -66,12 +69,22 @@ export function loadPostsList({ id, filters, restart = false }) {
           nickname
           brief
           avatar_url
+          posts_count
+          comment_count
+          fans_count
+          follow
         }
         verify
         view_count
         weaken
         follow
         like
+        comment{
+          user_id{
+            avatar_url
+          }
+        }
+        update_at
       `
     }
 
@@ -94,6 +107,34 @@ export function loadPostsList({ id, filters, restart = false }) {
   }
 }
 
+// 移除list
+export const removePostsListById = (id) => {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REMOVE_POSTS_LIST_BY_ID', id });
+  }
+}
+
+// 刷新帖子列表
+export const refreshPostsListById = (id) => {
+  return (dispatch, getState) => {
+
+    let list = getState().posts[id] || null;
+
+    if (!list || !list.filters) return;
+
+    delete list.filters.page_size;
+    delete list.filters.page_number;
+
+    return loadPostsList({
+      id,
+      filters:{
+        variables: list.filters
+      },
+      restart: true
+    })(dispatch, getState);
+
+  }
+}
 
 export function viewPostsById({ id, callback = ()=>{ } }) {
   return async (dispatch, getState) => {
@@ -229,13 +270,17 @@ const processPostsList = (list) => {
 
   list.map(function(posts){
 
+    if (posts.device) {
+      posts._device = Device.getNameByDeviceId(posts.device);
+    }
+
     if (posts.content_html) {
 
       // 提取内容中所有的图片地址
       posts.images = abstractImages(posts.content_html);
 
       if (posts.images && posts.images.length > 0) {
-        posts.coverImage = posts.images[0].split('?')[0]+'?imageView2/2/w/300/auto-orient/format/jpg'
+        posts._coverImage = posts.images[0].split('?')[0]+'?imageView2/2/w/300/auto-orient/format/jpg'
       }
 
       // 将内容生产140的简介
@@ -257,7 +302,8 @@ const processPostsList = (list) => {
       // 删除所有html标签
       textContent = textContent.replace(/<[^>]+>/g,"");
 
-      if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
+
+      if (textContent.length > 100) textContent = textContent.slice(0, 100)+'...';
       posts.content_summary = textContent;
 
       // 获取内容中所有的图片
@@ -267,7 +313,7 @@ const processPostsList = (list) => {
     if (posts.create_at) posts._create_at = DateDiff(posts.create_at);
     if (posts.sort_by_date) posts._sort_by_date = DateDiff(posts.sort_by_date);
     if (posts.last_comment_at) posts._last_comment_at = DateDiff(posts.last_comment_at);
-
+    if (posts.update_at) posts._update_at = DateDiff(posts.update_at);
   });
 
   return list
@@ -321,13 +367,13 @@ export const newPostsTips = () => {
   return async (dispatch, getState) => {
 
     let newPostsTips = getState().website.newPostsTips;
+    let profile =  getState().user.profile;
 
     let [ err, res ] = await loadPostsList({
       id: 'tips_follow',
       filters: {
         variables: {
-          method: 'user_follow',
-          sort_by: "create_at",
+          sort_by: "sort_by_date",
           deleted: false,
           weaken: false,
           page_size:1
@@ -338,7 +384,15 @@ export const newPostsTips = () => {
     })(dispatch, getState);
 
     if (res && res.data && res.data.length > 0) {
-      newPostsTips['/follow'] = res.data[0].create_at;
+      // newPostsTips['/'] = res.data[0].create_at;
+
+      let posts = res.data[0];
+
+      if (new Date(posts.create_at).getTime() > new Date(profile.last_find_posts_at).getTime()) {
+        // dispatch({ type: 'HAS_NEW_FEED', status: true });
+        newPostsTips['/'] = true;
+      }
+
     }
 
     dispatch({ type: 'ADD_NEW_POSTS_TIPS', newPostsTips });

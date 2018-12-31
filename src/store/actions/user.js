@@ -58,6 +58,8 @@ export const loadUserInfo = ({ accessToken }) => {
         find_notification_at
         last_find_posts_at
         last_find_feed_at
+        last_find_subscribe_at
+        last_find_excellent_at
         has_password
         `,
         headers: {
@@ -65,7 +67,6 @@ export const loadUserInfo = ({ accessToken }) => {
         }
       });
 
-      
       if (err) {
         resolve([err])
       } else {

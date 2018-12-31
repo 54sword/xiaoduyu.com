@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { isMember } from '../../store/reducers/user';
 import { like, unlike } from '../../store/actions/like';
 
+import Loading from '@components/ui/loading';
+
 // style
 // import CSSModules from 'react-css-modules';
 import './style.scss';
@@ -22,8 +24,16 @@ import './style.scss';
 // @CSSModules(styles)
 export default class LikeButton extends Component {
 
+  static defaultProps = {
+    // 是否显示数字
+    displayNumber: true
+  }
+
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      loading: false
+    }
     this.handleLike = this.handleLike.bind(this)
   }
 
@@ -33,7 +43,7 @@ export default class LikeButton extends Component {
 
   async handleLike(e) {
 
-    e.stopPropagation()
+    e.stopPropagation();
 
     const self = this
     const { like, unlike } = this.props
@@ -51,6 +61,14 @@ export default class LikeButton extends Component {
     } else {
       type = 'posts'
     }
+
+    this.setState({ loading: true });
+
+    await new Promise(resolve=>{
+      setTimeout(()=>{
+        resolve();
+      }, 1000);
+    });
 
     if (status) {
 
@@ -85,19 +103,48 @@ export default class LikeButton extends Component {
 
     }
 
+    this.setState({ loading: false });
+
   }
 
   render () {
 
-    const { reply, comment, posts, isMember } = this.props;
+    const { loading } = this.state;
+    const { reply, comment, posts, isMember, displayNumber } = this.props;
     const like = comment || reply || posts;
-    
-    if (!isMember) {
-      return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>{like.like_count ? like.like_count+' 次赞' : '赞'}</a>)
+
+    let text = '';//like.like_count ? like.like_count+' 次赞' : '赞';
+
+
+    if (loading) {
+      return (<Loading />)
     }
 
-    return (<a styleName="button" href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}}>
-      <span>{like.like_count ? like.like_count+' 次赞' : '赞'}</span>
+    if (!isMember) {
+      return (<a
+        styleName="button"
+        href="javascript:void(0)"
+        data-toggle="modal"
+        data-target="#sign"
+        onClick={this.stopPropagation}
+        >
+        {text}
+      </a>)
+    }
+
+    if (!displayNumber) {
+      return (<a href="javascript:void(0)" onClick={(e)=>{this.handleLike(e)}} styleName={`hover ${like.like ? 'active' : ''}`}>
+        {/* {like.like ? <span>已赞</span> : '赞'} */}
+        {/* {like.like ? <span>取消赞</span> : null} */}
+      </a>)
+    }
+
+    return (<a
+      styleName="button"
+      href="javascript:void(0)"
+      onClick={(e)=>{this.handleLike(e)}}
+      >
+      <span>{text}</span>
     </a>)
     /*
     return (

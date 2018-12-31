@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import Modal from '../../bootstrap/modal'
-import Editor from '../../editor-comment'
+import Modal from '../../bootstrap/modal';
+import Editor from '../../editor-comment';
 
 export default class EditorCommentModal extends Component {
 
@@ -53,6 +53,7 @@ export default class EditorCommentModal extends Component {
     let title = '回复';
 
     let params = {
+      displayControls: false,
       successCallback: ()=>{
         $('#'+modalId).modal('hide');
       },

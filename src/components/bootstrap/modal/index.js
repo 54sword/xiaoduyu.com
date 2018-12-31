@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default ({ id = '', title = '', body = '', footer = '', position = '', size = '' }) => {
+export default ({ id = '', header = null, title = '', body = '', footer = '', position = '', size = '' }) => {
 
   let className = 'modal-dialog';
 
@@ -20,12 +20,23 @@ export default ({ id = '', title = '', body = '', footer = '', position = '', si
 
           {title ?
             <div className="modal-header">
-              <h5 className="modal-title">{title}</h5>
+              {title}
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             : null}
+
+          {header && <div className="modal-header" style={{border:'none',paddingBottom:'0px'}}>
+              <div>
+                {header}
+              </div>
+              <div>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            </div>}
 
           <div className="modal-body">{body}</div>
 

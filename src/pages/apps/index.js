@@ -4,12 +4,12 @@ import QRCode from 'qrcode.react';
 // config
 import { client_download_url } from '../../../config';
 
-import weixin from '../../common/weixin'
-import Device from '../../common/device';
+import weixin from '@utils/weixin'
+import Device from '@utils/device';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
 
 // styles
 import './index.scss';

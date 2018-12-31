@@ -4,19 +4,25 @@ import { Link } from 'react-router-dom';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadTopics } from '../../store/actions/topic';
-import { loadPostsList } from '../../store/actions/posts';
-import { getTopicListByKey } from '../../store/reducers/topic';
+import { loadTopics } from '@actions/topic';
+// import { loadPostsList } from '@actions/posts';
+import { getTopicListByKey } from '@reducers/topic';
 
 // components
 import Shell from '../../components/shell';
 import Meta from '../../components/meta';
-import PostsList from '../../components/posts/list';
-import Sidebar from '../../components/sidebar';
-import Follow from '../../components/follow';
-import Loading from '../../components/ui/loading';
-import Box from '../../components/box';
-import NewPostsButton from '../../components/new-posts-button';
+// import PostsList from '../../components/posts/list';
+import PostsList from '@modules/posts-list';
+// import Sidebar from '../../components/sidebar';
+import Follow from '@components/follow';
+import Loading from '@components/ui/full-loading';
+// import Box from '../../components/box';
+// import NewPostsButton from '../../components/new-posts-button';
+
+import SingleColumns from '../../layout/single-columns';
+
+// import SidebarTopic from '../../components/sidebar/topic';
+// import Topics from '@modules/topics';
 
 // styles
 // import CSSModules from 'react-css-modules';
@@ -117,17 +123,18 @@ export default class TopicsDetail extends React.Component {
 
     let { list, loadTopics, notFoundPgae } = this.props;
     const { id } = this.props.match.params;
-    let err, res;
 
     if (!list || !list.data) {
-      [ err, list ] = await loadTopics({
+      
+      let [ err, list ] = await loadTopics({
         id: id,
         filters: { variables: { _id: id } }
       });
-    }
 
-    if (list && list.data && !list.data[0]) {
-      notFoundPgae('该话题不存在');
+      if (!list || list && list.data && !list.data[0]) {
+        notFoundPgae('该话题不存在');
+      }
+
     }
 
   }
@@ -159,64 +166,31 @@ export default class TopicsDetail extends React.Component {
       </div>);
     }
 
-    return(<div>
+    return(<SingleColumns>
 
       <Meta title={topic.name} />
-
-      <Box>
-
+      
+      <div>
+        <div styleName="topic-info"  className="d-flex justify-content-between">
         <div>
-          
-        {topic.parent_id ?
-          <div styleName="topic-info"  className="d-flex justify-content-between">
-            <div>
-              <div styleName="name" className="load-demand" data-load-demand={encodeURIComponent(`<img src=${topic.avatar} />`)}>
-                <Link to={`/topic/${topic.parent_id._id}`}>{topic.parent_id.name}</Link>
-                {topic.name}
-              </div>
-              <div>{topic.brief}</div>
-              <div styleName="status">
-                {topic.posts_count ? <span>{topic.posts_count} 帖子</span> : null}
-                {topic.comment_count ? <span>{topic.comment_count} 评论</span> : null}
-                {topic.follow_count ? <span>{topic.follow_count} 关注</span> : null}
-              </div>
-            </div>
-            <div styleName="actions">
-              <Follow topic={topic} />
-            </div>
+          <div styleName="name">
+            <img src={topic.avatar} />
+            <Link to={`/topic/${topic._id}`}>{topic.name}</Link>
           </div>
-          : null}
-
-        <NewPostsButton className="d-block d-md-block d-lg-none d-xl-none" />
-
-        {topic.children && topic.children.length > 0 ?
-          <div styleName="topic-nav">
-            {topic.children.map(item=>{
-              return (<Link to={`/topic/${item._id}`} key={item._id}>
-                  {item.name}
-                </Link>)
-            })}
-          </div>
-          : null}
-
-          <PostsList
-            id={pathname + search}
-            filters={general}
-            scrollLoad={true}
-            />
-
+          <div>{topic.brief}</div>
+          <Follow topic={topic} />
         </div>
+      </div>
 
-        <Sidebar
-          recommendPostsDom={(<PostsList
-            id={'_'+pathname}
-            itemName="posts-item-title"
-            filters={recommend} />)}
-          />
+      <PostsList
+        id={pathname + search}
+        filters={general}
+        scrollLoad={true}
+        />
 
-      </Box>
+      </div>
 
-    </div>)
+    </SingleColumns>)
   }
 
 }

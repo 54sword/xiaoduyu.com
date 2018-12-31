@@ -37,6 +37,8 @@ export default ({ store, match }) => {
       }
     })(store.dispatch, store.getState);
 
+    // console.log(data);
+
     if (data && data.data && data.data.length > 0) {
       resolve({ code:200 });
     } else {

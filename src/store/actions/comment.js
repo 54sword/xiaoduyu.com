@@ -1,9 +1,15 @@
-import { DateDiff } from '../../common/date';
-import loadList from '../../common/graphql-load-list';//'./common/new-load-list';
-import graphql from '../../common/graphql';
+import { DateDiff } from '@utils/date';
+import loadList from '@utils/graphql-load-list';//'./common/new-load-list';
+import graphql from '@utils/graphql';
+
+import Device from '@utils/device';
 
 const processCommentList = (list) => {
   list.map(item=>{
+
+    if (item.device) {
+      item._device = Device.getNameByDeviceId(item.device);
+    }
 
     if (item.create_at) {
       item._create_at = DateDiff(item.create_at);
@@ -101,11 +107,9 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
   }
 }
 
-export function loadCommentList({ name, filters = {}, restart = false }) {
-  
-  return (dispatch, getState) => {
+export function loadCommentList({ name, filters = {}, restart = true }) {
 
-    console.log(filters);
+  return (dispatch, getState) => {
 
     if (!filters.select) {
       filters.select = `

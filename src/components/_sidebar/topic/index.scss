@@ -1,0 +1,42 @@
+.container{
+
+  padding:15px 15px 15px 10px !important;
+
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+
+  a {
+    display:inline-block;
+    color:#676767;
+    margin-top:5px;
+    padding:2px 5px 2px 5px;
+    border-radius: 4px;
+  }
+
+  .active{
+    color:#fff;
+    background-color: #4170ea;
+  }
+
+  .group{
+    margin-bottom: 20px;
+
+    &:last-child{
+      margin-bottom: 0px;
+    }
+    &:first-child{
+      div:first-child{
+        a{
+          margin-top:0px;
+        }
+      }
+    }
+    div:first-child{
+      a{
+        color:#484848;
+        font-weight: bold;
+      }
+    }
+  }
+
+}

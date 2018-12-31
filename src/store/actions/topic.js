@@ -38,6 +38,7 @@ export function loadTopics({ id, filters = {}, restart = false  }) {
           }
         `
       }
+      
 
       // let cache = true;
       let api = 'topics', type = 'query';
@@ -53,7 +54,7 @@ export function loadTopics({ id, filters = {}, restart = false  }) {
       // }
 
       return loadList({
-        type,
+        // type,
         dispatch,
         getState,
         name: id,

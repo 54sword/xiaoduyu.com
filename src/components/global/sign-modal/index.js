@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // config
-import { original_api_domain } from '../../../../config';
+import { original_api_domain, name } from '../../../../config';
 
 // components
 import SignIn from './sign-in';
@@ -12,7 +12,7 @@ import Modal from '../../bootstrap/modal';
 // styles
 import './style.scss';
 
-export default class SignModal extends Component {
+export class SignModal extends Component {
 
   constructor(props) {
     super(props)
@@ -43,57 +43,63 @@ export default class SignModal extends Component {
   render () {
     const { type } = this.state
 
+    // return <div>111</div>
+
     const body = (<div styleName="layer">
-
-            <div styleName="social">
-              <ul>
-                <li>
-                  <a href={`${original_api_domain}/oauth/weibo`} styleName="weibo">
-                    <span styleName="weibo-icon">使用微博登录</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`${original_api_domain}/oauth/qq`} styleName="qq">
-                  <span styleName="qq-icon">使用 QQ 登录</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`${original_api_domain}/oauth/github`} styleName="github">
-                    <span styleName="github-icon">使用 GitHub 登录</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <fieldset><legend>或</legend></fieldset>
 
             {type == 'sign-in' ? <div>
                 <SignIn displayComponent={this.displayComponent} />
-                <div>
-                  没有账号？ <a href="javascript:void(0)" onClick={this.displayComponent}>注册</a>
-                </div>
                 <div><Link to="/forgot" onClick={()=>{ $('#sign').modal('hide'); }}>忘记密码？</Link></div>
               </div>
               : null}
+            
             {type == 'sign-up' ? <div>
                 <SignUp displayComponent={this.displayComponent} />
-                <div>
-                  已经有账号了？ <a href="javascript:void(0)" onClick={this.displayComponent}>登录</a>
-                </div>
               </div>
               : null}
 
-            <div>登录即表示你同意网站的《<Link to="/agreement" onClick={()=>{
-                $('#sign').modal('hide');
-            }}>用户协议</Link>》</div>
+            <div styleName="other-sign-in">
+              <span>使用其他方式登录</span>
+            </div>
+
+            <div styleName="social" className="row">
+              <div className="col-4">
+                <a href={`${original_api_domain}/oauth/github`} styleName="github">GitHub</a>
+              </div>
+              <div className="col-4">
+                <a href={`${original_api_domain}/oauth/qq`} styleName="qq">QQ</a>
+              </div>
+              <div className="col-4">
+                <a href={`${original_api_domain}/oauth/weibo`} styleName="weibo">微博</a>
+              </div>
+            </div>
+
+            <div styleName="agreement">
+              登录即表示你同意网站的<Link to="/agreement" onClick={()=>{ $('#sign').modal('hide'); }}>《用户协议》</Link>
+            </div>
+
           </div>);
 
     return (<div>
       <Modal
         id="sign"
-        title={type == 'sign-in' ? '登录' : '注册'}
+        header={type == 'sign-in' ? 
+          <div styleName="header">
+            <h4>登录{name}</h4>
+            <div>
+              没有账号？ <a href="javascript:void(0)" onClick={this.displayComponent}>注册</a>
+            </div>
+          </div> :
+          <div styleName="header">
+            <h4>注册{name}</h4>
+            <div>
+              已经有账号了？ <a href="javascript:void(0)" onClick={this.displayComponent}>登录</a>
+            </div>
+          </div>}
         body={body}
         />
     </div>)
   }
 }
+
+export default SignModal;

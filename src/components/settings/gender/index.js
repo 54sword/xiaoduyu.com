@@ -19,17 +19,21 @@ import { loadUserInfo, updateUser } from '../../../store/actions/user'
 export default class ResetGender extends Component {
 
   constructor(props) {
-    super(props)
-    this.submitResetGender = this.submitResetGender.bind(this)
+    super(props);
+    this.state = {
+      loading: false,
+      show: false
+    }
+    this.submit = this.submit.bind(this);
+    this.show = this.show.bind(this);
   }
 
-  async submitResetGender(isMale) {
+  async submit(isMale) {
 
-    const self = this
     const { me, updateUser, loadUserInfo } = this.props
 
     if (isMale && me.gender == 1 || !isMale && me.gender == 0) {
-      this.props.history.goBack();
+      this.setState({ show: false });
       return
     }
 
@@ -51,28 +55,42 @@ export default class ResetGender extends Component {
         duration: 3000,
         backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
       }).showToast();
-      this.props.history.goBack();
+      loadUserInfo({});
+      this.setState({ show: false });
     }
+    
+  }
 
-    loadUserInfo({});
-
+  show() {
+    this.setState({ show: true });
   }
 
   render() {
 
-    const { me } = this.props
-
+    const { me } = this.props;
+    const { show, loading } = this.state;
+    
     return (
       <div>
         <div className="card">
-          <div className="card-header">名字</div>
+          <div className="card-header">性别</div>
           <div className="card-body" style={{padding:'20px'}}>
-            <div className="form-group">
-              <a className="form-control" href="javascript:void(0)" onClick={()=>{ this.submitResetGender(true) }}>男</a>
-            </div>
-            <div className="form-group">
-              <a className="form-control" href="javascript:void(0)" onClick={()=>{ this.submitResetGender(false) }}>女</a>
-            </div>
+
+            {!show ?
+              <div className="d-flex justify-content-between">
+                <div>{me.gender === 0 ? '女' : null}{me.gender === 1 ? '男' : null}</div>
+                <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.show}>修改</a>
+              </div>
+              :
+              <div className="list-group">
+                <button type="button" className={`list-group-item list-group-item-action ${me.gender === 1 ? 'active' : ''}`} onClick={()=>{ this.submit(true) }}>
+                  男
+                </button>
+                <button type="button" className={`list-group-item list-group-item-action ${me.gender === 0 ? 'active' : ''}`} onClick={()=>{ this.submit(false) }}>
+                  女
+                </button>
+              </div>}
+
           </div>
         </div>
 

@@ -4,12 +4,12 @@
   background-color: #fff;
   // text-align: center;
   // padding:30px 0 0px 0;
-  margin-bottom:12px;
-  border-radius: 12px;
+  margin-bottom:10px;
+  border-radius: 4px;
   overflow: hidden;
   // margin-top:50px;
   // padding-top:15px;
-  padding:20px;
+  padding:15px;
 
 
   .background{
@@ -22,10 +22,15 @@
     min-height: 100px;
     padding:0 0 0 140px;
   }
-
+  
   .actions{
     float:right;
-    > a {
+    // width:100%;
+    // position: absolute;
+    // display: block;
+    // text-align: right;
+    // background-color: #efefef;
+    > a{
       display: inline-block;
       padding:0 10px 0 10px;
       margin-left:15px;
@@ -37,6 +42,10 @@
         background-color: #007bff;
         color:#fff;
       }
+    }
+    
+    > div {
+      margin-left:15px;
     }
   }
 
@@ -79,14 +88,14 @@
     }
 
   }
-
+  
 }
 
 .nav-bar{
   padding:10px;
-  border-radius: 12px;
+  border-radius: 4px;
   background-color: #fff;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 // .actions{
@@ -133,25 +142,28 @@
   }
 }
 
-/*
+
 @media (min-width: 0px) and (max-width: 767px) {
 
   .header{
 
-    margin-top:20px;
+    // margin-top:10px;
 
     .profile{
       min-height:70px;
-      padding-left:100px;
+      padding-left:80px;
     }
 
     .avatar{
-      width: 80px;
-      height: 80px;
-      margin-left:-90px;
-      margin-top:-30px;
+      width: 65px;
+      height: 65px;
+      margin-left:-80px;
+      // margin-top:-10px;
+    }
+
+    .nickname{
+      font-size: 18px;
     }
   }
 
 }
-*/

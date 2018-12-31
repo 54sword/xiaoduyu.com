@@ -11,6 +11,21 @@ module.exports = {
   name: 'server',
   target: 'node',
 
+  resolve: {
+    alias: {
+      // 配置文件位置
+      '@config': path.resolve('config'),
+      // 模块
+      '@modules': path.resolve('src/modules'),
+      // 组件
+      '@components': path.resolve('src/components'),
+      '@actions': path.resolve('src/store/actions'),
+      '@reducers': path.resolve('src/store/reducers'),
+      // 工具
+      '@utils': path.resolve('src/common')
+    }
+  },
+
   entry: {
     app: [
       // '@babel/polyfill',

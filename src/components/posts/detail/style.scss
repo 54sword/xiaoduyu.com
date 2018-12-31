@@ -19,9 +19,10 @@
 }
 
 .h1{
-  font-size: 24px;
+  font-size: 30px;
   padding:0px;
   margin:0px;
+  line-height: 140%;
 }
 
 .head{
@@ -42,7 +43,7 @@
   }
 
   span{
-    font-size: 12px;
+    font-size: 13px;
     color:#999;
 
     &:after{
@@ -70,12 +71,15 @@
 }
 
 .detail{
-
   width: 100%;
   margin-top: 15px;
   padding-top:10px;
   border-top:1px solid #efefef;
   margin-bottom: 10px;
+  *{
+    font-size: 15px;
+    line-height: 200%;
+  }
 }
 
 .other{
@@ -87,12 +91,24 @@
 }
 
 .actions{
-  padding-top:10px;
-  a{
-    font-size: 13px;
-    margin-right:10px;
-    color:#484848;
+
+  > span, > a, > div{
+    margin-right:20px;
+    font-size:13px;
   }
+  > span:last-child, > a:last-child, > div:last-child{
+    margin-right:0;
+  }
+
+  > span{
+    color:#999;
+    font-size: 13px;
+  }
+  
+  > a, > div a{
+    color:#999;
+  }
+
 }
 
 .comment-editor{

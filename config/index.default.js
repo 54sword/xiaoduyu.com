@@ -7,6 +7,9 @@ let config = {
   // 联系我们的邮箱地址
   contact_email: '***@gmail.com',
 
+  // 备案号
+  ICP_number: '浙ICP备14013796号-3',
+
   debug: false,
 
   // 服务端口
@@ -84,7 +87,14 @@ let config = {
       width: 600,
       height: 60
     }
-  }
+  },
+
+  // 友情链接
+  links: [
+    // {
+    //   name:'盗火', description:'一个年轻的知识社区', domain: 'https://react.mobi'
+    // }
+  ]
 
 }
 

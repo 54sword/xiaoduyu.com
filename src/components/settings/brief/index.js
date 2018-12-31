@@ -1,13 +1,10 @@
-import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
-// import { Link } from 'react-router'
+import React, { Component } from 'react';
 
 // redux
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { getProfile } from '../../../store/reducers/user'
-import { updateUser, loadUserInfo } from '../../../store/actions/user'
-
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { getProfile } from '../../../store/reducers/user';
+import { updateUser, loadUserInfo } from '../../../store/actions/user';
 
 @connect(
   (state, props) => ({
@@ -21,32 +18,26 @@ import { updateUser, loadUserInfo } from '../../../store/actions/user'
 export default class ResetBrief extends Component {
 
   constructor(props) {
-    super(props)
-    this.submitResetBrief = this.submitResetBrief.bind(this)
+    super(props);
+    this.state = {
+      loading: false,
+      show: false
+    }
+    this.submit = this.submit.bind(this);
+    this.show = this.show.bind(this);
   }
 
-  componentDidMount() {
-    const { brief } = this.refs
-    setTimeout(()=>{
+  async submit() {
 
-      if (typeof brief.selectionStart == "number") {
-        brief.selectionStart = brief.selectionEnd = brief.value.length;
-      } else if (typeof brief.createTextRange != "undefined") {
-        brief.focus();
-        var range = brief.createTextRange();
-        range.collapse(false);
-        range.select();
-      }
+    const { me, updateUser, loadUserInfo } = this.props
+    const { brief } = this.state;
 
-    });
+    if (brief.value == me.brief) {
+      this.setState({ show: false });
+      return;
+    }
 
-  }
-
-  async submitResetBrief() {
-
-    const self = this
-    const { updateUser, loadUserInfo } = this.props
-    const { brief } = this.refs
+    this.setState({ loading: true });
 
     let [ err, res ] = await updateUser({
       brief: brief.value
@@ -66,26 +57,49 @@ export default class ResetBrief extends Component {
         duration: 3000,
         backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
       }).showToast();
-      this.props.history.goBack();
+
+      loadUserInfo({});
+
+      this.setState({ show: false });
     }
 
-    loadUserInfo({});
+    this.setState({ loading: false });
 
+  }
+
+  show() {
+    this.setState({ show: true }, ()=>{
+      this.state.brief.focus();
+    });
   }
 
   render() {
 
-    const { me } = this.props
+    const { me } = this.props;
+    const { show, loading } = this.state;
 
     return (
       <div>
         <div className="card">
-          <div className="card-header">名字</div>
+          <div className="card-header">个性签名</div>
           <div className="card-body" style={{padding:'20px'}}>
-            <div className="form-group">
-              <textarea className="form-control" defaultValue={me.brief} ref="brief"></textarea>
-            </div>
-            <a className="btn btn-primary" href="javascript:void(0);" onClick={this.submitResetBrief}>保存</a>
+
+            {!show ?
+              <div className="d-flex justify-content-between">
+                <div>{me.brief || '未知签名'}</div>
+                <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.show}>修改</a>
+              </div>
+              :
+              <div>
+                <div className="form-group">
+                  <input className="form-control" defaultValue={me.brief} ref={e=>{ this.state.brief = e; }}></input>
+                </div>
+                {loading ?
+                  <a className="btn btn-primary btn-sm" href="javascript:void(0);">提交中...</a>
+                  : <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={this.submit}>提交</a>}
+                
+              </div>}
+
           </div>
         </div>
       </div>

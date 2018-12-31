@@ -13,12 +13,12 @@ var device = (function() {
     };
     this.show = {
       1: '',
-      2: '',
-      3: '',
-      4: '来自 iPad',
-      5: '来自 iPhone',
-      6: '来自 Android',
-      7: '来自 IPhone APP'
+      2: '通过 Windows',
+      3: '通过 Mac',
+      4: '通过 iPad',
+      5: '通过 iPhone',
+      6: '通过 Android',
+      7: '通过 App iPhone 客户端'
     };
   };
 

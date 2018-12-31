@@ -10,7 +10,7 @@ import { StaticRouter, matchPath } from 'react-router';
 import { Provider } from 'react-redux';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
-import Loadable from 'react-loadable';
+// import Loadable from 'react-loadable';
 
 // 准备store的数据
 import readyStoreData from './ready-store-data';
@@ -93,7 +93,7 @@ app.get('*', async function (req, res) {
       match.search = req._parsedOriginalUrl.search || '';
       // 需要在服务端加载的数据
       if (route.loadData) {
-        promises.push(route.loadData({ store, match }));
+        promises.push(route.loadData({ store, match, res, req, user }));
       }
     }
 
