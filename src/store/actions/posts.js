@@ -303,7 +303,7 @@ const processPostsList = (list) => {
       textContent = textContent.replace(/<[^>]+>/g,"");
 
 
-      if (textContent.length > 100) textContent = textContent.slice(0, 100)+'...';
+      if (textContent.length > 70) textContent = textContent.slice(0, 70)+'...';
       posts.content_summary = textContent;
 
       // 获取内容中所有的图片

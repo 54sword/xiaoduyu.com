@@ -119,7 +119,7 @@ const processPostsList = (list) => {
       }
 
       if (posts.content_html) {
-
+        
         // 提取内容中所有的图片地址
         // posts.images = abstractImages(posts.content_html);
         posts.images = Utils.abstractImagesFromHTML(posts.content_html);
@@ -130,7 +130,7 @@ const processPostsList = (list) => {
 
         let textContent = Utils.htmlToString(posts.content_html);
 
-        if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
+        if (textContent.length > 70) textContent = textContent.slice(0, 70)+'...';
         posts.content_summary = textContent;
 
         // 获取内容中所有的图片

@@ -37,6 +37,23 @@ export default function() {
         }
         return merge({}, state, {})
 
+      // 更新所有列表中 questionid 的 follow 状态
+      case 'UPDATE_POSTS_AUHTOR_FOLLOW':
+        var { peopleId, followStatus } = action
+
+        for (let i in state) {
+          let data = state[i].data
+          if (data.length > 0) {
+            for (let n = 0, max = data.length; n < max; n++) {
+              if (data[n].user_id._id == peopleId) {
+                // state[i].data[n].follow_count += followStatus ? 1 : -1
+                state[i].data[n].user_id.follow = followStatus
+              }
+            }
+          }
+        }
+        return merge({}, state, {})
+
       case 'UPDATE_POSTS_COMMENT_LIKE_STATUS':
         var { id, status } = action
 

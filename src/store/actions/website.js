@@ -82,8 +82,6 @@ export function getNew () {
       ]
     });
 
-    console.log(res);
-
     if (res) {
 
       // 通知
@@ -112,7 +110,6 @@ export function getNew () {
         profile.last_find_excellent_at &&
         new Date(profile.last_find_excellent_at).getTime() < new Date(res['excellent'][0].create_at).getTime()
       ) {
-        console.log('123123');
         dispatch({ type: 'HAS_NEW_EXCELLENT', status: true });
       }
 

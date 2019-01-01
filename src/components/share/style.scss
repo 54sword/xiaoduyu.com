@@ -83,3 +83,49 @@
     background-size: 50px;
   }
 }
+
+.icon-box{
+  text-align: center;
+  margin:20px 0 20px 0;
+}
+
+.icon{
+  display: inline-block;
+  width:30px;
+  height:30px;
+  margin:0 5px 0 5px;
+  background-size: contain;
+  &:hover{
+    opacity: .8;
+  }
+}
+
+.weibo{
+  @extend .icon;
+  background-image: url('../global/sign-modal/images/weibo.png');
+}
+
+.qzone{
+  @extend .icon;
+  background-image: url('../global/sign-modal/images/qzone.png');
+}
+
+.wechat{
+  @extend .icon;
+  background-image: url('../global/sign-modal/images/wechat.png');
+}
+
+.facebook{
+  @extend .icon;
+  background-image: url('../global/sign-modal/images/facebook.png');
+}
+
+.twitter{
+  @extend .icon;
+  background-image: url('../global/sign-modal/images/twitter.png');
+}
+
+.qq{
+  @extend .icon;
+  background-image: url('../global/sign-modal/images/qq.png');
+}

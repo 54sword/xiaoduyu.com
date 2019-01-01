@@ -17,6 +17,10 @@ export class Share extends Component {
     comment: PropTypes.object
   }
 
+  static defaultProps = {
+    styleType: ''
+  }
+
   constructor(props) {
     super(props);
 
@@ -47,6 +51,8 @@ export class Share extends Component {
     this.shareToQQ = this._shareToQQ.bind(this);
     this.showTips = this._showTips.bind(this);
     this.showQRcode = this._showQRcode.bind(this);
+    this.shareToTwitter = this._shareToTwitter.bind(this);
+    this.shareToFacebook = this._shareToFacebook.bind(this);
   }
 
   componentDidMount() {
@@ -77,8 +83,17 @@ export class Share extends Component {
 
   _shareToQQ(e) {
     const { title, url, summary, pics } = this.state;
-    // ${pics ? '&pics='+encodeURIComponent('https://'+pics) : ''}
     window.open(`https://connect.qq.com/widget/shareqq/index.html?url=${encodeURIComponent(url)}&title=${title}&desc=&summary=${encodeURIComponent(summary)}&site=${encodeURIComponent(name)}`, '_blank', 'width=770,height=620');
+  }
+  
+  _shareToFacebook(e) {
+    const { title, url, summary, pics } = this.state;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&t=${title}`, '_blank', 'width=770,height=620');
+  }
+
+  _shareToTwitter(e) {
+    const { title, url, summary, pics } = this.state;
+    window.open(`https://twitter.com/intent/tweet?text=${title}&url=${encodeURIComponent(url)}`, '_blank', 'width=770,height=620');
   }
 
   _shareToWeiXin(e) {
@@ -102,9 +117,46 @@ export class Share extends Component {
   }
 
   render() {
-
-    const self = this;
+    
     const { url, displayTips, showQrcode } = this.state;
+    const { styleType } = this.props;
+
+    if (styleType == 'icons') {
+
+      return (<div>
+
+        <div styleName="icon-box">
+          <a href="javascript:void(0)" styleName="wechat" onClick={this.shareToWeiXin}></a>
+          <a href="javascript:void(0)" styleName="weibo" onClick={this.shareToWeibo}></a>
+          <a href="javascript:void(0)" styleName="qzone" onClick={this.shareToQzone}></a>
+          <a href="javascript:void(0)" styleName="qq" onClick={this.shareToQQ}></a>
+          <a href="javascript:void(0)" styleName="twitter" onClick={this.shareToTwitter}></a>
+          <a href="javascript:void(0)" styleName="facebook" onClick={this.shareToFacebook}></a>
+        </div>
+  
+        <div>
+          
+          {showQrcode ? <div styleName="mark" onClick={(e)=>{this.showQRcode(false)}}></div>: null}
+  
+          {showQrcode ?
+            <div styleName="qrcode">
+              <QRCode value={`${url}?_s=weixin`} />
+              <div>微信扫一扫，分享</div>
+            </div>
+            :null}
+  
+          <div
+            styleName="tips-weixin-share"
+            style={{display:displayTips ? 'block' : 'none'}}
+            onClick={()=>{this.showTips(false)}}>
+            <div>点击右上角 ... 按钮，<br />将此页面分享给你的朋友或朋友圈</div>
+          </div>
+  
+        </div>
+  
+      </div>)
+
+    }
 
     //  onClick={this.stopPropagation}
     return <div styleName="container">
@@ -118,9 +170,10 @@ export class Share extends Component {
           <a className="dropdown-item" href="javascript:void(0);" onClick={this.shareToQzone}>QQ空间</a>
           <a className="dropdown-item" href="javascript:void(0);" onClick={this.shareToQQ}>QQ好友和群组</a>
           <a className="dropdown-item" href="javascript:void(0);" onClick={this.shareToTwitter}>Twitter</a>
+          <a className="dropdown-item" href="javascript:void(0);" onClick={this.shareToFacebook}>Facebook</a>
         </div>
 
-        {showQrcode ? <div styleName="mark" onClick={(e)=>{self.showQRcode(false)}}></div>: null}
+        {showQrcode ? <div styleName="mark" onClick={(e)=>{this.showQRcode(false)}}></div>: null}
 
         {showQrcode ?
           <div styleName="qrcode">
