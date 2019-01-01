@@ -556,13 +556,11 @@ export class MyEditor extends React.Component {
     }
     // return null;
   }
-
+  
   render() {
     const self = this
     const { editorState, readOnly, rendered, placeholder, expandControl } = this.state
     const { displayControls } = this.props;
-
-    console.log(this.props);
 
 
     {/* stripPastedStyles=true 清除复制文本样式*/}

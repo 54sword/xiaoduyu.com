@@ -6,32 +6,32 @@ import { name, domain_name, Goole_AdSense } from '../../../config';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadPostsList, viewPostsById } from '../../store/actions/posts';
-import { getPostsListByListId } from '../../store/reducers/posts';
-import { isMember } from '../../store/reducers/user';
+import { loadPostsList, viewPostsById } from '@actions/posts';
+import { getPostsListByListId } from '@reducers/posts';
+import { isMember } from '@reducers/user';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
-import CommentList from '../../components/comment/list';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
+import CommentList from '@components/comment/list';
 // import PostsList from '../../components/posts/list';
-import PostsDetailC from '../../components/posts/detail';
-import EditorComment from '../../components/editor-comment';
-import Loading from '../../components/ui/loading';
-// import Follow from '../../components/follow';
+import PostsDetailC from '@components/posts/detail';
+import EditorComment from '@components/editor-comment';
+import Loading from '@components/ui/full-loading';
+// import Follow from '@components/follow';
 
 // import Box from '../../components/box';
 // import Sidebar from '../../components/sidebar';
-import AdsByGoogle from '../../components/adsbygoogle';
+import AdsByGoogle from '@components/adsbygoogle';
 
 
-import GoBack from '@modules/go-back';
+// import GoBack from '@modules/go-back';
 
 // import Links from '../../modules/links';
 
 // layout
-import ThreeColumns from '../../layout/three-columns';
-import TwoColumns from '../../layout/two-columns';
+// import ThreeColumns from '../../layout/three-columns';
+// import TwoColumns from '../../layout/two-columns';
 
 // styles
 import './style.scss';
@@ -94,7 +94,6 @@ export default class PostsDetail extends React.Component {
     if (loading || !posts) return (<Loading />);
 
     const author = posts.user_id;
-
 
     return(<div>
 {/* 
@@ -191,6 +190,7 @@ export default class PostsDetail extends React.Component {
           <meta property="og:description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
           <meta property="og:url" content={`${domain_name}/posts/${posts._id}`} />
           <meta property="og:site_name" content={name} />
+          <meta property="og:image" content={posts._coverImage || domain_name+'./icon-512x512.png'} />
         </Meta>
 
         <PostsDetailC id={posts._id} />

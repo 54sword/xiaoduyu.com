@@ -2,7 +2,7 @@ import React from 'react';
 import Loadable from 'react-loadable';
 
 import Head from '../components/head';
-import Loading from '../components/ui/loading';
+import Loading from '../components/ui/full-loading';
 
 // 服务端加载数据的方法
 import PostsDetailLoadData from '../pages/posts-detail/load-data';

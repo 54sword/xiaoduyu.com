@@ -13,7 +13,7 @@ import Shell from '@components/shell';
 import Meta from '../../components/meta';
 // import Box from '../../components/box';
 import Follow from '@components/follow';
-import Loading from '../../components/ui/loading';
+import Loading from '../../components/ui/full-loading';
 import ReportMenu from '../../components/report-menu';
 // import Sidebar from '../../components/sidebar';
 import CommentList from '../../components/comment/list';

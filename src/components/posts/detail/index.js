@@ -17,7 +17,7 @@ import HTMLText from '../../html-text';
 // import AdminAction from '../admin-action';
 // import Follow from '../../follow';
 import Like from '../../like';
-import EditButton from '../../edit-button';
+// import EditButton from '../../edit-button';
 import ReportMenu from '../../report-menu';
 
 import Follow from '@components/follow';
@@ -76,15 +76,22 @@ export default class PostsDetail extends React.Component {
     return(<div styleName="box">
         
         <div styleName="head">
+
+
           
           <Link to={`/people/${posts.user_id._id}`}>
             <img styleName="author-avatar" src={posts.user_id.avatar_url} />
             <b>{posts.user_id.nickname}</b>
           </Link>
 
+          <span styleName={`follow ${posts.user_id.follow ? 'active' : ''}`}>
+            <Follow user={posts.user_id} />
+          </span>
+
+
           {/* <div styleName="menu"><ReportMenu /></div> */}
 
-          <div>
+          <div className="mt-1">
             {/* <span><Link to={`/topic/${posts.topic_id._id}`}>{posts.topic_id.name}</Link></span> */}
             {/* {posts.view_count ? <span>{posts.view_count} 浏览</span> : null} */}
             {/* {posts.like_count ? <span>{posts.like_count} 个赞</span> : null} */}
@@ -93,6 +100,7 @@ export default class PostsDetail extends React.Component {
             <span>{posts._create_at}</span>
             {posts._device ? <span>{posts._device}</span> : null}
           </div>
+
 
           {/* <Follow user={posts.user_id} /> */}
 
@@ -103,7 +111,8 @@ export default class PostsDetail extends React.Component {
         {posts.content_html ?
           <div styleName="detail"><HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} /></div>
           :null}
-
+        
+        <Share posts={posts} styleType="icons" />
 
         <div className="d-flex justify-content-between">
 
@@ -118,8 +127,8 @@ export default class PostsDetail extends React.Component {
           <div styleName="actions" className="d-none d-lg-block d-xl-block">
             <Like posts={posts} displayNumber={false} />
             <Follow posts={posts} />
-            <Share posts={posts} />
-            <ReportMenu />
+            {/* <Share posts={posts} /> */}
+            <ReportMenu posts={posts} />
           </div>
 
         </div>
@@ -127,13 +136,9 @@ export default class PostsDetail extends React.Component {
         <div styleName="actions" className="d-block d-lg-none d-xl-none" style={{marginTop:'10px', paddingTop:'10px', borderTop:'1px solid #efefef'}}>
           <Like posts={posts} displayNumber={false} />
           <Follow posts={posts} />
-          <Share posts={posts} />
-          <ReportMenu />
+          {/* <Share posts={posts} /> */}
+          <ReportMenu posts={posts} />
         </div>
-
-
-
-
 
 
       {/* <AdminAction posts={posts} /> */}
