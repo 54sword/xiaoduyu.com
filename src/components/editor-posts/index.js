@@ -336,7 +336,7 @@ class EditorPosts extends React.Component {
             </div>
               : null*/}
 
-          <div className="container">
+
 
             <div className="row">
               <div className="col-md-2">
@@ -351,12 +351,10 @@ class EditorPosts extends React.Component {
                   {topic ? topic.name : '选择话题'}
                 </a>
               </div>
-              <div className="col-md-10">
+              <div className="col-md-10 pl-0">
                 <input styleName="title" ref="title" type="text" onChange={this.titleChange} placeholder="请输入标题"  />
               </div>
             </div>
-
-          </div>
 
 
           <div styleName="editor">{editor}</div>
