@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import QRCode from 'qrcode.react';
 
 // config
-import { client_download_url } from '../../../config';
+import { client_download_url } from '@config';
 
 import weixin from '@utils/weixin'
 import Device from '@utils/device';
@@ -59,11 +59,17 @@ export default class APPS extends Component {
         <div styleName="icon"><img src="https://img.xiaoduyu.com/icon-512x512.png" /></div>
         <div styleName="title">小度鱼</div>
 
-        {appsUrl ? <div styleName="qrcode">
+        {
+          appsUrl ?
+          <div styleName="qrcode">
             <QRCode value={appsUrl} />
             <div className="mt-1" style={{color:'#888'}}>iOS / Android 扫码直接下载</div>
           </div>
-          : <div className="mt-1">{text || <a href="javascript:void(0)" onClick={this.componentDidMount}>点击下载</a>}</div>}
+          :
+          <div className="mt-1">
+            {text || <a href="javascript:void(0)" onClick={this.componentDidMount}>点击下载</a>}
+          </div>
+        }
 
       </div>
     )

@@ -159,8 +159,8 @@ export default class SignUp extends Component {
         <div><input type="text" className="form-control" ref={(e)=>{this.state.nickname=e;}} placeholder="名字" /></div>
 
         {type == 'phone' ?
-          <div className="container">
-            <div className="row justify-content-between">
+          <div>
+            <div className="row">
               <div className="col-4">
                 <CountriesSelect
                   onChange={res=>{
@@ -168,7 +168,7 @@ export default class SignUp extends Component {
                   }}
                   />
                 </div>
-              <div className="col-8"><input type="text" className="form-control" ref={(e)=>{this.state.account=e;}} placeholder="手机号" /></div>
+              <div className="col-8 pl-0"><input type="text" className="form-control" ref={(e)=>{this.state.account=e;}} placeholder="手机号" /></div>
             </div>
           </div>
           :
@@ -205,9 +205,9 @@ export default class SignUp extends Component {
 
         <div className="text-center">
         {type == 'phone' ?
-          <div><a href="javascript:void(0)" onClick={()=>{ this.setState({ type: 'email' }); }}>使用邮箱注册</a></div>
+          <div><a href="javascript:void(0)" className="text-primary" onClick={()=>{ this.setState({ type: 'email' }); }}>使用邮箱注册</a></div>
           :
-          <div><a href="javascript:void(0)" onClick={()=>{ this.setState({ type: 'phone' }); }}>使用手机注册</a></div>}
+          <div><a href="javascript:void(0)" className="text-primary" onClick={()=>{ this.setState({ type: 'phone' }); }}>使用手机注册</a></div>}
         </div>
 
       </div>

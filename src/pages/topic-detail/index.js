@@ -1,60 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadTopics } from '@actions/topic';
-// import { loadPostsList } from '@actions/posts';
 import { getTopicListByKey } from '@reducers/topic';
-
-// components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
-// import PostsList from '../../components/posts/list';
-import PostsList from '@modules/posts-list';
-// import Sidebar from '../../components/sidebar';
-import Follow from '@components/follow';
-import Loading from '@components/ui/full-loading';
-// import Box from '../../components/box';
-// import NewPostsButton from '../../components/new-posts-button';
 
 import SingleColumns from '../../layout/single-columns';
 
-// import SidebarTopic from '../../components/sidebar/topic';
-// import Topics from '@modules/topics';
+// components
+import Shell from '@components/shell';
+import Meta from '@components/meta';
+import Loading from '@components/ui/full-loading';
 
-// styles
-// import CSSModules from 'react-css-modules';
-import './style.scss';
+import PostsList from '@modules/posts-list';
+import PostsCard from '@modules/topic-card';
 
 /**
  * 分析url上面的参数
  * @param  {String} search location.search
  * @return {Object}        符合的参数对象
  */
-const analyzeUrlParams = (search) => {
+const analyzeUrlParams = (params) => {
 
-  let params = {};
-  (search.split('?')[1] || '').split('&').map(item=>{
-    let s = item.split('=');
-    params[s[0]] = s[1];
-  });
-
-  let whiteParams = {}
-
+  let whiteParams = {};
   let whiteList = {
-    // sort_by: (s)=>s,
-    // recommend: (s)=>true,
-    // deleted: (s)=>true,
-    // weaken: (s)=>true,
-    page_number: (s)=>parseInt(s)
-    // page_size: (s)=>parseInt(s)
-    // start_create_at: (s)=>s,
-    // end_create_at: (s)=>s,
-    // topic_id: (s)=>s,
-    // user_id: (s)=>s,
-    // _id: (s)=>s
+    page_number: s => parseInt(s)
   }
 
   for (let i in params) {
@@ -64,77 +35,43 @@ const analyzeUrlParams = (search) => {
   return whiteParams;
 }
 
-// 生成筛选对象
-// *** 注意 ***
-// 筛选参数每次都需要返回一个新对象，否则在相同页面切换的时候，筛选对象会指向同一个的问题
-const generatePostsFilters = (topic, search) => {
-
-  search = analyzeUrlParams(search);
-
-  let childrenIds = [];
-
-  if (topic.children) {
-    topic.children.map(item=>{
-      childrenIds.push(item._id);
-    });
-  }
-
-  childrenIds = childrenIds.join(',');
-
-  let query = {
-    sort_by: "sort_by_date",
-    deleted: false,
-    weaken: false,
-    page_size: 10,
-    topic_id: topic.parent_id ? topic._id : childrenIds
-  }
-
-  return {
-    general: {
-      query: Object.assign({}, query, search)
-    },
-    recommend: {
-      query: Object.assign({}, query, {
-        sort_by: "comment_count,like_count,sort_by_date",
-        page_size: 10,
-        start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30)
-      })
-    }
-  }
-
-}
-
 @Shell
 @connect(
   (state, props) => ({
-    topicList: getTopicListByKey(state, props.match.params.id)
+    list: getTopicListByKey(state, props.match.params.id)
   }),
   dispatch => ({
     loadTopics: bindActionCreators(loadTopics, dispatch)
   })
 )
-export default class TopicsDetail extends React.Component {
+export default class TopicsDetailPage extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      // url上的参数
+      searchParams: {}
+    }
   }
 
   async componentDidMount() {
 
-    let { list, loadTopics, notFoundPgae } = this.props;
+    this.state.searchParams = analyzeUrlParams(this.props.location.params);
+
     const { id } = this.props.match.params;
+    let { list, loadTopics, notFoundPgae } = this.props;
 
     if (!list || !list.data) {
-      
-      let [ err, list ] = await loadTopics({
-        id: id,
-        filters: { variables: { _id: id } }
+      await loadTopics({
+        id,
+        filters: { query: { _id: id } }
       });
+    }
 
-      if (!list || list && list.data && !list.data[0]) {
-        notFoundPgae('该话题不存在');
-      }
+    list = this.props.list;
 
+    if (!list || list && list.data && !list.data[0]) {
+      notFoundPgae('该话题不存在');
     }
 
   }
@@ -148,47 +85,32 @@ export default class TopicsDetail extends React.Component {
 
   render() {
 
-    const { id } = this.props.match.params;
-    const { pathname, search } = this.props.location;
-    const { topicList } = this.props;
-    const topic = topicList && topicList.data[0] ? topicList.data[0] : null;
-    const { loading } = topicList || {};
+    const { data = [], loading = false } = this.props.list || {};
+    const topic = data[0] || null;
+    const { searchParams } = this.state;
 
-    if (loading || !topic) return (<Loading />);
-
-    const { general, recommend } = generatePostsFilters(topic, search);
-
-    // 如果是父话题，则查询该父节点下面所有的子节点
-    if (!topic.parent_id && !topic.children) {
-      return (<div>
-        <Meta title={topic.name} />
-        没有相关帖子
-      </div>);
-    }
+    if (!topic || loading) return <Loading />;
 
     return(<SingleColumns>
 
       <Meta title={topic.name} />
-      
-      <div>
-        <div styleName="topic-info"  className="d-flex justify-content-between">
-        <div>
-          <div styleName="name">
-            <img src={topic.avatar} />
-            <Link to={`/topic/${topic._id}`}>{topic.name}</Link>
-          </div>
-          <div>{topic.brief}</div>
-          <Follow topic={topic} />
-        </div>
-      </div>
+
+      <PostsCard topic={topic} />
 
       <PostsList
-        id={pathname + search}
-        filters={general}
+        id={topic._id}
+        filters={{
+          query: {
+            sort_by: "sort_by_date:-1",
+            deleted: false,
+            weaken: false,
+            page_size: 30,
+            topic_id: topic._id,
+            ...searchParams
+          }
+        }}
         scrollLoad={true}
         />
-
-      </div>
 
     </SingleColumns>)
   }

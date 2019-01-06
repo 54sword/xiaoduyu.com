@@ -8,20 +8,16 @@ import Meta from '@components/meta';
 import Setting from '@modules/setting';
 
 // layout
-// import ThreeColumns from '../../layout/three-columns';
 import SingleColumns from '../../layout/single-columns';
 
 @Shell
 export default class Settings extends React.PureComponent {
 
   render() {
-    return (<SingleColumns>
-
-      
-        <Meta title='设置' />        
-        <Setting />
-          
+    return (<SingleColumns>      
+      <Meta title='设置' />        
+      <Setting />
     </SingleColumns>)
   }
-
+  
 }

@@ -171,12 +171,10 @@ export default class SettingsPhone extends Component {
 
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">手机号</label>
-                    <div className="container">
                       <div className="row">
                         <div className="col-3"><CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} /></div>
-                        <div className="col-9"><input className="form-control" type="text" placeholder="请输入新的手机号" ref="newPhone" /></div>
+                        <div className="col-9 pl-0"><input className="form-control" type="text" placeholder="请输入新的手机号" ref="newPhone" /></div>
                       </div>
-                    </div>
                   </div>
 
                   <div className="form-group">

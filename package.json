@@ -1,6 +1,6 @@
 {
   "name": "xiaoduyu.com",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "小度鱼社区",
   "scripts": {
     "start": "NODE_ENV=development node ./scripts/start.js",

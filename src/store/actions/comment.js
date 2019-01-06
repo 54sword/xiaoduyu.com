@@ -196,11 +196,59 @@ export function loadCommentList({ name, filters = {}, restart = true }) {
   }
 }
 
+export function loadMoreReply({ postsId, commentId }) {
+  return (dispatch, getState) => {
+  return new Promise(async (resolve, reject) => {
+
+    const commentList = getState().comment[postsId];
+
+    let index = 0;
+    let comment = null;
+
+    commentList.data.map((item, key)=>{
+      if (item._id == commentId) {
+        comment = item;
+        index = key;
+      }
+    });
+    
+    let [ err, res ] = await loadCommentList({
+      name:'new-reply',
+      filters: {
+        variables: {
+          parent_id: comment._id,
+          page_size: 10,
+          deleted: false,
+          weaken: false,
+          start_create_at: comment.reply[comment.reply.length - 1].create_at
+        }
+      },
+      restart: true
+    })(dispatch, getState);
+
+    if (err) {
+      resolve();
+      return;
+    }
+
+    res.data.map(item=>{
+      comment.reply.push(item);
+    });
+
+    commentList.data[index] = comment;
+
+    dispatch({ type: 'SET_COMMENT_LIST_BY_NAME', name:postsId, data: commentList });
+
+    resolve();
+
+  });
+  }
+}
 
 export function updateComment(filters) {
   return (dispatch, getState) => {
   return new Promise(async (resolve, reject) => {
-
+    
     let [ err, res ] = await graphql({
       type: 'mutation',
       api: 'updateComment',

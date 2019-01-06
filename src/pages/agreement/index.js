@@ -1,7 +1,7 @@
 import React from 'react';
 
 // config
-import { name } from '../../../config';
+import { name } from '@config';
 
 // components
 import Shell from '@components/shell';
@@ -10,7 +10,7 @@ import Meta from '@components/meta';
 import SingleColumns from '../../layout/single-columns';
 
 // styles
-import './style.scss'
+import './style.scss';
 
 @Shell
 export default class Agreement extends React.PureComponent {

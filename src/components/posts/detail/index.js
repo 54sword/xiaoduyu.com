@@ -84,9 +84,9 @@ export default class PostsDetail extends React.Component {
             <b>{posts.user_id.nickname}</b>
           </Link>
 
-          <span styleName={`follow ${posts.user_id.follow ? 'active' : ''}`}>
+          {/* <span styleName={`follow ${posts.user_id.follow ? 'active' : ''}`}>
             <Follow user={posts.user_id} />
-          </span>
+          </span> */}
 
 
           {/* <div styleName="menu"><ReportMenu /></div> */}

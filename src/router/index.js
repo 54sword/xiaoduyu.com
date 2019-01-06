@@ -5,10 +5,11 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 // 生成异步加载组件
 import { AsyncComponent } from '../components/generate-async-component';
+// import LazyComponent from '@components/lazy';
 
 import routerList from './list';
 
-// const OtherComponent = lazy(() => import('../components/footer'));
+// const OtherComponent = React.lazy(() => import('../components/footer'));
 
 // const LoadableComponent = Loadable({
 //   loader: () => import('../components/footer'),
@@ -94,11 +95,9 @@ export default (user, logPageView = ()=>{}) => {
         </Switch>
       </div>
 
-
       <AsyncComponent load={() => import('../components/footer')}>
         {Component => <Component />}
       </AsyncComponent>
-     
 
     </div>)
 

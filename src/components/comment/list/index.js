@@ -8,12 +8,9 @@ import { getCommentListByName } from '@reducers/comment';
 import { loadCommentList } from '@actions/comment';
 
 // components
-// import ListLoading from '../../list-loading';
 import CommentItem from '../list-item';
-// import Pagination from '../../pagination';
-import Paginationa from '../../paginationa';
-import Loading from '../../ui/loading';
-
+import Paginationa from '@components/paginationa';
+import Loading from '@components/ui/full-loading';
 
 @connect(
   (state, props) => ({

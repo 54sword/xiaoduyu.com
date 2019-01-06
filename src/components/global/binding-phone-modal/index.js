@@ -154,14 +154,12 @@ export default class BindingPhone extends Component {
 
           <div>亲爱的用户，应2017年10月1日起实施的《中华人民共和国网络安全法》要求，网站须强化用户实名认证机制。您需要验证手机方可使用社区功能，烦请您将账号与手机进行绑定。</div>
           <br />
-
+          
           <div className="form-group">
-            <div className="container">
               <div className="row">
-                <div className="col-3">{show ? <CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} /> : null}</div>
-                <div className="col-9"><input className="form-control" type="text" placeholder="请输入您的手机号" ref={(e)=>{ this.state.phone = e; }} /></div>
+                <div className="col-4">{show ? <CountriesSelect onChange={(areaCode)=>{ this.state.areaCode = areaCode }} /> : null}</div>
+                <div className="col-8 pl-0"><input className="form-control" type="text" placeholder="请输入您的手机号" ref={(e)=>{ this.state.phone = e; }} /></div>
               </div>
-            </div>
           </div>
 
           <div className="form-group">

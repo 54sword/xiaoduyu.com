@@ -20,6 +20,13 @@
 
 }
 
+.right-float{
+  width: 250px;
+  position: fixed;
+  top:55px;
+  display: none;
+}
+
 @media (min-width: 0px) and (max-width: 991px) {
 
   .box{
@@ -30,6 +37,7 @@
       position: relative;
       margin:0px;
       width:100%;
+      top:0px !important;
       // display: none;
     }
   

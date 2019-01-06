@@ -16,10 +16,7 @@ import HTMLText from '@components/html-text';
 import EditorComment from '@components/editor-comment';
 import Loading from '@components/ui/loading';
 
-
 import SingleColumns from '../../layout/single-columns';
-// import Box from '../../components/box';
-// import Sidebar from '../../components/sidebar';
 
 // styles
 import './style.scss';

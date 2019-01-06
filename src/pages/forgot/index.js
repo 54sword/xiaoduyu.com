@@ -12,11 +12,8 @@ export default class Forgot extends React.PureComponent {
   render() {
     return (
       <SingleColumns>
-        <div></div>
-        <div>
-          <Meta title="忘记密码" />
-          <ResetPassword />
-        </div>
+        <Meta title="忘记密码" />
+        <ResetPassword />
       </SingleColumns>
     )
   }

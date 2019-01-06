@@ -91,6 +91,19 @@ export default [
   },
 
   {
+    path: '/people/:id/:type',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/people-detail'),
+      loading: () => <Loading />
+    }),
+    loadData: PeopleDetailLoadData,
+    enter: 'everybody'
+  },
+
+  /*
+  {
     path: '/people/:id/posts',
     exact: true,
     head: Head,
@@ -123,6 +136,7 @@ export default [
     }),
     enter: 'everybody'
   },
+  
 
   {
     path: '/people/:id/follow/posts',
@@ -156,7 +170,7 @@ export default [
     }),
     enter: 'everybody'
   },
-
+  */
   {
     path: '/notifications',
     exact: true,
@@ -169,7 +183,7 @@ export default [
   },
 
   {
-    path: '/notifications/all',
+    path: '/notifications/:type',
     exact: true,
     head: Head,
     component: Loadable({
@@ -178,19 +192,7 @@ export default [
     }),
     enter: 'member'
   },
-
   /*
-  {
-    path: '/notifications/unread',
-    exact: true,
-    head: Head,
-    component: Loadable({
-      loader: () => import('../pages/notifications'),
-      loading: () => <Loading />
-    }),
-    enter: 'member'
-  },
-  */
 
   {
     path: '/notifications/comment',
@@ -235,6 +237,7 @@ export default [
     }),
     enter: 'member'
   },
+  */
 
   {
     path: '/search',

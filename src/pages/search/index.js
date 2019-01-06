@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 
-import parseUrl from '../../common/parse-url';
+import parseUrl from '@utils/parse-url';
 
 // components
 import Shell from '@components/shell';
@@ -10,19 +10,9 @@ import PostsList from '@modules/posts-list';
 import PeopleList from '@components/people/list';
 
 import SingleColumns from '../../layout/single-columns';
-// import Box from '../../components/box';
-// import Sidebar from '../../components/sidebar';
 
 // style
-import './style.scss';
-
-let general = {
-  variables: {
-    sort_by: "create_at",
-    deleted: false,
-    weaken: false
-  }
-}
+import './index.scss';
 
 @Shell
 @withRouter
@@ -95,8 +85,6 @@ export default class Search extends React.Component {
     const { q, type } = this.state;
 
     return(<SingleColumns>
-      
-      <div>
 
       <Meta title="搜索" />
 
@@ -142,9 +130,6 @@ export default class Search extends React.Component {
         }
 
       })()}
-      
-    </div>
-
 
     </SingleColumns>)
   }

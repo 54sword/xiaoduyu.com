@@ -149,8 +149,6 @@ export default class PostsItem extends React.PureComponent {
 
           if (comment.reply_id) {
 
-            console.log(comment.reply_id);
-
             return (<div
               styleName="reply-item"
               onClick={(e)=>{
@@ -181,7 +179,7 @@ export default class PostsItem extends React.PureComponent {
               })*/}
             </div>)
           }
-
+          
           if (posts) {
 
             return (<div styleName="posts-item" onClick={(e)=>{

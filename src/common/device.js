@@ -13,11 +13,11 @@ var device = (function() {
     };
     this.show = {
       1: '',
-      2: '通过 Windows',
-      3: '通过 Mac',
-      4: '通过 iPad',
-      5: '通过 iPhone',
-      6: '通过 Android',
+      2: '',
+      3: '',
+      4: '',
+      5: '',
+      6: '',
       7: '通过 App iPhone 客户端'
     };
   };

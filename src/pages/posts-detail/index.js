@@ -22,7 +22,7 @@ import Loading from '@components/ui/full-loading';
 
 // import Box from '../../components/box';
 // import Sidebar from '../../components/sidebar';
-import AdsByGoogle from '@components/adsbygoogle';
+import AdsByGoogle from '@modules/adsbygoogle';
 
 
 // import GoBack from '@modules/go-back';
@@ -195,8 +195,8 @@ export default class PostsDetail extends React.Component {
 
         <PostsDetailC id={posts._id} />
 
-        {!isMember && Goole_AdSense && Goole_AdSense.postsDetail ?
-          <div style={{marginBottom:'12px'}}><AdsByGoogle {...Goole_AdSense.postsDetail} /></div> : null}
+        {Goole_AdSense && Goole_AdSense.postsDetail ?
+          <div style={{marginBottom:'10px'}}><AdsByGoogle {...Goole_AdSense.postsDetail} /></div> : null}
         
         {posts.comment_count > 0 ?
           <div className="card">

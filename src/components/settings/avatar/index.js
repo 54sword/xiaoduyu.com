@@ -97,7 +97,6 @@ export default class ResetAvatar extends Component {
             <div styleName="upload">
               {fileUpload}
             </div>
-            <br /><br />
 
           </div>
         </div>

@@ -11,27 +11,26 @@ export default class PostsItemTitle extends React.PureComponent {
     posts: PropTypes.object.isRequired
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-    }
-  }
-
   render () {
 
-    const { posts } = this.props
+    const { posts } = this.props;
 
     return (<div className="list-group-item" styleName="a">
 
-      <span className="load-demand" data-load-demand={`<img src="${posts.user_id.avatar_url}" />`}></span>
-
+      <span
+        className="load-demand"
+        data-load-demand={`<img src="${posts.user_id.avatar_url}" alt="${posts.user_id.nickname}" />`}
+        >
+      </span>
+      
       <Link
         to={`/posts/${posts._id}`}
-        onClick={this.stopPropagation}
+        className="text-dark"
         >
         {posts.title}
       </Link>
-      </div>)
+
+    </div>)
   }
 
 }

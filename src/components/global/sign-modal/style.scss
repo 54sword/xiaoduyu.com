@@ -93,6 +93,11 @@
     background-image: url(./images/github.png);
   }
 
+  .wechat{
+    @extend .icon;
+    background-image: url(./images/wechat.png);
+  }
+
 }
 
 .agreement{

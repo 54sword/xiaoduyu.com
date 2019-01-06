@@ -1,19 +1,15 @@
 import React from 'react';
 
 // components
-import Shell from '../../components/shell';
-import Meta from '../../components/meta';
+import Shell from '@components/shell';
+import Meta from '@components/meta';
 
 import BlockList from '@modules/block-list';
 
-import ThreeColumns from '../../layout/three-columns';
+import SingleColumns from '../../layout/single-columns';
 
 @Shell
-export default class Blocks extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
+export default class Blocks extends React.PureComponent {
 
   render() {
 
@@ -25,6 +21,7 @@ export default class Blocks extends React.Component {
       title = '不感兴趣的用户';
       filters.people_id = 'exists';
     }
+
     if (pathname.indexOf('posts') != -1) {
       title = '不感兴趣的帖子';
       filters.posts_id = 'exists';
@@ -35,13 +32,10 @@ export default class Blocks extends React.Component {
       filters.comment_id = 'exists';
     }
 
-    return(<ThreeColumns>
-      <div></div>
-      <div>
-        <Meta title={title} />
-        <BlockList id={pathname} filters={filters} />
-      </div>
-    </ThreeColumns>)
+    return(<SingleColumns>
+      <Meta title={title} />
+      <BlockList id={pathname} filters={filters} />
+    </SingleColumns>)
   }
 
 }

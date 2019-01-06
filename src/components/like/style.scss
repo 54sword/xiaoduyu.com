@@ -1,44 +1,22 @@
 
-
-
-
-
 .button{
   background-image: url('./images/like.png');
   background-size: 13px;
   background-repeat: no-repeat;
   background-position: left center;
   padding-left: 17px;
-
+  
   &:hover{
     background-image: url('./images/like-active.png');
-  }
-}
-
-
-
-
-.hover{
-
-  @extend .button;
-
-  span:nth-child(1){
-    display: inherit;
-  }
-  span:nth-child(2){
-    display: none;
-  }
-
-  &:hover{
-    span:nth-child(1){
-      display: none;
-    }
-    span:nth-child(2){
-      display: inherit;
+    span{
+      color:#4170ea;
     }
   }
 }
 
 .active{
   background-image: url('./images/like-active.png');
+  span{
+    color:#4170ea;
+  }
 }

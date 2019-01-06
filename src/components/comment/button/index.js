@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '../../../store/reducers/user';
-// import { like, unlike } from '../../store/actions/like';
+import { isMember } from '@reducers/user';
 
 // style
 import './index.scss';
@@ -14,12 +13,10 @@ import './index.scss';
     isMember: isMember(state)
   }),
   dispatch => ({
-    // like: bindActionCreators(like, dispatch),
-    // unlike: bindActionCreators(unlike, dispatch)
   })
 )
-export default class LikeButton extends Component {
-
+export default class CommentButton extends Component {
+  
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
@@ -66,12 +63,12 @@ export default class LikeButton extends Component {
 
     if (!isMember) {
       return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>
-        <span>{target.comment_count ? target.comment_count+' 条'+t : t}</span>
+        <span className="d-none d-lg-inline d-xl-inline">{target.comment_count ? target.comment_count+' 条'+t : t}</span>
       </a>)
     }
 
     return (<a styleName="button" href="javascript:void(0)" onClick={this.onClick}>
-      <span>{target.comment_count ? target.comment_count+' 条'+t : t}</span>
+      <span className="d-none d-lg-inline d-xl-inline">{target.comment_count ? target.comment_count+' 条'+t : t}</span>
     </a>)
 
   }

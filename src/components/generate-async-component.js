@@ -1,5 +1,5 @@
 import React from 'react';
-import Loading from './ui/loading';
+import Loading from './ui/full-loading';
 
 let count = 0;
 

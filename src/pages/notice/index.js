@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { contact_email } from '@config';
 
@@ -7,7 +7,7 @@ import Shell from '@components/shell';
 import Meta from '@components/meta';
 
 @Shell
-export default class Notice extends Component {
+export default class Notice extends React.PureComponent {
   
   constructor(props) {
     super(props)

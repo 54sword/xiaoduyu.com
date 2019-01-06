@@ -13,6 +13,7 @@ import BindingPhone from './binding-phone-modal';
 import UnlockToken from './unlock-token-modal';
 import PostsToken from './posts-modal';
 
+
 @connect(
   (state, props) => ({
     me: getProfile(state)

@@ -1,9 +1,7 @@
 
-import { loadReportTypes } from '../store/actions/report';
-// import { getReportTypes } from '../store/reducers/report-types';
-import { loadTopics } from '../store/actions/topic';
-// import { getTopicListByKey } from '../store/reducers/topic';
-import { loadUserInfo } from '../store/actions/user';
+import { loadReportTypes } from '@actions/report';
+import { loadTopics } from '@actions/topic';
+import { loadUserInfo } from '@actions/user';
 
 // redux 中的数据清理、以及准备一些经常不变的数据
 

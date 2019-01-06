@@ -8,6 +8,7 @@ import { original_api_domain, name } from '../../../../config';
 import SignIn from './sign-in';
 import SignUp from './sign-up';
 import Modal from '../../bootstrap/modal';
+import Wechat from '@utils/weixin';
 
 // styles
 import './style.scss';
@@ -49,7 +50,7 @@ export class SignModal extends Component {
 
             {type == 'sign-in' ? <div>
                 <SignIn displayComponent={this.displayComponent} />
-                <div><Link to="/forgot" onClick={()=>{ $('#sign').modal('hide'); }}>忘记密码？</Link></div>
+                <div><Link to="/forgot" className="text-primary" onClick={()=>{ $('#sign').modal('hide'); }}>忘记密码？</Link></div>
               </div>
               : null}
             
@@ -63,6 +64,18 @@ export class SignModal extends Component {
             </div>
 
             <div styleName="social" className="row">
+
+              {/*
+              <div className="col-3">
+                <a
+                  href="javascript:void(0)"
+                  onClick={()=>{ window.location.href = `${original_api_domain}/oauth/wechat${Wechat.in ? '' : '-pc'}`; }}
+                  styleName="wechat">
+                  微信
+                  </a>
+              </div>
+              */}
+
               <div className="col-4">
                 <a href={`${original_api_domain}/oauth/github`} styleName="github">GitHub</a>
               </div>
@@ -75,7 +88,7 @@ export class SignModal extends Component {
             </div>
 
             <div styleName="agreement">
-              登录即表示你同意网站的<Link to="/agreement" onClick={()=>{ $('#sign').modal('hide'); }}>《用户协议》</Link>
+              登录即表示你同意网站的<Link to="/agreement" className="text-primary" onClick={()=>{ $('#sign').modal('hide'); }}>《用户协议》</Link>
             </div>
 
           </div>);
@@ -87,13 +100,13 @@ export class SignModal extends Component {
           <div styleName="header">
             <h4>登录{name}</h4>
             <div>
-              没有账号？ <a href="javascript:void(0)" onClick={this.displayComponent}>注册</a>
+              没有账号？ <a href="javascript:void(0)" className="text-primary" onClick={this.displayComponent}>注册</a>
             </div>
           </div> :
           <div styleName="header">
             <h4>注册{name}</h4>
             <div>
-              已经有账号了？ <a href="javascript:void(0)" onClick={this.displayComponent}>登录</a>
+              已经有账号了？ <a href="javascript:void(0)" className="text-primary" onClick={this.displayComponent}>登录</a>
             </div>
           </div>}
         body={body}
