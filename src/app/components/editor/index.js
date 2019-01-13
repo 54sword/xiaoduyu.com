@@ -144,11 +144,27 @@ const Controls = (props) => {
             }}
             text={<span className="RichEditor-styleButton image"></span>}
             />
+
+        
+
         {/*!props.expandControl ? <span onClick={props.handleExpandControl} className="RichEditor-styleButton more"></span> : null*/}
 
         {/*<span className="RichEditor-styleButton video" onClick={props.addVideo}></span>*/}
         {props.expandControl ? <span className="RichEditor-styleButton link" onClick={props.addLink}></span> : null}
         {/*<span href="javascript:void(0)" className="RichEditor-styleButton music" onClick={props.addMusic}></span>*/}
+          
+        {/*
+        <span
+          className="RichEditor-styleButton link-image"
+          onClick={()=>{
+            let url = prompt("请输入图片地址","");
+            if (url) {
+              props.addImage([{ name: url, src: url }]);
+            }
+          }}
+          >
+        </span>
+        */}
 
       </div>
   );

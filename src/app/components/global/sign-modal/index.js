@@ -74,6 +74,7 @@ export class SignModal extends Component {
                   </a>
               </div> */}
               
+              {/* 
               <div className="col-4">
                 <a href={`${original_api_domain}/oauth/github`} styleName="github">GitHub</a>
               </div>
@@ -83,6 +84,16 @@ export class SignModal extends Component {
               <div className="col-4">
                 <a href={`${original_api_domain}/oauth/weibo`} styleName="weibo">微博</a>
               </div>
+              */}
+
+              <div className="col-6">
+                <a href={`${original_api_domain}/oauth/qq`} styleName="qq">QQ</a>
+              </div>
+
+              <div className="col-6">
+                <a href={`${original_api_domain}/oauth/weibo`} styleName="weibo">微博</a>
+              </div>
+
             </div>
 
             <div styleName="agreement">

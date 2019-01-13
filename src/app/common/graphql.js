@@ -163,9 +163,7 @@ export default async ({
       }
 
       if (apis.length == 1) {
-        // setTimeout(()=>{
-          resolve(res.data[apis[0].api]);
-        // }, 1000);
+        resolve(res.data[apis[0].api]);
       } else {
         resolve(res.data);
       }

@@ -138,7 +138,8 @@
 .RichEditor-controls .link,
 .RichEditor-controls .video,
 .RichEditor-controls .music,
-.RichEditor-controls .more{
+.RichEditor-controls .more,
+.RichEditor-controls .link-image{
   width:25px;
   height: 25px;
   background-size: 80%;
@@ -206,4 +207,8 @@
 
 .RichEditor-controls .more{
   background-image: url(./images/more.png);
+}
+
+.RichEditor-controls .link-image{
+  background-image: url(./images/editor-icon_14.png);
 }

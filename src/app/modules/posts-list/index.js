@@ -95,7 +95,7 @@ export default class PostsList extends Component {
   render () {
     
     const { id, postsList, itemType, showPagination, showTips, isMember, scrollLoad } = this.props;
-    const { data, loading, more, count, filters = {} } = postsList;
+    const { data, loading, more = true, count, filters = {} } = postsList;
 
     // 没有结果
     if (!loading && data && data.length == 0 && !more) {
@@ -106,6 +106,8 @@ export default class PostsList extends Component {
 
       {!loading && showTips && isMember ? <NewTips topicId={id} /> : null}
 
+      {/* <Loading /> */}
+
       {data && data.map(posts=>{
         if (itemType == 'poor') {
           return (<ItemPoor key={posts._id} posts={posts} />)
@@ -114,15 +116,7 @@ export default class PostsList extends Component {
         }
       })}
 
-      {(()=>{
-
-        if (!more || !scrollLoad) return null;
-
-        if (loading && more || !loading) {
-          return <Loading />;
-        }
-
-      })()}
+      {!more || !scrollLoad ? null : <Loading />}
 
       {showPagination &&
         <Pagination

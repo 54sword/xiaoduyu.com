@@ -1,9 +1,23 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import ContentLoader from 'react-content-loader';
 
-export default class UIContentLoader extends PureComponent {
+export default class UIContentLoader extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMount: false
+    }
+  }
+
+  componentDidMount() {
+    this.setState({ isMount: true });
+  }
 
   render() {
+
+    if (!this.state.isMount) return null;
+    
     return (<>
       
       <div style={{ height:"130px", backgroundColor:'#fff', marginBottom:'10px', borderRadius:'4px'}}>

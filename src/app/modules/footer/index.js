@@ -14,10 +14,11 @@ export default class Links extends React.PureComponent {
 
     return(
       <div styleName="container">
-
+        
         <div>
           {contact_email && <a href={`mailto:${contact_email}`}>联系作者</a>}
           <Link to="/agreement">用户协议</Link>
+          <a href="https://github.com/54sword/xiaoduyu.com" target="_blank">源码地址</a>
         </div>
         
         {ICP_number ? <div><a href="http://www.miitbeian.gov.cn" target="_blank">{ICP_number}</a></div> : null}

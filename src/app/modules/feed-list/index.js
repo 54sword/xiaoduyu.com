@@ -111,16 +111,8 @@ export default class PostsList extends Component {
           }
         })}
       </div>
-
-      {(()=>{
-
-        if (!more || !scrollLoad) return null;
-
-        if (loading && more || !loading) {
-          return <Loading />;
-        }
-
-      })()}
+        
+      {!more || !scrollLoad ? null : <Loading />}
 
       {showPagination ?
         <Pagination

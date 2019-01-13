@@ -12,7 +12,7 @@ import OperatingStatus from '@modules/operating-status';
 import Footer from '@modules/footer';
 import MixingFeed from '@modules/mixing-feed';
 import HotPostsList from '@modules/hot-posts-list';
-// import Case from '@modules/case';
+import Case from '@modules/case';
 import AdsByGoogle from '@modules/adsbygoogle';
 import ProfileCard from '@modules/profile-card';
 
@@ -36,13 +36,15 @@ export default class Home extends React.PureComponent {
           <div className="d-none d-lg-block d-xl-block"><AppDownload /></div>
         </>
         
-        <MixingFeed />
+        <>
+          <MixingFeed />
+        </>
         
         <>
           <ProfileCard />
           {Goole_AdSense.sidebar ? <AdsByGoogle {...Goole_AdSense.sidebar} /> : null}
           <HotPostsList />
-          {/* <Case /> */}
+          <Case />
           <LinksExchange />
           <OperatingStatus />
           <Footer />
