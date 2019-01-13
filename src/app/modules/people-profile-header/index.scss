@@ -1,0 +1,65 @@
+
+.header{
+  width: 100%;
+  background-color: #fff;
+  padding:15px;
+
+  .profile{
+    min-height: 100px;
+    padding:0 0 0 140px;
+  }
+  
+  .actions{
+    float:right;
+  }
+
+  .avatar{
+    position: absolute;
+    margin-left:-130px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #dbdbdb;
+  }
+
+  .nickname{
+    font-size: 25px;
+    font-weight: bold;
+    .male{
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      background-image: url(./images/male.png);
+      background-size: cover;
+      margin:5px 0 0 5px;
+    }
+    .female{
+      @extend .male;
+      background-image: url(./images/female.png);
+    }
+  }
+  
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+
+  .header{
+    
+    .profile{
+      min-height:70px;
+      padding-left:80px;
+    }
+    
+    .avatar{
+      width: 65px;
+      height: 65px;
+      margin-left:-80px;
+    }
+
+    .nickname{
+      font-size: 18px;
+    }
+
+  }
+
+}

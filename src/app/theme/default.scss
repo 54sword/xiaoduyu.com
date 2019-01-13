@@ -1,0 +1,190 @@
+
+/**
+ * 覆盖默认的 bootstrap 的样式
+ */
+
+$color_primary: #4170ea;
+$color_dark: #484848;
+$color_muted: #eff1f4;
+$color_secondary: #999;
+
+
+:global{
+
+body{
+  font-family: SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
+  // font-family: PingFang SC,Arial,Microsoft YaHei,sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+}
+
+ul{
+  padding:0px;
+  margin:0px;
+}
+
+a:focus{
+  outline: none;
+}
+
+.toastify{ z-index: 9999 !important; }
+
+.container{
+  max-width: 1180px;
+  @media (min-width: 0px) and (max-width: 767px) {
+    padding-left:10px;
+    padding-right:10px;
+  }
+}
+
+.default-theme{
+
+  background-color: #eaedf0;
+  color: $color_dark;
+
+
+  //======================================================
+  // 链接默认颜色
+  a{ color: $color_dark; }
+
+  .html-content{
+    a{ color: $color_primary !important; }
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/content/typography/#inline-text-elements
+  small{ font-size: 12px; }
+
+  //======================================================
+  // 文本颜色
+  // https://getbootstrap.com/docs/4.0/utilities/colors/
+
+  .text-primary{ color: $color_primary !important; }
+  .text-secondary{ color: $color_secondary !important; }
+  // .text-success{}
+  // .text-danger{}
+  // .text-warning{}
+  // .text-info{}
+  // .text-light{}
+  .text-dark{ color: $color_dark !important; }
+  .text-muted{ color: $color_muted !important; }
+  // .text-white{}
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/card/
+
+  .card{
+    border: none;
+    border-radius: none;
+    margin-bottom: 10px;
+    
+    .card-header{
+      padding:8px 15px 8px 15px;
+      border-bottom: 1px solid $color_muted;
+      background-color: #fff;
+      font-size: 14px;
+    }
+
+    .card-body{
+      padding:15px;
+    }
+
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/list-group/
+  .list-group-item{
+    border: 1px solid #fff;
+    border-top: 1px solid $color_muted;
+    &:hover{ border-bottom: 1px solid $color_muted; }
+    &:first-child{ border-top:none; }
+    &:last-child{ border-bottom:none; }
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/utilities/borders/#border-radius
+
+  .border{ border: 1px solid $color_muted; }
+  .border-top{ border-top: 1px solid $color_muted; }
+  .border-right{ border-right: 1px solid $color_muted; }
+  .border-bottom{ border-bottom: 1px solid $color_muted; }
+  .border-left{ border-left: 1px solid $color_muted; }
+
+  @media (min-width: 0px) and (max-width: 767px) {
+    .border{ border: 0.5px solid #ddd; }
+    .border-top{ border-top: 0.5px solid #ddd; }
+    .border-right{ border-right: 0.5px solid #ddd; }
+    .border-bottom{ border-bottom: 0.5px solid #ddd; }
+    .border-left{ border-left: 0.5px solid #ddd; }
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/buttons/
+  .btn-primary{
+    background-color: $color_primary;
+    color:#fff;
+    border:1px solid $color_primary;
+    &:hover{
+      background-color: #547de8;
+      color:#fff;
+    }
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/navbar/
+  .navbar{
+    position: fixed;
+    top:0px;
+    z-index: 99;
+    width: 100%;
+    padding:0 10px 0 10px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-bottom: 1px solid #eaedf0;
+  }
+
+  .navbar-brand{
+    min-height: 45px;
+    padding:0px;
+    margin-right:0px;
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/modal/
+  .modal-content{
+    border:none;
+    border-radius: 12px;
+  }
+  .modal-body{
+    padding:0px;
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.2/components/navs/
+  .nav-tabs{
+    background-color: #fff;
+    padding:0 10px 0 10px;
+    border:none;
+
+    .nav-link{
+      padding-top:15px;
+      padding-bottom:13px;
+      border: none;
+      border-bottom:2px solid #fff;
+    
+      &:hover{
+        border: none;
+        color: #4170ea;
+      }
+    }
+
+    .active{
+      border: none;
+      border-bottom:2px solid #4170ea !important;
+      color:#4170ea;
+    }
+
+  }
+  
+}
+}

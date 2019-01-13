@@ -1,41 +1,43 @@
 
 // config
-import { name, domain_name, amp, favicon } from '../../../config'
+import { name, domain_name, amp, favicon } from '@config';
 
 // tools
-import { abstractImagesFromHTML } from '../../common/utils';
-import graphql from '../../common/graphql';
-import { DateDiff } from '../../common/date';
+import { abstractImagesFromHTML } from '@utils/utils';
+import graphql from '@utils/graphql';
+import { DateDiff } from '@utils/date';
 
 export const show = async (req, res, next) => {
 
   const { id } = req.params;
-
+  
   let [ err, posts ] = await graphql({
-    api: 'posts',
-    args: {
-      _id: id
-    },
-    fields: `
-      _id
-      comment_count
-      content_html
-      create_at
-      follow_count
-      like_count
-      title
-      topic_id{
+    apis: [{
+      api: 'posts',
+      args: {
+        _id: id
+      },
+      fields: `
         _id
-        name
-      }
-      user_id{
-        _id
-        nickname
-        brief
-        avatar_url
-      }
-      view_count
-    `
+        comment_count
+        content_html
+        create_at
+        follow_count
+        like_count
+        title
+        topic_id{
+          _id
+          name
+        }
+        user_id{
+          _id
+          nickname
+          brief
+          avatar_url
+        }
+        view_count
+      `
+    }]
   });
 
   if (posts && posts[0]) {
@@ -83,25 +85,27 @@ export const show = async (req, res, next) => {
   // =============================
   // 获取评论
   let [ error, commentList ] = await graphql({
-    api: 'comments',
-    args: {
-      posts_id: id,
-      parent_id: 'not-exists',
-      page_size: 50,
-      weaken: false
-    },
-    fields: `
-      content_html
-      create_at
-      reply_count
-      like_count
-      _id
-      user_id {
+    apis: [{
+      api: 'comments',
+      args: {
+        posts_id: id,
+        parent_id: 'not-exists',
+        page_size: 50,
+        weaken: false
+      },
+      fields: `
+        content_html
+        create_at
+        reply_count
+        like_count
         _id
-        nickname
-        avatar_url
-      }
-    `
+        user_id {
+          _id
+          nickname
+          avatar_url
+        }
+      `
+    }]
   });
 
   commentList = JSON.parse(JSON.stringify(commentList));
@@ -129,9 +133,6 @@ export const show = async (req, res, next) => {
     });
 
   }
-
-  // console.log(error);
-  // console.log(commentList);
 
   res.render('../dist/server/views/pages/posts-detail.ejs', {
     amp,

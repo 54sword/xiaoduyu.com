@@ -1,0 +1,20 @@
+
+.loading{
+  display: block;
+  text-align: center;
+  // padding:15px 0 15px 0;
+  font-size: 12px;
+  margin-bottom:10px;
+  // margin-top:10px;
+
+  span{
+    margin-right:5px;
+    margin-bottom: -3px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url(../loading/images/loading.gif);
+    background-size: cover;
+  }
+
+}

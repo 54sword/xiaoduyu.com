@@ -17,19 +17,50 @@ module.exports = {
       // 配置文件位置
       '@config': path.resolve('config'),
       // 模块
-      '@modules': path.resolve('src/modules'),
+      '@modules': path.resolve('src/app/modules'),
       // 组件
-      '@components': path.resolve('src/components'),
-      '@actions': path.resolve('src/store/actions'),
-      '@reducers': path.resolve('src/store/reducers'),
+      '@components': path.resolve('src/app/components'),
+      // redux actions
+      '@actions': path.resolve('src/app/store/actions'),
+      // redux reducers
+      '@reducers': path.resolve('src/app/store/reducers'),
       // 工具
-      '@utils': path.resolve('src/common')
+      '@utils': path.resolve('src/app/common')
     }
   },
 
   entry: {
     app: [
       '@babel/polyfill',
+
+      // bootstrap
+      'bootstrap/dist/css/bootstrap.min.css',
+      'jquery',
+      'popper.js',
+      'bootstrap/dist/js/bootstrap.min.js',
+
+      // https://github.com/apvarun/toastify-js
+      // Toastify 全局的轻消息
+      './src/app/vendors/toastify-js/toastify.js',
+      './src/app/vendors/toastify-js/toastify.css',
+
+      // 网页图片浏览器
+      // WebPictureViewer(['https://avatars3.githubusercontent.com/u/888115?v=3&s=40']);
+      './src/app/vendors/web-picture-viewer.js',
+
+      // ArriveFooter 监听抵达页尾的事件
+      './src/app/vendors/arrive-footer.js',
+      
+      // 折叠按钮
+      './src/app/vendors/expand-button.js',
+
+      /**
+       * 懒加载图片、Dom
+       * 使用方式
+       * 给dom添加class="load-demand"、data-load-demand="<div></div> or <img />"
+       **/
+      './src/app/vendors/load-demand',
+
       './src/client/index.js'
     ]
   },
@@ -45,8 +76,9 @@ module.exports = {
   },
 
   optimization: {
-    namedModules: true,
-    noEmitOnErrors: true,
+    // minimize: devMode ? false : true,
+    // namedModules: true,
+    // noEmitOnErrors: true,
     splitChunks: {
       cacheGroups: {
         styles: {
@@ -154,7 +186,7 @@ module.exports = {
     // 主要是打包后的添加的css、js静态文件路径添加到模版中
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, '../../dist/server/index.ejs'),
-      template: 'src/views/index.html',
+      template: 'src/app/views/index.html',
       metaDom: '<%- meta %>',
       htmlDom: '<%- html %>',
       reduxState: '<%- reduxState %>',

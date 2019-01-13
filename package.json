@@ -1,6 +1,6 @@
 {
   "name": "xiaoduyu.com",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "小度鱼社区",
   "scripts": {
     "start": "NODE_ENV=development node ./scripts/start.js",
@@ -16,11 +16,10 @@
   "author": "吴世剑 <54sword@163.com>",
   "license": "MIT",
   "dependencies": {
-    "apollo-cache-inmemory": "^1.2.10",
-    "apollo-client": "^2.4.2",
-    "apollo-link-http": "^1.5.5",
+    "apollo-cache-inmemory": "^1.3.12",
+    "apollo-client": "^2.4.8",
+    "apollo-link-http": "^1.5.9",
     "autoprefixer": "^9.4.2",
-    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.1.3",
     "compression": "^1.7.3",
@@ -87,7 +86,7 @@
     "file-loader": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.6.0",
-    "mini-css-extract-plugin": "^0.4.5",
+    "mini-css-extract-plugin": "^0.5.0",
     "nodemon": "^1.18.7",
     "postcss-loader": "^3.0.0",
     "postcss-scss": "^2.0.0",

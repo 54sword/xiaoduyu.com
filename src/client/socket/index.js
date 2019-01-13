@@ -1,27 +1,51 @@
 import io from 'socket.io-client';
 
 // config
-import { socket_url } from '../../../config';
+import { socket_url } from '@config';
 
 // redux actions
-import { loadUnreadCount, cancelNotiaction } from '../../store/actions/notification';
-import { setOnlineUserCount } from '../../store/actions/website';
-import { newPostsTips } from '../../store/actions/posts';
-import { updateNewstFeedCreateDate } from '../../store/actions/feed';
+import { loadUnreadCount, cancelNotiaction } from '@actions/notification';
+import { setOnlineUserCount } from '@actions/website';
 
-// import { getNew } from '@actions/website';
 import { loadTips } from '@actions/tips';
 
 export default function ({ dispatch, getState }) {
+
+  // 用于判断是否登录
+  const me = getState().user.profile;
+
+  const socket = io.connect(socket_url);
 
   const handleActions = function(action, params = null) {
     action(params)(dispatch, getState);
   }
 
-  // 用于判断是否登录
-  const me = getState().user.profile;
+  const handleNotification = (notification) => {
 
-  let socket = io.connect(socket_url);
+    try {
+      notification = JSON.parse(notification);
+    } catch (err) {
+      notification = null;
+      console.log(err);
+    }
+  
+    if (!notification || !notification.type) return;
+  
+    const { type, data } = notification;
+  
+    switch (type) {
+      // 有新通知
+      case 'notification':
+        handleActions(loadUnreadCount);
+        break;
+      case 'new-feed':
+        handleActions(loadTips);
+        break;
+      case 'recommend-posts':
+        handleActions(loadTips);
+        break;
+    }
+  }
 
   socket.on("connect", function() {
 
@@ -30,36 +54,11 @@ export default function ({ dispatch, getState }) {
       handleActions(setOnlineUserCount, count);
     });
 
-    // 通知
-    this.on("notiaction", function(addresseeIds) {
-      if (me && me._id && addresseeIds.indexOf(me._id) != -1) {
-        handleActions(loadUnreadCount);
-      }
-    });
-
-    // 取消通知
-    this.on("cancel-notiaction", function(id) {
-      handleActions(cancelNotiaction, {id});
-    });
-
-    // 最帖子通知
-    // this.on("new-posts", function(timestamp) {
-      // handleActions(updateNewstFeedCreateDate);
-    // });
-
-    this.on('recommend-posts', function(id){
-      // console.log(id);
-      // console.log('----');
-      // handleActions(updateNewstFeedCreateDate);
-      // handleActions(newPostsTips);
-      handleActions(loadTips);
-    });
-
-    this.on('new-feed', function(feed){
-      // handleActions(updateNewstFeedCreateDate);
-      // handleActions(newPostsTips);
-      handleActions(loadTips);
-    });
+    // 自己相关的通宵
+    if (me) this.on(me._id, handleNotification);
+    
+    // 会员消息
+    this.on('member', handleNotification);
 
   });
 

@@ -16,13 +16,15 @@ module.exports = {
       // 配置文件位置
       '@config': path.resolve('config'),
       // 模块
-      '@modules': path.resolve('src/modules'),
+      '@modules': path.resolve('src/app/modules'),
       // 组件
-      '@components': path.resolve('src/components'),
-      '@actions': path.resolve('src/store/actions'),
-      '@reducers': path.resolve('src/store/reducers'),
+      '@components': path.resolve('src/app/components'),
+      // redux actions
+      '@actions': path.resolve('src/app/store/actions'),
+      // redux reducers
+      '@reducers': path.resolve('src/app/store/reducers'),
       // 工具
-      '@utils': path.resolve('src/common')
+      '@utils': path.resolve('src/app/common')
     }
   },
 
