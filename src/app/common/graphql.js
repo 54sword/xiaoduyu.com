@@ -6,6 +6,8 @@ import fetch from "node-fetch";
 
 import config, { debug, graphql_url } from '@config';
 
+import featureConfig from '@config/feature.config.js';
+
 import To from './to';
 
 // https://www.apollographql.com/docs/react/advanced/caching.html
@@ -38,7 +40,6 @@ var lastCacheTime = 0;
  *
  * GraphQL 客户端请求
  *
- *	@param url String 请求地址
  *	@param type String 请求类型
  *	@param header object 请求头的描述
  *	@param cache boolean 使用缓存
@@ -48,27 +49,23 @@ var lastCacheTime = 0;
  *		@param args Object 查询的参数
  *		@param fields String 需要返回的数据
  *
- *	 使用例子
- *		let [ err, res ] = await To(GraphQL({
- *			apis: [
- *				{
- *					api: 'listings',
- *					args,
+ *	使用例子
+ *		let [ err, res ] = await graphql({
+ *      type: 'query',
+ *      header: {},
+ *      cache: false,
+ *			apis: [{
+ *					api: 'signIn',
+ *					args: {
+ *             email:'111@gmail.com',
+ *             password: '****'
+ *          },
  *					fields: `
- *						id
- *						market
- *						geoType
- *						address{
- *							deliveryLine
- *						}
- *						coordinates{
- *							latitude
- *							longitude
- *						}
+ *						user_id
+ *						access_token
  *					`
- *				}
- *			]
- *		}));
+ *			}]
+ *	});
  */
 
 export default async ({
@@ -132,7 +129,7 @@ export default async ({
     if (config.cache <= 0) {
       // 不开启缓存
       options.fetchPolicy = 'no-cache';
-    } else if (new Date().getTime() - lastCacheTime > config.cache) {
+    } else if (new Date().getTime() - lastCacheTime > featureConfig.cache && lastCacheTime != 0) {
       resetStore = true;
       // 超过缓存事件，清空所有缓存
       await client.resetStore();
@@ -158,7 +155,7 @@ export default async ({
 
         // 请求成功，设置最近一次缓存事件
         if (resetStore) {
-          lastCacheTime = parseInt(new Date().getTime());
+          lastCacheTime = new Date().getTime();
         }
       }
 

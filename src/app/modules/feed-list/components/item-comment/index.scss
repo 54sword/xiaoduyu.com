@@ -247,7 +247,7 @@
 
     > span{
       color:#999;
-      font-size: 12px;
+      // font-size: 13px;
     }
 
     > a, > div a{
@@ -306,12 +306,12 @@
 
 
 .posts-item{
-  border-left:4px solid #e0e3e6;
-  background-color: #f6f9fb;
+  // border-left:4px solid #e0e3e6;
+  background-color: #f4f7f9;
   // border-top: 1px solid #f0f3f5;
-  padding:10px 15px 10px 15px;
-  margin:0 15px 0 15px;
-  font-size: 12px;
+  padding:15px;
+  // margin:0 15px 0 15px;
+  font-size: 13px;
 }
 
 .posts-item-avatar{
@@ -321,6 +321,8 @@
   border-radius: 50%;
   overflow: hidden;
   line-height: 100%;
+  margin-top:-1px;
+  margin-left:-25px;
   img{
     width: 20px;
     height: 20px;
@@ -338,7 +340,7 @@
 }
 
 .posts-item-nickname{
-  // padding-left:28px;
+  padding-left:28px;
   font-weight: bold;
   font-size: 13px;
 }
@@ -361,7 +363,7 @@
 }
 
 .actions-bar{
-  border-bottom: 1px solid #eaedf0;
+  // border-bottom: 1px solid #eaedf0;
   padding:10px 20px 10px 20px;
 }
 
@@ -377,6 +379,22 @@
   margin:0 20px 0px 15px;
   // padding-left:15px;
   padding:10px 10px 10px 15px;
-  border-left:4px solid #e0e3e6;
+  // border-left:4px solid #e0e3e6;
   // border-radius: 4px;
 }
+
+
+.comment-list{
+  border-bottom:1px solid #333;
+}
+/*
+.comment-list{
+  :global{
+    .markdown-body{
+      img{
+        max-width: 50%;
+      }
+    }
+  }
+}
+*/

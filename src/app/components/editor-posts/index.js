@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { addPosts, updatePosts } from '@actions/posts';
 import { loadTopics } from '@actions/topic';
-import { getTopicById, getTopicListById } from '@reducers/topic';
+import { getTopicListById } from '@reducers/topic';
 
 // components
 import Device from '@utils/device';
@@ -360,6 +360,8 @@ class EditorPosts extends React.Component {
           <div styleName="editor">{editor}</div>
 
           <button styleName="button" onClick={this.submit}>{loading ? '提交中...' : '提交'}</button>
+
+          <br /><br /><br />
         </div>
     </div>)
   }

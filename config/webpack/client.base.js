@@ -60,6 +60,8 @@ module.exports = {
        * 给dom添加class="load-demand"、data-load-demand="<div></div> or <img />"
        **/
       './src/app/vendors/load-demand',
+      
+      'github-markdown-css/github-markdown.css',
 
       './src/client/index.js'
     ]

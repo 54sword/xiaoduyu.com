@@ -3,7 +3,6 @@
 /*************** 内容样式 ***************/
 
 .DraftEditor-root * { -webkit-user-select: text; }
-.DraftEditor-root h2{ font-size: 18px; margin:0px; padding:0px; }
 .DraftEditor-root figure{ margin:0; }
 .DraftEditor-root figure[contenteditable="false"]{ pointer-events:none; }
 .DraftEditor-root img{
@@ -17,50 +16,46 @@
   background-position: center;
   background-color: #efefef;
 }
-.DraftEditor-root ul,
-.DraftEditor-root ol{ margin:0px; }
-.DraftEditor-root embed,
-.DraftEditor-root iframe{ width:100%; border:none; }
-.DraftEditor-root div,
-.DraftEditor-root span{ padding:0px; margin:0px; }
+
+.RichEditor-editor{
+  color:#222;
+}
 
 .RichEditor-editor .RichEditor-blockquote {
-  border-left: 5px solid #c2c2c2;
-  color: #666;
-  padding: 10px 20px;
-  background-color: #f5f4f4;
-  margin:5px 0 5px 0;
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+  margin:0px;
 }
 
-.RichEditor-editor .public-DraftStyleDefault-pre {
-  background-color: #222;
-  margin:5px 0 5px 0;
-  padding:10px 15px 10px 15px;
-  border-radius: 4px;
-  color:#a8ff60;
-  max-height: 400px;
-  max-width: 100%;
+.public-DraftEditor-content > div > div,
+.public-DraftEditor-content > div > ul,
+.public-DraftEditor-content > div > h2
+{
+  margin-bottom:16px !important;
+}
+
+.public-DraftEditor-content > div > pre{
+
+  padding: 16px;
   overflow: auto;
-  white-space: nowrap;
-  caret-color:#fff;
   font-size: 14px;
-}
-  .public-DraftStyleDefault-pre pre{
-    color:#a8ff60;
-    margin:5px 0 5px 0;
-    padding:0px;
-  }
+  line-height: 110%;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  margin-bottom:0px;
 
-.DraftEditor-root embed, .DraftEditor-root iframe{
-  min-height: 260px;
-}
-@media only screen and (max-width: 768px) {
-  .DraftEditor-root embed, .DraftEditor-root iframe{
-    min-height: 216px;
-  }
 }
 
-.DraftEditor-root iframe[src^="//music.163.com"] { min-height: auto; }
+.public-DraftEditor-content > div > pre > pre{
+  margin-bottom:0px;
+}
+
+.public-DraftEditor-content > div > h2{
+  padding-bottom: 1em;
+  font-size: 1.2em;
+  border-bottom: 1px solid #eaecef;
+}
 
 /*************** 内容样式 end ***************/
 

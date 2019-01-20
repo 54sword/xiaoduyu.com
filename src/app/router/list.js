@@ -89,6 +89,7 @@ export default [
     loadData: PeopleDetailLoadData,
     enter: 'everybody'
   },
+  
   {
     path: '/notifications',
     exact: true,

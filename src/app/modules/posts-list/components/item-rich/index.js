@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
+import featureConfig from '@config/feature.config.js';
+
 // functions
 import Device from '@utils/device';
 
@@ -143,6 +145,7 @@ export default class PostsListItem extends React.PureComponent {
                 <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
                 <span>{posts._create_at}</span>
                 {posts._device ? <span>{posts._device}</span> : null}
+                {/* {posts._update_at ? <span>{posts._update_at}编辑</span> : null} */}
               </div>
 
             </div>
@@ -155,8 +158,6 @@ export default class PostsListItem extends React.PureComponent {
             <div styleName="cover-image" style={{backgroundImage:`url(${posts._coverImage})`}}></div>
             : null}
 
-          {posts._update_at ? <div styleName="update_at">最近一次编辑于 {posts._update_at}</div> : null}
-
           <div styleName="title">
             <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
           </div>
@@ -165,7 +166,7 @@ export default class PostsListItem extends React.PureComponent {
 
             if (expand) {
               return (<div styleName="content">
-                <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
+                <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} maxHeight={featureConfig.posts.contentMaxHeight} />
               </div>)
             }
 
@@ -210,7 +211,7 @@ export default class PostsListItem extends React.PureComponent {
       </div>
 
       {expand ?
-        <div onClick={this.stopPropagation}>
+        <div onClick={this.stopPropagation} styleName="comment-list">
 
           <CommentList
             name={posts._id}

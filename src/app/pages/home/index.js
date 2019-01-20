@@ -1,10 +1,8 @@
 import React from 'react';
 
-// components
+// modules
 import Shell from '@modules/shell';
 import Meta from '@modules/meta';
-
-// modules
 import Topics from '@modules/topics';
 import AppDownload from '@modules/app-download';
 import LinksExchange from '@modules/links-exchange';

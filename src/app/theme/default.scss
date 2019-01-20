@@ -47,7 +47,10 @@ a:focus{
   // 链接默认颜色
   a{ color: $color_dark; }
 
-  .html-content{
+  // 正文
+  .html-content,
+  // 编辑器
+  .RichEditor-editor{
     a{ color: $color_primary !important; }
   }
 

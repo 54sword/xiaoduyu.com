@@ -32,7 +32,7 @@
   font-size: 12px;
   z-index: 999;
   padding:15px 15px 0 75px;
-  height: 70px;
+  height: 65px;
   line-height: 50px;
 
   .avatar{
@@ -150,6 +150,10 @@
   color:#14171a;
   padding:5px 15px 0 15px;
   font-size: 14px;
+
+  img{
+    max-width: 50%;
+  }
 }
 
 .status-bar{
@@ -338,7 +342,7 @@
 }
 
 .comment-status{
-  border-top:1px solid #efefef;
+  // border-top:1px solid #efefef;
   padding:10px 0 0 5px;
   margin-top:10px;
   // text-align: right;
@@ -415,4 +419,10 @@
     }
   }
 
+}
+
+.comment-list{
+  img{
+    max-width: 50% ;
+  }
 }

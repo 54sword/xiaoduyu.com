@@ -4,7 +4,6 @@ import loadList from '@utils/graphql-load-list';
 import Device from '@utils/device';
 import graphql from '@utils/graphql';
 
-
 // 添加问题
 export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
   return (dispatch, getState) => {

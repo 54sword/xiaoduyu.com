@@ -21,6 +21,8 @@ import Like from '@components/like';
 // import EditButton from '@components/edit-button';
 // import ReportMenu from '@components/report-menu';
 import MoreMenu from '@components/more-menu';
+import CommentList from '@modules/comment-list';
+
 // import Bundle from '@components/bundle';
 // import Share from '@components/share';
 // import GridListImage from '@components/grid-list-image';
@@ -62,6 +64,8 @@ export default class PostsItem extends React.PureComponent {
 
     const { comment, posts, isMember } = this.props;
     const { expand, displayReply } = this.state;
+
+    // console.log(comment);
 
     return (<div styleName={"item"} onClick={!expand ? this.handleExpand : null} >
 
@@ -152,27 +156,39 @@ export default class PostsItem extends React.PureComponent {
 
             return (<div
               styleName="reply-item"
-              onClick={(e)=>{
+              className="rounded"
+              // onClick={(e)=>{
                 // e.stopPropagation();
                 // window.open(`/comment/${comment.parent_id || comment._id}`);
-              }}
+              // }}
               >
               <div>
-                {/*<div styleName="posts-item-avatar">
+                {/* {/*<div styleName="posts-item-avatar">
                   <img src={comment.reply_id.user_id.avatar_url} />
                 </div>
                 */}
+
+                
                 <div>
-                  <span styleName="posts-item-nickname">{comment.reply_id.user_id.nickname}</span>
+                  <Link to={`/people/${comment.reply_id.user_id._id}`} styleName="posts-item-nickname">
+                    <img styleName="posts-item-avatar" src={comment.reply_id.user_id.avatar_url} />
+                    {comment.reply_id.user_id.nickname}
+                  </Link>
                   {/* <span styleName="create-at">{comment.reply_id._create_at}</span> */}
                 </div>
               </div>
               <div styleName="posts-item-reply">
                 {!displayReply ? comment.reply_id.content_summary : <HTMLText content={comment.reply_id.content_html} />}
-                <div><a href="javascript:void(0)" onClick={(e)=>{
-                  e.stopPropagation();
-                  this.setState({ displayReply: this.state.displayReply ? false : true });
-                }}>{!displayReply ? '展开' : '收起'}</a>
+                <div>
+                  <a
+                    href="javascript:void(0)"
+                    className="text-primary"
+                    onClick={(e)=>{
+                    e.stopPropagation();
+                    this.setState({ displayReply: this.state.displayReply ? false : true });
+                    }}>
+                    {!displayReply ? '展开' : '收起'}
+                  </a>
                 </div>
               </div>
               {/*comment.reply_id.images && comment.reply_id.images.map(item=>{
@@ -183,13 +199,18 @@ export default class PostsItem extends React.PureComponent {
           
           if (posts) {
 
-            return (<div styleName="posts-item" onClick={(e)=>{
-              // e.stopPropagation();
-              // window.open(`/posts/${posts._id}`);
-            }}>
-                {/*<img styleName="posts-item-avatar" src={posts.user_id.avatar_url} />*/}
-                {/* <div><span styleName="posts-item-nickname">{posts.user_id.nickname}</span><span styleName="create-at">{posts._create_at}</span></div> */}
-              <Link to={`/posts/${posts._id}`} styleName="posts-item-title">{posts.title}</Link>
+            return (<div styleName="posts-item">
+              
+              <div className="mb-1">
+                <Link to={`/people/${posts.user_id._id}`} styleName="posts-item-nickname">
+                  <img styleName="posts-item-avatar" src={posts.user_id.avatar_url} />
+                  {posts.user_id.nickname}
+                </Link>
+                <span styleName="create-at">{posts._create_at}</span>
+              </div>
+              <div className="mt-2 mb-1">
+                <Link to={`/posts/${posts._id}`} styleName="posts-item-title">{posts.title}</Link>
+              </div>
               {posts.content_summary ? <div>{posts.content_summary}</div> : null}
               {/*comment.posts_id.images && comment.posts_id.images.map(item=>{
                 return <img key={item} src={item} width={70} height={70} />
@@ -200,39 +221,58 @@ export default class PostsItem extends React.PureComponent {
         })()}
 
         <div styleName="footer">
-        {expand && isMember && comment ?
-          <div>
+          
+          
 
             <div styleName="actions-bar" className="d-flex justify-content-between">
               <div styleName="actions">
                 {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
                 {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
               </div>
+              {expand && isMember && comment ?
               <div styleName="actions">
                 {comment.parent_id ? <Like reply={comment}  /> : <Like comment={comment}  />}
                 <a href="javascript:void(0)" onClick={this.handleExpand}>收起</a>
                 <MoreMenu comment={comment} />
               </div>
+              : null}
             </div>
-            
-            <div>
 
-              <Editor
-                posts_id={posts._id}
-                parent_id={comment.parent_id || comment._id}
-                reply_id={comment._id}
-                placeholder={`回复 ${comment.user_id.nickname}`}
-                successCallback={()=>{
-                  this.handleExpand();
-                  Toastify({
-                    text: '提交成功',
-                    duration: 3000,
-                    backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-                  }).showToast();
+          {expand && isMember && comment ?
+          <div>
+
+            {comment && !comment.parent_id ?
+              <div className="border-bottom">
+                <CommentList
+                name={comment._id}
+                filters={{
+                  variables: {
+                    // posts_id: posts._id,
+                    parent_id: comment._id,
+                    page_size: 10,
+                    deleted: false,
+                    weaken: false
+                  }
                 }}
                 />
+              </div>
+              : null}
 
-            </div>   
+            <Editor
+              posts_id={posts._id}
+              parent_id={comment.parent_id || comment._id}
+              reply_id={comment._id}
+              placeholder={`回复 ${comment.user_id.nickname}`}
+              successCallback={()=>{
+                this.handleExpand();
+                Toastify({
+                  text: '提交成功',
+                  duration: 3000,
+                  backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+                }).showToast();
+              }}
+              />
+
           </div>       
           : null}
 

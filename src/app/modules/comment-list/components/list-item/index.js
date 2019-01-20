@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import featureConfig from '@config/feature.config.js';
+
 import './style.scss';
 
 // redux
@@ -9,7 +11,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadMoreReply } from '@actions/comment';
 
-// components
 import LikeButton from '@components/like';
 import HTMLText from '@components/html-text';
 import MoreMenu from '@components/more-menu';
@@ -95,7 +96,7 @@ export default class CommentItem extends Component {
       </div>
 
       {comment.content_html ?
-        <div styleName="item-body"><HTMLText content={comment.content_html} /></div>
+        <div styleName="item-body"><HTMLText content={comment.content_html} maxHeight={featureConfig.comment.contentMaxHeight} /></div>
         : null}
         
       <div styleName="footer">

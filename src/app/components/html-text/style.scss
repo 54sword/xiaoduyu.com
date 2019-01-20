@@ -1,97 +1,58 @@
+:global{
 
-
-.content{
-
-  line-height: 160%;
-  word-break: break-all;
-  word-wrap: break-word;
-  font-size: 14px;
-
-  h2{
-    font-size: 18px;
-    padding:0px;
-    margin:0px;
-  }
-
-  blockquote{
-    border-left:5px solid #c6c6c6;
-    padding:10px 10px 10px 10px;
-    background-color: #f4f4f4;
-    margin:15px 0 15px 0;
-  }
-
-  strong{
-    font-weight: bold;
-  }
-
-  pre{
-    // padding:15px;
-    background-color: #222;
-    // margin:15px 0 15px 0;
-    overflow-x:scroll;
-    margin:5px 0 5px 0;
-    padding:15px;
-    border-radius: 4px;
-    color:#a8ff60;
-    max-height: 400px;
-    max-width: 100%;
-    overflow: auto;
-    white-space: nowrap;
-  }
-
-  ol{
-    list-style-type: decimal;
-    padding-left:20px;
-    // margin:15px 0 15px 0;
-    margin:0px;
-    padding:0 0 0 16px;
-  }
-
-  ul{
-    list-style-type: disc;
-    padding-left:20px;
-    // margin:15px 0 15px 0;
-    margin:0px;
-    padding:0 0 0 16px;
-  }
-
-  embed, iframe{
-    width:100%;
-    min-height: 420px;
-    border: none;
+	.markdown-body {
     
-    @media (min-width: 0px) and (max-width: 767px) {
-      min-height: 220px;
+		box-sizing: border-box;
+    font-size: 14px;
+
+    word-break: break-all;
+    word-wrap: break-word;
+
+    h2{
+      font-size:18px;
+      padding-bottom:16px;
     }
-  }
 
-  iframe[src^="//music.163.com"] {
-    min-height: auto;
-  }
-  
-  img{
-    max-width: 50%;
-    max-height: 400px;
-    min-width: 20px;
-    min-height: 20px;
-    background-color: #efefef;
-    // margin:0 auto;
-    // margin:10px 0 10px 0;
-  }
+    a{ color:#4170ea !important; }
 
-  p{
-    margin:0px;
-    padding:0px;
-    min-height: 15px;
-  }
+    embed, iframe{
+      width:100%;
+      min-height: 420px;
+      border: none;
+      
+      @media (min-width: 0px) and (max-width: 767px) {
+        min-height: 220px;
+      }
+    }
 
-  a{
-    color:#4170ea;
-    margin:0px;
-    padding:0px;
-  }
+    iframe[src^="//music.163.com"] {
+      min-height: auto;
+    }
+
+	}
+
+	@media (max-width: 767px) {
+		.markdown-body {
+      font-size: 15px;
+		}
+	}
 
 }
+
+.max-height{
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.expand-button{
+  // position: relative;
+  // display: block;
+  padding:10px 0 5px 0;
+  // margin-top:-20px;
+  // background-color: #333;
+  // background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 20%);
+}
+
 
 .more-tips{
   position: relative;
