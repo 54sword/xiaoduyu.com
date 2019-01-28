@@ -141,6 +141,10 @@ export default class CommentEditor extends Component {
         content_html: contentHTML
       });
     } else {
+
+      // console.log(contentJSON);
+      // console.log(contentHTML);
+
       [ err, res ] = await addComment({
         posts_id: posts_id,
         parent_id: parent_id,

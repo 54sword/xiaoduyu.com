@@ -1,9 +1,9 @@
 
 import GraphQL from '@utils/graphql';
 
-export function setOnlineUserCount(count) {
+export function setOnlineUserCount(online) {
   return (dispatch, getState) => {
-    dispatch({ type: 'SET_ONLINE_USER_COUNT', count })
+    dispatch({ type: 'SET_ONLINE_STATUS', online })
   }
 }
 

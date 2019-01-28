@@ -11,6 +11,7 @@ export default class Links extends React.PureComponent {
   render() {
 
     let links = [
+      { name: '烧火棍', description: '吉他指弹爱好者问答社区', domain: 'http://forum.willguitarclub.top' },
       { name: '知颜', description: '一个医美分享社区', domain: 'https://www.ziiyan.com' }
     ];
     

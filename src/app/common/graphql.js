@@ -165,7 +165,18 @@ export default async ({
         resolve(res.data);
       }
 
-    }).catch(res=>{
+    }).catch((res, e)=>{
+
+      console.log('-------');
+      console.log(e);
+
+      /*
+      for (let i in res) {
+        console.log(i);
+        console.log(res[i]);
+        console.log('-----');
+      }
+      */
 
       if (debug) {
         console.log(res);

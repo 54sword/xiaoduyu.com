@@ -13,6 +13,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { isMember } from '@reducers/user';
 import { viewPostsById } from '@actions/posts';
+import { addHasRead } from '@actions/has-read-posts';
+import { getHasReadByPostsId } from '@reducers/has-read-posts';
 
 // components
 import HTMLText from '@components/html-text';
@@ -29,13 +31,15 @@ import './index.scss';
 @withRouter
 @connect(
   (state, props) => ({
-    isMember: isMember(state)
+    isMember: isMember(state),
+    hasRead: getHasReadByPostsId(state, { postsId: props.posts._id, lastCommentAt: props.posts.last_comment_at })
   }),
   dispatch => ({
-    viewPostsById: bindActionCreators(viewPostsById, dispatch)
+    viewPostsById: bindActionCreators(viewPostsById, dispatch),
+    addHasRead: bindActionCreators(addHasRead, dispatch)
   })
 )
-export default class PostsListItem extends React.PureComponent {
+export default class PostsListItem extends React.Component {
 
   static propTypes = {
     // 帖子对象
@@ -94,7 +98,9 @@ export default class PostsListItem extends React.PureComponent {
 
     if (selectedText) return;
 
-    const { posts, viewPostsById } = this.props;
+    const { posts, viewPostsById, addHasRead } = this.props;
+
+    addHasRead({ postsId: posts._id, lastCommentAt: posts.last_comment_at });
 
     if (!this.state.expand) {
 
@@ -120,7 +126,7 @@ export default class PostsListItem extends React.PureComponent {
 
   render () {
 
-    const { posts, isMember } = this.props;
+    const { posts, isMember, hasRead } = this.props;
     const { expand } = this.state;
 
     return (<div id={posts._id} styleName={`item ${expand ? '' : 'fold'}`}>
@@ -159,6 +165,7 @@ export default class PostsListItem extends React.PureComponent {
             : null}
 
           <div styleName="title">
+            {/* style={!expand && hasRead ? { color:'#888' } : {}} */}
             <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
           </div>
 
@@ -225,7 +232,7 @@ export default class PostsListItem extends React.PureComponent {
               }
             }}
             />
-            
+
           {isMember ?
             <div className="border-top"><Editor posts_id={posts._id} /></div>
             : null}

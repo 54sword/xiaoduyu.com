@@ -61,7 +61,7 @@ module.exports = {
        **/
       './src/app/vendors/load-demand',
       
-      'github-markdown-css/github-markdown.css',
+      // 'github-markdown-css/github-markdown.css',
 
       './src/client/index.js'
     ]

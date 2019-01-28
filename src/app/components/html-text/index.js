@@ -80,7 +80,8 @@ export default class HTMLText extends Component {
       <div
         ref={this.contentRef}
         style={!expand && maxHeight && contentHeight > maxHeight ? { maxHeight: `${maxHeight}px`, overflow: 'hidden' } : null }
-        className="markdown-body"
+        styleName="content"
+        // className="markdown-body"
         dangerouslySetInnerHTML={{__html:hiddenHalf ? halfContent : content}}
         />
         

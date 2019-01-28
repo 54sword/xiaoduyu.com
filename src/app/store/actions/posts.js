@@ -134,7 +134,7 @@ export function viewPostsById({ id, callback = ()=>{ } }) {
     // 浏览次数累计
     let viewPosts = reactLocalStorage.get('view-posts') || '';
     let lastViewPostsAt = reactLocalStorage.get('last-viewed-posts-at') || new Date().getTime();
-
+    
     // 如果超过1小时，那么浏览数据清零
     if (new Date().getTime() - lastViewPostsAt > 3600000) viewPosts = '';
 

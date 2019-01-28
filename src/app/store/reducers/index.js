@@ -16,6 +16,7 @@ import reportTypes from './report-types';
 import block from './block';
 import feed from './feed';
 import tips from './tips';
+import hasReadPosts from './has-read-posts';
 
 export default function() {
 
@@ -37,7 +38,8 @@ export default function() {
     reportTypes: reportTypes(),
     block: block(),
     feed: feed(),
-    tips: tips()
+    tips: tips(),
+    hasReadPosts: hasReadPosts()
   }
 
   return combineReducers(states);

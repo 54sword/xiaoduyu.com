@@ -203,9 +203,17 @@ class EditorPosts extends React.Component {
 
       self.setState({ loading: false });
 
-      successCallback(res);
+      if (err) {
+        Toastify({
+          text: err.message || '提交失败，请重新尝试',
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+        }).showToast();
+      } else {
+        successCallback(res);
+      }
 
-      return
+      return;
     }
 
     // 添加

@@ -1,43 +1,68 @@
-:global{
+.content{
 
-	.markdown-body {
+  box-sizing: border-box;
+  font-size: 14px;
+  word-break: break-all;
+  word-wrap: break-word;
+  line-height: 170%;
+  color:#14171a;
+
+  @media (max-width: 767px) {
+    font-size: 15px;
+  }
+
+  a{
+    color:#4170ea !important;
+  }
+
+  p{
+    margin:0px;
+    padding:0px;
+    min-height: 15px;
+  }
+
+  h2{
+    font-size:18px;
+    margin:30px 0 15px 0;
+    padding-bottom:15px;
+    border-bottom: 1px solid #eaecef;
+  }
+
+  ul{
+    margin-left:20px;
+  }
+
+  pre{
+    margin-top:15px;
+  }
+
+  img{
+    max-width: 100%;
+  }
+
+  blockquote{
+    padding: 0 15px 0 15px;
+    color: #6a737d;
+    border-left: 4px solid #dfe2e5;
+  }
+
+  embed, iframe{
+    width:100%;
+    min-height: 420px;
+    border: none;
+    margin:15px 0 15px 0;
     
-		box-sizing: border-box;
-    font-size: 14px;
-
-    word-break: break-all;
-    word-wrap: break-word;
-
-    h2{
-      font-size:18px;
-      padding-bottom:16px;
+    @media (min-width: 0px) and (max-width: 767px) {
+      min-height: 220px;
     }
+  }
 
-    a{ color:#4170ea !important; }
-
-    embed, iframe{
-      width:100%;
-      min-height: 420px;
-      border: none;
-      
-      @media (min-width: 0px) and (max-width: 767px) {
-        min-height: 220px;
-      }
-    }
-
-    iframe[src^="//music.163.com"] {
-      min-height: auto;
-    }
-
-	}
-
-	@media (max-width: 767px) {
-		.markdown-body {
-      font-size: 15px;
-		}
-	}
+  iframe[src^="//music.163.com"] {
+    min-height: auto;
+  }
 
 }
+
 
 .max-height{
   max-height: 150px;

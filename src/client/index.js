@@ -16,6 +16,7 @@ import '../app/theme/default.scss';
 import { getProfile } from '@reducers/user';
 import { getUnlockTokenByCookie } from '@actions/unlock-token';
 import { requestNotificationPermission } from '@actions/website';
+import { initHasRead } from '@actions/has-read-posts';
 
 
 (async function(){
@@ -28,6 +29,7 @@ import { requestNotificationPermission } from '@actions/website';
   // 从cookie中获取unlock token，并添加到redux
   getUnlockTokenByCookie()(store.dispatch, store.getState);
   requestNotificationPermission()(store.dispatch, store.getState);
+  
 
   let logPageView = ()=>{};
 
@@ -81,5 +83,7 @@ import { requestNotificationPermission } from '@actions/website';
   document.addEventListener('touchmove', function(e) {
     e.preventDefault();
   });
+
+  initHasRead()(store.dispatch, store.getState);
 
 }());
