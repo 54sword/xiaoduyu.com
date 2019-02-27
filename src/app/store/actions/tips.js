@@ -67,6 +67,13 @@ export function loadTips () {
             page_size:1
           },
           fields: `create_at`
+        },
+
+        {
+          aliases: 'sessions',
+          api: 'getUnreadSessions',
+          args: {},
+          fields: `count`
         }
 
       ]
@@ -119,6 +126,13 @@ export function loadTips () {
         dispatch({ type: 'SET_TIPS_BY_ID', id:'subscribe', status: true });
       } else {
         dispatch({ type: 'SET_TIPS_BY_ID', id: 'subscribe', status: false });
+      }
+
+      // 未读消息累计数
+      if (res['sessions'] && res['sessions'].count) {
+        dispatch({ type: 'SET_TIPS_BY_ID', id:'unread-message', status: res['sessions'].count });
+      } else {
+        dispatch({ type: 'SET_TIPS_BY_ID', id: 'unread-message', status: 0 });
       }
       
 

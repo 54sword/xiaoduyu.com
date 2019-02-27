@@ -114,11 +114,21 @@ export function getNew () {
             page_size:1
           },
           fields: `create_at`
+        },
+        {
+          aliases: 'message',
+          api: 'countMessages',
+          args: {
+            has_read: false
+          },
+          fields: `count`
         }
       ]
     });
 
     if (res) {
+
+      console.log(res);
 
       // 通知
       if (res['userNotification'] && res['userNotification'].ids.length > 0) {

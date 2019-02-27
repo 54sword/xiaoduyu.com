@@ -1,6 +1,6 @@
 {
   "name": "xiaoduyu.com",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "小度鱼社区",
   "scripts": {
     "start": "cross-env NODE_ENV=development node ./scripts/start.js",
@@ -30,6 +30,7 @@
     "github-markdown-css": "^2.10.0",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
+    "heapdump": "^0.3.12",
     "highlight.js": "^9.13.1",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
@@ -39,10 +40,10 @@
     "popper.js": "^1.12.9",
     "postcss-flexbugs-fixes": "^4.1.0",
     "qrcode.react": "^0.8.0",
-    "react": "^16.7.0",
+    "react": "^16.8.1",
     "react-content-loader": "^3.4.1",
     "react-cookies": "^0.1.0",
-    "react-dom": "^16.7.0",
+    "react-dom": "^16.8.1",
     "react-ga": "^2.5.6",
     "react-headroom": "^2.2.4",
     "react-loadable": "^5.5.0",

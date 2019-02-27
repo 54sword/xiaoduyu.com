@@ -15,6 +15,8 @@ export default ({
   cache = false,
   api = '',
   type = 'query',
+  // 添加到数组头部 
+  unshift = false,
   // accessToken = '',
   callback = () => {}
 }) => {
@@ -97,7 +99,14 @@ export default ({
       return
     }
 
-    list.data = list.data.concat(processList(merge([], data)));
+    if (unshift) {
+      let _data = processList(merge([], data));
+      list.data = _data.concat(list.data);
+    } else {
+      list.data = list.data.concat(processList(merge([], data)));
+    }
+
+    
     list.filters = filters;
     list.loading = false;
 

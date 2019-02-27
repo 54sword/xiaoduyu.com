@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Follow from '@components/follow';
+import SendMessage from '@components/send-message';
 import MoreMenu from '@components/more-menu';
 
 // styles
@@ -17,6 +18,7 @@ export default class PeopleDetailHead extends React.PureComponent {
           
           <div styleName="profile">
             <div styleName="actions">
+              <SendMessage people_id={people._id} className="btn btn-primary btn-sm mr-3" />
               <Follow user={people} className="btn btn-primary btn-sm mr-3" />
               <MoreMenu user={people} />
             </div>

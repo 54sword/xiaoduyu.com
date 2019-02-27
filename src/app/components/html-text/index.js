@@ -27,6 +27,25 @@ export default class HTMLText extends Component {
     }
     
     this.contentRef = React.createRef();
+
+    let { content, hiddenHalf } = this.props;
+
+    if (!content) return;
+
+    
+
+    this.state.content = convertHTML(content);
+
+    /*
+    if (hiddenHalf) {
+      let _content = (content+'').substr(0, parseInt(content.length/2));
+      this.state.halfContent = convertHTML(_content);
+      // console.log(this.state.halfContent);
+    } else {
+      this.state.halfContent = this.state.content;
+    }
+    */
+
   }
 
   componentDidMount() {
@@ -38,6 +57,8 @@ export default class HTMLText extends Component {
       });
     }
 
+    // let { content, hiddenHalf } = this.props;
+
     this.setState({
       isMount: true,
       contentHeight: this.contentRef && this.contentRef.current ? this.contentRef.current.offsetHeight : 0
@@ -45,6 +66,7 @@ export default class HTMLText extends Component {
 
   }
 
+  /*
   componentWillMount() {
 
     let { content, hiddenHalf } = this.props;
@@ -53,19 +75,29 @@ export default class HTMLText extends Component {
 
     this.state.content = convertHTML(content);
 
+    console.log(content);
+
     if (hiddenHalf) {
-      content = content.substr(0, parseInt(content.length/2));
-      this.state.halfContent = convertHTML(content);
+      let _content = (content+'').substr(0, parseInt(content.length/2));
+      this.state.halfContent = convertHTML(_content);
     } else {
       this.state.halfContent = this.state.content;
     }
 
   }
+  */
   
   componentWillReceiveProps(props) {
     if (this.props.content != props.content) {
       this.props = props;
-      this.componentWillMount();
+      // this.componentDidMount();
+      
+      let { content } = this.props;
+
+      if (!content) return;
+      
+      this.state.content = convertHTML(content);
+
     }
   }
 
@@ -73,17 +105,22 @@ export default class HTMLText extends Component {
     let { content, halfContent, isMount, contentHeight, expand } = this.state;
     const { hiddenHalf, maxHeight } = this.props;
 
+    // console.log(halfContent);
+
     if (!content) return '';
 
     return <div>
       
-      <div
-        ref={this.contentRef}
-        style={!expand && maxHeight && contentHeight > maxHeight ? { maxHeight: `${maxHeight}px`, overflow: 'hidden' } : null }
-        styleName="content"
-        // className="markdown-body"
-        dangerouslySetInnerHTML={{__html:hiddenHalf ? halfContent : content}}
-        />
+      {!hiddenHalf ?
+        <div
+          ref={this.contentRef}
+          style={!expand && maxHeight && contentHeight > maxHeight ? { maxHeight: `${maxHeight}px`, overflow: 'hidden' } : null }
+          styleName="content"
+          dangerouslySetInnerHTML={{__html:content}}
+          // className="markdown-body"
+          // dangerouslySetInnerHTML={{__html:hiddenHalf ? halfContent : content}}
+          />
+          : null}
         
       {(()=>{
         if (!maxHeight || contentHeight < maxHeight) return null;
@@ -103,7 +140,7 @@ export default class HTMLText extends Component {
       {hiddenHalf && isMount ?
         <div styleName="more-tips">
           <div>
-            <span styleName="lock">登陆后可查看全部内容</span>
+            <span styleName="lock">需要登陆后才能阅读正文</span>
           </div>
           <div styleName="sign">
             <a href="javascript:void(0)" className="btn btn-primary btn-sm" data-toggle="modal" data-target="#sign" data-type="sign-up">注册</a>

@@ -93,7 +93,7 @@ export default class PostsDetailPage extends React.Component {
         <meta property="og:site_name" content={name} />
         <meta property="og:image" content={posts._coverImage || domain_name+'./icon-512x512.png'} />
       </Meta>
-
+      
       <PostsDetail posts={posts} />
 
       {Goole_AdSense && Goole_AdSense.postsDetail ?

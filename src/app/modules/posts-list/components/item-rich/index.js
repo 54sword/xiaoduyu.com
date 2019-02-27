@@ -199,7 +199,7 @@ export default class PostsListItem extends React.Component {
               {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
               {posts.reply_count ? <span>{posts.reply_count} 条回复</span> : null}
               {posts.like_count ? <span>{posts.like_count} 人赞</span> : null}
-              {posts.follow_count ? <span>{posts.follow_count} 人订阅</span> : null}
+              {posts.follow_count ? <span>{posts.follow_count} 人收藏</span> : null}
             </div>
             
             {expand ?

@@ -17,6 +17,8 @@ import block from './block';
 import feed from './feed';
 import tips from './tips';
 import hasReadPosts from './has-read-posts';
+import message from './message';
+import session from './session';
 
 export default function() {
 
@@ -39,7 +41,9 @@ export default function() {
     block: block(),
     feed: feed(),
     tips: tips(),
-    hasReadPosts: hasReadPosts()
+    hasReadPosts: hasReadPosts(),
+    message: message(),
+    session: session()
   }
 
   return combineReducers(states);

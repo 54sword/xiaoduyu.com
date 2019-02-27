@@ -1,20 +1,23 @@
-// import Utils from './utils'
 
 // 从html字符串中，获取所有图片地址
 const abstractImagesFromHTML = (str) => {
 
-  let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
+  let imgReg = /\<img(.*?)>/g;
   let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
   let result = [];
-  let img;
 
-  while (img = imgReg.exec(str)) {
-    let _img = img[0].match(srcReg);
-    if (_img && _img[1]) result.push(_img[1]);
+  let imgs = str.match(imgReg);
+
+  if (imgs && imgs.length > 0) {
+    imgs.map(img=>{
+      let _img = img.match(srcReg);
+      if (_img && _img[1]) result.push(_img[1]);
+    });
   }
 
-  return result
+  return result;
 }
+
 
 function randomString(len) {
   len = len || 32;
@@ -342,8 +345,6 @@ const image = (html) => {
   // 获取页面中所有的图片
   let allImage = abstractImagesFromHTML(html);
 
-  // console.log(allImage);
-
   allImage.map((item,index)=>{
     allImage[index] = item.split('?')[0];
   });
@@ -369,6 +370,9 @@ const image = (html) => {
 
 
 export default (html) => {
+
+  // let re = /(<(.*?)>(.*?)<\/(.*?)>|<(.*?)>)/gi;
+  // html = html.match(re).join('');
   
   html = music163(html);
   html = youku(html);

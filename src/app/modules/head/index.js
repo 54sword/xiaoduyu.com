@@ -11,16 +11,19 @@ import { connect } from 'react-redux';
 import { signOut } from '@actions/sign';
 import { isMember, getProfile } from '@reducers/user';
 import { getUnreadNotice } from '@reducers/website';
+import { getTipsById } from '@reducers/tips';
 
 // style
 import './style.scss';
+import { fromPromise } from 'apollo-link';
 
 @withRouter
 @connect(
   (state, props) => ({
     me: getProfile(state),
     isMember: isMember(state),
-    unreadNotice: getUnreadNotice(state)
+    unreadNotice: getUnreadNotice(state),
+    unreadMessage: getTipsById(state, 'unread-message') || 0
   }),
   dispatch => ({
     signOut: bindActionCreators(signOut, dispatch)
@@ -30,7 +33,7 @@ export default class Head extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
     this.signOut = this.signOut.bind(this);
     this.search = this.search.bind(this);
     this.updateSearchInputValue = this.updateSearchInputValue.bind(this);
@@ -82,7 +85,7 @@ export default class Head extends React.Component {
 
   render() {
 
-    const { me, isMember, unreadNotice } = this.props;
+    const { me, isMember, unreadNotice, unreadMessage } = this.props;
 
     return (<>
 
@@ -107,7 +110,7 @@ export default class Head extends React.Component {
                 />
             </form>
           </div>
-
+          
           <div styleName="user-nav">
             
             {isMember ?
@@ -117,6 +120,11 @@ export default class Head extends React.Component {
                 <li>
                   <NavLink exact to="/notifications" style={unreadNotice.length > 0 ? {marginRight:'15px'} : {}}>
                     通知{unreadNotice.length > 0 ? <span styleName="unread">{unreadNotice.length}</span> : null}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink exact to="/sessions" style={unreadMessage > 0 ? {marginRight:'15px'} : {}}>
+                    私信{unreadMessage > 0 ? <span styleName="unread">{unreadMessage}</span> : null}
                   </NavLink>
                 </li>
                 <li>

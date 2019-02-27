@@ -10,6 +10,13 @@
   height: 45px;
   background-size: contain;
   background-image: url(../../../../public/logo.png);
+  background-repeat: no-repeat;
+
+  @media (min-width: 0px) and (max-width: 350px) {
+    width: 45px;
+    height: 45px;
+    background-size: cover;
+  }
 }
 
 .search-container{
@@ -46,8 +53,7 @@
     list-style-type: none;
     display: inline-block;
     vertical-align: top;
-    margin-left:10px;
-
+    // margin-left:0px;
 
     > a{
       display: inline-block;
@@ -100,15 +106,15 @@
 
   @media (min-width: 0px) and (max-width: 660px) {
     > ul > li > a{
-      padding-right:5px;
-      padding-left:5px;
+      padding-right:6px;
+      padding-left:6px;
     }
   }
 
   @media (min-width: 0px) and (max-width: 350px) {
     > ul > li > a{
-      padding-right:0px;
-      padding-left:0px;
+      padding-right:3px;
+      padding-left:3px;
     }
   }
 

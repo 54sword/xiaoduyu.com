@@ -1,0 +1,15 @@
+
+.bar{
+  display: block;
+  width:100%;
+  text-align: center;
+  background-color: #c3d3fe;
+  color:#4170ea;
+  border:1px solid #81a4ff;
+  padding:5px 0 5px 0;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  &:hover{
+    background-color: #aec4fe;
+  }
+}

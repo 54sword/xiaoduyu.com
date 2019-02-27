@@ -139,7 +139,7 @@ export default class Box extends Component {
             </Link>}
             {isMember &&
             <a href="javascript:void(0)" styleName={topicId == 'subscribe' ? 'active' : ''} onClick={e=>this.onClick(e, 'subscribe')}>
-              订阅
+              收藏
               {isMount && hasNewSubscribe && <span styleName="point"></span>}
             </a>}
           </div>

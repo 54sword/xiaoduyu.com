@@ -111,6 +111,29 @@ export default [
     }),
     enter: 'member'
   },
+  
+  {
+    path: '/sessions',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/sessions'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
+  {
+    path: '/session/:id',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/session-detail'),
+      loading: () => <Loading />
+    }),
+    enter: 'member'
+  },
+
   {
     path: '/search',
     exact: true,

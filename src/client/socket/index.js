@@ -9,6 +9,8 @@ import { setOnlineUserCount } from '@actions/website';
 import { getAccessToken } from '@reducers/user';
 
 import { loadTips } from '@actions/tips';
+import { updateSession } from '@actions/session';
+import { addMessagesToList } from '@actions/message';
 
 export default function ({ dispatch, getState }) {
 
@@ -19,7 +21,7 @@ export default function ({ dispatch, getState }) {
   const handleActions = function(action, params = null) {
     action(params)(dispatch, getState);
   }
-
+  
   const handleNotification = (notification) => {
 
     try {
@@ -44,7 +46,17 @@ export default function ({ dispatch, getState }) {
       case 'recommend-posts':
         handleActions(loadTips);
         break;
+      case 'new-message':
+        // console.log('新消息');
+        handleActions(loadTips);
+        break;
+      case 'new-session':
+        handleActions(loadTips);
+        handleActions(updateSession, data.sessionId);
+        handleActions(addMessagesToList, data);
+        break;
     }
+
   }
 
   const socket = io(socket_url, {
@@ -78,12 +90,8 @@ export default function ({ dispatch, getState }) {
   // 如果断开了连接，尝试重新连接
   socket.on('disconnect', function() {});
 
-  // if (me && me._id) {
-    // handleActions(loadUnreadCount, {});
-    // handleActions(updateNewstFeedCreateDate);
-    // handleActions(newPostsTips);
-
-    // handleActions(loadTips);
-  // }
+  if (me && me._id) {
+    handleActions(loadTips);
+  }
 
 }

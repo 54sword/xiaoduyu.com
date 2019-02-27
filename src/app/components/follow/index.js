@@ -79,7 +79,7 @@ export default class FollowPosts extends Component {
 
     let text = '关注';
 
-    if (posts) text = '订阅';
+    if (posts) text = '收藏';
 
     // console.log(me);
     // data-toggle="modal" data-target="#sign"

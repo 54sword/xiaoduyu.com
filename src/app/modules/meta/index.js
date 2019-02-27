@@ -12,7 +12,8 @@ import { name } from '@config';
 @connect(
   (state, props) => ({
     unreadNotice: getUnreadNotice(state),
-    hasFeed: getTipsById(state, 'home') || getTipsById(state, 'feed') || getTipsById(state, 'subscribe') || getTipsById(state, 'excellent')
+    hasFeed: getTipsById(state, 'home') || getTipsById(state, 'feed') || getTipsById(state, 'subscribe') || getTipsById(state, 'excellent'),
+    hasSessions: getTipsById(state, 'unread-message') 
   }),
   dispatch => ({
   })
@@ -22,13 +23,14 @@ export default class Meta extends Component {
   constructor(props) {
     super(props);
   }
-
+  
   render() {
 
-    const { title, unreadNotice, hasFeed } = this.props;
+    const { title, unreadNotice, hasFeed, hasSessions } = this.props;
 
     let _title = '';
 
+    if (hasSessions) _title += `(${hasSessions}条私信) `;
     if (unreadNotice && unreadNotice.length > 0) _title += `(${unreadNotice.length}条通知) ` ;
     if (hasFeed) _title += `(有新动态) ` ;
     

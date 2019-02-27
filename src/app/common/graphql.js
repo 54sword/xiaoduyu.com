@@ -4,7 +4,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 import fetch from "node-fetch";
 
-import config, { debug, graphql_url } from '@config';
+import { debug, graphql_url } from '@config';
 
 import featureConfig from '@config/feature.config.js';
 
@@ -31,10 +31,10 @@ client.onResetStore(()=>{
 });
 */
 
-let apiList = [];
+// let apiList = [];
 
 // 最后一次清理缓存的时间
-var lastCacheTime = 0;
+var lastCacheTime = featureConfig.cache;
 
 /**
  *
@@ -119,14 +119,17 @@ export default async ({
     context: {
       headers
     },
-    fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache')//cache ? 'cache' : (!type ? 'network-only' : 'no-cache')
+    //cache ? 'cache' : (!type ? 'network-only' : 'no-cache')
+    fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache')
   }
 
   let resetStore = false;
 
   if (__SERVER__) {
 
-    if (config.cache <= 0) {
+    // console.log(featureConfig);
+
+    if (featureConfig.cache <= 0) {
       // 不开启缓存
       options.fetchPolicy = 'no-cache';
     } else if (new Date().getTime() - lastCacheTime > featureConfig.cache && lastCacheTime != 0) {
@@ -152,7 +155,6 @@ export default async ({
     fn(options).then(res=>{
 
       if (__SERVER__) {
-
         // 请求成功，设置最近一次缓存事件
         if (resetStore) {
           lastCacheTime = new Date().getTime();
@@ -165,22 +167,9 @@ export default async ({
         resolve(res.data);
       }
 
-    }).catch((res, e)=>{
+    }).catch(res=>{
 
-      console.log('-------');
-      console.log(e);
-
-      /*
-      for (let i in res) {
-        console.log(i);
-        console.log(res[i]);
-        console.log('-----');
-      }
-      */
-
-      if (debug) {
-        console.log(res);
-      }
+      if (debug) console.log(res);
 
       if (res.graphQLErrors && res.graphQLErrors.length != 0) {
         res.graphQLErrors.map(item=>{
