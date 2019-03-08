@@ -128,7 +128,8 @@ export default class HTMLText extends Component {
           <a
             href="javascript:void(0)"
             className="text-primary"
-            onClick={()=>{
+            onClick={(e)=>{
+              e.stopPropagation();
               this.setState({ expand: this.state.expand ? false : true });
             }}
             >

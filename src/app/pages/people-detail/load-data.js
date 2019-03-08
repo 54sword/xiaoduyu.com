@@ -1,7 +1,12 @@
 import { loadPeopleList } from '../../store/actions/people';
 
-export default function({ store, match }) {
+export default function({ store, match, user }) {
   return new Promise(async (resolve, reject) => {
+
+    if (user) {
+      resolve({ code:200 });
+      return;
+    }
 
     const { id } = match.params;
 

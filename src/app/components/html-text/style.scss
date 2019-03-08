@@ -5,7 +5,7 @@
   word-break: break-all;
   word-wrap: break-word;
   line-height: 170%;
-  color:#14171a;
+  // color:#14171a;
 
   @media (max-width: 767px) {
     font-size: 15px;
@@ -108,4 +108,17 @@
     }
   }
 
+}
+
+:global(#dark-theme){
+  .content{
+    h2{
+      border-bottom: 1px solid #393f4e;
+    }
+    blockquote{
+      padding: 0 15px 0 15px;
+      color: #606983;
+      border-left: 4px solid #717f92;
+    }
+  }
 }

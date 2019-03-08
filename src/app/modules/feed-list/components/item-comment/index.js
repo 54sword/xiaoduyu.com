@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
+
+import featureConfig from '@config/feature.config.js';
 // functions
 // import Device from '@utils/device';
 
@@ -67,7 +69,7 @@ export default class PostsItem extends React.PureComponent {
 
     // console.log(comment);
 
-    return (<div styleName={"item"} onClick={!expand ? this.handleExpand : null} >
+    return (<div styleName={"item"} className="card" onClick={!expand ? this.handleExpand : null} >
 
         <div styleName="head">
 
@@ -82,7 +84,6 @@ export default class PostsItem extends React.PureComponent {
                 <b>{comment.user_id.nickname}</b>
                 {/*<span styleName="people-brief">{posts.user_id.brief}</span>*/}
               </Link>
-
               {/* dropdown-menu */}
 
               {/* <div styleName="menu">
@@ -91,7 +92,7 @@ export default class PostsItem extends React.PureComponent {
 
               {/* dropdown-menu end */}
 
-              <div>
+              <div className="text-secondary">
                 <span>{comment._create_at}</span>
                 {comment._device ? <span>{comment._device}</span> : null}
                 {/*<span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>*/}
@@ -117,7 +118,7 @@ export default class PostsItem extends React.PureComponent {
             <div styleName="content"><HTMLText content={comment.content_summary} /></div> : null)
           : <div styleName="content"><HTMLText content={comment.content_html} /></div>*/}
 
-        <div styleName="content"><HTMLText content={comment.content_html} /></div>
+        <div styleName="content"><HTMLText content={comment.content_html} maxHeight={featureConfig.posts.contentMaxHeight} /></div>
 
         {/*comment.content_summary ?
           <div styleName="content"><HTMLText content={comment.content_summary} /></div>
@@ -147,12 +148,18 @@ export default class PostsItem extends React.PureComponent {
 
         {(()=>{
 
+          if (!comment.parent_id && !posts) {
+            return (<del styleName="posts-item">帖子被删除</del>)
+          }
+
           // 如果有parent_id，表示该条评论是回复，如果不存在reply_id，那么reply被删除
           if (comment.parent_id && !comment.reply_id) {
             return (<div styleName="posts-item">回复被删除</div>)
           }
 
           if (comment.reply_id) {
+
+
 
             return (<div
               styleName="reply-item"
@@ -171,7 +178,7 @@ export default class PostsItem extends React.PureComponent {
                 
                 <div>
                   <Link to={`/people/${comment.reply_id.user_id._id}`} styleName="posts-item-nickname">
-                    <img styleName="posts-item-avatar" src={comment.reply_id.user_id.avatar_url} />
+                    {/* <img styleName="posts-item-avatar" src={comment.reply_id.user_id.avatar_url} /> */}
                     {comment.reply_id.user_id.nickname}
                   </Link>
                   {/* <span styleName="create-at">{comment.reply_id._create_at}</span> */}
@@ -199,16 +206,19 @@ export default class PostsItem extends React.PureComponent {
           
           if (posts) {
 
-            return (<div styleName="posts-item">
+            return (<div styleName="posts-item" className="rounded">
+              
               
               <div className="mb-1">
                 <Link to={`/people/${posts.user_id._id}`} styleName="posts-item-nickname">
-                  <img styleName="posts-item-avatar" src={posts.user_id.avatar_url} />
+                  {/* <img styleName="posts-item-avatar" src={posts.user_id.avatar_url} /> */}
                   {posts.user_id.nickname}
                 </Link>
-                <span styleName="create-at">{posts._create_at}</span>
+                {/* <span styleName="create-at" className="text-secondary">{posts._create_at}</span> */}
               </div>
-              <div className="mt-2 mb-1">
+             
+
+              <div className="mb-1">
                 <Link to={`/posts/${posts._id}`} styleName="posts-item-title">{posts.title}</Link>
               </div>
               {posts.content_summary ? <div>{posts.content_summary}</div> : null}
@@ -220,12 +230,10 @@ export default class PostsItem extends React.PureComponent {
 
         })()}
 
-        <div styleName="footer">
-          
-          
+        <div styleName="footer">          
 
             <div styleName="actions-bar" className="d-flex justify-content-between">
-              <div styleName="actions">
+              <div styleName="actions" className="text-secondary">
                 {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
                 {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
               </div>

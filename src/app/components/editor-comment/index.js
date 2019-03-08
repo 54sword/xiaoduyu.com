@@ -218,7 +218,7 @@ export default class CommentEditor extends Component {
 
     const { content, showFooter, submitting, uploading } = this.state
 
-    return (<div styleName="box">
+    return (<div styleName="box" className="card">
         <div styleName="content">{content}</div>
         {showFooter ?
           <div styleName="footer">

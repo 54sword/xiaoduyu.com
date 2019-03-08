@@ -65,9 +65,7 @@ export default class MessageList extends Component {
 
   componentDidMount() {
     const { id, list, scrollLoad } = this.props;
-    if (!list.data) {
-      this.loadDate();
-    }
+    if (!list.data) this.loadDate();
     if (scrollLoad) ArriveFooter.add(id, this.loadDate);
   }
   
@@ -76,14 +74,13 @@ export default class MessageList extends Component {
     if (scrollLoad) ArriveFooter.remove(id);
   }
 
-  componentWillReceiveProps(props) {
-
-    if (this.props.id != props.id) {
-      this.componentWillUnmount();
-      this.props = props;
-      this.componentDidMount();
-    }
-  }
+  // componentWillReceiveProps(props) {
+    // if (this.props.id != props.id) {
+    //   this.componentWillUnmount();
+    //   this.props = props;
+    //   this.componentDidMount();
+    // }
+  // }
 
   loadDate(restart = false) {
     const { id, filters, loadList } = this.props;
@@ -102,10 +99,14 @@ export default class MessageList extends Component {
     }
 
     return (<>
-
-      {data && data.map(item=>{
-        return (<Item key={item._id} message={item} />)
-      })}
+      
+      <div className="rounded">
+        <div className="list-group list-group-flush">
+          {data && data.map(item=>{
+            return (<Item key={item._id} message={item} />)
+          })}
+        </div>
+      </div>
 
       {!more || !scrollLoad ? null : <Loading />}
 

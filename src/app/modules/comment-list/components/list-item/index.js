@@ -77,7 +77,7 @@ export default class CommentItem extends Component {
       reply_user = comment.reply_id.user_id;
     }
 
-    return (<div styleName="item" key={comment._id}>
+    return (<div styleName="item" key={comment._id} className="border-top">
 
       <div styleName="item-head">
 
@@ -103,7 +103,7 @@ export default class CommentItem extends Component {
 
         <div className="d-flex justify-content-between">
 
-          <div styleName="actions">
+          <div styleName="actions" className="text-secondary">
             <span>{comment._create_at}</span>
           </div>
 
@@ -126,7 +126,7 @@ export default class CommentItem extends Component {
           {comment.reply.map(item=>this.renderUserView(item))}
 
           {!loading && comment.reply_count > comment.reply.length ?
-            <div styleName="view-all-reply">
+            <div styleName="view-all-reply" className="border-top">
               <a href="javascript:void(0)" className="text-primary" onClick={() => this.loadMoreReply(comment)}>还有 {comment.reply_count - comment.reply.length} 条评论</a>
             </div>
             : null}

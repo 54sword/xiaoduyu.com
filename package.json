@@ -1,6 +1,6 @@
 {
   "name": "xiaoduyu.com",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "小度鱼社区",
   "scripts": {
     "start": "cross-env NODE_ENV=development node ./scripts/start.js",
@@ -57,8 +57,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "serviceworker-webpack-plugin": "^1.0.1",
-    "socket.io-client": "^2.1.1",
-    "whatwg-fetch": "^2.0.4"
+    "socket.io-client": "^2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",

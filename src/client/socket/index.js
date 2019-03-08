@@ -73,7 +73,7 @@ export default function ({ dispatch, getState }) {
   });
 
   socket.on("connect", function() {
-
+    
     // 更新在线用户
     this.on("online-user", function(res) {
       handleActions(setOnlineUserCount, res);
@@ -81,9 +81,8 @@ export default function ({ dispatch, getState }) {
     
     // 与用户自己相关的消息
     if (me) this.on(me._id, handleNotification);
-    
     // 会员消息
-    this.on('member', handleNotification);
+    if (me) this.on('member', handleNotification);    
 
   });
 

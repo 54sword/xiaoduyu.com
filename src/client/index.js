@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { matchPath } from 'react-router';
 import ReactGA from 'react-ga';
+import cookie from 'react-cookies';
 
 import configureStore from '../app/store';
 import createRouter from '../app/router';
@@ -11,7 +12,9 @@ import startSocket from './socket';
 
 import { GA, analysis_script } from '@config';
 
-import '../app/theme/default.scss';
+import '../app/theme/global.scss';
+import '../app/theme/light.scss';
+import '../app/theme/dark.scss';
 
 import { getProfile } from '@reducers/user';
 import { getUnlockTokenByCookie } from '@actions/unlock-token';
@@ -29,6 +32,10 @@ import { initHasRead } from '@actions/has-read-posts';
   // 从cookie中获取unlock token，并添加到redux
   getUnlockTokenByCookie()(store.dispatch, store.getState);
   requestNotificationPermission()(store.dispatch, store.getState);
+  
+  // console.log('===');
+  // console.log(cookie.load('topic_id'));
+
   
 
   let logPageView = ()=>{};
@@ -85,5 +92,7 @@ import { initHasRead } from '@actions/has-read-posts';
   });
 
   initHasRead()(store.dispatch, store.getState);
+
+  // store.dispatch({ type:'SET_TOPIC_ID', topicId: cookie.load('topic_id') });
 
 }());

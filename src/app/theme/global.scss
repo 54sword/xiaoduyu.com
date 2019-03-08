@@ -1,0 +1,30 @@
+
+:global{
+
+body{
+  font-family: SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
+  // font-family: PingFang SC,Arial,Microsoft YaHei,sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+}
+
+ul{
+  padding:0px;
+  margin:0px;
+}
+
+a:focus{
+  outline: none;
+}
+
+.toastify{ z-index: 9999 !important; }
+
+.container{
+  max-width: 1180px;
+  @media (min-width: 0px) and (max-width: 767px) {
+    padding-left:10px;
+    padding-right:10px;
+  }
+}
+
+}

@@ -69,16 +69,16 @@
 
 
 
-.DraftEditor-root{
-  background-color: #fff;
-}
+/* .DraftEditor-root{ */
+  /* background-color: #fff; */
+/* } */
 
-.RichEditor-root {
+/* .RichEditor-root { */
   /* background: #fff; */
   /* border: 1px solid #e5e5e5; */
   /* font-family: 'Georgia', serif; */
   /* font-size: 14px; */
-}
+/* } */
 
 .RichEditor-editor {
   cursor: text;
@@ -121,11 +121,11 @@
 
 .RichEditor-styleButton:hover{
   color: #999;
-  background-color: #efefef;
+  background-color: #d2e6ff;
 }
 
 .RichEditor-activeButton {
-  background-color: #d2e6ff !important;
+  background-color: #d2e6ff;
   color:#fff !important;
 }
 
@@ -214,4 +214,31 @@
 
 .RichEditor-controls .link-image{
   background-image: url(./images/editor-icon_14.png);
+}
+
+
+#dark-theme .RichEditor-editor h2{
+  border-bottom: 1px solid #393f4e;
+}
+
+#dark-theme .RichEditor-editor blockquote{
+  padding: 0 15px 0 15px;
+  color: #606983;
+  border-left: 4px solid #717f92;
+}
+
+#dark-theme .RichEditor-editor .public-DraftStyleDefault-pre{
+  background-color: #23272e;
+}
+
+#dark-theme .RichEditor-editor pre{
+  color:#fff;
+}
+
+#dark-theme .RichEditor-editor .RichEditor-activeButton{
+  background-color: #606983;
+}
+
+#dark-theme .RichEditor-editor .RichEditor-styleButton:hover{
+  background-color: #606983;
 }

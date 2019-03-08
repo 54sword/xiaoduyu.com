@@ -21,7 +21,7 @@ export default class Links extends React.PureComponent {
         <div className="card-body" styleName="body">
           {links.map((item, index)=>{
             return (<a key={index} href={item.domain} target="_blank">
-              <b>{item.name}</b><br />{item.description}
+              <b>{item.name}</b><div>{item.description}</div>
             </a>)
           })}
         </div>

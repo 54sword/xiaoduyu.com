@@ -102,7 +102,7 @@ export default class PostsDetailPage extends React.Component {
       
       {posts.comment_count > 0 ?
         <div className="card">
-          <div className="card-header">{posts.comment_count}条评论</div>
+          <div className="card-header">{posts.comment_count} 条评论</div>
           <div styleName="comment-list" className="card-body">
             <CommentList
               name={posts._id}

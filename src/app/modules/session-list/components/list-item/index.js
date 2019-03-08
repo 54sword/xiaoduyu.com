@@ -57,8 +57,8 @@ export default class ListItem extends React.Component {
     } else {
     */
 
-      return (<Link to={`/session/${message._id}`} styleName="item" className="d-flex bd-highlight">
-        <div className="p-2 w-100 bd-highlight">
+      return (<Link to={`/session/${message._id}`} styleName="item" className="d-flex bd-highlight list-group-item">
+        <div className="w-100 bd-highlight">
           <div styleName="main">
             {message.unread_count ? <div styleName="unread">{message.unread_count}</div> : null}
             <div styleName="avatar">
@@ -73,7 +73,7 @@ export default class ListItem extends React.Component {
           </div>
         </div>
         
-        <div className="p-2 flex-shrink-1 bd-highlight">
+        <div className="flex-shrink-1 bd-highlight">
           <div styleName="create-at">{message.last_message ? message.last_message._create_at : message._create_at}</div>
         </div>
 

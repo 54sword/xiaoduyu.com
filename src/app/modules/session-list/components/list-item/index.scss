@@ -1,7 +1,7 @@
 .item{
   
-  background-color: #fff;
-  border-bottom:1px solid #eaedf0;
+  // background-color: #fff;
+  // border-bottom:1px solid #eaedf0;
 
   &:hover{
     background-color: rgba(255,255,255,.85);
@@ -37,18 +37,20 @@
 
   .nickname{
     font-size: 17px;
-    color:#484848;
+    // color:#484848;
   }
 
   .content{
     margin-top:2px;
     font-size: 14px;
-    color:#999;
+    opacity: .5;
+    // color:#999;
   }
 
   .create-at{
     font-size: 13px;
-    color:#999;
+    opacity: .5;
+    // color:#999;
     white-space:nowrap;
   }
 

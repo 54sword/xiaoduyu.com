@@ -122,6 +122,7 @@ export default class LikeButton extends Component {
       href="javascript:void(0)"
       onClick={(e)=>{this.handleLike(e)}}
       styleName={`button ${like.like ? 'active' : ''}`}
+      className="text-secondary"
       >
       {text && displayNumber ? <span>{text}</span> : null}
     </a>)

@@ -134,7 +134,19 @@ export default class SettingsEmail extends Component {
           <div className="card-header">邮箱</div>
           <div className="card-body">
             {(()=>{
-              if (show) {
+              if (!me.email && !me.phone) {
+                return(<div className="d-flex justify-content-between">
+                <div>未绑定</div>
+                <a
+                  className="btn btn-primary btn-sm"
+                  href="javascript:void(0);"
+                  onClick={()=>{
+                    $('#binding-phone').modal({ show: true }, {});
+                  }}>
+                  绑定
+                  </a>
+              </div>)
+              } else if (show) {
                 return (<div>
                           <div className="form-group">
                             <input className="form-control" type="text" placeholder="请输入新的邮箱" ref={(e)=>{ this.state.newEmail = e; }} />

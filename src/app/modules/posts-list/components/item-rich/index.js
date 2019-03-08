@@ -28,6 +28,7 @@ import Share from '@components/share';
 // styles
 import './index.scss';
 
+
 @withRouter
 @connect(
   (state, props) => ({
@@ -129,7 +130,7 @@ export default class PostsListItem extends React.Component {
     const { posts, isMember, hasRead } = this.props;
     const { expand } = this.state;
 
-    return (<div id={posts._id} styleName={`item ${expand ? '' : 'fold'}`}>
+    return (<div id={posts._id} styleName={`item ${expand ? '' : 'fold'}`} className="card">
 
       <div onClick={!expand ? this.expand : null}>
 
@@ -149,8 +150,8 @@ export default class PostsListItem extends React.Component {
 
               <div>
                 <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
-                <span>{posts._create_at}</span>
-                {posts._device ? <span>{posts._device}</span> : null}
+                <span className="text-secondary">{posts._create_at}</span>
+                {posts._device ? <span className="text-secondary">{posts._device}</span> : null}
                 {/* {posts._update_at ? <span>{posts._update_at}编辑</span> : null} */}
               </div>
 
@@ -158,13 +159,13 @@ export default class PostsListItem extends React.Component {
             : null}
         </div>
 
-        <div styleName={`body`} style={posts._coverImage ? { minHeight:'100px'} : null}>
+        <div style={posts._coverImage ? { minHeight:'100px'} : null}>
 
           {posts._coverImage && !expand ?
-            <div styleName="cover-image" style={{backgroundImage:`url(${posts._coverImage})`}}></div>
+            <div styleName="cover-image" className="img" style={{backgroundImage:`url(${posts._coverImage})`}}></div>
             : null}
 
-          <div styleName="title">
+          <div styleName="title" className="text-dark">
             {/* style={!expand && hasRead ? { color:'#888' } : {}} */}
             <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
           </div>
@@ -194,7 +195,7 @@ export default class PostsListItem extends React.Component {
         <div styleName="footer">
           <div styleName="footer-main" className="d-flex justify-content-between">
             
-            <div styleName="actions">
+            <div styleName="actions" className="text-secondary">
               {posts.view_count ? <span>{posts.view_count} 次阅读</span> : null}
               {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
               {posts.reply_count ? <span>{posts.reply_count} 条回复</span> : null}
@@ -207,7 +208,7 @@ export default class PostsListItem extends React.Component {
                 <Like posts={posts} displayNumber={false} />
                 <Follow posts={posts} />
                 <Share posts={posts} />
-                <a href="javascript:void(0)" onClick={this.expand}>收起</a>
+                <a href="javascript:void(0)" className="text-secondary" onClick={this.expand}>收起</a>
                 <MoreMenu posts={posts} />
               </div>
               :null}

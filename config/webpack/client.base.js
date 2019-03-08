@@ -189,6 +189,7 @@ module.exports = {
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, '../../dist/server/index.ejs'),
       template: 'src/app/views/index.html',
+      theme: '<%- theme %>',
       metaDom: '<%- meta %>',
       htmlDom: '<%- html %>',
       reduxState: '<%- reduxState %>',

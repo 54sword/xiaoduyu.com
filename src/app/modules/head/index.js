@@ -15,7 +15,7 @@ import { getTipsById } from '@reducers/tips';
 
 // style
 import './style.scss';
-import { fromPromise } from 'apollo-link';
+// import { fromPromise } from 'apollo-link';
 
 @withRouter
 @connect(
@@ -115,7 +115,7 @@ export default class Head extends React.Component {
             
             {isMember ?
               <ul>
-                <li><Link to="/new-posts" styleName="create-posts">发帖</Link></li>
+                <li><Link to="/new-posts">发帖</Link></li>
                 <li className="d-lg-none d-xl-none"><Link to="/search">搜索</Link></li>
                 <li>
                   <NavLink exact to="/notifications" style={unreadNotice.length > 0 ? {marginRight:'15px'} : {}}>

@@ -15,7 +15,7 @@ export default ({ store, match, res, req, user }) => {
             weaken: false
           }
         };
-
+        
     if (topicId) {
       topicList.data.map(item=>{
         item.children.map(i=>{
@@ -35,6 +35,13 @@ export default ({ store, match, res, req, user }) => {
     ) {
       topicId = '';
       res.clearCookie('topic_id');
+    }
+
+    store.dispatch({ type:'SET_TOPIC_ID', topicId });
+
+    if (user) {
+      resolve();
+      return;
     }
 
     if (topicId == 'excellent') {
@@ -76,7 +83,7 @@ export default ({ store, match, res, req, user }) => {
       })(store.dispatch, store.getState);
     }
 
-    store.dispatch({ type:'SET_TOPIC_ID', topicId });
+    
 
     resolve();
 

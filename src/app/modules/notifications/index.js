@@ -111,11 +111,11 @@ export default class Notifications extends Component {
 
     return (<SingleColumns>
       
-        <div styleName="nav-bar">
-          <ul className="nav nav-pills nav-justified">
+        <div className="card p-2">
+          <ul>
             {Reflect.ownKeys(typeList).map(item=>{
               let _type = typeList[item];
-              return (<Link to={`/notifications${item == 'unread' ? '' : '/'+item}`} key={item} className={`nav-link ${type.name == _type.name ? 'active' : ''}`}>{_type.name}</Link>)
+              return (<Link to={`/notifications${item == 'unread' ? '' : '/'+item}`} key={item} className={`btn btn-sm ${type.name == _type.name ? 'btn-primary' : 'btn-link'}`}>{_type.name}</Link>)
             })}
           </ul>
         </div>

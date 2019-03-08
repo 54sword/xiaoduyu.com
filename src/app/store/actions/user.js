@@ -65,6 +65,7 @@ export const loadUserInfo = ({ accessToken }) => {
           last_find_subscribe_at
           last_find_excellent_at
           has_password
+          theme
           `
         }],
         headers: {

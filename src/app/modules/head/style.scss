@@ -43,6 +43,17 @@
   
   }
 
+
+
+}
+
+:global(#dark-theme){
+  .search{
+    background-color: #333845;
+    &:hover{
+      background-color: #393f4e;
+    }
+  }
 }
 
 .user-nav{

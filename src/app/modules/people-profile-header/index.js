@@ -14,7 +14,7 @@ export default class PeopleDetailHead extends React.PureComponent {
     const { people } = this.props;
     
     return (
-        <div styleName="header" className="rounded-top">
+        <div styleName="header" className="rounded-top card mb-0">
           
           <div styleName="profile">
             <div styleName="actions">

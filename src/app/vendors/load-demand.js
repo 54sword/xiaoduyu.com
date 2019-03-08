@@ -44,6 +44,8 @@
 
     for (var i = 0, max = elements.length; i < max; i++) {
 
+      if (elements[i].innerHTML) continue;
+
       let content = elements[i].getAttribute('data-load-demand');
 
       if (content == '') continue;
@@ -57,7 +59,7 @@
         scrollTop < y2 && y2 < scrollTop + clientHeight
       ) {
         elements[i].innerHTML = content + elements[i].innerHTML;
-        elements[i].setAttribute('data-load-demand', '');
+        // elements[i].setAttribute('data-load-demand', '');
       }
     }
   }

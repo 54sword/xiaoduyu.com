@@ -27,7 +27,7 @@
 
     position: relative;
     padding:0 15px 0 15px;
-    color:#797979;
+    // color:#797979;
 
     &:before {
       content: "";
@@ -63,12 +63,12 @@
   a{
     display: inline-block;
     // margin:0 25px 0 25px;
-    color:#797979;
+    // color:#797979;
     height: 30px;
     line-height: 30px;
-    &:hover{
-      color:#4170ea;
-    }
+    // &:hover{
+      // color:#4170ea;
+    // }
   }
 
   .icon{
@@ -103,5 +103,20 @@
 .agreement{
   text-align: center;
   margin:30px 0 0 0;
-  color:#797979;
+}
+
+:global(#dark-theme){
+
+  .other-sign-in{
+    > span{
+      &:before {
+        border-bottom-color: #393f4e;
+      }
+  
+      &:after {
+        border-bottom-color: #393f4e;
+      }
+    }
+  }
+
 }

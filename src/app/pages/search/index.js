@@ -97,9 +97,9 @@ export default class Search extends React.Component {
         </div>
       </form>
 
-      <div className="nav nav-pills nav-justified" styleName="tab-bar">
-        <a className={`nav-link ${type == '' ? 'active' : ''}`} href="javascript:void(0)" onClick={()=>{ this.switchType(''); }}>帖子</a>
-        <a className={`nav-link ${type == 'user' ? 'active' : ''}`}  href="javascript:void(0)" onClick={()=>{ this.switchType('user'); }}>用户</a>
+      <div className="card p-2 mt-3 flex-row">
+        <a className={`btn btn-sm ${type == '' ? 'btn-primary' : 'btn-link'}`} href="javascript:void(0)" onClick={()=>{ this.switchType(''); }}>帖子</a>
+        <a className={`btn btn-sm ${type == 'user' ? 'btn-primary' : 'btn-link'}`}  href="javascript:void(0)" onClick={()=>{ this.switchType('user'); }}>用户</a>
       </div>
 
       {(()=>{

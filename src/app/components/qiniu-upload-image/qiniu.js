@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import 'whatwg-fetch';
+// import 'whatwg-fetch';
+import fetch from "node-fetch";
 
 // style
 import './qiniu.scss';

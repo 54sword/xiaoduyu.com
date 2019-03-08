@@ -14,7 +14,7 @@ import MessageList from '@modules/message-list';
 import Editor from '../../components/editor-message';
 
 // layout
-import ThreeColumns from '../../layout/three-columns';
+import SingleColumns from '../../layout/single-columns';
 
 import './index.scss';
 
@@ -72,47 +72,38 @@ export default class SessionDetail extends React.Component {
     const { id } = this.props.match.params;
     const { loading, session } = this.state;
 
-    return(<>
-      <Meta title={session ? session.user_id.nickname : 'loading...'} />
+    return(
+      <SingleColumns>
 
-      <ThreeColumns>
+        <Meta title={session ? session.user_id.nickname : 'loading...'} />
+
+        {loading ? <div>loading...</div> : null}
         
-        <>
-        </>
-        
-        <>
+        {session ?
+          <div styleName="box" className="card">
+            
+            <MessageList
+              id={id}
+              filters={{
+                query: {
+                  user_id: session.user_id._id+','+session.addressee_id._id,
+                  addressee_id: session.user_id._id+','+session.addressee_id._id,
+                  sort_by: 'create_at:-1'
+                }
+              }}
+              />
 
-          {loading ? <div>loading...</div> : null}
-
-          {session ?
-            <div styleName="box">
-              
-              <MessageList
-                id={id}
-                filters={{
-                  query: {
-                    user_id: session.user_id._id+','+session.addressee_id._id,
-                    addressee_id: session.user_id._id+','+session.addressee_id._id,
-                    sort_by: 'create_at:-1'
-                  }
-                }}
-                />
-
-              {!loading && session.user_id._id ?                
-                <div styleName="editor">
-                  <Editor addressee_id={session.user_id._id} />
-                </div>
-              : null}
-              
-            </div>
+            {!loading && session.user_id._id ?                
+              <div styleName="editor" className="border-top">
+                <Editor addressee_id={session.user_id._id} />
+              </div>
             : null}
-        </>
+            
+          </div>
+          : null}
 
-        <>
-        </>
-
-      </ThreeColumns>
-    </>)
+      </SingleColumns>
+    )
   }
 
 }

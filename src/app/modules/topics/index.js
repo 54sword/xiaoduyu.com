@@ -72,9 +72,9 @@ export default class Box extends Component {
 
     this.setState({ isMount: true });
 
-    if (isMember) {
-      loadTips();
-    }
+    // if (isMember) {
+      // loadTips();
+    // }
     
   }
 

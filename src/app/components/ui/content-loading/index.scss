@@ -1,0 +1,15 @@
+.box{
+  height:130px;
+  background-color:#fff;
+  margin-bottom:10px;
+  border-radius:4px;
+}
+
+:global(#dark-theme){
+  .box{
+    background-color:#282c36;
+    > svg{
+      opacity: .2;
+    }
+  }
+}

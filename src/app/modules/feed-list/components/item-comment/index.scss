@@ -4,7 +4,7 @@
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 10px;
-  background-color: #fff;
+  // background-color: #fff;
   // padding:20px;
 
   // border:1px solid #efefef;
@@ -53,11 +53,12 @@
 .head{
 
   font-size: 12px;
-  z-index: 999;
+  // z-index: 999;
   padding:15px 15px 0px 65px;
 
   .avatar{
-    position: absolute;
+    float:left;
+    // position: absolute;
     margin:0 0 0 -50px;
     width: 40px;
     height: 40px;
@@ -100,15 +101,15 @@
       float:right;
     }
 
-    a{
+    // a{
       // color:#ABA8A6;
-      color:#615e5e !important;
-    }
+      // color:#615e5e !important;
+    // }
 
     b{
       font-size: 13px;
       font-weight: bold;
-      color:#000;
+      // color:#000;
     }
 
     a:hover{
@@ -117,10 +118,10 @@
 
     div > span{
 
-      color:#b1b1b1;
+      // color:#b1b1b1;
 
       &:after{
-        color:#ABA8A6;
+        // color:#ABA8A6;
         font-size: 8px;
         margin:0 8px 0 8px;
         content: '•';
@@ -160,6 +161,9 @@
   // line-height: 22px;
   // color:#4a4b50;
   // padding:5px 15px 0 15px;
+  img{
+    width: 50%;
+  }
 }
 
 .content-have-img{
@@ -245,14 +249,14 @@
       margin-right:0;
     }
 
-    > span{
-      color:#999;
+    // > span{
+      // color:#999;
       // font-size: 13px;
-    }
+    // }
 
-    > a, > div a{
-      color:#999;
-    }
+    // > a, > div a{
+      // color:#999;
+    // }
 
   }
 
@@ -306,12 +310,16 @@
 
 
 .posts-item{
-  // border-left:4px solid #e0e3e6;
-  background-color: #f4f7f9;
-  // border-top: 1px solid #f0f3f5;
+  background-color: #f2f2f2;
+  margin:0 15px 0 15px;
   padding:15px;
-  // margin:0 15px 0 15px;
   font-size: 13px;
+}
+
+:global(#dark-theme) {
+  .posts-item{
+    background-color: #2e323d;
+  }
 }
 
 .posts-item-avatar{
@@ -340,8 +348,8 @@
 }
 
 .posts-item-nickname{
-  padding-left:28px;
-  font-weight: bold;
+  // padding-left:28px;
+  // font-weight: bold;
   font-size: 13px;
 }
 
@@ -349,7 +357,7 @@
   margin-bottom:5px;
   font-size: 14px;
   font-weight: bold;
-  color:#14171a;
+  // color:#14171a;
 }
 
 .posts-item-reply{
@@ -370,12 +378,13 @@
 .create-at{
   margin-left:5px;
   font-size: 12px;
-  color:rgb(177, 177, 177);
+  // color:rgb(177, 177, 177);
 }
 
 
 .reply-item{
-  background-color: #f2f5f8;
+  // background-color: #f2f5f8;
+  background-color: #f2f2f2;
   margin:0 20px 0px 15px;
   // padding-left:15px;
   padding:10px 10px 10px 15px;

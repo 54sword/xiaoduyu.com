@@ -17,7 +17,7 @@ export default class Agreement extends React.PureComponent {
   render() {
     return (<SingleColumns>
 
-      <div styleName="container">
+      <div styleName="container" className="card">
       <Meta title={'用户协议'} />
 
       <h1>用户协议</h1>

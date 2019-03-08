@@ -132,7 +132,7 @@ export default class MessageEditor extends Component {
       });
       this.syncContent('', '');
       successCallback();
-      console.log('1213123123');
+      // console.log('1213123123');
     } else if (err) {
       Toastify({
         text: err.message,
