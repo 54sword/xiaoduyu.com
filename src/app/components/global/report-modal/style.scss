@@ -9,6 +9,12 @@
   border-radius: 5px;
 }
 
+:global(#dark-theme) {
+  .report-content{
+    background-color: #333845;
+  }
+}
+
 .types{
   label {
     display: inline-block;
@@ -25,5 +31,6 @@
   textarea{
     width: 100%;
     height: 100px;
+    padding:10px;
   }
 }

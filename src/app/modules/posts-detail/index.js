@@ -76,10 +76,10 @@ export default class PostsDetail extends React.Component {
             <Follow posts={posts} />
             <MoreMenu posts={posts} />
           </div>
-
+          
         </div>
         
-        <div styleName="actions" className="d-block d-lg-none d-xl-none" style={{marginTop:'10px', paddingTop:'10px', borderTop:'1px solid #efefef'}}>
+        <div styleName="actions" className="d-block d-lg-none d-xl-none border-top" style={{marginTop:'10px', paddingTop:'10px'}}>
           <Like posts={posts} displayNumber={false} />
           <Follow posts={posts} />
           <MoreMenu posts={posts} />

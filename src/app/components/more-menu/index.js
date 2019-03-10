@@ -111,31 +111,38 @@ export default class ReportMenu extends Component {
 
   render () {
 
-    const { posts, comment, isMember, me } = this.props;
+    const { posts, comment, user, isMember, me } = this.props;
 
     if (!isMember) return null;
 
-    /*
+    let self = false;
+
     if (posts && posts.user_id._id == me._id ||
-      comment && comment.user_id._id == me._id) {
-      return (<a href="javascript:void(0)" onClick={this.edit}>编辑</a>)
+      comment && comment.user_id._id == me._id ||
+      user && user._id == me._id
+      ) {
+        self = true;
     }
-    */
+
+    if (self && user) return null;
 
     return (<div styleName="container">
-      {/* dropdown-menu */}
+
       <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={this.stopPropagation}></a>
       <div className="dropdown-menu dropdown-menu-right">
-        {posts && posts.user_id._id == me._id ||
-          comment && comment.user_id._id == me._id ?
+
+        {self && posts || self && comment ?
           <a className="dropdown-item" href="javascript:void(0)" onClick={this.edit}>编辑</a>
-          : 
+          : null }
+
+        {!self && posts || !self && comment || !self && user ?
           <>
             <a className="dropdown-item" href="javascript:void(0)" onClick={this.block}>不感兴趣</a>
             <a className="dropdown-item" href="javascript:void(0)" onClick={this.report}>举报</a>
-          </>}
+          </>
+          : null }
       </div>
-      {/* dropdown-menu end */}
+      
     </div>)
   }
 }

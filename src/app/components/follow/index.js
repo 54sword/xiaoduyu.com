@@ -87,7 +87,7 @@ export default class FollowPosts extends Component {
     if (!me) {
       return <a href="javascript:void(0)" className={className} data-toggle="modal" data-target="#sign" onClick={this.stopPropagation} className="text-secondary">{text}</a>
     } else if (target.follow) {
-      return (<a href="javascript:void(0)" className={className} styleName="hover" onClick={this.unfollow} className="text-secondary">
+      return (<a href="javascript:void(0)" className={className} styleName="hover" onClick={this.unfollow}>
         <span>已{text}</span>
         <span>取消{text}</span>
       </a>)

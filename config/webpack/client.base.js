@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const OfflinePlugin = require('offline-plugin');
 
 const config = require('../index');
 const devMode = process.env.NODE_ENV == 'development' ? true : false;
@@ -184,6 +184,13 @@ module.exports = {
       filename: devMode ? "[name].css" : "[name].[hash].css"
     }),
 
+    new OfflinePlugin({
+      autoUpdate: 1000 * 60 * 5,
+      ServiceWorker: {
+        publicPath: '/sw.js'
+      }
+    }),
+
     // 创建视图模版文件，给server使用
     // 主要是打包后的添加的css、js静态文件路径添加到模版中
     new HtmlwebpackPlugin({
@@ -196,12 +203,7 @@ module.exports = {
       head: config.head,
       analysis_script: config.analysis_script
       // inject: false
-    }),
-
-    // serviceworker 还在研究中
-    // new ServiceWorkerWebpackPlugin({
-    //   entry: path.join(__dirname, 'client/sw.js'),
-    // })
+    })
 
   ]
 }

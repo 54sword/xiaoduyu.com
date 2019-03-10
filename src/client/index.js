@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { matchPath } from 'react-router';
 import ReactGA from 'react-ga';
-import cookie from 'react-cookies';
+// import cookie from 'react-cookies';
 
 import configureStore from '../app/store';
 import createRouter from '../app/router';
@@ -21,6 +21,8 @@ import { getUnlockTokenByCookie } from '@actions/unlock-token';
 import { requestNotificationPermission } from '@actions/website';
 import { initHasRead } from '@actions/has-read-posts';
 
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+OfflinePluginRuntime.install();
 
 (async function(){
 
