@@ -29,6 +29,11 @@ export default class CommentList extends Component {
     filters: PropTypes.object.isRequired
   }
 
+  static defaultProps = {
+    // 是否显示翻页
+    showPagination: false
+  }
+
   constructor(props) {
     super(props)
     this.state = {};
@@ -60,10 +65,9 @@ export default class CommentList extends Component {
 
   render () {
     
-    // const self = this;
-    const { name, list } = this.props;
+    const { list, showPagination } = this.props;
     const { data, loading, more, filters = {}, count } = list;
-
+    
     return (
       <div ref={e=>this.state.dom=e}>
 
@@ -75,17 +79,19 @@ export default class CommentList extends Component {
 
         {loading ? <Loading /> : null}
 
-        <Pagination
-          count={count || 0}
-          pageSize={filters.page_size || 0}
-          pageNumber={filters.page_number || 0}
-          onChoose={(e)=>{
-            const { dom } = this.state;
-            $(window).scrollTop($(dom).offset().top - 100);
-            this.props.filters.variables.page_number = e;
-            this.loadList(true);
-          }}
-          />
+        {showPagination ?
+          <Pagination
+            count={count || 0}
+            pageSize={filters.page_size || 0}
+            pageNumber={filters.page_number || 0}
+            onChoose={(e)=>{
+              const { dom } = this.state;
+              $(window).scrollTop($(dom).offset().top - 100);
+              this.props.filters.variables.page_number = e;
+              this.loadList(true);
+            }}
+            />
+          : null}
 
       </div>
     )

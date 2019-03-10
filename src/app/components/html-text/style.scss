@@ -1,64 +1,56 @@
-
-
 .content{
 
-  line-height: 160%;
+  box-sizing: border-box;
+  font-size: 14px;
   word-break: break-all;
   word-wrap: break-word;
-  font-size: 14px;
+  line-height: 170%;
+  // color:#14171a;
+
+  @media (max-width: 767px) {
+    font-size: 15px;
+  }
+
+  a{
+    color:#4170ea !important;
+  }
+
+  p{
+    margin:0px;
+    padding:0px;
+    min-height: 15px;
+  }
 
   h2{
-    font-size: 18px;
-    padding:0px;
-    margin:0px;
-  }
-
-  blockquote{
-    border-left:5px solid #c6c6c6;
-    padding:10px 10px 10px 10px;
-    background-color: #f4f4f4;
-    margin:15px 0 15px 0;
-  }
-
-  strong{
-    font-weight: bold;
-  }
-
-  pre{
-    // padding:15px;
-    background-color: #222;
-    // margin:15px 0 15px 0;
-    overflow-x:scroll;
-    margin:5px 0 5px 0;
-    padding:15px;
-    border-radius: 4px;
-    color:#a8ff60;
-    max-height: 400px;
-    max-width: 100%;
-    overflow: auto;
-    white-space: nowrap;
-  }
-
-  ol{
-    list-style-type: decimal;
-    padding-left:20px;
-    // margin:15px 0 15px 0;
-    margin:0px;
-    padding:0 0 0 16px;
+    font-size:18px;
+    margin:30px 0 15px 0;
+    padding-bottom:15px;
+    border-bottom: 1px solid #eaecef;
   }
 
   ul{
-    list-style-type: disc;
-    padding-left:20px;
-    // margin:15px 0 15px 0;
-    margin:0px;
-    padding:0 0 0 16px;
+    margin-left:20px;
+  }
+
+  pre{
+    margin-top:15px;
+  }
+
+  img{
+    max-width: 100%;
+  }
+
+  blockquote{
+    padding: 0 15px 0 15px;
+    color: #6a737d;
+    border-left: 4px solid #dfe2e5;
   }
 
   embed, iframe{
     width:100%;
     min-height: 420px;
     border: none;
+    margin:15px 0 15px 0;
     
     @media (min-width: 0px) and (max-width: 767px) {
       min-height: 220px;
@@ -68,44 +60,38 @@
   iframe[src^="//music.163.com"] {
     min-height: auto;
   }
-  
-  img{
-    max-width: 50%;
-    max-height: 400px;
-    min-width: 20px;
-    min-height: 20px;
-    background-color: #efefef;
-    // margin:0 auto;
-    // margin:10px 0 10px 0;
-  }
-
-  p{
-    margin:0px;
-    padding:0px;
-    min-height: 15px;
-  }
-
-  a{
-    color:#4170ea;
-    margin:0px;
-    padding:0px;
-  }
 
 }
 
+
+.max-height{
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.expand-button{
+  // position: relative;
+  // display: block;
+  padding:10px 0 5px 0;
+  // margin-top:-20px;
+  // background-color: #333;
+  // background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 20%);
+}
+
+
 .more-tips{
-  position: relative;
+  // position: relative;
   width: 100%;
   text-align: center;
   // background-color: #333;
   height: 100px;
   // line-height: 30px;
   // line-height: 80px;
-  padding-top:80px;
-  top:-60px;
+  padding-top:20px;
+  // top:-60px;
   color:#007bff;
-  margin-bottom: 30px;
-  background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 60%);  /** IE9 IE10 **/
+  // margin-bottom: 30px;
+  // background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 60%);  /** IE9 IE10 **/
 
   .lock{
     background-image: url(./images/lock.png);
@@ -122,4 +108,17 @@
     }
   }
 
+}
+
+:global(#dark-theme){
+  .content{
+    h2{
+      border-bottom: 1px solid #393f4e;
+    }
+    blockquote{
+      padding: 0 15px 0 15px;
+      color: #606983;
+      border-left: 4px solid #717f92;
+    }
+  }
 }

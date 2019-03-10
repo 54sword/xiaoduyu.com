@@ -161,7 +161,7 @@ export class Share extends Component {
     //  onClick={this.stopPropagation}
     return <div styleName="container">
 
-      <a href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">分享</a>
+      <a href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className="text-secondary">分享</a>
 
       <div>
         <div className="dropdown-menu" aria-labelledby="share-dropdown">

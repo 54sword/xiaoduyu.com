@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { addPosts, updatePosts } from '@actions/posts';
 import { loadTopics } from '@actions/topic';
-import { getTopicById, getTopicListById } from '@reducers/topic';
+import { getTopicListById } from '@reducers/topic';
 
 // components
 import Device from '@utils/device';
@@ -203,9 +203,17 @@ class EditorPosts extends React.Component {
 
       self.setState({ loading: false });
 
-      successCallback(res);
+      if (err) {
+        Toastify({
+          text: err.message || '提交失败，请重新尝试',
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+        }).showToast();
+      } else {
+        successCallback(res);
+      }
 
-      return
+      return;
     }
 
     // 添加
@@ -296,7 +304,7 @@ class EditorPosts extends React.Component {
           <div styleName='topics-container'>
             {topicList && topicList.data && topicList.data.length > 0 ? topicList.data.map(item=>{
             return (<div key={item._id}>
-                      <div styleName='head'>{item.name}</div>
+                      <div styleName='head' className="text-secondary">{item.name}</div>
                       <div>
                         {item.children && item.children.map(item=>{
                           return (<div
@@ -343,6 +351,7 @@ class EditorPosts extends React.Component {
                 
                 <a
                   styleName="choose-topic-button"
+                  className="card"
                   // onClick={this.showTopicContainer}
                   href="javascript:void(0)"
                   data-toggle="modal" 
@@ -352,14 +361,16 @@ class EditorPosts extends React.Component {
                 </a>
               </div>
               <div className="col-md-10 pl-md-0 pl-lg-0 pl-xl-0">
-                <input styleName="title" ref="title" type="text" onChange={this.titleChange} placeholder="请输入标题"  />
+                <input className="card" styleName="title" ref="title" type="text" onChange={this.titleChange} placeholder="请输入标题"  />
               </div>
             </div>
 
 
-          <div styleName="editor">{editor}</div>
+          <div styleName="editor" className="card">{editor}</div>
 
-          <button styleName="button" onClick={this.submit}>{loading ? '提交中...' : '提交'}</button>
+          <div className="btn btn-block btn-primary" onClick={this.submit}>{loading ? '提交中...' : '提交'}</div>
+
+          <br /><br /><br />
         </div>
     </div>)
   }

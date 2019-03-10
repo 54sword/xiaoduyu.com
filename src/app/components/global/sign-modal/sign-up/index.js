@@ -153,6 +153,8 @@ export default class SignUp extends Component {
   render () {
     const { type, show } = this.state;
 
+    
+
     return (
       <div styleName="signup">
 
@@ -204,10 +206,12 @@ export default class SignUp extends Component {
         </div>
 
         <div className="text-center">
+
         {type == 'phone' ?
           <div><a href="javascript:void(0)" className="text-primary" onClick={()=>{ this.setState({ type: 'email' }); }}>使用邮箱注册</a></div>
           :
           <div><a href="javascript:void(0)" className="text-primary" onClick={()=>{ this.setState({ type: 'phone' }); }}>使用手机注册</a></div>}
+
         </div>
 
       </div>

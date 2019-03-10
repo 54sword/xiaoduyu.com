@@ -32,7 +32,6 @@
   }
 
   .head{
-    color:#999999;
     margin-top:10px;
   }
 
@@ -42,18 +41,17 @@
     cursor: hand;
     cursor: pointer;
     &:hover{
-      color:blue;
+      text-decoration: underline;
     }
   }
 
   .active{
     display: inline-block;
     margin:10px 20px 0 0;
-    color:blue;
+    text-decoration: underline;
     cursor: hand;
     cursor: pointer;
   }
-
 
 }
 
@@ -118,7 +116,7 @@
 
 .editor{
   display: block;
-  background-color: #fff;
+  // background-color: #fff;
   border-radius: 5px;
   overflow: hidden;
 }

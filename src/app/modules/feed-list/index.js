@@ -12,6 +12,7 @@ import PostsItem from '../posts-list/components/item-rich';
 import CommentItem from './components/item-comment';
 
 import Pagination from '@components/pagination';
+// import Loading from '@components/ui/content-loading';
 import Loading from '@components/ui/content-loading';
 import NewTips from './components/new-tips';
 
@@ -91,7 +92,7 @@ export default class PostsList extends Component {
   render () {
 
     const { id, list, showPagination, showTips, scrollLoad } = this.props;
-    const { data, loading, more, count, filters = {} } = list;
+    const { data, loading, more = true, count, filters = {} } = list;
 
     // 没有结果
     if (!loading && data && data.length == 0 && !more) {
@@ -102,15 +103,13 @@ export default class PostsList extends Component {
       
       {!loading && showTips ? <NewTips topicId={id} /> : null}
 
-      <div>
-        {data && data.map(item=>{
-          if (item.comment_id) {
-            return (<CommentItem key={item._id} posts={item.posts_id} comment={item.comment_id} />)
-          } else if (item.posts_id) {
-            return (<PostsItem key={item._id} posts={item.posts_id} />)
-          }
-        })}
-      </div>
+      {data && data.map(item=>{
+        if (item.comment_id) {
+          return (<CommentItem key={item._id} posts={item.posts_id} comment={item.comment_id} />)
+        } else if (item.posts_id) {
+          return (<PostsItem key={item._id} posts={item.posts_id} />)
+        }
+      })}
         
       {!more || !scrollLoad ? null : <Loading />}
 

@@ -35,7 +35,7 @@ export default class PostsDetail extends React.Component {
 
     const { posts, isMember } = this.props;
 
-    return(<div styleName="box">
+    return(<div styleName="box" className="card">
         
         <div styleName="head">
 
@@ -54,7 +54,9 @@ export default class PostsDetail extends React.Component {
         <h1 styleName="h1">{posts.title}</h1>
 
         {posts.content_html ?
-          <div styleName="detail"><HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} /></div>
+          <div styleName="detail" className="border-top">
+            <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
+          </div>
           :null}
         
         <Share posts={posts} styleType="icons" />
@@ -62,11 +64,11 @@ export default class PostsDetail extends React.Component {
         <div className="d-flex justify-content-between">
 
           <div styleName="actions">
-            {posts.view_count ? <span>{posts.view_count} 次阅读</span> : null}
-            {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
-            {posts.reply_count ? <span>{posts.reply_count} 条回复</span> : null}
-            {posts.like_count ? <span>{posts.like_count} 人赞</span> : null}
-            {posts.follow_count ? <span>{posts.follow_count} 人订阅</span> : null}
+            {posts.view_count ? <span className="text-secondary">{posts.view_count} 次阅读</span> : null}
+            {posts.comment_count ? <span className="text-secondary">{posts.comment_count} 条评论</span> : null}
+            {posts.reply_count ? <span className="text-secondary">{posts.reply_count} 条回复</span> : null}
+            {posts.like_count ? <span className="text-secondary">{posts.like_count} 人赞</span> : null}
+            {posts.follow_count ? <span className="text-secondary">{posts.follow_count} 人订阅</span> : null}
           </div>
 
           <div styleName="actions" className="d-none d-lg-block d-xl-block">
@@ -74,10 +76,10 @@ export default class PostsDetail extends React.Component {
             <Follow posts={posts} />
             <MoreMenu posts={posts} />
           </div>
-
+          
         </div>
         
-        <div styleName="actions" className="d-block d-lg-none d-xl-none" style={{marginTop:'10px', paddingTop:'10px', borderTop:'1px solid #efefef'}}>
+        <div styleName="actions" className="d-block d-lg-none d-xl-none border-top" style={{marginTop:'10px', paddingTop:'10px'}}>
           <Like posts={posts} displayNumber={false} />
           <Follow posts={posts} />
           <MoreMenu posts={posts} />

@@ -1,9 +1,9 @@
 
 .box{
   padding:15px;
-  background-color: #fff;
+  // background-color: #fff;
   margin-bottom: 10px;
-  border-radius: 4px;
+  // border-radius: 4px;
 }
 
 
@@ -46,6 +46,7 @@
   padding:0px;
   margin:0px;
   line-height: 140%;
+  // color:#14171a;
   
   @media (min-width: 0px) and (max-width: 767px) {
     font-size: 25px;
@@ -102,12 +103,8 @@
   width: 100%;
   margin-top: 15px;
   padding-top:10px;
-  border-top:1px solid #efefef;
+  // border-top:1px solid #efefef;
   margin-bottom: 10px;
-  *{
-    font-size: 15px;
-    line-height: 200%;
-  }
 }
 
 .other{

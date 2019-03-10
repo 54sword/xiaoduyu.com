@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html id="<%= htmlWebpackPlugin.options.theme %>">
 <head>
   <meta charset="utf-8" />
 
@@ -10,8 +10,8 @@
   <%= htmlWebpackPlugin.options.metaDom %>
 
 </head>
-<body class="default-theme">
-
+<body>
+  
   <!-- app 视图 -->
   <div id="app"><%= htmlWebpackPlugin.options.htmlDom %></div>
 

@@ -43,14 +43,19 @@ app.use('/sign', sign());
 
 app.get('*', async function (req, res) {
 
-  let { context, html, meta, reduxState } = await render(req, res);
+  let { context, html, meta, reduxState, user } = await render(req, res);
 
   res.status(context.code);
 
   if (context.redirect) {
     res.redirect(context.redirect);
   } else {
-    res.render('../dist/server/index.ejs', { html, reduxState, meta });
+    res.render('../dist/server/index.ejs', {
+      html,
+      reduxState,
+      meta,
+      theme: user && user.theme == 2 ? 'dark-theme' : 'light-theme' 
+    });
   }
   
   res.end();

@@ -4,7 +4,6 @@ import loadList from '@utils/graphql-load-list';
 import Device from '@utils/device';
 import graphql from '@utils/graphql';
 
-
 // 添加问题
 export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
   return (dispatch, getState) => {
@@ -135,7 +134,7 @@ export function viewPostsById({ id, callback = ()=>{ } }) {
     // 浏览次数累计
     let viewPosts = reactLocalStorage.get('view-posts') || '';
     let lastViewPostsAt = reactLocalStorage.get('last-viewed-posts-at') || new Date().getTime();
-
+    
     // 如果超过1小时，那么浏览数据清零
     if (new Date().getTime() - lastViewPostsAt > 3600000) viewPosts = '';
 

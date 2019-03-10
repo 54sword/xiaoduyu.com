@@ -108,8 +108,8 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
       actionType: 'SET_NOTIFICATION_LIST_BY_ID',
       callback: result => {
         let [ err, res ] = result;
-
-        // console.log('123123123');
+        
+        if (!res.more) return;
 
         let unreadNotice = getState().website.unreadNotice
         let comment = getState().comment
@@ -268,6 +268,8 @@ const updateFollowPeople = (state, selfId, notices) => {
 // 获取新的未读通知
 export const loadNewNotifications = ({ name }) => {
   return async (dispatch, getState) => {
+
+    console.log('=======');
 
     const state = getState();
 

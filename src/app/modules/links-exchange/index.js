@@ -20,7 +20,7 @@ export default class LinksExchange extends React.Component {
         <div className="card-body" styleName="box">
           {links.map((item, index)=>{
             return (<a key={index} href={item.domain} target="_blank">
-              <b>{item.name}</b><br />{item.description}
+              <b>{item.name}</b><div>{item.description}</div>
             </a>)
           })}
         </div>

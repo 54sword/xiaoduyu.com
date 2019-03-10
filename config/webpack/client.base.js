@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const OfflinePlugin = require('offline-plugin');
 
 const config = require('../index');
 const devMode = process.env.NODE_ENV == 'development' ? true : false;
@@ -60,6 +60,8 @@ module.exports = {
        * 给dom添加class="load-demand"、data-load-demand="<div></div> or <img />"
        **/
       './src/app/vendors/load-demand',
+      
+      // 'github-markdown-css/github-markdown.css',
 
       './src/client/index.js'
     ]
@@ -182,23 +184,26 @@ module.exports = {
       filename: devMode ? "[name].css" : "[name].[hash].css"
     }),
 
+    new OfflinePlugin({
+      autoUpdate: 1000 * 60 * 5,
+      ServiceWorker: {
+        publicPath: '/sw.js'
+      }
+    }),
+
     // 创建视图模版文件，给server使用
     // 主要是打包后的添加的css、js静态文件路径添加到模版中
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, '../../dist/server/index.ejs'),
       template: 'src/app/views/index.html',
+      theme: '<%- theme %>',
       metaDom: '<%- meta %>',
       htmlDom: '<%- html %>',
       reduxState: '<%- reduxState %>',
       head: config.head,
       analysis_script: config.analysis_script
       // inject: false
-    }),
-
-    // serviceworker 还在研究中
-    // new ServiceWorkerWebpackPlugin({
-    //   entry: path.join(__dirname, 'client/sw.js'),
-    // })
+    })
 
   ]
 }

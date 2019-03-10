@@ -38,8 +38,13 @@ const analyzeUrlParams = (search) => {
 
 // 服务端渲染
 // 加载需要在服务端渲染的数据
-export default ({ store, match }) => {
+export default ({ store, match, user }) => {
   return new Promise(async (resolve, reject) => {
+
+    if (user) {
+      resolve({ code:200 });
+      return;
+    }
 
     const { id } = match.params;
     let err, topic;

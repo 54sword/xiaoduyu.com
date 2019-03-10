@@ -28,6 +28,7 @@ export function loadFeedList({ id, filters, restart = false }) {
       posts_id{
         _id
         comment_count
+        reply_count
         content_html
         create_at
         deleted

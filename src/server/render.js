@@ -47,6 +47,8 @@ export default (req, res) => {
       resolve(params);
       return;
     }
+    
+    params.user = user || null;
 
     const router = createRouter(user);
 

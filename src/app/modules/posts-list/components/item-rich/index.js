@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
+import featureConfig from '@config/feature.config.js';
+
 // functions
 import Device from '@utils/device';
 
@@ -11,6 +13,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { isMember } from '@reducers/user';
 import { viewPostsById } from '@actions/posts';
+import { addHasRead } from '@actions/has-read-posts';
+import { getHasReadByPostsId } from '@reducers/has-read-posts';
 
 // components
 import HTMLText from '@components/html-text';
@@ -24,16 +28,19 @@ import Share from '@components/share';
 // styles
 import './index.scss';
 
+
 @withRouter
 @connect(
   (state, props) => ({
-    isMember: isMember(state)
+    isMember: isMember(state),
+    hasRead: getHasReadByPostsId(state, { postsId: props.posts._id, lastCommentAt: props.posts.last_comment_at })
   }),
   dispatch => ({
-    viewPostsById: bindActionCreators(viewPostsById, dispatch)
+    viewPostsById: bindActionCreators(viewPostsById, dispatch),
+    addHasRead: bindActionCreators(addHasRead, dispatch)
   })
 )
-export default class PostsListItem extends React.PureComponent {
+export default class PostsListItem extends React.Component {
 
   static propTypes = {
     // 帖子对象
@@ -92,7 +99,9 @@ export default class PostsListItem extends React.PureComponent {
 
     if (selectedText) return;
 
-    const { posts, viewPostsById } = this.props;
+    const { posts, viewPostsById, addHasRead } = this.props;
+
+    addHasRead({ postsId: posts._id, lastCommentAt: posts.last_comment_at });
 
     if (!this.state.expand) {
 
@@ -118,10 +127,10 @@ export default class PostsListItem extends React.PureComponent {
 
   render () {
 
-    const { posts, isMember } = this.props;
+    const { posts, isMember, hasRead } = this.props;
     const { expand } = this.state;
 
-    return (<div id={posts._id} styleName={`item ${expand ? '' : 'fold'}`}>
+    return (<div id={posts._id} styleName={`item ${expand ? '' : 'fold'}`} className="card">
 
       <div onClick={!expand ? this.expand : null}>
 
@@ -141,23 +150,23 @@ export default class PostsListItem extends React.PureComponent {
 
               <div>
                 <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
-                <span>{posts._create_at}</span>
-                {posts._device ? <span>{posts._device}</span> : null}
+                <span className="text-secondary">{posts._create_at}</span>
+                {posts._device ? <span className="text-secondary">{posts._device}</span> : null}
+                {/* {posts._update_at ? <span>{posts._update_at}编辑</span> : null} */}
               </div>
 
             </div>
             : null}
         </div>
 
-        <div styleName={`body`} style={posts._coverImage ? { minHeight:'100px'} : null}>
+        <div style={posts._coverImage ? { minHeight:'100px'} : null}>
 
           {posts._coverImage && !expand ?
-            <div styleName="cover-image" style={{backgroundImage:`url(${posts._coverImage})`}}></div>
+            <div styleName="cover-image" className="img" style={{backgroundImage:`url(${posts._coverImage})`}}></div>
             : null}
 
-          {posts._update_at ? <div styleName="update_at">最近一次编辑于 {posts._update_at}</div> : null}
-
-          <div styleName="title">
+          <div styleName="title" className="text-dark">
+            {/* style={!expand && hasRead ? { color:'#888' } : {}} */}
             <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
           </div>
 
@@ -165,7 +174,7 @@ export default class PostsListItem extends React.PureComponent {
 
             if (expand) {
               return (<div styleName="content">
-                <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
+                <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} maxHeight={featureConfig.posts.contentMaxHeight} />
               </div>)
             }
 
@@ -186,12 +195,12 @@ export default class PostsListItem extends React.PureComponent {
         <div styleName="footer">
           <div styleName="footer-main" className="d-flex justify-content-between">
             
-            <div styleName="actions">
+            <div styleName="actions" className="text-secondary">
               {posts.view_count ? <span>{posts.view_count} 次阅读</span> : null}
               {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
               {posts.reply_count ? <span>{posts.reply_count} 条回复</span> : null}
               {posts.like_count ? <span>{posts.like_count} 人赞</span> : null}
-              {posts.follow_count ? <span>{posts.follow_count} 人订阅</span> : null}
+              {posts.follow_count ? <span>{posts.follow_count} 人收藏</span> : null}
             </div>
             
             {expand ?
@@ -199,7 +208,7 @@ export default class PostsListItem extends React.PureComponent {
                 <Like posts={posts} displayNumber={false} />
                 <Follow posts={posts} />
                 <Share posts={posts} />
-                <a href="javascript:void(0)" onClick={this.expand}>收起</a>
+                <a href="javascript:void(0)" className="text-secondary" onClick={this.expand}>收起</a>
                 <MoreMenu posts={posts} />
               </div>
               :null}
@@ -210,7 +219,7 @@ export default class PostsListItem extends React.PureComponent {
       </div>
 
       {expand ?
-        <div onClick={this.stopPropagation}>
+        <div onClick={this.stopPropagation} styleName="comment-list">
 
           <CommentList
             name={posts._id}
@@ -224,7 +233,7 @@ export default class PostsListItem extends React.PureComponent {
               }
             }}
             />
-            
+
           {isMember ?
             <div className="border-top"><Editor posts_id={posts._id} /></div>
             : null}

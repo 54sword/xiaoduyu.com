@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import featureConfig from '@config/feature.config.js';
+
 import './style.scss';
 
 // redux
@@ -9,7 +11,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadMoreReply } from '@actions/comment';
 
-// components
 import LikeButton from '@components/like';
 import HTMLText from '@components/html-text';
 import MoreMenu from '@components/more-menu';
@@ -76,7 +77,7 @@ export default class CommentItem extends Component {
       reply_user = comment.reply_id.user_id;
     }
 
-    return (<div styleName="item" key={comment._id}>
+    return (<div styleName="item" key={comment._id} className="border-top">
 
       <div styleName="item-head">
 
@@ -95,14 +96,14 @@ export default class CommentItem extends Component {
       </div>
 
       {comment.content_html ?
-        <div styleName="item-body"><HTMLText content={comment.content_html} /></div>
+        <div styleName="item-body"><HTMLText content={comment.content_html} maxHeight={featureConfig.comment.contentMaxHeight} /></div>
         : null}
         
       <div styleName="footer">
 
         <div className="d-flex justify-content-between">
 
-          <div styleName="actions">
+          <div styleName="actions" className="text-secondary">
             <span>{comment._create_at}</span>
           </div>
 
@@ -125,7 +126,7 @@ export default class CommentItem extends Component {
           {comment.reply.map(item=>this.renderUserView(item))}
 
           {!loading && comment.reply_count > comment.reply.length ?
-            <div styleName="view-all-reply">
+            <div styleName="view-all-reply" className="border-top">
               <a href="javascript:void(0)" className="text-primary" onClick={() => this.loadMoreReply(comment)}>还有 {comment.reply_count - comment.reply.length} 条评论</a>
             </div>
             : null}

@@ -6,7 +6,6 @@ import { getTopicListById } from '@reducers/topic';
 import { getTopicId } from '@reducers/website';
 
 import PostsList from '@modules/posts-list';
-// import FeedList from '@modules/feed-list';
 
 import './index.scss';
 
@@ -84,12 +83,10 @@ export default class Home extends React.Component {
         <div className="card">
         <div className="card-header">热门讨论</div>
         <div className="card-body" styleName="body">
-        <PostsList
+          <PostsList
             id={'hot-'+(topicId || 'home')}
             itemType={'poor'}
             filters={filters}
-            // scrollLoad={false}
-            // showTips={false}
             />
         </div>
         </div>

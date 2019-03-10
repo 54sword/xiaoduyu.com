@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 // config
 import { original_api_domain, name } from '@config';
+import feature from '@config/feature.config.js';
 
 // components
 import SignIn from './sign-in';
@@ -42,9 +43,14 @@ export class SignModal extends Component {
   }
   
   render () {
-    const { type } = this.state
+    const { type } = this.state;
 
-    // return <div>111</div>
+
+    let socialLength = 0;
+
+    for (let i in feature.social) {
+      if (feature.social[i]) socialLength++;
+    }
 
     const body = (<div styleName="layer">
 
@@ -65,32 +71,30 @@ export class SignModal extends Component {
 
             <div styleName="social" className="row">
 
-              {/* <div className="col-12">
-                <a
-                  href="javascript:void(0)"
-                  onClick={()=>{ window.location.href = `${original_api_domain}/oauth/wechat${Wechat.in ? '' : '-pc'}`; }}
-                  styleName="wechat">
-                  微信
-                  </a>
-              </div> */}
+              {feature.social.wechat ?           
+                <div className={`col-${12/socialLength}`}>
+                  <a
+                    href="javascript:void(0)"
+                    onClick={()=>{ window.location.href = `${original_api_domain}/oauth/wechat${Wechat.in ? '' : '-pc'}`; }}
+                    styleName="wechat">
+                    微信
+                    </a>
+                </div> : null}
               
-              <div className="col-4">
-                <a href={`${original_api_domain}/oauth/github`} styleName="github">GitHub</a>
-              </div>
-              <div className="col-4">
-                <a href={`${original_api_domain}/oauth/qq`} styleName="qq">QQ</a>
-              </div>
-              <div className="col-4">
-                <a href={`${original_api_domain}/oauth/weibo`} styleName="weibo">微博</a>
-              </div>
-
-              {/* <div className="col-6">
-                <a href={`${original_api_domain}/oauth/qq`} styleName="qq">QQ</a>
-              </div>
-
-              <div className="col-6">
-                <a href={`${original_api_domain}/oauth/weibo`} styleName="weibo">微博</a>
-              </div> */}
+              {feature.social.github ?
+                <div className={`col-${12/socialLength}`}>
+                  <a href={`${original_api_domain}/oauth/github`} styleName="github">GitHub</a>
+                </div> : null}
+              
+              {feature.social.qq ?
+                <div className={`col-${12/socialLength}`}>
+                  <a href={`${original_api_domain}/oauth/qq`} styleName="qq">QQ</a>
+                </div> : null}
+              
+              {feature.social.weibo ?
+                <div className={`col-${12/socialLength}`}>
+                  <a href={`${original_api_domain}/oauth/weibo`} styleName="weibo">微博</a>
+                </div> : null}
 
             </div>
 

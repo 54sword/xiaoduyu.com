@@ -11,10 +11,9 @@ const processCommentList = (list) => {
       item._device = Device.getNameByDeviceId(item.device);
     }
 
-    if (item.create_at) {
-      item._create_at = DateDiff(item.create_at);
-    }
-
+    if (item.create_at) item._create_at = DateDiff(item.create_at);
+    if (item.update_at) item._update_at = DateDiff(item.update_at);
+    
     if (item.content_html) {
       let text = item.content_html.replace(/<[^>]+>/g,"");
       if (text.length > 200) text = text.slice(0, 200)+'...';

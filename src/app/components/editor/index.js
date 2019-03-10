@@ -91,9 +91,13 @@ const BLOCK_TYPES = [
 
 var INLINE_STYLES = [
   { className:"bold", label: 'bold', style: 'BOLD'},
-  { className:"italic", label: 'italic', style: 'ITALIC'},
-  { className:"underline", label: 'underline', style: 'UNDERLINE'}
+  // { className:"italic", label: 'italic', style: 'ITALIC'},
+  // { className:"underline", label: 'underline', style: 'UNDERLINE'}
   // {label: 'Monospace', style: 'CODE'}
+]
+
+const BLOCK_TYPES_1 = [
+  { className: 'code-block', label: 'code', style: 'code-block'}
 ]
 
 // 编辑器控制器
@@ -144,17 +148,25 @@ const Controls = (props) => {
             }}
             text={<span className="RichEditor-styleButton image"></span>}
             />
-
         
+        {!props.expandControl && BLOCK_TYPES_1.map((type) =>
+          <StyleButton
+            key={type.label}
+            active={type.style === blockType}
+            label={type.label}
+            onToggle={props.toggleBlockType}
+            className={type.className}
+            style={type.style}
+          />
+        )}
 
         {/*!props.expandControl ? <span onClick={props.handleExpandControl} className="RichEditor-styleButton more"></span> : null*/}
 
-        {/*<span className="RichEditor-styleButton video" onClick={props.addVideo}></span>*/}
+        {/* <span className="RichEditor-styleButton video" onClick={props.addVideo}></span> */}
         {props.expandControl ? <span className="RichEditor-styleButton link" onClick={props.addLink}></span> : null}
         {/*<span href="javascript:void(0)" className="RichEditor-styleButton music" onClick={props.addMusic}></span>*/}
           
-        {/*
-        <span
+        {/* <span
           className="RichEditor-styleButton link-image"
           onClick={()=>{
             let url = prompt("请输入图片地址","");
@@ -163,8 +175,7 @@ const Controls = (props) => {
             }
           }}
           >
-        </span>
-        */}
+        </span> */}
 
       </div>
   );

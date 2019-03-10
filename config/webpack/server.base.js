@@ -91,7 +91,10 @@ module.exports = {
         use: [
           { loader: `css/locals` }
         ]
-      }
+      },
+      
+      // 小于8K的图片，转 base64
+      { test: /\.(png|jpg|gif)$/, loader: 'url' }
 
     ]
   },

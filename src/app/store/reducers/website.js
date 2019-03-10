@@ -2,6 +2,14 @@
 import merge from 'lodash/merge'
 
 let _initialState = {
+  online: {
+    // 连接数
+    connect: 0,
+    // 在线会员
+    member: 0,
+    // 游客
+    visitor: 0
+  },
   onlineUserCount: 0,
   unreadNotice: [],
   // 首页选中的话题，空为首页、follow为关注、其他为话题 ID
@@ -19,11 +27,8 @@ export default function() {
 
     switch (action.type) {
 
-      case 'SET_ONLINE_USER_COUNT':
-        if (action.count == state.onlineUserCount) {
-          return state;
-        }
-        state.onlineUserCount = action.count;
+      case 'SET_ONLINE_STATUS':
+        state.online = action.online;
         return merge({}, state, {})
 
       case 'SET_UNREAD_NOTICE':
@@ -53,6 +58,10 @@ export default function() {
 
   }
 
+}
+
+export function getOnline(state) {
+  return state.website.online
 }
 
 export function getOnlineUserCount(state) {

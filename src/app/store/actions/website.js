@@ -1,9 +1,9 @@
 
 import GraphQL from '@utils/graphql';
 
-export function setOnlineUserCount(count) {
+export function setOnlineUserCount(online) {
   return (dispatch, getState) => {
-    dispatch({ type: 'SET_ONLINE_USER_COUNT', count })
+    dispatch({ type: 'SET_ONLINE_STATUS', online })
   }
 }
 
@@ -114,11 +114,21 @@ export function getNew () {
             page_size:1
           },
           fields: `create_at`
+        },
+        {
+          aliases: 'message',
+          api: 'countMessages',
+          args: {
+            has_read: false
+          },
+          fields: `count`
         }
       ]
     });
 
     if (res) {
+
+      console.log(res);
 
       // 通知
       if (res['userNotification'] && res['userNotification'].ids.length > 0) {

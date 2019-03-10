@@ -31,3 +31,4 @@ config/test.js
 config/index_*.js
 *.DS_Store
 upload-to-qiniu.js
+update.sh

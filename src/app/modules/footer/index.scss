@@ -1,11 +1,18 @@
 .container{
   font-size: 12px;
   line-height: 160%;
-  color:#666;
+  // color:#666;
 
   a{
-    color:#666;
+    // color:#666;
     margin-right:10px;
+  }
+
+  .beian{
+    background-image: url('./images/beian.png');
+    background-repeat: no-repeat;
+    padding-left:20px;
+    background-size: 16px;
   }
 
 }

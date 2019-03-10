@@ -62,12 +62,12 @@ export default class CommentButton extends Component {
     let t = posts ? '评论' : '回复';
 
     if (!isMember) {
-      return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation}>
+      return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={this.stopPropagation} className="text-secondary">
         <span className="d-none d-lg-inline d-xl-inline">{target.comment_count ? target.comment_count+' 条'+t : t}</span>
       </a>)
     }
 
-    return (<a styleName="button" href="javascript:void(0)" onClick={this.onClick}>
+    return (<a styleName="button" href="javascript:void(0)" onClick={this.onClick} className="text-secondary">
       <span className="d-none d-lg-inline d-xl-inline">{target.comment_count ? target.comment_count+' 条'+t : t}</span>
     </a>)
 

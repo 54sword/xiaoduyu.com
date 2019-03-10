@@ -14,6 +14,7 @@ import Oauth from '@modules/settings/oauth';
 import Password from '@modules/settings/password';
 import Phone from '@modules/settings/phone';
 import Block from '@modules/settings/block';
+import Theme from '@modules/settings/theme';
 
 // layout
 import SingleColumns from '../../layout/single-columns';
@@ -28,6 +29,7 @@ export default class SettingsPage extends React.PureComponent {
       <Nickname />
       <Brief />
       <Gender />
+      <Theme />
       <Password />
       <Phone />
       <Email />

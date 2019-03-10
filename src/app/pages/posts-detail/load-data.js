@@ -1,7 +1,12 @@
 import { loadPostsList } from '../../store/actions/posts';
 
-export default ({ store, match }) => {
+export default ({ store, match, user }) => {
   return new Promise(async (resolve, reject) => {
+
+    if (user) {
+      resolve({ code:200 });
+      return;
+    }
 
     const { id } = match.params;
 
@@ -15,6 +20,9 @@ export default ({ store, match }) => {
         }
       }
     })(store.dispatch, store.getState);
+
+    // console.log(err);
+    // console.log(data);
 
     if (data && data.data && data.data.length > 0) {
       resolve({ code:200 });

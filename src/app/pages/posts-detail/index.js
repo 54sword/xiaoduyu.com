@@ -93,7 +93,7 @@ export default class PostsDetailPage extends React.Component {
         <meta property="og:site_name" content={name} />
         <meta property="og:image" content={posts._coverImage || domain_name+'./icon-512x512.png'} />
       </Meta>
-
+      
       <PostsDetail posts={posts} />
 
       {Goole_AdSense && Goole_AdSense.postsDetail ?
@@ -102,7 +102,7 @@ export default class PostsDetailPage extends React.Component {
       
       {posts.comment_count > 0 ?
         <div className="card">
-          <div className="card-header">{posts.comment_count}条评论</div>
+          <div className="card-header">{posts.comment_count} 条评论</div>
           <div styleName="comment-list" className="card-body">
             <CommentList
               name={posts._id}
