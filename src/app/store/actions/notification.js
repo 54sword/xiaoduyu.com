@@ -108,16 +108,14 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
       actionType: 'SET_NOTIFICATION_LIST_BY_ID',
       callback: result => {
         let [ err, res ] = result;
-        
-        if (!res.more) return;
 
         let unreadNotice = getState().website.unreadNotice
-        let comment = getState().comment
+        // let comment = getState().comment
         let posts = getState().posts
         let followPeople = getState().followPeople
         let me = getState().user.profile
 
-        comment = updateCommentState(comment, res.data)
+        // comment = updateCommentState(comment, res.data)
         posts = updatePosts(posts, res.data)
         followPeople = updateFollowPeople(followPeople, me._id, res.data)
 
@@ -126,7 +124,7 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
           let _index = unreadNotice.indexOf(item._id)
           if (_index != -1) unreadNotice.splice(_index, 1)
         })
-
+        
         if (followPeople.count > 0) {
           me.fans_count = me.fans_count + followPeople.count
           dispatch({ type: 'SET_USER', userinfo: me })
@@ -134,7 +132,7 @@ export function loadNotifications({ name, filters = {}, restart = false }) {
         }
 
         dispatch({ type: 'SET_POSTS', state: posts })
-        dispatch({ type: 'SET_COMMENT', state: comment })
+        // dispatch({ type: 'SET_COMMENT', state: comment })
         dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice })
         // dispatch({ type: 'SET_NOTIFICATION_LIST_BY_ID', name, data: list })
 
@@ -268,8 +266,6 @@ const updateFollowPeople = (state, selfId, notices) => {
 // 获取新的未读通知
 export const loadNewNotifications = ({ name }) => {
   return async (dispatch, getState) => {
-
-    console.log('=======');
 
     const state = getState();
 

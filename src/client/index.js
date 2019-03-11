@@ -15,6 +15,7 @@ import { GA, analysis_script } from '@config';
 import '../app/theme/global.scss';
 import '../app/theme/light.scss';
 import '../app/theme/dark.scss';
+import 'highlight.js/styles/default.css';
 
 import { getProfile } from '@reducers/user';
 import { getUnlockTokenByCookie } from '@actions/unlock-token';
@@ -22,7 +23,10 @@ import { requestNotificationPermission } from '@actions/website';
 import { initHasRead } from '@actions/has-read-posts';
 
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-OfflinePluginRuntime.install();
+if (process.env.NODE_ENV != 'development') {
+  OfflinePluginRuntime.install();
+}
+
 
 (async function(){
 

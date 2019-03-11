@@ -38,7 +38,8 @@ export default function ({ dispatch, getState }) {
     switch (type) {
       // 有新通知
       case 'notification':
-        handleActions(loadUnreadCount);
+        // handleActions(loadUnreadCount);
+        handleActions(loadTips);
         break;
       case 'new-feed':
         handleActions(loadTips);

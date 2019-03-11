@@ -14,7 +14,8 @@ export function getQiNiuToken() {
             url
           `
         }],
-        headers: { accessToken: getState().user.accessToken }
+        headers: { accessToken: getState().user.accessToken },
+        cache: true
       });
 
       if (err) {

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import hljs from 'highlight.js';
+
 import './style.scss';
 import convertHTML from './convert';
 
@@ -53,6 +55,7 @@ export default class HTMLText extends Component {
     // highlight 代码高亮
     if (typeof hljs != 'undefined') {
       $('pre').each(function(i, block) {
+        // hljs.registerLanguage('javascript', _javascript);
         hljs.highlightBlock(block);
       });
     }
