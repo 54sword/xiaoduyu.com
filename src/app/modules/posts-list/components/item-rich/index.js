@@ -228,10 +228,12 @@ export default class PostsListItem extends React.Component {
                 posts_id: posts._id,
                 parent_id: 'not-exists',
                 page_size: 10,
+                page_number: Math.ceil(posts.comment_count/10),
                 deleted: false,
                 weaken: false
               }
             }}
+            showPagination={true}
             />
 
           {isMember ?

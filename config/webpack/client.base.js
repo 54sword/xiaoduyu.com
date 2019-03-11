@@ -63,6 +63,8 @@ module.exports = {
       
       // 'github-markdown-css/github-markdown.css',
 
+      // 'highlight.js/styles/default.css',
+
       './src/client/index.js'
     ]
   },

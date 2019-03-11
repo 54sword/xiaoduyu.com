@@ -15,7 +15,8 @@ export function loadReportTypes() {
               text
             }
           `
-        }]
+        }],
+        cache: true
       });
 
       if (res) dispatch({ type: 'ADD_REPORT_TYPES', types: res.data });
