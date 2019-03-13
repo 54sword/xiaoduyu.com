@@ -237,7 +237,7 @@ export default class PostsListItem extends React.Component {
             />
 
           {isMember ?
-            <div className="border-top"><Editor posts_id={posts._id} /></div>
+            <div className="border-top"><Editor posts_id={posts._id} forward={true} /></div>
             : null}
 
         </div>

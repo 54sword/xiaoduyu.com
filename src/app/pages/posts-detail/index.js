@@ -123,7 +123,7 @@ export default class PostsDetailPage extends React.Component {
         : null}
 
       {isMember ?
-        <div styleName="editor-comment"><EditorComment posts_id={posts._id} /></div>
+        <div styleName="editor-comment"><EditorComment posts_id={posts._id} forward={true} /></div>
         : null}
 
     </SingleColumns>)
