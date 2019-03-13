@@ -30,7 +30,7 @@ const processCommentList = (list) => {
   return list
 }
 
-export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, callback }) {
+export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, forward, callback }) {
   return (dispatch, getState) => {
 
     let accessToken = getState().user.accessToken;
@@ -49,7 +49,8 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
             reply_id,
             content: contentJSON,
             content_html: contentHTML,
-            device: deviceId
+            device: deviceId,
+            forward
           },
           fields: `
           success

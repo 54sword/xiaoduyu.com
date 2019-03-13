@@ -37,7 +37,9 @@ export default class CommentEditor extends Component {
     placeholder: '写评论...',
     // content: '',
     successCallback: ()=>{},
-    getEditor: (editor)=>{}
+    getEditor: (editor)=>{},
+    // 转发
+    forward: false
   }
 
   constructor(props) {
@@ -52,6 +54,7 @@ export default class CommentEditor extends Component {
     }
     this.submit = this.submit.bind(this)
     this.syncContent = this.syncContent.bind(this)
+    this.forward = React.createRef()
   }
 
   async componentDidMount() {
@@ -145,13 +148,22 @@ export default class CommentEditor extends Component {
       // console.log(contentJSON);
       // console.log(contentHTML);
 
+      let forward = false;
+
+      try {
+        forward = this.forward.current.checked
+      } catch(err) {
+        console.log(err);
+      }
+      
       [ err, res ] = await addComment({
         posts_id: posts_id,
         parent_id: parent_id,
         reply_id: reply_id,
         contentJSON: contentJSON,
         contentHTML: contentHTML,
-        deviceId: Device.getCurrentDeviceId()
+        deviceId: Device.getCurrentDeviceId(),
+        forward
       });
     }
 
@@ -185,13 +197,15 @@ export default class CommentEditor extends Component {
 
   syncContent(contentJSON, contentHTML) {
 
-    let { posts_id, reply_id } = this.props;
+    let { posts_id, reply_id, forward } = this.props;
 
     this.state.contentJSON = contentJSON;
     this.state.contentHTML = contentHTML;
 
     if (!this.state.showFooter && contentJSON) {
-      this.setState({ showFooter: true })
+      this.setState({ showFooter: true }, ()=>{
+        if (forward) $('[data-toggle="tooltip"]').tooltip();
+      });
     }
 
     let commentsDraft = reactLocalStorage.get('comments-draft') || '{}'
@@ -216,13 +230,24 @@ export default class CommentEditor extends Component {
 
   render() {
 
-    const { content, showFooter, submitting, uploading } = this.state
+    const { content, showFooter, submitting } = this.state
+    const { forward } = this.props
 
     return (<div styleName="box" className="card">
         <div styleName="content">{content}</div>
         {showFooter ?
-          <div styleName="footer">
-            <button onClick={this.submit} type="button" className="btn btn-primary">{submitting ? '提交中...' : '提交'}</button>
+          <div styleName="footer" className="d-flex justify-content-between">
+            <div>
+              {forward ?
+                <label className="mt-2">
+                  <input type="checkbox" ref={this.forward} />
+                  <span className="ml-1" data-toggle="tooltip" data-placement="top" title="同时转发给我的粉丝">转发</span>
+                </label>
+                : null}
+            </div>
+            <div>
+              <button onClick={this.submit} type="button" className="btn btn-primary">{submitting ? '提交中...' : '提交'}</button>
+            </div>
           </div>
           : null}
       </div>)

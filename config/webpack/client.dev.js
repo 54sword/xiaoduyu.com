@@ -1,7 +1,6 @@
 const baseConfig = require('./client.base');
 const webpack = require('webpack');
 const WriteFileWebpackPlugin = require('write-file-webpack-plugin');
-// const ManifestPlugin = require('webpack-manifest-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const config = {
@@ -10,8 +9,7 @@ const config = {
     new WriteFileWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     // 打包分析，查看模块大小 端口默认为 8888
-    // new BundleAnalyzerPlugin(),
-    // new ManifestPlugin({ fileName: 'manifest.json' }),
+    new BundleAnalyzerPlugin(),
     ...baseConfig.plugins
   ],
   mode: 'development',
