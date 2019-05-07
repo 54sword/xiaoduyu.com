@@ -21,6 +21,9 @@ export default class Agreement extends React.PureComponent {
       <Meta title={'用户协议'} />
 
       <h1>用户协议</h1>
+      
+      生效日期：2017 年 02 月 17日<br /><br />
+
       <div>
         请您仔细阅读以下条款，如果您对本协议的任何条款表示异议，您可以选择不进入{name}。当您注册成功，无论是进入{name}，还是在知{name}上发布任何内容，或者是直接或通过各类方式（如站外API引用等）间接使用{name}网服务和数据的行为，都将被视作已无条件接受本声明所涉全部内容。
         <br />

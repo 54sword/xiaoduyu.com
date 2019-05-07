@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { addPosts, updatePosts } from '@actions/posts';
-import { loadTopics } from '@actions/topic';
+import { loadTopicList } from '@actions/topic';
 import { getTopicListById } from '@reducers/topic';
 
 // components
@@ -26,7 +26,7 @@ import './style.scss';
   }),
   dispatch => ({
     addPosts: bindActionCreators(addPosts, dispatch),
-    loadTopics: bindActionCreators(loadTopics, dispatch),
+    loadTopicList: bindActionCreators(loadTopicList, dispatch),
     updatePosts: bindActionCreators(updatePosts, dispatch)
   })
 )
@@ -70,13 +70,13 @@ class EditorPosts extends React.Component {
 
     const self = this;
     const { _id, type, title, contentStateJSON } = this.state;
-    const { topic_id, topicList, loadTopics } = this.props;
+    const { topic_id, topicList, loadTopicList } = this.props;
 
     // const { topic_id } = this.props.location.params;
     
     // 加载话题
     if (!topicList.data) {
-      await loadTopics({
+      await loadTopicList({
         id: 'new-posts',
         filters: {
           variables: {

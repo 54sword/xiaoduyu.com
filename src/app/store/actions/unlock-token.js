@@ -1,5 +1,8 @@
-import cookie from 'react-cookies';
-import graphql from '@utils/graphql';
+
+import storage from '../../common/storage';
+import To from '../../common/to';
+
+import graphql from '../../common/graphql';
 
 export const getUnlockToken = ({ args }) => {
   return (dispatch, getState) => {
@@ -13,19 +16,16 @@ export const getUnlockToken = ({ args }) => {
         }],
         headers: { accessToken: getState().user.accessToken }
       });
-
+      
       resolve([ err, res ]);
 
       if (res && res.unlock_token) {
-        // 令牌的有效时间
-        cookie.save(
-          'unlock-token',
-          res.unlock_token,
-          {
-            path: '/',
-            expires: new Date(new Date().getTime() + 1000 * 60 * 59)
-          }
-        );
+
+        storage.save({
+          key: 'unlock-token',
+          data: res.unlock_token,
+          expires: 1000 * 3600,
+        });
 
         dispatch({ type: 'ADD_UNLOCK_TOKEN', unlockToken: res.unlock_token });
       }
@@ -35,9 +35,20 @@ export const getUnlockToken = ({ args }) => {
 }
 
 // 从cookie中获取unlock token
-export const getUnlockTokenByCookie = () => {
-  return (dispatch, getState) => {
-    let unlockToken = cookie.load('unlock-token') || '';
+export const initUnlockToken = () => {
+  return async (dispatch, getState) => {
+    
+    let [ err, unlockToken ] = await To(storage.load({ key: 'unlock-token' }));
+
     if (unlockToken) dispatch({ type: 'ADD_UNLOCK_TOKEN', unlockToken });
+  }
+}
+
+
+export const removeUnlockToken = () => {
+  return async (dispatch, getState) => {
+    storage.remove({
+      key: 'unlock-token'
+    });
   }
 }

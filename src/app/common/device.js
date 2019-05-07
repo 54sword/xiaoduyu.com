@@ -9,7 +9,8 @@ var device = (function() {
       4: 'ipad',
       5: 'iphone',
       6: 'android',
-      7: 'ios-app'
+      7: 'ios-app',
+      8: 'android-app'
     };
     this.show = {
       1: '',
@@ -18,7 +19,8 @@ var device = (function() {
       4: '',
       5: '',
       6: '',
-      7: '通过 App iPhone 客户端'
+      7: '通过 App iPhone 客户端',
+      8: '通过 App Android 客户端'
     };
   };
 
@@ -48,7 +50,7 @@ var device = (function() {
 
     for (var i in this.devices) {
       if (this.devices[i] == dvicename) {
-        return i;
+        return parseInt(i);
       }
     }
 

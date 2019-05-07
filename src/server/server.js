@@ -22,6 +22,12 @@ app.use(express.static('./dist/client'));
 app.use(express.static('./public'));
 
 app.use(function (req, res, next) {
+
+  // 在服务端发起的请求的ua，传递给api
+  if (req && req.headers && req.headers['user-agent']) {
+    global.ua = req.headers['user-agent'];
+  }
+
   // 计算页面加载完成花费的时间
   var exec_start_at = Date.now();
   var _send = res.send;

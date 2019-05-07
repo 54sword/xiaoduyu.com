@@ -1,7 +1,7 @@
-import { DateDiff } from '@utils/date';
-import loadList from '@utils/graphql-load-list';
-import Utils from '@utils/utils';
-import Device from '@utils/device';
+import { DateDiff } from '../../common/date';
+import loadList from '../../common/graphql-load-list';
+import Utils from '../../common/utils';
+import Device from '../../common/device';
 
 export function loadFeedList({ id, filters, restart = false }) {
   return async (dispatch, getState) => {
@@ -154,7 +154,9 @@ const processPostsList = (list) => {
 
       let textContent = Utils.htmlImgToText(item.comment_id.content_html);
 
-      // if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
+      textContent = Utils.htmlToString(textContent);
+
+      if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
       item.comment_id.content_summary = textContent;
 
       if (item.comment_id.create_at) item.comment_id._create_at = DateDiff(item.comment_id.create_at);

@@ -9,7 +9,7 @@ import cookie from 'react-cookies';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadTopics } from '@actions/topic';
+import { loadTopicList } from '@actions/topic';
 import { getTopicListById } from '@reducers/topic';
 import { saveTopicId } from '@actions/website';
 import { isMember } from '@reducers/user';
@@ -34,7 +34,7 @@ import './index.scss';
     hasNewExcellent: getTipsById(state, 'excellent')
   }),
   dispatch => ({
-    loadTopics: bindActionCreators(loadTopics, dispatch),
+    loadTopicList: bindActionCreators(loadTopicList, dispatch),
     saveTopicId: bindActionCreators(saveTopicId, dispatch),
     loadTips: bindActionCreators(loadTips, dispatch)
   })
@@ -56,13 +56,13 @@ export default class Box extends Component {
 
   componentDidMount() {
 
-    const { topicList, loadTopics, loadTips, isMember } = this.props;
+    const { topicList, loadTopicList, loadTips, isMember } = this.props;
 
     if (!topicList ||
         !topicList.data ||
         !topicList.data.length
     ) {
-      loadTopics({
+      loadTopicList({
         id: 'recommend-topics',
         filters: { variables: { type: "parent", recommend: true, sort_by: 'sort:-1' } }
       });

@@ -1,5 +1,5 @@
 
-import graphql from '@utils/graphql';
+import graphql from '../../common/graphql';
 
 function setUser(userinfo) {
   return { type: 'SET_USER', userinfo }
@@ -7,12 +7,14 @@ function setUser(userinfo) {
 
 export function addAccessToken({ accessToken }) {
   return (dispatch, getState) => {
-    dispatch({ type: 'ADD_ACCESS_TOKEN', accessToken });
+    dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken });
   }
 }
 
 export function removeAccessToken() {
-  return { type: 'REMOVE_ACCESS_TOKEN' }
+  return (dispatch, getState) => {
+    dispatch({ type: 'REMOVE_ACCESS_TOKEN' });
+  }
 }
 
 /**

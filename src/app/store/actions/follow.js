@@ -1,6 +1,6 @@
 
-import graphql from '@utils/graphql';
-import loadList from '@utils/graphql-load-list';
+import graphql from '../../common/graphql';
+import loadList from '../../common/graphql-load-list';
 
 // 关注
 export const findFollows = ({ id, args, fields, restart = false }) => {

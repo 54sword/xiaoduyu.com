@@ -8,9 +8,9 @@ import ReactGA from 'react-ga';
 
 import configureStore from '../app/store';
 import createRouter from '../app/router';
-import startSocket from './socket';
+import * as socket from '../app/socket';
 
-import { GA, analysis_script } from '@config';
+import { GA, analysisScript } from '@config';
 
 import '../app/theme/global.scss';
 import '../app/theme/light.scss';
@@ -18,7 +18,7 @@ import '../app/theme/dark.scss';
 import 'highlight.js/styles/default.css';
 
 import { getProfile } from '@reducers/user';
-import { getUnlockTokenByCookie } from '@actions/unlock-token';
+import { initUnlockToken } from '@actions/unlock-token';
 import { requestNotificationPermission } from '@actions/website';
 import { initHasRead } from '@actions/has-read-posts';
 
@@ -36,13 +36,11 @@ if (process.env.NODE_ENV != 'development') {
   let userinfo = getProfile(store.getState());
 
   // 从cookie中获取unlock token，并添加到redux
-  getUnlockTokenByCookie()(store.dispatch, store.getState);
+  initUnlockToken()(store.dispatch, store.getState);
   requestNotificationPermission()(store.dispatch, store.getState);
   
   // console.log('===');
   // console.log(cookie.load('topic_id'));
-
-  
 
   let logPageView = ()=>{};
 
@@ -59,7 +57,7 @@ if (process.env.NODE_ENV != 'development') {
   const router = createRouter(userinfo, logPageView);
   const RouterDom = router.dom;
 
-  startSocket(store);
+  socket.connect(store);
 
   let _route = null;
 
@@ -90,7 +88,7 @@ if (process.env.NODE_ENV != 'development') {
   }
 
   // 添加页面第三方统计分析脚本
-  $('body').append(`<div style="display:none">${analysis_script}</div>`);
+  $('body').append(`<div style="display:none">${analysisScript}</div>`);
 
   // 解决在 ios safari iframe 上touchMove 滚动后，外部的点击事件会无效的问题
   document.addEventListener('touchmove', function(e) {

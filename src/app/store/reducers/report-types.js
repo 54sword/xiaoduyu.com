@@ -3,6 +3,7 @@ import merge from 'lodash/merge'
 
 
 export default function () {
+
   let initialState = {};
 
   return function reportTypes(state = initialState, action = {}) {

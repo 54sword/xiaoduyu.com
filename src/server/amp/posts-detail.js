@@ -1,6 +1,6 @@
 
 // config
-import { name, domain_name, amp, favicon } from '@config';
+import { name, domainName, AMP, favicon } from '@config';
 
 // tools
 import { abstractImagesFromHTML } from '@utils/utils';
@@ -135,9 +135,9 @@ export const show = async (req, res, next) => {
   }
 
   res.render('../dist/server/views/pages/posts-detail.ejs', {
-    amp,
+    AMP,
     website_name: name,
-    domain_name,
+    domainName,
     posts,
     commentList,
     favicon

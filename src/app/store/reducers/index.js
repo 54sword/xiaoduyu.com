@@ -19,6 +19,7 @@ import tips from './tips';
 import hasReadPosts from './has-read-posts';
 import message from './message';
 import session from './session';
+import clientInstalled from './client-installed';
 
 export default function() {
 
@@ -43,7 +44,8 @@ export default function() {
     tips: tips(),
     hasReadPosts: hasReadPosts(),
     message: message(),
-    session: session()
+    session: session(),
+    clientInstalled: clientInstalled()
   }
 
   return combineReducers(states);

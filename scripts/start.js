@@ -28,7 +28,7 @@ const start = async () => {
 
   rimraf.sync('./dist');
 
-  let public_path = config.public_path.split(':');
+  let public_path = config.publicPath.split(':');
 
   public_path.pop();
 

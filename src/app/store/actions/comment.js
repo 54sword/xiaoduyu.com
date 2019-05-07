@@ -1,8 +1,8 @@
-import { DateDiff } from '@utils/date';
-import loadList from '@utils/graphql-load-list';
-import graphql from '@utils/graphql';
+import { DateDiff } from '../../common/date';
+import loadList from '../../common/graphql-load-list';
+import graphql from '../../common/graphql';
 
-import Device from '@utils/device';
+import Device from '../../common/device';
 
 const processCommentList = (list) => {
   list.map(item=>{

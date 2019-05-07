@@ -14,7 +14,7 @@ import createRouter from '../app/router';
 // 加载初始数据
 import initData from '../app/init-data';
 
-import { auth_cookie_name } from '@config';
+import { authCookieName } from '@config';
 
 export default (req, res) => {
   return new Promise(async (resolve, reject) => {
@@ -32,17 +32,17 @@ export default (req, res) => {
     let store = createStore();
 
     // 准备数据，如果有token，获取用户信息并返回
-    let [ err, user ] = await initData(store, req.cookies[auth_cookie_name] || '');
+    let [ err, user ] = await initData(store, req.cookies[authCookieName] || '');
 
     if (err && err.blocked) {
       // 如果是拉黑的用户，阻止登陆，并提示
-      res.clearCookie(auth_cookie_name);
+      res.clearCookie(authCookieName);
       params.context = { code: 403, redirect: '/notice?notice=block_account' };
       resolve(params);
       return;
     } else if (err && err.message && err.message == 'invalid token') {
       // 无效的令牌
-      res.clearCookie(auth_cookie_name);
+      res.clearCookie(authCookieName);
       params.context = { code: 403, redirect: '/notice?notice=invalid_token' };
       resolve(params);
       return;

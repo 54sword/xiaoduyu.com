@@ -1,6 +1,6 @@
 
-import GraphQL from '@utils/graphql';
-import { getPostsListById } from '@reducers/posts';
+import GraphQL from '../../common/graphql';
+import { getPostsListById } from '../reducers/posts';
 
 // 查询是否有新动态，用于小红点提醒
 export function loadTips () {

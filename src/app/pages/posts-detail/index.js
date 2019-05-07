@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { name, domain_name, Goole_AdSense } from '@config';
+import { name, domainAame, googleAdSense } from '@config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -83,21 +83,21 @@ export default class PostsDetailPage extends React.Component {
 
       <Meta title={posts.title}>
         <meta name="description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
-        <link rel="canonical" href={`${domain_name}/posts/${posts._id}`} />
-        <link rel="amphtml" href={`${domain_name}/amp/posts/${posts._id}`} />
+        <link rel="canonical" href={`${domainAame}/posts/${posts._id}`} />
+        <link rel="amphtml" href={`${domainAame}/amp/posts/${posts._id}`} />
         <meta property="og:locale" content="zh_CN" />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={posts.title} />
         <meta property="og:description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
-        <meta property="og:url" content={`${domain_name}/posts/${posts._id}`} />
+        <meta property="og:url" content={`${domainAame}/posts/${posts._id}`} />
         <meta property="og:site_name" content={name} />
-        <meta property="og:image" content={posts._coverImage || domain_name+'./icon-512x512.png'} />
+        <meta property="og:image" content={posts._coverImage || domainAame+'./icon-512x512.png'} />
       </Meta>
       
       <PostsDetail posts={posts} />
 
-      {Goole_AdSense && Goole_AdSense.postsDetail ?
-        <div style={{marginBottom:'10px'}}><AdsByGoogle {...Goole_AdSense.postsDetail} /></div>
+      {googleAdSense && googleAdSense.postsDetail ?
+        <div style={{marginBottom:'10px'}}><AdsByGoogle {...googleAdSense.postsDetail} /></div>
         : null}
       
       {posts.comment_count > 0 ?

@@ -1,5 +1,6 @@
 
-import graphql from '@utils/graphql';
+import graphql from '../../common/graphql';
+import { removeUnlockToken } from './unlock-token';
 
 // cookie安全措施，在服务端使用 http only 方式储存cookie
 export const saveTokenToCookie = ({ access_token }) => {
@@ -24,22 +25,6 @@ export const saveTokenToCookie = ({ access_token }) => {
         }
       }
     });
-    
-    /*
-    let [ err, res ] = await Ajax({
-      domain: window.location.origin,
-      // apiVerstion: '',
-      url: '/sign/in',
-      type: 'post',
-      data: { access_token }
-    });
-    
-    if (res && res.success) {
-      resolve(res);
-    } else {
-      reject(res);
-    }
-    */
   
   });
   };
@@ -61,12 +46,20 @@ export const signIn = ({ data }) => {
         }]
       });
 
+      console.log(err, res);
+
       if (err) {
         reject(err ? err.message : '账号或密码错误')
       } else {
+
         resolve(res);
-        await saveTokenToCookie(res)(dispatch, getState);
-        window.location.reload();
+
+        // 浏览器环境
+        if (res && res.access_token && typeof document != 'undefined') {
+          await saveTokenToCookie(res)(dispatch, getState);
+          window.location.reload();
+        }
+        
       }
 
     })
@@ -77,14 +70,18 @@ export const signOut = () => {
   return (dispatch, getState) => {
   // return new Promise(async (resolve, reject) => {
 
+    removeUnlockToken()(dispatch, getState);
+    
     $.ajax({
       url: '/sign/out',
       type: 'post',
       success: res => {
         if (res && res.success) {
 
-          // 退出成功跳转到首页
-          window.location.reload();
+          if (res.success && typeof window != 'undefined') {
+            // 退出成功跳转到首页
+            window.location.reload();
+          }
 
           // resolve(res.success);
         } else {
@@ -93,6 +90,7 @@ export const signOut = () => {
         }
       }
     });
+    
 
     // return Ajax({
     //   domain: window.location.origin,

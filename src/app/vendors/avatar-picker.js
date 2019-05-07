@@ -956,7 +956,9 @@ var avatarPicker = (function() {
 
   return function(setting) {
 
-    if (!_picker) _picker = new picker();
+    if (_picker) _picker = null;
+    
+    _picker = new picker();
 
     _picker.imgSrc = setting.img;
     _picker.doneCallback = setting.done;
