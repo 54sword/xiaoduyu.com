@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // config
-import { original_api_domain, name } from '@config';
+import { APIDomainName, name } from '@config';
 import feature from '@config/feature.config.js';
 
 // components
@@ -75,7 +75,7 @@ export class SignModal extends Component {
                 <div className={`col-${12/socialLength}`}>
                   <a
                     href="javascript:void(0)"
-                    onClick={()=>{ window.location.href = `${original_api_domain}/oauth/wechat${Wechat.in ? '' : '-pc'}`; }}
+                    onClick={()=>{ window.location.href = `${APIDomainName}/oauth/wechat${Wechat.in ? '' : '-pc'}`; }}
                     styleName="wechat">
                     微信
                     </a>
@@ -83,23 +83,23 @@ export class SignModal extends Component {
               
               {feature.social.github ?
                 <div className={`col-${12/socialLength}`}>
-                  <a href={`${original_api_domain}/oauth/github`} styleName="github">GitHub</a>
+                  <a href={`${APIDomainName}/oauth/github`} styleName="github">GitHub</a>
                 </div> : null}
               
               {feature.social.qq ?
                 <div className={`col-${12/socialLength}`}>
-                  <a href={`${original_api_domain}/oauth/qq`} styleName="qq">QQ</a>
+                  <a href={`${APIDomainName}/oauth/qq`} styleName="qq">QQ</a>
                 </div> : null}
               
               {feature.social.weibo ?
                 <div className={`col-${12/socialLength}`}>
-                  <a href={`${original_api_domain}/oauth/weibo`} styleName="weibo">微博</a>
+                  <a href={`${APIDomainName}/oauth/weibo`} styleName="weibo">微博</a>
                 </div> : null}
 
             </div>
 
             <div styleName="agreement">
-              登录即表示你同意网站的<Link to="/agreement" className="text-primary" onClick={()=>{ $('#sign').modal('hide'); }}>《用户协议》</Link>
+              登录即表示你同意网站的<Link to="/agreement" className="text-primary" onClick={()=>{ $('#sign').modal('hide'); }}>《用户协议》</Link> 与 <Link to="/privacy" className="text-primary" onClick={()=>{ $('#sign').modal('hide'); }}>《隐私政策》</Link>
             </div>
 
           </div>);

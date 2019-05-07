@@ -112,6 +112,7 @@ function youku(html) {
 
       try{
         id = str.split('v.youku.com/v_show/id_')[1].split('.')[0];
+        id = id.split('?')[0];
       } catch(err) {
         console.log(err);
       }
@@ -146,6 +147,7 @@ function bilibili(html) {
 
       try{
         id = str.split('bilibili.com/video/av')[1].split('/')[0];
+        id = id.split('?')[0];
       } catch(err) {
         console.log(err);
       }

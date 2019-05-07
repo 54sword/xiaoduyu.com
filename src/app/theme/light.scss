@@ -3,7 +3,7 @@
  * 覆盖默认的 bootstrap 的样式
  */
 
-$color_primary: #4170ea;
+$color_primary: #1289ff;
 $color_dark: #1c1e25;
 $color_muted: #eff1f4;
 $color_secondary: #999;
@@ -103,7 +103,7 @@ $color_secondary: #999;
     color:#fff;
     border:1px solid $color_primary;
     &:hover{
-      background-color: #547de8;
+      background-color: #1b93ff;
       color:#fff;
     }
   }

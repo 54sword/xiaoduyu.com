@@ -1,6 +1,6 @@
 
-import graphql from '@utils/graphql';
-import loadList from '@utils/graphql-load-list';
+import graphql from '../../common/graphql';
+import loadList from '../../common/graphql-load-list';
 
 const processNotificationList = (list) => {
 

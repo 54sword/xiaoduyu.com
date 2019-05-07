@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadNotifications } from '@actions/notification';
-import { getNotificationById } from '@reducers/notification';
+import { getNotificationListById } from '@reducers/notification';
 
 // tools
 // import { DateDiff } from '@utils/date';
@@ -23,7 +23,7 @@ import './index.scss';
 @withRouter
 @connect(
   (state, props) => ({
-    notification: getNotificationById(state, props.name)
+    notification: getNotificationListById(state, props.name)
   }),
   dispatch => ({
     loadNotifications: bindActionCreators(loadNotifications, dispatch)

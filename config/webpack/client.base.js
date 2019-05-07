@@ -72,7 +72,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../../dist/client'),
     filename: devMode ? '[name].bundle.js' : '[name].[hash].js',
-    publicPath: config.public_path + "/"
+    publicPath: config.publicPath + "/"
   },
 
   resolveLoader: {
@@ -118,7 +118,7 @@ module.exports = {
             loader: `css`,
             options: {
               modules: true,
-              localIdentName: config.class_scoped_name,
+              localIdentName: config.classScopedName,
               minimize: true,
               sourceMap: true,
               importLoaders: 1

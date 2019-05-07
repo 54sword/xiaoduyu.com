@@ -1,5 +1,5 @@
 
-import GraphQL from '@utils/graphql';
+import GraphQL from '../../common/graphql';
 
 export function setOnlineUserCount(online) {
   return (dispatch, getState) => {
@@ -128,7 +128,7 @@ export function getNew () {
 
     if (res) {
 
-      console.log(res);
+      // console.log(res);
 
       // 通知
       if (res['userNotification'] && res['userNotification'].ids.length > 0) {

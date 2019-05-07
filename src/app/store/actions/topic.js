@@ -1,7 +1,7 @@
 
-import loadList from '@utils/graphql-load-list';
+import loadList from '../../common/graphql-load-list';
 
-export function loadTopics({ id, filters = {}, restart = false  }) {
+export function loadTopicList({ id, filters = {}, restart = false  }) {
   return (dispatch, getState) => {
     
       if (!filters.select) {

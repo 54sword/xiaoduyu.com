@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { original_api_domain } from '@config'
+import { APIDomainName } from '@config'
 
 // redux
 import { bindActionCreators } from 'redux'
@@ -85,7 +85,7 @@ export default class settingsOauth extends Component {
 
     } else {
       if (confirm(`您确认绑定 ${name} 吗？`)) {
-        window.location.href = `${original_api_domain}/oauth/${name}?access_token=${accessToken}`;
+        window.location.href = `${APIDomainName}/oauth/${name}?access_token=${accessToken}`;
       }
     }
 

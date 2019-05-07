@@ -1,4 +1,4 @@
-import { loadTopics } from '@actions/topic';
+import { loadTopicList } from '@actions/topic';
 import { loadPostsList } from '@actions/posts';
 /**
  * 分析url上面的参数
@@ -49,7 +49,7 @@ export default ({ store, match, user }) => {
     const { id } = match.params;
     let err, topic;
     
-    [ err, topic ] = await loadTopics({
+    [ err, topic ] = await loadTopicList({
       id,
       filters: { variables: { _id: id } }
     })(store.dispatch, store.getState);

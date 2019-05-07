@@ -1,24 +1,47 @@
 
+import graphql from '../../common/graphql';
 
+/*
 export function addAccessToken({ access_token, expires }) {
   return { type: 'ADD_ACCESS_TOKEN', access_token, expires }
 }
+*/
 
-/*
+
 // 登录
-export function exchangeNewToken({ accessToken, callback = ()=>{} }) {
+export function exchangeNewToken({ accessToken }) {
   return (dispatch, getState) => {
+  return new Promise(async resolve => {
 
-    return Ajax({
-      url: '/exchange-new-token',
-      type: 'post',
-      headers: { AccessToken: accessToken },
-      callback
-    })
+      let [ err, res ] = await graphql({
+        type: 'mutation',
+        apis: [{
+          api: 'exchangeNewToken',
+          args: { token: accessToken },
+          fields: `
+          access_token
+          expires  
+          `
+        }]
+        // headers: { accessToken: getState().user.accessToken }
+      });
+
+      resolve([err, res])
+  
+      /*
+      return Ajax({
+        url: '/exchange-new-token',
+        type: 'post',
+        headers: { AccessToken: accessToken },
+        callback
+      })
+      */
+
+  })
   }
 }
 
-
+/*
 var status = false
 
 // 识别cookie中的 access_token 是否更换

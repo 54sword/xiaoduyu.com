@@ -4,7 +4,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 import fetch from "node-fetch";
 
-import { debug, graphql_url } from '@config';
+import { debug, graphqlUrl } from '@config';
 
 import featureConfig from '@config/feature.config.js';
 
@@ -19,11 +19,13 @@ const cache = new InMemoryCache({
 const client = new ApolloClient({
   ssrMode: __SERVER__ ? true : false,
   link: new HttpLink({
-    uri: graphql_url,
+    uri: graphqlUrl,
     fetch
   }),
   cache
 });
+
+exports.client = client;
 
 /*
 client.onResetStore(()=>{
@@ -114,6 +116,11 @@ export default async ({
   // if (debug) {
     // console.log(_apis.join(','));
   // }
+  
+  // 在服务端发起的请求的ua，传递给api
+  if (global.ua) {
+    headers['user-agent'] = global.ua;
+  }
 
   let options = {
     context: {
@@ -151,7 +158,7 @@ export default async ({
   }
 
   return To(new Promise((resolve, reject) => {
-
+    
     fn(options).then(res=>{
 
       if (__SERVER__) {
@@ -188,7 +195,8 @@ export default async ({
 }
 
 const StringAs = (string) => {
-  return '"' + string.replace(/(\\|\"|\n|\r|\t)/g, "\\$1") + '"';
+  // |\t
+  return '"' + string.replace(/(\\|\"|\n|\r)/g, "\\$1") + '"';
 }
 
 // 将参数对象转换成，GraphQL提交参数的格式
@@ -199,7 +207,7 @@ const convertParamsFormat = (params) => {
 		let v = '';
 		switch (typeof params[i]) {
 			case 'string':
-			v = StringAs(params[i]);
+        v = StringAs(params[i]);
 				break;
 			// case 'number': v = params[i]; break;
 			default: v = params[i];

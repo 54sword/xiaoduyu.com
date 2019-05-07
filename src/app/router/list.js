@@ -245,6 +245,17 @@ export default [
   },
 
   {
+    path: '/privacy',
+    exact: true,
+    head: Head,
+    component: Loadable({
+      loader: () => import('../pages/privacy'),
+      loading: () => <Loading />
+    }),
+    enter: 'everybody'
+  },
+
+  {
     path: '/apps',
     exact: true,
     component: Loadable({

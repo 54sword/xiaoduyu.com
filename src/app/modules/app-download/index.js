@@ -6,7 +6,7 @@
 import React from 'react';
 import QRCode from 'qrcode.react';
 
-import { client_download_url } from '@config';
+import { clientDownloadUrl } from '@config';
 
 import './index.scss';
 
@@ -29,7 +29,7 @@ export default class Links extends React.PureComponent {
 
     const { appsUrl } = this.state;
 
-    if (!client_download_url || !appsUrl) return null; 
+    if (!clientDownloadUrl || !appsUrl) return null; 
 
     return(
       <div className="card">

@@ -37,6 +37,6 @@ export default function() {
 
 }
 
-export const getNotificationById = (state, name) => {
+export const getNotificationListById = (state, name) => {
   return state.notification[name] || {}
 }

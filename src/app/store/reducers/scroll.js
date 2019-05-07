@@ -1,12 +1,12 @@
 
-let initialState = {}
-
 export default function() {
+
+  let initialState = {}
 
   return function scroll(state = initialState, action = {}) {
 
     switch (action.type) {
-
+      
       case 'SAVE_SCROLL_POSITION':
         state[action.name] = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
         return state

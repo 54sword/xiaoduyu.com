@@ -13,11 +13,12 @@ import HotPostsList from '@modules/hot-posts-list';
 import Case from '@modules/case';
 import AdsByGoogle from '@modules/adsbygoogle';
 import ProfileCard from '@modules/profile-card';
+// import Test from '@modules/test';
 
 // layout
 import ThreeColumns from '../../layout/three-columns';
 
-import { Goole_AdSense } from '@config';
+import { googleAdSense } from '@config';
 
 @Shell
 export default class Home extends React.PureComponent {
@@ -40,7 +41,12 @@ export default class Home extends React.PureComponent {
         
         <>
           <ProfileCard />
-          {Goole_AdSense.sidebar ? <AdsByGoogle {...Goole_AdSense.sidebar} /> : null}
+          {/* <div style={{marginBottom:10}}>
+            <a href="https://geo.itunes.apple.com/cn/app/rss-reader-one/id544358974?l=en&mt=8" target="_blank">
+              <img src="/rss-reader-one.png" alt="RSS Reader One" width="250" height="250" />
+            </a>
+          </div> */}
+          {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
           <HotPostsList />
           <Case />
           <LinksExchange />
@@ -50,7 +56,7 @@ export default class Home extends React.PureComponent {
 
         <>
           <HotPostsList />
-          {Goole_AdSense.sidebar ? <AdsByGoogle {...Goole_AdSense.sidebar} /> : null}
+          {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
         </>
 
       </ThreeColumns>

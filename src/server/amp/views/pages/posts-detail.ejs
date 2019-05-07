@@ -4,20 +4,20 @@
     <% include ../includes/head.ejs %>
 
     <title><%- website_name %></title>
-    <link rel="canonical" href="<%- domain_name %>/posts/<%- posts._id %>">
+    <link rel="canonical" href="<%- domainName %>/posts/<%- posts._id %>">
 
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="<%- posts.title %>" />
     <meta property="og:description" content="<%- posts.description %>" />
-    <meta property="og:url" content="<%- domain_name %>/posts/<%- posts._id %>" />
+    <meta property="og:url" content="<%- domainName %>/posts/<%- posts._id %>" />
     <meta property="og:site_name" content="<%- website_name %>" />
 
     <script type="application/ld+json">
       {
         "@context": "http://schema.org",
         "@type": "NewsArticle",
-        "mainEntityOfPage": "<%- domain_name %>/posts/<%- posts._id %>",
+        "mainEntityOfPage": "<%- domainName %>/posts/<%- posts._id %>",
         "headline": "<%- posts.title %>",
         "datePublished": "<%- new Date(new Date(posts.create_at).getTime()) %>",
         "dateModified": "<%- new Date(posts.update_at) %>",
@@ -29,12 +29,12 @@
         "publisher": {
           "@type": "Organization",
           "name": "<%- website_name %>",
-          "url": "<%- domain_name %>",
+          "url": "<%- domainName %>",
           "logo": {
             "@type": "ImageObject",
-            "url": "<%- amp.logo.url %>",
-            "width": "<%- amp.logo.width %>",
-            "height": "<%- amp.logo.height %>"
+            "url": "<%- AMP.logo.url %>",
+            "width": "<%- AMP.logo.width %>",
+            "height": "<%- AMP.logo.height %>"
           }
         },
         "image": ["<%- posts.images.join('","') %>"]
@@ -122,7 +122,7 @@
         <div id="info">
           <% if (posts._create_at) {%><span>帖子创建于<%- posts._create_at %></span><% } %>
           <% if (posts._create_at) {%>
-            <span><a href="<%- domain_name %>/topic/<%- posts.topic_id._id %>"><%- posts.topic_id.name %></a> </span>
+            <span><a href="<%- domainName %>/topic/<%- posts.topic_id._id %>"><%- posts.topic_id.name %></a> </span>
           <% } %>
           <% if (posts.view_count) {%><span><%- posts.view_count %> 次浏览</span><% } %>
           <% if (posts.like_count) {%><span><%- posts.like_count %> 个赞</span><% } %>
@@ -156,7 +156,7 @@
             <div class="content"><%- comment.content_html %></div>
 
             <% if (comment.reply_count) { %>
-              <div><a href="<%- domain_name %>/comment/<%- comment._id %>">有 <%- comment.reply_count %> 条回复</a></div>
+              <div><a href="<%- domainName %>/comment/<%- comment._id %>">有 <%- comment.reply_count %> 条回复</a></div>
             <% } %>
 
           </div>
@@ -165,7 +165,7 @@
 
       <% if (posts.comment_count > commentList.length) { %>
         <div class="more-comment">
-          <a href="<%- domain_name %>/posts/<%- posts._id %>">还有 <%- posts.comment_count - commentList.length %> 条评论，查看全部</a>
+          <a href="<%- domainName %>/posts/<%- posts._id %>">还有 <%- posts.comment_count - commentList.length %> 条评论，查看全部</a>
         </div>
       <% } %>
 
@@ -176,7 +176,7 @@
     <!-- footer -->
     <div class="footer">
       <p>当前这是一个AMP页面，如果你想参与本帖讨论，请打开完整版</p>
-      <p><a href="<%- domain_name %>/posts/<%- posts._id %>"><%- domain_name %>/posts/<%- posts._id %></a></p>
+      <p><a href="<%- domainName %>/posts/<%- posts._id %>"><%- domainName %>/posts/<%- posts._id %></a></p>
       <br />
       <p>© <%- new Date().getFullYear() %> <%- website_name %></p>
     </div>

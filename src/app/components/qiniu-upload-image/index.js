@@ -2,7 +2,7 @@ import React from 'react'
 // import PropTypes from 'prop-types'
 import Qiniu from './qiniu.js'
 
-import styles from './style.scss'
+// import './style.scss'
 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -17,7 +17,7 @@ import { getQiNiuToken } from '@actions/qiniu'
     getQiNiuToken: bindActionCreators(getQiNiuToken, dispatch)
   })
 )
-export class QiniuUploadImage extends React.Component {
+export default class QiniuUploadImage extends React.Component {
 
   static defaultProps = {
     displayLoading: true,
@@ -37,7 +37,8 @@ export class QiniuUploadImage extends React.Component {
       files: [],
       token: '',
       url: '',
-      uploadKey: ''
+      uploadKey: '',
+      isMount: true
     }
 
     this.onDrop = this._onDrop.bind(this)
@@ -46,14 +47,20 @@ export class QiniuUploadImage extends React.Component {
 
   async componentDidMount() {
 
-    const { getQiNiuToken } = this.props
+    const { getQiNiuToken } = this.props;
 
-    let [err, result] = await getQiNiuToken()
+    let [err, result] = await getQiNiuToken();
+
+    if (!this.state.isMount) return;
 
     if (result) {
       this.setState({ token: result.token, url: result.url })
     }
 
+  }
+
+  componentWillUnmount() {
+    this.state.isMount = false;
   }
 
   onUpload(files) {
@@ -165,5 +172,3 @@ export class QiniuUploadImage extends React.Component {
     );
   }
 }
-
-export default QiniuUploadImage

@@ -1,8 +1,10 @@
-import { reactLocalStorage } from 'reactjs-localstorage';
-import { DateDiff } from '@utils/date';
-import loadList from '@utils/graphql-load-list';
-import Device from '@utils/device';
-import graphql from '@utils/graphql';
+
+import storage from '../../common/storage';
+import { DateDiff } from '../../common/date';
+import loadList from '../../common/graphql-load-list';
+import Device from '../../common/device';
+import graphql from '../../common/graphql';
+import To from '../../common/to';
 
 // 添加问题
 export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
@@ -128,24 +130,26 @@ export const refreshPostsListById = (id) => {
   }
 }
 
-export function viewPostsById({ id, callback = ()=>{ } }) {
+export function viewPostsById({ id }) {
   return async (dispatch, getState) => {
 
-    // 浏览次数累计
-    let viewPosts = reactLocalStorage.get('view-posts') || '';
-    let lastViewPostsAt = reactLocalStorage.get('last-viewed-posts-at') || new Date().getTime();
+    let [ err, res ] = await To(storage.load({ key: 'view-posts' }));
     
-    // 如果超过1小时，那么浏览数据清零
-    if (new Date().getTime() - lastViewPostsAt > 3600000) viewPosts = '';
-
+    let viewPosts = res || '';
+    
     viewPosts = viewPosts.split(',');
 
     if (!viewPosts[0]) viewPosts = [];
 
     if (viewPosts.indexOf(id) == -1) {
+
       viewPosts.push(id);
-      reactLocalStorage.set('view-posts', viewPosts.join(','));
-      reactLocalStorage.set('last-viewed-posts-at', new Date().getTime());
+      
+      storage.save({
+        key: 'view-posts',
+        data: viewPosts.join(','),
+        expires: 1000 * 3600,
+      });
 
       let [ err, res ] = await graphql({
         type: 'mutation',
@@ -297,7 +301,7 @@ const processPostsList = (list) => {
       textContent = textContent.replace(/<[^>]+>/g,"");
 
 
-      if (textContent.length > 70) textContent = textContent.slice(0, 70)+'...';
+      if (textContent.length > 40) textContent = textContent.slice(0, 40)+'...';
       posts.content_summary = textContent;
 
       // 获取内容中所有的图片

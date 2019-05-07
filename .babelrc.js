@@ -15,7 +15,7 @@ module.exports = function(api) {
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-syntax-dynamic-import",
       ["react-css-modules", {
-        "generateScopedName": config.class_scoped_name,
+        "generateScopedName": config.classScopedName,
         "filetypes": {
           ".scss": {
             "syntax": "postcss-scss"

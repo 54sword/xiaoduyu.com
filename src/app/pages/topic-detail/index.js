@@ -3,7 +3,7 @@ import React from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { loadTopics } from '@actions/topic';
+import { loadTopicList } from '@actions/topic';
 import { getTopicListById } from '@reducers/topic';
 
 import SingleColumns from '../../layout/single-columns';
@@ -41,7 +41,7 @@ const analyzeUrlParams = (params) => {
     list: getTopicListById(state, props.match.params.id)
   }),
   dispatch => ({
-    loadTopics: bindActionCreators(loadTopics, dispatch)
+    loadTopics: bindActionCreators(loadTopicList, dispatch)
   })
 )
 export default class TopicsDetailPage extends React.Component {
@@ -55,6 +55,7 @@ export default class TopicsDetailPage extends React.Component {
   }
 
   async componentDidMount() {
+
 
     this.state.searchParams = analyzeUrlParams(this.props.location.params);
 

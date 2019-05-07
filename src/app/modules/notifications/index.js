@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { getProfile } from '@reducers/user';
 import { getUnreadNotice } from '@reducers/website';
 import { loadNewNotifications } from '@actions/notification';
-import { getNotificationById } from '@reducers/notification';
+import { getNotificationListById } from '@reducers/notification';
 
 // components
 import Loading from '@components/ui/loading';
@@ -25,9 +25,9 @@ import './index.scss';
     return {
       me: getProfile(state),
       unreadNotice: getUnreadNotice(state),
-      list: getNotificationById(state, props.location.pathname),
+      list: getNotificationListById(state, props.location.pathname),
       // 未读通知
-      newList: getNotificationById(state, 'new')
+      newList: getNotificationListById(state, 'new')
     }
   },
   dispatch => ({

@@ -23,15 +23,12 @@ import Pagination from '@components/pagination';
 import Loading from '@components/ui/content-loading';
 
 import Item from './components/list-item';
-// import ItemPoor from './components/item-poor';
-// import NewTips from './components/new-tips';
 
 // styles
 import './index.scss';
 
 @connect(
   (state, props) => ({
-    // isMember: isMember(state),
     list: getSessionListById(state, props.id)
   }),
   dispatch => ({
@@ -48,14 +45,10 @@ export default class MessageList extends Component {
   }
 
   static defaultProps = {
-    // 显示项
-    // itemType: 'rich',
     // 是否显示翻页
     showPagination: false,
     // 滚动底部加载更多
-    scrollLoad: false,
-    // 是否显示tips
-    showTips: false
+    scrollLoad: false
   }
 
   constructor(props) {
@@ -90,7 +83,7 @@ export default class MessageList extends Component {
 
   render () {
     
-    const { id, list, itemType, showPagination, showTips, isMember, scrollLoad } = this.props;
+    const { id, list, showPagination, scrollLoad } = this.props;
     const { data, loading, more = true, count, filters = {} } = list;
 
     // 没有结果

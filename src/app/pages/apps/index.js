@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import QRCode from 'qrcode.react';
 
 // config
-import { client_download_url } from '@config';
+import { clientDownloadUrl } from '@config';
 
 import weixin from '@utils/weixin'
 import Device from '@utils/device';
@@ -29,7 +29,7 @@ export default class APPS extends Component {
 
     // ios
     if (Device.getCurrentDeviceId() == 5 || Device.getCurrentDeviceId() == 4) {
-      window.location.href = client_download_url.ios;
+      window.location.href = clientDownloadUrl.ios;
       return;
     }
 
@@ -38,7 +38,7 @@ export default class APPS extends Component {
       if (weixin.in) {
         this.setState({ text: '请选择在浏览器中打开' });
       } else {
-        window.location.href = client_download_url.android;
+        window.location.href = clientDownloadUrl.android;
       }
       return;
     }

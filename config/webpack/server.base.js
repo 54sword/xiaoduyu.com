@@ -46,7 +46,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../../dist/server'),
     filename: 'server.js',
-    publicPath: config.public_path + "/"
+    publicPath: config.publicPath + "/"
   },
 
   resolveLoader: {
@@ -71,7 +71,7 @@ module.exports = {
             loader: `css/locals`,
             options: {
               modules: true,
-              localIdentName: config.class_scoped_name,
+              localIdentName: config.classScopedName,
               // minimize: true,
               // sourceMap: true
 

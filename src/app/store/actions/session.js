@@ -1,9 +1,9 @@
 
-import graphql from '@utils/graphql';
-import loadList from '@utils/graphql-load-list';
-import { DateDiff } from '@utils/date';
-import { loadTips } from '@actions/tips';
-import { getSessionListById } from '@reducers/session';
+import graphql from '../../common/graphql';
+import loadList from '../../common/graphql-load-list';
+import { DateDiff } from '../../common/date';
+import { loadTips } from './tips';
+import { getSessionListById } from '../reducers/session';
 
 export function loadSessionList({ id, filters = {}, restart = false }) {
   return (dispatch, getState) => {
@@ -106,8 +106,10 @@ export function getSession({ people_id }) {
 export function readSession({ _id }) {
   return (dispatch, getState) => {
     return new Promise(async resolve => {
-
-      let [ err, res ] = await graphql({
+      
+      let state = getState();
+      
+      graphql({
         type: 'mutation',
         apis: [{
           api: 'readSession',
@@ -116,12 +118,30 @@ export function readSession({ _id }) {
           },
           fields: `success`
         }],
-        headers: { accessToken: getState().user.accessToken }
+        headers: { accessToken: state.user.accessToken }
       });
-      
+
       dispatch({ type:'UPDATE_READ_BY_ID', id: _id });
 
-      loadTips()(dispatch, getState);
+      // ---------------
+      // 重新计算私信的未读数
+      let list = getSessionListById(state, 'all');
+
+      if (list && list.data) {
+
+        let unreadCount = 0;
+
+        list.data.map(item=>{
+          unreadCount += item.unread_count;
+        });
+
+        dispatch({ type: 'SET_TIPS_BY_ID', id: 'unread-message', status: unreadCount });
+
+      } else {
+        loadTips()(dispatch, getState)
+      }
+
+      resolve();
 
     })
   }

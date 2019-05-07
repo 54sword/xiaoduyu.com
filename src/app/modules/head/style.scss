@@ -6,7 +6,7 @@
 
 .logo{
   display: block;
-  width:130px;
+  width:110px;
   height: 45px;
   background-size: contain;
   background-image: url(../../../../public/logo.png);
@@ -35,7 +35,7 @@
     background-repeat: no-repeat;
     outline: none;
     background-color: rgba(0,0,0,.05);
-    margin-left:10px;
+    margin-left:15px;
   
     &:hover{
       background-color: rgba(0,0,0,.08);

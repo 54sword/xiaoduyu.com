@@ -3,7 +3,7 @@ import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 import QRCode from 'qrcode.react'
 
-import { domain_name, name } from '@config'
+import { domainName, name } from '@config'
 import weixin from '@utils/weixin'
 
 // styles
@@ -35,7 +35,7 @@ export class Share extends Component {
       state.title = posts.title;
       state.summary = posts.content_summary;
       state.pics = posts.coverImage || '';
-      state.url = domain_name +'/posts/'+posts._id;
+      state.url = domainName +'/posts/'+posts._id;
     }
 
     if (comment) {
@@ -78,7 +78,7 @@ export class Share extends Component {
 
   _shareToQzone(e) {
     const { title, url, summary } = this.state;
-    window.open(`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&desc=${encodeURIComponent('来自'+name+' '+domain_name)}&summary=${encodeURIComponent(summary)}&site=${encodeURIComponent(name)}`, '_blank', 'width=590,height=370');
+    window.open(`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&desc=${encodeURIComponent('来自'+name+' '+domainName)}&summary=${encodeURIComponent(summary)}&site=${encodeURIComponent(name)}`, '_blank', 'width=590,height=370');
   }
 
   _shareToQQ(e) {

@@ -1,8 +1,12 @@
 
-import graphql from '@utils/graphql';
-import loadList from '@utils/graphql-load-list';
+import graphql from '../../common/graphql';
+import loadList from '../../common/graphql-load-list';
 
-import { readSession } from '@actions/session';
+// import { readSession } from '../session';
+
+import { DateDiff } from '../../common/date';
+
+// import navigatorService from '../../../navigators/service';
 
 export const loadMessageList = function({ id, filters = {}, restart = false }) {
   return (dispatch, getState) => {
@@ -35,6 +39,18 @@ export const loadMessageList = function({ id, filters = {}, restart = false }) {
       filters,
 
       processList: (list)=>{
+
+        let lastItem = null
+
+        list.map(item=>{
+          if (!lastItem ||
+            new Date(lastItem.create_at).getTime() - new Date(item.create_at).getTime() > 1000 * 60 * 5
+          ) {
+            item._create_at =  DateDiff(item.create_at)
+            lastItem = item;
+          }
+        })
+
         list.reverse();
         return list;
       },
@@ -122,7 +138,7 @@ export const addMessagesToList = ({ sessionId, messageId }) => {
           }
         }
       })(dispatch, getState).then(([err, res])=>{
-
+        
         let list = getState().message[sessionId];
 
         if (list && list.data) {
@@ -135,13 +151,19 @@ export const addMessagesToList = ({ sessionId, messageId }) => {
             data: list
           });
 
-          if (window.location.pathname.indexOf('/session/') != -1) {
+          /*
+          // 如果当前页面是对话消息页面，并且会话相同，则设置session已读状态
+          let router = navigatorService.getCurrentRoute();
 
+          if (router && router.routeName == "sessionsDetail" &&
+              router.params.id == sessionId
+          ) {
             readSession({
-              _id: window.location.pathname.replace('/session/', '')
+              _id: router.params.id
             })(dispatch, getState);
-
-          }          
+          }
+          */
+             
 
         }
 

@@ -1,5 +1,5 @@
-import { DateDiff } from '@utils/date';
-import loadList from '@utils/graphql-load-list';
+import { DateDiff } from '../../common/date';
+import loadList from '../../common/graphql-load-list';
 
 export function loadPeopleList({ name, filters = {}, restart = false, accessToken = '' }) {
   return (dispatch, getState) => {
