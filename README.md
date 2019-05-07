@@ -1,7 +1,7 @@
 <p align="center">
 <img src="https://qncdn.xiaoduyu.com/20190507.png" alt="小度鱼" width="100">
 </p>
-<h1 align="center">小度鱼(API)</h1>
+<h1 align="center">小度鱼(网站)</h1>
 <p align="center">年轻人的交流社区</p>
 
 ## 小度鱼开源项目
