@@ -21,6 +21,7 @@ import { getProfile } from '@reducers/user';
 import { initUnlockToken } from '@actions/unlock-token';
 import { requestNotificationPermission } from '@actions/website';
 import { initHasRead } from '@actions/has-read-posts';
+import { loadTab } from '@actions/tab';
 
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 if (process.env.NODE_ENV != 'development') {
@@ -38,9 +39,7 @@ if (process.env.NODE_ENV != 'development') {
   // 从cookie中获取unlock token，并添加到redux
   initUnlockToken()(store.dispatch, store.getState);
   requestNotificationPermission()(store.dispatch, store.getState);
-  
-  // console.log('===');
-  // console.log(cookie.load('topic_id'));
+  await loadTab()(store.dispatch, store.getState);
 
   let logPageView = ()=>{};
 

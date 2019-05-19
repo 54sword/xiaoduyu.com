@@ -46,9 +46,9 @@ export const connect = function ({ dispatch, getState }) {
       case 'new-feed':
         handleActions(loadTips);
         break;
-      case 'recommend-posts':
-        handleActions(loadTips);
-        break;
+      // case 'recommend-posts':
+        // handleActions(loadTips);
+        // break;
       // case 'new-message':
         // console.log('新消息');
         // handleActions(loadTips);

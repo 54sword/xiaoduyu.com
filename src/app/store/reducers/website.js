@@ -14,6 +14,7 @@ let _initialState = {
   unreadNotice: [],
   // 首页选中的话题，空为首页、follow为关注、其他为话题 ID
   topicId:'',
+  tab: '',
 
   // 用户是否授权了浏览器通知权限
   notificationPermission: false
@@ -42,6 +43,10 @@ export default function() {
 
       case 'SET_TOPIC_ID':
         state.topicId = action.topicId;
+        return merge({}, state, {})
+
+      case 'SET_TAB':
+        state.tab = action.tab;
         return merge({}, state, {})
       
       case 'SET_NOTIFICATION_PERMISSION':
@@ -75,4 +80,8 @@ export const getUnreadNotice = (state) => {
 
 export const getTopicId = (state) => {
   return state.website.topicId
+}
+
+export const getTab = (state) => {
+  return state.website.tab
 }

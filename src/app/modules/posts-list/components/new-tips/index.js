@@ -59,7 +59,7 @@ export default class NewFeedTips extends React.Component {
     if (!data || !data[0]) return;
 
     // 如果当前帖子的中数据比当前用户的记录要大，说明已经是最新的，更新用户的数据，以及tips状态
-    if (topicId == 'subscribe' &&
+    if (topicId == 'favorite' &&
         new Date(date).getTime() < new Date(data[0].last_comment_at).getTime() ||
         new Date(date).getTime() < new Date(data[0].sort_by_date).getTime()
       ) {
@@ -79,7 +79,7 @@ export default class NewFeedTips extends React.Component {
   async loadNewPosts() {
     const { topicId, refreshPostsListById, loadTips, loadUserInfo } = this.props;
 
-    if (topicId == 'subscribe' || topicId == 'excellent' || topicId == 'home') {
+    if (topicId == 'favorite' || topicId == 'excellent' || topicId == 'home') {
       await refreshPostsListById(topicId);
       await loadUserInfo({});
       loadTips();

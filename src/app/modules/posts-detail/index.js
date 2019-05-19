@@ -37,7 +37,7 @@ export default class PostsDetail extends React.Component {
 
     return(<div styleName="box" className="card">
         
-        <div styleName="head">
+        {/* <div styleName="head">
 
           <Link to={`/people/${posts.user_id._id}`}>
             <img styleName="author-avatar" src={posts.user_id.avatar_url} />
@@ -49,9 +49,34 @@ export default class PostsDetail extends React.Component {
             {posts._device ? <span>{posts._device}</span> : null}
           </div>
 
+        </div> */}
+
+        <div className="d-flex justify-content-start">
+
+          
+          <div>
+            <Link to={`/people/${posts.user_id._id}`}>
+              <img styleName="author-avatar" src={posts.user_id.avatar_url} />
+            </Link>
+          </div>
+
+          <div>
+            
+            <div>
+            <Link to={`/people/${posts.user_id._id}`}>
+              <b>{posts.user_id.nickname}</b>
+            </Link>
+
+              <span>{posts._create_at}</span>
+            </div>
+
+            <h1 styleName="h1">{posts.title}</h1>
+            
+          </div>
+
         </div>
 
-        <h1 styleName="h1">{posts.title}</h1>
+        
 
         {posts.content_html ?
           <div styleName="detail" className="border-top">
@@ -59,7 +84,7 @@ export default class PostsDetail extends React.Component {
           </div>
           :null}
         
-        <Share posts={posts} styleType="icons" />
+        {/* <Share posts={posts} styleType="icons" /> */}
 
         <div className="d-flex justify-content-between">
 

@@ -19,7 +19,7 @@ import './style.scss';
 //   loading: () => <div>loading...</div>
 // });
 
-export default class Footer extends React.Component {
+export default class Gloabl extends React.Component {
 
   constructor(props) {
     super(props);
@@ -27,7 +27,7 @@ export default class Footer extends React.Component {
   }
 
   componentDidMount () {
-
+    
     $(window).scroll(function () {
       if ($(this).scrollTop() > 0) {
         $('#back-to-top').fadeIn();

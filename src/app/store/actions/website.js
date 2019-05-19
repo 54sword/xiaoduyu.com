@@ -1,6 +1,7 @@
 
 import GraphQL from '../../common/graphql';
 
+
 export function setOnlineUserCount(online) {
   return (dispatch, getState) => {
     dispatch({ type: 'SET_ONLINE_STATUS', online })
@@ -13,6 +14,8 @@ export function saveTopicId (topicId) {
     dispatch({ type: 'SET_TOPIC_ID', topicId })
   }
 }
+
+
 
 // 请求浏览器通知权限
 export function requestNotificationPermission (status) {

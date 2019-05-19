@@ -2,8 +2,9 @@
 :global{
 
 body{
-  font-family: SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
-  // font-family: PingFang SC,Arial,Microsoft YaHei,sans-serif;
+  // font-family: SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
+  // font-family: "PingFang-SC";
+  font-family: PingFang SC,SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
   font-size: 14px;
   line-height: 1.43;
 }
@@ -20,11 +21,25 @@ a:focus{
 .toastify{ z-index: 9999 !important; }
 
 .container{
-  max-width: 1180px;
+  max-width: 950px;
   @media (min-width: 0px) and (max-width: 767px) {
     padding-left:10px;
     padding-right:10px;
   }
+}
+
+.navbar-brand{
+  margin-right:20px;
+}
+
+.dropdown-menu{
+  font-size: 14px;
+  border:1px solid rgba(0,0,0,.07);
+  box-shadow: 0 3px 6px rgba(0,0,0,.1);
+}
+
+.btn{
+  border-radius: 10px;
 }
 
 }

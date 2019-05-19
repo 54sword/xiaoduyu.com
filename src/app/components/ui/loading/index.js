@@ -1,14 +1,19 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
-import './style.scss';
+export default function({ size = 'sm', position = 'center' }) {
 
-export default class LoadingMore extends PureComponent {
-
-  render() {
-
-    const { text = '' } = this.props
-
-    return <div styleName="loading"><span></span>{text}</div>
+  let sizeList = {
+    sm: 'spinner-border-sm'
   }
 
+  let positionList = {
+    center: 'd-flex justify-content-center',
+  }
+
+  return (<div className={`${positionList[position] || ''}`}>
+    <div className={`spinner-border text-primary ${sizeList[size] || ''}`} role="status">
+      <span className="sr-only">加载中...</span>
+    </div>
+  </div>)
+  
 }

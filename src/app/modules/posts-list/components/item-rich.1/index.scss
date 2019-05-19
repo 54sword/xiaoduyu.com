@@ -4,16 +4,12 @@
   // padding:0px 0 0px 0;
   // border-radius: 4px;
   // overflow: hidden;
-  // margin-bottom: 10px;
-  // border:1px solid rgba(0,0,0,.05) !important;
-  // box-shadow: 0 0px 3px rgba(0,0,0,.08);
+  margin-bottom: 10px;
+  // border:1px solid rgba(0,0,0,.13);
   // padding-bottom:20px;
   // overflow: hidden;
-  // margin-bottom: 0px !important;
-  // border-radius: 0px;
-  // border-bottom:1px solid #efefef !important;
   &:hover{
-    background-color: rgba(255,255,255,.9) !important;
+    background-color: rgba(255,255,255,.75) !important;
   }
 }
 
@@ -34,22 +30,21 @@
 
   font-size: 12px;
   z-index: 999;
-  padding:13px 15px 0 58px;
-  height: 55px;
+  padding:15px 15px 0 75px;
+  height: 65px;
+  line-height: 50px;
 
   .avatar{
     position: absolute;
-    margin:0 0 0 -42px;
-    width: 32px;
-    height: 32px;
+    margin:-3px 0 0 -58px;
+    width: 45px;
+    height: 45px;
     // background-color: #efefef;
-    // border-radius: 50%;
-    // overflow: hidden;
+    border-radius: 50%;
+    overflow: hidden;
     img{
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      background-color: #efefef;
+      width: 45px;
+      height: 45px;
     }
   }
 
@@ -65,12 +60,8 @@
   .info{
 
     width:100%;
-    line-height: 35px;
-    // margin-top:3px;
-
-    .nickname{
-      font-size: 14px;
-    }
+    line-height: 20px;
+    margin-top:3px;
 
     .menu{
       float:right;
@@ -81,15 +72,12 @@
       // color:#484848 !important;
     // }
 
-    // span {
-      // float:left;
-      // margin-top:6px;
-      // font-size: 14px;
-      // font-weight: bold;
+    b{
+      font-size: 14px;
+      font-weight: bold;
       // color:#14171a;
-    // }
-    
-    /*
+    }
+
     a:hover{
       text-decoration: underline !important;
     }
@@ -111,7 +99,6 @@
       }
 
     }
-    */
 
   }
 
@@ -128,18 +115,11 @@
 
 .title{
   font-size: 16px;
-
+  word-break:break-all;
+  word-wrap:break-word;
+  font-weight: bold;
   // font-weight: 400;
-  padding:0 15px 0 15px;
-  a {
-    word-break:break-all;
-    word-wrap:break-word;
-    font-weight: bold;
-    line-height: 1.375em;
-    font-weight: 800;
-    // color:#484848 !important;
-  }
-  
+  padding:5px 15px 0 15px;
   // line-height: 130%;
   // a{
     // color:#14171a !important;
@@ -156,8 +136,6 @@
 
 }
 
-
-
 .content{
 
   // white-space:normal;
@@ -167,12 +145,10 @@
   word-wrap: break-word;
   word-break: normal;
 
-  line-height: 1.375em;
-  // line-height: 140%;
+  line-height: 160%;
   // color:#14171a;
-  padding:3px 15px 0 15px;
-  font-size: 15px;
-  // color:#484848;
+  padding:5px 15px 0 15px;
+  font-size: 14px;
 
   img{
     max-width: 50%;
@@ -245,29 +221,24 @@
 
 .footer{
   width: 100%;
-  // min-height: 15px;
+  min-height: 15px;
   padding:0 15px 0 15px;
 
   .actions{
 
     > span, > a, > div{
       margin-right:20px;
-      font-size:12px;
+      font-size:13px;
     }
-
-    a{
-      // color:#999 !important;
-    }
-    
     > span:last-child, > a:last-child, > div:last-child{
       margin-right:0;
     }
     
-    // > span{
+    > span{
       // opacity: .5;
       // color:#999;
-      // font-size: 12px;
-    // }
+      font-size: 13px;
+    }
 
     // > a, > div a{
     //   color:#999;
@@ -281,28 +252,15 @@
     // padding-top:10px;
     // border-top:1px solid #eaedf0;
     width: 100%;
-    padding:10px 0 15px 0;
+    padding:10px 0 10px 0;
     // line-height: 40px;
     // margin-top:10px;
     // padding-left: 15px;
     // padding-right: 15px;
   }
 
-  .topic{
-    color:#000;
-    background-color: #f7f7f7;
-    padding:3px 5px 3px 5px;
-    border-radius: 3px;
-    &:hover{
-      background-color: #888;
-      color:#fff !important;
-      text-decoration: none;
-    }
-  }
-
 }
 
-/*
 .cover{
   padding-left: 210px;
   min-height: 120px;
@@ -312,7 +270,7 @@
   }
 
 }
-*/
+
 /*
 .cover-image{
   position: absolute;
@@ -338,35 +296,18 @@
 
 
 
-.cover{
-  padding-right:160px;
-}
+
 
 
 
 .cover-image{
   float:right;
-  /*
-  position: absolute;
-  left:100%;
-  margin-left: -160px;
-  margin-top:-15px;
-  */
-  // margin: 0px 30px 20px 20px;
-  max-width: 140px;
-  height: 80px;
-  text-align: right;
-  margin:0 15px 0 15px;
-  img{
-    max-width: 140px;
-    max-height: 80px;
-    border-radius: 4px;
-  }
-
-  // background-size: contain;
-  // background-position: right;
-  // border-radius: 4px;
-  // background-repeat: no-repeat;
+  margin: 0px 30px 20px 20px;
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
 }
 
 .update_at{

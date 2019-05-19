@@ -1,28 +1,29 @@
 
 .header-space{
-  height:55px;
+  height:60px;
   width: 100%;
 }
 
 .logo{
-  display: block;
-  width:110px;
   height: 45px;
-  background-size: contain;
-  background-image: url(../../../../public/logo.png);
-  background-repeat: no-repeat;
-
-  @media (min-width: 0px) and (max-width: 350px) {
-    width: 45px;
-    height: 45px;
-    background-size: cover;
-  }
 }
 
-.search-container{
+/*
+.tabbar{
+  :global{
+    .nav-link{
+      display: block;
+      height: 45px;
+      background-color: #efefef !important;
+    }
+  }
+}
+*/
 
-  width:100%;
-  max-width: 250px;
+// .search-container{
+
+//   width:100%;
+//   max-width: 250px;
 
   .search{
     width:100%;
@@ -34,17 +35,33 @@
     background-position: left 5px center;
     background-repeat: no-repeat;
     outline: none;
-    background-color: rgba(0,0,0,.05);
+    font-size:14px;
+    background-color: rgba(0,0,0,.04);
     margin-left:15px;
+    border-radius: 15px;
+    // border:1px solid #efefef;
   
     &:hover{
-      background-color: rgba(0,0,0,.08);
+      background-color: rgba(0,0,0,.05);
     }
   
   }
 
 
 
+// }
+
+.active{
+  background-color: red;
+}
+
+.red-point{
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: red;
+  margin:21px 0 0 -10px;
 }
 
 :global(#dark-theme){
@@ -68,9 +85,26 @@
 
     > a{
       display: inline-block;
+      font-size: 15px;
+      color:#484848 !important;
       // height: 45px;
-      line-height: 45px;
-      padding: 0 10px 0 10px;
+      // line-height: 45px;
+      margin: 0 15px 0 10px;
+
+      &:after {
+        position: absolute;
+        left:100% - 20;
+        margin-top:-12px;
+        display: inline-block;
+        margin-left: .255em;
+        vertical-align: .255em;
+        content: "";
+        border-top: .3em solid;
+        border-right: .3em solid transparent;
+        border-bottom: 0;
+        border-left: .3em solid transparent;
+      }
+
     }
 
   }
@@ -129,4 +163,11 @@
     }
   }
 
+  .new-posts{
+    color:#4170ea !important;
+
+  }
+
 }
+
+

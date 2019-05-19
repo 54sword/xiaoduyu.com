@@ -22,6 +22,8 @@ export default class PostsItemTitle extends React.PureComponent {
         data-load-demand={`<img src="${posts.user_id.avatar_url}" alt="${posts.user_id.nickname}" />`}
         >
       </span>
+
+      {/* <div style={{color:'#999',fontSize:'12px'}}>{posts.topic_id.name}</div> */}
       
       <Link
         to={`/posts/${posts._id}`}

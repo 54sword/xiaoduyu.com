@@ -136,7 +136,6 @@ export default class PostsListItem extends React.Component {
     const { posts, isMember, hasRead } = this.props;
     const { expand } = this.state;
 
-    //  ${posts._coverImage ? 'cover' : ''}
     return (<div id={posts._id} styleName={`item ${expand ? '' : 'fold'}`} className="card">
 
       <div onClick={!expand ? this.expand : null}>
@@ -146,28 +145,21 @@ export default class PostsListItem extends React.Component {
           {typeof posts.user_id == 'object' ?
             <div styleName="info">
 
-              <Link styleName="nickname" to={`/people/${posts.user_id._id}`} onClick={this.stopPropagation}>
+              <Link to={`/people/${posts.user_id._id}`} onClick={this.stopPropagation}>
                 <i
                   styleName="avatar"
                   className="load-demand"
                   data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}>
                   </i>
-                {posts.user_id.nickname}
-
+                <b>{posts.user_id.nickname}</b>
               </Link>
-              {/* <span className="text-secondary">{posts.user_id.brief}</span> */}
 
-              {/* 
               <div>
                 <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
                 <span className="text-secondary">{posts._create_at}</span>
                 {posts._device ? <span className="text-secondary">{posts._device}</span> : null}
+                {/* {posts._update_at ? <span>{posts._update_at}编辑</span> : null} */}
               </div>
-              */}
-
-              {/* <div className="text-secondary">
-                {posts._create_at}
-              </div> */}
 
             </div>
             : null}
@@ -176,26 +168,13 @@ export default class PostsListItem extends React.Component {
         {/* <div style={posts._coverImage ? { minHeight:'100px'} : null}> */}
         <div>
 
-          {/*posts._coverImage && !expand ?
-            <div styleName="cover-image" className="img" style={{backgroundImage:`url(${posts._coverImage})`}}></div>
-            : null*/}
-
           {posts._coverImage && !expand ?
-            <div
-              styleName="cover-image"
-              className="load-demand"
-              data-load-demand={encodeURIComponent(`<img src="${posts._coverImage}" />`)}>
-            </div>
+            <div styleName="cover-image" className="img" style={{backgroundImage:`url(${posts._coverImage})`}}></div>
             : null}
 
-          <div styleName="title">
+          <div styleName="title" className="text-dark">
             {/* style={!expand && hasRead ? { color:'#888' } : {}} */}
-            <Link
-              to={`/posts/${posts._id}`}
-              onClick={this.stopPropagation}
-              // className="text-dark"
-              >
-              {posts.title}</Link>
+            <Link to={`/posts/${posts._id}`} onClick={this.stopPropagation}>{posts.title}</Link>
           </div>
 
           {(()=>{
@@ -223,21 +202,15 @@ export default class PostsListItem extends React.Component {
         <div styleName="footer">
           <div styleName="footer-main" className="d-flex justify-content-between">
             
-
-              <div styleName="actions" className="text-secondary">
-                <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation} styleName="topic">{posts.topic_id.name}</Link></span>
-                <span>{posts._create_at}</span>
-              {/* </div> */}
-
-              {/* <div styleName="actions" className="text-secondary"> */}
-                {posts.view_count ? <span>{posts.view_count} 次阅读</span> : null}
-                {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
-                {posts.reply_count ? <span>{posts.reply_count} 条回复</span> : null}
-                {posts.like_count ? <span>{posts.like_count} 人赞</span> : null}
-                {posts.follow_count ? <span>{posts.follow_count} 人收藏</span> : null}
-              </div>
+            <div styleName="actions" className="text-secondary">
+              {posts.view_count ? <span>{posts.view_count} 次阅读</span> : null}
+              {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
+              {posts.reply_count ? <span>{posts.reply_count} 条回复</span> : null}
+              {posts.like_count ? <span>{posts.like_count} 人赞</span> : null}
+              {posts.follow_count ? <span>{posts.follow_count} 人收藏</span> : null}
+            </div>
             
-            {/*expand ?
+            {expand ?
               <div styleName="actions">
                 <Like posts={posts} displayNumber={false} />
                 <Follow posts={posts} />
@@ -245,7 +218,7 @@ export default class PostsListItem extends React.Component {
                 <a href="javascript:void(0)" className="text-secondary" onClick={this.expand}>收起</a>
                 <MoreMenu posts={posts} />
               </div>
-            :null*/}
+              :null}
 
           </div>
         </div>

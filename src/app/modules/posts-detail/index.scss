@@ -7,6 +7,8 @@
 }
 
 
+
+
 .follow{
   // float:right;
   margin-left:10px;
@@ -42,16 +44,21 @@
 }
 
 .h1{
-  font-size: 30px;
+  font-size: 25px;
   padding:0px;
   margin:0px;
-  line-height: 140%;
-  // color:#14171a;
   
   @media (min-width: 0px) and (max-width: 767px) {
-    font-size: 25px;
+    font-size: 22px;
   }
 
+}
+
+.author-avatar{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right:15px;
 }
 
 .head{

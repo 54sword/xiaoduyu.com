@@ -1,6 +1,6 @@
 
 // import { loadReportTypes } from '@actions/report';
-import { loadTopicList } from '@actions/topic';
+// import { loadTopicList } from '@actions/topic';
 import { loadUserInfo } from '@actions/user';
 
 // 初始化数据
@@ -18,10 +18,10 @@ export default (store, accessToken) => {
     
     // await loadReportTypes()(store.dispatch, store.getState);
     
-    await loadTopicList({
-      id: 'recommend-topics',
-      filters: { variables: { type: "parent", recommend: true, sort_by: 'sort:-1' } }
-    })(store.dispatch, store.getState);
+    // await loadTopicList({
+    //   id: 'recommend-topics',
+    //   filters: { variables: { type: "parent", recommend: true, sort_by: 'sort:-1' } }
+    // })(store.dispatch, store.getState);
 
     if (accessToken) {
       let res = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
