@@ -55,7 +55,7 @@ export default class NotificationListItem extends Component {
         content = (<div>
             <div styleName="header">
               <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-              {DateDiff(notice.create_at)} 关注了你的
+              {DateDiff(notice.create_at)} 收藏了你的
               <Link to={`/posts/${notice.posts_id._id}`}>{notice.posts_id.title}</Link>
               {/* {notice.posts_id.type == 1 ?  '分享' : '提问'} */}
             </div>

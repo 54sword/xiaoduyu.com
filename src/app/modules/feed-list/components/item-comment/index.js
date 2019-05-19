@@ -118,8 +118,7 @@ export default class PostsItem extends React.PureComponent {
             <div styleName="content"><HTMLText content={comment.content_summary} /></div> : null)
           : <div styleName="content"><HTMLText content={comment.content_html} /></div>*/}
 
-        <div styleName="content"><HTMLText content={comment.content_html} maxHeight={featureConfig.posts.contentMaxHeight} /></div>
-
+        
         {/*comment.content_summary ?
           <div styleName="content"><HTMLText content={comment.content_summary} /></div>
           : null*/}
@@ -208,20 +207,21 @@ export default class PostsItem extends React.PureComponent {
 
             return (<div styleName="posts-item" className="rounded">
               
-              
+              {/* 
               <div className="mb-1">
                 <Link to={`/people/${posts.user_id._id}`} styleName="posts-item-nickname">
-                  {/* <img styleName="posts-item-avatar" src={posts.user_id.avatar_url} /> */}
+                  <img styleName="posts-item-avatar" src={posts.user_id.avatar_url} />
                   {posts.user_id.nickname}
                 </Link>
-                {/* <span styleName="create-at" className="text-secondary">{posts._create_at}</span> */}
+                <span styleName="create-at" className="text-secondary">{posts._create_at}</span>
               </div>
+              */}
              
 
               <div className="mb-1">
                 <Link to={`/posts/${posts._id}`} styleName="posts-item-title">{posts.title}</Link>
               </div>
-              {posts.content_summary ? <div>{posts.content_summary}</div> : null}
+              {/* {posts.content_summary ? <div>{posts.content_summary}</div> : null} */}
               {/*comment.posts_id.images && comment.posts_id.images.map(item=>{
                 return <img key={item} src={item} width={70} height={70} />
               })*/}
@@ -229,6 +229,8 @@ export default class PostsItem extends React.PureComponent {
           }
 
         })()}
+
+        <div styleName="content"><HTMLText content={comment.content_html} maxHeight={featureConfig.posts.contentMaxHeight} /></div>
 
         <div styleName="footer">          
 

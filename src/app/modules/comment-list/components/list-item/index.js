@@ -64,7 +64,7 @@ export default class CommentItem extends Component {
   }
 
   // 用户的dom
-  renderUserView(comment) {
+  renderUserView(comment, parent) {
 
     const { loading } = this.state;
 
@@ -77,6 +77,9 @@ export default class CommentItem extends Component {
       reply_user = comment.reply_id.user_id;
     }
 
+    // console.log(comment);
+    // console.log(reply_user);
+
     return (<div styleName="item" key={comment._id} className="border-top">
 
       <div styleName="item-head">
@@ -86,11 +89,12 @@ export default class CommentItem extends Component {
             <div styleName="avatar" className="load-demand" data-load-demand={`<img width="40" height="40" src="${comment.user_id.avatar_url}" />`}></div>
             <b>{comment.user_id.nickname}</b>
           </Link>
-          {reply_user && reply_user._id != comment.user_id._id
-            ? <span>回复了<Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link></span>
+          {!parent && reply_user && reply_user._id != comment.user_id._id ||
+            parent && parent.user_id._id != reply_user._id
+            ? <span> 回复 <Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link></span>
           : null}
           
-          {comment._device ? <span>{comment._device}</span> : null}
+          {comment._device ? <span> {comment._device}</span> : null}
         </div>
 
       </div>
@@ -123,7 +127,7 @@ export default class CommentItem extends Component {
 
       {comment.reply && comment.reply.length > 0 ?
         <div styleName="reply-list">
-          {comment.reply.map(item=>this.renderUserView(item))}
+          {comment.reply.map(item=>this.renderUserView(item, comment))}
 
           {!loading && comment.reply_count > comment.reply.length ?
             <div styleName="view-all-reply" className="border-top">

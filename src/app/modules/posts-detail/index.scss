@@ -1,6 +1,6 @@
 
 .box{
-  padding:15px;
+  // padding:15px;
   // background-color: #fff;
   margin-bottom: 10px;
   // border-radius: 4px;
@@ -44,9 +44,9 @@
 }
 
 .h1{
-  font-size: 25px;
+  font-size: 20px;
   padding:0px;
-  margin:0px;
+  margin:5px 0 0 0;
   
   @media (min-width: 0px) and (max-width: 767px) {
     font-size: 22px;
@@ -55,10 +55,10 @@
 }
 
 .author-avatar{
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  margin-right:15px;
+  margin-right:12px;
 }
 
 .head{
@@ -108,10 +108,10 @@
 
 .detail{
   width: 100%;
-  margin-top: 15px;
-  padding-top:10px;
+  // margin-top: 15px;
+  // padding-top:20px;
   // border-top:1px solid #efefef;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
 }
 
 .other{

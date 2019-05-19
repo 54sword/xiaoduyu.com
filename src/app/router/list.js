@@ -29,6 +29,32 @@ export default [
     // 允许进入的用户类型
     enter: 'everybody'
   },
+
+  {
+    path: '/follow',
+    exact: true,
+    head: Head,
+    // 页面组件
+    component: Loadable({
+      loader: () => import('../pages/follow'),
+      loading: () => <Loading />
+    }),
+    // 允许进入的用户类型
+    enter: 'member'
+  },
+
+  {
+    path: '/favorite',
+    exact: true,
+    head: Head,
+    // 页面组件
+    component: Loadable({
+      loader: () => import('../pages/favorite'),
+      loading: () => <Loading />
+    }),
+    // 允许进入的用户类型
+    enter: 'member'
+  },
   
   {
     path: '/topic/:id',

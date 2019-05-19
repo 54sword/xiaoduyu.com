@@ -2,9 +2,10 @@
 :global{
 
 body{
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
   // font-family: SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
   // font-family: "PingFang-SC";
-  font-family: PingFang SC,SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
+  // font-family: PingFang SC,SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
   font-size: 14px;
   line-height: 1.43;
 }
@@ -26,6 +27,10 @@ a:focus{
     padding-left:10px;
     padding-right:10px;
   }
+}
+
+.navbar{
+  height: 50px;
 }
 
 .navbar-brand{

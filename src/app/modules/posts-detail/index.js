@@ -35,7 +35,7 @@ export default class PostsDetail extends React.Component {
 
     const { posts, isMember } = this.props;
 
-    return(<div styleName="box" className="card">
+    return(<div className="card">
         
         {/* <div styleName="head">
 
@@ -50,7 +50,7 @@ export default class PostsDetail extends React.Component {
           </div>
 
         </div> */}
-
+        <div className="card-header pt-3 pb-3">
         <div className="d-flex justify-content-start">
 
           
@@ -63,11 +63,11 @@ export default class PostsDetail extends React.Component {
           <div>
             
             <div>
-            <Link to={`/people/${posts.user_id._id}`}>
-              <b>{posts.user_id.nickname}</b>
-            </Link>
+              <Link to={`/people/${posts.user_id._id}`}>
+                {posts.user_id.nickname}
+              </Link>
 
-              <span>{posts._create_at}</span>
+              <span className="ml-2 text-secondary">{posts._create_at}</span>
             </div>
 
             <h1 styleName="h1">{posts.title}</h1>
@@ -75,11 +75,14 @@ export default class PostsDetail extends React.Component {
           </div>
 
         </div>
+        </div>
+
+        <div className="card-body">
 
         
 
         {posts.content_html ?
-          <div styleName="detail" className="border-top">
+          <div styleName="detail">
             <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
           </div>
           :null}
@@ -108,6 +111,8 @@ export default class PostsDetail extends React.Component {
           <Like posts={posts} displayNumber={false} />
           <Follow posts={posts} />
           <MoreMenu posts={posts} />
+        </div>
+
         </div>
 
 

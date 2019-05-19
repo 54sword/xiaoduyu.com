@@ -70,8 +70,8 @@ export default class NotificationList extends Component {
     const { notification } = this.props
     const { data, loading, more, count, filters = {} } = notification
 
-    return (
-        <div>
+    return (<div className="card">
+        <div className="card-body p-0">
 
           {!loading && !more && data && data.length == 0 ? <div style={{textAlign:'center'}}>没有通知</div> : null}
 
@@ -84,7 +84,7 @@ export default class NotificationList extends Component {
           {loading ? <Loading /> : null}
 
       </div>
-    )
+    </div>)
 
   }
 }

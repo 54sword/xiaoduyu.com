@@ -17,6 +17,8 @@ export default class Sessions extends React.PureComponent {
       <SingleColumns>
         <Meta />
 
+        <div className="card">
+        <div className="card-body p-0">
         <SessionList
           id="all"
           filters={{
@@ -25,6 +27,9 @@ export default class Sessions extends React.PureComponent {
             }
           }}
           />
+        </div>
+        </div>
+
       </SingleColumns>
     )
   }

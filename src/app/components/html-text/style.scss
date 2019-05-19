@@ -1,10 +1,10 @@
 .content{
 
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 15px;
   word-break: break-all;
   word-wrap: break-word;
-  line-height: 170%;
+  line-height: 160%;
   // color:#14171a;
 
   @media (max-width: 767px) {
@@ -12,7 +12,7 @@
   }
 
   a{
-    color:#4170ea !important;
+    color:#0073ff !important;
   }
 
   p{
@@ -38,6 +38,7 @@
 
   img{
     max-width: 100%;
+    margin-top:15px;
   }
 
   blockquote{

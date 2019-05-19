@@ -4,14 +4,14 @@
  */
 
 $color_primary: #0073ff;
-$color_dark: #111;//#29292a;
+$color_dark: #242424;//#29292a;
 $color_muted: #eff1f4;
 $color_secondary: #909298;
 
 
 :global{
 
-#light-theme{
+// #light-theme{
   
   body {
     background-color:#eceef0;//#e9eaee;//#eceef0;
@@ -24,7 +24,14 @@ $color_secondary: #909298;
 
   //======================================================
   // 链接默认颜色
-  a{ color: $color_dark; }
+  a{
+    color: $color_dark;
+    &:hover{
+      color: $color_dark;
+    }
+  }
+
+  .active{  color: $color_primary !important; }
 
   // 正文
   .html-content,
@@ -241,4 +248,4 @@ $color_secondary: #909298;
   }
   
 }
-}
+// }

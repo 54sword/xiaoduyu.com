@@ -4,22 +4,21 @@
 
   a {
     display:inline-block;
-    color:#484848;
     margin-right:10px;
-    margin-bottom: 5px;
-    font-size: 14px;
+    margin-bottom: 3px;
+    // font-size: 14px;
   }
 
   .group{
     
     padding-left:45px;
-    margin-bottom:10px;
+    margin-bottom:15px;
 
     .group-title {
       position: absolute;
       left:0;
       margin-left:15px;
-      color:#777;
+      color:#999;
     }
 
     &:last-child{
