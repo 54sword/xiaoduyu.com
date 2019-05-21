@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import QRCode from 'qrcode.react';
+import { Link } from 'react-router-dom';
 
 // config
 import { clientDownloadUrl } from '@config';
@@ -21,7 +22,7 @@ export default class APPS extends Component {
     super(props);
     this.state  = {
       appsUrl: '',
-      text: ''
+      tips: false
     }
   }
 
@@ -36,7 +37,7 @@ export default class APPS extends Component {
     // android
     if (Device.getCurrentDeviceId() == 6) {
       if (weixin.in) {
-        this.setState({ text: '请选择在浏览器中打开' });
+        this.setState({ tips: true });
       } else {
         window.location.href = clientDownloadUrl.android;
       }
@@ -51,23 +52,31 @@ export default class APPS extends Component {
 
   render() {
 
-    const { appsUrl, text } = this.state;
+    const { appsUrl, tips } = this.state;
     
     return (
-      <div className="text-center">
+      <div styleName="container">
         <Meta title={"APP"} />
-        <div styleName="icon"><img src="https://img.xiaoduyu.com/icon-512x512.png" /></div>
-        <div styleName="title">小度鱼</div>
+        <div styleName="icon"><img src="/icon-512x512.png" /></div>
+        <div styleName="h1">小度鱼APP</div>
+        <div styleName="h2">年轻人的交流社区</div>
 
-        {
-          appsUrl ?
-          <div styleName="qrcode">
-            <QRCode value={appsUrl} />
-            <div className="mt-1" style={{color:'#888'}}>iOS / Android 扫码直接下载</div>
+        {tips ?
+          <div styleName="tips">
+            需要在浏览器中才能下载<br /><br />
+            操作步骤<br />
+            1、点击右上角"..."<br />
+            2、点击在浏览器打开
           </div>
-          :
-          <div className="mt-1">
-            {text || <a href="javascript:void(0)" onClick={this.componentDidMount}>点击下载</a>}
+        : 
+          <div>
+            <a href={clientDownloadUrl.ios} styleName="button" target="_blank">iPhone 下载</a>
+            <a href={clientDownloadUrl.android} styleName="button" target="_blank">Android 下载</a>
+            <a href="javascript:void(0)" styleName="button">
+              {appsUrl ? <div styleName="qrcode"><QRCode value={appsUrl} /></div> : null}  
+              扫码下载
+            </a>
+            <Link to="/" styleName="button">进入网站</Link>
           </div>
         }
 

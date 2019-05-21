@@ -133,7 +133,9 @@ export default class Home extends React.Component {
               />
           </div>
           </div>
-
+          
+          <AppDownload />
+          
           <Case />
           <LinksExchange />
           <OperatingStatus />
@@ -141,6 +143,26 @@ export default class Home extends React.Component {
         </>
 
         <>
+          <div className="card">
+          <div className="card-header">近7天热门讨论</div>
+          <div className="card-body p-0">
+            <PostsList
+              id={'hot-home'}
+              itemType={'poor'}
+              filters={{
+                variables: {
+                  sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
+                  start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 7),
+                  deleted: false,
+                  weaken: false,
+                  page_size: 9
+                }
+              }}
+              scrollLoad={false}
+              showTips={false}
+              />
+          </div>
+          </div>
           {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
         </>
 
