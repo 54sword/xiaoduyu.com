@@ -249,3 +249,38 @@
     // padding-left:45px;
   // }
 }
+
+
+@media (min-width: 0px) and (max-width: 767px) {
+  .item{
+  
+    .item-head{
+
+      padding-left: 60px;
+
+      .avatar{
+        img{
+          margin-left:-45px;
+          width: 35px;
+          height: 35px;
+        }
+      }
+
+    }
+
+    .item-body{
+      padding-left: 60px;
+    }
+  
+    .footer{
+      padding-left: 60px;
+    }
+
+  }
+
+  .reply-list{
+    .item-head{ padding-left: 45px; }
+    .item-body{ padding-left: 45px; }
+    .footer{ padding-left: 45px; }
+  }
+}

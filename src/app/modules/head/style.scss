@@ -36,28 +36,38 @@
     height: 50px;
     padding:0 15px;
     font-size: 15px;
-    color:#484848;
+    // color:#484848;
   }
 
   .subscript{
     position: absolute;
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background-color: red;
-    margin:15px 0 0 0px;
+    // margin:15px 0 0 0px;
   }
   
   .unread-subscript{
     position: absolute;
-    height: 14px;
-    line-height: 14px;
+    height: 15px;
+    line-height: 15px;
     padding:0 5px;
-    margin:12px 0 0 -8px;
+    margin:-5px 0 0 -8px;
     border-radius: 20px;
     background-color: red;
     color:#fff;
     font-size: 11px;
+  }
+
+  .new-posts-button{
+    float:left;
+    height: 28px !important;
+    line-height: 28px;
+    background-color: #0073ff;
+    color:#fff;
+    margin:11px 20px 0 0;
+    border-radius: 16px;
   }
 
 }
@@ -105,13 +115,26 @@
     background-color: #efefef;
   }
 
+  > span{
+    max-width: 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
 }
+
+
+
 
 
 // 移动端适配
 @media (min-width: 450px) and (max-width: 767.98px) {
   .nav{
     margin:0px;
+    .new-posts-button{
+      display: none !important;
+    }
   }
 }
 
@@ -120,6 +143,9 @@
     margin:0px;
     >a{
       padding:0 10px;
+    }
+    .new-posts-button{
+      display: none !important;
     }
   }
 }
@@ -132,7 +158,14 @@
       padding:0 8px;
       font-size: 14px;
     }
+
+    .new-posts-button{
+      display: none !important;
+    }
+
   }
+
+
 
 }
 

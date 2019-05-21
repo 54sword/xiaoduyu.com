@@ -66,54 +66,19 @@ export default class Home extends React.Component {
         </> */}
         
         <>
-          
-          {tab == '' ? 
-            <>
-              <Topics />
-              <PostsList
-              id={'home'}
-              filters={{
-                variables: {
-                  sort_by: "sort_by_date",
-                  deleted: false,
-                  weaken: false
-                }
-              }}
-              scrollLoad={true}
-              showTips={true}
-              />
-            </>
-            : null}
-
-          {tab == 'follow' ?
-            <FeedList
-            id={'feed'}
-            filters={{
-              variables: {
-                preference: true,
-                sort_by: "create_at:-1"
-              }
-            }}
-            scrollLoad={true}
-            showTips={true}
-            />
-            : null}
-
-          {tab == 'favorite' ?
-            <PostsList
-            id={'favorite'}
-            filters={{
-              variables: {
-                method: 'favorite',
-                sort_by: "last_comment_at:-1",
-                deleted: false,
-                weaken: false
-              }
-            }}
-            scrollLoad={true}
-            showTips={true}
-            />
-            : null}
+          <Topics />
+          <PostsList
+          id={'home'}
+          filters={{
+            variables: {
+              sort_by: "sort_by_date",
+              deleted: false,
+              weaken: false
+            }
+          }}
+          scrollLoad={true}
+          showTips={true}
+          />
         </>
         
         <>
@@ -125,7 +90,7 @@ export default class Home extends React.Component {
               <img src="/rss-reader-one.png" alt="RSS Reader One" width="250" height="250" />
             </a>
           </div> */}
-          {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
+          {/* {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null} */}
           {/* <HotPostsList /> */}
 
           <div className="card">
@@ -175,10 +140,9 @@ export default class Home extends React.Component {
           <Footer />
         </>
 
-        {/* <>
-          <HotPostsList />
+        <>
           {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
-        </> */}
+        </>
 
       </TwoColumns>
     </>)

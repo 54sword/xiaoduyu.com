@@ -222,7 +222,6 @@ export default class PostsListItem extends React.Component {
 
         <div styleName="footer">
           <div styleName="footer-main" className="d-flex justify-content-between">
-            
 
               <div styleName="actions" className="text-secondary">
                 <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation} styleName="topic">{posts.topic_id.name}</Link></span>
@@ -252,7 +251,7 @@ export default class PostsListItem extends React.Component {
 
       </div>
 
-      {expand ?
+      {/*expand ?
         <div onClick={this.stopPropagation} styleName="comment-list">
 
           <CommentList
@@ -275,7 +274,7 @@ export default class PostsListItem extends React.Component {
             : null}
 
         </div>
-        : null}
+          : null*/}
 
     </div>)
 

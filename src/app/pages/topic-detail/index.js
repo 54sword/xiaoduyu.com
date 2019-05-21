@@ -92,6 +92,19 @@ export default class TopicsDetailPage extends React.Component {
 
     if (!topic || loading) return <Loading />;
 
+    let topic_id = [];
+
+    if (topic.children && topic.children.length > 0) {
+      topic.children.map(item=>{
+        topic_id.push(item._id)
+      })
+    } else {
+      topic_id.push(topic._id)
+    }
+
+    topic_id = topic_id.join(',');
+
+
     return(<SingleColumns>
 
       <Meta title={topic.name} />
@@ -106,7 +119,7 @@ export default class TopicsDetailPage extends React.Component {
             deleted: false,
             weaken: false,
             page_size: 30,
-            topic_id: topic._id,
+            topic_id: topic_id,
             ...searchParams
           }
         }}

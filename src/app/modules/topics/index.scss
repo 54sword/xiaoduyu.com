@@ -12,13 +12,13 @@
   .group{
     
     padding-left:45px;
-    margin-bottom:15px;
+    margin-bottom:10px;
 
     .group-title {
       position: absolute;
       left:0;
       margin-left:15px;
-      color:#999;
+      font-weight: bold;
     }
 
     &:last-child{
@@ -28,7 +28,6 @@
   }
 
 }
-
 
 @media (min-width: 0px) and (max-width: 991.98px) {
   .container{

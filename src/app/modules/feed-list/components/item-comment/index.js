@@ -69,7 +69,14 @@ export default class PostsItem extends React.PureComponent {
 
     // console.log(comment);
 
-    return (<div styleName={"item"} className="card" onClick={!expand ? this.handleExpand : null} >
+    return (<div
+      styleName={"item"}
+      className="card"
+      onClick={()=>{
+        this.props.history.push(`/comment/${comment._id}`)
+      }}
+      // onClick={!expand ? this.handleExpand : null}
+      >
 
         <div styleName="head">
 
@@ -92,16 +99,18 @@ export default class PostsItem extends React.PureComponent {
 
               {/* dropdown-menu end */}
 
+              {/* 
               <div className="text-secondary">
                 <span>{comment._create_at}</span>
                 {comment._device ? <span>{comment._device}</span> : null}
-                {/*<span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>*/}
-                {/*posts.view_count ? <span>{posts.view_count}次浏览</span> : null*/}
-                {/* {comment.like_count ? <span>{comment.like_count} 个赞</span> : null} */}
-                {/* {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null} */}
-                {/*posts.follow_count ? <span>{posts.follow_count}人关注</span> : null*/}
+                <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>}
+                {posts.view_count ? <span>{posts.view_count}次浏览</span> : null}
+                {comment.like_count ? <span>{comment.like_count} 个赞</span> : null}
+                {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
+                {posts.follow_count ? <span>{posts.follow_count}人关注</span> : null}
 
               </div>
+              */}
 
 
             </div>
@@ -119,9 +128,7 @@ export default class PostsItem extends React.PureComponent {
           : <div styleName="content"><HTMLText content={comment.content_html} /></div>*/}
 
         
-        {/*comment.content_summary ?
-          <div styleName="content"><HTMLText content={comment.content_summary} /></div>
-          : null*/}
+
 
         {/*!expand && comment.images && comment.images.length > 0 ?
           <div style={{width:'70%',marginLeft:'20px'}}><GridListImage images={comment.images} /></div>
@@ -143,7 +150,11 @@ export default class PostsItem extends React.PureComponent {
           </div>
           */}
 
+  {/* <div styleName="content"><HTMLText content={comment.content_html} maxHeight={featureConfig.posts.contentMaxHeight} /></div> */}
 
+{comment.content_summary ?
+  <div styleName="content"><HTMLText content={comment.content_summary} /></div>
+  : null}
 
         {(()=>{
 
@@ -230,8 +241,8 @@ export default class PostsItem extends React.PureComponent {
 
         })()}
 
-        <div styleName="content"><HTMLText content={comment.content_html} maxHeight={featureConfig.posts.contentMaxHeight} /></div>
 
+        
         <div styleName="footer">          
 
             <div styleName="actions-bar" className="d-flex justify-content-between">

@@ -29,7 +29,9 @@ export default class TopicCard extends React.PureComponent {
       <div className="media">
         <img src={topic.avatar} className="align-self-start mr-3 rounded" width="80" height="80" alt={topic.name} />
         <div className="media-body">
-          <div style={{float:'right'}}><Follow topic={topic} /></div>
+          {topic.parent_id ?
+            <div style={{float:'right'}}><Follow topic={topic} /></div>
+            : null}
           <h5 className="mt-0">{topic.name}</h5>
           <div>{topic.brief}</div>
           <div className="text-secondary mt-1">

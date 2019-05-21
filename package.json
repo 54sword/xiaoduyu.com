@@ -40,6 +40,7 @@
     "node-sass": "^4.9.3",
     "popper.js": "^1.14.7",
     "postcss-flexbugs-fixes": "^4.1.0",
+    "qiniu": "^6.1.13",
     "qrcode.react": "^0.8.0",
     "react": "^16.8.6",
     "react-content-loader": "^3.4.1",

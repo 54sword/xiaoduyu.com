@@ -2,10 +2,10 @@
 :global{
 
 body{
-  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+  // font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
   // font-family: SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
-  // font-family: "PingFang-SC";
   // font-family: PingFang SC,SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
   font-size: 14px;
   line-height: 1.43;
 }
@@ -43,8 +43,8 @@ a:focus{
   box-shadow: 0 3px 6px rgba(0,0,0,.1);
 }
 
-.btn{
-  border-radius: 10px;
-}
+// .btn{
+//   border-radius: 20px;
+// }
 
 }

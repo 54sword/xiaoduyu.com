@@ -13,7 +13,7 @@
   // border-radius: 0px;
   // border-bottom:1px solid #efefef !important;
   &:hover{
-    background-color: rgba(255,255,255,.9) !important;
+    background-color: rgba(255,255,255,.7) !important;
   }
 }
 
@@ -127,7 +127,7 @@
 }
 
 .title{
-  font-size: 16px;
+  font-size: 17px;
 
   // font-weight: 400;
   padding:0 15px 0 15px;
@@ -136,7 +136,10 @@
     word-wrap:break-word;
     font-weight: bold;
     line-height: 1.375em;
-    font-weight: 800;
+    // font-weight: 800;
+
+
+
     // color:#484848 !important;
   }
   
@@ -167,11 +170,11 @@
   word-wrap: break-word;
   word-break: normal;
 
-  line-height: 1.375em;
-  // line-height: 140%;
+  line-height: 1.6em;
+  // line-height: 160%;
   // color:#14171a;
   padding:3px 15px 0 15px;
-  font-size: 15px;
+  font-size: 14px;
   // color:#484848;
 
   img{
@@ -255,9 +258,9 @@
       font-size:12px;
     }
 
-    a{
+    // a{
       // color:#999 !important;
-    }
+    // }
     
     > span:last-child, > a:last-child, > div:last-child{
       margin-right:0;
@@ -289,17 +292,17 @@
   }
 
   .topic{
-    color:#000;
-    background-color: #f7f7f7;
+    background-color: #ebecee;
     padding:3px 5px 3px 5px;
     border-radius: 3px;
-    &:hover{
-      background-color: #888;
-      color:#fff !important;
-      text-decoration: none;
-    }
   }
 
+}
+
+:global(#dark-theme) {
+  .topic{
+    background-color: #363b48;
+  }
 }
 
 /*
@@ -463,12 +466,26 @@
 
 
 :global(#dark-theme){
-  // .item{
-    // background-color: #282c36;
-  // }
-  // .content{
-    // color:#9baec7;
-  // }
+
+  .item{
+    // width: 100%;
+    // padding:0px 0 0px 0;
+    // border-radius: 4px;
+    // overflow: hidden;
+    // margin-bottom: 10px;
+    // border:1px solid rgba(0,0,0,.05) !important;
+    // box-shadow: 0 0px 3px rgba(0,0,0,.08);
+    // padding-bottom:20px;
+    // overflow: hidden;
+    // margin-bottom: 0px !important;
+    // border-radius: 0px;
+    // border-bottom:1px solid #efefef !important;
+    &:hover{
+      background-color: rgba(40,44,54,.7) !important;
+    }
+    
+  }
+
   .title{
     a{
       color:#c7d8ee;

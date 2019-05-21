@@ -108,6 +108,7 @@ export default class Head extends React.Component {
           <div className="ml-auto bd-highlight" styleName="nav">
             {me ?
             <>
+              <Link to="/new-posts" styleName="new-posts-button">+发帖</Link>
               <a href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" styleName="avatar">
                 <div style={{backgroundImage:`url(${me.avatar_url})`}}></div>
                 <span className="d-none d-md-block d-lg-block d-xl-block pl-2">{me.nickname}</span>
