@@ -43,6 +43,27 @@ a:focus{
   box-shadow: 0 3px 6px rgba(0,0,0,.1);
 }
 
+.rounded{
+  border-radius: 10px !important;
+}
+.rounded-top{
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+}
+.rounded-right{
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
+.rounded-bottom{
+  border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
+.rounded-left{
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+}
+
+
 // .btn{
 //   border-radius: 20px;
 // }

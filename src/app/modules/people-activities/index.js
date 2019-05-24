@@ -186,15 +186,15 @@ export default class PeopleActivites extends React.Component {
         </NavLink>
         
         <NavLink className="nav-link" exact to={`/people/${people._id}/follow-peoples`}>
-          关注的人 {people.follow_people_count || ''}
+          关注 {people.follow_people_count || ''}
         </NavLink>
         
         <NavLink className="nav-link" exact to={`/people/${people._id}/follow-posts`}>
-          关注的帖子 {people.follow_posts_count || ''}
+          收藏 {people.follow_posts_count || ''}
         </NavLink>
         
         <NavLink className="nav-link" exact to={`/people/${people._id}/follow-topics`}>
-          关注的话题 {people.follow_topic_count || ''}
+          话题 {people.follow_topic_count || ''}
         </NavLink>
 
       </div>

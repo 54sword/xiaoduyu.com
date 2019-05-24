@@ -75,7 +75,7 @@ export default class CommentList extends Component {
     const { data, loading, more, filters = {}, count } = list;
 
     return (
-      <div styleName="list">
+      <div styleName="list" className="card">
         {data && data.map((item, index)=>{
 
           let people = item.people_id || item.user_id || null;

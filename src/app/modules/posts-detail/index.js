@@ -37,20 +37,28 @@ export default class PostsDetail extends React.Component {
 
     return(<div className="card">
         
-        {/* <div styleName="head">
 
-          <Link to={`/people/${posts.user_id._id}`}>
-            <img styleName="author-avatar" src={posts.user_id.avatar_url} />
-            <b>{posts.user_id.nickname}</b>
-          </Link>
+        
+        
+        <div className="card-header pt-3 pb-3">
 
-          <div className="mt-1">
-            <span>{posts._create_at}</span>
-            {posts._device ? <span>{posts._device}</span> : null}
+          <div styleName="head">
+
+            <Link to={`/people/${posts.user_id._id}`}>
+              <img styleName="author-avatar" src={posts.user_id.avatar_url} />
+              <b>{posts.user_id.nickname}</b>
+            </Link>
+
+            <div className="mt-1">
+              <span>{posts._create_at}</span>
+              {posts._device ? <span>{posts._device}</span> : null}
+            </div>
+
           </div>
 
-        </div> */}
-        <div className="card-header pt-3 pb-3">
+          <h1 styleName="h1">{posts.title}</h1>
+
+          {/* 
         <div className="d-flex justify-content-start">
 
           
@@ -75,6 +83,7 @@ export default class PostsDetail extends React.Component {
           </div>
 
         </div>
+        */}
         </div>
 
         <div className="card-body">
