@@ -4,11 +4,11 @@ import './style.scss';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { signIn } from '@actions/sign';
-import { addCaptcha } from '@actions/captcha';
-import { getCaptchaById } from '@reducers/captcha';
+import { signIn } from '../../../../store/actions/sign';
+import { addCaptcha } from '../../../../store/actions/captcha';
+import { getCaptchaById } from '../../../../store/reducers/captcha';
 
-import To from '@utils/to';
+import To from '../../../../common/to';
 
 @connect(
   (state, props) => ({

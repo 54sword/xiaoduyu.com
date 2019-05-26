@@ -76,6 +76,7 @@ export default class Home extends React.Component {
             }}
             scrollLoad={true}
             showTips={true}
+            nothingTips="收藏你感兴趣的帖子，可以获得帖子的最新动态"
             />
         </>
         
@@ -88,7 +89,7 @@ export default class Home extends React.Component {
               <img src="/rss-reader-one.png" alt="RSS Reader One" width="250" height="250" />
             </a>
           </div> */}
-          {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
+          
           {/* <HotPostsList /> */}
 
           <div className="card">
@@ -117,6 +118,8 @@ export default class Home extends React.Component {
               />
           </div>
           </div>
+
+          {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
 
           {/* <Case /> */}
           {/* <LinksExchange /> */}

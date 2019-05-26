@@ -46,8 +46,6 @@ export const signIn = ({ data }) => {
         }]
       });
 
-      console.log(err, res);
-
       if (err) {
         reject(err ? err.message : '账号或密码错误')
       } else {

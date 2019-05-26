@@ -31,7 +31,9 @@ export default class CommentList extends Component {
 
   static defaultProps = {
     // 是否显示翻页
-    showPagination: false
+    showPagination: false,
+    // 没有数据时候的提示
+    nothingTips: '没有更多数据'
   }
 
   constructor(props) {
@@ -65,8 +67,17 @@ export default class CommentList extends Component {
 
   render () {
     
-    const { list, showPagination } = this.props;
+    const { list, showPagination, nothingTips } = this.props;
     const { data, loading, more, filters = {}, count } = list;
+
+    // 没有结果
+    if (!loading && data && data.length == 0 && !more) {
+      return (<div className="card">
+        <div className="card-body text-center text-secondary">
+          {nothingTips}
+        </div>
+      </div>)
+    }
     
     return (
       <div ref={e=>this.state.dom=e}>

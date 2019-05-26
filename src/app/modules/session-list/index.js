@@ -20,7 +20,7 @@ import { getSessionListById } from '@reducers/session';
 
 // 依赖组件
 import Pagination from '@components/pagination';
-import Loading from '@components/ui/content-loading';
+import Loading from '@components/ui/full-loading';
 
 import Item from './components/list-item';
 
@@ -48,7 +48,9 @@ export default class MessageList extends Component {
     // 是否显示翻页
     showPagination: false,
     // 滚动底部加载更多
-    scrollLoad: false
+    scrollLoad: false,
+
+    nothingTips: '没有数据了'
   }
 
   constructor(props) {
@@ -78,17 +80,21 @@ export default class MessageList extends Component {
   loadDate(restart = false) {
     const { id, filters, loadList } = this.props;
     let _filters = JSON.parse(JSON.stringify(filters));
-    loadList({ id, filters: _filters, restart });
+
+    loadList({ id, filters: _filters, restart });    
   }
 
   render () {
     
-    const { id, list, showPagination, scrollLoad } = this.props;
+    const { id, list, showPagination, scrollLoad, nothingTips } = this.props;
     const { data, loading, more = true, count, filters = {} } = list;
 
     // 没有结果
     if (!loading && data && data.length == 0 && !more) {
-      return <div className="text-center mb-2">没有数据</div>
+      return (
+        <div className="card-body text-center text-secondary">
+          {nothingTips}
+        </div>)
     }
 
     return (<>

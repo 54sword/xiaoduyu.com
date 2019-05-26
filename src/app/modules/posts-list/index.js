@@ -56,7 +56,9 @@ export default class PostsList extends Component {
     // 滚动底部加载更多
     scrollLoad: false,
     // 是否显示tips
-    showTips: false
+    showTips: false,
+    // 没有数据时候的提示
+    nothingTips: '没有更多数据'
   }
 
   constructor(props) {
@@ -94,12 +96,16 @@ export default class PostsList extends Component {
 
   render () {
     
-    const { id, postsList, itemType, showPagination, showTips, isMember, scrollLoad } = this.props;
+    const { id, postsList, itemType, showPagination, showTips, isMember, scrollLoad, nothingTips } = this.props;
     const { data, loading, more = true, count, filters = {} } = postsList;
 
     // 没有结果
     if (!loading && data && data.length == 0 && !more) {
-      return <div className="text-center mb-2">没有数据</div>
+      return (<div className="card">
+        <div className="card-body text-center text-secondary">
+          {nothingTips}
+        </div>
+      </div>)
     }
 
     return (<>

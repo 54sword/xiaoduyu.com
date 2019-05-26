@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember } from '@reducers/user';
+import { isMember, getProfile } from '@reducers/user';
 import { like, unlike } from '@actions/like';
 
 import Loading from '@components/ui/loading';
@@ -13,7 +13,8 @@ import './style.scss';
 
 @connect(
   (state, props) => ({
-    isMember: isMember(state)
+    isMember: isMember(state),
+    me: getProfile(state)
   }),
   dispatch => ({
     like: bindActionCreators(like, dispatch),
@@ -111,12 +112,14 @@ export default class LikeButton extends Component {
   render () {
 
     const { loading } = this.state;
-    const { reply, comment, posts, displayNumber } = this.props;
+    const { reply, comment, posts, displayNumber, me } = this.props;
     const like = comment || reply || posts;
-
+    
     let text = like.like_count || '';//like.like_count ? like.like_count+' 次赞' : '赞';
 
-    if (loading) return <Loading />;
+    if (like.user_id && like.user_id._id && like.user_id._id == me._id) return null; 
+
+    if (loading) return <a href="javascript:void(0)"><div styleName="loading"><Loading /></div></a>;
 
     return (<a
       href="javascript:void(0)"

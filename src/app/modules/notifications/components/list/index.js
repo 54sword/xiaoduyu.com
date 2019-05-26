@@ -38,6 +38,10 @@ export default class NotificationList extends Component {
     filters: PropTypes.object.isRequired
   }
 
+  static defaultProps = {
+    nothingTips: '没有更多数据'
+  }
+
   constructor(props) {
     super(props);
     this.handleLoad = this.handleLoad.bind(this);
@@ -67,13 +71,20 @@ export default class NotificationList extends Component {
   
   render() {
 
-    const { notification } = this.props
+    const { notification, nothingTips } = this.props
     const { data, loading, more, count, filters = {} } = notification
+
+    // 没有结果
+    if (!loading && data && data.length == 0 && !more) {
+      return (<div className="card">
+        <div className="card-body text-center text-secondary">
+          {nothingTips}
+        </div>
+      </div>)
+    }
 
     return (<div className="card">
         <div className="card-body p-0">
-
-          {!loading && !more && data && data.length == 0 ? <div style={{textAlign:'center'}}>没有通知</div> : null}
 
           <div className="list-group" styleName="list">
             {data && data.map(notification => {

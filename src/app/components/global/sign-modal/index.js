@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 // config
-import { APIDomainName, name } from '@config';
-import feature from '@config/feature.config.js';
+import { APIDomainName, name } from '../../../../../config';
+import feature from '../../../../../config/feature.config.js';
 
 // components
 import SignIn from './sign-in';
 import SignUp from './sign-up';
-import Modal from '@components/bootstrap/modal';
-import Wechat from '@utils/weixin';
+import Modal from '../../../components/bootstrap/modal';
+import Wechat from '../../../common/weixin';
 
 // styles
 import './style.scss';

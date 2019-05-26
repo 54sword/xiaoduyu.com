@@ -53,8 +53,6 @@ export default class Home extends React.Component {
 
     const { tab } = this.props;
 
-    console.log(tab);
-
     return(<>
       <Meta />
 

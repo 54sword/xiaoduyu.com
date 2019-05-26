@@ -1,14 +1,11 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
-import './index.scss';
+import Loading from '../loading';
 
-export default class LoadingMore extends PureComponent {
-
-  render() {
-
-    const { text = '加载中...' } = this.props
-
-    return <div styleName="loading"><span></span>{text}</div>
-  }
-
+export default function() {
+  return (<div className="card">
+      <div className="card-body">
+        <Loading />
+      </div>
+    </div>)
 }

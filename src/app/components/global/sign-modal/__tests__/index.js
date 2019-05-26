@@ -51,19 +51,23 @@ describe('<SignModal />', ()=>{
 
   });
 
-  // it('应该包含链接 [忘记密码]', () => {
-  //   expect(wrapper.find(Link).at(0).props().to).toBe('/forgot');
-  // });
+  it('应该包含链接 [忘记密码]', () => {
+    expect(wrapper.find(Link).at(0).props().to).toBe('/forgot');
+  });
 
-  // it('应该包含链接 [用户协议]', () => {
-  //   expect(wrapper.find(Link).at(1).props().to).toBe('/agreement');
-  // });
+  it('应该包含链接 [用户协议]', () => {
+    expect(wrapper.find(Link).at(1).props().to).toBe('/agreement');
+  });
 
-  // it('应该包含 [登陆元素]', () => {
-  //   expect(wrapper.find({ type: 'text', placeholder: '手机号/邮箱地址' }).length).toBe(1);
-  //   expect(wrapper.find({ type: 'password', placeholder: '密码' }).length).toBe(1);
-  //   expect(wrapper.find({ type: 'submit', value: '登录' }).length).toBe(1);
-  // });
+  it('应该包含链接 [隐私政策]', () => {
+    expect(wrapper.find(Link).at(2).props().to).toBe('/privacy');
+  });
+
+  it('应该包含 [登陆元素]', () => {
+    expect(wrapper.find({ type: 'text', placeholder: '手机号/邮箱地址' }).length).toBe(1);
+    expect(wrapper.find({ type: 'password', placeholder: '密码' }).length).toBe(1);
+    expect(wrapper.find({ type: 'submit', value: '登录' }).length).toBe(1);
+  });
 
   it('登陆应该成功 [账号登陆测试]', async () => {
 
@@ -77,10 +81,10 @@ describe('<SignModal />', ()=>{
     }
 
     let accountInput = wrapper.find({ type: 'text', placeholder: '手机号/邮箱地址' }).getDOMNode();
-    accountInput.value = '2429345904@qq.com';
+    accountInput.value = 'apple.54sword@gmail.com';
 
     let passwordInput = wrapper.find({ type: 'password', placeholder: '密码' }).getDOMNode();
-    passwordInput.value = '***';
+    passwordInput.value = '123456';
     
     // 模拟登陆
     [err, res] = await To(wrapper.find('form').at(0).props().onSubmit());
@@ -119,6 +123,7 @@ describe('<SignModal />', ()=>{
     
   });
 
+  /*
   it('应该包含 [注册元素]', async () => {
 
     // console.log(wrapper.html());
@@ -160,5 +165,6 @@ describe('<SignModal />', ()=>{
     // console.log(res);
 
   });
+  */
 
 })

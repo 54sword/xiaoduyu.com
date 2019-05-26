@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import cookie from 'react-cookies';
+// import cookie from 'react-cookies';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -81,6 +81,7 @@ export default class Box extends Component {
   onClick(event, id) {
     event.preventDefault();
 
+    /*
     cookie.save(
       'topic_id',
       id,
@@ -89,6 +90,7 @@ export default class Box extends Component {
         expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 365)
       }
     );
+    */
 
     this.setState({ topicId: id });
     this.props.saveTopicId(id);

@@ -27,6 +27,21 @@
   }
 }
 
+.slogan{
+  margin:15px 0 0 10px;
+  color:#68737d;
+  font-size: 15px;
+  &:before{
+    content:"•";
+    margin:0 10px 0 0;
+    color:rgba(0,0,0,.15);
+  }
+  &:hover{
+    text-decoration: none;
+    color:#0073ff;
+  }
+}
+
 .nav{
   margin:0 0 0 15px;
 

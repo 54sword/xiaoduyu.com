@@ -4,9 +4,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 import fetch from "node-fetch";
 
-import { debug, graphqlUrl } from '@config';
+import { debug, graphqlUrl } from '../../../config';
 
-import featureConfig from '@config/feature.config.js';
+import featureConfig from '../../../config/feature.config.js';
 
 import To from './to';
 

@@ -92,7 +92,8 @@ export default class PostsDetail extends React.Component {
 
         {posts.content_html ?
           <div styleName="detail">
-            <HTMLText content={posts.content_html} hiddenHalf={!isMember && posts.recommend ? true : false} />
+            {/*  hiddenHalf={!isMember && posts.recommend ? true : false} */}
+            <HTMLText content={posts.content_html} />
           </div>
           :null}
         

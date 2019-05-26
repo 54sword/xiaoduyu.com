@@ -12,6 +12,7 @@ module.exports = {
   target: 'node',
 
   resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
     alias: {
       // 配置文件位置
       '@config': path.resolve('config'),
@@ -53,12 +54,17 @@ module.exports = {
     moduleExtensions: ["-loader"]
   },
 
+  optimization: {
+    minimize: false
+  },
+
   module: {
     rules: [
 
       // js 文件解析
       {
-        test: /\.js$/i,
+        // test: /\.js$/i,
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         loader: 'babel'
       },

@@ -4,7 +4,7 @@ import Storage from 'react-native-storage';
 
 let obj = null;
 
-if (!__SERVER__) {
+if (!__SERVER__ && typeof window != 'undefined') {
   obj = new Storage({
     // 最大容量，默认值1000条数据循环存储
     size: 1000,

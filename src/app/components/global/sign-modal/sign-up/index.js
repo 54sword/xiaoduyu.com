@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
 // tools
-import Device from '@utils/device';
+import Device from '../../../../common/device';
 
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { signIn, signUp } from '@actions/sign';
+import { signIn, signUp } from '../../../../store/actions/sign';
 
 // components
-import CaptchaButton from '@components/captcha-button';
-import CountriesSelect from '@components/countries-select';
+import CaptchaButton from '../../../captcha-button';
+import CountriesSelect from '../../../countries-select';
 
 // styles
 import './style.scss';

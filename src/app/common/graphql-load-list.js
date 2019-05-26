@@ -1,5 +1,5 @@
 
-import graphql from '@utils/graphql';
+import graphql from './graphql';
 import merge from 'lodash/merge'
 
 export default ({

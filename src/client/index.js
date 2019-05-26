@@ -4,18 +4,18 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { matchPath } from 'react-router';
 import ReactGA from 'react-ga';
-// import cookie from 'react-cookies';
 
 import configureStore from '../app/store';
 import createRouter from '../app/router';
 import * as socket from '../app/socket';
 
-import { GA, analysisScript } from '@config';
+import { debug, GA, analysisScript } from '@config';
 
 import '../app/theme/global.scss';
 import '../app/theme/light.scss';
 import '../app/theme/dark.scss';
 import 'highlight.js/styles/default.css';
+import 'highlight.js/styles/github.css';
 
 import { getProfile } from '@reducers/user';
 import { initUnlockToken } from '@actions/unlock-token';
@@ -27,7 +27,6 @@ import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 if (process.env.NODE_ENV != 'development') {
   OfflinePluginRuntime.install();
 }
-
 
 (async function(){
 
@@ -41,10 +40,11 @@ if (process.env.NODE_ENV != 'development') {
   requestNotificationPermission()(store.dispatch, store.getState);
   await loadTab()(store.dispatch, store.getState);
 
-  let logPageView = ()=>{};
+  let logPageView = ()=>{
+  };
 
   if (GA) {
-    ReactGA.initialize(GA);
+    ReactGA.initialize(GA, { debug });
     logPageView = (userinfo) => {
       let option = { page: window.location.pathname }
       if (userinfo && userinfo._id) option.userId = userinfo._id;
@@ -96,6 +96,6 @@ if (process.env.NODE_ENV != 'development') {
 
   initHasRead()(store.dispatch, store.getState);
 
-  // store.dispatch({ type:'SET_TOPIC_ID', topicId: cookie.load('topic_id') });
+
 
 }());

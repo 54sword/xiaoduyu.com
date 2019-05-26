@@ -2,7 +2,7 @@ import React from 'react';
 import Loadable from 'react-loadable';
 
 import Head from '@modules/head';
-import Loading from '@components/ui/full-loading';
+// import Loading from '@components/ui/full-loading';
 
 // 服务端加载数据的方法
 import PostsDetailLoadData from '../pages/posts-detail/load-data';
@@ -16,13 +16,26 @@ import NotFoundLoadData from '../pages/not-found/load-data';
 export default [
 
   {
+    path: '/test',
+    exact: true,
+    head: Head,
+    // 页面组件
+    component: Loadable({
+      loader: () => import('../pages/tstest/index'),
+      loading: () => <div></div>
+    }),
+    // 允许进入的用户类型
+    enter: 'everybody'
+  },
+
+  {
     path: '/',
     exact: true,
     head: Head,
     // 页面组件
     component: Loadable({
       loader: () => import('../pages/home'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     // 需要服务端加载的数据
     loadData: HomeLoadData,
@@ -37,7 +50,7 @@ export default [
     // 页面组件
     component: Loadable({
       loader: () => import('../pages/follow'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     // 允许进入的用户类型
     enter: 'member'
@@ -50,7 +63,7 @@ export default [
     // 页面组件
     component: Loadable({
       loader: () => import('../pages/favorite'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     // 允许进入的用户类型
     enter: 'member'
@@ -62,7 +75,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/topic-detail'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     loadData: TopicDetailLoadData,
     enter: 'everybody'
@@ -74,7 +87,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/posts-detail'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     loadData: PostsDetailLoadData,
     enter: 'everybody'
@@ -86,7 +99,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/comment-detail'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     loadData: CommentDetailLoadData,
     enter: 'everybody'
@@ -98,7 +111,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/people-detail'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     loadData: PeopleDetailLoadData,
     enter: 'everybody'
@@ -110,7 +123,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/people-detail'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     loadData: PeopleDetailLoadData,
     enter: 'everybody'
@@ -122,7 +135,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/notifications'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'member'
   },
@@ -133,7 +146,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/notifications'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'member'
   },
@@ -144,7 +157,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/sessions'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'member'
   },
@@ -155,7 +168,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/session-detail'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'member'
   },
@@ -166,7 +179,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/search'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -177,7 +190,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/forgot'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -188,7 +201,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/new-posts'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'member'
   },
@@ -199,7 +212,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/settings'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'member'
   },
@@ -210,7 +223,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/oauth'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -221,7 +234,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/notice'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -232,7 +245,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/blocks'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -243,7 +256,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/blocks'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -254,7 +267,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/blocks'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -265,7 +278,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/agreement'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -276,7 +289,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/privacy'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -286,7 +299,7 @@ export default [
     exact: true,
     component: Loadable({
       loader: () => import('../pages/apps'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     enter: 'everybody'
   },
@@ -296,7 +309,7 @@ export default [
     head: Head,
     component: Loadable({
       loader: () => import('../pages/not-found'),
-      loading: () => <Loading />
+      loading: () => <div></div>
     }),
     loadData: NotFoundLoadData,
     enter: 'everybody'

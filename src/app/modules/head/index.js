@@ -75,6 +75,7 @@ export default class Head extends React.Component {
 
             <div className="d-flex bd-highlight">
               {me ?
+              <>
               <nav className="flex-wrap bd-highlight" styleName="nav">
                 <>
                   <NavLink exact to="/">
@@ -95,12 +96,12 @@ export default class Head extends React.Component {
                   <NavLink exact to="/search" className="d-lg-none d-xl-none">搜索</NavLink>
                 </>
               </nav>
-              : null}
-              
               <form onSubmit={this.search} styleName="search" className="flex-shrink-1 bd-highlight d-none d-lg-block d-xl-block">
                 <input ref={this.searchRef} type="text" placeholder="站内搜索" />
               </form>
-              
+              </>
+              :
+              <a styleName="slogan" href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">年轻人的交流社区</a>}
             </div>
 
           </div>

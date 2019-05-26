@@ -21,6 +21,7 @@ export default class Sessions extends React.PureComponent {
         <div className="card-body p-0">
         <SessionList
           id="all"
+          scrollLoad={true}
           filters={{
             query: {
               sort_by:'last_message:-1'

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 // import hljs from 'highlight.js';
+
 import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
+// import 'highlight.js/styles/github.css';
 
 import './style.scss';
 import convertHTML from './convert';

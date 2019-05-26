@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 // import Loadable from 'react-loadable';
 
+
 // 生成异步加载组件
 // import { AsyncComponent } from '../components/generate-async-component';
 // import LazyComponent from '@components/lazy';

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -71,7 +70,7 @@ export default class PeopleList extends Component{
       return <div className="text-center mt-4 md-4">没有查询到结果</div>
     }
 
-    return (<div>
+    return (<div className="card">
 
       <div className="list-group">
         {data && data.map(people=>{
