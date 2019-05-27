@@ -107,7 +107,7 @@ export default class MessageList extends Component {
         </div>
       </div>
 
-      {!more || !scrollLoad ? null : <Loading />}
+      {loading ? <Loading /> : null}
 
       {showPagination &&
         <Pagination

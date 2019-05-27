@@ -116,8 +116,8 @@ export default class LikeButton extends Component {
     const like = comment || reply || posts;
     
     let text = like.like_count || '';//like.like_count ? like.like_count+' 次赞' : '赞';
-
-    if (like.user_id && like.user_id._id && like.user_id._id == me._id) return null; 
+    
+    if (me && like.user_id && like.user_id._id && like.user_id._id == me._id) return null; 
 
     if (loading) return <a href="javascript:void(0)"><div styleName="loading"><Loading /></div></a>;
 

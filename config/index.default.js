@@ -8,6 +8,9 @@ let config = {
   // [必填] 网站名称
   name: '小度鱼',
 
+  // 网站描述
+  description: '年轻人的交流社区',
+
   // [选填] 联系我们的邮箱地址
   contactEmail: '***@163.com',
 
@@ -43,17 +46,18 @@ let config = {
   
   // [选填] APP客户端下载地址
   clientDownloadUrl: {
-    ios: 'https://itunes.apple.com/us/app/小度鱼/id1261181004?l=zh&ls=1&mt=8',
-    android: 'https://qncdn.xiaoduyu.com/xiaoduyu-20190505.apk'
+    ios: '',
+    android: ''
   },
   
   // [选填] 
-  favicon: '<link rel="icon" href="//www.xiaoduyu.com/icon-512x512.png" type="image/png" />',
+  favicon: '<link rel="icon" href="/icon-512x512.png" type="image/png" />',
 
   // [选填] 添加内容到模版的head中
   head: `
+    <meta name="description" content="{description}">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-    <link rel="apple-touch-icon" href="//www.xiaoduyu.com/icon-512x512.png">
+    <link rel="apple-touch-icon" href="/icon-512x512.png">
     <meta content="yes" name="apple-touch-fullscreen">
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta data-react-helmet="true" name="apple-itunes-app" content="app-id=1261181004">
@@ -89,7 +93,7 @@ let config = {
   // [必填] AMP 页面相关配置
   AMP: {
     logo: {
-      url: 'https://img.xiaoduyu.com/600x60.png',
+      url: '/600x60.png',
       width: 600,
       height: 60
     }
@@ -101,7 +105,9 @@ let config = {
 
 }
 
+config.head = config.head.replace(new RegExp("({description})","g"), config.description);
 config.head += config.favicon;
+config.AMP.logo.url = config.domainName + config.AMP.logo.url;
 
 // 开发环境调试
 if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
@@ -114,20 +120,17 @@ if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
   // config.graphqlUrl = `http://${localhost}:3000/graphql`;
   // config.socketUrl = `http://${localhost}:3000`;
   config.googleAdSense = '';
-  config.GA = '';
+  // config.GA = '';
   config.analysisScript = ``;
 }
 
 
 /*
-// 本地生产环境调试
+// 打开注解，可以启动本地生产环境调试
 if (process.env.NODE_ENV == 'production') {
-  config.debug = true;
   config.port = 4000;
   config.domainName = `http://${localhost}:4000`;
   config.publicPath = `http://${localhost}:4000`;
-  config.GA = '';
-  config.analysis_script = ``;
 }
 */
 
