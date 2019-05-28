@@ -18,12 +18,12 @@ type PageState = {}
 // 单独输出组件，用于单元测试
 export class TSTest extends React.Component<PageStateProps, PageState> {
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
   }
 
   render() {
-    return <Loading />
+    // return <Loading />
 
     const id = this.props.match.params.id;
     return (<div styleName="box" className="box">ts test!{id}</div>)
@@ -34,10 +34,10 @@ export class TSTest extends React.Component<PageStateProps, PageState> {
 
 @Shell
 @connect(
-  (state, props) => ({
+  (state: any, props: any) => ({
     list: getTopicListById(state, props.match.params.id)
   }),
-  (dispatch) => ({
+  (dispatch: any) => ({
     loadTopics: bindActionCreators(loadTopicList, dispatch)
   })
 )

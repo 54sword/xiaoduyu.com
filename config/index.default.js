@@ -60,7 +60,6 @@ let config = {
     <link rel="apple-touch-icon" href="/icon-512x512.png">
     <meta content="yes" name="apple-touch-fullscreen">
     <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta data-react-helmet="true" name="apple-itunes-app" content="app-id=1261181004">
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   `,
 

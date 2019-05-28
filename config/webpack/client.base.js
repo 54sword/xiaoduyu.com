@@ -101,8 +101,7 @@ module.exports = {
 
       // js 文件解析
       {
-        // test: /\.js$/i,
-        test: /\.(ts|js)x?$/,
+        test: /\.(js|ts|tsx)x?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },

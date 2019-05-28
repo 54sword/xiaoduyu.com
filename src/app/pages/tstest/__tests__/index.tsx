@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount, render } from 'enzyme';
+import { mount } from 'enzyme';
 import { StaticRouter } from 'react-router';
 import { Provider } from 'react-redux'
 import createStore from '../../../store';
@@ -10,7 +10,7 @@ let store = createStore();
 
 describe('<TSTest />', ()=>{
 
-  let wrapper = '';
+  let wrapper: any;
 
   it ('应该可以渲染组件',  () => {
 
@@ -43,4 +43,4 @@ describe('<TSTest />', ()=>{
     expect(wrapper.find('.box').length).toBe(1);    
   });
   
-})
+});
