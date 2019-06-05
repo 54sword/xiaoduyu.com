@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OfflinePlugin = require('offline-plugin');
+// const OfflinePlugin = require('offline-plugin');
 
 const config = require('../index');
 const aliasConfig = require('../alias.config');
@@ -125,9 +125,7 @@ module.exports = {
             options: {
               plugins: () => [
                 require('postcss-flexbugs-fixes'),
-                require('autoprefixer')({
-                  browsers: ['last 2 versions']
-                })
+                require('autoprefixer')
               ]
             }
           },
@@ -147,9 +145,7 @@ module.exports = {
             options: {
               plugins: () => [
                 require('postcss-flexbugs-fixes'),
-                require('autoprefixer')({
-                  browsers: ['last 2 versions']
-                })
+                require('autoprefixer')
               ]
             }
           }
@@ -180,13 +176,6 @@ module.exports = {
     // 提取css插件
     new MiniCssExtractPlugin({
       filename: devMode ? "[name].css" : "[name].[hash].css"
-    }),
-
-    new OfflinePlugin({
-      autoUpdate: 1000 * 60 * 5,
-      ServiceWorker: {
-        publicPath: '/sw.js'
-      }
     }),
 
     // 创建视图模版文件，给server使用

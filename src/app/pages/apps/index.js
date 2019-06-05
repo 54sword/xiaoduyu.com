@@ -57,7 +57,7 @@ export default class APPS extends Component {
     return (
       <div styleName="container">
         <Meta title={"APP"} />
-        <div styleName="icon"><img src="/icon-512x512.png" /></div>
+        <div styleName="icon"><img src="/512x512.png" /></div>
         <div styleName="h1">小度鱼APP</div>
         <div styleName="h2">年轻人的交流社区</div>
 

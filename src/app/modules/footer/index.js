@@ -6,7 +6,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { name, contactEmail, ICPNumber, GongWangAnBei } from '@config';
+import { name, contactEmail, ICPNumber, gongWangAnBei } from '@config';
 import './index.scss';
 
 export default class Links extends React.PureComponent {
@@ -23,7 +23,7 @@ export default class Links extends React.PureComponent {
         </div>
         
         {ICPNumber ? <div><a href="http://www.miitbeian.gov.cn" target="_blank">{ICPNumber}</a></div> : null}
-        {GongWangAnBei ? <div styleName="beian"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=34130202000179" target="_blank">{GongWangAnBei}</a></div> : null}
+        {gongWangAnBei ? <div styleName="beian"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=34130202000179" target="_blank">{gongWangAnBei}</a></div> : null}
         <div className="text-secondary">{new Date().getFullYear()} {name+' '}</div>
         <div className="text-secondary">Powered by <a href="https://github.com/54sword/xiaoduyu.com" target="_blank">小度鱼</a></div>
       </div>

@@ -1,5 +1,5 @@
 
-import GraphQL from '../../common/graphql';
+import graphql from '../../common/graphql';
 
 
 export function setOnlineUserCount(online) {
@@ -61,7 +61,7 @@ export function getNew () {
     let user = getState().user;
     let profile = user.profile;
 
-    let [ err, res ] = await GraphQL({
+    let [ err, res ] = await graphql({
       headers: { accessToken: user.accessToken },
       apis: [
         {
@@ -164,5 +164,27 @@ export function getNew () {
 
     }
 
+  }
+}
+
+
+// 加载网站经营状态
+export function loadOperatingStatus() {
+  return (dispatch, getState) => {
+  return new Promise(async resolve => {
+
+    let [ err, res ] = await graphql({
+      apis: [
+        { api: 'countPosts', args: {}, fields: `count` },
+        { api: 'countUsers', args: {}, fields: `count` },
+        { api: 'countComments', args: {}, fields: `count` },
+      ]
+    });
+
+    dispatch({ type: 'SET_OPERATING_STATUS', data: res });
+    
+    resolve([err, res])
+
+  })
   }
 }

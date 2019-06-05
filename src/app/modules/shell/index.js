@@ -50,10 +50,11 @@ export default (Component) => {
     // 组件加载完成
     componentDidMount() {
       const { pathname, search } = this.props.location || {};
+      // console.log(pathname);
       this.props.setScrollPosition(pathname + search);
       // this.props.addVisitHistory(pathname + search);
     }
-
+    
     componentWillReceiveProps(props) {
       // 组件url发生变化
       if (this.props.location.pathname + this.props.location.search != props.location.pathname + props.location.search) {
@@ -66,7 +67,8 @@ export default (Component) => {
     // 组件被卸载
     componentWillUnmount() {
       const { pathname, search } = this.props.location;
-      this.props.saveScrollPosition(pathname + search);
+      // console.log(pathname);
+      if (pathname == '/') this.props.saveScrollPosition(pathname + search);
     }
 
     componentDidCatch(error, info) {

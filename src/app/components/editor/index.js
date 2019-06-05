@@ -82,7 +82,7 @@ const BLOCK_TYPES = [
   // { className: 'title', label: 'H5', style: 'header-five'},
   // { className: 'title', label: 'H6', style: 'header-six'},
   // { className: 'title', label: 'Title', style: 'header-five'},
-  { className: 'blockquote', label: 'Blockquote', style: 'blockquote'},
+  // { className: 'blockquote', label: 'Blockquote', style: 'blockquote'},
   { className: 'ul', label: 'ul', style: 'unordered-list-item'},
   // { className: 'ol', label: 'ol', style: 'ordered-list-item'},
   { className: 'code-block', label: 'code', style: 'code-block'}
@@ -90,10 +90,10 @@ const BLOCK_TYPES = [
 
 
 var INLINE_STYLES = [
-  { className:"bold", label: 'bold', style: 'BOLD'},
+  // { className:"bold", label: 'bold', style: 'BOLD'},
   // { className:"italic", label: 'italic', style: 'ITALIC'},
   // { className:"underline", label: 'underline', style: 'UNDERLINE'}
-  // {label: 'Monospace', style: 'CODE'}
+  // { className:"code-block", label: 'Monospace', style: 'CODE'}
 ]
 
 const BLOCK_TYPES_1 = [
@@ -160,10 +160,29 @@ const Controls = (props) => {
           />
         )}
 
+        {/*props.expandControl ?
+          <span
+            className="RichEditor-styleButton link-image"
+            onClick={()=>{
+
+              let url = prompt("请输入图片地址","");
+
+              if (!url) return;
+
+              props.addImage([{
+                name: new Date().getTime(),
+                src: url
+              }]);
+            }}>
+          </span>
+          : null*/}
+
+        {/*props.expandControl ? <span className="RichEditor-styleButton link" onClick={props.addLink}></span> : null*/}
+
         {/*!props.expandControl ? <span onClick={props.handleExpandControl} className="RichEditor-styleButton more"></span> : null*/}
 
         {/* <span className="RichEditor-styleButton video" onClick={props.addVideo}></span> */}
-        {props.expandControl ? <span className="RichEditor-styleButton link" onClick={props.addLink}></span> : null}
+        {/* {props.expandControl ? <span className="RichEditor-styleButton link" onClick={props.addLink}></span> : null} */}
         {/*<span href="javascript:void(0)" className="RichEditor-styleButton music" onClick={props.addMusic}></span>*/}
           
         {/* <span
@@ -482,7 +501,6 @@ export class MyEditor extends React.Component {
     data.map(item=>{
 
       const contentState = oldEditorState.getCurrentContent();
-      //
 
       const contentStateWithEntity = contentState.createEntity(
         'image',
@@ -491,7 +509,7 @@ export class MyEditor extends React.Component {
       );
 
       entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-
+      
       let newEditorState = AtomicBlockUtils.insertAtomicBlock(
         oldEditorState,
         entityKey,

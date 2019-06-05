@@ -70,6 +70,7 @@
 
     .nickname{
       font-size: 14px;
+      font-weight: bold;
     }
 
     .menu{
@@ -113,6 +114,13 @@
     }
     */
 
+  }
+
+  .interactive{
+    > span {
+      margin-left:15px;
+      color:#d1d1d1;
+    }
   }
 
 }
@@ -254,7 +262,7 @@
   .actions{
 
     > span, > a, > div{
-      margin-right:20px;
+      margin-right:15px;
       font-size:12px;
     }
 
@@ -284,7 +292,8 @@
     // padding-top:10px;
     // border-top:1px solid #eaedf0;
     width: 100%;
-    padding:10px 0 15px 0;
+
+    padding:5px 0 15px 0;
     // line-height: 40px;
     // margin-top:10px;
     // padding-left: 15px;
@@ -292,9 +301,9 @@
   }
 
   .topic{
-    background-color: #ebecee;
-    padding:3px 5px 3px 5px;
-    border-radius: 3px;
+    // background-color: #ebecee;
+    // padding:3px 5px 3px 5px;
+    // border-radius: 3px;
   }
 
 }

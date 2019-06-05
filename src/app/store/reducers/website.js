@@ -10,6 +10,12 @@ let _initialState = {
     // 游客
     visitor: 0
   },
+  // 网站的数据
+  data: {
+    users: 0,
+    posts: 0,
+    comments: 0
+  },
   onlineUserCount: 0,
   unreadNotice: [],
   // 首页选中的话题，空为首页、follow为关注、其他为话题 ID
@@ -53,6 +59,12 @@ export default function() {
         state.notificationPermission = action.status;
         return state;
 
+      case 'SET_OPERATING_STATUS':
+          state.data.posts = action.data.countPosts.count;
+          state.data.users = action.data.countUsers.count;
+          state.data.comments = action.data.countComments.count;
+          return state;
+
       // 清空
       case 'CLEAN':
         return merge({}, _initialState, {});
@@ -84,4 +96,8 @@ export const getTopicId = (state) => {
 
 export const getTab = (state) => {
   return state.website.tab
+}
+
+export const getOperatingStatus = (state) => {
+  return state.website.data
 }

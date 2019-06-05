@@ -38,9 +38,9 @@ export class Share extends Component {
       state.url = domainName +'/posts/'+posts._id;
     }
 
-    if (comment) {
-      console.log(comment);
-    }
+    // if (comment) {
+    //   console.log(comment);
+    // }
 
     this.state = state;
 

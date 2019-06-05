@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
-import { name } from '@config';
+import { name, description } from '@config';
 
 // redux
 import { bindActionCreators } from 'redux';
@@ -101,7 +101,7 @@ export default class Head extends React.Component {
               </form>
               </>
               :
-              <a styleName="slogan" href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">年轻人的交流社区</a>}
+              <a styleName="slogan" href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">{description}</a>}
             </div>
 
           </div>

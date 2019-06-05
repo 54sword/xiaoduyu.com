@@ -144,7 +144,7 @@ export default class PostsListItem extends React.Component {
         <div styleName="head">
 
           {typeof posts.user_id == 'object' ?
-            <div styleName="info">
+            <div styleName="info" className="d-flex justify-content-between">
 
               <Link styleName="nickname" to={`/people/${posts.user_id._id}`} onClick={this.stopPropagation}>
                 <i
@@ -155,6 +155,12 @@ export default class PostsListItem extends React.Component {
                 {posts.user_id.nickname}
 
               </Link>
+
+              <div styleName="interactive">
+                {/* {posts.comment_count ? <span>{posts.comment_count} 评论</span> : null}
+                {posts.reply_count ? <span>{posts.reply_count} 回复</span> : null} */}
+              </div>
+
               {/* <span className="text-secondary">{posts.user_id.brief}</span> */}
 
               {/* 
@@ -216,65 +222,27 @@ export default class PostsListItem extends React.Component {
 
         </div>
 
-        <div styleName="collapse-container">
+        {/* <div styleName="collapse-container">
           <a href="javascript:void(0)" id={posts._id+'-footer'} onClick={this.expand} styleName="collapse-float" className="text-primary">收起</a>
-        </div>
+        </div> */}
 
         <div styleName="footer">
           <div styleName="footer-main" className="d-flex justify-content-between">
 
               <div styleName="actions" className="text-secondary">
-                <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation} styleName="topic">{posts.topic_id.name}</Link></span>
+                <span><Link to={`/topic/${posts.topic_id._id}`} onClick={this.stopPropagation}>{posts.topic_id.name}</Link></span>
                 <span>{posts._create_at}</span>
-              {/* </div> */}
-
-              {/* <div styleName="actions" className="text-secondary"> */}
-                {posts.view_count ? <span>{posts.view_count} 次阅读</span> : null}
-                {posts.comment_count ? <span>{posts.comment_count} 条评论</span> : null}
-                {posts.reply_count ? <span>{posts.reply_count} 条回复</span> : null}
-                {posts.like_count ? <span>{posts.like_count} 人赞</span> : null}
-                {posts.follow_count ? <span>{posts.follow_count} 人收藏</span> : null}
+                {posts.view_count ? <span>{posts.view_count}次阅读</span> : null}
+                {posts.comment_count ? <span>{posts.comment_count}条评论</span> : null}
+                {posts.reply_count ? <span>{posts.reply_count}条回复</span> : null}
+                {posts.like_count ? <span>{posts.like_count}人赞</span> : null}
+                {posts.follow_count ? <span>{posts.follow_count}人收藏</span> : null}
               </div>
-            
-            {/*expand ?
-              <div styleName="actions">
-                <Like posts={posts} displayNumber={false} />
-                <Follow posts={posts} />
-                <Share posts={posts} />
-                <a href="javascript:void(0)" className="text-secondary" onClick={this.expand}>收起</a>
-                <MoreMenu posts={posts} />
-              </div>
-            :null*/}
 
           </div>
         </div>
 
       </div>
-
-      {/*expand ?
-        <div onClick={this.stopPropagation} styleName="comment-list">
-
-          <CommentList
-            name={posts._id}
-            filters={{
-              variables: {
-                posts_id: posts._id,
-                parent_id: 'not-exists',
-                page_size: 10,
-                page_number: Math.ceil(posts.comment_count/10),
-                deleted: false,
-                weaken: false
-              }
-            }}
-            showPagination={true}
-            />
-
-          {isMember ?
-            <div className="border-top"><Editor posts_id={posts._id} forward={true} /></div>
-            : null}
-
-        </div>
-          : null*/}
 
     </div>)
 

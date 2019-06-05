@@ -114,9 +114,12 @@ export default class LikeButton extends Component {
     const { loading } = this.state;
     const { reply, comment, posts, displayNumber, me } = this.props;
     const like = comment || reply || posts;
+
+    // console.log(like);
     
-    let text = like.like_count || '';//like.like_count ? like.like_count+' 次赞' : '赞';
-    
+    // let text = like.like_count || '';//like.like_count ? like.like_count+' 次赞' : '赞';
+    let text = like.like_count ? like.like_count+' 次赞' : '赞';
+
     if (me && like.user_id && like.user_id._id && like.user_id._id == me._id) return null; 
 
     if (loading) return <a href="javascript:void(0)"><div styleName="loading"><Loading /></div></a>;
@@ -127,7 +130,8 @@ export default class LikeButton extends Component {
       styleName={`button ${like.like ? 'active' : ''}`}
       className="text-secondary"
       >
-      {text && displayNumber ? <span>{text}</span> : null}
+      <span>{text}</span>
+      {/* {text && displayNumber ? <span>{text}</span> : null} */}
     </a>)
 
   }

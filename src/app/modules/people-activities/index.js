@@ -49,7 +49,7 @@ export default class PeopleActivites extends React.Component {
           scrollLoad={true}
         />),
 
-        '/comments': (<CommentList
+        '/comments': (<div className="card"><CommentList
           name={id}
           filters={{
             variables: {
@@ -61,7 +61,8 @@ export default class PeopleActivites extends React.Component {
             }
           }}
           scrollLoad={true}
-        />),
+          showPagination={true}
+        /></div>),
         '/fans': (<FollowList
           id={'fans-'+id}
           args={{
@@ -179,6 +180,10 @@ export default class PeopleActivites extends React.Component {
 
         <NavLink className="nav-link" exact to={`/people/${people._id}/posts`}>
           帖子 {people.posts_count || ''}
+        </NavLink>
+
+        <NavLink className="nav-link" exact to={`/people/${people._id}/comments`}>
+          评论 {people.comment_count || ''}
         </NavLink>
 
         <NavLink className="nav-link" exact to={`/people/${people._id}/fans`}>

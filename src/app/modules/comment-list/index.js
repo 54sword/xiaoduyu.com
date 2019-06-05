@@ -46,12 +46,12 @@ export default class CommentList extends Component {
     // const { list } = this.props;
     // if (!list.data || list.data.length == 0) 
     this.loadList();
-    // ArriveFooter.add(this.state.name, this.loadList)
+    // ArriveFooter.add(this.state.name, (this.loadList))
   }
 
-  componentWillUnmount() {
+  // componentWillUnmount() {
     // ArriveFooter.remove(this.state.name)
-  }
+  // }
 
   loadList(restart = true) {
     const { name, filters, loadCommentList } = this.props;

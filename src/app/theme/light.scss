@@ -14,7 +14,7 @@ $color_secondary: #8b8e91;
 // #light-theme{
   
   body {
-    background-color:#eceef0;//#e9eaee;//#eceef0;
+    background-color:#ecedef;//#eff0f2;//#eceef0;//#e9eaee;//#eceef0;
     color: $color_dark;
     // background-image: url(http://dlanham.com/art/streaming/preview.jpg);
     background-size: cover;
@@ -68,17 +68,19 @@ $color_secondary: #8b8e91;
     margin-bottom: 10px;
     border-radius: 8px;
     // overflow: hidden;
-    // border:1px solid #e6e6e6;
-    // box-shadow: 0 1px 2px rgba(0,0,0,.25);
+    // border:1px solid rgba(0,0,0,.1);
+    // box-sizing: border-box;
+    // box-shadow: 0 0px 2px rgba(0,0,0,.25);
     
     .card-header{
       padding:8px 15px 8px 15px;
       border-bottom: 1px solid $color_muted;
       background-color: #fff;//#f6f8f9;
-      font-size: 15px;
+      font-size: 14px;
       // font-weight: bold;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
+      // color:#999999;
       // color:#484848;
     }
 
@@ -108,11 +110,11 @@ $color_secondary: #8b8e91;
   //======================================================
   // https://getbootstrap.com/docs/4.0/utilities/borders/#border-radius
 
-  .border{ border: 1px solid $color_muted; }
-  .border-top{ border-top: 1px solid $color_muted; }
-  .border-right{ border-right: 1px solid $color_muted; }
-  .border-bottom{ border-bottom: 1px solid $color_muted; }
-  .border-left{ border-left: 1px solid $color_muted; }
+  .border{ border: 1px solid $color_muted !important; }
+  .border-top{ border-top: 1px solid $color_muted !important; }
+  .border-right{ border-right: 1px solid $color_muted !important; }
+  .border-bottom{ border-bottom: 1px solid $color_muted !important; }
+  .border-left{ border-left: 1px solid $color_muted !important; }
 
   @media (min-width: 0px) and (max-width: 767px) {
     .border{ border: 0.5px solid #ddd; }

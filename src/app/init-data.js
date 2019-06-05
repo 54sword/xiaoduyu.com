@@ -2,6 +2,7 @@
 // import { loadReportTypes } from '@actions/report';
 // import { loadTopicList } from '@actions/topic';
 import { loadUserInfo } from '@actions/user';
+import { loadOperatingStatus } from '@actions/website';
 
 // 初始化数据
 // redux 中的数据清理、以及准备一些经常不变的数据
@@ -22,6 +23,8 @@ export default (store, accessToken) => {
     //   id: 'recommend-topics',
     //   filters: { variables: { type: "parent", recommend: true, sort_by: 'sort:-1' } }
     // })(store.dispatch, store.getState);
+    
+    // await loadOperatingStatus()(store.dispatch, store.getState);
 
     if (accessToken) {
       let res = await loadUserInfo({ accessToken })(store.dispatch, store.getState);

@@ -70,15 +70,13 @@ export default class CommentItem extends Component {
 
     let reply_user = null;
 
-    if (comment.reply_id &&
+    if (
+      comment.reply_id &&
       comment.reply_id.user_id &&
       comment.reply_id.user_id._id
     ) {
       reply_user = comment.reply_id.user_id;
     }
-
-    // console.log(comment);
-    // console.log(reply_user);
 
     return (<div styleName="item" key={comment._id} className="border-top">
 
@@ -90,7 +88,7 @@ export default class CommentItem extends Component {
             <b>{comment.user_id.nickname}</b>
           </Link>
           {!parent && reply_user && reply_user._id != comment.user_id._id ||
-            parent && parent.user_id._id != reply_user._id
+            parent && reply_user && parent.user_id._id != reply_user._id
             ? <span> 回复 <Link to={`/people/${reply_user._id}`} onClick={this.stopPropagation}><b>{reply_user.nickname}</b></Link></span>
           : null}
           
@@ -109,10 +107,6 @@ export default class CommentItem extends Component {
 
           <div styleName="actions" className="text-secondary">
             <span>{comment._create_at}</span>
-          </div>
-
-          <div styleName="actions">
-
             {comment.parent_id ? 
               <LikeButton reply={comment}  /> : 
               <LikeButton comment={comment} />}
@@ -120,6 +114,16 @@ export default class CommentItem extends Component {
             <CommentButton comment={comment} />
             <MoreMenu comment={comment} />
           </div>
+
+          {/* <div styleName="actions">
+
+            {comment.parent_id ? 
+              <LikeButton reply={comment}  /> : 
+              <LikeButton comment={comment} />}
+
+            <CommentButton comment={comment} />
+            <MoreMenu comment={comment} />
+          </div> */}
 
         </div>
 

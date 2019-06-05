@@ -2,6 +2,7 @@
 .header-space{
   height:60px;
   width: 100%;
+  transform: scale(0.5);
 }
 
 .header{
@@ -12,7 +13,12 @@
   height: 50px;
   background: #fff;
   z-index: 99;
-  border-bottom: 1px solid #eceef0;
+  border-bottom: 1px solid #eff0f2;
+
+  // -webkit-backdrop-filter: saturate(180%) blur(20px);
+  // backdrop-filter: saturate(180%) blur(20px);
+  // background-color: rgba(255,255,255,0.7);
+  // box-shadow: 0 1px 0px rgba(236, 238, 240, .7);
 
   > div > div{
     height: 50px;

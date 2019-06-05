@@ -22,9 +22,9 @@
     .avatar{
       img{
         position: absolute;
-        margin-left:-62px;
-        width: 48px;
-        height: 48px;
+        margin-left:-56px;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
         background-color: #efefef;
         // margin-top:-5px;
@@ -115,7 +115,7 @@
 
       > span, > a, > div{
         margin-right:20px;
-        font-size:13px;
+        font-size:12px;
       }
       > span:last-child, > a:last-child, > div:last-child{
         margin-right:0;
@@ -123,7 +123,7 @@
       
       > span{
         // color:#999;
-        font-size: 13px;
+        font-size: 12px;
       }
 
       // > a, > div a {

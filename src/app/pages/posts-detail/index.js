@@ -20,7 +20,8 @@ import Loading from '@components/ui/full-loading';
 import AdsByGoogle from '@modules/adsbygoogle';
 
 // layout
-import SingleColumns from '../../layout/single-columns';
+// import SingleColumns from '../../layout/single-columns';
+import TwoColumns from '../../layout/two-columns';
 
 // styles
 import './index.scss';
@@ -79,7 +80,9 @@ export default class PostsDetailPage extends React.Component {
 
     if (loading || !posts) return (<Loading />);
 
-    return(<SingleColumns>
+    return(<TwoColumns>
+
+      <>
 
       <Meta title={posts.title}>
         <meta name="description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
@@ -95,10 +98,6 @@ export default class PostsDetailPage extends React.Component {
       </Meta>
       
       <PostsDetail posts={posts} />
-
-      {googleAdSense && googleAdSense.postsDetail ?
-        <div style={{marginBottom:'10px'}}><AdsByGoogle {...googleAdSense.postsDetail} /></div>
-        : null}
       
       {posts.comment_count > 0 ?
         <div className="card">
@@ -126,7 +125,40 @@ export default class PostsDetailPage extends React.Component {
         <div styleName="editor-comment"><EditorComment posts_id={posts._id} forward={true} /></div>
         : null}
 
-    </SingleColumns>)
+      {/* {googleAdSense && googleAdSense.postsDetail ?
+        <div style={{marginBottom:'10px'}}><AdsByGoogle {...googleAdSense.postsDetail} /></div>
+        : null} */}
+
+      </>
+      <>
+        <div className="card">
+          <div className="card-header">作者信息</div>
+          <div className="card-body">
+            <div styleName="author-info">
+              <img styleName="avatar" src={posts.user_id.avatar_url} /><br />
+              {posts.user_id.nickname}
+            </div>
+          </div>
+        </div>
+
+        {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
+      </>
+
+      <>
+        <div className="card">
+          <div className="card-header">作者信息</div>
+          <div className="card-body">
+            <div styleName="author-info">
+              <img styleName="avatar" src={posts.user_id.avatar_url} /><br />
+              {posts.user_id.nickname}
+            </div>
+          </div>
+        </div>
+
+        {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
+      </>
+
+    </TwoColumns>)
   }
 
 }
