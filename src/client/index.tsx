@@ -7,7 +7,7 @@ import ReactGA from 'react-ga';
 
 import configureStore from '../app/store';
 import createRouter from '../app/router';
-import * as socket from '../app/socket';
+import * as socket from './socket';
 
 import { debug, GA, analysisScript } from '@config';
 
@@ -21,7 +21,7 @@ import { getProfile } from '@reducers/user';
 import { initUnlockToken } from '@actions/unlock-token';
 import { requestNotificationPermission } from '@actions/website';
 import { initHasRead } from '@actions/has-read-posts';
-import { loadTab } from '@actions/tab';
+// import { loadTab } from '@actions/tab';
 
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 if (process.env.NODE_ENV != 'development') {
@@ -38,16 +38,18 @@ if (process.env.NODE_ENV != 'development') {
   // 从cookie中获取unlock token，并添加到redux
   initUnlockToken()(store.dispatch, store.getState);
   requestNotificationPermission()(store.dispatch, store.getState);
-  await loadTab()(store.dispatch, store.getState);
+  // await loadTab()(store.dispatch, store.getState);
 
-  let logPageView = ()=>{
-  };
+  let logPageView = (userinfo: any): void => {};
 
   if (GA) {
     ReactGA.initialize(GA, { debug });
     logPageView = (userinfo) => {
-      let option = { page: window.location.pathname }
-      if (userinfo && userinfo._id) option.userId = userinfo._id;
+      let option = {
+        page: window.location.pathname,
+        userId: userinfo && userinfo._id ? userinfo._id: null
+      }
+      // if (userinfo && userinfo._id) option.userId = userinfo._id;
       ReactGA.set(option);
       ReactGA.pageview(window.location.pathname);
     }
@@ -58,9 +60,9 @@ if (process.env.NODE_ENV != 'development') {
 
   socket.connect(store);
 
-  let _route = null;
+  let _route: any = null;
 
-  router.list.some(route => {
+  router.list.some((route: any) => {
     let match = matchPath(window.location.pathname, route);
     if (match && match.path) {
       _route = route;
@@ -95,7 +97,5 @@ if (process.env.NODE_ENV != 'development') {
   });
 
   initHasRead()(store.dispatch, store.getState);
-
-
 
 }());

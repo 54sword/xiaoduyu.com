@@ -109,7 +109,7 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
   }
 }
 
-export function loadCommentList({ name, filters = {}, restart = true }) {
+export function loadCommentList({ id, filters = {}, restart = true }) {
 
   return (dispatch, getState) => {
 
@@ -184,7 +184,7 @@ export function loadCommentList({ name, filters = {}, restart = true }) {
       dispatch,
       getState,
 
-      name,
+      name: id,
       restart,
       filters,
 

@@ -104,16 +104,14 @@ export default class PostsDetailPage extends React.Component {
           <div className="card-header">{posts.comment_count} 条评论</div>
           <div styleName="comment-list" className="card-body">
             <CommentList
-              name={posts._id}
-              filters={{
-                variables: {
-                  deleted: false,
-                  weaken: false,
-                  posts_id: posts._id,
-                  parent_id: 'not-exists',
-                  page_size:100,
-                  page_number: Math.ceil(posts.comment_count/100),
-                }
+              id={posts._id}
+              query={{
+                deleted: false,
+                weaken: false,
+                posts_id: posts._id,
+                parent_id: 'not-exists',
+                page_size:100,
+                page_number: Math.ceil(posts.comment_count/100)
               }}
               showPagination={true}
               />

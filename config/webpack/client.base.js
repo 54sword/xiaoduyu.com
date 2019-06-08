@@ -47,7 +47,7 @@ module.exports = {
       './src/app/vendors/arrive-footer.js',
       
       // 折叠按钮
-      './src/app/vendors/expand-button.js',
+      // './src/app/vendors/expand-button.js',
 
       /**
        * 懒加载图片、Dom
@@ -60,7 +60,7 @@ module.exports = {
 
       // 'highlight.js/styles/default.css',
 
-      './src/client/index.js'
+      './src/client/index'
     ]
   },
 

@@ -17,7 +17,7 @@ export class Pagination extends Component {
 
   render () {
 
-    const { location, count, pageSize, pageNumber, onChoose } = this.props
+    const { location, count, pageSize, pageNumber, onChoose = ()=>{} } = this.props
 
     if (!count) return ''
 

@@ -5,31 +5,31 @@ import { socketUrl } from '../../../config';
 
 // redux actions
 // import { loadUnreadCount, cancelNotiaction } from '../store/actions/notification';
-import { setOnlineUserCount } from '../store/actions/website';
-import { getAccessToken } from '../store/reducers/user';
+import { setOnlineUserCount } from '@actions/website';
+import { getAccessToken } from '@reducers/user';
 
-import { loadTips } from '../store/actions/tips';
-import { updateSession } from '../store/actions/session';
-import { addMessagesToList } from '../store/actions/message';
+import { loadTips } from '@actions/tips';
+import { updateSession } from '@actions/session';
+import { addMessagesToList } from '@actions/message';
 
-let socket;
+let socket: any;
 
-export const connect = function ({ dispatch, getState }) {
+export const connect = function ({ dispatch, getState }: any) {
 
   // 用于判断是否登录
   const me = getState().user.profile;
   const accessToken = getAccessToken(getState());
 
-  const handleActions = function(action, params = null) {
+  const handleActions = function(action: any, params: any = null) {
     action(params)(dispatch, getState);
   }
   
-  const handleNotification = (notification) => {
+  const handleNotification = (notification: any) => {
 
     try {
       notification = JSON.parse(notification);
     } catch (err) {
-      notification = null;
+      notification = '';
       console.log(err);
     }
   
@@ -80,14 +80,14 @@ export const connect = function ({ dispatch, getState }) {
     console.log('socket connect success.');
     
     // 更新在线用户
-    this.on("online-user", function(res) {
+    socket.on("online-user", function(res: any) {
       handleActions(setOnlineUserCount, res);
     });
     
     // 与用户自己相关的消息
-    if (me) this.on(me._id, handleNotification);
+    if (me) socket.on(me._id, handleNotification);
     // 会员消息
-    if (me) this.on('member', handleNotification);    
+    if (me) socket.on('member', handleNotification);    
 
   });
 

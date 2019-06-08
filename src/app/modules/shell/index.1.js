@@ -9,6 +9,8 @@ import { saveScrollPosition, setScrollPosition } from '../../store/actions/scrol
 // tools
 import parseUrl from '../../common/parse-url';
 
+import { History } from '@context';
+
 // 壳组件，用于给页面组件，套一个外壳
 // 这样可以通过壳组件，给每个页面，传递参数
 export default (Component) => {
@@ -36,6 +38,7 @@ export default (Component) => {
       const { pathname, search } = this.props.location;
       this.props.location.params = search ? parseUrl(search) : {};
 
+
       /*
       if (this.props.staticContext) {
         const { code, text } = this.props.staticContext;
@@ -50,7 +53,7 @@ export default (Component) => {
     // 组件加载完成
     componentDidMount() {
       const { pathname, search } = this.props.location || {};
-      // console.log(pathname);
+      // console.log(this.props.history.push);
       this.props.setScrollPosition(pathname + search);
       // this.props.addVisitHistory(pathname + search);
     }
@@ -91,12 +94,16 @@ export default (Component) => {
           <div>{hasError}</div>
         </div>)
       } else {
-        return (<Component
-          {...this.props}
-          notFoundPgae={content=>{
-            this.setState({ notFoundPgae: content || '404 NOT FOUND' });
-          }}
-        />);
+        return (
+          <History.Provider value={this.props.history}>
+            <Component
+              {...this.props}
+              notFoundPgae={content=>{
+                this.setState({ notFoundPgae: content || '404 NOT FOUND' });
+              }}
+            />
+          </History.Provider>
+        );
       }
 
     }
