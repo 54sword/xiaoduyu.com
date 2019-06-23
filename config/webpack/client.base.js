@@ -4,6 +4,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const OfflinePlugin = require('offline-plugin');
 
+// import config from '../index';
 const config = require('../index');
 const aliasConfig = require('../alias.config');
 const devMode = process.env.NODE_ENV == 'development' ? true : false;
@@ -28,6 +29,9 @@ module.exports = {
     app: [
       '@babel/polyfill',
 
+      // "core-js/modules/es6.promise",
+      // "core-js/modules/es6.array.iterator",
+
       // bootstrap
       'bootstrap/dist/css/bootstrap.min.css',
       'jquery',
@@ -45,9 +49,13 @@ module.exports = {
 
       // ArriveFooter 监听抵达页尾的事件
       './src/app/vendors/arrive-footer.js',
+
+      
+      './src/app/vendors/float-fixed.js',
+
       
       // 折叠按钮
-      // './src/app/vendors/expand-button.js',
+      // './src/app/vendors/escapeCharacter.js',
 
       /**
        * 懒加载图片、Dom
@@ -56,7 +64,7 @@ module.exports = {
        **/
       './src/app/vendors/load-demand',
       
-      // 'github-markdown-css/github-markdown.css',
+      'github-markdown-css/github-markdown.css',
 
       // 'highlight.js/styles/default.css',
 
@@ -101,10 +109,11 @@ module.exports = {
 
       // js 文件解析
       {
-        test: /\.(js|ts|tsx)x?$/,
+        test: /\.(js|ts|tsx)?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
+      
       {
         test: /\.scss$/,
         use: [

@@ -6,7 +6,10 @@ export default ({ store }) => {
 
     await loadTopicList({
       id: 'recommend-topics',
-      filters: { variables: { type: "parent", recommend: true, sort_by: 'sort:-1' } }
+      args: {
+        type: "parent", recommend: true, sort_by: 'sort:-1'
+      }
+      // filters: { variables: { type: "parent", recommend: true, sort_by: 'sort:-1' } }
     })(store.dispatch, store.getState);
     
     resolve();

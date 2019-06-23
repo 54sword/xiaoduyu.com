@@ -1,7 +1,9 @@
 import React from 'react';
 
 // config
-import { name } from '@config';
+// import { name } from '@config';
+import _config from '@config/index';
+const { name } = _config;
 
 // components
 import Shell from '@modules/shell';

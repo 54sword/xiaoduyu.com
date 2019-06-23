@@ -10,7 +10,7 @@ import { getPeopleListById } from '@reducers/people'
 // components
 import PeopleItem from '@modules/people-list/components/list-item';
 // import ListLoading from '@components/list-loading';
-import Loading from '@components/ui/full-loading';
+import Loading from '@components/ui/loading';
 // import Pagination from '../../pagination'
 
 

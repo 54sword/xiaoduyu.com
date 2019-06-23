@@ -181,6 +181,17 @@
       <p>© <%- new Date().getFullYear() %> <%- website_name %></p>
     </div>
     <!-- footer end -->
+    
+    <% if (googleAdSense.postsDetail && googleAdSense.postsDetail.client) { %>
+      <amp-ad width="100vw" height=320
+      type="adsense"
+      data-ad-client="<%- googleAdSense.postsDetail.client %>"
+      data-ad-slot="<%- googleAdSense.postsDetail.slot %>"
+      data-auto-format="rspv"
+      data-full-width>
+        <div overflow></div>
+      </amp-ad>
+    <% } %>
 
   </body>
 </html>

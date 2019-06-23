@@ -8,13 +8,10 @@ import Pagination from '@components/pagination';
 interface Load {
   // 列表id
   id: string,
-  // 筛选条件
-  filters: {
-    // graphql 查询条件
-    variables: object,
-    // graphql 选择返回的字段
-    select: string
-  },
+  // graphql 查询条件
+  args: object,
+  // graphql 选择返回的字段
+  fields: string,
   // 是否让列表重新开始，清空之前的数据重新开始
   restart: boolean
 }
@@ -28,7 +25,7 @@ interface Props {
     page_number?: number
   },
   // graphql 选择返回的字段
-  select: string,
+  fields: string,
   // 加载数据的方法
   load: (load: Load) => void,
   // 列表的数据
@@ -44,12 +41,14 @@ interface Props {
   // 是否支持跳动加载数据
   scrollLoad: boolean,
   // 数据结果为空时候的提醒文案
-  nothingTips: string,
+  nothing: string,
   // 查询条件
   filters: {
     page_size: number,
     page_number: number
   },
+  renderHead?: (args: object) => object,
+  renderFooter?: (args: object) => object,
   // 渲染列表的小项
   renderItem: (data: Array<any>)=>{}
 }
@@ -57,7 +56,7 @@ interface Props {
 export default function List({
     id,
     query,
-    select =  '',
+    fields =  '',
     load,
     data = [],
     loading = true,
@@ -65,13 +64,16 @@ export default function List({
     more = true,
     showPagination = false,
     scrollLoad = false,
-    nothingTips = '没有更多数据',
+    nothing = '--- 无数据 ---',
     filters,
-    renderItem
+    renderItem,
+    renderHead,
+    renderFooter
 }: Props): object {
 
   const loadData = (restart = false) => {
-    load({ id, filters: { variables: query, select }, restart });
+    load({ id, args: query, fields, restart });
+    // load({ id, filters: { variables: query, select: fields }, restart });
   }
 
   useEffect(() => {
@@ -80,18 +82,20 @@ export default function List({
     return () => {
       if (scrollLoad) ArriveFooter.remove(id);
     };
-  });
+  }, [id]);
 
   // 没有数据
-  if (!loading && data && data.length == 0 && !more) {
+  if (!loading && data && data.length == 0 && !more && nothing) {
     return (<div className="card">
       <div className="card-body text-center text-secondary">
-        {nothingTips}
+        {nothing}
       </div>
     </div>)
   }
 
   return (<>
+
+    {renderHead ? renderHead({ loadData }) : null}
 
     {data.map(item=>renderItem(item))}
 
@@ -110,6 +114,8 @@ export default function List({
         }}
       />
       : null}
+
+    {renderFooter ? renderFooter({ loadData }) : null}
 
   </>)
 

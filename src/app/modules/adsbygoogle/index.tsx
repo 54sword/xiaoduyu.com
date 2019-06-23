@@ -8,20 +8,18 @@ interface Props {
 }
 
 export default function({ style, client, slot }: Props) {
-
-  useEffect(async ()=>{
+  
+  useEffect(()=>{
     if(!window.adsbygoogle) {
-      await dynamicFile([
+      dynamicFile([
         '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
-      ]);
+      ]).then(()=>{
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      });
+    } else {
+      (adsbygoogle = window.adsbygoogle || []).push({});
     }
-    (window.adsbygoogle || []).push({});
-  });
+  },[]);
 
-  return (<ins
-    className="adsbygoogle"
-    style={style}
-    data-ad-client={client}
-    data-ad-slot={slot}>
-    </ins>)
+  return (<ins className="adsbygoogle" style={style} data-ad-client={client} data-ad-slot={slot}></ins>)
 }

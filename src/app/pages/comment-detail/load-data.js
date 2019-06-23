@@ -1,4 +1,4 @@
-import { loadCommentList } from '../../store/actions/comment';
+import { loadCommentList } from '../../redux/actions/comment';
 
 export default ({ store, match, user }) => {
   return new Promise(async (resolve, reject) => {

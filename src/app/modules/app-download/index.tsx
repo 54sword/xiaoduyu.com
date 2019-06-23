@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 
-import { clientDownloadUrl } from '@config';
-
-import './index.scss';
+import config from '@config';
 
 export default function() {
 
@@ -13,15 +11,15 @@ export default function() {
     setAppsUrl(window.location.origin+'/apps')
   });
   
-  if (!clientDownloadUrl || !appsUrl) return null; 
+  if (!config.clientDownloadUrl || !appsUrl) return null; 
 
   return (
     <div className="card">
-    <div className="card-body" styleName="box">
-      <div styleName="QRCode">{appsUrl ? <QRCode size={60} value={appsUrl} />: null}</div>
+    <div className="card-body d-flex flex-row align-items-center">
+      <div className="mr-3">{appsUrl ? <QRCode size={60} value={appsUrl} />: null}</div>
       <div>
         <b>下载小度鱼APP</b>
-        <div>扫码直接下载</div>
+        <div className="mt-1">扫码直接下载</div>
       </div>
     </div>
     </div>

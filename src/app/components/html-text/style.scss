@@ -1,16 +1,30 @@
 .content{
-
-  box-sizing: border-box;
+  width: 100%;
+  // box-sizing: border-box;
   font-size: 14px;
-  word-break: break-all;
-  word-wrap: break-word;
-  line-height: 160%;
+  // word-wrap: break-word;
+  // word-break: normal;
+
+  // word-break: break-all;
+  // word-wrap: break-word;
+  
+  // line-height: 7px;
   // color:#14171a;
 
-  @media (max-width: 767px) {
-    font-size: 15px;
+  // @media (max-width: 767px) {
+  //   font-size: 15px;
+  // }
+
+  p{
+    // line-height: 100%;
+    margin:0px;
+    padding:0px;
+    min-height: 15px;
+    word-wrap: break-word;
+    word-break: normal;
   }
 
+  /*
   a{
     color:#0073ff !important;
   }
@@ -19,21 +33,19 @@
     margin:0px;
     padding:0px;
     min-height: 15px;
+    word-wrap: break-word;
+    word-break: normal;
   }
 
-  h2{
-    font-size:18px;
-    margin:30px 0 15px 0;
-    padding-bottom:15px;
-    border-bottom: 1px solid #eaecef;
-  }
 
   ul{
     margin-left:20px;
   }
 
   pre{
-    margin-top:15px;
+    width: 100%;
+    overflow-x: auto;
+    margin:10px 0 10px 0;
   }
 
   img{
@@ -46,17 +58,18 @@
     color: #6a737d;
     border-left: 4px solid #dfe2e5;
   }
-
+  */
   embed, iframe{
     width:100%;
     min-height: 420px;
     border: none;
-    margin:15px 0 15px 0;
+    // margin:15px 0 15px 0;
     
     @media (min-width: 0px) and (max-width: 767px) {
       min-height: 220px;
     }
   }
+  
 
   iframe[src^="//music.163.com"] {
     min-height: auto;
@@ -71,28 +84,17 @@
 }
 
 .expand-button{
-  // position: relative;
-  // display: block;
   padding:10px 0 5px 0;
-  // margin-top:-20px;
-  // background-color: #333;
-  // background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 20%);
 }
 
 
+/*
 .more-tips{
-  // position: relative;
   width: 100%;
   text-align: center;
-  // background-color: #333;
   height: 100px;
-  // line-height: 30px;
-  // line-height: 80px;
   padding-top:20px;
-  // top:-60px;
   color:#007bff;
-  // margin-bottom: 30px;
-  // background: linear-gradient(rgba(255,255,255,0) 0%,rgba(255,255,255,1) 60%);  /** IE9 IE10 **/
 
   .lock{
     background-image: url(./images/lock.png);
@@ -110,7 +112,8 @@
   }
 
 }
-
+*/
+/*
 :global(#dark-theme){
   .content{
     h2{
@@ -123,3 +126,4 @@
     }
   }
 }
+*/

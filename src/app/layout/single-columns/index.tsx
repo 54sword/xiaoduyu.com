@@ -2,7 +2,7 @@ import React from 'react';
 import './index.scss';
 
 interface Props {
-  children?: object
+  children?: Array<object> 
 }
 
 export default function({ children }: Props) {
@@ -10,13 +10,3 @@ export default function({ children }: Props) {
     {children}
   </div>)
 }
-
-/*
-export default class Box extends React.PureComponent {
-  render() {
-    return (<div styleName="box">
-        {this.props.children}
-      </div>)
-  }
-}
-*/

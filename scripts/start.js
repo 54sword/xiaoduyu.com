@@ -8,10 +8,12 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const clientConfig = require('../config/webpack/client.dev');
 const serverConfig = require('../config/webpack/server.dev');
 
+// import config from '../config';
 const config = require('../config');
 
 const compilerPromise = (compiler) => {
   return new Promise((resolve, reject) => {
+    // console.log(compiler)
     compiler.plugin('done', (stats) => {
       if (!stats.hasErrors()) {
         return resolve();
@@ -80,7 +82,7 @@ const start = async () => {
 
   await serverPromise;
   await clientPromise;
-
+  
   const script = nodemon({
     script: `./dist/server/server.js`,
     ignore: ['src', 'scripts', 'config', './*.*', 'build/client'],

@@ -67,6 +67,14 @@ let config = {
   analysisScript: `
   `,
 
+  qiniu: {
+    // 七牛上传地址
+    uploadUrl: {
+      http: 'http://upload.qiniu.com',
+      https: 'https://up.qbox.me/'
+    }
+  },
+
   // [选填] google 分析
   GA: '',
 

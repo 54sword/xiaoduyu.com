@@ -176,7 +176,7 @@ export default class NotificationListItem extends Component {
 
     }
 
-    return content
+    return <div styleName="item">{content}</div>
 
   }
 }

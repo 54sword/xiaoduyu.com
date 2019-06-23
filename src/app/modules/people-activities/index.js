@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 // components
 import CommentList from '@modules/comment-list';
 import FollowList from '@modules/follow-list';
-import PostsList from '@modules/posts-list';
+import NewPostsList from '@modules/posts-list';
 import FeedList from '@modules/feed-list';
 
 // styles
@@ -37,35 +37,31 @@ export default class PeopleActivites extends React.Component {
 
         '/': (<FeedList
           id={id}
-          filters={{
-            variables: {
+          query={{
               user_id: id,
               // method: 'user_follow',
               sort_by: "create_at:-1"
               // deleted: false,
               // weaken: false
-            }
           }}
           scrollLoad={true}
         />),
 
-        '/comments': (<div className="card"><CommentList
-          name={id}
-          filters={{
-            variables: {
-              user_id: id,
-              sort_by: "create_at",
-              parent_id: 'not-exists',
-              deleted: false,
-              weaken: false
-            }
-          }}
-          scrollLoad={true}
-          showPagination={true}
-        /></div>),
+        // '/comments': (<div className="card"><CommentList
+        //   name={id}
+        //   query={{
+        //       user_id: id,
+        //       sort_by: "create_at",
+        //       parent_id: 'not-exists',
+        //       deleted: false,
+        //       weaken: false
+        //   }}
+        //   scrollLoad={true}
+        //   showPagination={true}
+        // /></div>),
         '/fans': (<FollowList
           id={'fans-'+id}
-          args={{
+          query={{
             people_id: id,
             sort_by: 'create_at',
             deleted: false
@@ -86,7 +82,7 @@ export default class PeopleActivites extends React.Component {
         />),
         "/follow-peoples": (<FollowList
           id={'people-'+id}
-          args={{
+          query={{
             user_id: id,
             people_id: 'exists',
             sort_by: 'create_at',
@@ -108,7 +104,7 @@ export default class PeopleActivites extends React.Component {
         />),
         "/follow-topics": (<FollowList
           id={'topic-'+id}
-          args={{
+          query={{
             user_id: id,
             topic_id: 'exists',
             sort_by: 'create_at',
@@ -125,7 +121,7 @@ export default class PeopleActivites extends React.Component {
         />),
         "/follow-posts": (<FollowList
           id={'posts-'+id}
-          args={{
+          query={{
             user_id: id,
             posts_id: 'exists',
             sort_by: 'create_at',
@@ -139,14 +135,12 @@ export default class PeopleActivites extends React.Component {
             }
           `}
         />),
-        "/posts": (<PostsList
+        "/posts": (<NewPostsList
           id={id}
-          filters={{
-            variables: {
-              user_id: id,
-              sort_by: "create_at",
-              deleted: false
-            }
+          query={{
+            user_id: id,
+            sort_by: "create_at",
+            deleted: false
           }}
           scrollLoad={true}
         />)
@@ -182,9 +176,9 @@ export default class PeopleActivites extends React.Component {
           帖子 {people.posts_count || ''}
         </NavLink>
 
-        <NavLink className="nav-link" exact to={`/people/${people._id}/comments`}>
+        {/* <NavLink className="nav-link" exact to={`/people/${people._id}/comments`}>
           评论 {people.comment_count || ''}
-        </NavLink>
+        </NavLink> */}
 
         <NavLink className="nav-link" exact to={`/people/${people._id}/fans`}>
           粉丝 {people.fans_count || ''}

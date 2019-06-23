@@ -1,14 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { withRouter } from 'react-router';
 import useReactRouter from 'use-react-router';
 
 // config
-import { name, description } from '@config';
+import config from '@config';
 
 // redux
-import { bindActionCreators } from 'redux';
-import { connect, useStore, useSelector } from 'react-redux';
+import { useStore, useSelector } from 'react-redux';
 import { signOut } from '@actions/sign';
 import { getProfile } from '@reducers/user';
 import { getUnreadNotice } from '@reducers/website';
@@ -18,27 +16,25 @@ import { getTipsById } from '@reducers/tips';
 import './style.scss';
 
 export default function() {
-
+  
   const store = useStore();
 
   const me = useSelector((state: any) => getProfile(state));
   const unreadNotice = useSelector((state: any) => getUnreadNotice(state));
   const unreadMessage = useSelector((state: any) => getTipsById(state, 'unread-message') || 0);
   const followTip = useSelector((state: any) => getTipsById(state, 'feed'));
-  const favoriteTip = useSelector((state: any) => getTipsById(state, 'subscribe'));
+  const favoriteTip = useSelector((state: any) => getTipsById(state, 'favorite'));
   const interflowTip = useSelector((state: any) => getTipsById(state, 'home'));
 
   const _signOut = ()=>signOut()(store.dispatch, store.getState);
 
-  const searchRef = React.createRef();
+  const searchRef = useRef();
 
-  const { history, location, match } = useReactRouter();
+  const { history } = useReactRouter();
 
   const search = function(event: any) {
     event.preventDefault();
-
     let $search = searchRef.current;
-
     if (!$search.value) return $search.focus();
     history.push(`/search?q=${$search.value}`);
   }
@@ -53,9 +49,7 @@ export default function() {
       <div className="container d-flex bd-highlight">
       
         <div className={`bd-highlight ${me ? 'd-none d-md-block d-lg-block d-xl-block' : ''}`}>
-          <Link to="/" styleName="logo">
-            <img src="/logo.png" width="90" height="30" alt={name} />
-          </Link>
+          <Link to="/" styleName="logo"></Link>
         </div>
 
         <div className="bd-highlight flex-grow-1">
@@ -88,7 +82,7 @@ export default function() {
             </form>
             </>
             :
-            <a styleName="slogan" href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">{description}</a>}
+            <a styleName="slogan" href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">{config.description}</a>}
           </div>
 
         </div>

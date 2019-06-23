@@ -17,12 +17,10 @@ export default ({ store, match, res, req, user }) => {
 
         await loadPostsList({
           id:'home',
-          filters: {
-            variables: {
-              sort_by: "sort_by_date",
-              deleted: false,
-              weaken: false
-            }
+          args: {
+            sort_by: "sort_by_date",
+            deleted: false,
+            weaken: false
           }
         })(store.dispatch, store.getState);
 

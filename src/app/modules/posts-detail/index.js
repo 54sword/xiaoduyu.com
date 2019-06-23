@@ -15,7 +15,7 @@ import HTMLText from '@components/html-text';
 import Like from '@components/like';
 import MoreMenu from '@components/more-menu';
 import Follow from '@components/follow';
-// import Share from '@components/share';
+import Share from '@components/share';
 
 @connect(
   (state, props) => ({
@@ -56,7 +56,7 @@ export default class PostsDetail extends React.Component {
           <h1 styleName="h1">{posts.title}</h1>
           <div className="d-flex justify-content-between">
             <div styleName="actions">
-              <span><a href="#" className="text-dark">{posts.topic_id.name}</a></span>
+              <span><Link to={`/topic/${posts.topic_id._id}`} className="text-dark">{posts.topic_id.name}</Link></span>
               <span className="text-secondary">{posts._create_at}</span>
               {posts.view_count ? <span className="text-secondary">{posts.view_count}次阅读</span> : null}
               {/* {posts.like_count ? <span className="text-secondary">{posts.like_count}人赞</span> : null} */}
@@ -101,6 +101,7 @@ export default class PostsDetail extends React.Component {
           <div styleName="action-bar">
             <Like posts={posts} displayNumber={false} />
             <Follow posts={posts} />
+            <Share posts={posts} />
             <MoreMenu posts={posts} />
           </div>
         </div>
@@ -114,7 +115,7 @@ export default class PostsDetail extends React.Component {
           </div>
           :null}
         
-        {/* <Share posts={posts} styleType="icons" /> */}
+        
 
         {/* 
         <div className="d-flex justify-content-between">

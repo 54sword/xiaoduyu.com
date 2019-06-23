@@ -14,7 +14,7 @@ const config = {
       ServiceWorker: {
         publicPath: '/sw.js'
       }
-    }),
+    })
   ],
   mode: 'production'
 }

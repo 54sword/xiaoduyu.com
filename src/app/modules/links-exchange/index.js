@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { links } from '@config';
+import _config from '@config';
+const { links } = _config;
 import './index.scss';
 
 export default class LinksExchange extends React.Component {

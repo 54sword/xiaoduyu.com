@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { matchPath } from 'react-router';
 import ReactGA from 'react-ga';
 
-import configureStore from '../app/store';
+import configureStore from '../app/redux';
 import createRouter from '../app/router';
 import * as socket from './socket';
 
@@ -14,14 +14,11 @@ import { debug, GA, analysisScript } from '@config';
 import '../app/theme/global.scss';
 import '../app/theme/light.scss';
 import '../app/theme/dark.scss';
-import 'highlight.js/styles/default.css';
-import 'highlight.js/styles/github.css';
 
 import { getProfile } from '@reducers/user';
 import { initUnlockToken } from '@actions/unlock-token';
 import { requestNotificationPermission } from '@actions/website';
 import { initHasRead } from '@actions/has-read-posts';
-// import { loadTab } from '@actions/tab';
 
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 if (process.env.NODE_ENV != 'development') {
@@ -38,25 +35,23 @@ if (process.env.NODE_ENV != 'development') {
   // 从cookie中获取unlock token，并添加到redux
   initUnlockToken()(store.dispatch, store.getState);
   requestNotificationPermission()(store.dispatch, store.getState);
-  // await loadTab()(store.dispatch, store.getState);
 
-  let logPageView = (userinfo: any): void => {};
+  let enterEvent = (userinfo?: any): void => {};
 
   if (GA) {
     ReactGA.initialize(GA, { debug });
-    logPageView = (userinfo) => {
+    enterEvent = (userinfo) => {
       let option = {
         page: window.location.pathname,
         userId: userinfo && userinfo._id ? userinfo._id: null
       }
-      // if (userinfo && userinfo._id) option.userId = userinfo._id;
       ReactGA.set(option);
       ReactGA.pageview(window.location.pathname);
     }
   }
 
-  const router = createRouter(userinfo, logPageView);
-  const RouterDom = router.dom;
+  const router = createRouter({ user: userinfo, enterEvent });
+  const Page: any = router.dom;
 
   socket.connect(store);
 
@@ -71,12 +66,12 @@ if (process.env.NODE_ENV != 'development') {
   });
 
   // 预先加载首屏的js（否则会出现，loading 一闪的情况）
-  await _route.component.preload();
+  await _route.body.preload();
 
   ReactDOM.hydrate(
     <Provider store={store}>
       <BrowserRouter>
-        {RouterDom()}
+        <Page />
       </BrowserRouter>
     </Provider>,
     document.getElementById('app')

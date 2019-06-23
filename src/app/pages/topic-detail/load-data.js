@@ -51,7 +51,10 @@ export default ({ store, match, user }) => {
     
     [ err, topic ] = await loadTopicList({
       id,
-      filters: { variables: { _id: id } }
+      args: {
+        _id: id
+      }
+      // filters: { variables: { _id: id } }
     })(store.dispatch, store.getState);
 
     if (!err && topic && topic.data && topic.data[0]) {
@@ -62,15 +65,13 @@ export default ({ store, match, user }) => {
 
       await loadPostsList({
         id: topic._id,
-        filters: {
-          query: {
-            sort_by: "sort_by_date:-1",
-            deleted: false,
-            weaken: false,
-            page_size: 30,
-            topic_id: topic._id,
-            ...searchParams
-          }
+        args: {
+          sort_by: "sort_by_date:-1",
+          deleted: false,
+          weaken: false,
+          page_size: 30,
+          topic_id: topic._id,
+          ...searchParams
         }
       })(store.dispatch, store.getState);
 

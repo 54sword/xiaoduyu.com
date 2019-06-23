@@ -39,8 +39,34 @@ export default function(props: Props) {
   const list = useSelector((state: any) => {
     return getBlockListById(state, id)
   });
-  
-  const remove = (params:any)=>removeBlock(params)(store.dispatch, store.getState)
+
+  const remove = function(item: any) {
+    return async () => {
+
+      let params: any = {}
+
+      if (item.people_id) params.people_id = item.people_id._id;
+      if (item.posts_id) params.posts_id = item.posts_id._id;
+      if (item.comment_id) params.comment_id = item.comment_id._id;
+
+      let [ err, res ] = await removeBlock({ args: params, id: item._id })(store.dispatch, store.getState);
+
+      if (res && res.success) {
+        Toastify({
+          text: '取消成功',
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
+        }).showToast();
+      } else if (err && err.message) {
+        Toastify({
+          text: err.message,
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+        }).showToast();
+      }
+
+    }
+  }
 
   return (<ListClass
     {...props}

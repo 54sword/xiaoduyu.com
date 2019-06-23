@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 // config
-import { socketUrl } from '../../../config';
+import config from '@config/index';
 
 // redux actions
 // import { loadUnreadCount, cancelNotiaction } from '../store/actions/notification';
@@ -54,6 +54,7 @@ export const connect = function ({ dispatch, getState }: any) {
         // handleActions(loadTips);
         break;
       case 'new-session':
+        console.log(data);
         handleActions(loadTips);
         handleActions(updateSession, data.sessionId);
         handleActions(addMessagesToList, data);
@@ -62,7 +63,7 @@ export const connect = function ({ dispatch, getState }: any) {
 
   }
 
-  socket = io(socketUrl, {
+  socket = io(config.socketUrl, {
     // 是否自动重新连接
     reconnection: true,
     // 自动重连10次后放弃

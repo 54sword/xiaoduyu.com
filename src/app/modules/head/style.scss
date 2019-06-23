@@ -27,10 +27,12 @@
 }
 
 .logo{
-  > img{
-    min-width: 30px;
-    margin-top:10px;
-  }
+  display: block;
+  width:90px;
+  height: 30px;
+  background-size: contain;
+  background-image: url(../../../../public/logo.png);
+  margin-top:10px;
 }
 
 .slogan{
@@ -56,7 +58,7 @@
     vertical-align: middle;
     height: 50px;
     padding:0 15px;
-    font-size: 15px;
+    font-size: 14px;
     // color:#484848;
   }
 

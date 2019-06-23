@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 // redux
-// import { bindActionCreators } from 'redux';
 import { useStore } from 'react-redux';
-import { saveScrollPosition, setScrollPosition } from '../../store/actions/scroll';
+import { saveScrollPosition, setScrollPosition } from '@actions/scroll';
 // import { addVisitHistory } from '../../store/actions/history';
 
 // tools
-import parseUrl from '../../common/parse-url';
-
+import parseUrl from '@utils/parse-url';
 
 type Props = {
   history: any,
@@ -29,9 +27,11 @@ type Props = {
   }
 }
 
-export default function(Component: object) {
+export default function(Component: any) {
 
   return function ({ history, location, match, staticContext }: Props) {
+
+    const [ notFound, setNotFound ] = useState('');
 
     const store = useStore();
 
@@ -44,9 +44,13 @@ export default function(Component: object) {
       return () => {
         saveScrollPosition(pathname + search)(store.dispatch, store.getState);
       }
-    });
+    }, []);
+
+    if (notFound) {
+      return <div className="container text-center">{notFound}</div>
+    }
     
-    return (<Component match={match} />)
+    return (<Component match={match} setNotFound={setNotFound} />)
 
   }
 

@@ -12,8 +12,15 @@
   // margin-bottom: 0px !important;
   // border-radius: 0px;
   // border-bottom:1px solid #efefef !important;
+  // padding-left:65px;
+  // padding-top:15px;
+  // margin-bottom:0px;
+  // border-radius: 0px;
+
   &:hover{
     background-color: rgba(255,255,255,.7) !important;
+    cursor:pointer;
+    cursor:hand;
   }
 }
 
@@ -28,12 +35,38 @@
   // margin:10px 0 10px 0;
 }
 
+/*
+.info{
 
+  padding-left:15px;
+  font-size: 13px;
+
+  a{
+    color:#999;
+  }
+
+  .avatar{
+    position: absolute;
+    margin:0 0 0 -65px;
+    width: 50px;
+    height: 50px;
+    // background-color: #efefef;
+    // border-radius: 50%;
+    // overflow: hidden;
+    img{
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      background-color: #efefef;
+    }
+  }
+}
+*/
 
 .head{
 
   font-size: 12px;
-  z-index: 999;
+  // z-index: 999;
   padding:13px 15px 0 58px;
   height: 55px;
 
@@ -69,8 +102,9 @@
     // margin-top:3px;
 
     .nickname{
-      font-size: 14px;
-      font-weight: bold;
+      font-size: 13px;
+      color:#484848;
+      // font-weight: bold;
     }
 
     .menu{
@@ -135,20 +169,20 @@
 }
 
 .title{
-  font-size: 17px;
+  font-size: 16px;
 
   // font-weight: 400;
-  padding:0 15px 0 15px;
+  padding:0px 15px 0px 15px;
   a {
     word-break:break-all;
     word-wrap:break-word;
     font-weight: bold;
-    line-height: 1.375em;
+    // line-height: 1.375em;
     // font-weight: 800;
 
 
 
-    // color:#484848 !important;
+    // color:#000 !important;
   }
   
   // line-height: 130%;
@@ -175,15 +209,20 @@
   // word-break:break-all;
   // word-wrap:break-word;
 
-  word-wrap: break-word;
-  word-break: normal;
+  // word-wrap: break-word;
+  // word-break: normal;
 
-  line-height: 1.6em;
+  // line-height: 1.6em;
   // line-height: 160%;
   // color:#14171a;
   padding:3px 15px 0 15px;
   font-size: 14px;
   // color:#484848;
+
+  max-width: 550px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   img{
     max-width: 50%;
@@ -366,12 +405,13 @@
   */
   // margin: 0px 30px 20px 20px;
   max-width: 140px;
-  height: 80px;
+  // height: 80px;
   text-align: right;
-  margin:0 15px 0 15px;
+  margin:-10px 15px 0 15px;
+
   img{
     max-width: 140px;
-    max-height: 80px;
+    max-height: 60px;
     border-radius: 4px;
   }
 

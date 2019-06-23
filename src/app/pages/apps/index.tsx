@@ -3,7 +3,9 @@ import QRCode from 'qrcode.react';
 import { Link } from 'react-router-dom';
 
 // config
-import { clientDownloadUrl } from '@config';
+// import { clientDownloadUrl } from '@config';
+import _config from '@config/index';
+const { clientDownloadUrl } = _config;
 
 import weixin from '@utils/weixin'
 import Device from '@utils/device';

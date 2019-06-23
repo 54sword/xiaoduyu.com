@@ -139,10 +139,12 @@ export default class Notifications extends Component {
         })()}
         
         <UserNotificationList
-          name={pathname}
-          filters={{
-            variables: filters
-          }}
+          id={pathname}
+          query={filters}
+          scrollLoad={true}
+          // filters={{
+          //   variables: filters
+          // }}
         />
 
     </SingleColumns>)

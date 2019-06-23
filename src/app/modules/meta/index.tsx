@@ -7,17 +7,18 @@ import { connect, useSelector } from 'react-redux';
 import { getUnreadNotice } from '@reducers/website';
 import { getTipsById } from '@reducers/tips';
 
-import { name } from '@config';
+import _config from '@config/index';
+const { name } = _config;
 
 interface Props {
-  title: string,
+  title?: string,
   children?: object
 }
 
 export default function({ title, children }: Props){
 
   const unreadNotice = useSelector((state: object)=>getUnreadNotice(state));
-  const hasFeed = useSelector((state: object)=>getTipsById(state, 'home') || getTipsById(state, 'feed') || getTipsById(state, 'subscribe') || getTipsById(state, 'excellent'));
+  const hasFeed = useSelector((state: object)=>getTipsById(state, 'home') || getTipsById(state, 'feed') || getTipsById(state, 'favorite') || getTipsById(state, 'excellent'));
   const hasSessions = useSelector((state: object)=>getTipsById(state, 'unread-message') );
 
   let _title = '';

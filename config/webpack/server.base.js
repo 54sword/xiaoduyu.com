@@ -4,6 +4,7 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+// import config from '../index';
 const config = require('../index');
 const aliasConfig = require('../alias.config');
 
