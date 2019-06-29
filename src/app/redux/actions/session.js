@@ -1,7 +1,7 @@
 
 import graphql from '../../common/graphql';
 // import loadList from '../../common/graphql-load-list';
-import { DateDiff } from '../../common/date';
+import { dateDiff } from '../../common/date';
 import { loadTips } from './tips';
 import { getSessionListById } from '../reducers/session';
 
@@ -34,9 +34,9 @@ export const loadSessionList = loadList({
   processList: (list) => {
 
     list.map(item=>{
-      if (item.create_at) item._create_at = DateDiff(item.create_at);
+      if (item.create_at) item._create_at = dateDiff(item.create_at);
       if (item.last_message) {
-        item.last_message._create_at = DateDiff(item.last_message.create_at);
+        item.last_message._create_at = dateDiff(item.last_message.create_at);
 
         if (item.last_message.content_html) {
           let text = item.last_message.content_html.replace(/<[^>]+>/g,"");
@@ -93,9 +93,9 @@ export function loadSessionList({ id, filters = {}, restart = false }) {
       processList: (list) => {
 
         list.map(item=>{
-          if (item.create_at) item._create_at = DateDiff(item.create_at);
+          if (item.create_at) item._create_at = dateDiff(item.create_at);
           if (item.last_message) {
-            item.last_message._create_at = DateDiff(item.last_message.create_at);
+            item.last_message._create_at = dateDiff(item.last_message.create_at);
 
             if (item.last_message.content_html) {
               let text = item.last_message.content_html.replace(/<[^>]+>/g,"");

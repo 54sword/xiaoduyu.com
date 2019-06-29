@@ -238,6 +238,7 @@ export default function(props: Props) {
         placeholder={'请输入正文'}
         expandControl={true}
         getEditor={(editor: object)=>{ setEditorElement(editor) }}
+        showMarkdown={true}
       />
     </div>);
 

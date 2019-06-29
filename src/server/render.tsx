@@ -1,4 +1,3 @@
-// 服务端渲染依赖
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router';
@@ -68,7 +67,7 @@ export default (req: any, res: any) => {
     }
 
     // 创建路由
-    const router = createRouter({ user });
+    let router = createRouter({ user });
 
     let route: any = null,
         match = null;

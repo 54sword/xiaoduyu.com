@@ -14,7 +14,8 @@ let _initialState = {
   data: {
     users: 0,
     posts: 0,
-    comments: 0
+    comments: 0,
+    replys: 0
   },
   onlineUserCount: 0,
   unreadNotice: [],
@@ -63,6 +64,7 @@ export default function() {
           state.data.posts = action.data.countPosts.count;
           state.data.users = action.data.countUsers.count;
           state.data.comments = action.data.countComments.count;
+          state.data.replys = action.data.countReply.count;
           return state;
 
       // 清空

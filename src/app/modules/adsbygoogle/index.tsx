@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import dynamicFile from 'dynamic-file';
 
 interface Props {
-  style: object,
-  client: string,
-  slot: string
+  'data-ad-client': string,
+  'data-ad-slot': string,
+  'data-ad-format'?: string
+  'data-full-width-responsive'?: string,
 }
 
-export default function({ style, client, slot }: Props) {
+export default function(props: Props) {
   
   useEffect(()=>{
     if(!window.adsbygoogle) {
@@ -21,5 +22,5 @@ export default function({ style, client, slot }: Props) {
     }
   },[]);
 
-  return (<ins className="adsbygoogle" style={style} data-ad-client={client} data-ad-slot={slot}></ins>)
+  return (<ins className='adsbygoogle' {...props}></ins>)
 }

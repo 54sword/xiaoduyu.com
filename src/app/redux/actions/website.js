@@ -177,7 +177,8 @@ export function loadOperatingStatus() {
       apis: [
         { api: 'countPosts', args: {}, fields: `count` },
         { api: 'countUsers', args: {}, fields: `count` },
-        { api: 'countComments', args: {}, fields: `count` },
+        { api: 'countComments', args: { parent_id: 'not-exists' }, fields: `count` },
+        { api: 'countComments', args: { parent_id: 'exists' }, fields: `count`, aliases: 'countReply' }
       ]
     });
 

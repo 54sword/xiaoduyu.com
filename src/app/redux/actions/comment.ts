@@ -1,9 +1,28 @@
-import { DateDiff } from '../../common/date';
+import { dateDiff } from '../../common/date';
 // import loadList from '../../common/graphql-load-list';
 import graphql from '../../common/graphql';
 import loadList from '../../common/new-graphql-load-list';
 
 import Device from '../../common/device';
+
+const abstractImages = (str) => {
+
+  let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
+  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+
+  let result = [];
+  let img;
+  while (img = imgReg.exec(str)) {
+    let _img = img[0].match(srcReg)
+    if (_img && _img[1]) {
+      _img = _img[1] + '?imageView2/2/w/800/auto-orient/format/jpg'
+      result.push(_img)
+    }
+  }
+
+  return result
+
+}
 
 const processCommentList = (list: Array<object>) => {
   list.map((item: any)=>{
@@ -12,18 +31,28 @@ const processCommentList = (list: Array<object>) => {
       item._device = Device.getNameByDeviceId(item.device);
     }
 
-    if (item.create_at) item._create_at = DateDiff(item.create_at);
-    if (item.update_at) item._update_at = DateDiff(item.update_at);
+    if (item.create_at) item._create_at = dateDiff(item.create_at);
+    if (item.update_at) item._update_at = dateDiff(item.update_at);
+
+    item.images = abstractImages(item.content_html);
+
+    if (item.images && item.images.length > 0) {
+      item._coverImage = item.images[0].split('?')[0]+'?imageView2/2/w/300/auto-orient/format/jpg'
+    }
 
     if (item.content_html) {
 
-      // item.content_html = decodeURIComponent(item.content_html);
-
       let text = item.content_html.replace(/<[^>]+>/g,"");
-      if (text.length > 200) text = text.slice(0, 200)+'...';
+      if (text.length > 120) text = text.slice(0, 120)+'...';
       item.content_summary = text;
     } else {
       item.content_summary = '';
+    }
+
+    if (item.posts_id && item.posts_id.content_html) {
+      let text = item.posts_id.content_html.replace(/<[^>]+>/g,"");
+      if (text.length > 120) text = text.slice(0, 120)+'...';
+      item.posts_id.content_summary = text;
     }
 
     if (item.reply && item.reply.map) {

@@ -1,115 +1,11 @@
-import { DateDiff } from '../../common/date';
-// import loadList from '../../common/graphql-load-list';
+import { dateDiff } from '../../common/date';
 import Utils from '../../common/utils';
 import Device from '../../common/device';
 
 import loadList from '../../common/new-graphql-load-list';
 
-/*
-export function loadFeedList({ id, filters, restart = false }) {
-  return async (dispatch, getState) => {
-
-    let accessToken = accessToken || getState().user.accessToken;
-
-    if (id == 'follow') {
-      // 移除提醒
-      dispatch({ type: 'HAS_NEW_FEED', status: false });
-    }
-
-    if (!filters.select) {
-
-      // content
-      filters.select = `
-      _id
-      create_at
-      user_id{
-        _id
-        nickname
-        brief
-        avatar_url
-      }
-      posts_id{
-        _id
-        comment_count
-        reply_count
-        content_html
-        create_at
-        deleted
-        device
-        follow_count
-        ip
-        last_comment_at
-        like_count
-        recommend
-        sort_by_date
-        title
-        topic_id{
-          _id
-          name
-        }
-        type
-        user_id{
-          _id
-          nickname
-          brief
-          avatar_url
-        }
-        verify
-        view_count
-        weaken
-        follow
-        like
-      }
-      comment_id{
-        _id
-        parent_id
-        like
-        like_count
-        reply_count
-        create_at
-        content_html
-        parent_id
-        reply_id{
-        	_id
-          content_html
-          create_at
-          user_id{
-            _id
-            nickname
-            brief
-            avatar
-            avatar_url
-          }
-      	}
-      }
-      `
-    }
-
-    return loadList({
-      dispatch,
-      getState,
-
-      name: id,
-      restart,
-      filters,
-
-      processList: processPostsList,
-
-      schemaName: 'feed',
-      reducerName: 'feed',
-      api: 'feed',
-      actionType: 'SET_FEED_LIST_BY_ID'
-    })
-  }
-}
-*/
-
 // 加工问题列表
 const processPostsList = (list) => {
-
-  // console.log('-------------');
-
-  // console.log(list);
 
   list.map(function(item){
 
@@ -142,9 +38,9 @@ const processPostsList = (list) => {
         posts.content_html = Utils.htmlImageOptimization(posts.content_html);
       }
 
-      if (posts.create_at) posts._create_at = DateDiff(posts.create_at);
-      if (posts.sort_by_date) posts._sort_by_date = DateDiff(posts.sort_by_date);
-      if (posts.last_comment_at) posts._last_comment_at = DateDiff(posts.last_comment_at);
+      if (posts.create_at) posts._create_at = dateDiff(posts.create_at);
+      if (posts.sort_by_date) posts._sort_by_date = dateDiff(posts.sort_by_date);
+      if (posts.last_comment_at) posts._last_comment_at = dateDiff(posts.last_comment_at);
 
       item.posts_id = posts;
 
@@ -167,7 +63,7 @@ const processPostsList = (list) => {
       if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
       item.comment_id.content_summary = textContent;
 
-      if (item.comment_id.create_at) item.comment_id._create_at = DateDiff(item.comment_id.create_at);
+      if (item.comment_id.create_at) item.comment_id._create_at = dateDiff(item.comment_id.create_at);
 
       if (item.comment_id.reply_id) {
 
@@ -178,7 +74,7 @@ const processPostsList = (list) => {
 
         item.comment_id.reply_id.images = Utils.abstractImagesFromHTML(item.comment_id.reply_id.content_html);
 
-        if (item.comment_id.reply_id.create_at) item.comment_id.reply_id._create_at = DateDiff(item.comment_id.reply_id.create_at);
+        if (item.comment_id.reply_id.create_at) item.comment_id.reply_id._create_at = dateDiff(item.comment_id.reply_id.create_at);
       }
 
       if (item.comment_id.posts_id) {
@@ -190,7 +86,7 @@ const processPostsList = (list) => {
         if (textContent.length > 70) textContent = textContent.slice(0, 70)+'...';
         posts.content_summary = textContent;
 
-        if (posts.create_at) posts._create_at = DateDiff(posts.create_at);
+        if (posts.create_at) posts._create_at = dateDiff(posts.create_at);
 
 
         posts.images = Utils.abstractImagesFromHTML(posts.content_html);
@@ -291,9 +187,6 @@ export const refreshFeedListById = (id) => {
     return loadFeedList({
       id,
       args: list.filters,
-      // filters:{
-      //   variables: list.filters
-      // },
       restart: true
     })(dispatch, getState);
 

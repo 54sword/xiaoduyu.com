@@ -1,4 +1,4 @@
-import { DateDiff } from '../../common/date';
+import { dateDiff } from '../../common/date';
 // import loadList from '../../common/graphql-load-list';
 import loadList from '../../common/new-graphql-load-list';
 
@@ -35,10 +35,10 @@ export const loadPeopleList = loadList({
   processList: (list)=>{
 
     list.map((posts)=>{
-      posts._last_sign_at = DateDiff(posts.last_sign_at)
-      posts._create_at = DateDiff(posts.create_at)
-      posts._nickname_reset_at = DateDiff(posts.nickname_reset_at)
-      posts._create_at = DateDiff(posts.create_at)
+      posts._last_sign_at = dateDiff(posts.last_sign_at)
+      posts._create_at = dateDiff(posts.create_at)
+      posts._nickname_reset_at = dateDiff(posts.nickname_reset_at)
+      posts._create_at = dateDiff(posts.create_at)
     })
 
     return list
@@ -93,10 +93,10 @@ export function loadPeopleList({ name, filters = {}, restart = false, accessToke
       processList: (list)=>{
 
         list.map((posts)=>{
-          posts._last_sign_at = DateDiff(posts.last_sign_at)
-          posts._create_at = DateDiff(posts.create_at)
-          posts._nickname_reset_at = DateDiff(posts.nickname_reset_at)
-          posts._create_at = DateDiff(posts.create_at)
+          posts._last_sign_at = dateDiff(posts.last_sign_at)
+          posts._create_at = dateDiff(posts.create_at)
+          posts._nickname_reset_at = dateDiff(posts.nickname_reset_at)
+          posts._create_at = dateDiff(posts.create_at)
         })
 
         return list

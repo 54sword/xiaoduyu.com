@@ -1,6 +1,7 @@
 
 import storage from '../../common/storage';
-import { DateDiff } from '../../common/date';
+
+import { dateDiff } from '../../common/date';
 // import loadList from '../../common/graphql-load-list';
 import Device from '../../common/device';
 import graphql from '../../common/graphql';
@@ -58,10 +59,10 @@ const processPostsList = (list, store, id) => {
       posts.content_html = imageOptimization(posts.content_html);
     }
 
-    if (posts.create_at) posts._create_at = DateDiff(posts.create_at);
-    if (posts.sort_by_date) posts._sort_by_date = DateDiff(posts.sort_by_date);
-    if (posts.last_comment_at) posts._last_comment_at = DateDiff(posts.last_comment_at);
-    if (posts.update_at) posts._update_at = DateDiff(posts.update_at);
+    if (posts.create_at) posts._create_at = dateDiff(posts.create_at);
+    if (posts.sort_by_date) posts._sort_by_date = dateDiff(posts.sort_by_date);
+    if (posts.last_comment_at) posts._last_comment_at = dateDiff(posts.last_comment_at);
+    if (posts.update_at) posts._update_at = dateDiff(posts.update_at);
   });
 
   // if (id == 'favorite') {

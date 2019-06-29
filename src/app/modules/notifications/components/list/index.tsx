@@ -8,9 +8,6 @@ import { connect, useSelector, useStore } from 'react-redux';
 import { loadNotifications } from '@actions/notification';
 import { getNotificationListById } from '@reducers/notification';
 
-// tools
-// import { DateDiff } from '@utils/date';
-
 // components
 import Loading from '@components/ui/loading';
 // import HTMLText from '@components/html-text';

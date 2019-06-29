@@ -1,16 +1,17 @@
+// 获取两日期时间的倒数时间
+type Countdown = { days: number, hours: number, mintues: number, seconds: number }
 
-// 倒计时
-const Countdown = function(nowDate: string | number, endDate: string | number) {
+const getCountdown = function(nowDate: string | number, endDate: string | number): Countdown {
 
-  var lastDate = Math.ceil(new Date(endDate).getTime()/1000)
-  var now = Math.ceil(new Date(nowDate).getTime()/1000)
+  var lastDate = Math.ceil(new Date(endDate).getTime()/1000);
+  var now = Math.ceil(new Date(nowDate).getTime()/1000);
+  
+  var timeCount = (3600 * 24 * 30) - (now - lastDate);
 
-  var timeCount = (3600 * 24 * 30) - (now - lastDate)
-
-  var days = Math.floor( timeCount / (3600*24) )
-  var hours = Math.floor( (timeCount - (3600*24*days)) / 3600 )
-  var mintues = Math.floor( (timeCount - (3600*24*days) - (hours*3600)) / 60)
-  var seconds = timeCount - (3600*24*days) - (3600*hours) - (60*mintues)
+  var days = Math.floor( timeCount / (3600*24) );
+  var hours = Math.floor( (timeCount - (3600*24*days)) / 3600 );
+  var mintues = Math.floor( (timeCount - (3600*24*days) - (hours*3600)) / 60);
+  var seconds = timeCount - (3600*24*days) - (3600*hours) - (60*mintues);
 
   return {
     days: days,
@@ -22,10 +23,10 @@ const Countdown = function(nowDate: string | number, endDate: string | number) {
 }
 
 const pad = function(number: number, digits: number) {
-  return new Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
+  return new Array(Math.max(digits - String(number).length + 1, 0)).join('0') + number;
 };
 
-const getDateArray = function(date: number | string) {
+const getDateArray = function(date: number | string): Array<any> {
   const _date = date ? new Date(date) : new Date();
   return [
     _date.getFullYear(),
@@ -39,15 +40,10 @@ const getDateArray = function(date: number | string) {
 }
 
 
-
-
 // 计算两个日期的间隔时间
-const DateDiff = function(date1: string | number, date2?: string | number) {
+const dateDiff = function(date1: string | number, date2?: string | number) {
 
-
-  if (!date2) {
-    date2 = new Date().getTime()
-  }
+  if (!date2) date2 = new Date().getTime();
 
   var start = Math.ceil(new Date(date1).getTime()/1000);
   var end = Math.ceil(new Date(date2).getTime()/1000);
@@ -56,57 +52,59 @@ const DateDiff = function(date1: string | number, date2?: string | number) {
   var time = date1;
 
   switch (true) {
+
     // 一秒内
-    case timestamp < 1:
+    case timestamp <= 1:
       time = '刚刚';
       break;
+
     // 一分钟内
-    case timestamp < 60:
+    case timestamp <= 60:
       time = timestamp + '秒前';
       break;
+
     // 一小时内
-    case timestamp >= 60 && timestamp < 3600:
+    case timestamp <= 3600:
       time = Math.floor(timestamp / 60) + '分钟前';
       break;
+    
     // 一天内
-    case timestamp >= 3600 && timestamp < 86400:
+    // case timestamp <= 86400:
+      // var hours = Math.floor(timestamp / 3600);
+      // var minutes = Math.floor( (timestamp - (3600 * hours) ) / 60 );
+      // time = hours + '小时前';
       // var dateArr = getDateArray(date1);
       // time = '今天 '+dateArr[3]+':'+dateArr[4];
-
-      var hours = Math.floor(timestamp / 3600);
-      var minutes = Math.floor( (timestamp - (3600 * hours) ) / 60 );
-      time = hours + '小时前';
-      break;
-    case timestamp >= 86400 && timestamp < 2592000:
-      time = Math.floor(timestamp / 86400) + '天前';
-      break;
-    // 一年内
-    case timestamp >= 2592000 && timestamp < 604800:
-      // var dateArr = getDateArray(date1);
-      // time = Math.floor(dateArr[1])+'月'+Math.floor(dateArr[2])+'日 '+dateArr[3]+':'+dateArr[4];
-      time = Math.floor(timestamp / 86400) + '天前';
-      break;
+      // break;
+      
     default:
       var dateArr = getDateArray(date1);
-
-      if (dateArr[0] == new Date().getFullYear()) {
-        // time = dateArr[1]+'-'+dateArr[2] + ' '+dateArr[3]+':'+dateArr[4];
-        time = dateArr[1]+'月'+dateArr[2]+'日';
-      } else {
-        // time = dateArr[0]+'-'+dateArr[1]+'-'+dateArr[2] + ' '+dateArr[3]+':'+dateArr[4];
+      var nowArr = getDateArray(new Date().getTime());
+      
+      // 今天
+      if (dateArr[0] == nowArr[0] && dateArr[1] == nowArr[1] && nowArr[2] == dateArr[2]) {
+        time = '今天 '+dateArr[3]+':'+dateArr[4];
+      } // 昨天
+      else if (dateArr[0] == nowArr[0] && dateArr[1] == nowArr[1] && parseInt(nowArr[2]) - parseInt(dateArr[2]) == 1) {
+        time = '昨天 '+dateArr[3]+':'+dateArr[4];
+      } // 前天
+      else if (dateArr[0] == nowArr[0] && dateArr[1] == nowArr[1] && parseInt(nowArr[2]) - parseInt(dateArr[2]) == 2) {
+        time = '前天 '+dateArr[3]+':'+dateArr[4];
+      } // 同年内
+      else if (dateArr[0] == nowArr[0]) {
+        time = Math.floor(dateArr[1])+'月'+Math.floor(dateArr[2])+'日 '+dateArr[3]+':'+dateArr[4];
+      } // 不同年
+      else {
         time = dateArr[0]+'年'+dateArr[1]+'月'+dateArr[2]+'日';
       }
-
-
-      // time = dateArr[0]+'年'+parseInt(dateArr[1])+'月';
   }
 
   return time;
 }
 
+
 export {
-  Countdown,
-  pad,
+  getCountdown,
   getDateArray,
-  DateDiff
+  dateDiff
 }

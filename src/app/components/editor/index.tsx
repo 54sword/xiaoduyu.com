@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator, Modifier, getDefaultKeyBinding, genKey, ContentBlock } from 'draft-js';
-import redraft from 'redraft';
 import {stateToHTML} from 'draft-js-export-html';
 import showdown from 'showdown';
+import { reactLocalStorage } from 'reactjs-localstorage';
 
 // components
 import QiniuUploadImage from '@components/qiniu-upload-image';
@@ -10,6 +10,7 @@ import QiniuUploadImage from '@components/qiniu-upload-image';
 // styles
 import 'draft-js/dist/Draft.css';
 import './RichEditor.css';
+
 
 function getBlockStyle(block) {
   switch (block.getType()) {
@@ -87,7 +88,7 @@ const BLOCK_TYPES_1 = [
 // 编辑器控制器
 const Controls = (props) => {
 
-  const { editorState } = props;
+  const { markdown, editorState, insertText } = props;
   const selection = editorState.getSelection();
   const blockType = editorState
     .getCurrentContent()
@@ -99,7 +100,7 @@ const Controls = (props) => {
   return (
       <div className="RichEditor-controls">
 
-        {props.expandControl && BLOCK_TYPES.map((type) =>
+        {!markdown && props.expandControl && BLOCK_TYPES.map((type) =>
           <StyleButton
             key={type.label}
             active={type.style === blockType}
@@ -110,7 +111,7 @@ const Controls = (props) => {
           />
         )}
 
-        {props.expandControl && INLINE_STYLES.map(type =>
+        {!markdown && props.expandControl && INLINE_STYLES.map(type =>
           <StyleButton
             key={type.label}
             active={currentStyle.has(type.style)}
@@ -122,13 +123,28 @@ const Controls = (props) => {
         )}
 
         <QiniuUploadImage
-            beforeUpload={(files)=>{
+            beforeUpload={(files: any)=>{
+
+              if (markdown) return;
+
               let s: any = [];
-              files.map(item=>{ s.push({ name: item.name, src: '' }) });
+              files.map((item:{ name: string })=>{
+                s.push({ name: item.name, src: '' });
+              });
               props.addImage(s);
+
             }}
-            upload={(url, file)=>{
-              props.updateImage(url, file);
+            upload={(url, file: any)=>{
+
+              // console.log(url);
+              // console.log(file);
+
+              if (markdown) {
+                insertText(`![${file.name}](${url} "${file.name}")`);
+              } else {
+                props.updateImage(url, file);
+              }
+
             }}
             text={<span className="RichEditor-styleButton image"></span>}
             />
@@ -176,6 +192,7 @@ export default class MyEditor extends React.Component {
     content: '',
     getEditor: (editor)=>{},
     placeholder: '请输入正文',
+    showMarkdown: false
   }
 
   constructor(props) {
@@ -197,8 +214,11 @@ export default class MyEditor extends React.Component {
         : EditorState.createEmpty(decorator),
       placeholder: placeholder,
       // 展开控制栏
-      expandControl: expandControl || false
+      expandControl: expandControl || false,
+      markdown: false
     }
+
+    // this.markdownRef = useRef();
 
     this.onChange = this._onChange.bind(this);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
@@ -212,14 +232,49 @@ export default class MyEditor extends React.Component {
     this.mediaBlockRenderer = this.mediaBlockRenderer.bind(this);
     this.media = this._media.bind(this);
 
+    this.setMarkdown = this.setMarkdown.bind(this);
+
+    this.insertText = this.insertText.bind(this);
+
     // this.checkUpload = this.checkUpload.bind(this);
+  }
+
+  setMarkdown(markdown) {
+
+    this.setState({
+      markdown: this.state.markdown ? false : true
+    }, ()=>{
+
+      reactLocalStorage.set('markdown', this.state.markdown);
+
+      this._onChange(this.state.editorState);
+    })
   }
 
   componentDidMount() {
     this.onChange(this.state.editorState);
     this.props.getEditor(this.refs.editor);
+    
+    const markdown = reactLocalStorage.get('markdown');
+
+    if (this.refs.markdown && markdown == 'true') {
+      this.refs.markdown.checked = true;
+      this.setState({
+        markdown: true
+      });
+    }
+
+    
 
     // this.props.getCheckUpload(this.checkUpload);
+  }
+
+  insertText(text: string) {
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
+    const content = Modifier.insertText(contentState, editorState.getSelection(), text);
+    const newEditorState = EditorState.push(editorState, content, 'insert-characters');
+    this.onChange(newEditorState);
   }
 
   _onChange(editorState) {
@@ -228,7 +283,7 @@ export default class MyEditor extends React.Component {
 
     this.setState({ editorState }, () => {});
 
-    const { syncContent } = this.state;
+    const { syncContent, markdown } = this.state;
 
     if (syncContent) {
 
@@ -300,32 +355,25 @@ export default class MyEditor extends React.Component {
         if (!_html) {
           syncContent('', '')
           return
+        }  
+        
+        if (markdown) {
+
+          html = html.replace(/\<\/p\>\<p\>/g,'\n');
+          html = html.replace(/\<\/p\>/g,'\n');
+          html = html.replace(/<[^>]+>/g,"");
+  
+          html=html.replace(/\&lt\;/g, '<');  
+          html=html.replace(/\&gt\;/g, '>');  
+  
+          var converter = new showdown.Converter();
+  
+          converter.setOption('tables', true);
+          converter.setOption('simpleLineBreaks', true);
+  
+          html = converter.makeHtml(html);
+
         }
-
-        // html = html.replace(/\n/g, "<br />");
-        // html = html.replace(/\r/g, "<br />");
-
-        // html = html.replace(/\s/g,"&nbsp;");
-
-        // html=html.replace(/\r\n/g,"<br>")  
-        // html=html.replace(/\n/g, '<br />');  
-          
-        /*
-        html = html.replace(/\<\/p\>\<p\>/g,'\n');
-        html = html.replace(/\<\/p\>/g,'\n');
-        html = html.replace(/<[^>]+>/g,"");
-
-
-        html=html.replace(/\&lt\;/g, '<');  
-        html=html.replace(/\&gt\;/g, '>');  
-
-        var converter = new showdown.Converter();
-
-        converter.setOption('tables', true);
-        converter.setOption('simpleLineBreaks', true);
-
-        html = converter.makeHtml(html);
-        */
 
         // console.log(html);
         
@@ -427,43 +475,6 @@ export default class MyEditor extends React.Component {
     // self.refs.editor.focus();
   }
 
-  // 检查是否有未上传的文件
-  /*
-  checkUpload() {
-
-    const self = this;
-    const { editorState } = self.state;
-    const contentState = editorState.getCurrentContent();
-
-    let allUploaded = true;
-
-    contentState.blockMap.map(item=>{
-      item.findEntityRanges(i=>{
-
-        let key = i.getEntity();
-
-        if (key) {
-
-          let type = contentState.getEntity(key).getType();
-
-          if (type == 'image') {
-
-            let data = contentState.getEntity(key).getData();
-            if (data.name && !data.src) {
-              allUploaded = false;
-            }
-
-          }
-
-        }
-
-      });
-    });
-
-    return allUploaded
-  }
-  */
-
   _promptForMedia(type, data) {
 
     const { editorState } = this.state;
@@ -529,12 +540,16 @@ export default class MyEditor extends React.Component {
 
     const entity = contentState.getEntity(props.block.getEntityAt(0));
 
+    // console.log(entity.getData());
+
     const { src } = entity.getData();
     const type = entity.getType();
 
     let media;
 
-    if (type === 'link') {
+    if (type === 'text-image') {
+      media = src;
+    } else if (type === 'link') {
       media = <a href={src} target="_blank" rel="nofollow">{src}</a>;
     } else if (type === 'image') {
       media = <img src={src} />;
@@ -554,7 +569,7 @@ export default class MyEditor extends React.Component {
       let url = "//music.163.com/outchain/player?type=0&id="+src+"&auto=1&height=430";
       media = <iframe src={url} width="auto" height="450"></iframe>;
     }
-
+    
     return media;
   }
 
@@ -573,19 +588,23 @@ export default class MyEditor extends React.Component {
   }
   
   render() {
-    const { editorState, placeholder, expandControl } = this.state
-    const { displayControls } = this.props;
+    const { editorState, placeholder, expandControl, markdown } = this.state
+    const { displayControls, showMarkdown } = this.props;
 
     return(<div className="RichEditor-editor">
 
             {displayControls ?
               <div className="d-flex justify-content-between border-bottom">
+
+
               <Controls
+                markdown={markdown}
                 editorState={editorState}
                 toggleBlockType={this.toggleBlockType}
                 toggleInlineStyle={this.toggleInlineStyle}
                 addImage={this.addImage}
                 addLink={this.addLink}
+                insertText={this.insertText}
                 updateImage={this.updateImage}
                 expandControl={expandControl}
                 handleExpandControl={()=>{
@@ -595,7 +614,13 @@ export default class MyEditor extends React.Component {
                 }}
               />
 
-              {/* <div><input type="checkbox" /> 富文本 / MarkDown</div> */}
+              {showMarkdown ?
+                <div style={{ display:'block-inline', height:'40px', lineHeight:'40px', marginRight: '15px' }}>
+                  <input ref="markdown" type="checkbox" id="markdown-input" className="form-check-input" onChange={this.setMarkdown} style={{marginTop:'14px'}} />
+                  <label className="form-check-label" htmlFor="markdown-input">MarkDown</label>
+                </div>
+                : null}
+
               </div>
               : null}
 

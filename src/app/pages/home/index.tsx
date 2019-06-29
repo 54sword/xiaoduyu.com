@@ -4,7 +4,7 @@ import React from 'react';
 import TwoColumns from '../../layout/two-columns';
 
 // config
-import { googleAdSense } from '@config';
+import { description } from '@config';
 
 // modules
 import Shell from '@modules/shell';
@@ -15,8 +15,7 @@ import LinksExchange from '@modules/links-exchange';
 import OperatingStatus from '@modules/operating-status';
 import Footer from '@modules/footer';
 import Case from '@modules/case';
-import AdsByGoogle from '@modules/adsbygoogle';
-// import PostsList from '@modules/posts-list';
+import ADPC from '@modules/ads/pc';
 
 import PostsList from '@modules/posts-list';
 import NewTips from '@modules/posts-list/components/new-tips';
@@ -24,7 +23,10 @@ import NewTips from '@modules/posts-list/components/new-tips';
 export default Shell(() => {
 
   return(<div>
-    <Meta />
+
+    <Meta>
+      <meta name="description" content={description} />
+    </Meta>
 
     <TwoColumns>
       
@@ -60,26 +62,6 @@ export default Shell(() => {
         </div>
         </div>
         
-        {/* 
-        <div className="card">
-        <div className="card-header">近7天热门讨论</div>
-        <div className="card-body p-0">
-
-          <PostsList
-            id="hot-home"
-            itemType="poor"
-            query={{
-              sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
-              start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 7)+'',
-              deleted: false,
-              weaken: false,
-              page_size: 9
-            }}
-            />
-        </div>
-        </div>
-        */}
-        
         <AppDownload />
         <Case />
         <LinksExchange />
@@ -88,42 +70,9 @@ export default Shell(() => {
       </div>
 
       <div>
-        
-        {googleAdSense.sidebar ?
-            <AdsByGoogle {...googleAdSense.sidebar} />
-            : null}
+        <ADPC width='280px' height='280px' />
         <Footer />
       </div>
-      
-      {/* 
-      <div>
-        <div className="card">
-        <div className="card-header">近7天热门讨论</div>
-        <div className="card-body p-0">
-          <PostsList
-            id={'hot-home'}
-            itemType={'poor'}
-            filters={{
-              variables: {
-                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
-                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 7),
-                deleted: false,
-                weaken: false,
-                page_size: 9
-              }
-            }}
-            scrollLoad={false}
-            showTips={false}
-            />
-        </div>
-        </div>
-        
-        
-        {googleAdSense.sidebar ?
-          <AdsByGoogle {...googleAdSense.sidebar} />
-          : null}
-      </div>
-      */}
 
     </TwoColumns>
   </div>)

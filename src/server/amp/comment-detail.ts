@@ -9,73 +9,82 @@ export const show = async (req: any, res: any) => {
 
   const { id } = req.params;
   
-  let [ err, posts ] = await graphql({
+  let [ err, comment ] = await graphql({
     apis: [{
-      api: 'posts',
-      args: { _id: id },
+      api: 'comments',
+      args: {
+        _id: id,
+        deleted: false,
+        weaken: false
+      },
       fields: `
-        _id
-        comment_count
+        posts_id{
+          _id
+          title
+          content_html
+        }
         content_html
         create_at
-        follow_count
+        reply_count
         like_count
-        title
-        topic_id{
-          _id
-          name
-        }
-        user_id{
+        _id
+        user_id {
           _id
           nickname
-          brief
           avatar_url
         }
-        view_count
       `
     }]
   });
 
-  if (posts && posts[0]) {
-    posts = posts[0];
+  if (comment && comment[0]) {
+    comment = comment[0];
   } else {
+    res.status(404);
     res.send('404 Not Found');
     return
   }
 
-  posts = JSON.parse(JSON.stringify(posts));
+  comment = JSON.parse(JSON.stringify(comment));
 
   // ================
   // 获取内容中的所有图片
-  posts.images = abstractImagesFromHTML(posts.content_html);
+  comment.images = abstractImagesFromHTML(comment.content_html);
 
   // ================
   // 生产描述
-  posts.description = posts.content_html || '';
+  comment.description = comment.content_html || '';
 
   // 删除所有html标签
-  posts.description = posts.description.replace(/<[^>]+>/g,"");
+  comment.description = comment.description.replace(/<[^>]+>/g,"");
 
-  if (posts.description.length > 100) posts.description = posts.description.slice(0, 100)+'...';
-  posts.description = `${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.description}`;
+  if (comment.description.length > 100) comment.description = comment.description.slice(0, 100)+'...';
+  comment.description = `${comment.user_id.nickname}的评论: ${comment.description}`;
+
+
+  // 删除所有html标签
+  comment.posts_id.content_html = comment.posts_id.content_html.replace(/<[^>]+>/g,"");
+
+  if (comment.posts_id.content_html.length > 100) comment.posts_id.content_html = comment.posts_id.content_html.slice(0, 100)+'...';
 
   // ==============
   // img 转换成 amp-img
-  let arr = posts.content_html.match(/<img.*?(?:>|\/>)/gi);
+  let arr = comment.content_html.match(/<img.*?(?:>|\/>)/gi);
   if (arr && arr.length > 0) {
     arr.map((item: any)=>{
       let arr = item.match(/src=[\'\"]?([^\'\"]*)[\'\"]?/i);
       if (arr && arr[1]) {
-        posts.content_html = posts.content_html.replace(item, `<amp-img width="16" height="9" layout="responsive" src="${arr[1]}"></amp-img>`)
+        comment.content_html = comment.content_html.replace(item, `<amp-img width="16" height="9" layout="responsive" src="${arr[1]}"></amp-img>`)
       }
     });
   }
 
   // ==============
   // 删除所有的style
-  posts.content_html = posts.content_html.replace(/style\s*=(['\"\s]?)[^'\"]*?\1/gi,'');
-  posts.content_html = posts.content_html.replace(/style/gi, '');
-  posts._create_at = dateDiff(posts.create_at);
+  comment.content_html = comment.content_html.replace(/style\s*=(['\"\s]?)[^'\"]*?\1/gi,'');
+  comment.content_html = comment.content_html.replace(/style/gi, '');
+  comment._create_at = dateDiff(comment.create_at);
+
 
   // =============================
   // 获取评论
@@ -83,8 +92,8 @@ export const show = async (req: any, res: any) => {
     apis: [{
       api: 'comments',
       args: {
-        posts_id: id,
-        parent_id: 'not-exists',
+        // posts_id: comment.posts_id._id,
+        parent_id: comment._id,
         page_size: 50,
         weaken: false
       },
@@ -129,11 +138,11 @@ export const show = async (req: any, res: any) => {
 
   }
 
-  res.render('../dist/server/views/pages/posts-detail.ejs', {
+  res.render('../dist/server/views/pages/comment-detail.ejs', {
     AMP,
     website_name: name,
     domainName,
-    posts,
+    comment,
     commentList,
     favicon,
     googleAdSense

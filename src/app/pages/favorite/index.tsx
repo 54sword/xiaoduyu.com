@@ -2,17 +2,18 @@ import React from 'react';
 
 // config
 // import { googleAdSense } from '@config';
-import _config from '@config/index';
-const { googleAdSense } = _config;
+// import _config from '@config/index';
+// const { googleAdSense } = _config;
 
 // modules
 import Shell from '@modules/shell';
 import Meta from '@modules/meta';
-import OperatingStatus from '@modules/operating-status';
-import Footer from '@modules/footer';
-import AdsByGoogle from '@modules/adsbygoogle';
+// import OperatingStatus from '@modules/operating-status';
+// import Footer from '@modules/footer';
+// import AdsByGoogle from '@modules/adsbygoogle';
 import PostsList from '@modules/posts-list';
 import NewTips from '@modules/posts-list/components/new-tips';
+import ADPC from '@modules/ads/pc';
 
 // layout
 import TwoColumns from '../../layout/two-columns';
@@ -59,8 +60,9 @@ export default Shell(function() {
               />
           </div>
           </div>
+          
+          <ADPC width='280px' height='280px' />
 
-          {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
         </div>
 
       </TwoColumns>

@@ -11,7 +11,7 @@ import To from './to';
 
 // https://www.apollographql.com/docs/react/advanced/caching.html
 const cache = new InMemoryCache({
-  addTypename: false
+  // addTypename: false
 });
 
 // https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
@@ -91,7 +91,6 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
     // 如果未设置缓存，判断如果是会员的话不缓存，游客缓存
     fetchPolicy: cache && !resetStore ? 'cache' : (headers.accessToken || resetStore ? 'no-cache' : 'cache')
   }
-
   
   // 服务端清理缓存逻辑
   if (__SERVER__) {

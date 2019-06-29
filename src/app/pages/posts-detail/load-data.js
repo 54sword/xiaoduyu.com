@@ -1,4 +1,5 @@
 import { loadPostsList } from '../../redux/actions/posts';
+import { loadCommentList } from '../../redux/actions/comment';
 
 export default ({ store, match, user }) => {
   return new Promise(async (resolve, reject) => {
@@ -19,6 +20,21 @@ export default ({ store, match, user }) => {
     })(store.dispatch, store.getState);
 
     if (data && data.data && data.data.length > 0) {
+
+      let posts = data.data[0];
+
+      await loadCommentList({
+        id: posts._id,
+        args: {
+          deleted: false,
+          weaken: false,
+          posts_id: posts._id,
+          parent_id: 'not-exists',
+          page_size:100,
+          page_number: Math.ceil(posts.comment_count/100)
+        }
+      })(store.dispatch, store.getState);
+
       resolve({ code:200 });
     } else {
       // 没有找到帖子，设置页面 http code 为404

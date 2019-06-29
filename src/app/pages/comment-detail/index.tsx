@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { name, domainName } from '@config';
+
 // redux
 import { useSelector, useStore } from 'react-redux';
 import { loadCommentList } from '@actions/comment';
@@ -14,11 +16,18 @@ import CommentList from '@modules/comment-list';
 import HTMLText from '@components/html-text';
 import EditorComment from '@components/editor-comment';
 import Loading from '@components/ui/loading';
+import LikeButton from '@components/like';
+import Share from '@components/share';
+// import MoreMenu from '@components/more-menu';
+import MoreMenu from '@components/more-menu';
 
-import SingleColumns from '../../layout/single-columns';
+import TwoColumns from '../../layout/two-columns';
+
+import ADPC from '@modules/ads/pc';
+import ADH5 from '@modules/ads/h5';
 
 // styles
-import './style.scss';
+import './index.scss';
 
 export default Shell(function({ match, setNotFound }: any) {
 
@@ -28,8 +37,9 @@ export default Shell(function({ match, setNotFound }: any) {
   const list = useSelector((state: object)=>getCommentListById(state, 'single_'+id));
   const { data = [], loading, more = true }: any = list || {};
 
+
   const store = useStore();
-  const _loadList = (args: object) => loadCommentList(args)(store.dispatch, store.getState);
+  const _loadList = (args: any) => loadCommentList(args)(store.dispatch, store.getState);
   
   useEffect(()=>{
 
@@ -42,25 +52,21 @@ export default Shell(function({ match, setNotFound }: any) {
           weaken: false
         },
         fields: `
-        content_html
-        create_at
-        reply_count
-        like_count
-        device
-        _id
-        update_at
-        like
-        user_id {
-          _id
-          nickname
-          brief
-          avatar_url
-        }
-        posts_id{
-          _id
-          title
+          posts_id{
+            _id
+            title
+            content_html
+          }
           content_html
-        }
+          create_at
+          reply_count
+          like_count
+          _id
+          user_id {
+            _id
+            nickname
+            avatar_url
+          }
         `
       }).then(([err, res]: any)=>{
         if (res && res.data && !res.data[0]) {
@@ -75,17 +81,29 @@ export default Shell(function({ match, setNotFound }: any) {
 
   const comment = data[0];
 
-  return(<SingleColumns>
+  return(<TwoColumns>
 
     <div>
 
-    <Meta title={`${comment.posts_id.title} - ${comment.user_id.nickname}的评论`} />
+    <Meta title={`${comment.posts_id.title}`}>
+      <meta name="description" content={`${comment.user_id.nickname}的评论: ${comment.content_summary}`} />
+      <link rel="canonical" href={`${domainName}/comment/${comment._id}`} />
+      <link rel="amphtml" href={`${domainName}/amp/comment/${comment._id}`} />
+      <meta property="og:locale" content="zh_CN" />
+      <meta property="og:type" content="article" />
+      <meta property="og:title" content={comment.posts_id.title} />
+      <meta property="og:description" content={`${comment.user_id.nickname}的评论: ${comment.content_summary}`} />
+      <meta property="og:url" content={`${domainName}/comment/${comment._id}`} />
+      <meta property="og:site_name" content={name} />
+      <meta property="og:image" content={comment.user_id.avatar_url || domainName+'./icon-512x512.png'} />
+    </Meta>
 
     <div styleName="title">
       <Link to={`/posts/${comment.posts_id._id}`}>
         <h1>{comment.posts_id.title}</h1>
       </Link>
-      {/* {comment.posts_id.content_html ? <HTMLText content={comment.posts_id.content_html} /> : null} */}
+      
+      {comment.posts_id.content_summary ? <div>{comment.posts_id.content_summary}</div> : null}
     </div>
 
     <div styleName="commennt-container">
@@ -101,6 +119,11 @@ export default Shell(function({ match, setNotFound }: any) {
       </div>
       <div styleName="content">
         <HTMLText content={comment.content_html} />
+      </div>
+      <div styleName="footer">
+        <LikeButton comment={comment} />
+        <Share comment={comment} />
+        <MoreMenu comment={comment} />
       </div>
     </div>
 
@@ -126,8 +149,32 @@ export default Shell(function({ match, setNotFound }: any) {
       </div>
     : null}
 
+    <div className="d-block d-lg-none d-xl-none">
+      <ADH5 width='100%' height='100px' />
+    </div>
+
   </div>
 
-  </SingleColumns>)
+  <div></div>
+
+  <div>
+
+      <div className="card">
+        <div className="card-header">用户信息</div>
+        <div className="card-body">
+          <div styleName="author-info">
+            <Link to={`/people/${comment.user_id._id}`}>
+              <img styleName="avatar" src={comment.user_id.avatar_url} /><br />
+              {comment.user_id.nickname}
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <ADPC width='280px' height='160px' />
+
+  </div>
+
+  </TwoColumns>)
 
 });

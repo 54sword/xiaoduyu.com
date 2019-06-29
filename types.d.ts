@@ -32,6 +32,7 @@ declare module 'webpack-dev-middleware'
 declare module 'webpack-hot-middleware'
 declare module '@config'
 declare module '@config/*'
+declare module 'showdown'
 
 
 // https://www.tslang.cn/docs/handbook/jsx.html
@@ -51,6 +52,8 @@ declare var module: any;
 declare var global: any;
 declare var __SERVER__: any;
 declare var hljs: any;
+declare var adsbygoogle: any;
+declare var FloatFixed: any;
 
 interface Window {
   __initState__: any;

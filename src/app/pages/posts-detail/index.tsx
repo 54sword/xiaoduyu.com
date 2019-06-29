@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
 
-import { name, domainName, googleAdSense } from '@config';
+import { name, domainName } from '@config';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
@@ -18,11 +18,11 @@ import PostsDetail from '@modules/posts-detail';
 import EditorComment from '@components/editor-comment';
 import Loading from '@components/ui/loading';
 
-import AdsByGoogle from '@modules/adsbygoogle';
+import ADPC from '@modules/ads/pc';
+import ADH5 from '@modules/ads/h5';
 
 // layout
 import TwoColumns from '../../layout/two-columns';
-// import SingleColumns from '../../layout/single-columns';
 
 // styles
 import './index.scss';
@@ -67,11 +67,13 @@ export default Shell(function({ setNotFound }: any) {
   const { loading, data }: any = list || {};
   const posts = data && data[0] ? data[0] : null;
 
-  if (loading || !posts) return (<Loading />);
+  if (loading || !posts) {
+    return (<Loading />);
+  }
 
   return (
     <TwoColumns>
-
+      
     <div>
 
     <Meta title={posts.title}>
@@ -113,12 +115,17 @@ export default Shell(function({ setNotFound }: any) {
       <div styleName="editor-comment"><EditorComment posts_id={posts._id} forward={true} /></div>
       : null}
 
+      <div className="d-block d-lg-none d-xl-none">
+        <ADH5 width='100%' height='100px' />
+      </div>
+
     </div>
 
     <div>
     </div>
 
     <div>
+      
       <div className="card">
         <div className="card-header">作者信息</div>
         <div className="card-body">
@@ -131,9 +138,7 @@ export default Shell(function({ setNotFound }: any) {
         </div>
       </div>
 
-      {googleAdSense.sidebar ?
-            <AdsByGoogle {...googleAdSense.sidebar} />
-            : null}
+      <ADPC width='280px' height='160px' />
 
     </div>
 

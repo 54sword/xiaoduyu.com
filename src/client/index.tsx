@@ -9,7 +9,8 @@ import configureStore from '../app/redux';
 import createRouter from '../app/router';
 import * as socket from './socket';
 
-import { debug, GA, analysisScript } from '@config';
+import { GA, analysisScript } from '@config';
+import { debug } from '@config/feature.config';
 
 import '../app/theme/global.scss';
 import '../app/theme/light.scss';

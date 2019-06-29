@@ -5,54 +5,18 @@ interface Props {
   children?: Array<object>
 }
 
-export default function ({ children }: Props) {
+export default function ({ children = [] }: Props) {
 
   useEffect(()=>{
 
-    let rightHeight = 0;
-
-    // setTimeout(()=>{
-
-    //   $('#sidebar').portamento({disableWorkaround: true}); 
-
-    // }, 2000);
-
-    // $('#right-float').portamento();
-
-    let _el = null;
-
-    // setTimeout(()=>{
-      _el = FloatFixed.add({
-        referId: 'right',
-        id: 'right-float',
-        offsetTop: 60
-      });
-    // }, 2000);
-    
-    /*
-    const scroll = () => {
-      let scrollTop = $(window).scrollTop();
-      if (rightHeight && scrollTop > rightHeight) {
-        $('#right-float').css({display:'block'});
-      } else {
-        $('#right-float').css({display:'none'});
-      }
-    };
-    
-    const timer = setInterval(function(){
-      rightHeight = $('#right').height();
-    }, 500);
-
-    $(window).scroll(scroll);
+    const obj = FloatFixed({
+      referId: 'right',
+      id: 'right-float',
+      offsetTop: 60
+    });
 
     return ()=>{
-      $(window).unbind('scroll', scroll);
-      clearInterval(timer);
-    }
-    */
-
-    return ()=>{
-      FloatFixed.remove(_el);
+      obj.remove();
     }
 
   }, []);

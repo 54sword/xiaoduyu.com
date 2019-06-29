@@ -1,5 +1,3 @@
-
-import MixingFeedLoadData from '@modules/mixing-feed/load-data';
 import TopicsLoadData from '@modules/topics/load-data';
 
 import { loadPostsList } from '@actions/posts';
@@ -14,7 +12,7 @@ export default ({ store, match, res, req, user }) => {
           resolve();
           return;
         }
-
+        
         await loadPostsList({
           id:'home',
           args: {
@@ -27,7 +25,6 @@ export default ({ store, match, res, req, user }) => {
         resolve();
 
       }),
-      // MixingFeedLoadData({ store, match, res, req, user }),
       TopicsLoadData({ store, match, res, req, user })
     ]).then(res=>{
       resolve({ code:200 });

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 // tools
-import { DateDiff } from '@utils/date';
+import { dateDiff } from '@utils/date';
 
 // components
 import HTMLText from '@components/html-text';
@@ -46,7 +46,7 @@ export default class NotificationListItem extends Component {
         content = (<div>
             <div styleName="header">
               <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-              {DateDiff(notice.create_at)} 关注了你
+              {dateDiff(notice.create_at)} 关注了你
             </div>
           </div>)
         break
@@ -55,7 +55,7 @@ export default class NotificationListItem extends Component {
         content = (<div>
             <div styleName="header">
               <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-              {DateDiff(notice.create_at)} 收藏了你的
+              {dateDiff(notice.create_at)} 收藏了你的
               <Link to={`/posts/${notice.posts_id._id}`}>{notice.posts_id.title}</Link>
               {/* {notice.posts_id.type == 1 ?  '分享' : '提问'} */}
             </div>
@@ -66,7 +66,7 @@ export default class NotificationListItem extends Component {
         content = (<div>
             <div styleName="header">
               <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-              {DateDiff(notice.create_at)} 赞了你的
+              {dateDiff(notice.create_at)} 赞了你的
               <Link to={`/posts/${notice.posts_id._id}`}>{notice.posts_id.title}</Link>
               {/* {notice.posts_id.type == 1 ?  '分享' : '提问'} */}
             </div>
@@ -84,7 +84,7 @@ export default class NotificationListItem extends Component {
             */}
 
             <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-            {DateDiff(notice.create_at)} 回复了你的
+            {dateDiff(notice.create_at)} 回复了你的
             <Link to={`/comment/${notice.comment_id.parent_id._id}`}>
               {notice.comment_id.reply_id ? notice.comment_id.reply_id.content_trim : notice.comment_id.parent_id.content_trim}
             </Link>
@@ -108,7 +108,7 @@ export default class NotificationListItem extends Component {
             </div>
             */}
             <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-            {DateDiff(notice.create_at)} 评论了你的
+            {dateDiff(notice.create_at)} 评论了你的
             <Link to={`/posts/${notice.comment_id.posts_id._id}`}>{notice.comment_id.posts_id.title}</Link>
             {/* {notice.comment_id.posts_id.type == 1 ?  '分享' : '提问'} */}
           </div>
@@ -128,7 +128,7 @@ export default class NotificationListItem extends Component {
         content = (<div>
           <div styleName="header">
             <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-            {DateDiff(notice.create_at)} 赞了你的
+            {dateDiff(notice.create_at)} 赞了你的
             <Link to={`/comment/${commentId}`}>{notice.comment_id.content_trim}</Link>
             回复
           </div>
@@ -139,7 +139,7 @@ export default class NotificationListItem extends Component {
         content = (<div>
           <div styleName="header">
             <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-            {DateDiff(notice.create_at)} 赞了你的
+            {dateDiff(notice.create_at)} 赞了你的
             <Link to={`/comment/${notice.comment_id._id}`}>{notice.comment_id.content_trim}</Link>
             评论
           </div>
@@ -151,7 +151,7 @@ export default class NotificationListItem extends Component {
         content = (<div>
           <div styleName="header">
             <Link to={`/people/${notice.sender_id._id}`}>{avatar}{notice.sender_id.nickname}</Link>
-            {DateDiff(notice.create_at)} 评论了
+            {dateDiff(notice.create_at)} 评论了
             <Link to={`/posts/${notice.comment_id.posts_id._id}`}>{notice.comment_id.posts_id.title}</Link>
             {/* {notice.comment_id.posts_id.type == 1 ?  '分享' : '提问'} */}
           </div>

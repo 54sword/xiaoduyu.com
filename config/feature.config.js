@@ -1,4 +1,4 @@
-module.exports = {
+let config = {
 
   // 公共debug开关
   debug: false,
@@ -37,3 +37,12 @@ module.exports = {
   }
 
 }
+
+
+if (process.env.NODE_ENV == 'development') {
+  config.debug = true;
+  config.apiLog = true;
+  config.reduxLog = true;
+}
+
+module.exports = config;

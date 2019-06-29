@@ -1,6 +1,6 @@
 
 /**
- * 使用了小度鱼社区系统的案例
+ * 友情链接
  */
 
 import React, { useState, useEffect } from 'react';
@@ -16,8 +16,9 @@ export default function() {
   useEffect(()=>{
 
     if (cache.length == 0) {
+
       $.ajax({
-        url: '/case.json',
+        url: '/links.json',
         type: 'get',
         dataType:"json",
         async:false,
@@ -26,22 +27,23 @@ export default function() {
           cache = res;
         }
       });
-    }
 
+    }
+    
   }, []);
 
   if (!links.length) return null;
   
-  return (
+  return(
     <div className="card">
-    <div className="card-header">案例</div>
-    <div className="card-body" styleName="body">
+      <div className="card-header">友情链接</div>
+      <div className="card-body" styleName="box">
       {links.map((item: item)=>{
         return (<a key={item.domain} href={item.domain} target="_blank">
           <b>{item.name}</b><div>{item.description}</div>
         </a>)
       })}
-    </div>
+      </div>
     </div>
   )
 

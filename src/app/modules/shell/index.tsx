@@ -47,7 +47,7 @@ export default function(Component: any) {
     }, []);
 
     if (notFound) {
-      return <div className="container text-center">{notFound}</div>
+      return (<div className="container text-center">{notFound}</div>)
     }
     
     return (<Component match={match} setNotFound={setNotFound} />)

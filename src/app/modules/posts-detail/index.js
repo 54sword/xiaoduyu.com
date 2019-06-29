@@ -1,9 +1,7 @@
-import React from 'react'
-// import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 // redux
-// import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { isMember } from '@reducers/user';
 
@@ -59,10 +57,10 @@ export default class PostsDetail extends React.Component {
               <span><Link to={`/topic/${posts.topic_id._id}`} className="text-dark">{posts.topic_id.name}</Link></span>
               <span className="text-secondary">{posts._create_at}</span>
               {posts.view_count ? <span className="text-secondary">{posts.view_count}次阅读</span> : null}
-              {/* {posts.like_count ? <span className="text-secondary">{posts.like_count}人赞</span> : null} */}
-              {/* {posts.comment_count ? <span className="text-secondary">{posts.comment_count}条评论</span> : null} */}
-              {/* {posts.reply_count ? <span className="text-secondary">{posts.reply_count}条回复</span> : null} */}
-              {/* {posts.follow_count ? <span className="text-secondary">{posts.follow_count}人收藏</span> : null} */}
+              {posts.like_count ? <span className="text-secondary">{posts.like_count}人赞</span> : null}
+              {posts.comment_count ? <span className="text-secondary">{posts.comment_count}条评论</span> : null}
+              {posts.reply_count ? <span className="text-secondary">{posts.reply_count}条回复</span> : null}
+              {posts.follow_count ? <span className="text-secondary">{posts.follow_count}人收藏</span> : null}
             </div>
             <div styleName="actions">
 
@@ -110,7 +108,6 @@ export default class PostsDetail extends React.Component {
 
         {posts.content_html ?
           <div styleName="detail">
-            {/*  hiddenHalf={!isMember && posts.recommend ? true : false} */}
             <HTMLText content={posts.content_html} />
           </div>
           :null}
@@ -137,11 +134,11 @@ export default class PostsDetail extends React.Component {
         </div>
         */}
         
-        <div styleName="actions" className="d-block d-lg-none d-xl-none border-top" style={{marginTop:'10px', paddingTop:'10px'}}>
+        {/* <div styleName="actions" className="d-block d-lg-none d-xl-none border-top" style={{marginTop:'10px', paddingTop:'10px'}}>
           <Like posts={posts} displayNumber={false} />
           <Follow posts={posts} />
           <MoreMenu posts={posts} />
-        </div>
+        </div> */}
 
         </div>
 

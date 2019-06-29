@@ -3,28 +3,28 @@
   <head>
     <% include ../includes/head.ejs %>
 
-    <title><%- posts.title %> - <%- website_name %></title>
-    <link rel="canonical" href="<%- domainName %>/posts/<%- posts._id %>">
+    <title><%- comment.posts_id.title %> - <%- website_name %></title>
+    <link rel="canonical" href="<%- domainName %>/comment/<%- comment._id %>">
 
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="<%- posts.title %>" />
-    <meta property="og:description" content="<%- posts.description %>" />
-    <meta property="og:url" content="<%- domainName %>/posts/<%- posts._id %>" />
+    <meta property="og:title" content="<%- comment.posts_id.title %>" />
+    <meta property="og:description" content="<%- comment.description %>" />
+    <meta property="og:url" content="<%- domainName %>/comment/<%- comment._id %>" />
     <meta property="og:site_name" content="<%- website_name %>" />
-
+    
     <script type="application/ld+json">
       {
         "@context": "http://schema.org",
         "@type": "NewsArticle",
-        "mainEntityOfPage": "<%- domainName %>/posts/<%- posts._id %>",
-        "headline": "<%- posts.title %>",
-        "datePublished": "<%- new Date(new Date(posts.create_at).getTime()) %>",
-        "dateModified": "<%- new Date(posts.update_at) %>",
-        "description":"<%- posts.description %>",
+        "mainEntityOfPage": "<%- domainName %>/comment/<%- comment._id %>",
+        "headline": "<%- comment.posts_id.title %>",
+        "datePublished": "<%- new Date(new Date(comment.create_at).getTime()) %>",
+        "dateModified": "<%- new Date(comment.update_at) %>",
+        "description":"<%- comment.description %>",
         "author": {
           "@type": "Person",
-          "name": "<%- posts.user_id.nickname %>"
+          "name": "<%- comment.user_id.nickname %>"
         },
         "publisher": {
           "@type": "Organization",
@@ -37,7 +37,7 @@
             "height": "<%- AMP.logo.height %>"
           }
         },
-        "image": ["<%- posts.images.join('","') %>"]
+        "image": ["<%- comment.images.join('","') %>"]
       }
     </script>
 
@@ -66,6 +66,7 @@
         #brief{ color:#646464; }
 
       #posts-content{ font-size: 15px; }
+      #comment-content{ font-size: 15px; }
 
       /* content styles */
       .content{ max-width: 980px; font-size: 14px; line-height: 180%; word-break: break-all; word-wrap: break-word;}
@@ -107,28 +108,29 @@
       <!-- posts -->
 
       <div id="posts-head">
-        <div id="title"><h1><%- posts.title %></h1></div>
-        <div id="author">
-          <div>
-            <amp-img id="author-avatar" width="35" height="35" alt="<%- posts.user_id.nickname %>" src="<%- posts.user_id.avatar_url %>"></amp-img>
-          </div>
-          <div>
-            <b id="nickname"><%- posts.user_id.nickname %></b><% if (posts.user_id.brief) { %><span id="brief">, <%- posts.user_id.brief %></span><% } %>
-          </div>
+        <div id="title">
+          <a href="<%- domainName %>/posts/<%- comment.posts_id._id %>"><h1><%- comment.posts_id.title %></h1></a>
+        </div>
+        <div id="posts-content">
+            <%- comment.posts_id.content_html %>
         </div>
       </div>
 
-      <div class="content" id="posts-content">
-        <div id="info">
-          <% if (posts._create_at) {%><span>帖子创建于<%- posts._create_at %></span><% } %>
-          <% if (posts._create_at) {%>
-            <span><a href="<%- domainName %>/topic/<%- posts.topic_id._id %>"><%- posts.topic_id.name %></a> </span>
-          <% } %>
-          <% if (posts.view_count) {%><span><%- posts.view_count %> 次浏览</span><% } %>
-          <% if (posts.like_count) {%><span><%- posts.like_count %> 个赞</span><% } %>
-          <% if (posts.follow_count) {%><span><%- posts.follow_count %> 人关注</span><% } %>
+      <div id="author">
+        <div>
+          <amp-img id="author-avatar" width="35" height="35" alt="<%- comment.user_id.nickname %>" src="<%- comment.user_id.avatar_url %>"></amp-img>
         </div>
-        <%- posts.content_html %>
+        <div>
+          <b id="nickname"><%- comment.user_id.nickname %></b><% if (comment.user_id.brief) { %><span id="brief">, <%- comment.user_id.brief %></span><% } %>
+        </div>
+      </div>
+
+      <div class="content" id="comment-content">
+        <div id="info">
+          <% if (comment._create_at) {%><span>创建于<%- comment._create_at %></span><% } %>
+          <% if (comment.like_count) {%><span><%- comment.like_count %> 个赞</span><% } %>
+        </div>
+        <%- comment.content_html %>
       </div>
 
       <!-- posts end -->
@@ -144,8 +146,8 @@
       <% } %>
 
       <!-- comment -->
-      <% if (posts.comment_count > 0) { %>
-        <div class="comment-bar"><%- posts.comment_count %> 条评论</div>
+      <% if (comment.reply_count > 0) { %>
+        <div class="comment-bar"><%- comment.reply_count %> 条回复</div>
       <% } %>
 
       <div>
@@ -173,9 +175,9 @@
         <% }) %>
       </div>
 
-      <% if (posts.comment_count > commentList.length) { %>
+      <% if (comment.reply_count > commentList.length) { %>
         <div class="more-comment">
-          <a href="<%- domainName %>/posts/<%- posts._id %>">还有 <%- posts.comment_count - commentList.length %> 条评论，查看全部</a>
+          <a href="<%- domainName %>/comment/<%- comment._id %>">还有 <%- comment.reply_count - commentList.length %> 条回复，查看全部</a>
         </div>
       <% } %>
 
@@ -195,14 +197,12 @@
 
     <!-- footer -->
     <div class="footer">
-      <p>当前这是一个AMP页面，如果你想参与本帖讨论，请打开完整版</p>
-      <p><a href="<%- domainName %>/posts/<%- posts._id %>"><%- domainName %>/posts/<%- posts._id %></a></p>
+      <p>当前这是一个AMP页面，如果你想参讨论，请打开完整版</p>
+      <p><a href="<%- domainName %>/comment/<%- comment._id %>"><%- domainName %>/comment/<%- comment._id %></a></p>
       <br />
       <p>© <%- new Date().getFullYear() %> <%- website_name %></p>
     </div>
     <!-- footer end -->
-    
-
 
   </body>
 </html>

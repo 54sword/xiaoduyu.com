@@ -15,6 +15,7 @@ import LikeButton from '@components/like';
 import HTMLText from '@components/html-text';
 import MoreMenu from '@components/more-menu';
 import CommentButton from '../button';
+import Share from '@components/share';
 
 import Loading from '@components/ui/loading';
 
@@ -89,12 +90,19 @@ export default function({ comment }: Props) {
         <div className="d-flex justify-content-between">
   
           <div styleName="actions" className="text-secondary">
-            <span>{comment._create_at}</span>
+
+            {!comment.parent_id ?
+            <Link to={`/comment/${comment._id}`} className="text-secondary"><span>{comment._create_at}</span></Link>
+            : <span>{comment._create_at}</span>}
+            
             {comment.parent_id ? 
               <LikeButton reply={comment}  /> : 
               <LikeButton comment={comment} />}
   
             <CommentButton comment={comment} />
+            {!comment.parent_id ? 
+              <Share comment={comment} />
+              : null}
             <MoreMenu comment={comment} />
           </div>
   

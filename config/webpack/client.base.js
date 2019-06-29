@@ -29,9 +29,6 @@ module.exports = {
     app: [
       '@babel/polyfill',
 
-      // "core-js/modules/es6.promise",
-      // "core-js/modules/es6.array.iterator",
-
       // bootstrap
       'bootstrap/dist/css/bootstrap.min.css',
       'jquery',
@@ -42,20 +39,15 @@ module.exports = {
       // Toastify 全局的轻消息
       './src/app/vendors/toastify-js/toastify.js',
       './src/app/vendors/toastify-js/toastify.css',
-
+      
       // 网页图片浏览器
       // WebPictureViewer(['https://avatars3.githubusercontent.com/u/888115?v=3&s=40']);
       './src/app/vendors/web-picture-viewer.js',
 
       // ArriveFooter 监听抵达页尾的事件
       './src/app/vendors/arrive-footer.js',
-
       
       './src/app/vendors/float-fixed.js',
-
-      
-      // 折叠按钮
-      // './src/app/vendors/escapeCharacter.js',
 
       /**
        * 懒加载图片、Dom
@@ -65,8 +57,6 @@ module.exports = {
       './src/app/vendors/load-demand',
       
       'github-markdown-css/github-markdown.css',
-
-      // 'highlight.js/styles/default.css',
 
       './src/client/index'
     ]

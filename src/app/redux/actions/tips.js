@@ -87,7 +87,7 @@ export function loadTips () {
       }
 
       let homePostsList = getPostsListById(getState(), 'home');
-      let posts = homePostsList.data && homePostsList.data[0] ? homePostsList.data[0] : null;
+      let posts = homePostsList && homePostsList.data && homePostsList.data[0] ? homePostsList.data[0] : null;
 
       if (posts && res['home'] && res['home'][0] &&
         posts.sort_by_date &&

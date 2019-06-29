@@ -1,12 +1,12 @@
 import { loadUserInfo } from '@actions/user';
-// import { loadOperatingStatus } from '@actions/website';
+import { loadOperatingStatus } from '@actions/website';
 
 // 首次打开时候初始化数据
 // 如果有token，获取用户信息并返回, resolve([ err, user ]);
 export default (store: any, accessToken?: string) => {
   return new Promise<Array<any>> (async resolve => {
     
-    // await loadOperatingStatus()(store.dispatch, store.getState);
+    await loadOperatingStatus()(store.dispatch, store.getState);
 
     // 如果有token，验证码token是否
     if (accessToken) {

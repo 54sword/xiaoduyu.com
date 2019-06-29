@@ -2,10 +2,8 @@ import React, { useState, useEffect, createRef } from 'react';
 import dynamicFile from 'dynamic-file';
 import pangu from 'pangu';
 
-
 import './style.scss';
 import convertHTML from './convert';
-
 
 interface Props {
   content: string,
@@ -30,18 +28,18 @@ export default function({ content, hiddenHalf, maxHeight }: Props) {
         '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js'
       ]).then(()=>{
 
-        $('pre').each(function(i: any, block: any) {
+        $('.markdown-body pre').each(function(i: any, block: any) {
           hljs.highlightBlock(block);
         });
 
       });
     } else {
-      $('pre').each(function(i: any, block: any) {
+      $('.markdown-body pre').each(function(i: any, block: any) {
         hljs.highlightBlock(block);
       });
     }
-
-    pangu.spacingElementById('content');
+    
+    pangu.spacingElementByClassName('markdown-body');
 
     if (!contentHeight) {
       setContentHeight(contentRef && contentRef.current ? contentRef.current.offsetHeight : 0);
@@ -55,7 +53,6 @@ export default function({ content, hiddenHalf, maxHeight }: Props) {
     
     {!hiddenHalf ?
       <div
-        id="content"
         ref={contentRef}
         style={!expand && maxHeight && contentHeight > maxHeight ? { maxHeight: `${maxHeight}px`, overflow: 'hidden' } : null }
         styleName="content"

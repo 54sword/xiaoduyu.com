@@ -104,11 +104,7 @@ let config = {
       width: 600,
       height: 60
     }
-  },
-  
-  // [选填] 友情链接
-  links: [
-  ]
+  }
 
 }
 

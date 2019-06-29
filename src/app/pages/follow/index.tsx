@@ -3,19 +3,20 @@ import React from 'react';
 // modules
 import Shell from '@modules/shell';
 import Meta from '@modules/meta';
-import Footer from '@modules/footer';
-import AdsByGoogle from '@modules/adsbygoogle';
+// import Footer from '@modules/footer';
+// import AdsByGoogle from '@modules/adsbygoogle';
 
 import PostsList from '@modules/posts-list';
 import FeedList from '@modules/feed-list';
 import NewTips from '@modules/feed-list/components/new-tips';
+import ADPC from '@modules/ads/pc';
 
 // layout
 import TwoColumns from '../../layout/two-columns';
 
 // import { googleAdSense } from '@config';
-import _config from '@config/index';
-const { googleAdSense } = _config;
+// import _config from '@config/index';
+// const { googleAdSense } = _config;
 
 export default Shell(function() {
   return (
@@ -58,8 +59,8 @@ export default Shell(function() {
               />
           </div>
           </div>
-
-          {googleAdSense.sidebar ? <AdsByGoogle {...googleAdSense.sidebar} /> : null}
+          
+          <ADPC width='280px' height='280px' />
         </div>
 
       </TwoColumns>

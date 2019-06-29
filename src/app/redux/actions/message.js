@@ -4,7 +4,7 @@ import graphql from '../../common/graphql';
 
 // import { readSession } from '../session';
 
-import { DateDiff } from '../../common/date';
+import { dateDiff } from '../../common/date';
 
 import loadList from '../../common/new-graphql-load-list';
 
@@ -38,7 +38,7 @@ export const loadMessageList = loadList({
       if (!lastItem ||
         new Date(lastItem.create_at).getTime() - new Date(item.create_at).getTime() > 1000 * 60 * 5
       ) {
-        item._create_at =  DateDiff(item.create_at)
+        item._create_at =  dateDiff(item.create_at)
         lastItem = item;
       }
     })
@@ -89,7 +89,7 @@ export const loadMessageList = function({ id, filters = {}, restart = false }) {
           if (!lastItem ||
             new Date(lastItem.create_at).getTime() - new Date(item.create_at).getTime() > 1000 * 60 * 5
           ) {
-            item._create_at =  DateDiff(item.create_at)
+            item._create_at =  dateDiff(item.create_at)
             lastItem = item;
           }
         })

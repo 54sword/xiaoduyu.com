@@ -54,11 +54,11 @@ export default ({ store, match, user }) => {
       args: {
         _id: id
       }
-      // filters: { variables: { _id: id } }
     })(store.dispatch, store.getState);
 
+    
     if (!err && topic && topic.data && topic.data[0]) {
-
+      
       topic = topic.data[0];
 
       let searchParams = analyzeUrlParams(match.search);
@@ -77,28 +77,6 @@ export default ({ store, match, user }) => {
 
       resolve({ code:200 });
 
-      /*
-      Promise.all([
-        new Promise(async resolve => {
-          let [ err, result ] = await loadPostsList({
-            id: topic._id,
-            filters: {
-              query: {
-                sort_by: "sort_by_date:-1",
-                deleted: false,
-                weaken: false,
-                page_size: 30,
-                topic_id: topic._id,
-                ...searchParams
-              }
-            }
-          })(store.dispatch, store.getState);
-          resolve([ err, result ])
-        })
-      ]).then(value=>{
-        resolve({ code:200 });
-      });
-      */
 
     } else {
       resolve({ code:404, text: '该话题不存在' });

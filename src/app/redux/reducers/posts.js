@@ -150,5 +150,27 @@ export default function() {
 }
 
 export const getPostsListById = (state, name) => {
-  return state.posts[name] ? state.posts[name] : {}
+
+  let list = null;
+
+  if (state.posts[name]) list = state.posts[name];
+
+  if (!list) {
+
+    for (let i in state.posts) {
+      state.posts[i].data.map(posts=>{
+        if (posts._id == name) {
+          list = {
+            loading: false,
+            more: false,
+            data: [posts]
+          }
+        } 
+      })
+    }
+  }
+
+  return list
+
+  // return state.posts[name] ? state.posts[name] : {}
 }
