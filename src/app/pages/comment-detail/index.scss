@@ -1,0 +1,92 @@
+.comment-list{
+  background-color: #fff;
+  border-radius: 4px;
+
+  :global{
+    .pagination{
+      border-top:1px solid #efefef;
+    }
+  }
+}
+
+.title{
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom:10px;
+  h1{
+    font-size: 20px;
+    padding: 0px;
+    margin:0px;
+  }
+}
+
+.commennt-container{
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.head{
+  padding-left:70px;
+  padding-top:15px;
+  .active{
+    position: absolute;
+    width:45px;
+    height:45px;
+    margin-left:-55px;
+    border-radius: 50%;
+  }
+
+  .info{
+
+    span{
+
+      color:#999;
+      font-size: 13px;
+  
+      &:after{
+        vertical-align: top;
+        color:#cdcdcd;
+        font-size: 8px;
+        margin:0 8px 0 8px;
+        content: '•';
+      }
+  
+      &:last-child:after{
+        content: '';
+      }
+  
+    }
+
+  }
+
+}
+
+.content{
+  padding: 15px;
+  padding-bottom:0px;
+  margin-bottom:10px;
+}
+
+.footer{
+  padding: 15px;
+  padding-top:0px;
+  margin-bottom:10px;
+}
+
+.editor{
+  margin-top: 10px;
+}
+
+.author-info{
+  padding-left:60px;
+  min-height: 50px;
+}
+
+.avatar{
+  position: absolute;
+  margin-left:-60px;
+  width:50px;
+  height:50px;
+  border-radius: 50%;
+}

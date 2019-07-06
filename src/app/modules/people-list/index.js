@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -11,7 +10,7 @@ import { getPeopleListById } from '@reducers/people'
 // components
 import PeopleItem from '@modules/people-list/components/list-item';
 // import ListLoading from '@components/list-loading';
-import Loading from '@components/ui/full-loading';
+import Loading from '@components/ui/loading';
 // import Pagination from '../../pagination'
 
 
@@ -71,7 +70,7 @@ export default class PeopleList extends Component{
       return <div className="text-center mt-4 md-4">没有查询到结果</div>
     }
 
-    return (<div>
+    return (<div className="card">
 
       <div className="list-group">
         {data && data.map(people=>{

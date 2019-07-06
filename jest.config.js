@@ -1,25 +1,36 @@
 'use strict';
 
-// const path = require('path');
 const config = require('./config');
+const aliasConfig = require('./config/alias.config');
+
+let moduleNameMapper = {
+  // 跳过scss解析
+  "\.scss$": "<rootDir>/config/jest/file-transform.js", 
+}
+
+for (var i in aliasConfig) {
+  moduleNameMapper[`^${i}(.*)$`] = '<rootDir>/'+aliasConfig[i]+'$1'
+}
 
 module.exports = {
-  setupFiles: [
+  verbose: true,
+  // preset: 'ts-jest',
+  testEnvironment: 'jsdom',
+  testURL: config.domainName,
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}'
+  ],
+
+  moduleNameMapper,
+  
+  // https://jestjs.io/docs/zh-Hans/configuration#setupfilesafterenv-array
+  // 执行每个单元测试时候，会先执行如下脚本，并可以设置一些环境变量
+  setupFilesAfterEnv: [
     '<rootDir>/node_modules/regenerator-runtime/runtime',
     '<rootDir>/node_modules/@babel/polyfill',
-
-    // 全局变量
-    '<rootDir>/src/vendors/toastify-js/toastify.js',
-    '<rootDir>/config/jest/jquery.js'
-  ],
-  testEnvironment: 'jsdom',
-  testURL: config.domain_name,
-  testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.{js,jsx}'
-  ],
-  transform: {
-    '^.+\\.(js|jsx)$': '<rootDir>/node_modules/babel-jest',
-    '^(?!.*\\.(css|json|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$)': '<rootDir>/config/jest/file-transform.js'
-  },
-  setupTestFrameworkScriptFile: '<rootDir>/config/jest/setup.js'
+    '<rootDir>/src/app/vendors/toastify-js/toastify.js',
+    '<rootDir>/config/jest/jquery.js',
+    '<rootDir>/config/jest/global.js',
+    '<rootDir>/config/jest/setup.js'
+  ]
 };

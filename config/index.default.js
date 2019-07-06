@@ -2,11 +2,11 @@
 // 生产环境配置
 let config = {
 
-  // [必填] 是否开发debug模式
-  debug: false,
-
   // [必填] 网站名称
   name: '小度鱼',
+
+  // 网站描述
+  description: '年轻人的交流社区',
 
   // [选填] 联系我们的邮箱地址
   contactEmail: '***@163.com',
@@ -43,92 +43,81 @@ let config = {
   
   // [选填] APP客户端下载地址
   clientDownloadUrl: {
-    ios: 'https://itunes.apple.com/us/app/小度鱼/id1261181004?l=zh&ls=1&mt=8',
-    android: 'https://qncdn.xiaoduyu.com/xiaoduyu-20190505.apk'
+    ios: '',
+    android: ''
   },
   
   // [选填] 
-  favicon: '<link rel="icon" href="//www.xiaoduyu.com/icon-512x512.png" type="image/png" />',
+  favicon: '<link rel="icon" href="/icon-512x512.png" type="image/png" />',
 
   // [选填] 添加内容到模版的head中
   head: `
+    <meta name="description" content="{description}">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
-    <link rel="apple-touch-icon" href="//www.xiaoduyu.com/icon-512x512.png">
+    <link rel="apple-touch-icon" href="/icon-512x512.png">
     <meta content="yes" name="apple-touch-fullscreen">
     <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta data-react-helmet="true" name="apple-itunes-app" content="app-id=1261181004">
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   `,
 
   // [选填] 添加分析统计脚本
   analysisScript: `
   `,
 
+  qiniu: {
+    // 七牛上传地址
+    uploadUrl: {
+      http: 'http://upload.qiniu.com',
+      https: 'https://up.qbox.me/'
+    }
+  },
+
   // [选填] google 分析
   GA: '',
 
   // [选填] google广告
   googleAdSense: {
-    /*
-    sidebar: {
-      client: '',
-      slot: '',
-      style: { display: 'inline-block', width: '250px', height: '250px' }
-    },
-    // 详情页面的广告
-    postsDetail: {
-      client: '',
-      slot: '',
-      style: { display: 'block', height:'100px' }
-      // format: 'auto',
-      // responsive: 'true'
-    }
-    */
+    // client: '',
+    // slot: {
+    //   pc: '',
+    //   h5: ''
+    // }
   },
   
   // [必填] AMP 页面相关配置
   AMP: {
     logo: {
-      url: 'https://img.xiaoduyu.com/600x60.png',
+      url: '/600x60.png',
       width: 600,
       height: 60
     }
-  },
-  
-  // [选填] 友情链接
-  links: [
-  ]
+  }
 
 }
 
-config.head += config.favicon;
+const localhost = 'localhost';
 
 // 开发环境调试
 if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
-  let localhost = 'localhost';
-  config.debug = process.env.NODE_ENV == 'test' ? false : true;
   config.port = 4000;
   config.classScopedName = '[name]_[local]__[hash:base64:5]';
   config.domainName = `http://${localhost}:4000`;
   config.publicPath = `http://${localhost}:4000`;
   // config.graphqlUrl = `http://${localhost}:3000/graphql`;
   // config.socketUrl = `http://${localhost}:3000`;
-  config.googleAdSense = '';
   config.GA = '';
+  config.googleAdSense = '';
   config.analysisScript = ``;
 }
 
 
-/*
-// 本地生产环境调试
-if (process.env.NODE_ENV == 'production') {
-  config.debug = true;
-  config.port = 4000;
-  config.domainName = `http://${localhost}:4000`;
-  config.publicPath = `http://${localhost}:4000`;
-  config.GA = '';
-  config.analysis_script = ``;
-}
-*/
+// 上线环境测试
+// config.port = 4000;
+// config.domainName = `http://${localhost}:4000`;
+// config.publicPath = `http://${localhost}:4000`;
+// config.graphqlUrl = `http://${localhost}:3000/graphql`;
+// config.socketUrl = `http://${localhost}:3000`;
+
+config.head += config.favicon;
+config.AMP.logo.url = config.domainName + config.AMP.logo.url;
 
 module.exports = config;

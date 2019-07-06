@@ -111,11 +111,16 @@ export default class Notifications extends Component {
 
     return (<SingleColumns>
       
-        <div className="card p-2">
+        <div className="card p-3">
           <ul>
             {Reflect.ownKeys(typeList).map(item=>{
               let _type = typeList[item];
-              return (<Link to={`/notifications${item == 'unread' ? '' : '/'+item}`} key={item} className={`btn btn-sm ${type.name == _type.name ? 'btn-primary' : 'btn-link'}`}>{_type.name}</Link>)
+              return (<Link
+                to={`/notifications${item == 'unread' ? '' : '/'+item}`}
+                key={item}
+                className={`mr-3 ${type.name == _type.name ? 'text-primary' : 'text-dark'}`}
+                >
+                {_type.name}</Link>)
             })}
           </ul>
         </div>
@@ -134,10 +139,12 @@ export default class Notifications extends Component {
         })()}
         
         <UserNotificationList
-          name={pathname}
-          filters={{
-            variables: filters
-          }}
+          id={pathname}
+          query={filters}
+          scrollLoad={true}
+          // filters={{
+          //   variables: filters
+          // }}
         />
 
     </SingleColumns>)

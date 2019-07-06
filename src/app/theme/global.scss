@@ -2,10 +2,16 @@
 :global{
 
 body{
-  font-family: SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
-  // font-family: PingFang SC,Arial,Microsoft YaHei,sans-serif;
-  font-size: 14px;
-  line-height: 1.43;
+  // font: 13px/1.3 'pingfang sc',stheiti,'microsoft yahei',arial,sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  // font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+  // font-family: SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
+  // font-family: PingFang SC,SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
+  // font-family: 'Helvetica Neue', "PingFang SC", 'STHeiti', '微软雅黑', 'Microsoft YaHei', Helvetica, Arial, sans-serif;
+  // font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
+  // font-family: PingFang SC,Lantinghei SC,Helvetica Neue,Helvetica,Arial,Microsoft YaHei,"\5FAE\8F6F\96C5\9ED1",STHeitiSC-Light,simsun,"\5B8B\4F53",WenQuanYi Zen Hei,WenQuanYi Micro Hei,"sans-serif";
+  font-size: 13px;
+  // line-height: 1.43;
 }
 
 ul{
@@ -20,11 +26,50 @@ a:focus{
 .toastify{ z-index: 9999 !important; }
 
 .container{
-  max-width: 1180px;
+  max-width: 950px;
   @media (min-width: 0px) and (max-width: 767px) {
     padding-left:10px;
     padding-right:10px;
   }
 }
+
+.navbar{
+  height: 50px;
+}
+
+.navbar-brand{
+  margin-right:20px;
+}
+
+.dropdown-menu{
+  font-size: 14px;
+  border:1px solid rgba(0,0,0,.07);
+  box-shadow: 0 3px 6px rgba(0,0,0,.1);
+}
+
+.rounded{
+  border-radius: 10px !important;
+}
+.rounded-top{
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+}
+.rounded-right{
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
+.rounded-bottom{
+  border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
+.rounded-left{
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+}
+
+
+// .btn{
+//   border-radius: 20px;
+// }
 
 }

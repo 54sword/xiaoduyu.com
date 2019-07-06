@@ -1,22 +1,20 @@
-import { loadPeopleList } from '../../store/actions/people';
+import { loadPeopleList } from '../../redux/actions/people';
 
 export default function({ store, match, user }) {
   return new Promise(async (resolve, reject) => {
-
+    
     if (user) {
       resolve({ code:200 });
       return;
     }
-
+    
     const { id } = match.params;
 
     const [ err, data ] = await loadPeopleList({
-      name: id,
-      filters: {
-        variables: {
-          _id: id,
-          blocked: false
-        }
+      id,
+      args: {
+        _id: id,
+        blocked: false
       }
     })(store.dispatch, store.getState);
 

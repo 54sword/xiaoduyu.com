@@ -1,11 +1,18 @@
 
 .box{
-  padding:15px;
+  // padding:15px;
   // background-color: #fff;
   margin-bottom: 10px;
   // border-radius: 4px;
 }
 
+
+.action-bar{
+  padding:10px 15px 10px 15px;
+  > a, > div{
+    margin-right:15px;
+  }
+}
 
 .follow{
   // float:right;
@@ -42,34 +49,41 @@
 }
 
 .h1{
-  font-size: 30px;
+  font-size: 25px;
   padding:0px;
-  margin:0px;
-  line-height: 140%;
-  // color:#14171a;
+  margin:0 0 10px 0;
   
   @media (min-width: 0px) and (max-width: 767px) {
-    font-size: 25px;
+    font-size: 22px;
   }
 
 }
 
+// .author-avatar{
+//   width: 50px;
+//   height: 50px;
+//   border-radius: 50%;
+//   margin-right:12px;
+// }
+
 .head{
 
-  padding-left: 50px;
+  padding-left: 60px;
   margin-bottom:10px;
+  min-height: 48px;
 
   .author-avatar{
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    margin-left:-50px;
+    margin-left:-60px;
+    margin-top:-4px;
   }
 
-  a{
-    color:#484848;
-  }
+  // a{
+    // color:#484848;
+  // }
 
   > div span{
     font-size: 13px;
@@ -101,10 +115,10 @@
 
 .detail{
   width: 100%;
-  margin-top: 15px;
-  padding-top:10px;
+  // margin-top: 15px;
+  // padding-top:20px;
   // border-top:1px solid #efefef;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
 }
 
 .other{
@@ -117,21 +131,42 @@
 
 .actions{
 
-  > span, > a, > div{
-    margin-right:20px;
+  > a, > div{
+    margin-right:15px;
     font-size:13px;
   }
-  > span:last-child, > a:last-child, > div:last-child{
-    margin-right:0;
+
+  > span {
+    font-size: 12px;
+    color:#8C8C8C;
+    &:after{
+      content:'';
+      width: 2px;
+      height: 2px;
+      margin: 0 10px;
+      display: inline-block;
+      vertical-align: middle;
+      background-color: #c6c6c6;
+      border-radius: 50%;
+    }
   }
 
-  > span{
-    color:#999;
-    font-size: 13px;
+  > span:last-child, > a:last-child, > div:last-child{
+    margin-right:0;
+    &:after{
+      content:none;
+      width: 2px;
+      height: 2px;
+      margin: 0 10px;
+      display: inline-block;
+      vertical-align: middle;
+      background-color: #c6c6c6;
+      border-radius: 50%;
+    }
   }
-  
-  > a, > div a{
-    color:#999;
+
+  > a{
+    color:#484848;
   }
 
 }

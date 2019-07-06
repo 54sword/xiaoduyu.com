@@ -3,24 +3,36 @@
  * 覆盖默认的 bootstrap 的样式
  */
 
-$color_primary: #1289ff;
-$color_dark: #1c1e25;
+$color_primary: #0073ff;
+$color_dark: #222;//#29292a;
 $color_muted: #eff1f4;
-$color_secondary: #999;
+$color_secondary: #8b8e91;
 
 
 :global{
 
-#light-theme{
+// #light-theme{
   
   body {
-    background-color: #eaedf0;
+    // background-color: #fff;
+    background-color:#ecedef;//#eff0f2;//#eceef0;//#e9eaee;//#eceef0;
     color: $color_dark;
+    // background-image: url(http://dlanham.com/art/streaming/preview.jpg);
+    background-size: cover;
+    background-repeat:no-repeat; 
+    background-attachment:fixed;
   }
 
   //======================================================
   // 链接默认颜色
-  a{ color: $color_dark; }
+  a{
+    color: $color_dark;
+    &:hover{
+      color: $color_dark;
+    }
+  }
+
+  .active{  color: $color_primary !important; }
 
   // 正文
   .html-content,
@@ -55,12 +67,23 @@ $color_secondary: #999;
     border: none;
     border-radius: none;
     margin-bottom: 10px;
+    // border-radius:0px;
+    border-radius: 8px;
+    // overflow: hidden;
+    // border:1px solid rgba(0,0,0,.1);
+    // box-sizing: border-box;
+    // box-shadow: 0 0px 2px rgba(0,0,0,.25);
     
     .card-header{
       padding:8px 15px 8px 15px;
       border-bottom: 1px solid $color_muted;
-      background-color: #fff;
+      background-color: #fff;//#f6f8f9;
       font-size: 14px;
+      // font-weight: bold;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      // color:#999999;
+      // color:#484848;
     }
 
     .card-body{
@@ -72,21 +95,28 @@ $color_secondary: #999;
   //======================================================
   // https://getbootstrap.com/docs/4.0/components/list-group/
   .list-group-item{
-    border: 1px solid #fff;
+    padding:12px 15px 12px 15px;
+    border:none;
+    // border: 1px solid #fff;
     border-top: 1px solid $color_muted;
-    &:hover{ border-bottom: 1px solid $color_muted; }
+
+    border-radius: 0px;
+    // background-color: rgba(0,0,0,0);
+    background-color:transparent;
+
+    // &:hover{ border-bottom: 1px solid $color_muted; }
     &:first-child{ border-top:none; }
-    &:last-child{ border-bottom:none; }
+    // &:last-child{ border-bottom:none; }
   }
 
   //======================================================
   // https://getbootstrap.com/docs/4.0/utilities/borders/#border-radius
 
-  .border{ border: 1px solid $color_muted; }
-  .border-top{ border-top: 1px solid $color_muted; }
-  .border-right{ border-right: 1px solid $color_muted; }
-  .border-bottom{ border-bottom: 1px solid $color_muted; }
-  .border-left{ border-left: 1px solid $color_muted; }
+  .border{ border: 1px solid $color_muted !important; }
+  .border-top{ border-top: 1px solid $color_muted !important; }
+  .border-right{ border-right: 1px solid $color_muted !important; }
+  .border-bottom{ border-bottom: 1px solid $color_muted !important; }
+  .border-left{ border-left: 1px solid $color_muted !important; }
 
   @media (min-width: 0px) and (max-width: 767px) {
     .border{ border: 0.5px solid #ddd; }
@@ -118,13 +148,21 @@ $color_secondary: #999;
     padding:0 10px 0 10px;
     box-sizing: border-box;
     background-color: #fff;
-    border-bottom: 1px solid #eaedf0;
+    border-bottom: 1px solid #e9eaee;//#e5e8eb;
+    // box-shadow: 0 0px 2px rgba(0,0,0,.2);
+
+
+    // -webkit-backdrop-filter: blur(18px);
+    // background-color: rgba(255,255,255,.7);
+
   }
 
   .navbar-brand{
     min-height: 45px;
     padding:0px;
-    margin-right:0px;
+    // margin-right:0px;
+    // position: absolute;
+    // margin-left:-150px;
   }
 
   //======================================================
@@ -163,6 +201,55 @@ $color_secondary: #999;
     }
 
   }
+
+  .navbar-nav{
+    height: 50px;
+
+
+    .nav-link{
+      // margin:0 0 0 0px;
+      padding:0 15px 0 15px;
+      height: 50px;
+      line-height: 50px;
+      // border-bottom:3px solid #efefef;
+      color:#484848;
+      // transition: all .5s ease-in-out;
+      font-size: 15px;
+      &:hover{
+        // background-color: #f6f8f9;
+        // border-bottom:2px solid #222;
+        // color:#111;
+        color: $color_primary;
+        // border-bottom:2px solid #999;
+        // color:#111;
+        // border-bottom:3px solid $color_primary;
+      }
+    }
+    .active{
+      // font-size: 16px;
+      // font-weight: bold;
+      // color:#111;
+      color: $color_primary !important;
+      // text-decoration: none;
+
+      // text-decoration: underline;
+      // text-decoration-color: $color_primary;
+
+      // &:before{
+      //   content: "";
+      //   position: absolute;
+      //   top:10px;
+      //   width: 36px;
+      //   height: 30px;
+      //   margin-left:-3px;
+      //   background: $color_primary;
+      //   z-index: -1;
+      // }
+
+      // border-bottom:2px solid $color_primary;
+      // border-radius: 2px;
+    }
+  }
   
 }
-}
+// }

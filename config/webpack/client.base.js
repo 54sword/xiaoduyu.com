@@ -2,10 +2,18 @@ const webpack = require('webpack');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OfflinePlugin = require('offline-plugin');
+// const OfflinePlugin = require('offline-plugin');
 
+// import config from '../index';
 const config = require('../index');
+const aliasConfig = require('../alias.config');
 const devMode = process.env.NODE_ENV == 'development' ? true : false;
+
+let alias = {}
+
+for (var i in aliasConfig) {
+  alias[i] = path.resolve(aliasConfig[i])
+}
 
 module.exports = {
   
@@ -13,20 +21,8 @@ module.exports = {
   target: 'web',
 
   resolve: {
-    alias: {
-      // 配置文件位置
-      '@config': path.resolve('config'),
-      // 模块
-      '@modules': path.resolve('src/app/modules'),
-      // 组件
-      '@components': path.resolve('src/app/components'),
-      // redux actions
-      '@actions': path.resolve('src/app/store/actions'),
-      // redux reducers
-      '@reducers': path.resolve('src/app/store/reducers'),
-      // 工具
-      '@utils': path.resolve('src/app/common')
-    }
+    extensions: ['.ts', '.tsx', '.js'],
+    alias
   },
 
   entry: {
@@ -43,7 +39,7 @@ module.exports = {
       // Toastify 全局的轻消息
       './src/app/vendors/toastify-js/toastify.js',
       './src/app/vendors/toastify-js/toastify.css',
-
+      
       // 网页图片浏览器
       // WebPictureViewer(['https://avatars3.githubusercontent.com/u/888115?v=3&s=40']);
       './src/app/vendors/web-picture-viewer.js',
@@ -51,8 +47,7 @@ module.exports = {
       // ArriveFooter 监听抵达页尾的事件
       './src/app/vendors/arrive-footer.js',
       
-      // 折叠按钮
-      './src/app/vendors/expand-button.js',
+      './src/app/vendors/float-fixed.js',
 
       /**
        * 懒加载图片、Dom
@@ -60,12 +55,11 @@ module.exports = {
        * 给dom添加class="load-demand"、data-load-demand="<div></div> or <img />"
        **/
       './src/app/vendors/load-demand',
-      
-      // 'github-markdown-css/github-markdown.css',
 
-      // 'highlight.js/styles/default.css',
+      'highlight.js/styles/github.css',
+      'github-markdown-css/github-markdown.css',
 
-      './src/client/index.js'
+      './src/client/index'
     ]
   },
 
@@ -80,7 +74,8 @@ module.exports = {
   },
 
   optimization: {
-    // minimize: devMode ? false : true,
+    // minimize: false,
+    minimize: devMode ? false : true,
     // namedModules: true,
     // noEmitOnErrors: true,
     splitChunks: {
@@ -105,10 +100,11 @@ module.exports = {
 
       // js 文件解析
       {
-        test: /\.js$/i,
+        test: /\.(js|ts|tsx)?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
+      
       {
         test: /\.scss$/,
         use: [
@@ -129,9 +125,7 @@ module.exports = {
             options: {
               plugins: () => [
                 require('postcss-flexbugs-fixes'),
-                require('autoprefixer')({
-                  browsers: ['last 2 versions']
-                })
+                require('autoprefixer')
               ]
             }
           },
@@ -151,9 +145,7 @@ module.exports = {
             options: {
               plugins: () => [
                 require('postcss-flexbugs-fixes'),
-                require('autoprefixer')({
-                  browsers: ['last 2 versions']
-                })
+                require('autoprefixer')
               ]
             }
           }
@@ -185,18 +177,12 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: devMode ? "[name].css" : "[name].[hash].css"
     }),
-
-    new OfflinePlugin({
-      autoUpdate: 1000 * 60 * 5,
-      ServiceWorker: {
-        publicPath: '/sw.js'
-      }
-    }),
+    
 
     // 创建视图模版文件，给server使用
     // 主要是打包后的添加的css、js静态文件路径添加到模版中
     new HtmlwebpackPlugin({
-      filename: path.resolve(__dirname, '../../dist/server/index.ejs'),
+      filename: path.resolve(__dirname, '../../dist/client/index.ejs'),
       template: 'src/app/views/index.html',
       theme: '<%- theme %>',
       metaDom: '<%- meta %>',

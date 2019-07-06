@@ -1,4 +1,8 @@
 
+.item{
+  background-color: #fff;
+  margin-bottom:1px;
+}
 
 .unread{
   background-color: #f2fbff;
@@ -38,9 +42,9 @@
 
   .content{
     margin-top:10px;
-    // background-color: #f7f7f7;
+    background-color: #f7f7f7;
     padding:10px;
-    border-radius: 6px;
+    border-radius: 8px;
     img {
       max-width: 300px;
     }

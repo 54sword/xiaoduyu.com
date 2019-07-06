@@ -3,7 +3,7 @@
   <head>
     <% include ../includes/head.ejs %>
 
-    <title><%- website_name %></title>
+    <title><%- posts.title %> - <%- website_name %></title>
     <link rel="canonical" href="<%- domainName %>/posts/<%- posts._id %>">
 
     <meta property="og:locale" content="zh_CN" />
@@ -133,6 +133,16 @@
 
       <!-- posts end -->
 
+      <% if (googleAdSense && googleAdSense.client && googleAdSense.slot && googleAdSense.slot.h5) { %>
+        <br />
+        <amp-ad layout="fixed-height"
+          height=100
+          type="adsense"
+          data-ad-client="<%- googleAdSense.client %>"
+          data-ad-slot="<%- googleAdSense.slot.h5 %>">
+        </amp-ad>
+      <% } %>
+
       <!-- comment -->
       <% if (posts.comment_count > 0) { %>
         <div class="comment-bar"><%- posts.comment_count %> 条评论</div>
@@ -154,7 +164,7 @@
               </div>
             </div>
             <div class="content"><%- comment.content_html %></div>
-
+            
             <% if (comment.reply_count) { %>
               <div><a href="<%- domainName %>/comment/<%- comment._id %>">有 <%- comment.reply_count %> 条回复</a></div>
             <% } %>
@@ -171,6 +181,16 @@
 
       <!-- comment end -->
 
+      <% if (googleAdSense && googleAdSense.client && googleAdSense.slot && googleAdSense.slot.h5) { %>
+        <br />
+        <amp-ad layout="fixed-height"
+          height=100
+          type="adsense"
+          data-ad-client="<%- googleAdSense.client %>"
+          data-ad-slot="<%- googleAdSense.slot.h5 %>">
+        </amp-ad>
+      <% } %>
+
     </div>
 
     <!-- footer -->
@@ -181,6 +201,8 @@
       <p>© <%- new Date().getFullYear() %> <%- website_name %></p>
     </div>
     <!-- footer end -->
+    
+
 
   </body>
 </html>

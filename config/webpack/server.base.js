@@ -4,7 +4,15 @@ const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+// import config from '../index';
 const config = require('../index');
+const aliasConfig = require('../alias.config');
+
+let alias = {}
+
+for (var i in aliasConfig) {
+  alias[i] = path.resolve(aliasConfig[i])
+}
 
 module.exports = {
 
@@ -12,20 +20,8 @@ module.exports = {
   target: 'node',
 
   resolve: {
-    alias: {
-      // 配置文件位置
-      '@config': path.resolve('config'),
-      // 模块
-      '@modules': path.resolve('src/app/modules'),
-      // 组件
-      '@components': path.resolve('src/app/components'),
-      // redux actions
-      '@actions': path.resolve('src/app/store/actions'),
-      // redux reducers
-      '@reducers': path.resolve('src/app/store/reducers'),
-      // 工具
-      '@utils': path.resolve('src/app/common')
-    }
+    extensions: ['.ts', '.tsx', '.js'],
+    alias
   },
 
   entry: {
@@ -53,14 +49,18 @@ module.exports = {
     moduleExtensions: ["-loader"]
   },
 
+  optimization: {
+    minimize: false
+  },
+
   module: {
     rules: [
 
       // js 文件解析
       {
-        test: /\.js$/i,
+        test: /\.(js|ts|tsx)x?$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: 'babel-loader'
       },
       
       // scss 文件解析

@@ -14,7 +14,7 @@
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #efefef;
+  /* background-color: #efefef; */
 }
 
 .RichEditor-editor{
@@ -60,18 +60,16 @@
 
 .public-DraftEditor-content > div > h2{
   padding-bottom: 15px;
-  font-size:18px;
+  font-size:20px;
   border-bottom: 1px solid #eaecef;
-  margin:30px 0 15px 0;
+  font-weight: bold;
+  /* margin:0px 0 15px 0; */
 }
 
 /*************** 内容样式 end ***************/
 
 
 
-/* .DraftEditor-root{ */
-  /* background-color: #fff; */
-/* } */
 
 /* .RichEditor-root { */
   /* background: #fff; */
@@ -96,12 +94,13 @@
 
 .RichEditor-editor .public-DraftEditor-content {
   min-height: 300px;
+  max-height: 360px;
+  overflow: scroll;
 }
 
 .RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
   display: none;
 }
-
 
 .RichEditor-controls {
   user-select: none;
@@ -213,7 +212,7 @@
 }
 
 .RichEditor-controls .link-image{
-  background-image: url(./images/editor-icon_14.png);
+  background-image: url(./images/editor-icon_15.png);
 }
 
 
@@ -242,3 +241,7 @@
 #dark-theme .RichEditor-editor .RichEditor-styleButton:hover{
   background-color: #606983;
 }
+
+/* .public-DraftEditor-content > div > *{
+  margin-bottom:16px;
+} */

@@ -1,0 +1,46 @@
+.ad{
+  display: block;
+  width: 280px;
+  height: 160px;
+  border-radius: 8px;
+  background-color: #fff;
+  background-size:cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  text-align: center;
+  &:hover{
+    box-shadow: 5px 0px 10px rgba(0,0,0,.2);
+    transition: all .2s ease-in-out;
+  }
+}
+
+.plan{
+  float:right;
+  padding: 3px 5px 3px 5px;
+  background-color: rgba(0,0,0,.3);
+  color:#fff;
+  border-radius: 6px;
+  margin:5px;
+  font-size:10px;
+  &:hover{
+    color:#fff;
+  }
+}
+
+.box{
+  width: 280px;
+  border-radius: 8px;
+  padding:15px;
+  background-color: #6f7381;
+  color:#fff;
+}
+
+.title{
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom:3px;
+}
+
+.green{
+  color:#4cd228;
+}
