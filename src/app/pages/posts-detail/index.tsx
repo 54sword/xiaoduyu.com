@@ -20,6 +20,7 @@ import Loading from '@components/ui/loading';
 
 import ADPC from '@modules/ads/pc';
 import ADH5 from '@modules/ads/h5';
+import ADAuthor from '@modules/ads/author';
 
 // layout
 import TwoColumns from '../../layout/two-columns';
@@ -70,7 +71,7 @@ export default Shell(function({ setNotFound }: any) {
   if (loading || !posts) {
     return (<Loading />);
   }
-
+  
   return (
     <TwoColumns>
       
@@ -138,6 +139,7 @@ export default Shell(function({ setNotFound }: any) {
         </div>
       </div>
 
+      <ADAuthor _id={posts.user_id.ad} userId={posts.user_id._id} />
       <ADPC width='280px' height='160px' />
 
     </div>

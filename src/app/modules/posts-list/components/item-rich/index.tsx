@@ -84,6 +84,13 @@ export default function({ posts }: Props) {
 
             </Link>
 
+            {posts.comment_count ?
+              <div styleName="heat">
+                {posts.comment_count ? <span>{posts.comment_count}</span> : null}
+                {posts.reply_count ? <span>/{posts.reply_count}</span> : null}
+              </div>
+              : null}
+
           </div>
           : null}
       </div>
@@ -115,8 +122,8 @@ export default function({ posts }: Props) {
             <span><Link to={`/topic/${posts.topic_id._id}`} onClick={stopPropagation}>{posts.topic_id.name}</Link></span>
             <span>{posts._create_at}</span>
             {posts.view_count ? <span>{posts.view_count}次阅读</span> : null}
-            {posts.comment_count ? <span>{posts.comment_count}条评论</span> : null}
-            {posts.reply_count ? <span>{posts.reply_count}条回复</span> : null}
+            {/* {posts.comment_count ? <span>{posts.comment_count}条评论</span> : null} */}
+            {/* {posts.reply_count ? <span>{posts.reply_count}条回复</span> : null} */}
             {posts.like_count ? <span>{posts.like_count}人赞</span> : null}
             {posts.follow_count ? <span>{posts.follow_count}人收藏</span> : null}
           </div>

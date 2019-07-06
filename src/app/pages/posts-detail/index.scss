@@ -1,28 +1,13 @@
-// .box{
-  // max-width: 720px;
-  // margin:0 auto;
-// }
 
 .comment-list{
-  // background-color: #fff;
-  // border-radius: 4px;
   padding:0 !important;
-
-  :global{
-
-    .list-group > div:first-child{
-      border:none !important;
-    }
-
-    .pagination{
-      border-top:1px solid #efefef;
-    }
+  div:first-child{
+    border:none !important;
   }
 }
 
 .editor-comment{
   margin-top:10px;
-  margin-bottom:40px;
   border-radius: 4px;
   overflow: hidden;
 }

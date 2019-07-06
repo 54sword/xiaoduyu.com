@@ -29,8 +29,13 @@ app.use(function (req: any, res: any, next: any) {
   const start_at = Date.now();
   const _send = res.send;
   res.send = function () {
+    
     // 发送Header
     res.set('X-Execution-Time', String(Date.now() - start_at) + ' ms');
+
+    // console.log(process.memoryUsage().rss/1024/1024);
+    // console.log(String(Date.now() - start_at) + ' ms');
+
     // 调用原始处理函数
     return _send.apply(res, arguments);
   };
@@ -42,6 +47,7 @@ app.use('/amp', AMP());
 app.use('/sign', sign());
 app.get('*', async function (req: any, res: any) {
 
+
   let { code, redirect, html, meta, reduxState, user } = await render(req, res);
 
   res.status(code);
@@ -49,7 +55,7 @@ app.get('*', async function (req: any, res: any) {
   if (redirect) {
     res.redirect(redirect);
   } else {
-    res.render('../dist/server/index.ejs', {
+    res.render('../dist/client/index.ejs', {
       html,
       reduxState,
       meta,

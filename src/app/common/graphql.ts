@@ -11,7 +11,7 @@ import To from './to';
 
 // https://www.apollographql.com/docs/react/advanced/caching.html
 const cache = new InMemoryCache({
-  // addTypename: false
+  addTypename: false
 });
 
 // https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
@@ -43,6 +43,7 @@ interface Props {
     // token
     'accessToken'?: string,
     'user-agent'?: string,
+    'Cache-Control'?: string,
     // 使用管理员角色请求api，可以拥有管理员权限
     'role'?: 'admin'
   },
@@ -84,13 +85,18 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
   // 在服务端发起的请求的ua，传递给api
   if (global.ua) headers['user-agent'] = global.ua;
 
+  // headers['Cache-Control'] = 'PRIVATE';
+
   let options: any = {
     context: {
       headers
     },
+    // fetchPolicy: 'cache'
     // 如果未设置缓存，判断如果是会员的话不缓存，游客缓存
     fetchPolicy: cache && !resetStore ? 'cache' : (headers.accessToken || resetStore ? 'no-cache' : 'cache')
   }
+
+  // console.log(options);
   
   // 服务端清理缓存逻辑
   if (__SERVER__) {
@@ -99,10 +105,12 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
       // 超过缓存时间，清空所有缓存
       // https://github.com/apollographql/apollo-client/issues/2919
       await client.cache.reset();
+      // client.clearStore();
       resetStore = false;
       lastCacheTime = new Date().getTime();
     }
   }
+
 
   let fn:any = client.query;
 

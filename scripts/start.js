@@ -8,7 +8,6 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const clientConfig = require('../config/webpack/client.dev');
 const serverConfig = require('../config/webpack/server.dev');
 
-// import config from '../config';
 const config = require('../config');
 
 const compilerPromise = (compiler) => {

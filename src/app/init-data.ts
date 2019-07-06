@@ -6,15 +6,23 @@ import { loadOperatingStatus } from '@actions/website';
 export default (store: any, accessToken?: string) => {
   return new Promise<Array<any>> (async resolve => {
     
-    await loadOperatingStatus()(store.dispatch, store.getState);
+    try {
 
-    // 如果有token，验证码token是否
-    if (accessToken) {
-      let res = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
-      resolve(res);
-    } else {
+      await loadOperatingStatus()(store.dispatch, store.getState);
+
+      // 如果有token，验证码token是否
+      if (accessToken) {
+        let res = await loadUserInfo({ accessToken })(store.dispatch, store.getState);
+        resolve(res);
+      } else {
+        resolve([]);
+      }
+
+    } catch (err) {
+      console.log(err);
       resolve([]);
     }
+
 
   });
 }

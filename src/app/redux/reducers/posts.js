@@ -155,6 +155,7 @@ export const getPostsListById = (state, name) => {
 
   if (state.posts[name]) list = state.posts[name];
 
+  /*
   if (!list) {
 
     for (let i in state.posts) {
@@ -169,6 +170,7 @@ export const getPostsListById = (state, name) => {
       })
     }
   }
+  */
 
   return list
 

@@ -5,7 +5,7 @@ let state: any = null;
 
 export default (store: any)=>{
 
-  state = merge({}, store.getState())
+  state = merge({}, store.getState());
   
   return ()=>{
     

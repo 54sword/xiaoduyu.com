@@ -2,9 +2,6 @@
 // 生产环境配置
 let config = {
 
-  // [必填] 是否开发debug模式
-  debug: false,
-
   // [必填] 网站名称
   name: '小度鱼',
 
@@ -60,7 +57,6 @@ let config = {
     <link rel="apple-touch-icon" href="/icon-512x512.png">
     <meta content="yes" name="apple-touch-fullscreen">
     <meta content="yes" name="apple-mobile-web-app-capable">
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   `,
 
   // [选填] 添加分析统计脚本
@@ -80,21 +76,11 @@ let config = {
 
   // [选填] google广告
   googleAdSense: {
-    /*
-    sidebar: {
-      client: '',
-      slot: '',
-      style: { display: 'inline-block', width: '250px', height: '250px' }
-    },
-    // 详情页面的广告
-    postsDetail: {
-      client: '',
-      slot: '',
-      style: { display: 'block', height:'100px' }
-      // format: 'auto',
-      // responsive: 'true'
-    }
-    */
+    // client: '',
+    // slot: {
+    //   pc: '',
+    //   h5: ''
+    // }
   },
   
   // [必填] AMP 页面相关配置
@@ -108,33 +94,30 @@ let config = {
 
 }
 
-config.head = config.head.replace(new RegExp("({description})","g"), config.description);
-config.head += config.favicon;
-config.AMP.logo.url = config.domainName + config.AMP.logo.url;
+const localhost = 'localhost';
 
 // 开发环境调试
 if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
-  let localhost = 'localhost';
-  config.debug = process.env.NODE_ENV == 'test' ? false : true;
   config.port = 4000;
   config.classScopedName = '[name]_[local]__[hash:base64:5]';
   config.domainName = `http://${localhost}:4000`;
   config.publicPath = `http://${localhost}:4000`;
   // config.graphqlUrl = `http://${localhost}:3000/graphql`;
   // config.socketUrl = `http://${localhost}:3000`;
+  config.GA = '';
   config.googleAdSense = '';
-  // config.GA = '';
   config.analysisScript = ``;
 }
 
 
-/*
-// 打开注解，可以启动本地生产环境调试
-if (process.env.NODE_ENV == 'production') {
-  config.port = 4000;
-  config.domainName = `http://${localhost}:4000`;
-  config.publicPath = `http://${localhost}:4000`;
-}
-*/
+// 上线环境测试
+// config.port = 4000;
+// config.domainName = `http://${localhost}:4000`;
+// config.publicPath = `http://${localhost}:4000`;
+// config.graphqlUrl = `http://${localhost}:3000/graphql`;
+// config.socketUrl = `http://${localhost}:3000`;
+
+config.head += config.favicon;
+config.AMP.logo.url = config.domainName + config.AMP.logo.url;
 
 module.exports = config;

@@ -6,7 +6,7 @@ const getCountdown = function(nowDate: string | number, endDate: string | number
   var lastDate = Math.ceil(new Date(endDate).getTime()/1000);
   var now = Math.ceil(new Date(nowDate).getTime()/1000);
   
-  var timeCount = (3600 * 24 * 30) - (now - lastDate);
+  var timeCount = lastDate - now;
 
   var days = Math.floor( timeCount / (3600*24) );
   var hours = Math.floor( (timeCount - (3600*24*days)) / 3600 );

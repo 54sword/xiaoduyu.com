@@ -33,7 +33,7 @@ declare module 'webpack-hot-middleware'
 declare module '@config'
 declare module '@config/*'
 declare module 'showdown'
-
+declare module 'memory-cache'
 
 // https://www.tslang.cn/docs/handbook/jsx.html
 // 去除使用标签的警告

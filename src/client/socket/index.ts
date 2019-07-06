@@ -4,7 +4,6 @@ import io from 'socket.io-client';
 import config from '@config/index';
 
 // redux actions
-// import { loadUnreadCount, cancelNotiaction } from '../store/actions/notification';
 import { setOnlineUserCount } from '@actions/website';
 import { getAccessToken } from '@reducers/user';
 
@@ -40,7 +39,6 @@ export const connect = function ({ dispatch, getState }: any) {
     switch (type) {
       // 有新通知
       case 'notification':
-        // handleActions(loadUnreadCount);
         handleActions(loadTips);
         break;
       case 'new-feed':
@@ -48,10 +46,6 @@ export const connect = function ({ dispatch, getState }: any) {
         break;
       case 'recommend-posts':
         handleActions(loadTips);
-        break;
-      // case 'new-message':
-        // console.log('新消息');
-        // handleActions(loadTips);
         break;
       case 'new-session':
         console.log(data);

@@ -98,12 +98,13 @@
   .info{
 
     width:100%;
-    line-height: 35px;
+    // line-height: 35px;
     // margin-top:3px;
 
     .nickname{
       font-size: 13px;
       color:#484848;
+      line-height: 35px;
       // font-weight: bold;
     }
 
@@ -158,6 +159,18 @@
   }
 
 }
+
+.heat{
+  color:#a4a4a4;
+  background-image: url('./images/comment.png');
+  background-size: 13px;
+  background-repeat: no-repeat;
+  padding-left:20px;
+  background-position: 0 3px;
+  font-size: 13px;
+}
+
+
 
 .item-meta{
   display: inline;

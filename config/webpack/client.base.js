@@ -55,7 +55,8 @@ module.exports = {
        * 给dom添加class="load-demand"、data-load-demand="<div></div> or <img />"
        **/
       './src/app/vendors/load-demand',
-      
+
+      'highlight.js/styles/github.css',
       'github-markdown-css/github-markdown.css',
 
       './src/client/index'
@@ -176,11 +177,12 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: devMode ? "[name].css" : "[name].[hash].css"
     }),
+    
 
     // 创建视图模版文件，给server使用
     // 主要是打包后的添加的css、js静态文件路径添加到模版中
     new HtmlwebpackPlugin({
-      filename: path.resolve(__dirname, '../../dist/server/index.ejs'),
+      filename: path.resolve(__dirname, '../../dist/client/index.ejs'),
       template: 'src/app/views/index.html',
       theme: '<%- theme %>',
       metaDom: '<%- meta %>',

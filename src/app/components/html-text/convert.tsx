@@ -338,10 +338,19 @@ const link = (str: any) => {
 
 const image = (html: any) => {
 
-  // 图片处理
-  let re = /\<img src\=\"(.*?)\"\>/g;
 
-  let imgs = [...new Set(html.match(re))];
+  let imgReg = /\<img(.*?)>/g;
+  // let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+  // let result:Array<string> = [];
+
+  let imgs = html.match(imgReg);
+
+  // // 图片处理
+  // let re = /\<img src\=\"(.*?)\"\>/g;
+
+  // let imgs = html.match(re);
+
+  // console.log(imgs);
 
   // 获取页面中所有的图片
   let allImage: any = abstractImagesFromHTML(html);

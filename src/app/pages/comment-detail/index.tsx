@@ -25,6 +25,7 @@ import TwoColumns from '../../layout/two-columns';
 
 import ADPC from '@modules/ads/pc';
 import ADH5 from '@modules/ads/h5';
+import ADAuthor from '@modules/ads/author';
 
 // styles
 import './index.scss';
@@ -171,6 +172,7 @@ export default Shell(function({ match, setNotFound }: any) {
         </div>
       </div>
 
+      <ADAuthor _id={comment.user_id.ad} userId={comment.user_id._id} />
       <ADPC width='280px' height='160px' />
 
   </div>

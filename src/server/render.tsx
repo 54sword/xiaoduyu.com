@@ -4,6 +4,8 @@ import { StaticRouter, matchPath } from 'react-router';
 import { Provider } from 'react-redux';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
+import cache from 'memory-cache';
+
 // 创建redux store
 import createStore from '../app/redux';
 // 路由组件
@@ -12,6 +14,7 @@ import createRouter from '../app/router';
 import initData from '../app/init-data';
 // token cookie 的名称
 import { authCookieName } from '@config';
+import featureConfig from '@config/feature.config';
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -30,6 +33,18 @@ type Resolve = {
 
 export default (req: any, res: any) => {
   return new Promise<Resolve>(async (resolve) => {
+
+    // 如果是游客，则优先使用缓存中的数据
+    if (!req.cookies[authCookieName]) {
+      let _cache = cache.get(req.url);
+      if (_cache) {
+        try {
+          resolve(JSON.parse(_cache));
+          return;
+        } catch (err) {
+        }
+      }
+    }
 
     let params: Resolve = {
       code: 200,
@@ -132,6 +147,12 @@ export default (req: any, res: any) => {
 
     // 释放store内存
     store = null;
+      
+    // 对游客的请求进行缓存
+    if (!req.cookies[authCookieName]) {
+      cache.put(req.url, JSON.stringify(params), featureConfig.cache);
+    }
+    
 
     resolve(params);
 

@@ -1,27 +1,34 @@
 import React, { useState, useEffect, createRef } from 'react';
-import dynamicFile from 'dynamic-file';
+// import dynamicFile from 'dynamic-file';
 import pangu from 'pangu';
 
 import './style.scss';
 import convertHTML from './convert';
 
+import hljs from 'highlight.js/lib/highlight';
+// import 'highlight.js/styles/github.css';
+
 interface Props {
   content: string,
-  hiddenHalf: boolean,
-  maxHeight: number
+  // hiddenHalf?: boolean,
+  maxHeight?: number
 }
 
-export default function({ content, hiddenHalf, maxHeight }: Props) {
+export default function({ content, maxHeight }: Props) {
+
+  if (!content) return null;
 
   const [ html, setHtml ] = useState(content);
   const [ expand, setExpand ] = useState(false);
   const [ contentHeight, setContentHeight ] = useState(0);
   const contentRef = createRef();
 
+
   useEffect(()=>{
 
     setHtml(convertHTML(content));
-    
+
+    /*
     if(typeof hljs == 'undefined') {
       dynamicFile([
         '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css',
@@ -38,6 +45,11 @@ export default function({ content, hiddenHalf, maxHeight }: Props) {
         hljs.highlightBlock(block);
       });
     }
+    */
+
+    $('.markdown-body pre').each(function(i: any, block: any) {
+      hljs.highlightBlock(block);
+    });
     
     pangu.spacingElementByClassName('markdown-body');
 
@@ -47,11 +59,9 @@ export default function({ content, hiddenHalf, maxHeight }: Props) {
     
   }, [content]);
 
-  if (!content) return '';
-
   return (<div>
     
-    {!hiddenHalf ?
+
       <div
         ref={contentRef}
         style={!expand && maxHeight && contentHeight > maxHeight ? { maxHeight: `${maxHeight}px`, overflow: 'hidden' } : null }
@@ -59,7 +69,6 @@ export default function({ content, hiddenHalf, maxHeight }: Props) {
         className="markdown-body"
         dangerouslySetInnerHTML={{__html:html}}
         />
-        : null}
       
     {(()=>{
       if (!maxHeight || contentHeight < maxHeight) return null;

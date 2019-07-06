@@ -104,37 +104,47 @@ const loadList = function(dispatch: any, getState: any) {
           fields
         }];
       
-      // 如果没有count，那么查询count数量
-      if (!Reflect.has(list, 'count')) {
+      
+      let data = [], err, res;
 
-        let s = Object.assign({}, args);
-        delete s.page_size;
-        delete s.page_number;
-        delete s.sort_by;
+      if (!args._id) {
 
-        apis.push({
-          aliases: 'count',
-          api: 'count' + api.charAt(0).toUpperCase() + api.slice(1),
-          args: s,
-          fields: `count`
+        // 如果没有count，那么查询count数量
+        if (!Reflect.has(list, 'count')) {
+
+          let s = Object.assign({}, args);
+          delete s.page_size;
+          delete s.page_number;
+          delete s.sort_by;
+
+          apis.push({
+            aliases: 'count',
+            api: 'count' + api.charAt(0).toUpperCase() + api.slice(1),
+            args: s,
+            fields: `count`
+          });
+
+        }
+
+        [ err, res ] = await graphql({
+          apis,
+          headers: { accessToken }
+        });
+  
+        if (res && res.count) {
+          list.count = res.count.count;
+          data = res.list;
+        } else {
+          data = res;
+        }
+      } else {
+
+        [ err, res ] = await graphql({
+          apis,
+          headers: { accessToken }
         });
 
-      }
-
-      let [ err, res ] = await graphql({
-        apis,
-        headers: { accessToken }
-      });
-
-      // console.log(err);
-      // console.log(res);
-
-      let data = [];
-
-      if (res && res.count) {
-        list.count = res.count.count;
-        data = res.list;
-      } else {
+        list.count = 1;
         data = res;
       }
   

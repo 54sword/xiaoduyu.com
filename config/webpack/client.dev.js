@@ -3,8 +3,6 @@ const webpack = require('webpack');
 const WriteFileWebpackPlugin = require('write-file-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-// console.log(baseConfig);
-
 const config = {
   ...baseConfig,
   plugins: [
