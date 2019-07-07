@@ -36,9 +36,11 @@ export default ({ store, match, user }) => {
       })(store.dispatch, store.getState);
 
       resolve({ code:200 });
-    } else {
+    } else if (data && data.data && data.data[0]) {
       // 没有找到帖子，设置页面 http code 为404
       resolve({ code:404 });
+    } else if (err && err.message) {
+      resolve({ code:200 });
     }
 
   })

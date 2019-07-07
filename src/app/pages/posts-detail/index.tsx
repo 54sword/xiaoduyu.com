@@ -78,13 +78,13 @@ export default Shell(function({ setNotFound }: any) {
     <div>
 
     <Meta title={posts.title}>
-      <meta name="description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
+      <meta name="description" content={`${posts.content_summary}`} />
       <link rel="canonical" href={`${domainName}/posts/${posts._id}`} />
       <link rel="amphtml" href={`${domainName}/amp/posts/${posts._id}`} />
       <meta property="og:locale" content="zh_CN" />
       <meta property="og:type" content="article" />
       <meta property="og:title" content={posts.title} />
-      <meta property="og:description" content={`${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.content_summary}`} />
+      <meta property="og:description" content={`${posts.content_summary}`} />
       <meta property="og:url" content={`${domainName}/posts/${posts._id}`} />
       <meta property="og:site_name" content={name} />
       <meta property="og:image" content={posts._coverImage || domainName+'./icon-512x512.png'} />

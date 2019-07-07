@@ -150,7 +150,7 @@ const loadList = function(dispatch: any, getState: any) {
   
       if (err) {
         list.loading = false;
-        resolve([ null, list ]);
+        resolve([ err ]);
         return
       }
   

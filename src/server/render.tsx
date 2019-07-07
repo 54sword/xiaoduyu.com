@@ -35,7 +35,7 @@ export default (req: any, res: any) => {
   return new Promise<Resolve>(async (resolve) => {
 
     // 如果是游客，则优先使用缓存中的数据
-    if (!req.cookies[authCookieName]) {
+    if (!req.cookies[authCookieName] && featureConfig.cache) {
       let _cache = cache.get(req.url);
       if (_cache) {
         try {
@@ -149,10 +149,9 @@ export default (req: any, res: any) => {
     store = null;
       
     // 对游客的请求进行缓存
-    if (!req.cookies[authCookieName]) {
+    if (!req.cookies[authCookieName]  && featureConfig.cache) {
       cache.put(req.url, JSON.stringify(params), featureConfig.cache);
-    }
-    
+    }    
 
     resolve(params);
 

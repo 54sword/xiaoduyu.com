@@ -182,7 +182,9 @@ export function loadOperatingStatus() {
       ]
     });
 
-    dispatch({ type: 'SET_OPERATING_STATUS', data: res });
+    if (!err && res) {
+      dispatch({ type: 'SET_OPERATING_STATUS', data: res });
+    }
     
     resolve([err, res])
 

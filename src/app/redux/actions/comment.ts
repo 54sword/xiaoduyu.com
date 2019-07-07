@@ -39,11 +39,10 @@ const processCommentList = (list: Array<object>) => {
     if (item.images && item.images.length > 0) {
       item._coverImage = item.images[0].split('?')[0]+'?imageView2/2/w/300/auto-orient/format/jpg'
     }
-
+    
     if (item.content_html) {
-
       let text = item.content_html.replace(/<[^>]+>/g,"");
-      if (text.length > 120) text = text.slice(0, 120)+'...';
+      if (text.length > 137) text = text.slice(0, 137)+'...';
       item.content_summary = text;
     } else {
       item.content_summary = '';
@@ -51,7 +50,7 @@ const processCommentList = (list: Array<object>) => {
 
     if (item.posts_id && item.posts_id.content_html) {
       let text = item.posts_id.content_html.replace(/<[^>]+>/g,"");
-      if (text.length > 120) text = text.slice(0, 120)+'...';
+      if (text.length > 137) text = text.slice(0, 137)+'...';
       item.posts_id.content_summary = text;
     }
 

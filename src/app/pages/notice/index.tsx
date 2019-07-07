@@ -18,7 +18,8 @@ let titleList: any = {
   'create_user_failed': '创建用户失败',
   'create_oauth_failed': '创建账户失败',
   'invalid_token': `无效的登陆令牌，请重新 <a href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-in">登陆</a>`,
-  'block_account': '您的账号被禁止使用，如有疑问请联系：'+contactEmail 
+  'block_account': '您的账号被禁止使用，如有疑问请联系：'+contactEmail,
+  'error_message': ''
 }
 
 export default Shell(function() {

@@ -91,15 +91,15 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
     context: {
       headers
     },
-    // fetchPolicy: 'cache'
+    fetchPolicy: 'no-cache'
     // 如果未设置缓存，判断如果是会员的话不缓存，游客缓存
-    fetchPolicy: cache && !resetStore ? 'cache' : (headers.accessToken || resetStore ? 'no-cache' : 'cache')
+    // fetchPolicy: cache && !resetStore ? 'cache' : (headers.accessToken || resetStore ? 'no-cache' : 'cache')
   }
 
   // console.log(options);
   
   // 服务端清理缓存逻辑
-  if (__SERVER__) {
+  if (__SERVER__ && featureConfig.cache) {
     if (new Date().getTime() - lastCacheTime > featureConfig.cache && !resetStore) {
       resetStore = true;
       // 超过缓存时间，清空所有缓存

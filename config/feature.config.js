@@ -43,8 +43,9 @@ let config = {
 
 if (process.env.NODE_ENV == 'development') {
   config.debug = true;
-  config.apiLog = true;
-  config.reduxLog = true;
+  // config.apiLog = true;
+  // config.reduxLog = true;
+  config.cache = 0;
 }
 
 module.exports = config;
