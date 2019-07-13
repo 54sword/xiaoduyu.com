@@ -8,7 +8,7 @@ import config from '@config';
 // redux
 import { useStore, useSelector } from 'react-redux';
 import { signOut } from '@actions/sign';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { getUnreadNotice } from '@reducers/website';
 import { getTipsById } from '@reducers/tips';
 
@@ -19,7 +19,7 @@ export default function() {
   
   const store = useStore();
 
-  const me = useSelector((state: any) => getProfile(state));
+  const me = useSelector((state: any) => getUserInfo(state));
   const unreadNotice = useSelector((state: any) => getUnreadNotice(state));
   const unreadMessage = useSelector((state: any) => getTipsById(state, 'unread-message') || 0);
   const followTip = useSelector((state: any) => getTipsById(state, 'feed'));

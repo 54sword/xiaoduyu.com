@@ -1,11 +1,10 @@
 import { dateDiff } from '../../common/date';
-// import loadList from '../../common/graphql-load-list';
 import graphql from '../../common/graphql';
 import loadList from '../../common/new-graphql-load-list';
 
 import Device from '../../common/device';
 
-const abstractImages = (str) => {
+const abstractImages = (str: string) => {
 
   let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
   let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -13,7 +12,7 @@ const abstractImages = (str) => {
   let result = [];
   let img;
   while (img = imgReg.exec(str)) {
-    let _img = img[0].match(srcReg)
+    let _img: any = img[0].match(srcReg)
     if (_img && _img[1]) {
       _img = _img[1] + '?imageView2/2/w/800/auto-orient/format/jpg'
       result.push(_img)
@@ -42,17 +41,31 @@ const processCommentList = (list: Array<object>) => {
 
     if (item.content_html) {
 
-      let text = item.content_html.replace(/<[^>]+>/g,"");
-      if (text.length > 120) text = text.slice(0, 120)+'...';
-      item.content_summary = text;
+      // let text = item.content_html.replace(/<[^>]+>/g,"");
+
+      let textContent = item.content_html;
+
+      textContent = textContent.replace(/<[^>]+>/g, '');
+      textContent = textContent.replace(/\r\n/g, ''); 
+      textContent = textContent.replace(/\n/g, ' ');
+
+      if (textContent.length > 137) textContent = textContent.slice(0, 137)+'...';
+      item.content_summary = textContent;
     } else {
       item.content_summary = '';
     }
 
     if (item.posts_id && item.posts_id.content_html) {
-      let text = item.posts_id.content_html.replace(/<[^>]+>/g,"");
-      if (text.length > 120) text = text.slice(0, 120)+'...';
-      item.posts_id.content_summary = text;
+
+      let textContent = item.posts_id.content_html;
+
+      textContent = textContent.replace(/<[^>]+>/g, '');
+      textContent = textContent.replace(/\r\n/g, ''); 
+      textContent = textContent.replace(/\n/g, '');
+
+      // let text = item.posts_id.content_html.replace(/<[^>]+>/g,"");
+      if (textContent.length > 120) textContent = textContent.slice(0, 120)+'...';
+      item.posts_id.content_summary = textContent;
     }
 
     if (item.reply && item.reply.map) {
@@ -216,8 +229,8 @@ export const loadCommentList = loadList({
   processList: processCommentList
 });
 
-export function loadMoreReply({ postsId, commentId }) {
-  return (dispatch, getState) => {
+export function loadMoreReply({ postsId, commentId }: { postsId: string, commentId: string }) {
+  return (dispatch: any, getState: any) => {
   return new Promise(async (resolve, reject) => {
 
     const commentList = getState().comment[postsId];
@@ -263,9 +276,9 @@ export function loadMoreReply({ postsId, commentId }) {
   }
 }
 
-export function updateComment(filters) {
-  return (dispatch, getState) => {
-  return new Promise(async (resolve, reject) => {
+export function updateComment(filters: any) {
+  return (dispatch: any, getState: any) => {
+  return new Promise(async (resolve) => {
     
     let [ err, res ] = await graphql({
       type: 'mutation',

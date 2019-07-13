@@ -2,7 +2,7 @@ import React, { useState, createRef } from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { getProfile, getUnlockToken } from '@reducers/user';
+import { getUserInfo, getUnlockToken } from '@reducers/user';
 import { loadUserInfo } from '@actions/user';
 import { addEmail } from '@actions/account';
 
@@ -15,7 +15,7 @@ export default function() {
   const captcha = createRef();
   const [ show, setShow ] = useState(false);
   const [ loading, setLoading  ] = useState(false);
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
   const unlockToken = useSelector((state: object)=>getUnlockToken(state));
   const store = useStore();
   const _addEmail = (args:any) => addEmail(args)(store.dispatch, store.getState);

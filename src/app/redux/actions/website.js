@@ -59,7 +59,7 @@ export function getNew () {
   return async (dispatch, getState) => {
 
     let user = getState().user;
-    let profile = user.profile;
+    let userInfo = user.userInfo;
 
     let [ err, res ] = await graphql({
       headers: { accessToken: user.accessToken },
@@ -140,24 +140,24 @@ export function getNew () {
 
       // 订阅
       if (res['subscribe'] && res['subscribe'][0] &&
-        profile.last_find_subscribe_at &&
-        new Date(profile.last_find_subscribe_at).getTime() < new Date(res['subscribe'][0].last_comment_at).getTime()
+        userInfo.last_find_subscribe_at &&
+        new Date(userInfo.last_find_subscribe_at).getTime() < new Date(res['subscribe'][0].last_comment_at).getTime()
       ) {
         dispatch({ type: 'HAS_NEW_SUBSCRIBE', status: true });
       }
 
       // 关注
       if (res['feed'] && res['feed'][0] &&
-        profile.last_find_feed_at &&
-        new Date(profile.last_find_feed_at).getTime() < new Date(res['feed'][0].create_at).getTime()
+        userInfo.last_find_feed_at &&
+        new Date(userInfo.last_find_feed_at).getTime() < new Date(res['feed'][0].create_at).getTime()
       ) {
         dispatch({ type: 'HAS_NEW_FEED', status: true });
       }
 
       // 优选
       if (res['excellent'] && res['excellent'][0] &&
-        profile.last_find_excellent_at &&
-        new Date(profile.last_find_excellent_at).getTime() < new Date(res['excellent'][0].create_at).getTime()
+        userInfo.last_find_excellent_at &&
+        new Date(userInfo.last_find_excellent_at).getTime() < new Date(res['excellent'][0].create_at).getTime()
       ) {
         dispatch({ type: 'HAS_NEW_EXCELLENT', status: true });
       }

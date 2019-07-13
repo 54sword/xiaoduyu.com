@@ -7,7 +7,7 @@ import { name, domainName } from '@config';
 import { useSelector, useStore } from 'react-redux';
 import { loadCommentList } from '@actions/comment';
 import { getCommentListById } from '@reducers/comment';
-import { isMember } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 // components
 import Shell from '@modules/shell';
@@ -34,7 +34,7 @@ export default Shell(function({ match, setNotFound }: any) {
 
   const { id } = match.params;
 
-  const _isMember = useSelector((state: object)=>isMember(state));
+  const _isMember = useSelector((state: object)=>getUserInfo(state));
   const list = useSelector((state: object)=>getCommentListById(state, 'single_'+id));
   const { data = [], loading, more = true }: any = list || {};
 
@@ -87,13 +87,13 @@ export default Shell(function({ match, setNotFound }: any) {
     <div>
 
     <Meta title={`${comment.posts_id.title}`}>
-      <meta name="description" content={`${comment.user_id.nickname}的评论: ${comment.content_summary}`} />
+      <meta name="description" content={`${comment.content_summary}`} />
       <link rel="canonical" href={`${domainName}/comment/${comment._id}`} />
       <link rel="amphtml" href={`${domainName}/amp/comment/${comment._id}`} />
       <meta property="og:locale" content="zh_CN" />
       <meta property="og:type" content="article" />
       <meta property="og:title" content={comment.posts_id.title} />
-      <meta property="og:description" content={`${comment.user_id.nickname}的评论: ${comment.content_summary}`} />
+      <meta property="og:description" content={`${comment.content_summary}`} />
       <meta property="og:url" content={`${domainName}/comment/${comment._id}`} />
       <meta property="og:site_name" content={name} />
       <meta property="og:image" content={comment.user_id.avatar_url || domainName+'./icon-512x512.png'} />

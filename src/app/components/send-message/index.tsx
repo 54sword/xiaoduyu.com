@@ -3,7 +3,7 @@ import useReactRouter from 'use-react-router';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { getSession } from '@actions/session';
 
 interface Props {
@@ -15,7 +15,7 @@ export default function({ people_id, className }: Props) {
 
   const { history } = useReactRouter();
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
   const store = useStore();
   const _getSession = (args:object)=>getSession(args)(store.dispatch, store.getState);
 

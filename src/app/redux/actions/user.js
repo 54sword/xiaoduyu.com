@@ -99,7 +99,7 @@ export function updateUser(args) {
   return async (dispatch, getState) => {
     return new Promise(async resolve => {
 
-      args._id = getState().user.profile._id;
+      args._id = getState().user.userInfo._id;
 
       let [ err, res ] = await graphql({
         type: 'mutation',
@@ -126,7 +126,7 @@ export function updatePassword(args) {
   return async (dispatch, getState) => {
     return new Promise(async resolve => {
 
-      args.user_id = getState().user.profile._id;
+      args.user_id = getState().user.userInfo._id;
 
       let [ err, res ] = await graphql({
         type: 'mutation',

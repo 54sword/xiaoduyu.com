@@ -3,12 +3,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { isMember, getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 @connect(
   (state, props) => ({
-    isMember: isMember(state),
-    me: getProfile(state)
+    me: getUserInfo(state)
   }),
   dispatch => ({
   })
@@ -16,9 +15,9 @@ import { isMember, getProfile } from '@reducers/user';
 export default class ProfileCard extends React.PureComponent {
   render() {
 
-    const { me, isMember } = this.props;
+    const { me } = this.props;
 
-    if (!isMember) return null;
+    if (!me) return null;
 
     return(
       <div className="card">

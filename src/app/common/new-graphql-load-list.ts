@@ -1,5 +1,4 @@
 import graphql from './graphql';
-import merge from 'lodash/merge';
 
 interface Params {
   id: string,
@@ -153,12 +152,16 @@ const loadList = function(dispatch: any, getState: any) {
         resolve([ null, list ]);
         return
       }
+
+      data = JSON.parse(JSON.stringify(data));
   
       if (unshift) {
-        let _data = processList(merge([], data), { dispatch, getState }, id);
+        let _data = processList(data, { dispatch, getState }, id);
+        // let _data = processList(merge([], data), { dispatch, getState }, id);
         list.data = _data.concat(list.data);
       } else {
-        list.data = list.data.concat(processList(merge([], data), { dispatch, getState }, id));
+        list.data = list.data.concat(processList(data, { dispatch, getState }, id));
+        // list.data = list.data.concat(processList(merge([], data), { dispatch, getState }, id));
       }
       
       list.filters = args;

@@ -49,7 +49,7 @@ const updateData = function(list, { dispatch, getState }) {
       comment = state.comment,
       posts = state.posts,
       followPeople = state.followPeople,
-      me = state.user.profile;
+      me = state.user.userInfo;
 
   comment = updateCommentState(comment, list);
   posts = updatePosts(posts, list);

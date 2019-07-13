@@ -88,11 +88,9 @@ export default Shell(function() {
             />)
         } else if (type == 'user') {
           return (<PeopleList
-            name={q}
-            filters={{
-              variables: {
-                nickname: q
-              }
+            id={q}
+            query={{
+              nickname: q
             }}
             />)
         }

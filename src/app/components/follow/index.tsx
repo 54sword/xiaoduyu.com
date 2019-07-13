@@ -3,7 +3,7 @@ import React, {} from 'react';
 // redux
 import { useSelector, useStore } from 'react-redux';
 import { follow, unfollow } from '@actions/follow';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 // style
 import './style.scss';
@@ -19,7 +19,7 @@ export default function({ posts, user, topic, className }: Props) {
 
   let target = posts || user || topic;
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
 
   const store = useStore();
 

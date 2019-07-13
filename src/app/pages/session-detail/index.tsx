@@ -54,7 +54,7 @@ export default Shell(function({ setNotFound }: any) {
 
   useEffect(()=>{
 
-    if (list.data && list.data[0]) {
+    if (list && list.data && list.data[0]) {
 
       let _session = list && list.data ? list.data[0] : null;
 
@@ -79,7 +79,7 @@ export default Shell(function({ setNotFound }: any) {
       run = null;
     }
 
-  }, list.data && list.data[0] ? list.length : 0);
+  }, list && list.data && list.data[0] ? list.length : 0);
 
   return (
     <SingleColumns>

@@ -49,10 +49,10 @@ const processPostsList = (list, store, id) => {
       // 删除所有html标签
       textContent = textContent.replace(/<[^>]+>/g, '');
       textContent = textContent.replace(/\r\n/g, ''); 
-      textContent = textContent.replace(/\n/g, ' ');  
+      textContent = textContent.replace(/\n/g, '');
 
+      if (textContent.length > 137) textContent = textContent.slice(0, 137)+'...';      
 
-      if (textContent.length > 60) textContent = textContent.slice(0, 60)+'...';
       posts.content_summary = textContent;
 
       // 获取内容中所有的图片
@@ -147,77 +147,6 @@ export const loadPostsList = loadList({
     update_at
   `
 });
-
-/*
-export function loadPostsList({ id, filters, restart = false }) {
-  return async (dispatch, getState) => {
-
-    if (!filters.select) {
-
-      // content
-      filters.select = `
-        _id
-        comment_count
-        reply_count
-        content_html
-        create_at
-        deleted
-        device
-        follow_count
-        last_comment_at
-        like_count
-        recommend
-        sort_by_date
-        title
-        ip
-        topic_id{
-          _id
-          name
-        }
-        type
-        user_id{
-          _id
-          nickname
-          brief
-          avatar_url
-          posts_count
-          comment_count
-          fans_count
-          follow
-        }
-        verify
-        view_count
-        weaken
-        follow
-        like
-        comment{
-          user_id{
-            avatar_url
-          }
-        }
-        update_at
-      `
-    }
-
-    return loadList({
-      dispatch,
-      getState,
-
-      name: id,
-      restart,
-      filters,
-
-      processList: processPostsList,
-
-      schemaName: 'posts',
-      reducerName: 'posts',
-      api: 'posts',
-      // cache: accessToken ? false : true,
-      actionType: 'SET_POSTS_LIST_BY_ID'
-    })
-  }
-}
-*/
 
 // 移除list
 export const removePostsListById = (id) => {

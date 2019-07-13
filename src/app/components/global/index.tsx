@@ -2,7 +2,7 @@ import React from 'react'
 
 // redux
 import { useSelector } from 'react-redux';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 // components
 import SignModal from './sign-modal';
@@ -14,7 +14,7 @@ import ADSetings from './ad-settings-modal';
 
 export default function() {
   
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
 
   if (!me) return <SignModal />;
 

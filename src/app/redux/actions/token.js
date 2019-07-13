@@ -57,7 +57,7 @@ export const exchangeTokenTimer = () => {
 
       let oldAccessToken = getState().user.accessToken,
           oldExpires = getState().user.expires,
-          userId = getState().user.profile._id,
+          userId = getState().user.userInfo._id,
           expires = cookie.load('expires') || null,
           loading = parseInt(cookie.load('loading')) || '',
           accessToken = cookie.load(auth_cookie_name) || null

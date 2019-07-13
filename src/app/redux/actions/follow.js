@@ -43,7 +43,7 @@ const _follow = (status) => {
       return new Promise(async resolve => {
 
         args.status = status;
-        let me = getState().user.profile;
+        let me = getState().user.userInfo;
 
         let [ err, res ] = await graphql({
           // type: 'mutation',

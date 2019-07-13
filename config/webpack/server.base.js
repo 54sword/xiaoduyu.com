@@ -8,6 +8,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = require('../index');
 const aliasConfig = require('../alias.config');
 
+const devMode = process.env.NODE_ENV == 'development' ? true : false;
+
 let alias = {}
 
 for (var i in aliasConfig) {
@@ -50,7 +52,7 @@ module.exports = {
   },
 
   optimization: {
-    minimize: false
+    minimize: devMode ? false : true
   },
 
   module: {

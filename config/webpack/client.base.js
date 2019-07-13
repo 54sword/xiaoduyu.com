@@ -85,12 +85,12 @@ module.exports = {
           test: /(\.css|\.scss)$/,
           chunks: 'all',
           enforce: true
-        },
-        commons: {
-          name: 'vendor',
-          test: /[\\/]node_modules[\\/]/,
-          chunks: 'all'
         }
+        // commons: {
+        //   name: 'vendor',
+        //   test: /[\\/]node_modules[\\/]/,
+        //   chunks: 'all'
+        // }
       }
     }
   },

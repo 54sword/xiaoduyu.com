@@ -5,7 +5,7 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 import { useSelector, useStore } from 'react-redux';
 import { loadUserInfo } from '@actions/user';
 import { addPhone } from '@actions/phone';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 // components
 import CaptchaButton from '@components/captcha-button';
@@ -23,7 +23,7 @@ export default function() {
   const [ show, setShow ] = useState(false);
   const [ areaCode, setAreaCode ] = useState('');
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
   const store = useStore();
 
   const _addPhone = (args: object) => addPhone(args)(store.dispatch, store.getState);

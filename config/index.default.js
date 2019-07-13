@@ -40,6 +40,8 @@ let config = {
   
   // [必填] websocket 链接地址
   socketUrl: 'https://www.xiaoduyu.com',
+
+  sentry: '',
   
   // [选填] APP客户端下载地址
   clientDownloadUrl: {

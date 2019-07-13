@@ -7,7 +7,7 @@ import avatarPicker from '../../../vendors/avatar-picker';
 // redux
 // import { bindActionCreators } from 'redux';
 import { useStore, useSelector } from 'react-redux';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { loadUserInfo, updateUser } from '@actions/user';
 
 // components
@@ -21,7 +21,7 @@ export default function() {
   const [ fileUpload, setFileUpload ] = useState(null);
   // const [ uploadStatus, setUploadStatus ] = useState(false);
 
-  const me = useSelector((state:object)=>getProfile(state));
+  const me = useSelector((state:object)=>getUserInfo(state));
 
 
   if (!me) return null;

@@ -53,34 +53,34 @@ export const addBlock = ({ args }: any) => {
 
       if (err || !res || !res.success) return;
 
-      let profile = getState().user.profile;
+      let userInfo = getState().user.userInfo;
 
       // 更新个人资料里面的累计数
       if (args.people_id) {
-        if (!profile.block_people_count) {
-          profile.block_people_count = 1;
+        if (!userInfo.block_people_count) {
+          userInfo.block_people_count = 1;
         } else {
-          profile.block_people_count += 1;
+          userInfo.block_people_count += 1;
         }
 
       } else if (args.posts_id) {
-        if (!profile.block_posts_count) {
-          profile.block_posts_count = 1;
+        if (!userInfo.block_posts_count) {
+          userInfo.block_posts_count = 1;
         } else {
-          profile.block_posts_count += 1;
+          userInfo.block_posts_count += 1;
         }
 
         dispatch({ type: 'REMOVE_POSTS_BY_ID', id: args.posts_id });
       } else if (args.comment_id) {
-        if (!profile.block_comment_count) {
-          profile.block_comment_count = 1;
+        if (!userInfo.block_comment_count) {
+          userInfo.block_comment_count = 1;
         } else {
-          profile.block_comment_count += 1;
+          userInfo.block_comment_count += 1;
         }
         dispatch({ type: 'REMOVE_COMMENT_BY_ID', id: args.comment_id });
       }
 
-      dispatch({ type: 'SET_USER', userinfo: profile });
+      dispatch({ type: 'SET_USER', userinfo: userInfo });
       dispatch({ type: 'SET_BLOCK_STATE', state: {} });
 
     })
@@ -112,14 +112,14 @@ export const removeBlock = ({ args, id }: any) => {
 
       // 更新个人资料里面的累计数
       if (args.people_id) {
-        user.profile.block_people_count -= 1;
+        user.userInfo.block_people_count -= 1;
       } else if (args.posts_id) {
-        user.profile.block_posts_count -= 1;
+        user.userInfo.block_posts_count -= 1;
       } else if (args.comment_id) {
-        user.profile.block_comment_count -= 1;
+        user.userInfo.block_comment_count -= 1;
       }
 
-      dispatch({ type: 'SET_USER', userinfo: user.profile });
+      dispatch({ type: 'SET_USER', userinfo: user.userInfo });
 
     })
   }

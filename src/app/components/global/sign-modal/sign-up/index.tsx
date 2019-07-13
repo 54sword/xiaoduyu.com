@@ -26,19 +26,19 @@ export default function () {
 
   const [ areaCode, setAreaCode ] = useState('');
   const [ type, setType ] = useState('phone');
-  const [ show, setShow ] = useState(false);
+  // const [ show, setShow ] = useState(false);
 
   const store = useStore();
   const _signUp = (args:object)=>signUp(args)(store.dispatch, store.getState);
   const _signIn = (args:object)=>signIn(args)(store.dispatch, store.getState);
 
-  useEffect(()=>{
-    setShow(true);
-  });
+  // useEffect(()=>{
+  //   setShow(true);
+  // });
 
   const submit = function(event: any) {
 
-    event.preventDefault();
+    if (event) event.preventDefault();
 
     return new Promise(async (resolve, reject)=>{
 
@@ -59,7 +59,7 @@ export default function () {
           duration: 3000,
           backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
         }).showToast();
-        return
+        return false;
       }
 
       let data: any = {
@@ -73,6 +73,16 @@ export default function () {
       if ($account.value.indexOf('@') != -1) {
         data.email = $account.value
       } else {
+
+        if (!areaCode) {
+          Toastify({
+            text: '请选择手机区号',
+            duration: 3000,
+            backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
+          }).showToast();
+          return false;
+        }
+
         data.phone = $account.value
         data.area_code = areaCode
       }
@@ -86,7 +96,7 @@ export default function () {
           backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
         }).showToast();
         reject(err);
-        return;
+        return false;
       } else {
         Toastify({
           text: '注册成功',
@@ -112,6 +122,8 @@ export default function () {
           $('#sign').modal({ show: true }, { 'data-type': 'sign-in' });
         }, 700);
       }
+
+      return false;
 
     });
 
@@ -139,7 +151,7 @@ export default function () {
     });
   }
   
-  return (
+  return (<form onSubmit={submit}>
     <div styleName="signup">
 
       <div><input type="text" className="form-control" ref={nickname} placeholder="名字" /></div>
@@ -165,7 +177,7 @@ export default function () {
 
       <div>
         <input type="text" className="form-control" placeholder="输入 6 位验证码" ref={captcha} />
-        <span styleName="captcha-button">{show ? <CaptchaButton onClick={sendCaptcha} /> : null}</span>
+        <span styleName="captcha-button"><CaptchaButton onClick={sendCaptcha} /></span>
       </div>
 
       <div><input type="password" className="form-control" ref={password} placeholder="密码" /></div>
@@ -187,7 +199,8 @@ export default function () {
       </div>
 
       <div>
-        <input type="submit" className="btn btn-primary" value="注册" onClick={submit} />
+        {/* onClick={submit} */}
+        <input type="submit" className="btn btn-primary" value="注册" />
       </div>
 
       <div className="text-center">
@@ -200,7 +213,7 @@ export default function () {
       </div>
 
     </div>
-  )
+  </form>)
 
 }
 

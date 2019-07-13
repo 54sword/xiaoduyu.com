@@ -4,7 +4,7 @@ import useReactRouter from 'use-react-router';
 // redux
 import { useSelector, useStore } from 'react-redux';
 import { addBlock } from '@actions/block';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 // style
 import './style.scss';
@@ -19,7 +19,7 @@ export default function({  user, posts, comment }: Props) {
 
   const { history } = useReactRouter();
 
-  const me = useSelector((state:object)=>getProfile(state));
+  const me = useSelector((state:object)=>getUserInfo(state));
   const store = useStore();
 
   const _addBlock = (args: object)=>addBlock(args)(store.dispatch, store.getState);

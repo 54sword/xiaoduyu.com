@@ -4,7 +4,7 @@ import { getCountdown } from '@utils/date';
 import { useSelector, useStore } from 'react-redux';
 import { loadADlist } from '@actions/ad';
 import { getADListById } from '@reducers/ad';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { authorAD } from '@config/feature.config';
 
 import './index.scss';
@@ -18,7 +18,7 @@ export default function({ _id = '', userId }: Props) {
 
   if (!authorAD) return null;
 
-  const me = useSelector((store: any)=>getProfile(store));
+  const me = useSelector((store: any)=>getUserInfo(store));
   const adList = useSelector((store: any)=>getADListById(store, _id));
   const store = useStore();
   const load = (params: any) => loadADlist(params)(store.dispatch, store.getState);

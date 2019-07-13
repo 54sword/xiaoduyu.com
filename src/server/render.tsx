@@ -4,7 +4,6 @@ import { StaticRouter, matchPath } from 'react-router';
 import { Provider } from 'react-redux';
 import MetaTagsServer from 'react-meta-tags/server';
 import { MetaTagsContext } from 'react-meta-tags';
-import cache from 'memory-cache';
 
 // 创建redux store
 import createStore from '../app/redux';
@@ -14,7 +13,6 @@ import createRouter from '../app/router';
 import initData from '../app/init-data';
 // token cookie 的名称
 import { authCookieName } from '@config';
-import featureConfig from '@config/feature.config';
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -34,18 +32,6 @@ type Resolve = {
 export default (req: any, res: any) => {
   return new Promise<Resolve>(async (resolve) => {
 
-    // 如果是游客，则优先使用缓存中的数据
-    if (!req.cookies[authCookieName]) {
-      let _cache = cache.get(req.url);
-      if (_cache) {
-        try {
-          resolve(JSON.parse(_cache));
-          return;
-        } catch (err) {
-        }
-      }
-    }
-
     let params: Resolve = {
       code: 200,
       redirect: '',
@@ -56,11 +42,11 @@ export default (req: any, res: any) => {
     };
 
     // 创建新的store
-    let store: any = createStore();
+    let store: any = createStore();    
     
     // 准备数据，如果有token，获取用户信息并返回
     let [ err, user = null ] = await initData(store, req.cookies[authCookieName] || '');
-
+    // let user: any = null, err: any;
     params.user = user;
     
     // 如果是拉黑的用户，阻止登陆，并提示
@@ -82,7 +68,7 @@ export default (req: any, res: any) => {
     }
 
     // 创建路由
-    let router = createRouter({ user });
+    let router: any = createRouter({ user });
 
     let route: any = null,
         match = null;
@@ -124,11 +110,12 @@ export default (req: any, res: any) => {
 
     // 获取路由dom
     const Page: any = router.dom;
-    const metaTagsInstance = MetaTagsServer();
-
+    
     await route.body.preload();
 
     // context={params.context}
+
+    const metaTagsInstance = MetaTagsServer();
     
     // html
     params.html = ReactDOMServer.renderToString(<Provider store={store}>
@@ -147,12 +134,7 @@ export default (req: any, res: any) => {
 
     // 释放store内存
     store = null;
-      
-    // 对游客的请求进行缓存
-    if (!req.cookies[authCookieName]) {
-      cache.put(req.url, JSON.stringify(params), featureConfig.cache);
-    }
-    
+    router = null;
 
     resolve(params);
 

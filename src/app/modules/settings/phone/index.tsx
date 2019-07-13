@@ -2,7 +2,7 @@ import React, { useState, createRef } from 'react';
 
 // redux
 import { useStore, useSelector } from 'react-redux';
-import { getProfile, getUnlockToken } from '@reducers/user';
+import { getUserInfo, getUnlockToken } from '@reducers/user';
 import { loadUserInfo } from '@actions/user';
 import { addPhone } from '@actions/phone';
 
@@ -24,7 +24,7 @@ export default function() {
 
   const store = useStore();
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
   const unlockToken = useSelector((state: object)=>getUnlockToken(state));
 
   const _loadUserInfo = (args: object)=>loadUserInfo(args)(store.dispatch, store.getState);

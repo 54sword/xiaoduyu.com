@@ -7,7 +7,7 @@ export function loadTips () {
   return async (dispatch, getState) => {
 
     let user = getState().user;
-    let profile = user.profile;
+    let userInfo = user.userInfo;
 
     let [ err, res ] = await GraphQL({
       headers: { accessToken: user.accessToken },
@@ -100,8 +100,8 @@ export function loadTips () {
 
       // 优选
       if (res['excellent'] && res['excellent'][0] &&
-        profile.last_find_excellent_at &&
-        new Date(profile.last_find_excellent_at).getTime() < new Date(res['excellent'][0].sort_by_date).getTime()
+        userInfo.last_find_excellent_at &&
+        new Date(userInfo.last_find_excellent_at).getTime() < new Date(res['excellent'][0].sort_by_date).getTime()
       ) {
         dispatch({ type: 'SET_TIPS_BY_ID', id:'excellent', status: true });
       } else {
@@ -110,8 +110,8 @@ export function loadTips () {
 
       // 关注
       if (res['feed'] && res['feed'][0] &&
-        profile.last_find_feed_at &&
-        new Date(profile.last_find_feed_at).getTime() < new Date(res['feed'][0].create_at).getTime()
+        userInfo.last_find_feed_at &&
+        new Date(userInfo.last_find_feed_at).getTime() < new Date(res['feed'][0].create_at).getTime()
       ) {
         dispatch({ type: 'SET_TIPS_BY_ID', id:'feed', status: true });
       } else {
@@ -120,8 +120,8 @@ export function loadTips () {
 
       // 订阅
       if (res['favorite'] && res['favorite'][0] &&
-        profile.last_find_subscribe_at &&
-        new Date(profile.last_find_subscribe_at).getTime() < new Date(res['favorite'][0].last_comment_at).getTime()
+        userInfo.last_find_subscribe_at &&
+        new Date(userInfo.last_find_subscribe_at).getTime() < new Date(res['favorite'][0].last_comment_at).getTime()
       ) {
         dispatch({ type: 'SET_TIPS_BY_ID', id:'favorite', status: true });
       } else {

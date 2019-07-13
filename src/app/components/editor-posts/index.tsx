@@ -56,7 +56,7 @@ export default function(props: Props) {
   const [ preview, setPreview ] = useState(false);
 
   // redux
-  const topicList = useSelector((state: object)=>getTopicListById(state, 'new-posts').data);
+  const topicList = useSelector((state: object)=>getTopicListById(state, 'new-posts'));
   const store = useStore();
   const _addPosts = (args:object)=>addPosts(args)(store.dispatch, store.getState);
   const _loadTopicList = (args:object)=>loadTopicList(args)(store.dispatch, store.getState);
@@ -212,8 +212,8 @@ export default function(props: Props) {
         const { topic_id } = location.params;
 
         // 如果url中有topic，那么设置它为默认topic
-        if (topic_id && !topic && topicList[0]) {
-          topicList.map((item: any)=>{
+        if (topic_id && !topic && topicList && topicList.data && topicList.data[0]) {
+          topicList.data.map((item: any)=>{
             item.children.map((item: any)=>{
               if (item._id == topic_id) setTopic(item)
             })
@@ -256,7 +256,7 @@ export default function(props: Props) {
       id="topics-modal"
       header="请选择一个话题"
       body={<div styleName='topics-container'>
-          {topicList && topicList.map((item: any)=>{
+          {topicList && topicList.data.map((item: any)=>{
           return (<div key={item._id}>
               <div styleName='head' className="text-secondary">{item.name}</div>
               <div>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useStore } from 'react-redux';
 import { loadTopicList } from '@actions/topic';
 import { getTopicListById } from '@reducers/topic';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 // import Render from './render';
 import Loading from '@components/ui/loading';
@@ -12,14 +12,14 @@ import './index.scss';
 
 export default function() {
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
   const topicList = useSelector((state: object)=>getTopicListById(state, 'recommend-topics'));
 
   const store = useStore();
   const _loadTopicList = ((args: object)=>loadTopicList(args)(store.dispatch, store.getState));
 
-  const { data = [], loading } = topicList;
-
+  const { data = [], loading = false } = topicList || {};
+  
   useEffect(()=>{
 
     // if (loading) return;

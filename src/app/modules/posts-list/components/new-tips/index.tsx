@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 // redux
 import { useStore, useSelector } from 'react-redux';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { getPostsListById } from '@reducers/posts';
 import { refreshPostsListById } from '@actions/posts';
 import { loadTips } from '@actions/tips';
@@ -18,7 +18,7 @@ interface Props {
 
 export default function({ topicId }: Props) {
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
 
   if (!me) {
     return null

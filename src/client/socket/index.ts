@@ -16,7 +16,7 @@ let socket: any;
 export const connect = function ({ dispatch, getState }: any) {
 
   // 用于判断是否登录
-  const me = getState().user.profile;
+  const me = getState().user.userInfo;
   const accessToken = getAccessToken(getState());
 
   const handleActions = function(action: any, params: any = null) {

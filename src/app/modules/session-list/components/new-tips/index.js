@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // redux
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { isMember, getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { getPostsListById } from '@reducers/posts';
 import { loadPostsList, refreshPostsListById } from '@actions/posts';
 import { loadTips } from '@actions/tips';
@@ -18,8 +18,7 @@ import './index.scss';
   (state, props) => {
     const { topicId } = props;
     return {
-      me: getProfile(state),
-      isMember: isMember(state),
+      me: getUserInfo(state),
       getPostsListById: id => getPostsListById(state, id),
       hasNew: getTipsById(state, topicId)
     }

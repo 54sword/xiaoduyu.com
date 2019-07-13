@@ -1,6 +1,7 @@
-import { ApolloClient } from 'apollo-client';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+// import { ApolloClient } from 'apollo-client';
+import ApolloClient from 'apollo-boost';
+// import { HttpLink } from 'apollo-link-http';
+// import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 import fetch from "node-fetch";
 
@@ -10,10 +11,17 @@ import featureConfig from '@config/feature.config';
 import To from './to';
 
 // https://www.apollographql.com/docs/react/advanced/caching.html
-const cache = new InMemoryCache({
-  addTypename: false
+// const cache = new InMemoryCache({
+//   addTypename: false
+// });
+
+// https://www.apollographql.com/docs/react/advanced/boost-migration/
+const client = new ApolloClient({
+  uri: graphqlUrl,
+  fetch
 });
 
+/*
 // https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
 const client = new ApolloClient({
   ssrMode: __SERVER__ ? true : false,
@@ -24,16 +32,22 @@ const client = new ApolloClient({
   }),
   cache
 });
+*/
 
 exports.client = client;
+
+setInterval(async ()=>{
+  client.cache.reset();
+  // console.log(JSON.stringify(cache.extract()).length);
+}, featureConfig.cache);
 
 // client.onResetStore(()=>{
 //   console.log('缓存清空');
 // });
 
 // 最后一次清理缓存的时间
-var lastCacheTime = new Date().getTime();
-let resetStore = false;
+// let lastCacheTime = new Date().getTime();
+// let resetStore = false;
 
 // GraphQL 客户端请求
 interface Props {
@@ -91,16 +105,18 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
     context: {
       headers
     },
-    // fetchPolicy: 'cache'
+    // fetchPolicy: 'no-cache'
     // 如果未设置缓存，判断如果是会员的话不缓存，游客缓存
-    fetchPolicy: cache && !resetStore ? 'cache' : (headers.accessToken || resetStore ? 'no-cache' : 'cache')
+    fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache')
   }
 
   // console.log(options);
   
+  /*
   // 服务端清理缓存逻辑
   if (__SERVER__) {
     if (new Date().getTime() - lastCacheTime > featureConfig.cache && !resetStore) {
+      // console.log('===清理缓存');
       resetStore = true;
       // 超过缓存时间，清空所有缓存
       // https://github.com/apollographql/apollo-client/issues/2919
@@ -110,6 +126,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
       lastCacheTime = new Date().getTime();
     }
   }
+  */
 
 
   let fn:any = client.query;

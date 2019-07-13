@@ -6,7 +6,7 @@ const { APIDomainName } = _config;
 
 // redux
 import { useSelector, useStore } from 'react-redux'
-import { getProfile, getAccessToken } from '@reducers/user'
+import { getUserInfo, getAccessToken } from '@reducers/user'
 import { loadUserInfo } from '@actions/user'
 import { oAuthUnbinding } from '@actions/oauth'
 
@@ -15,7 +15,7 @@ import './style.scss'
 
 export default function() {
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
   const accessToken = useSelector((state: object)=>getAccessToken(state));
 
   const store = useStore();

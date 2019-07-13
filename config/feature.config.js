@@ -1,8 +1,10 @@
+const mainConfig = require('./index');
+
 let config = {
 
   // 公共debug开关
   debug: false,
-
+  
   // 是否显示API请求信息与结果(线上环境建议关闭)
   apiLog: false,
 
@@ -17,6 +19,9 @@ let config = {
    * 缓存机制：游客所有的请求、会员更新频率低的请求
    */
   cache: 1000 * 30,
+
+  // [服务端]每秒打印一次内存占用情况，显示在控制台，用于排查内存泄漏的问题
+  memoryUsage: false,
   
   posts: {
     // 帖子在列表时候，内容最大显示高度，0为不限制
@@ -41,7 +46,7 @@ let config = {
 
 }
 
-if (process.env.NODE_ENV == 'development') {
+if (mainConfig.debug) {
   config.debug = true;
   config.apiLog = true;
   config.reduxLog = true;

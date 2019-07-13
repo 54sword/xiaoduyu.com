@@ -3,7 +3,7 @@ import React, { useEffect, createRef } from 'react';
 // redux
 import { useSelector, useStore } from 'react-redux';
 import { getUnlockToken } from '@actions/unlock-token';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 // components
 import CaptchaButton from '@components/captcha-button';
@@ -17,7 +17,7 @@ export default function() {
   const select = createRef();
   const captcha = createRef();
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
   const store = useStore();
   const _getUnlockToken = (args: object)=>getUnlockToken(args)(store.dispatch, store.getState);
 

@@ -1,4 +1,7 @@
 
+const cloneObj = (obj: any) => {
+  return JSON.parse(JSON.stringify(obj))
+}
 
 // 从html字符串中，获取所有图片地址
 const abstractImagesFromHTML = (str: string) => {
@@ -97,3 +100,4 @@ exports.abstractImagesFromHTML = abstractImagesFromHTML;
 exports.htmlToString = htmlToString;
 exports.htmlImgToText = htmlImgToText;
 exports.htmlImageOptimization = htmlImageOptimization;
+exports.merge = cloneObj;

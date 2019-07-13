@@ -6,7 +6,7 @@ import To from '@utils/to';
 import { useSelector, useStore } from 'react-redux';
 import { loadADlist, addAD, updateAD } from '@actions/ad';
 import { getADListDataById } from '@reducers/ad';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 // components
 import Modal from '@components/bootstrap/modal';
@@ -20,7 +20,7 @@ export default function() {
 
   const pcUrl = useRef();
   const closeSwitch = useRef();
-  const me = useSelector((store: any)=>getProfile(store));
+  const me = useSelector((store: any)=>getUserInfo(store));
 
   const store = useStore();
   const load = (params: any) => loadADlist(params)(store.dispatch, store.getState);

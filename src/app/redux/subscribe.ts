@@ -1,11 +1,11 @@
-import merge from 'lodash/merge';
+import cloneObject from './clone';
 import navigationService from '../navigators/service';
 
 let state: any = null;
 
 export default (store: any)=>{
 
-  state = merge({}, store.getState());
+  state = cloneObject(store.getState());
   
   return ()=>{
     
@@ -43,7 +43,7 @@ export default (store: any)=>{
 
     }
 
-    state = merge({}, newStore)
+    state = cloneObject(newStore);
 
   }
 }

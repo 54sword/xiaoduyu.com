@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 // redux
 // import { bindActionCreators } from 'redux';
 import { connect, useStore, useSelector } from 'react-redux';
-import { isMember, getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { getFeedListById } from '@reducers/feed';
 import { refreshFeedListById } from '@actions/feed';
 // import { loadPostsList, refreshPostsListById } from '@actions/posts';
@@ -21,13 +21,12 @@ interface Props {
 
 export default function({ topicId }: Props) {
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
 
   if (!me) {
     return null
   }
 
-  // const isMember = useSelector((state: object)=>isMember(state));
   const hasNew = useSelector((state: object)=>getTipsById(state, topicId));
   const _getFeedListById = useSelector((state: object)=>getFeedListById(state, topicId));
 
@@ -49,7 +48,7 @@ export default function({ topicId }: Props) {
 
     if (!date) return;
 
-    let { data = null } = _getFeedListById;//getPostsListById(topicId);
+    let { data = null } = _getFeedListById || {};//getPostsListById(topicId);
 
     // if (!data || !data[0]) return;
 

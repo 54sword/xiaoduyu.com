@@ -47,7 +47,7 @@ export default function(props:Props) {
     }}
     renderHead={({ loadData }: any)=>{
 
-      if (list.more) {
+      if (list && list.more) {
         return (<div styleName="more">
             <a href="javascript:void(0)" onClick={()=> { loadData(); }}>加载更多</a>
           </div>)

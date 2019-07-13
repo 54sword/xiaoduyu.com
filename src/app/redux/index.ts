@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 import { createLogger } from 'redux-logger';
@@ -9,19 +9,19 @@ import { reduxLog } from '@config/feature.config';
 let middleware = [ thunk ];
 
 // 如果是在客户端环境，那么打印redux日志
-// if (typeof __SERVER__ != 'undefined' && !__SERVER__) {
-  if (reduxLog) middleware.push(createLogger());
-// }
+if (reduxLog) middleware.push(createLogger());
 
 export default function configureStore(initialState = {}) {
 
   const store = createStore(
-    rootReducer(),
+    combineReducers(rootReducer),
     initialState,
     compose(
       applyMiddleware(...middleware)
     )
   );
+
+  // reducer = null;
 
   /*
   if (module.hot) {

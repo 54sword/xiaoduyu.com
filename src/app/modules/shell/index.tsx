@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 // redux
 import { useStore } from 'react-redux';
 import { saveScrollPosition, setScrollPosition } from '@actions/scroll';
-// import { addVisitHistory } from '../../store/actions/history';
 
 // tools
 import parseUrl from '@utils/parse-url';

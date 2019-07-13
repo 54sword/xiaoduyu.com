@@ -2,7 +2,7 @@ import React from 'react';
 
 // redux
 import { useSelector } from 'react-redux';
-import { isMember } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 
 // style
 import './index.scss';
@@ -10,14 +10,13 @@ import './index.scss';
 interface Props {
   reply: any,
   comment: any,
-  posts: any,
-  isMember: any
+  posts: any
 }
 
 export default function({ reply, comment, posts }: Props) {
   
   const target = comment || reply || posts;
-  const _isMember = useSelector((state: object) => isMember(state));
+  const _isMember = useSelector((state: object) => getUserInfo(state));
 
   const onClick = (e:any) => {
 

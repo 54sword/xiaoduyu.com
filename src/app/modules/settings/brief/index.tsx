@@ -2,7 +2,7 @@ import React, { createRef, useState } from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { updateUser, loadUserInfo } from '@actions/user';
 
 export default function() {
@@ -13,7 +13,7 @@ export default function() {
   const [ loading, setLoading ] = useState(false);
   const [ show, setShow ] = useState(false);
 
-  const me = useSelector((state:object)=>getProfile(state));
+  const me = useSelector((state:object)=>getUserInfo(state));
 
   const submit = async () => {
 

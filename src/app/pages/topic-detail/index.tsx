@@ -42,7 +42,7 @@ export default Shell(function({ setNotFound }: any) {
   const { history, location, match } = useReactRouter();
 
   const list = useSelector((state: object)=>getTopicListById(state, match.params.id));
-  const { data = [], loading } = list;
+  const { data = [], loading = false } = list || {};
   const topic = data[0] || null;
 
   const store = useStore();

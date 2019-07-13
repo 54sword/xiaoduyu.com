@@ -16,13 +16,15 @@ import '../app/theme/global.scss';
 import '../app/theme/light.scss';
 import '../app/theme/dark.scss';
 
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { initUnlockToken } from '@actions/unlock-token';
 import { requestNotificationPermission } from '@actions/website';
 import { initHasRead } from '@actions/has-read-posts';
 
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 if (process.env.NODE_ENV != 'development') {
+  
+  // 安全离线文件
   OfflinePluginRuntime.install();
 }
 
@@ -31,7 +33,7 @@ if (process.env.NODE_ENV != 'development') {
   // 从页面中获取服务端生产redux数据，作为客户端redux初始值
   const store = configureStore(window.__initState__);
 
-  let userinfo = getProfile(store.getState());
+  let userinfo = getUserInfo(store.getState());
 
   // 从cookie中获取unlock token，并添加到redux
   initUnlockToken()(store.dispatch, store.getState);

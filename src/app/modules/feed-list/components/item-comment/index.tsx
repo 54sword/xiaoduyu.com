@@ -1,46 +1,17 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-// import { withRouter } from 'react-router';
 import useReactRouter from 'use-react-router';
-
-// import featureConfig from '@config/feature.config.js';
-// functions
-// import Device from '@utils/device';
-
-// redux
-// import { bindActionCreators } from 'redux';
-// import { connect, useSelector } from 'react-redux';
-// import { isMember } from '@reducers/user';
-// import { viewPostsById } from '@actions/posts';
-
-// components
-// import HTMLText from '@components/html-text';
-// import CommentList from '@components/comment/list';
-// import Editor from '@components/editor-comment';
-// import Follow from '@components/follow';
-// import Like from '@components/like';
-// import EditButton from '@components/edit-button';
-// import ReportMenu from '@components/report-menu';
-// import MoreMenu from '@components/more-menu';
-// import CommentList from '@modules/comment-list';
-
-// import Bundle from '@components/bundle';
-// import Share from '@components/share';
-// import GridListImage from '@components/grid-list-image';
-
 
 // styles
 import './index.scss';
 
 interface Props {
+  key?: string | number,
   comment: any,
   posts: any
 }
 
 export default function({ comment, posts }:Props) {
-
-  // const _isMember = useSelector((state:object)=>isMember(state))
 
   const { history, location, match } = useReactRouter();
 

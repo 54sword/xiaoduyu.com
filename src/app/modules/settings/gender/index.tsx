@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 
 // redux
 import { useStore, useSelector } from 'react-redux';
-import { getProfile } from '@reducers/user';
+import { getUserInfo } from '@reducers/user';
 import { loadUserInfo, updateUser } from '@actions/user';
 
 export default function () {
   
   const [ show, setShow ] = useState(false);
 
-  const me = useSelector((state: object)=>getProfile(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
 
   const store = useStore();
   const _loadUserInfo = (args: any)=>loadUserInfo(args)(store.dispatch, store.getState);
