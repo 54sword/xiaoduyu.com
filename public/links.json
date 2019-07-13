@@ -1,6 +1,3 @@
 [
-  { "name":"面包多", "description":"创造者的创收工具", "domain": "https://mianbaoduo.com" },
-  { "name":"探图社区(t站)", "description":"寻找设计灵感，分享优秀作品，结交共同兴趣的好友", "domain": "https://tantu.boyagirl.com/" },
-  { "name":"盗火", "description":"一个年轻的知识社区", "domain": "https://react.mobi" },
-  { "name":"ReadWinds", "description":"每天两分钟的科技新闻聚合阅读", "domain": "https://readwinds.com" }
+  { "name":"小度鱼", "description":"年轻人的交流社区", "domain": "https://www.xiaoduyu.com" }
 ]
