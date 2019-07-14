@@ -15,42 +15,16 @@ import render from './render';
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '20mb'}));
+app.use(bodyParser.urlencoded({limit: '20mb', extended: true}));
 app.use(cookieParser());
 app.use(compress());
 app.use(express.static('./dist/client'));
 app.use(express.static('./public'));
-/*
-app.use(function (req: any, res: any, next: any) {
 
-  // 在服务端发起的请求的ua，传递给api
-  if (req && req.headers && req.headers['user-agent']) {
-    global.ua = req.headers['user-agent'];
-  }
-
-  // 计算页面生成总的花费时间
-  const start_at = Date.now();
-  const _send = res.send;
-  res.send = function () {
-    
-    // 发送Header
-    res.set('X-Execution-Time', String(Date.now() - start_at) + ' ms');
-
-    console.log(process.memoryUsage().rss/1024/1024);
-    // console.log(String(Date.now() - start_at) + ' ms');
-
-    // 调用原始处理函数
-    return _send.apply(res, arguments);
-  };
-
-  next();
-  
-});
-*/
-app.use('/amp', AMP());
 app.use('/sign', sign());
-app.get('*', async function (req: any, res: any) {
+
+app.use(function (req: any, res: any, next: any) {
 
   // 如果是游客，则优先使用缓存中的数据
   if (!req.cookies[authCookieName]) {
@@ -60,6 +34,35 @@ app.get('*', async function (req: any, res: any) {
       return;
     }
   }
+
+  // 在服务端发起的请求的ua，传递给api
+  if (req && req.headers && req.headers['user-agent']) {
+    global.ua = req.headers['user-agent'];
+  }
+  
+  /*
+  // 计算页面生成总的花费时间
+  const start_at = Date.now();
+  const _send = res.send;
+  res.send = function () {
+    
+    // 发送Header
+    res.set('X-Execution-Time', String(Date.now() - start_at) + ' ms');
+
+    // console.log(process.memoryUsage().rss/1024/1024);
+    // console.log(String(Date.now() - start_at) + ' ms');
+
+    // 调用原始处理函数
+    return _send.apply(res, arguments);
+  };
+  */
+
+  next();
+  
+});
+
+app.use('/amp', AMP());
+app.get('*', async function (req: any, res: any) {
 
   let { code, redirect, html, meta, reduxState, user } = await render(req, res);
 
@@ -74,12 +77,10 @@ app.get('*', async function (req: any, res: any) {
       meta,
       theme: user && user.theme == 2 ? 'dark-theme' : 'light-theme' 
     }, function(err: any, html: any) {
-
+      
       // 对游客的请求进行缓存
       if (!req.cookies[authCookieName]) {
-        cache.put(req.url, html, featureConfig.cache, function(){
-          console.log('清空缓存'+req.url);
-        });
+        cache.put(req.url, html, featureConfig.cache);
       }
 
       res.send(html);

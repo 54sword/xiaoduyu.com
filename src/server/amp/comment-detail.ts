@@ -1,4 +1,6 @@
+import cache from 'memory-cache';
 import { name, domainName, AMP, favicon, googleAdSense } from '@config';
+import featureConfig from '@config/feature.config';
 
 // tools
 import { abstractImagesFromHTML } from '@utils/utils';
@@ -146,6 +148,9 @@ export const show = async (req: any, res: any) => {
     commentList,
     favicon,
     googleAdSense
+  }, function(err: any, html: any) {
+    cache.put(req.url, html, featureConfig.cache);
+    res.send(html);
   });
 
 }

@@ -1,53 +1,32 @@
-// import { ApolloClient } from 'apollo-client';
-import ApolloClient from 'apollo-boost';
-// import { HttpLink } from 'apollo-link-http';
-// import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloClient } from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 import fetch from "node-fetch";
 
-import { graphqlUrl } from '@config';
+import { api } from '@config';
 import featureConfig from '@config/feature.config';
 
 import To from './to';
 
 // https://www.apollographql.com/docs/react/advanced/caching.html
-// const cache = new InMemoryCache({
-//   addTypename: false
-// });
+const cache = new InMemoryCache();
 
-// https://www.apollographql.com/docs/react/advanced/boost-migration/
-const client = new ApolloClient({
-  uri: graphqlUrl,
-  fetch
-});
-
-/*
 // https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
 const client = new ApolloClient({
   ssrMode: __SERVER__ ? true : false,
-  // ssrForceFetchDelay: 20,//featureConfig.cache,
   link: new HttpLink({
-    uri: graphqlUrl,
+    uri: __SERVER__ && api.graphql.server ? api.graphql.server : api.graphql.client,
     fetch
   }),
   cache
 });
-*/
 
-exports.client = client;
 
 setInterval(async ()=>{
   client.cache.reset();
   // console.log(JSON.stringify(cache.extract()).length);
 }, featureConfig.cache);
-
-// client.onResetStore(()=>{
-//   console.log('缓存清空');
-// });
-
-// 最后一次清理缓存的时间
-// let lastCacheTime = new Date().getTime();
-// let resetStore = false;
 
 // GraphQL 客户端请求
 interface Props {

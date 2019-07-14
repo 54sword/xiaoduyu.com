@@ -180,13 +180,6 @@ export default [
     })
   },
   {
-    path: '/apps', exact, enter: 'everybody',
-    body: Loadable({
-      loader: () => import('../pages/apps'),
-      loading
-    })
-  },
-  {
     path: '**', head, enter: 'everybody', loadData: NotFoundLoadData,
     body: Loadable({
       loader: () => import('../pages/not-found'),

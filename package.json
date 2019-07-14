@@ -3,7 +3,7 @@
   "version": "2.7.0",
   "description": "小度鱼 - 年轻人的交流社区",
   "scripts": {
-    "start": "cross-env NODE_ENV=development ts-node ./scripts/start.js",
+    "start": "cross-env NODE_ENV=development node ./scripts/start.js",
     "dev": "cross-env NODE_ENV=development webpack --config config/webpack/server.dev.js && NODE_ENV=development webpack --config config/webpack/client.dev.js && node ./dist/server/server.js",
     "pro": "cross-env NODE_ENV=production webpack --config config/webpack/server.pro.js && NODE_ENV=production webpack --config config/webpack/client.pro.js && node ./dist/server/server.js",
     "dist": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js",
@@ -16,7 +16,6 @@
   "author": "吴世剑 <54sword@163.com>",
   "license": "MIT",
   "dependencies": {
-    "apollo-boost": "^0.4.3",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.2",
     "apollo-link-http": "^1.5.15",
@@ -96,7 +95,7 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "url-loader": "^1.1.1",
-    "webpack": "^4.35.0",
+    "webpack": "^4.35.3",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.4",
     "webpack-dev-middleware": "^3.7.0",

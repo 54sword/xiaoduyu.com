@@ -8,7 +8,7 @@ export default function() {
   const [ appsUrl, setAppsUrl ] = useState('');
 
   useEffect(()=>{
-    setAppsUrl(window.location.origin+'/apps')
+    setAppsUrl('https://www.xiaoduyu.com/app/xiaoduyu')
   });
   
   if (!config.clientDownloadUrl || !appsUrl) return null; 

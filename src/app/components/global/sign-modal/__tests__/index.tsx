@@ -7,7 +7,7 @@
 
 import React from 'react'
 import {render, fireEvent} from '@testing-library/react'
-import { act } from 'react-dom/test-utils';
+// import { act } from 'react-dom/test-utils';
 // import HiddenMessage from '../hidden-message'
 import SignModal from '../index';
 import { StaticRouter } from 'react-router';
@@ -24,34 +24,16 @@ import To from '../../../../common/to';
 let container: any;
 
 test('应该可以渲染 [登录与注册页面]', () => {
-
-  // act(() => {
-    container = render(
-      <Provider store={store}>
-        <StaticRouter context={{}}>
-          <SignModal />
-        </StaticRouter>
-      </Provider>
-    )
-  // })
-
-
-  
-  // getByPlaceholderText('男');
-
-  // query* functions will return the element or null if it cannot be found
-  // get* functions will return the element or throw an error if it cannot be found
-  // expect(queryByText(testMessage)).toBeNull()
-
-  // the queries can accept a regex to make your selectors more resilient to content tweaks and changes.
-  // fireEvent.click(getByLabelText(/show/i))
-
-  // .toBeInTheDocument() is an assertion that comes from jest-dom
-  // otherwise you could use .toBeDefined()
-  // expect(getByText(testMessage)).toBeInTheDocument()
+  container = render(
+    <Provider store={store}>
+      <StaticRouter context={{}}>
+        <SignModal />
+      </StaticRouter>
+    </Provider>
+  )
 });
 
-test('应该包含 [注册元素]', async () => {
+test('应该包含 [手机区号Select元素]', async () => {
 
   const { getByText, getByPlaceholderText, getByDisplayValue } = container;
 
@@ -69,7 +51,12 @@ test('应该包含 [注册元素]', async () => {
   getByText('美国 +1');
   getByText('日本 +81');
 
-  /*
+});
+
+test('应该包含 [注册元素]', () => {
+
+  const { getByText, getByPlaceholderText, getByDisplayValue } = container;
+
   getByPlaceholderText('名字');
   getByPlaceholderText('手机号');
   getByPlaceholderText('输入 6 位验证码');
@@ -77,21 +64,23 @@ test('应该包含 [注册元素]', async () => {
   getByDisplayValue('男');
   getByDisplayValue('女');
   getByDisplayValue('注册');
-  */
 
 });
 
-/*
-test('应该登陆失败 [无效账号登陆测试]', async() => {
+test('应该包含 [登陆元素]', () => {
 
   const { getByText, getByPlaceholderText, getByDisplayValue } = container;
 
-  // const aboutAnchorNode = getByText('注册')
-
-
-
-
   fireEvent.click(getByText('登录'));
+
+  getByPlaceholderText('手机号/邮箱地址');
+  getByPlaceholderText('密码');
+});
+
+
+test('应该登陆失败 [无效账号登陆测试]', async () => {
+
+  const { getByText, getByTestId, getByLabelText, getByPlaceholderText, getByDisplayValue } = container;
 
   const $account = getByPlaceholderText('手机号/邮箱地址');
   const $password = getByPlaceholderText('密码');
@@ -100,17 +89,13 @@ test('应该登陆失败 [无效账号登陆测试]', async() => {
   $account.value = '18600000000';
   $password.value = '123456';
 
-  jest.spyOn($submit, 'submit').mockImplementationOnce(() => {
-    return Promise.resolve({
-      json: () => {
-        console.log('======');
-      },
-    })
-  })
+  const form = getByTestId('sign-in');
 
-  let result = await To(fireEvent.click($submit));
+  let key = Reflect.ownKeys(form);
+  let onSubmit = form[key[key.length - 2]].onSubmit;
 
-  console.log(result);
+  let [err, res] = await To(onSubmit());
+
+  expect(err ? true : false).toBe(true);
 
 });
-*/

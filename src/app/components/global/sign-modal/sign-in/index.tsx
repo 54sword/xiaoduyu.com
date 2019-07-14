@@ -102,7 +102,7 @@ export default function() {
     });
   });
 
-  return (<form onSubmit={signin} className="signin">
+  return (<form onSubmit={signin} className="signin" data-testid="sign-in">
 
     <div>
       <input type="text" className="form-control" ref={account} placeholder="手机号/邮箱地址" />

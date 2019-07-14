@@ -40,7 +40,7 @@ export default (req: any, res: any) => {
       reduxState: '{}',
       user: null
     };
-
+    
     // 创建新的store
     let store: any = createStore();    
     

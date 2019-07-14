@@ -24,7 +24,7 @@ export default () => {
   const unreadNotice = useSelector(getUnreadNotice);
   const newList = useSelector((state: any)=>getNotificationListById(state, 'new'));
   const store = useStore();
-  const _loadNewNotifications = (params: any) => loadNewNotifications(params)(store.dispath, store.getStore);
+  const _loadNewNotifications = (params: any) => loadNewNotifications(params)(store.dispath, store.getState);
   const typeList: any = {
     'unread': {
       name: '未读消息',

@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 // config
-import config from '@config/index';
+import { api } from '@config/index';
 
 // redux actions
 import { setOnlineUserCount } from '@actions/website';
@@ -57,7 +57,7 @@ export const connect = function ({ dispatch, getState }: any) {
 
   }
 
-  socket = io(config.socketUrl, {
+  socket = io(api.socket, {
     // 是否自动重新连接
     reconnection: true,
     // 自动重连10次后放弃

@@ -1,8 +1,7 @@
 import React from 'react'
 
 // config
-import _config from '@config/index';
-const { APIDomainName } = _config;
+import { api } from '@config/index';
 
 // redux
 import { useSelector, useStore } from 'react-redux'
@@ -44,7 +43,7 @@ export default function() {
 
     } else {
       if (confirm(`您确认绑定 ${name} 吗？`)) {
-        window.location.href = `${APIDomainName}/oauth/${name}?access_token=${accessToken}`;
+        window.location.href = `${api.domain}/oauth/${name}?access_token=${accessToken}`;
       }
     }
 

@@ -32,14 +32,6 @@ let config = {
     // 评论在列表时候，内容最大显示高度，0为不限制
     contentMaxHeight: 300
   },
-
-  // 社交账号登陆
-  social: {
-    weibo: true,
-    qq: true,
-    github: true,
-    wechat: false
-  },
   
   // 启动作者广告功能
   authorAD: false
@@ -47,9 +39,10 @@ let config = {
 }
 
 if (mainConfig.debug) {
-  config.debug = true;
-  config.apiLog = true;
-  config.reduxLog = true;
+  // config.debug = true;
+  // config.apiLog = true;
+  // config.reduxLog = true;
+  // config.memoryUsage = true;
 }
 
 module.exports = config;
