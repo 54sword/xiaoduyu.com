@@ -1,12 +1,5 @@
 import graphql from './graphql';
 
-interface Params {
-  id: string,
-  args?: any,
-  fields?: string,
-  restart?: boolean
-}
-
 interface FnParams {
   // 储存在readucer的名称
   reducerName: string,
@@ -19,6 +12,13 @@ interface FnParams {
   processList?: (data: Array<object>, store: any, id:string) => Array<object>
 }
 
+interface Params {
+  id: string,
+  args?: any,
+  fields?: string,
+  restart?: boolean
+}
+
 // 创建加载列表类型数据的通用方法
 export default function (obj: FnParams) {
   return (params: Params)=>{
@@ -28,13 +28,10 @@ export default function (obj: FnParams) {
 
       _obj.processList = obj.processList;
 
-      if (!params.fields) delete params.fields;
-      if (!params.restart) delete params.restart;
-      if (!params.args) delete params.args;
-
-      params = Object.assign(_obj, params);
-      
-      // _obj = merge(_obj, params, {});
+      if (params.id) _obj.id = params.id;
+      if (params.args) _obj.args = params.args;
+      if (params.fields) _obj.fields = params.fields;
+      if (params.restart) _obj.restart = params.restart;
 
       return loadList(dispatch, getState)(_obj);
     }
@@ -103,7 +100,6 @@ const loadList = function(dispatch: any, getState: any) {
           fields
         }];
       
-      
       let data = [], err, res;
 
       if (!args._id) {
@@ -154,14 +150,12 @@ const loadList = function(dispatch: any, getState: any) {
       }
 
       data = JSON.parse(JSON.stringify(data));
-  
+      let _data = processList(data, { dispatch, getState }, id);
+      
       if (unshift) {
-        let _data = processList(data, { dispatch, getState }, id);
-        // let _data = processList(merge([], data), { dispatch, getState }, id);
         list.data = _data.concat(list.data);
       } else {
-        list.data = list.data.concat(processList(data, { dispatch, getState }, id));
-        // list.data = list.data.concat(processList(merge([], data), { dispatch, getState }, id));
+        list.data = list.data.concat(_data);
       }
       
       list.filters = args;

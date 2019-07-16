@@ -22,11 +22,15 @@ const client = new ApolloClient({
   cache
 });
 
-
-setInterval(async ()=>{
-  client.cache.reset();
-  // console.log(JSON.stringify(cache.extract()).length);
-}, featureConfig.cache);
+if (featureConfig.cache) {
+  let timer = function(){
+    setTimeout(()=>{
+      client.cache.reset();
+      timer();
+    }, featureConfig.cache);
+  }
+  timer();
+}
 
 // GraphQL 客户端请求
 interface Props {
@@ -76,7 +80,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
   }`;
   
   // 在服务端发起的请求的ua，传递给api
-  if (global.ua) headers['user-agent'] = global.ua;
+  // if (global.ua) headers['user-agent'] = global.ua;
 
   // headers['Cache-Control'] = 'PRIVATE';
 
@@ -84,7 +88,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
     context: {
       headers
     },
-    // fetchPolicy: 'no-cache'
+    // fetchPolicy: 'cache'
     // 如果未设置缓存，判断如果是会员的话不缓存，游客缓存
     fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache')
   }

@@ -2,7 +2,17 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
-import cache from 'memory-cache';
+import logger from 'morgan';
+// import heapdump from 'heapdump';
+
+import favicon from 'serve-favicon';
+// import easyMonitor from 'easy-monitor';
+// easyMonitor('xiaoduyu');
+
+// 抵御一些比较常见的安全web安全隐患
+// https://cnodejs.org/topic/56f3b0e8dd3dade17726fe85
+// https://github.com/helmetjs/helmet
+import helmet from 'helmet';
 
 import { port, authCookieName } from '@config';
 import featureConfig from '@config/feature.config';
@@ -11,14 +21,28 @@ import AMP from './amp';
 // 渲染页面
 import render from './render';
 
+import cache from './cache';
+
+// 日志记录
+import log4js from './log4js'
+
 /////////////////////////////////////////////////////////////////////////
 
 const app = express();
+
+// 启动日志
+if (featureConfig.logs) log4js(app);
+
+app.use(helmet());
+
+// 开发环境生产,在控制台打印出请求记录
+if (featureConfig.debug) app.use(logger('dev'));
 
 app.use(bodyParser.json({limit: '20mb'}));
 app.use(bodyParser.urlencoded({limit: '20mb', extended: true}));
 app.use(cookieParser());
 app.use(compress());
+app.use(favicon('./public/favicon.ico'));
 app.use(express.static('./dist/client'));
 app.use(express.static('./public'));
 
@@ -28,7 +52,7 @@ app.use(function (req: any, res: any, next: any) {
 
   // 如果是游客，则优先使用缓存中的数据
   if (!req.cookies[authCookieName]) {
-    let _cache = cache.get(req.url);
+    let _cache = cache.get(req.originalUrl);
     if (_cache) {
       res.send(_cache);
       return;
@@ -36,9 +60,9 @@ app.use(function (req: any, res: any, next: any) {
   }
 
   // 在服务端发起的请求的ua，传递给api
-  if (req && req.headers && req.headers['user-agent']) {
-    global.ua = req.headers['user-agent'];
-  }
+  // if (req && req.headers && req.headers['user-agent']) {
+    // global.ua = req.headers['user-agent'];
+  // }
   
   /*
   // 计算页面生成总的花费时间
@@ -80,12 +104,14 @@ app.get('*', async function (req: any, res: any) {
       
       // 对游客的请求进行缓存
       if (!req.cookies[authCookieName]) {
-        cache.put(req.url, html, featureConfig.cache);
+        cache.set(req.originalUrl, html);
       }
 
       res.send(html);
     });
   }
+
+  // heapdump.writeSnapshot('./' + Date.now() + '.heapsnapshot');
   
   // res.end();
 

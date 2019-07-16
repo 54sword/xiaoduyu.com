@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode.react';
 
-import config from '@config';
-
 export default function() {
 
   const [ appsUrl, setAppsUrl ] = useState('');
@@ -11,7 +9,7 @@ export default function() {
     setAppsUrl('https://www.xiaoduyu.com/app/xiaoduyu')
   });
   
-  if (!config.clientDownloadUrl || !appsUrl) return null; 
+  if (!appsUrl) return null; 
 
   return (
     <div className="card">

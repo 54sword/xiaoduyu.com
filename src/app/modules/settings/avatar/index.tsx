@@ -51,7 +51,7 @@ export default function() {
 
   useEffect(()=>{
     setFileUpload(<QiniuUploadImage upload={upload} text={'上传头像'} />);
-  });
+  }, []);
 
   return (
     <div>

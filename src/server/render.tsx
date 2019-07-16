@@ -42,11 +42,11 @@ export default (req: any, res: any) => {
     };
     
     // 创建新的store
-    let store: any = createStore();    
+    let store: any = createStore();  
     
     // 准备数据，如果有token，获取用户信息并返回
     let [ err, user = null ] = await initData(store, req.cookies[authCookieName] || '');
-    // let user: any = null, err: any;
+
     params.user = user;
     
     // 如果是拉黑的用户，阻止登陆，并提示
@@ -107,17 +107,18 @@ export default (req: any, res: any) => {
       params.code = code;
       params.redirect = redirect;
     }
-
+  
     // 获取路由dom
     const Page: any = router.dom;
     
     await route.body.preload();
 
     // context={params.context}
-
-    const metaTagsInstance = MetaTagsServer();
     
+    const metaTagsInstance = MetaTagsServer();    
+
     // html
+
     params.html = ReactDOMServer.renderToString(<Provider store={store}>
       <MetaTagsContext extract={metaTagsInstance.extract}>
         <StaticRouter location={req.url}>
@@ -125,10 +126,10 @@ export default (req: any, res: any) => {
         </StaticRouter>
       </MetaTagsContext>
     </Provider>);
-
+    
     // 获取页面的meta，嵌套到模版中
     params.meta = metaTagsInstance.renderToString();
-
+    
     // redux
     params.reduxState = JSON.stringify(store.getState()).replace(/</g, '\\x3c');
 
@@ -137,6 +138,5 @@ export default (req: any, res: any) => {
     router = null;
 
     resolve(params);
-
   });
 }

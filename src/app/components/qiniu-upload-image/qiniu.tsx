@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import fetch from "node-fetch";
 
 import config from '@config/index'
@@ -24,15 +24,13 @@ export default function({
   onUpload = (file)=>{}
 }: Props) {
 
-  let uploadUrl = config.qiniu.uploadUrl.http;
+  const [ uploadUrl, setUploadUrl ] = useState(config.qiniu.uploadUrl.http);
 
   useEffect(()=>{
-
     if (window.location.protocol === 'https:') {
-      uploadUrl = config.qiniu.uploadUrl.https;
+      setUploadUrl(config.qiniu.uploadUrl.https)
     }
-
-  });
+  }, []);
 
   const upload = function(file: any) {
 

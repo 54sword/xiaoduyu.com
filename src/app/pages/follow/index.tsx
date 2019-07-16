@@ -3,8 +3,6 @@ import React from 'react';
 // modules
 import Shell from '@modules/shell';
 import Meta from '@modules/meta';
-// import Footer from '@modules/footer';
-// import AdsByGoogle from '@modules/adsbygoogle';
 
 import PostsList from '@modules/posts-list';
 import FeedList from '@modules/feed-list';
@@ -13,10 +11,6 @@ import ADPC from '@modules/ads/pc';
 
 // layout
 import TwoColumns from '../../layout/two-columns';
-
-// import { googleAdSense } from '@config';
-// import _config from '@config/index';
-// const { googleAdSense } = _config;
 
 export default Shell(function() {
   return (

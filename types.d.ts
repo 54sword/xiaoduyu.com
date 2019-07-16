@@ -33,7 +33,11 @@ declare module 'webpack-hot-middleware'
 declare module '@config'
 declare module '@config/*'
 declare module 'showdown'
-declare module 'memory-cache'
+declare module 'helmet'
+declare module 'heapdump'
+declare module 'easy-monitor'
+declare module 'serve-favicon'
+declare module 'morgan'
 
 // https://www.tslang.cn/docs/handbook/jsx.html
 // 去除使用标签的警告
