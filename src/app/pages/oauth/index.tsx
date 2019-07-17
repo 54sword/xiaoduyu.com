@@ -37,7 +37,7 @@ export default Shell(function() {
     }
 
 
-  });
+  }, []);
 
   return (
     <>

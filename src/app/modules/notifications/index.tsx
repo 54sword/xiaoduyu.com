@@ -19,12 +19,12 @@ import './index.scss';
 export default () => {
 
   const { history, location, match } = useReactRouter();
-
+  
   const me = useSelector(getUserInfo);
   const unreadNotice = useSelector(getUnreadNotice);
   const newList = useSelector((state: any)=>getNotificationListById(state, 'new'));
   const store = useStore();
-  const _loadNewNotifications = (params: any) => loadNewNotifications(params)(store.dispath, store.getState);
+  const _loadNewNotifications = (params: any) => loadNewNotifications(params)(store.dispatch, store.getState);
   const typeList: any = {
     'unread': {
       name: '未读消息',

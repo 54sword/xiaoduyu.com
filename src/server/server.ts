@@ -5,7 +5,7 @@ import compress from 'compression';
 import logger from 'morgan';
 // import heapdump from 'heapdump';
 
-import favicon from 'serve-favicon';
+// import favicon from 'serve-favicon';
 // import easyMonitor from 'easy-monitor';
 // easyMonitor('xiaoduyu');
 
@@ -42,7 +42,7 @@ app.use(bodyParser.json({limit: '20mb'}));
 app.use(bodyParser.urlencoded({limit: '20mb', extended: true}));
 app.use(cookieParser());
 app.use(compress());
-app.use(favicon('./public/favicon.ico'));
+// app.use(favicon('./public/favicon.ico'));
 app.use(express.static('./dist/client'));
 app.use(express.static('./public'));
 
@@ -122,7 +122,11 @@ console.log('server started on port ' + port);
 
 // 每秒打印一次内存占用情况，显示在控制台，用于排查内存泄漏的问题
 if (featureConfig.memoryUsage) {
-  setInterval(()=>{
-    console.log(process.memoryUsage().heapUsed/1024/1204)
-  }, 1000); 
+  let timer = function() {
+    setTimeout(()=>{
+      console.log(process.memoryUsage().heapUsed/1024/1204);
+      timer();
+    }, 5000);
+  }
+  timer();
 }

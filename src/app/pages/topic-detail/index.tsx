@@ -68,7 +68,7 @@ export default Shell(function({ setNotFound }: any) {
       })
     }
 
-  });
+  }, []);
 
   if (!topic || loading) return <Loading />;
 

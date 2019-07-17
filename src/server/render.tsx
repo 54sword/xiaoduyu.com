@@ -115,7 +115,7 @@ export default (req: any, res: any) => {
 
     // context={params.context}
     
-    const metaTagsInstance = MetaTagsServer();    
+    let metaTagsInstance = MetaTagsServer();    
 
     // html
 
@@ -136,6 +136,7 @@ export default (req: any, res: any) => {
     // 释放store内存
     store = null;
     router = null;
+    // metaTagsInstance = null;
 
     resolve(params);
   });

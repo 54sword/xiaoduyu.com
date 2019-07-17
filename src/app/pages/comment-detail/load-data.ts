@@ -1,6 +1,6 @@
-import { loadCommentList } from '../../redux/actions/comment';
+import { loadCommentList } from '@actions/comment';
 
-export default ({ store, match, user }) => {
+export default ({ store, match, user }: any) => {
   return new Promise(async (resolve, reject) => {
 
     if (user) {
@@ -10,7 +10,7 @@ export default ({ store, match, user }) => {
 
     const { id } = match.params;
     
-    const [ err, data ] = await loadCommentList({
+    let [ err, data ]: any = await loadCommentList({
       id: 'single_'+id,
       args: {
         _id: id,

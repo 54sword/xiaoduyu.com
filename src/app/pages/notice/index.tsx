@@ -29,7 +29,7 @@ export default Shell(function() {
 
   useEffect(()=>{
     setTips(titleList[notice] || '未知提醒')
-  });
+  }, []);
   
   return (
     <div>

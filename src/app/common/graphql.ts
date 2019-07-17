@@ -22,6 +22,9 @@ const client = new ApolloClient({
   cache
 });
 
+// let lastCacheTime = 0;
+// let resetStore = false;
+
 if (featureConfig.cache) {
   let timer = function(){
     setTimeout(()=>{
@@ -95,22 +98,19 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
 
   // console.log(options);
   
-  /*
   // 服务端清理缓存逻辑
-  if (__SERVER__) {
-    if (new Date().getTime() - lastCacheTime > featureConfig.cache && !resetStore) {
-      // console.log('===清理缓存');
-      resetStore = true;
-      // 超过缓存时间，清空所有缓存
-      // https://github.com/apollographql/apollo-client/issues/2919
-      await client.cache.reset();
-      // client.clearStore();
-      resetStore = false;
-      lastCacheTime = new Date().getTime();
-    }
-  }
-  */
-
+  // if (__SERVER__) {
+  //   if (new Date().getTime() - lastCacheTime > featureConfig.cache && !resetStore) {
+  //     // console.log('===清理缓存');
+  //     resetStore = true;
+  //     // 超过缓存时间，清空所有缓存
+  //     // https://github.com/apollographql/apollo-client/issues/2919
+  //     await client.cache.reset();
+  //     // client.clearStore();
+  //     resetStore = false;
+  //     lastCacheTime = new Date().getTime();
+  //   }
+  // }
 
   let fn:any = client.query;
 
@@ -189,7 +189,10 @@ const convertParamsFormat = (params: any) => {
 		switch (typeof params[i]) {
 			case 'string':
         v = StringAs(params[i]);
-				break;
+        break;
+      case 'object':
+        v = JSON.stringify(params[i]);
+        break;
 			default: v = params[i];
 		}
 		arr.push(i+':'+v)

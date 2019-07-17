@@ -2,7 +2,7 @@ import TopicsLoadData from '@modules/topics/load-data';
 
 import { loadPostsList } from '@actions/posts';
 
-export default ({ store, match, res, req, user }) => {
+export default ({ store, match, res, req, user }: any) => {
   return new Promise(async resolve => {
 
     Promise.all([

@@ -7,7 +7,7 @@ export default function() {
 
   useEffect(()=>{
     setAppsUrl('https://www.xiaoduyu.com/app/xiaoduyu')
-  });
+  },[]);
   
   if (!appsUrl) return null; 
 

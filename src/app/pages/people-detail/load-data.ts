@@ -1,6 +1,6 @@
-import { loadPeopleList } from '../../redux/actions/people';
+import { loadPeopleList } from '@actions/people';
 
-export default function({ store, match, user }) {
+export default function({ store, match, user }: any) {
   return new Promise(async (resolve, reject) => {
     
     if (user) {

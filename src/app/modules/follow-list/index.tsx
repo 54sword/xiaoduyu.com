@@ -19,15 +19,16 @@ import './style.scss';
 
 interface Props {
   // 列表id
-  id: string;
+  id: string
   // 查询条件
-  query: object;
+  query: object
   // 启动滚动加载
-  scrollLoad?: boolean;
+  scrollLoad?: boolean
   // 显示分页
-  showPagination?: boolean;
+  showPagination?: boolean
   // 没有数据的时候显示内容
-  nothing?: any;
+  nothing?: any
+  fields: any
 }
 
 export default function(props:Props) {

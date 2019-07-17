@@ -5,22 +5,22 @@ import { loadPostsList } from '@actions/posts';
  * @param  {String} search location.search
  * @return {Object}        符合的参数对象
  */
-const analyzeUrlParams = (search) => {
+const analyzeUrlParams = (search: string) => {
 
-  let params = {};
+  let params: any = {};
   (search.split('?')[1] || '').split('&').map(item=>{
     let s = item.split('=');
     params[s[0]] = s[1];
   });
 
-  let whiteParams = {}
+  let whiteParams: any = {}
 
-  let whiteList = {
+  let whiteList: any = {
     // sort_by: (s)=>s,
     // recommend: (s)=>true,
     // deleted: (s)=>true,
     // weaken: (s)=>true,
-    page_number: (s)=>parseInt(s)
+    page_number: (s: string)=>parseInt(s)
     // page_size: (s)=>parseInt(s)
     // start_create_at: (s)=>s,
     // end_create_at: (s)=>s,
@@ -38,7 +38,7 @@ const analyzeUrlParams = (search) => {
 
 // 服务端渲染
 // 加载需要在服务端渲染的数据
-export default ({ store, match, user }) => {
+export default ({ store, match, user }: any) => {
   return new Promise(async (resolve, reject) => {
 
     if (user) {
@@ -76,7 +76,6 @@ export default ({ store, match, user }) => {
       })(store.dispatch, store.getState);
 
       resolve({ code:200 });
-
 
     } else {
       resolve({ code:404, text: '该话题不存在' });

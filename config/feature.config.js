@@ -46,7 +46,7 @@ if (mainConfig.debug) {
   config.logs = false;
   config.apiLog = true;
   config.reduxLog = true;
-//   config.memoryUsage = true;
+  // config.memoryUsage = true;
 }
 
 module.exports = config;

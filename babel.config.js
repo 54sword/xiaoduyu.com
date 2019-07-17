@@ -8,7 +8,7 @@ module.exports = function(api) {
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react",
-      "@babel/preset-typescript"
+      ["@babel/preset-typescript", { "isTSX": true, "allExtensions": true }]
     ],  
     "plugins": [
       ["@babel/plugin-proposal-decorators", { "legacy": true }],
