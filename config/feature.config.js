@@ -38,14 +38,13 @@ let config = {
   
   // 启动作者广告功能
   authorAD: false
-
 }
 
 if (mainConfig.debug) {
-  config.debug = true;
-  config.logs = false;
-  config.apiLog = true;
-  config.reduxLog = true;
+  // config.debug = true;
+  // config.logs = false;
+  // config.apiLog = true;
+  // config.reduxLog = true;
   // config.memoryUsage = true;
 }
 

@@ -1,8 +1,11 @@
-
 import graphql from '../../common/graphql';
 
-export const forgot = ({ args }) => {
-  return (dispatch, getState) => {
+interface Props {
+  args: any
+}
+
+export const forgot = ({ args }: Props) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async resolve => {
 
       let [ err, res ] = await graphql({

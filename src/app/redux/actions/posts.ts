@@ -7,11 +7,11 @@ import Device from '../../common/device';
 import graphql from '../../common/graphql';
 import To from '../../common/to';
 
-import loadList from '../../common/new-graphql-load-list';
+import loadList from '../utils/new-graphql-load-list';
 
 
 // 加工问题列表
-const processPostsList = (list, store, id) => {
+const processPostsList = (list: Array<any>, store?: any, id?: string) => {
 
   list.map(function(posts){
 
@@ -73,29 +73,36 @@ const processPostsList = (list, store, id) => {
 
 }
 
+interface AddPosts {
+  title: string,
+  detail: string,
+  detailHTML: string,
+  topicId: string,
+  device: number,
+  type: number
+}
+
 // 添加问题
-export function addPosts({ title, detail, detailHTML, topicId, device, type, callback = ()=>{} }) {
-  return (dispatch, getState) => {
+export function addPosts({ title, detail, detailHTML, topicId, device, type }: AddPosts) {
+  return (dispatch: any, getState: any) => {
+  return new Promise(async resolve => {
 
-    return new Promise(async resolve => {
+    let [ err, res ] = await graphql({
+      type: 'mutation',
+      apis: [{
+        api: 'addPosts',
+        args: { title, content: detail, content_html: detailHTML, topic_id: topicId, device_id: device, type },
+        fields: `
+        success
+        _id
+        `
+      }],
+      headers: { accessToken: getState().user.accessToken }
+    });
 
-      let [ err, res ] = await graphql({
-        type: 'mutation',
-        apis: [{
-          api: 'addPosts',
-          args: { title, content: detail, content_html: detailHTML, topic_id: topicId, device_id: device, type },
-          fields: `
-          success
-          _id
-          `
-        }],
-        headers: { accessToken: getState().user.accessToken }
-      });
+    resolve([ err, res ]);
 
-      resolve([ err, res ]);
-
-    })
-
+  })
   }
 }
 
@@ -149,15 +156,15 @@ export const loadPostsList = loadList({
 });
 
 // 移除list
-export const removePostsListById = (id) => {
-  return (dispatch, getState) => {
+export const removePostsListById = (id: string) => {
+  return (dispatch: any, getState: any) => {
     dispatch({ type: 'REMOVE_POSTS_LIST_BY_ID', id });
   }
 }
 
 // 刷新帖子列表
-export const refreshPostsListById = (id) => {
-  return (dispatch, getState) => {
+export const refreshPostsListById = (id: string) => {
+  return (dispatch: any, getState: any) => {
 
     let list = getState().posts[id] || null;
 
@@ -175,8 +182,8 @@ export const refreshPostsListById = (id) => {
   }
 }
 
-export function viewPostsById({ id }) {
-  return async (dispatch, getState) => {
+export function viewPostsById({ id }: { id: string}) {
+  return async (dispatch: any, getState: any) => {
 
     let [ err, res ] = await To(storage.load({ key: 'view-posts' }));
     
@@ -215,11 +222,20 @@ export function viewPostsById({ id }) {
 }
 
 
-export function updatePosts({ id, title, detail, detailHTML, topicId, topicName, device, type }) {
-  return async (dispatch, getState) => {
+interface UpdatePosts {
+  id: string
+  title: string
+  detail: string
+  detailHTML: string
+  topicId: string
+  topicName: string
+}
+
+export function updatePosts({ id, title, detail, detailHTML, topicId, topicName }: UpdatePosts) {
+  return async (dispatch: any, getState: any) => {
   return new Promise(async (resolve, reject) => {
 
-    let args = {
+    let args: any = {
       _id: id, title, content: detail, content_html: detailHTML, topic_id: topicId
     }
 
@@ -264,7 +280,7 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, topicName,
   }
 }
 
-const abstractImages = (str) => {
+const abstractImages = (str: string) => {
 
   let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
   let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -272,7 +288,7 @@ const abstractImages = (str) => {
   let result = [];
   let img;
   while (img = imgReg.exec(str)) {
-    let _img = img[0].match(srcReg)
+    let _img: any = img[0].match(srcReg)
     if (_img && _img[1]) {
       _img = _img[1] + '?imageView2/2/w/800/auto-orient/format/jpg'
       result.push(_img)
@@ -285,7 +301,7 @@ const abstractImages = (str) => {
 
 
 // 图像优化，给html中的img图片，增加一些七牛参数，优化最大宽度，格式等
-const imageOptimization = (str) => {
+const imageOptimization = (str: string) => {
 
   let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
   let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;

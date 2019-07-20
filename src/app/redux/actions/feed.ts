@@ -2,10 +2,10 @@ import { dateDiff } from '../../common/date';
 import Utils from '../../common/utils';
 import Device from '../../common/device';
 
-import loadList from '../../common/new-graphql-load-list';
+import loadList from '../utils/new-graphql-load-list';
 
 // 加工问题列表
-const processPostsList = (list) => {
+const processPostsList = (list: Array<any>) => {
 
   list.map(function(item){
 
@@ -174,8 +174,8 @@ export const loadFeedList = loadList({
 });
 
 // 刷新帖子列表
-export const refreshFeedListById = (id) => {
-  return (dispatch, getState) => {
+export const refreshFeedListById = (id: string) => {
+  return (dispatch: any, getState: any) => {
 
     let list = getState().feed[id] || null;
 

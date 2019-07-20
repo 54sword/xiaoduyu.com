@@ -3,8 +3,8 @@ import graphql from '../../common/graphql';
 import { removeUnlockToken } from './unlock-token';
 
 // cookie安全措施，在服务端使用 http only 方式储存cookie
-export const saveTokenToCookie = ({ access_token }) => {
-  return (dispatch, getState) => {
+export const saveTokenToCookie = ({ access_token }: { access_token: string }) => {
+  return (dispatch: any, getState: any) => {
   return new Promise(async (resolve, reject) => {
 
     // 执行单元测试
@@ -17,7 +17,7 @@ export const saveTokenToCookie = ({ access_token }) => {
       type: 'post',
       data: { access_token },
       async:false,
-      success: (res)=>{
+      success: (res: any)=>{
         if (res && res.success) {
           resolve(res);
         } else {
@@ -31,8 +31,8 @@ export const saveTokenToCookie = ({ access_token }) => {
 }
 
 // 登录
-export const signIn = ({ data }) => {
-  return (dispatch, getState) => {
+export const signIn = ({ data }: { data: any }) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async (resolve, reject) => {
 
       let [ err, res ] = await graphql({
@@ -65,7 +65,7 @@ export const signIn = ({ data }) => {
 }
 
 export const signOut = () => {
-  return (dispatch, getState) => {
+  return (dispatch: any, getState: any) => {
   // return new Promise(async (resolve, reject) => {
 
     removeUnlockToken()(dispatch, getState);
@@ -73,7 +73,7 @@ export const signOut = () => {
     $.ajax({
       url: '/sign/out',
       type: 'post',
-      success: res => {
+      success: (res: any) => {
         if (res && res.success) {
 
           if (res.success && typeof window != 'undefined') {
@@ -101,8 +101,8 @@ export const signOut = () => {
   };
 }
 
-export const signUp = (args) => {
-  return (dispatch, getState) => {
+export const signUp = (args: any) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async resolve => {
 
       let [ err, res ] = await graphql({

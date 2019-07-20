@@ -1,18 +1,17 @@
-
 import graphql from '../../common/graphql';
 
-function setUser(userinfo) {
+function setUser(userinfo: any) {
   return { type: 'SET_USER', userinfo }
 }
 
-export function addAccessToken({ accessToken }) {
-  return (dispatch, getState) => {
+export function addAccessToken({ accessToken }: { accessToken: string }) {
+  return (dispatch: any, getState: any) => {
     dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken });
   }
 }
 
 export function removeAccessToken() {
-  return (dispatch, getState) => {
+  return (dispatch: any, getState: any) => {
     dispatch({ type: 'REMOVE_ACCESS_TOKEN' });
   }
 }
@@ -21,8 +20,8 @@ export function removeAccessToken() {
  * 获取用户信息
  * @param  {String} accessToken 访问的token
  */
-export const loadUserInfo = ({ accessToken }) => {
-  return (dispatch, getState) => {
+export const loadUserInfo = ({ accessToken }: { accessToken: string }) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async (resolve, reject) => {
 
       let [ err, res ] = await graphql({
@@ -95,8 +94,8 @@ export const loadUserInfo = ({ accessToken }) => {
  * @param  {Object} args 更新内容，具体更新内容请查看想要的api
  * @return {Array}      err 错误， res 结果
  */
-export function updateUser(args) {
-  return async (dispatch, getState) => {
+export function updateUser(args: any) {
+  return async (dispatch: any, getState: any) => {
     return new Promise(async resolve => {
 
       args._id = getState().user.userInfo._id;
@@ -122,8 +121,8 @@ export function updateUser(args) {
  * @param  {Object} args 更新内容，具体更新内容请查看想要的api
  * @return {Array}      err 错误， res 结果
  */
-export function updatePassword(args) {
-  return async (dispatch, getState) => {
+export function updatePassword(args: any) {
+  return async (dispatch: any, getState: any) => {
     return new Promise(async resolve => {
 
       args.user_id = getState().user.userInfo._id;

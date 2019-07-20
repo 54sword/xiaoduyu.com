@@ -1,5 +1,5 @@
 import graphql from '../../common/graphql';
-import loadList from '../../common/new-graphql-load-list';
+import loadList from '../utils/new-graphql-load-list';
 
 export const loadBlockList = loadList({
   reducerName: 'block',

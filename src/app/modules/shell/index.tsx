@@ -28,7 +28,7 @@ type Props = {
 
 export default function(Component: any) {
 
-  return function ({ history, location, match, staticContext }: Props) {
+  const Page = function ({ history, location, match, staticContext }: Props) {
 
     const [ notFound, setNotFound ] = useState('');
 
@@ -52,5 +52,9 @@ export default function(Component: any) {
     return (<Component match={match} setNotFound={setNotFound} />)
 
   }
+
+  Page.init = Component.init;
+
+  return Page;
 
 }

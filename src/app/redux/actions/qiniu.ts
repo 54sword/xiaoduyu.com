@@ -1,8 +1,7 @@
-
 import graphql from '../../common/graphql';
 
 export function getQiNiuToken() {
-  return (dispatch, getState) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async (resolve, reject) => {
 
       let [ err, res ] = await graphql({

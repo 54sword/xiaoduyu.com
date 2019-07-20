@@ -1,4 +1,3 @@
-
 import graphql from '../../common/graphql';
 
 /*
@@ -7,10 +6,9 @@ export function addAccessToken({ access_token, expires }) {
 }
 */
 
-
 // 登录
-export function exchangeNewToken({ accessToken }) {
-  return (dispatch, getState) => {
+export function exchangeNewToken({ accessToken }: { accessToken: string }) {
+  return (dispatch: any, getState: any) => {
   return new Promise(async resolve => {
 
       let [ err, res ] = await graphql({

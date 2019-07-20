@@ -1,15 +1,14 @@
-
-import GraphQL from '../../common/graphql';
+import graphql from '../../common/graphql';
 import { getPostsListById } from '../reducers/posts';
 
 // 查询是否有新动态，用于小红点提醒
 export function loadTips () {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any) => {
 
     let user = getState().user;
     let userInfo = user.userInfo;
 
-    let [ err, res ] = await GraphQL({
+    let [ err, res ] = await graphql({
       headers: { accessToken: user.accessToken },
       apis: [
 

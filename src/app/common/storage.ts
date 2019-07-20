@@ -2,7 +2,7 @@
 import Storage from 'react-native-storage';
 // import AsyncStorage from '@react-native-community/async-storage';
 
-let obj = null;
+let obj: any = null;
 
 if (!__SERVER__ && typeof window != 'undefined') {
   obj = new Storage({
@@ -25,6 +25,5 @@ if (!__SERVER__ && typeof window != 'undefined') {
     // sync: require('你可以另外写一个文件专门处理sync'),
   });
 }
-
 
 export default obj;

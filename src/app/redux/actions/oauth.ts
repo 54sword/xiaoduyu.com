@@ -1,8 +1,7 @@
-
 import graphql from '../../common/graphql';
 
-export const oAuthUnbinding = ({ args }) => {
-  return (dispatch, getState) => {
+export const oAuthUnbinding = ({ args }: { args: any }) => {
+  return (dispatch: any, getState: any) => {
   return new Promise(async resolve => {
 
     let [ err, res ] = await graphql({
@@ -27,8 +26,8 @@ export const oAuthUnbinding = ({ args }) => {
 
 
 
-export const QQOAuth = (args) => {
-  return (dispatch, getState) => {
+export const QQOAuth = (args: any) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async resolve => {
 
       let [ err, res ] = await graphql({

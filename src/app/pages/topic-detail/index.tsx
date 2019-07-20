@@ -60,9 +60,8 @@ export default Shell(function({ setNotFound }: any) {
         args: {
           _id: id
         }
-        // filters: { query: { _id: id } }
       }).then(([err, res]: any)=>{
-        if (!res) {
+        if (!res || res && res.data && !res.data[0]) {
           setNotFound('话题不存在');
         }
       })

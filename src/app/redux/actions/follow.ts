@@ -1,9 +1,5 @@
-
 import graphql from '../../common/graphql';
-// import loadList from '../../common/graphql-load-list';
-
-import loadList from '../../common/new-graphql-load-list';
-
+import loadList from '../utils/new-graphql-load-list';
 
 export const findFollows = loadList({
   reducerName: 'follow',
@@ -12,47 +8,15 @@ export const findFollows = loadList({
   fields: ``
 });
 
-/*
-// 关注
-export const findFollows = ({ id, filters, restart = false }) => {
-  return (dispatch, getState) => {
-    return new Promise(async resolve => {
-
-      return loadList({
-        dispatch,
-        getState,
-
-        name: id,
-        restart,
-        filters,
-
-        schemaName: 'findFollows',
-        reducerName: 'follow',
-        actionType: 'SET_FOLLOW_LIST_BY_ID'
-      });
-
-    })
-  }
-}
-*/
-
-
-const _follow = (status) => {
-  return ({ args }) => {
-    return (dispatch, getState) => {
+const _follow = (status: any) => {
+  return ({ args }: any) => {
+    return (dispatch: any, getState: any) => {
       return new Promise(async resolve => {
 
         args.status = status;
         let me = getState().user.userInfo;
 
         let [ err, res ] = await graphql({
-          // type: 'mutation',
-          // api: 'addFollow',
-          // args,
-          // fields: `success`,
-          // headers: {
-          //   accessToken: getState().user.accessToken
-          // }
           type: 'mutation',
           apis: [{
             api: 'addFollow',
@@ -60,7 +24,6 @@ const _follow = (status) => {
             fields: `success`
           }],
           headers: { accessToken: getState().user.accessToken }
-
         });
 
         if (err) return resolve([ err ? err.message : '未知错误' ]);

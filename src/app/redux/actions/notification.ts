@@ -1,6 +1,6 @@
-import loadList from '../../common/new-graphql-load-list';
+import loadList from '../utils/new-graphql-load-list';
 
-const processNotificationList = (list, { dispatch, getState }) => {
+const processNotificationList = (list: Array<any>, { dispatch, getState }: any) => {
   
   list.map(item => {
     
@@ -41,7 +41,7 @@ const processNotificationList = (list, { dispatch, getState }) => {
 }
 
 // 更新数据
-const updateData = function(list, { dispatch, getState }) {
+const updateData = function(list: Array<any>, { dispatch, getState }: any) {
 
   const state = getState();
 
@@ -126,9 +126,9 @@ export const loadNotifications = loadList({
 });
 
 // 更新通知中的评论
-let updateCommentState = (comment, notices) => {
+let updateCommentState = (comment: any, notices: Array<any>) => {
 
-  notices.map(item=>{
+  notices.map((item: any)=>{
 
     if (item.has_read) return
 
@@ -149,7 +149,7 @@ let updateCommentState = (comment, notices) => {
 
 
 // 更新帖子
-const updatePosts = (state, notices) => {
+const updatePosts = (state: any, notices: Array<any>) => {
 
   notices.map(item=>{
 
@@ -176,7 +176,7 @@ const updatePosts = (state, notices) => {
 }
 
 // 更新关注人
-const updateFollowPeople = (state, selfId, notices) => {
+const updateFollowPeople = (state: any, selfId: string, notices: Array<any>) => {
 
   let count = 0
 
@@ -195,8 +195,8 @@ const updateFollowPeople = (state, selfId, notices) => {
 }
 
 // 获取新的未读通知
-export const loadNewNotifications = ({ name }) => {
-  return async (dispatch, getState) => {
+export const loadNewNotifications = ({ name }: { name: string }) => {
+  return async (dispatch: any, getState: any) => {
 
     const state = getState();
     let list = state.notification[name] || null,
@@ -206,7 +206,9 @@ export const loadNewNotifications = ({ name }) => {
       return
     }
 
-    let [ err, res ] = await loadNotifications({
+    let err: any, res: any;
+
+    let result: any = await loadNotifications({
       id: 'new',
       args: {
         page_size: 20,
@@ -216,8 +218,10 @@ export const loadNewNotifications = ({ name }) => {
       restart: true
     })(dispatch, getState);
 
+    [ err, res ] = result;
+
     // 未读通知中，删除已加载的通知
-    res.data.map(item=>{
+    res.data.map((item: any)=>{
       list.data.unshift(item);
     });
     

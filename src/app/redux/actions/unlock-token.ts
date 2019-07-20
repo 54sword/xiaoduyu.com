@@ -4,8 +4,8 @@ import To from '../../common/to';
 
 import graphql from '../../common/graphql';
 
-export const getUnlockToken = ({ args }) => {
-  return (dispatch, getState) => {
+export const getUnlockToken = ({ args }: { args: any }) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async resolve => {
 
       let [ err, res ] = await graphql({
@@ -36,7 +36,7 @@ export const getUnlockToken = ({ args }) => {
 
 // 从cookie中获取unlock token
 export const initUnlockToken = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any) => {
     
     let [ err, unlockToken ] = await To(storage.load({ key: 'unlock-token' }));
 
@@ -46,7 +46,7 @@ export const initUnlockToken = () => {
 
 
 export const removeUnlockToken = () => {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any) => {
     storage.remove({
       key: 'unlock-token'
     });

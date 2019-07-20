@@ -1,6 +1,6 @@
 import { dateDiff } from '../../common/date';
 import graphql from '../../common/graphql';
-import loadList from '../../common/new-graphql-load-list';
+import loadList from '../utils/new-graphql-load-list';
 
 import Device from '../../common/device';
 
@@ -19,8 +19,7 @@ const abstractImages = (str: string) => {
     }
   }
 
-  return result
-
+  return result;
 }
 
 const processCommentList = (list: Array<object>) => {
@@ -76,7 +75,17 @@ const processCommentList = (list: Array<object>) => {
   return list
 }
 
-export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, forward, callback }: any) {
+interface AddComment {
+  posts_id: string
+  parent_id: string
+  reply_id: string
+  contentJSON: string
+  contentHTML: string
+  deviceId: number
+  forward: boolean
+}
+
+export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, forward }: AddComment) {
   return (dispatch: any, getState: any) => {
 
     let accessToken = getState().user.accessToken;
@@ -105,14 +114,20 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
           _id
           `
         }],
-        headers: { accessToken: getState().user.accessToken }
+        headers: { accessToken }
       });
 
       resolve([ err, res ]);
 
       if (!res || !res.success) return;
 
-      [ err, res ] = await loadCommentList({ id: 'cache', args:{ _id: res._id }, restart: true })(dispatch, getState);
+      let result: any = await loadCommentList({
+        id: 'cache',
+        args:{ _id: res._id },
+        restart: true
+      })(dispatch, getState);
+
+      [ err, res ] = result;
 
       let newComment = res.data[0];
 
@@ -236,17 +251,17 @@ export function loadMoreReply({ postsId, commentId }: { postsId: string, comment
     const commentList = getState().comment[postsId];
 
     let index = 0;
-    let comment = null;
+    let comment: any = null, err: any, res: any;
 
-    commentList.data.map((item, key)=>{
+    commentList.data.map((item: { _id: string }, key: number)=>{
       if (item._id == commentId) {
         comment = item;
         index = key;
       }
     });
-    
-    let [ err, res ] = await loadCommentList({
-      name:'new-reply',
+
+    let result: any = await loadCommentList({
+      id: 'new-reply',
       args: {
         parent_id: comment._id,
         page_size: 10,
@@ -257,12 +272,14 @@ export function loadMoreReply({ postsId, commentId }: { postsId: string, comment
       restart: true
     })(dispatch, getState);
 
+    [ err, res ] = result;
+
     if (err) {
       resolve();
       return;
     }
 
-    res.data.map(item=>{
+    res.data.map((item: any)=>{
       comment.reply.push(item);
     });
 

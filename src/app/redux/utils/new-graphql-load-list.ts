@@ -1,14 +1,16 @@
-import graphql from './graphql';
+import graphql from '../../common/graphql';
 
 interface FnParams {
   // 储存在readucer的名称
-  reducerName: string,
+  reducerName: string
   // 更新state的action type
-  actionType: string,
+  actionType: string
   // 请求的api
-  api: string,
+  api: string
   // 默认返回的字段
-  fields: string,
+  fields: string
+  // 列表倒序
+  unshift?: boolean
   processList?: (data: Array<object>, store: any, id:string) => Array<object>
 }
 

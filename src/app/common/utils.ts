@@ -1,7 +1,7 @@
 
-const cloneObj = (obj: any) => {
-  return JSON.parse(JSON.stringify(obj))
-}
+// const cloneObj = (obj: any) => {
+//   return JSON.parse(JSON.stringify(obj))
+// }
 
 // 从html字符串中，获取所有图片地址
 const abstractImagesFromHTML = (str: string) => {
@@ -45,6 +45,8 @@ const htmlToString = (html: string) => {
 
 }
 
+
+// <img /> to [图片]
 const htmlImgToText = (html: string) => {
 
   let imgReg = /<img(.*?)>/gi;
@@ -96,8 +98,15 @@ const htmlImageOptimization = (str: string) => {
 //   htmlImageOptimization
 // }
 
-exports.abstractImagesFromHTML = abstractImagesFromHTML;
-exports.htmlToString = htmlToString;
-exports.htmlImgToText = htmlImgToText;
-exports.htmlImageOptimization = htmlImageOptimization;
-exports.merge = cloneObj;
+// exports.abstractImagesFromHTML = abstractImagesFromHTML;
+// exports.htmlToString = htmlToString;
+// exports.htmlImgToText = htmlImgToText;
+// exports.htmlImageOptimization = htmlImageOptimization;
+// exports.merge = cloneObj;
+
+export default {
+  abstractImagesFromHTML,
+  htmlToString,
+  htmlImgToText,
+  htmlImageOptimization
+}

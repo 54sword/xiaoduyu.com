@@ -1,12 +1,9 @@
-
 import storage from '../../common/storage';
 import To from '../../common/to';
 
-// import { reactLocalStorage } from 'reactjs-localstorage';
-
 // 初始化已读数据
 export const initHasRead = () => {
-  return async (dispatch) => {
+  return async (dispatch: any, getState: any) => {
 
     let [ err, state = '{}' ] = await To(storage.load({ key: 'has-read-posts' }));
 
@@ -29,11 +26,16 @@ export const initHasRead = () => {
 
 /**
  * 添加已读
- * @param {string} postsId 帖子的id
- * @param {string} lastCommentAt 帖子最近一次评论的日期
  */
-export const addHasRead = ({ postsId, lastCommentAt }) => {
-  return (dispatch, getState) => {
+
+interface Props {
+  // 帖子的id
+  postsId: string
+  // 帖子最近一次评论的日期
+  lastCommentAt: string
+}
+export const addHasRead = ({ postsId, lastCommentAt }: Props) => {
+  return (dispatch: any, getState: any) => {
     dispatch({ type: 'ADD_POSTS_HAS_READ', postsId, lastCommentAt });
 
     storage.save({

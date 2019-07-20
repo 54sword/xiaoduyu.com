@@ -1,8 +1,7 @@
-
 import graphql from '../../common/graphql';
 
 export function loadReportTypes() {
-  return (dispatch, getState) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async (resolve, reject) => {
 
       let [ err, res ] = await graphql({
@@ -27,8 +26,8 @@ export function loadReportTypes() {
   }
 }
 
-export function addReport({ data }) {
-  return (dispatch, getState) => {
+export function addReport({ data }: { data: any }) {
+  return (dispatch: any, getState: any) => {
     return new Promise(async (resolve, reject) => {
 
       let [ err, res ] = await graphql({

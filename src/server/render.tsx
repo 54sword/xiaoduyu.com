@@ -118,7 +118,6 @@ export default (req: any, res: any) => {
     let metaTagsInstance = MetaTagsServer();    
 
     // html
-
     params.html = ReactDOMServer.renderToString(<Provider store={store}>
       <MetaTagsContext extract={metaTagsInstance.extract}>
         <StaticRouter location={req.url}>

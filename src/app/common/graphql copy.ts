@@ -1,16 +1,14 @@
-// import { ApolloClient } from 'apollo-client';
-// import { HttpLink } from 'apollo-link-http';
-// import { InMemoryCache } from 'apollo-cache-inmemory';
-// import gql from 'graphql-tag';
-// import fetch from "node-fetch";
+import { ApolloClient } from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import gql from 'graphql-tag';
+import fetch from "node-fetch";
 
 import { api } from '@config';
-// import featureConfig from '@config/feature.config';
+import featureConfig from '@config/feature.config';
 
 import To from './to';
-import Ajax from './ajax'
 
-/*
 // https://www.apollographql.com/docs/react/advanced/caching.html
 const cache = new InMemoryCache();
 
@@ -36,7 +34,7 @@ if (featureConfig.cache) {
   }
   timer();
 }
-*/
+
 // GraphQL 客户端请求
 interface Props {
   // 查询 or 添加、修改、删除
@@ -55,7 +53,7 @@ interface Props {
   apis: Array<{
     aliases?: string,
     api: string,
-    args?: any,
+    args: any,
     fields?: string
   }>
 }
@@ -64,7 +62,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
 
 	let sql = '';
 
-	apis.map(({ aliases = '', api, args = {}, fields = '' })=>{
+	apis.map(({ aliases = '', api, args, fields = '' })=>{
 
     // 将参数转换成字符串
 		args = convertParamsFormat(args);
@@ -79,57 +77,6 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
     }
 
   });
-
-
-  return To(new Promise(async (resolve, reject)=>{
-
-     // 储存 cookie
-     let [ err, data ] = await Ajax({
-      url: __SERVER__ && api.graphql.server ? api.graphql.server : api.graphql.client,
-      method: 'post',
-      headers,
-      data: {
-        operationName: null,
-        variables: {},
-        query: `${type}{
-          ${sql}
-        }`
-      }
-    });
-
-    // console.log(err)
-    // console.log(data);
-
-    if (data && !data.errors) {
-      // 如果只有一个api，那么直接返回结果
-      if (apis.length == 1) {
-        resolve(data.data[apis[0].aliases || apis[0].api]);
-      } else {
-        resolve(data.data);
-      }
-    } else if (data && data.errors) {
-      // 如果有graphql错误，返回graphql的错误
-      if (data.errors.length != 0) {
-        data.errors.map((item: object)=>{
-          item = converterErrorInfo(item);
-        });
-        reject(data.errors[0]);
-      } else {
-        // 其他错误
-        reject({
-          'message':data.errors || '未知错误'
-        });
-      }
-    } else {
-      console.log(err);
-      reject({
-        'message': '未知错误'
-      });
-    }
-
-  }));
-
-  /*
 
 	const _sql = gql`${type}{
     ${sql}
@@ -223,7 +170,6 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
     });
 
   }));
-  */
 
 }
 

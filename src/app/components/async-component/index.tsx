@@ -9,6 +9,7 @@ import React from 'react';
  *  {Sidebar => <Sidebar />}
  * </Bundle>
  */
+
 export default class AsyncComponent extends React.Component {
 
   state = {

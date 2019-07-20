@@ -114,14 +114,10 @@ if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
   config.port = 4000;
   config.classScopedName = '[name]_[local]__[hash:base64:5]';
   config.publicPath = `http://${localhost}:4000`;
-  config.api = {
-    domain: `http://${localhost}:4000`,
-    graphql: {
-      client: `http://${localhost}:3000/graphql`,
-      server: `http://${localhost}:3000/graphql`
-    },
-    socket: `http://${localhost}:3000`
-  };
+  config.api.domain = `http://${localhost}:4000`;
+  // config.api.graphql.client = `http://${localhost}:3000/graphql`;
+  // config.api.graphql.server = '';
+  // config.api.socket = `http://${localhost}:3000`;
   config.GA = '';
   config.googleAdSense = '';
   config.analysisScript = ``;

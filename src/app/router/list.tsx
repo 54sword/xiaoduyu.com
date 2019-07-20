@@ -180,7 +180,7 @@ export default [
     })
   },
   {
-    path: '**', head, enter: 'everybody', loadData: NotFoundLoadData,
+    path: '**', head, exact:false, enter: 'everybody', loadData: NotFoundLoadData,
     body: Loadable({
       loader: () => import('../pages/not-found'),
       loading

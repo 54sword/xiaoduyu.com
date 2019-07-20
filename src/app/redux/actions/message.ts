@@ -1,12 +1,13 @@
 
 import graphql from '../../common/graphql';
+import loadList from '../utils/new-graphql-load-list';
 // import loadList from '../../common/graphql-load-list';
 
 // import { readSession } from '../session';
 
 import { dateDiff } from '../../common/date';
 
-import loadList from '../../common/new-graphql-load-list';
+// import loadList from '../../common/new-graphql-load-list';
 
 export const loadMessageList = loadList({
   reducerName: 'message',
@@ -32,9 +33,9 @@ export const loadMessageList = loadList({
 
   processList: (list)=>{
 
-    let lastItem = null
+    let lastItem: any = null
 
-    list.map(item=>{
+    list.map((item: any)=>{
       if (!lastItem ||
         new Date(lastItem.create_at).getTime() - new Date(item.create_at).getTime() > 1000 * 60 * 5
       ) {
@@ -48,100 +49,18 @@ export const loadMessageList = loadList({
   }
 });
 
-// import navigatorService from '../../../navigators/service';
 
-/*
-export const loadMessageList = function({ id, filters = {}, restart = false }) {
-  return (dispatch, getState) => {
-
-    if (!filters.select) {
-      filters.select = `
-        _id
-        user_id {
-          _id
-          nickname
-          avatar_url
-        }
-        addressee_id {
-          _id
-          nickname
-          avatar_url
-        }
-        type
-        content_html
-        create_at
-      `
-    }
-
-    return loadList({
-      dispatch,
-      getState,
-
-      name: id,
-      restart,
-      filters,
-
-      processList: (list)=>{
-
-        let lastItem = null
-
-        list.map(item=>{
-          if (!lastItem ||
-            new Date(lastItem.create_at).getTime() - new Date(item.create_at).getTime() > 1000 * 60 * 5
-          ) {
-            item._create_at =  dateDiff(item.create_at)
-            lastItem = item;
-          }
-        })
-
-        list.reverse();
-        return list;
-      },
-      
-      schemaName: 'messages',
-      reducerName: 'message',
-      api: 'messages',
-      type: 'query',
-      actionType: 'SET_MESSAGE_LIST_BY_ID',
-      unshift: true
-    })
-
-  }
+interface AddMessage {
+  addressee_id: string
+  type: number
+  content: string
+  content_html: string
+  device: number
 }
-*/
-/*
-let loading = false;
 
-export const fetchUnreadMessages = () => {
-  return (dispatch, getState) => {
+export const addMessage = ({ addressee_id, type, content, content_html, device }: AddMessage) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async resolve => {
-
-      let accessToken = getState().user.accessToken;
-      
-      if (loading || !accessToken) return;
-      
-      let [ err, res ] = await graphql({
-        apis: [{
-          api: 'countMessages',
-          fields: `count`
-        }],
-        headers: { accessToken }
-      });
-
-      // if (res) {
-        // dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice: res.ids });
-      // }
-
-    });
-  }
-}
-*/
-
-export const addMessage = ({ addressee_id, type, content, content_html, device }) => {
-  return (dispatch, getState) => {
-    return new Promise(async resolve => {
-
-      // let messages = getState
 
       // 思路，使用user_id + addressee_id 作为消息列表的id
 
@@ -168,9 +87,14 @@ export const addMessage = ({ addressee_id, type, content, content_html, device }
 }
 
 
+interface AddMessagesToList {
+  sessionId: string
+  messageId: string
+}
+
 // 添加新的消息到消息列表
-export const addMessagesToList = ({ sessionId, messageId }) => {
-  return (dispatch, getState) => {
+export const addMessagesToList = ({ sessionId, messageId }: AddMessagesToList) => {
+  return (dispatch: any, getState: any) => {
     return new Promise(async resolve => {
 
       loadMessageList({
@@ -178,7 +102,7 @@ export const addMessagesToList = ({ sessionId, messageId }) => {
         args: {
           _id: messageId
         }
-      })(dispatch, getState).then(([err, res])=>{
+      })(dispatch, getState).then(([err, res]: any)=>{
         
         let list = getState().message[sessionId];
 

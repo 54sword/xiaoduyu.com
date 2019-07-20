@@ -1,25 +1,20 @@
-
 import graphql from '../../common/graphql';
 
-
-export function setOnlineUserCount(online) {
-  return (dispatch, getState) => {
+export function setOnlineUserCount(online: number) {
+  return (dispatch: any, getState: any) => {
     dispatch({ type: 'SET_ONLINE_STATUS', online })
   }
 }
 
-
-export function saveTopicId (topicId) {
-  return (dispatch, getState) => {
+export function saveTopicId (topicId: string) {
+  return (dispatch: any, getState: any) => {
     dispatch({ type: 'SET_TOPIC_ID', topicId })
   }
 }
 
-
-
 // 请求浏览器通知权限
-export function requestNotificationPermission (status) {
-  return (dispatch, getState) => {
+export function requestNotificationPermission () {
+  return (dispatch: any, getState: any) => {
     if ('Notification' in window) {
       /*
       Notification.requestPermission((result)=>{
@@ -56,7 +51,7 @@ export function requestNotificationPermission (status) {
 
 // 查询是否有新动态，用于小红点提醒
 export function getNew () {
-  return async (dispatch, getState) => {
+  return async (dispatch: any, getState: any) => {
 
     let user = getState().user;
     let userInfo = user.userInfo;
@@ -170,7 +165,7 @@ export function getNew () {
 
 // 加载网站经营状态
 export function loadOperatingStatus() {
-  return (dispatch, getState) => {
+  return (dispatch: any, getState: any) => {
   return new Promise(async resolve => {
 
     let [ err, res ] = await graphql({
