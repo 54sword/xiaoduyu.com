@@ -10,30 +10,28 @@ import featureConfig from '@config/feature.config';
 import To from './to';
 
 // https://www.apollographql.com/docs/react/advanced/caching.html
-const cache = new InMemoryCache();
+// const MemoryCache = new InMemoryCache();
 
-// https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
-const client = new ApolloClient({
-  ssrMode: __SERVER__ ? true : false,
-  link: new HttpLink({
-    uri: __SERVER__ && api.graphql.server ? api.graphql.server : api.graphql.client,
-    fetch
-  }),
-  cache
-});
+
 
 // let lastCacheTime = 0;
 // let resetStore = false;
 
+/*
 if (featureConfig.cache) {
   let timer = function(){
-    setTimeout(()=>{
-      client.cache.reset();
+    setTimeout(async ()=>{
+      // console.log(client.extract());
+      // await client.cache.reset();
+      await client.clearStore();
+      // console.log(client.extract());
+      // console.log('清空store');
       timer();
-    }, featureConfig.cache);
+    }, 1000 * 10);
   }
   timer();
 }
+*/
 
 // GraphQL 客户端请求
 interface Props {
@@ -59,6 +57,16 @@ interface Props {
 }
 
 export default async ({ type = 'query', headers = {}, cache = false, apis }: Props) => {
+
+  // https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
+  const client = new ApolloClient({
+    ssrMode: __SERVER__ ? true : false,
+    link: new HttpLink({
+      uri: __SERVER__ && api.graphql.server ? api.graphql.server : api.graphql.client,
+      fetch
+    }),
+    cache: new InMemoryCache()
+  });
 
 	let sql = '';
 
@@ -91,7 +99,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
     context: {
       headers
     },
-    // fetchPolicy: 'cache'
+    // fetchPolicy: 'no-cache'
     // 如果未设置缓存，判断如果是会员的话不缓存，游客缓存
     fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache')
   }
@@ -105,8 +113,8 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
   //     resetStore = true;
   //     // 超过缓存时间，清空所有缓存
   //     // https://github.com/apollographql/apollo-client/issues/2919
-  //     await client.cache.reset();
-  //     // client.clearStore();
+      // await client.cache.reset();
+  // await client.clearStore();
   //     resetStore = false;
   //     lastCacheTime = new Date().getTime();
   //   }

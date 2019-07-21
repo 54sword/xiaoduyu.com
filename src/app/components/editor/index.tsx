@@ -373,9 +373,11 @@ export default class MyEditor extends React.Component {
   
           html = converter.makeHtml(html);
 
+          // console.log(html);
+
         }
 
-        // console.log(html);
+        
         
         html = encodeURIComponent(html);
 

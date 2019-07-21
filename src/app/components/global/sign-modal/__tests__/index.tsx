@@ -85,7 +85,7 @@ test('应该登陆失败 [无效账号登陆测试]', async () => {
   const $account = getByPlaceholderText('手机号/邮箱地址');
   const $password = getByPlaceholderText('密码');
   const $submit = getByDisplayValue('登录');
-
+  
   $account.value = '18600000000';
   $password.value = '123456';
 
@@ -94,7 +94,7 @@ test('应该登陆失败 [无效账号登陆测试]', async () => {
   let key = Reflect.ownKeys(form);
   let onSubmit = form[key[key.length - 2]].onSubmit;
 
-  let [err, res] = await To(onSubmit());
+  let [err, res] = await To(onSubmit(null, true));
 
   expect(err ? true : false).toBe(true);
 

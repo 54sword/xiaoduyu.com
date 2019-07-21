@@ -81,23 +81,12 @@ export const signOut = () => {
             window.location.reload();
           }
 
-          // resolve(res.success);
         } else {
           alert('退出失败');
-          // reject('error');
         }
       }
     });
     
-
-    // return Ajax({
-    //   domain: window.location.origin,
-    //   // apiVerstion: '',
-    //   url: '/sign/out',
-    //   type: 'post'
-    // })
-
-  // });
   };
 }
 
@@ -113,7 +102,7 @@ export const signUp = (args: any) => {
           fields: `success`
         }]
       });
-
+      
       if (err) {
         resolve([err])
       } else {

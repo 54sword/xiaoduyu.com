@@ -1,5 +1,5 @@
 
-var device = (function() {
+var device: any = (function() {
 
   class Device {
     devices: any
