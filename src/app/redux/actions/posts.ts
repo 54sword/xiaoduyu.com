@@ -129,6 +129,10 @@ export const loadPostsList = loadList({
     topic_id{
       _id
       name
+      parent_id {
+        _id
+        name
+      }
     }
     type
     user_id{

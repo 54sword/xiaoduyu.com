@@ -6,6 +6,8 @@ import AsyncComponent from '@components/async-component';
 
 import routerList from './list';
 
+import Footer from '@modules/footer';
+
 
 // 接口
 interface Params {
@@ -70,6 +72,7 @@ export default ({ user, enterEvent = ()=>{} }: Params): Result => {
             />)
           })}
         </Switch>
+        <Footer />
       </div>
       
       {/* 全局的组件 */}

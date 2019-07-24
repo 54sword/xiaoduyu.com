@@ -1,6 +1,18 @@
+
+  .expand{
+    font-size:14px;
+    font-weight: normal;
+    float:right;
+  }
+
+
+
 .container{
 
-  padding:15px 15px 10px 10px !important;
+  // background-color: #fff;
+
+  // padding:20px;
+  // border-bottom:1px solid #e8eaed;
 
   a {
     display:inline-block;
@@ -13,12 +25,13 @@
     
     padding-left:45px;
     margin-bottom:10px;
-    font-size: 14px;
+    font-size: 15px;
 
     .group-title {
       position: absolute;
-      left:0;
-      margin-left:15px;
+      margin-left:-45px;
+      // left:0;
+      // margin-left:15px;
       font-weight: bold;
     }
 

@@ -28,16 +28,16 @@ export default function() {
 
   const _signOut = ()=>signOut()(store.dispatch, store.getState);
 
-  const searchRef = useRef();
+  // const searchRef = useRef();
 
-  const { history } = useReactRouter();
+  // const { history } = useReactRouter();
 
-  const search = function(event: any) {
-    event.preventDefault();
-    let $search = searchRef.current;
-    if (!$search.value) return $search.focus();
-    history.push(`/search?q=${$search.value}`);
-  }
+  // const search = function(event: any) {
+  //   event.preventDefault();
+  //   let $search = searchRef.current;
+  //   if (!$search.value) return $search.focus();
+  //   history.push(`/search?q=${$search.value}`);
+  // }
 
   return (
     <>
@@ -57,29 +57,16 @@ export default function() {
           <div className="d-flex bd-highlight">
             {me ?
             <>
-            <nav className="flex-wrap bd-highlight" styleName="nav">
+            <nav styleName="nav-left" className="flex-wrap bd-highlight d-flex justify-content-start ml-3">
               <>
-                <NavLink exact to="/">
+                <NavLink exact to="/" styleName="nav-item">
                   交流{interflowTip > 0 ? <span styleName="subscript"></span> : null}
                 </NavLink>
-                <NavLink exact to="/follow">
+                <NavLink exact to="/follow" styleName="nav-item">
                   关注{followTip > 0 ? <span styleName="subscript"></span> : null}
                 </NavLink>
-                <NavLink exact to="/favorite">
-                  收藏{favoriteTip > 0 ? <span styleName="subscript"></span> : null}
-                </NavLink>
-                <NavLink exact to="/notifications">
-                  通知{unreadNotice.length > 0 ? <span styleName="unread-subscript">{unreadNotice.length}</span> : null}
-                </NavLink>
-                <NavLink exact to="/sessions">
-                  私信{unreadMessage > 0 ? <span styleName="unread-subscript">{unreadMessage}</span> : null}
-                </NavLink>
-                <NavLink exact to="/search" className="d-lg-none d-xl-none">搜索</NavLink>
               </>
             </nav>
-            <form onSubmit={search} styleName="search" className="flex-shrink-1 bd-highlight d-none d-lg-block d-xl-block">
-              <input ref={searchRef} type="text" placeholder="站内搜索" />
-            </form>
             </>
             :
             <a styleName="slogan" href="javascript:void(0)" data-toggle="modal" data-target="#sign" data-type="sign-up">{config.description}</a>}
@@ -87,13 +74,24 @@ export default function() {
 
         </div>
 
-        <div className="ml-auto bd-highlight" styleName="nav">
+        <div className="ml-auto bd-highlight d-flex justify-content-start" styleName="nav">
           {me ?
           <>
-            <Link to="/new-posts" styleName="new-posts-button">+发帖</Link>
-            <a href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" styleName="avatar">
-              <div style={{backgroundImage:`url(${me.avatar_url})`}}></div>
-              <span className="d-none d-md-block d-lg-block d-xl-block pl-2">{me.nickname}</span>
+
+            <NavLink exact to="/search" styleName="search"></NavLink>
+            <NavLink exact to="/favorite" styleName="favorite">
+              {favoriteTip > 0 ? <span styleName="subscript"></span> : null}
+            </NavLink>
+            <NavLink exact to="/notifications" styleName="notification">
+              {unreadNotice.length > 0 ? <span styleName="unread-subscript">{unreadNotice.length}</span> : null}
+            </NavLink>
+            <NavLink exact to="/sessions" styleName="message">
+              {unreadMessage > 0 ? <span styleName="unread-subscript">{unreadMessage}</span> : null}
+            </NavLink>            
+
+            {/* <Link to="/new-posts" styleName="new-posts-button">+发帖</Link> */}
+            <a href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" styleName="avatar" style={{backgroundImage:`url(${me.avatar_url})`}}>
+
             </a>
             <div className="dropdown-menu dropdown-menu-right">
               <Link className="dropdown-item" to={`/people/${me._id}`}>我的主页</Link>

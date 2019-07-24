@@ -9,22 +9,23 @@
     font-size: 14px;
 
     padding-top:15px;
-    padding-left:77px;
-    line-height: 20px;
+    padding-left:83px;
+    padding-right:20px;
+    // line-height: 20px;
 
     color:#777;
-    margin-bottom: 5px;
+    // margin-bottom: 5px;
 
     b{
-      font-size: 14px;
+      font-size: 15px;
     }
     
     .avatar{
       img{
         position: absolute;
-        margin-left:-56px;
-        width: 42px;
-        height: 42px;
+        margin-left:-63px;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
         background-color: #efefef;
         // margin-top:-5px;
@@ -94,8 +95,8 @@
     // margin:0 20px 0px 10px;
     // background-color: #f2f5f8;
     // padding:15px;
-    padding:0px 15px 0px 77px;
-    border-radius: 6px;
+    padding:5px 15px 5px 83px;
+    // border-radius: 6px;
     width:100%;
     // display: inline-block;
     // word-wrap: break-word;
@@ -107,7 +108,7 @@
 
   .footer{
     // display: none;
-    padding:5px 15px 10px 77px;
+    padding:0 15px 10px 83px;
 
     // text-align: right;
 
@@ -116,7 +117,7 @@
 
       > span, > a, > div{
         margin-right:20px;
-        font-size:12px;
+        font-size:14px;
       }
       > span:last-child, > a:last-child, > div:last-child{
         margin-right:0;
@@ -124,7 +125,7 @@
       
       > span{
         // color:#999;
-        font-size: 12px;
+        font-size: 14px;
       }
 
       // > a, > div a {
@@ -220,7 +221,7 @@
 }
 
 .reply-list{
-  margin-left:60px;
+  margin-left:83px;
   // border-top: 1px solid #e6e8eb;
 
   .item-head{

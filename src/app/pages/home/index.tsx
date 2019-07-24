@@ -1,7 +1,7 @@
 import React from 'react';
 
 // layout
-import TwoColumns from '../../layout/two-columns';
+import SingleColumns from '../../layout/single-columns';
 
 // config
 import { description } from '@config';
@@ -10,15 +10,17 @@ import { description } from '@config';
 import Shell from '@modules/shell';
 import Meta from '@modules/meta';
 import Topics from '@modules/topics';
-import AppDownload from '@modules/app-download';
-import LinksExchange from '@modules/links-exchange';
-import OperatingStatus from '@modules/operating-status';
-import Footer from '@modules/footer';
-import Case from '@modules/case';
-import ADPC from '@modules/ads/pc';
+// import AppDownload from '@modules/app-download';
+// import LinksExchange from '@modules/links-exchange';
+// import OperatingStatus from '@modules/operating-status';
+// import Footer from '@modules/footer';
+// import Case from '@modules/case';
+// import ADPC from '@modules/ads/pc';
 
 import PostsList from '@modules/posts-list';
 import NewTips from '@modules/posts-list/components/new-tips';
+
+import './index.scss';
 
 export default Shell(() => {
 
@@ -28,53 +30,29 @@ export default Shell(() => {
       <meta name="description" content={description} />
     </Meta>
 
-    <TwoColumns>
+    <SingleColumns>
       
-      <div>
-        <Topics />
-        <NewTips topicId="home" />
-        <PostsList
-          id="home"
-          query={{
-            sort_by: "sort_by_date",
-            deleted: false,
-            weaken: false
-          }}
-          scrollLoad={true}
-          />
-      </div>
-      
-      <div>
+      <Topics />
 
-        <div className="card">
-        <div className="card-header">推荐</div>
+      <div className="card">
+        <div className="card-head pb-1">
+          <span className="title">最新动态</span>
+        </div>
         <div className="card-body p-0">
+          <NewTips topicId="home" />
           <PostsList
-            id="excellent"
-            itemType="poor"
+            id="home"
             query={{
               sort_by: "sort_by_date",
               deleted: false,
-              weaken: false,
-              recommend: true
+              weaken: false
             }}
+            scrollLoad={true}
             />
         </div>
-        </div>
-        
-        <AppDownload />
-        <Case />
-        <LinksExchange />
-        
-        <OperatingStatus />
       </div>
 
-      <div>
-        <ADPC width='280px' height='280px' />
-        <Footer />
-      </div>
-
-    </TwoColumns>
+    </SingleColumns>
   </div>)
 
 })

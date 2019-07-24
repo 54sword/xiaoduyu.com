@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSelector, useStore } from 'react-redux';
@@ -10,7 +10,9 @@ import { getUserInfo } from '@reducers/user';
 import Loading from '@components/ui/loading';
 import './index.scss';
 
-export default function() {
+export default function({ showAll = false }: { showAll?: boolean }) {
+
+  const [ expand, setExpand ] = useState(false);
 
   const me = useSelector((state: object)=>getUserInfo(state));
   const topicList = useSelector((state: object)=>getTopicListById(state, 'recommend-topics'));
@@ -28,7 +30,9 @@ export default function() {
       _loadTopicList({
         id: 'recommend-topics',
         args: {
-          type: "parent", recommend: true, sort_by: 'sort:-1'
+          type: "parent",
+          // recommend: true,
+          sort_by: 'sort:-1'
         }
         // filters: { variables: { type: "parent", recommend: true, sort_by: 'sort:-1' } }
       });
@@ -36,33 +40,35 @@ export default function() {
 
   },[]);
 
-  const length = 20;
+  const length = 16;
 
   if (loading) {
-    return (<div className="card">
+    return (<div styleName="container">
       <div className="card-body"><Loading /></div>
     </div>)
   }
 
-  return (<div className="card">
-      
-    <div className="card-header d-flex justify-content-between">
-      <span>交流话题</span>
-      {me ?
-        <Link to="/new-posts" className="text-primary d-block d-md-none d-lg-none d-xl-none">+发帖</Link>
+  return (<div className="card border-bottom">
+
+    <div className="card-head">
+      <span className="title">交流话题</span>
+      {!showAll ?
+        <Link to="/topic" styleName="expand">全部话题</Link>
         : null}
     </div>
 
-    <div className="card-body" styleName="container">
+    <div className="card-body pt-0" styleName="container">
       {data.map((item: any)=>{
+
+        if (item.children == 0 || !item.recommend && !showAll) return;
+
         return (<div key={item._id} styleName="group">
           <div styleName="group-title">
             <Link key={item._id} to={`/topic/${item._id}`}>{item.name}</Link>
           </div>
           <div>
-            
             {item.children && item.children.map((subitem: any, index: number)=>{
-              if (index >= length) return;
+              if (index >= length && !showAll) return;
               return (<Link
                 key={subitem._id}
                 to={`/topic/${subitem._id}`}
@@ -70,7 +76,6 @@ export default function() {
                 {subitem.name}
               </Link>)
             })}
-
           </div>
         </div>)
       })}

@@ -62,11 +62,11 @@ export default function({ comment }: Props) {
   
     return (<div styleName="item" key={comment._id} className="border-top">
   
-      <div styleName="item-head">
+      <div styleName="item-head" className="d-flex justify-content-between">
   
         <div>
           <Link to={`/people/${comment.user_id._id}`}>
-            <div styleName="avatar" className="load-demand" data-load-demand={`<img width="40" height="40" src="${comment.user_id.avatar_url}" />`}></div>
+            <div styleName="avatar" className="load-demand" data-load-demand={`<img width="48" height="48" src="${comment.user_id.avatar_url}" />`}></div>
             <b>{comment.user_id.nickname}</b>
           </Link>
           {!parent && reply_user && reply_user._id != comment.user_id._id ||
@@ -74,9 +74,19 @@ export default function({ comment }: Props) {
             ? <span> 回复 <Link to={`/people/${reply_user._id}`} onClick={stopPropagation}><b>{reply_user.nickname}</b></Link></span>
           : null}
           
-          {comment._device ? <span> {comment._device}</span> : null}
+          {!comment.parent_id ?
+              <Link to={`/comment/${comment._id}`} className="text-muted ml-2"><span>{comment._create_at}</span></Link>
+              : <span className="text-muted ml-2">{comment._create_at}</span>}
+
+          {comment._device ? <span className="text-muted ml-2">{comment._device}</span> : null}
         </div>
-  
+
+        {/* <div>
+          {!comment.parent_id ?
+              <Link to={`/comment/${comment._id}`} className="text-muted"><span>{comment._create_at}</span></Link>
+              : <span className="text-muted">{comment._create_at}</span>}
+        </div>
+   */}
       </div>
   
       {comment.content_html ?
@@ -90,10 +100,6 @@ export default function({ comment }: Props) {
         <div className="d-flex justify-content-between">
   
           <div styleName="actions" className="text-secondary">
-
-            {!comment.parent_id ?
-            <Link to={`/comment/${comment._id}`} className="text-secondary"><span>{comment._create_at}</span></Link>
-            : <span>{comment._create_at}</span>}
             
             {comment.parent_id ? 
               <LikeButton reply={comment}  /> : 
@@ -105,6 +111,12 @@ export default function({ comment }: Props) {
               : null}
             <MoreMenu comment={comment} />
           </div>
+
+          {/* <div>
+          {!comment.parent_id ?
+              <Link to={`/comment/${comment._id}`} className="text-muted"><span>{comment._create_at}</span></Link>
+              : <span className="text-muted">{comment._create_at}</span>}
+          </div> */}
   
         </div>
   

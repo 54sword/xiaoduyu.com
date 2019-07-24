@@ -89,28 +89,31 @@ export default Shell(function({ setNotFound }: any) {
     {loading ? <div>loading...</div> : null}
     
     {session ?
-      <div styleName="box" className="card">
-        
-        <div id="content" styleName="message-container">
-
-        <MessageList
-          id={id}
-          query={{
-            user_id: session.user_id._id+','+session.addressee_id._id,
-            addressee_id: session.user_id._id+','+session.addressee_id._id,
-            sort_by: 'create_at:-1'
-          }}
-          />
-
+      <div className="card">
+        <div className="card-head">
+          <div className="title">{session.user_id.nickname}</div>
         </div>
+        <div>
+          
+          <div id="content" styleName="message-container">
 
-
-        {!loading && session.user_id._id ?                
-          <div styleName="editor" className="border-top">
-            <Editor addressee_id={session.user_id._id} />
+          <MessageList
+            id={id}
+            query={{
+              user_id: session.user_id._id+','+session.addressee_id._id,
+              addressee_id: session.user_id._id+','+session.addressee_id._id,
+              sort_by: 'create_at:-1'
+            }}
+            />
           </div>
-        : null}
-        
+
+          {!loading && session.user_id._id ?                
+            <div className="border-top">
+              <Editor addressee_id={session.user_id._id} />
+            </div>
+          : null}
+          
+        </div>
       </div>
       : null}
 

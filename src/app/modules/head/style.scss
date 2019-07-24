@@ -1,6 +1,6 @@
 
 .header-space{
-  height:60px;
+  height:55px;
   width: 100%;
   transform: scale(0.5);
 }
@@ -10,18 +10,28 @@
   left:0px;
   width:100%;
   position: fixed;
-  height: 50px;
-  background: #fff;
+  height: 55px;
+  // background: #fff;
   z-index: 99;
-  border-bottom: 1px solid #eff0f2;
+
+  // border-bottom: 1px solid #eff0f2;
 
   // -webkit-backdrop-filter: saturate(180%) blur(20px);
   // backdrop-filter: saturate(180%) blur(20px);
   // background-color: rgba(255,255,255,0.7);
   // box-shadow: 0 1px 0px rgba(236, 238, 240, .7);
 
+  > div {
+    max-width: 700px;
+    border-bottom:1px solid #e8eaed;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
+    background-color: #fff;
+    padding-left:20px;
+    padding-right:20px;
+  }
+
   > div > div{
-    height: 50px;
+    height: 55px;
   }
 
 }
@@ -32,7 +42,7 @@
   height: 30px;
   background-size: contain;
   background-image: url(../../../../public/logo.png);
-  margin-top:10px;
+  margin-top:12px;
 }
 
 .slogan{
@@ -50,103 +60,99 @@
   }
 }
 
-.nav{
-  margin:0 0 0 15px;
-
-  > a {
-    display: table-cell;
-    vertical-align: middle;
-    height: 50px;
-    padding:0 15px;
-    font-size: 14px;
-    // color:#484848;
+.nav-left{
+  .nav-item{
+    height: 55px;
+    line-height: 55px;
+    margin:0 15px 0 15px;
+    text-decoration: none !important;
+    font-size: 15px;
+    color:#8c93a0;
+    &:hover{
+      color:#0073ff;
+      // border-bottom: 3px solid #027cfa;
+    }
   }
+  
+  :global{
+    .active {
+      border-bottom: 3px solid #027cfa;
+    }
+  }
+}
+
+.nav{
+
+  .favorite, .notification, .message, .search, .avatar{
+    margin-left:10px;
+    margin-top: 10px;
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+    width: 35px;
+    height: 35px;
+    border-radius:50%;
+    &:hover{
+      background-color: #e7e9f1;
+    }
+  }
+  .favorite{
+    background-image: url(./images/favorite.png);
+  }
+  .notification{
+    background-image: url(./images/notification.png);
+  }
+  .message{
+    background-image: url(./images/message.png);
+  }
+  .search{
+    background-image: url(./images/search.png);
+  }
+  
+  .avatar{
+    margin-top:14px;
+    margin-left:15px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+  }
+
 
   .subscript{
     position: absolute;
-    width: 6px;
-    height: 6px;
+    margin:6px 0 0 20px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background-color: red;
-    // margin:15px 0 0 0px;
   }
   
   .unread-subscript{
     position: absolute;
-    height: 15px;
-    line-height: 15px;
+    height: 16px;
+    line-height: 16px;
     padding:0 5px;
-    margin:-5px 0 0 -8px;
+    margin:3px 0 0 18px;
     border-radius: 20px;
     background-color: red;
     color:#fff;
-    font-size: 11px;
+    font-size: 12px;
   }
 
-  .new-posts-button{
-    float:left;
-    height: 28px !important;
-    line-height: 28px;
-    background-color: #0073ff;
-    color:#fff;
-    margin:11px 20px 0 0;
-    border-radius: 16px;
-  }
+  // .new-posts-button{
+  //   float:left;
+  //   height: 28px !important;
+  //   line-height: 28px;
+  //   background-color: #0073ff;
+  //   color:#fff;
+  //   margin:11px 20px 0 0;
+  //   border-radius: 16px;
+  // }
 
 }
-
-.search{
-  
-  width:100%;
-  max-width: 260px;
-  margin-top:10px;
-  margin-left:15px;
-
-  input{
-    width:100%;
-    height: 30px;
-    border: none;
-    padding:0 0 0 30px;
-    background-image: url(./images/search.png);
-    background-size: 22px;
-    background-position: left 5px center;
-    background-repeat: no-repeat;
-    outline: none;
-    font-size:14px;
-    background-color: rgba(0,0,0,.04);
-    border-radius: 15px;  
-    &:hover{
-      background-color: rgba(0,0,0,.05);
-    }
-  
-  }
-
-}
-
-.avatar{
-  font-size: 15px;
-  padding-right:0px !important;
-
-  > div{
-    position: absolute;
-    margin-left:-25px;
-    top:12px;
-    width: 25px;
-    height: 25px;
-    background-size: cover;
-    border-radius: 50%;
-    background-color: #efefef;
-  }
-
-  > span{
-    max-width: 80px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-}
-
 
 
 

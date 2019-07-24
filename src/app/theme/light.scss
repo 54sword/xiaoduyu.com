@@ -3,11 +3,17 @@
  * 覆盖默认的 bootstrap 的样式
  */
 
+// 主要
 $color_primary: #0073ff;
-$color_dark: #222;//#29292a;
-$color_muted: #eff1f4;
-$color_secondary: #8b8e91;
+// 黑色
+$color_dark: #222;
+// 浅灰
+$color_muted: #cfd2d8;//#eff1f4;
+// 次要
+$color_secondary: #7d7f85;//#aeaeae;
 
+// 边框颜色
+$color_border: #eff1f4;
 
 :global{
 
@@ -15,11 +21,11 @@ $color_secondary: #8b8e91;
   
   body {
     // background-color: #fff;
-    background-color:#ecedef;//#eff0f2;//#eceef0;//#e9eaee;//#eceef0;
+    background-color:#dcdee3;//#eff0f2;//#eceef0;//#e9eaee;//#eceef0;
     color: $color_dark;
-    // background-image: url(http://dlanham.com/art/streaming/preview.jpg);
-    background-size: cover;
-    background-repeat:no-repeat; 
+    // background-image: url(./images/bg.jpg);
+    // background-size: cover;
+    // background-repeat:no-repeat; 
     background-attachment:fixed;
   }
 
@@ -66,28 +72,29 @@ $color_secondary: #8b8e91;
   .card{
     border: none;
     border-radius: none;
-    margin-bottom: 10px;
-    // border-radius:0px;
-    border-radius: 8px;
-    // overflow: hidden;
-    // border:1px solid rgba(0,0,0,.1);
-    // box-sizing: border-box;
-    // box-shadow: 0 0px 2px rgba(0,0,0,.25);
+    border-radius: 0;
     
-    .card-header{
-      padding:8px 15px 8px 15px;
-      border-bottom: 1px solid $color_muted;
-      background-color: #fff;//#f6f8f9;
-      font-size: 14px;
-      // font-weight: bold;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      // color:#999999;
-      // color:#484848;
+    .card-header, .card-head{
+      padding:15px 20px 15px 20px;
+      border-bottom:0px;
+      background-color: #fff;
+      .title{
+        font-size: 18px;
+        font-weight: bold;
+      }
     }
 
     .card-body{
-      padding:15px;
+      // padding:20px;
+      padding:15px 20px 15px 20px;
+      // padding-top:0px;
+      background-color: #fff;
+    }
+
+    .card-footer{
+      background-color: #fff;
+      border:none;
+      // border-top: 0.5px solid #e8eaed;
     }
 
   }
@@ -98,13 +105,13 @@ $color_secondary: #8b8e91;
     padding:12px 15px 12px 15px;
     border:none;
     // border: 1px solid #fff;
-    border-top: 1px solid $color_muted;
+    border-top: 1px solid $color_border;
 
     border-radius: 0px;
     // background-color: rgba(0,0,0,0);
     background-color:transparent;
 
-    // &:hover{ border-bottom: 1px solid $color_muted; }
+    // &:hover{ border-bottom: 1px solid $color_border; }
     &:first-child{ border-top:none; }
     // &:last-child{ border-bottom:none; }
   }
@@ -112,18 +119,18 @@ $color_secondary: #8b8e91;
   //======================================================
   // https://getbootstrap.com/docs/4.0/utilities/borders/#border-radius
 
-  .border{ border: 1px solid $color_muted !important; }
-  .border-top{ border-top: 1px solid $color_muted !important; }
-  .border-right{ border-right: 1px solid $color_muted !important; }
-  .border-bottom{ border-bottom: 1px solid $color_muted !important; }
-  .border-left{ border-left: 1px solid $color_muted !important; }
+  .border{ border: 1px solid $color_border !important; }
+  .border-top{ border-top: 1px solid $color_border !important; }
+  .border-right{ border-right: 1px solid $color_border !important; }
+  .border-bottom{ border-bottom: 1px solid $color_border !important; }
+  .border-left{ border-left: 1px solid $color_border !important; }
 
   @media (min-width: 0px) and (max-width: 767px) {
-    .border{ border: 0.5px solid #ddd; }
-    .border-top{ border-top: 0.5px solid #ddd; }
-    .border-right{ border-right: 0.5px solid #ddd; }
-    .border-bottom{ border-bottom: 0.5px solid #ddd; }
-    .border-left{ border-left: 0.5px solid #ddd; }
+    .border{ border: 0.5px solid #e8eaed; }
+    .border-top{ border-top: 0.5px solid #e8eaed; }
+    .border-right{ border-right: 0.5px solid #e8eaed; }
+    .border-bottom{ border-bottom: 0.5px solid #e8eaed; }
+    .border-left{ border-left: 0.5px solid #e8eaed; }
   }
 
   //======================================================

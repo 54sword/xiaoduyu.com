@@ -1,5 +1,5 @@
 .item{
-  padding: 10px 10px 10px 50px;
+  padding: 10px 10px 10px 40px;
   min-height: 50px;
 
   .avatar{
@@ -25,16 +25,21 @@
   
   .content{
     display: inline-block;
-    padding:5px 10px 5px 10px;
-    border-radius: 6px;
-    background-color: #efefef;
+    padding:10px 10px 10px 10px;
+    border-radius: 8px;
+    background-color: #f0f2f6;
+    border-top-left-radius: 3px;
+    img{
+      width: 100%;
+      max-width: 280px;
+    }
   }
   
 }
 
 .right{
   padding-left:10px;
-  padding-right:50px;
+  padding-right:40px;
   text-align: right;
 
   .avatar{
@@ -43,8 +48,10 @@
   }
 
   .content{
-    background-color: #cbddff;
+    background-color: #d2e4ff;
     text-align: left;
+    border-radius: 8px;
+    border-top-right-radius: 3px;
   }
   
 }

@@ -1,11 +1,7 @@
 
 .box{
-  // padding:15px;
-  // background-color: #fff;
-  margin-bottom: 10px;
-  // border-radius: 4px;
+  background-color: #fff;
 }
-
 
 .action-bar{
   padding:10px 15px 10px 15px;
@@ -49,9 +45,12 @@
 }
 
 .h1{
-  font-size: 25px;
+  font-size: 24px;
   padding:0px;
+  // margin:0px;
   margin:0 0 10px 0;
+  line-height: 130%;
+  font-weight: bold;
   
   @media (min-width: 0px) and (max-width: 767px) {
     font-size: 22px;
@@ -68,31 +67,29 @@
 
 .head{
 
-  padding-left: 60px;
-  margin-bottom:10px;
-  min-height: 48px;
+  padding: 10px 20px 10px 20px;
+  background-color: #f5f7f9;
 
   .author-avatar{
-    position: absolute;
-    width: 48px;
-    height: 48px;
+    // position: absolute;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    margin-left:-60px;
-    margin-top:-4px;
+    margin-right:10px;
+    // margin-left:-40px;
+    // margin-top:-5px;
   }
 
-  // a{
-    // color:#484848;
-  // }
+}
 
-  > div span{
+.posts-other-info{
+  > span{
     font-size: 13px;
-    color:#999;
 
     &:after{
-      color:#999;
+      color:#d2d5db;
       font-size: 9px;
-      margin:0 5px 0 5px;
+      margin:0 8px 0 8px;
       content: '•';
     }
 
@@ -102,7 +99,6 @@
 
 
   }
-
 }
 
 .title{

@@ -8,6 +8,7 @@ import HomeLoadData from '../pages/home/load-data';
 import TopicDetailLoadData from '../pages/topic-detail/load-data';
 import PeopleDetailLoadData from '../pages/people-detail/load-data';
 import NotFoundLoadData from '../pages/not-found/load-data';
+import TopicLoadData from '../pages/topic/load-data';
 
 import head from '@modules/head';
 const exact = true;
@@ -31,6 +32,13 @@ export default [
     })
   },
   {
+    path: '/topic', ...base, enter: 'everybody', loadData: TopicLoadData,
+    body: Loadable({
+      loader: () => import('../pages/topic'),
+      loading
+    })
+  },
+  {
     path: '/favorite', ...base, enter: 'member',
     body: Loadable({
       loader: () => import('../pages/favorite'),
@@ -38,7 +46,7 @@ export default [
     })
   },
   {
-    path: '/topic/:id', ...base,
+    path: '/topic/:id', ...base, 
     enter: 'everybody', loadData: TopicDetailLoadData,
     body: Loadable({
       loader: () => import('../pages/topic-detail'),
@@ -53,7 +61,7 @@ export default [
     })
   },
   {
-    path: '/comment/:id', ...base,
+    path: '/comment/:id', ...base, 
     enter: 'everybody', loadData: CommentDetailLoadData,
     body: Loadable({
       loader: () => import('../pages/comment-detail'),

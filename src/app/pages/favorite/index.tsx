@@ -16,16 +16,20 @@ import NewTips from '@modules/posts-list/components/new-tips';
 import ADPC from '@modules/ads/pc';
 
 // layout
-import TwoColumns from '../../layout/two-columns';
+import SingleColumns from '../../layout/single-columns';
 
 export default Shell(function() {
   return (
     <div>
       <Meta title="收藏" />
 
-      <TwoColumns>
+      <SingleColumns>
 
-        <div>
+        <div className="card">
+          <div className="card-head pb-1">
+            <div className="title">我的收藏</div>
+          </div>
+          <div className="card-body p-0">
           <NewTips topicId="favorite" />
           <PostsList
             id={'favorite'}
@@ -38,34 +42,10 @@ export default Shell(function() {
             scrollLoad={true}
             nothing="收藏你感兴趣的帖子，可以获得帖子的最新动态"
             />
+          </div>
         </div>
 
-        <div></div>
-        
-        <div>
-
-          <div className="card">
-          <div className="card-header">近7天热门讨论</div>
-          <div className="card-body p-0">
-            <PostsList
-              id={'hot-favorite'}
-              itemType={'poor'}
-              query={{
-                method: 'favorite',
-                deleted: false,
-                weaken: false,
-                sort_by: "comment_count:-1,like_count:-1,sort_by_date:-1",
-                start_create_at: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 7)+''
-              }}
-              />
-          </div>
-          </div>
-          
-          <ADPC width='280px' height='280px' />
-
-        </div>
-
-      </TwoColumns>
+      </SingleColumns>
     </div>
   )
 

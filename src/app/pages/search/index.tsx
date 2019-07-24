@@ -58,44 +58,62 @@ export default Shell(function() {
 
       <Meta title="搜索" />
 
-      <form onSubmit={handleSearch}>
-        <div className="input-group">
-          <input type="text" styleName="input" className="form-control" ref={search} placeholder="输入关键词搜索" />
-          <div className="input-group-append">
-            <button type="submit" styleName="search-button" className="btn btn-block btn-primary">搜索</button>
-          </div>
+      <div className="card">
+        <div className="card-head">
+          <div className="title">搜索</div>
         </div>
-      </form>
 
-      <div className="card p-2 mt-3 flex-row">
-        <a className={`btn btn-sm ${type == '' ? 'btn-primary' : 'btn-link'}`} href="javascript:void(0)" onClick={()=>{ switchType(''); }}>帖子</a>
-        <a className={`btn btn-sm ${type == 'user' ? 'btn-primary' : 'btn-link'}`}  href="javascript:void(0)" onClick={()=>{ switchType('user'); }}>用户</a>
+        <div className="card-body pt-0 pb-0 border-bottom">
+
+          <form onSubmit={handleSearch}>
+            <div className="input-group">
+              <input type="text" styleName="input" className="form-control" ref={search} placeholder="输入关键词搜索" />
+              <div className="input-group-append">
+                <button type="submit" styleName="search-button">搜索</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+
+        <div className="card-body flex-row">
+          <a className={`btn btn-sm ${type == '' ? 'btn-primary' : 'btn-link'}`} href="javascript:void(0)" onClick={()=>{ switchType(''); }}>帖子</a>
+          <a className={`btn btn-sm ${type == 'user' ? 'btn-primary' : 'btn-link'}`}  href="javascript:void(0)" onClick={()=>{ switchType('user'); }}>用户</a>
+        </div>
+
+        <div className="card-body p-0">
+
+
+
+
+
+        {(()=>{
+          if (!q) return
+
+          if (!type) {
+            return (<PostsList
+              id={q}
+              query={{
+                title: q,
+                sort_by: "create_at",
+                deleted: false,
+                weaken: false
+              }}
+              scrollLoad={true}
+              />)
+          } else if (type == 'user') {
+            return (<PeopleList
+              id={q}
+              query={{
+                nickname: q
+              }}
+              />)
+          }
+
+        })()}
+
+        </div>
       </div>
-
-      {(()=>{
-        if (!q) return
-
-        if (!type) {
-          return (<PostsList
-            id={q}
-            query={{
-              title: q,
-              sort_by: "create_at",
-              deleted: false,
-              weaken: false
-            }}
-            scrollLoad={true}
-            />)
-        } else if (type == 'user') {
-          return (<PeopleList
-            id={q}
-            query={{
-              nickname: q
-            }}
-            />)
-        }
-
-      })()}
 
     </SingleColumns>)
 })

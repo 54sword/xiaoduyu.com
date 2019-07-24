@@ -1,14 +1,14 @@
 .container{
   font-size: 12px;
   line-height: 160%;
-  // color:#666;
+  // margin-top:10px;
 
-  a{
-    // color:#666;
-    margin-right:10px;
+  > div{
+    background-color: #eeeff2 !important;
   }
 
   .beian{
+    display: inline-block;
     background-image: url('./images/beian.png');
     background-repeat: no-repeat;
     padding-left:20px;

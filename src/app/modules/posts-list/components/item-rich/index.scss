@@ -16,15 +16,60 @@
   // padding-top:15px;
   // margin-bottom:0px;
   // border-radius: 0px;
+  background-color: #fff;
+  
+  
 
   &:hover{
-    background-color: rgba(255,255,255,.7) !important;
+    background-color: #f5f7fb;
     cursor:pointer;
     cursor:hand;
   }
 }
 
+.box{
+  // padding-left:78px;
+  min-height: 50px;
+  padding:15px 20px 15px 83px;
 
+  .nickname{
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .avatar, .avatar > img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #efefef;
+  }
+
+  .avatar{
+    position: absolute;
+    margin-left: -62px;
+  }
+
+  .other-info{
+    span{
+      font-size: 13px;
+      margin-left:12px;
+      color:#d2d5db;
+      a{
+        font-size:13px;
+        color:#8f949f;
+      }
+    }
+
+  }
+
+}
+
+
+.line{
+  margin-left:83px;
+  height: 1px;
+  background-color: #ebeef3;
+}
 
 
 
@@ -102,9 +147,10 @@
     // margin-top:3px;
 
     .nickname{
-      font-size: 13px;
-      color:#484848;
-      line-height: 35px;
+      font-size: 14px;
+      font-weight: bold !important;
+      // color:#484848;
+      // line-height: 35px;
       // font-weight: bold;
     }
 
@@ -161,56 +207,27 @@
 }
 
 .heat{
-  color:#a4a4a4;
+  color:#8f929c;
   background-image: url('./images/comment.png');
-  background-size: 13px;
+  background-size: 15px;
   background-repeat: no-repeat;
   padding-left:20px;
   background-position: 0 3px;
-  font-size: 13px;
+  font-size: 14px;
 }
-
-
 
 .item-meta{
   display: inline;
   margin-left:10px;
-  // span{
-    // margin-left:5px;
-    // color:#808080;
-  // }
 }
 
 .title{
   font-size: 16px;
-
-  // font-weight: 400;
-  padding:0px 15px 0px 15px;
+  padding-right: 80px;
   a {
     word-break:break-all;
     word-wrap:break-word;
-    font-weight: bold;
-    // line-height: 1.375em;
-    // font-weight: 800;
-
-
-
-    // color:#000 !important;
   }
-  
-  // line-height: 130%;
-  // a{
-    // color:#14171a !important;
-  // }
-
-  // a:hover{
-    // text-decoration: underline !important;
-  // }
-
-  // .topic-name{
-  //   margin-right:5px;
-  //   color:#999 !important;
-  // }
 
 }
 

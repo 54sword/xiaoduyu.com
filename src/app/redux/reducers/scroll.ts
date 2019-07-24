@@ -16,7 +16,9 @@ export default (state = cloneObj(initialState), action: Actions) => {
   switch (action.type) {
     
     case 'SAVE_SCROLL_POSITION':
-      if (action.name) state[action.name] = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+      if (action.name == '/' || action.name == '/favorite' || action.name == '/notifications' || action.name == '/sessions') {
+        state[action.name] = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+      }
       break;
 
     case 'SET_SCROLL_POSITION':

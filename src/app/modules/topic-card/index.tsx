@@ -1,14 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // components
 import Follow from '@components/follow';
+
+import './index.scss';
 
 interface Props {
   topic: Topic
 }
 
 type Topic = {
-  parent_id: string,
+  parent_id: any,
   name: string,
   avatar: string,
   brief: string,
@@ -20,22 +23,31 @@ type Topic = {
 
 export default function({ topic }:Props) {
   return (
-    <div className="card-body rounded" style={{backgroundColor:'#fff',marginBottom:'10px'}}>
-      <div className="media">
-        <img src={topic.avatar} className="align-self-start mr-3 rounded" width="80" height="80" alt={topic.name} />
-        <div className="media-body">
+    <>
+    <div styleName="item" style={{ backgroundImage:`url(${topic.avatar})` }}></div>
+    <div styleName="main">
+      <img styleName="avatar" src={topic.avatar} className="align-self-start rounded" width="80" height="80" alt={topic.name} />
+      <div className="d-flex justify-content-between">
+        <div>
+          {topic.parent_id ?
+            <>
+              <Link to={`/topic/${topic.parent_id._id}`} className="text-primary">{topic.parent_id.name}</Link>
+              <span className="ml-1 mr-1">›</span>
+            </>
+            : null}
+          {topic ? topic.name : null}
+          <div styleName="brief">{topic.brief}</div>
+          {topic.posts_count ? <span className="mr-3" styleName="brief">{topic.posts_count} 帖子</span> : null}
+          {topic.follow_count ? <span className="mr-3" styleName="brief">{topic.follow_count} 人关注</span> : null}
+          {topic.comment_count ? <span className="mr-3" styleName="brief">{topic.comment_count} 条评论</span> : null}
+        </div>
+        <div>
           {topic.parent_id ?
             <div style={{float:'right'}}><Follow topic={topic} /></div>
             : null}
-          <h5 className="mt-0">{topic.name}</h5>
-          <div>{topic.brief}</div>
-          <div className="text-secondary mt-1">
-            {topic.posts_count ? <span className="mr-3">{topic.posts_count} 帖子</span> : null}
-            {topic.follow_count ? <span className="mr-3">{topic.follow_count} 关注</span> : null}
-            {topic.comment_count ? <span className="mr-3">{topic.comment_count} 评论</span> : null}
-          </div>
         </div>
       </div>
     </div>
+    </>
   )
 }

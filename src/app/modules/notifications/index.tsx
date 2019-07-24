@@ -10,7 +10,7 @@ import { getNotificationListById } from '@reducers/notification';
 // components
 import Loading from '@components/ui/loading';
 
-import UserNotificationList from '@modules/notifications/components/list';
+import UserNotificationList from './components/list';
 import SingleColumns from '../../layout/single-columns';
 
 // style
@@ -90,15 +90,21 @@ export default () => {
   filters.addressee_id = me._id;
 
   return (<SingleColumns>
+
+      <div className="card">
+
+      <div className="card-header">
+        <div className="title">我的通知</div>
+      </div>
         
-      <div className="card p-3">
+      <div className="card-body pt-0 border-bottom mb-3">
         <ul>
           {Reflect.ownKeys(typeList).map((item: any) => {
             let _type = typeList[item];
             return (<Link
               to={`/notifications${item == 'unread' ? '' : '/'+item}`}
               key={item}
-              className={`mr-3 ${type.name == _type.name ? 'text-primary' : 'text-dark'}`}
+              className={`mr-4 ${type.name == _type.name ? 'text-primary' : 'text-dark'}`}
               >
               {_type.name}</Link>)
           })}
@@ -123,6 +129,8 @@ export default () => {
         query={filters}
         scrollLoad={true}
       />
+
+      </div>
 
   </SingleColumns>)
 

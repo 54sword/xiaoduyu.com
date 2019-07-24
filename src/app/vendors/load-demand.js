@@ -53,7 +53,7 @@
       content = decodeURIComponent(content);
 
       var y1 = getElementViewTop(elements[i]);
-      var y2 = y1 + elements[i].offsetHeight;
+      var y2 = y1 + elements[i].offsetHeight - clientHeight/2; // 提前加载半屏
       
       if (scrollTop <= y1 && y1 < scrollTop + clientHeight ||
         scrollTop < y2 && y2 < scrollTop + clientHeight

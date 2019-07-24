@@ -18,8 +18,10 @@ export default function({ comment, posts }:Props) {
   const stopPropagation = (e: any) => {
     e.stopPropagation();
   }
+
+  console.log(posts);
   
-  return (<div
+  return (<><div
     styleName="item"
     className="card"
     onClick={()=>{
@@ -27,19 +29,31 @@ export default function({ comment, posts }:Props) {
     }}
     >
       <div styleName="head">
-        <div styleName="info">
-          <Link to={`/people/${comment.user_id._id}`} onClick={stopPropagation}>
-            <i
-              styleName="avatar"
-              className="load-demand"
-              data-load-demand={`<img src="${comment.user_id.avatar_url}" />`}>
-              </i>
-            <b>{comment.user_id.nickname}</b>
-          </Link>
+        <div styleName="info" className="d-flex justify-content-between">
+
+          <div>
+            <Link to={`/people/${comment.user_id._id}`} onClick={stopPropagation}>
+              <i
+                styleName="avatar"
+                className="load-demand"
+                data-load-demand={`<img src="${comment.user_id.avatar_url}" />`}>
+                </i>
+              <b>{comment.user_id.nickname}</b>
+            </Link>
+            <span className="text-muted ml-2">{comment._create_at}</span>
+          </div>
+
+          <div>
+
+          {comment.reply_count ?
+              <div styleName="heat">
+                <span>{comment.reply_count}</span>
+              </div>
+              : null}
+            
+          </div>
         </div>
       </div>
-
-      {/* <div styleName="content"><HTMLText content={comment.content_summary} /></div> */}
 
       {comment.content_summary ?
         <div styleName="content">{comment.content_summary}</div>
@@ -76,24 +90,17 @@ export default function({ comment, posts }:Props) {
         }
         
         if (posts) {
-
-          return (<div styleName="posts-item" className="rounded">
-            <div className="mb-1">
-              <Link to={`/posts/${posts._id}`} styleName="posts-item-title">{posts.title}</Link>
-            </div>
-          </div>)
+          return (<Link styleName="title" className="d-flex align-items-center" onClick={stopPropagation} to={`/posts/${posts._id}`}>
+              <img styleName="posts-avatar" src={posts.user_id.avatar_url} />
+              {posts.title}
+          </Link>)
         }
 
-      })()}
-      
-      <div styleName="footer">          
-          <div styleName="actions-bar" className="d-flex justify-content-between">
-            <div styleName="actions" className="text-secondary">
-              {comment.reply_count ? <span>{comment.reply_count} 条回复</span> : null}
-              {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
-            </div>
-          </div>
-      </div>
+      })()}      
 
-    </div>)
+
+
+    </div>
+    <div styleName="line"></div>
+    </>)
 }

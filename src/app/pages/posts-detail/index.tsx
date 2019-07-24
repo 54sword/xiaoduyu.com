@@ -23,7 +23,7 @@ import ADH5 from '@modules/ads/h5';
 import ADAuthor from '@modules/ads/author';
 
 // layout
-import TwoColumns from '../../layout/two-columns';
+import SingleColumns from '../../layout/single-columns';
 
 // styles
 import './index.scss';
@@ -75,7 +75,7 @@ export default Shell(function({ setNotFound }: any) {
   }
   
   return (
-    <TwoColumns>
+    <SingleColumns>
       
     <div>
 
@@ -95,9 +95,11 @@ export default Shell(function({ setNotFound }: any) {
     <PostsDetail posts={posts} />
 
     {posts.comment_count > 0 ?
-      <div className="card">
-        <div className="card-header">{posts.comment_count} 条评论</div>
-        <div styleName="comment-list" className="card-body">
+      <div className="card" style={{marginTop:'10px'}}>
+        <div className="card-head pt-2 pb-2">
+          <div>{posts.comment_count}条评论 / {posts.reply_count}条回复</div>
+        </div>
+        <div className="card-body p-0">
           <CommentList
             id={posts._id}
             query={{
@@ -127,25 +129,6 @@ export default Shell(function({ setNotFound }: any) {
     <div>
     </div>
 
-    <div>
-      
-      <div className="card">
-        <div className="card-header">作者信息</div>
-        <div className="card-body">
-          <div styleName="author-info">
-            <Link to={`/people/${posts.user_id._id}`}>
-              <img styleName="avatar" src={posts.user_id.avatar_url} /><br />
-              {posts.user_id.nickname}
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <ADAuthor _id={posts.user_id.ad} userId={posts.user_id._id} />
-      <ADPC width='280px' height='280px' />
-
-    </div>
-
-    </TwoColumns>
+    </SingleColumns>
   )
 })

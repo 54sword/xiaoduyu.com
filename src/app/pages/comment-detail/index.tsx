@@ -21,7 +21,7 @@ import Share from '@components/share';
 // import MoreMenu from '@components/more-menu';
 import MoreMenu from '@components/more-menu';
 
-import TwoColumns from '../../layout/two-columns';
+import SingleColumns from '../../layout/single-columns';
 
 import ADPC from '@modules/ads/pc';
 import ADH5 from '@modules/ads/h5';
@@ -82,7 +82,7 @@ export default Shell(function({ match, setNotFound }: any) {
 
   const comment = data[0];
 
-  return(<TwoColumns>
+  return(<SingleColumns>
 
     <div>
 
@@ -156,7 +156,7 @@ export default Shell(function({ match, setNotFound }: any) {
 
   </div>
 
-  <div></div>
+  {/* <div></div>
 
   <div>
 
@@ -175,8 +175,8 @@ export default Shell(function({ match, setNotFound }: any) {
       <ADAuthor _id={comment.user_id.ad} userId={comment.user_id._id} />
       <ADPC width='280px' height='160px' />
 
-  </div>
+  </div> */}
 
-  </TwoColumns>)
+  </SingleColumns>)
 
 });

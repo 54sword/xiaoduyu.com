@@ -127,16 +127,18 @@ export default ({ notification }: Props) => {
 
   if (content) {
     if (notice.deleted) {
-      content = (<div key={notice._id} className="list-group-item">
+      content = (<div key={notice._id}>
         <del styleName="del">{content}</del>
       </div>)
     } else {
-      content = (<div key={notice._id} className="list-group-item" styleName={notice.has_read ? '' : 'unread'}>
+      content = (<div key={notice._id} styleName={notice.has_read ? '' : 'unread'}>
         {content}
       </div>)
     }
   }
 
-  return <div styleName="item">{content}</div>
+  return <div styleName="item" className="card-body border-bottom">
+    {content}
+  </div>
 
 }

@@ -14,7 +14,7 @@ import Meta from '@modules/meta';
 import Loading from '@components/ui/loading';
 
 import NewPostsList from '@modules/posts-list';
-import PostsCard from '@modules/topic-card';
+import TopicCard from '@modules/topic-card';
 
 /**
  * 分析url上面的参数
@@ -67,7 +67,7 @@ export default Shell(function({ setNotFound }: any) {
       })
     }
 
-  }, []);
+  }, [match.params.id]);
 
   if (!topic || loading) return <Loading />;
 
@@ -88,7 +88,13 @@ export default Shell(function({ setNotFound }: any) {
 
     <Meta title={topic.name} />
 
-    <PostsCard topic={topic} />
+    <TopicCard topic={topic} />
+
+    <div className="card">
+      <div className="card-head pb-1">
+        <div className="title">{topic.name}</div>
+      </div>
+    </div>
 
     <NewPostsList
       id={topic._id}

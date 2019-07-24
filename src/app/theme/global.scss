@@ -10,7 +10,7 @@ body{
   // font-family: 'Helvetica Neue', "PingFang SC", 'STHeiti', '微软雅黑', 'Microsoft YaHei', Helvetica, Arial, sans-serif;
   // font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
   // font-family: PingFang SC,Lantinghei SC,Helvetica Neue,Helvetica,Arial,Microsoft YaHei,"\5FAE\8F6F\96C5\9ED1",STHeitiSC-Light,simsun,"\5B8B\4F53",WenQuanYi Zen Hei,WenQuanYi Micro Hei,"sans-serif";
-  font-size: 13px;
+  font-size: 14px;
   // line-height: 1.43;
 }
 
@@ -23,14 +23,21 @@ a:focus{
   outline: none;
 }
 
+textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {   
+  // border-color: rgba(229, 103, 23, 0.8);
+  box-shadow:none;
+  //box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(229, 103, 23, 0.6);
+  outline: 0 none;
+}
+
 .toastify{ z-index: 9999 !important; }
 
 .container{
-  max-width: 950px;
-  @media (min-width: 0px) and (max-width: 767px) {
-    padding-left:10px;
-    padding-right:10px;
-  }
+  max-width: 700px;
+  // @media (min-width: 0px) and (max-width: 767px) {
+    padding-left:0px;
+    padding-right:0px;
+  // }
 }
 
 .navbar{
@@ -42,9 +49,10 @@ a:focus{
 }
 
 .dropdown-menu{
-  font-size: 14px;
-  border:1px solid rgba(0,0,0,.07);
-  box-shadow: 0 3px 6px rgba(0,0,0,.1);
+  font-size: 15px;
+  border:none;
+  border:1px solid rgba(0,0,0,.03);
+  box-shadow: 0 0px 30px rgba(0,0,0,.15);
 }
 
 .rounded{
