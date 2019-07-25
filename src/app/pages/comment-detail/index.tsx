@@ -99,7 +99,7 @@ export default Shell(function({ match, setNotFound }: any) {
       <meta property="og:image" content={comment.user_id.avatar_url || domainName+'./icon-512x512.png'} />
     </Meta>
 
-    <div styleName="title">
+    <div styleName="title" className="border-bottom">
       <Link to={`/posts/${comment.posts_id._id}`}>
         <h1>{comment.posts_id.title}</h1>
       </Link>
@@ -128,16 +128,25 @@ export default Shell(function({ match, setNotFound }: any) {
       </div>
     </div>
 
-    <div styleName="comment-list">
-      <CommentList
-        id={id}
-        query={{
-          parent_id: id,
-          page_size:100
-        }}
-        nothing="还未有人回复"
-        />
+    <div className="card">
+      <div className="card-head">
+        {comment.reply_count || 0} 条回复
+      </div>
+      <div className="card-body p-0">
+        <CommentList
+          id={id}
+          query={{
+            parent_id: id,
+            page_size:100
+          }}
+          nothing="还未有人回复"
+          />
+      </div>
     </div>
+
+    {/* <div styleName="comment-list">
+
+    </div> */}
 
     {_isMember ?
       <div styleName="editor">

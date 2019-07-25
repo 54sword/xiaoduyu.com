@@ -1,6 +1,6 @@
 .comment-list{
   background-color: #fff;
-  border-radius: 4px;
+  // border-radius: 4px;
 
   :global{
     .pagination{
@@ -10,24 +10,25 @@
 }
 
 .title{
-  padding: 15px;
+  padding: 20px;
   background-color: #fff;
-  border-radius: 5px;
-  margin-bottom:10px;
+  // border-radius: 5px;
+  // margin-bottom:10px;
   h1{
     font-size: 20px;
     padding: 0px;
     margin:0px;
+    margin-bottom:10px;
   }
 }
 
 .commennt-container{
   background-color: #fff;
-  border-radius: 4px;
+  margin-bottom:10px;
 }
 
 .head{
-  padding-left:70px;
+  padding-left:75px;
   padding-top:15px;
   .active{
     position: absolute;
@@ -63,15 +64,15 @@
 }
 
 .content{
-  padding: 15px;
+  padding: 20px;
   padding-bottom:0px;
   margin-bottom:10px;
 }
 
 .footer{
-  padding: 15px;
+  padding: 20px;
   padding-top:0px;
-  margin-bottom:10px;
+  // margin-bottom:10px;
 }
 
 .editor{

@@ -46,23 +46,23 @@ export default function() {
 
     <header styleName="header">
 
-      <div className="container d-flex bd-highlight">
+      <div className="container d-flex">
       
-        <div className={`bd-highlight ${me ? 'd-none d-md-block d-lg-block d-xl-block' : ''}`}>
+        <div className={`${me ? 'd-none d-md-block d-lg-block d-xl-block' : ''}`}>
           <Link to="/" styleName="logo"></Link>
         </div>
 
-        <div className="bd-highlight flex-grow-1">
+        <div className="flex-grow-1">
 
           <div className="d-flex bd-highlight">
             {me ?
             <>
             <nav styleName="nav-left" className="flex-wrap bd-highlight d-flex justify-content-start ml-3">
               <>
-                <NavLink exact to="/" styleName="nav-item">
+                <NavLink exact to="/" styleName="nav-item" className="text-secondary">
                   交流{interflowTip > 0 ? <span styleName="subscript"></span> : null}
                 </NavLink>
-                <NavLink exact to="/follow" styleName="nav-item">
+                <NavLink exact to="/follow" styleName="nav-item" className="text-secondary">
                   关注{followTip > 0 ? <span styleName="subscript"></span> : null}
                 </NavLink>
               </>
@@ -74,7 +74,7 @@ export default function() {
 
         </div>
 
-        <div className="ml-auto bd-highlight d-flex justify-content-start" styleName="nav">
+        <div className="ml-auto d-flex justify-content-start" styleName="nav">
           {me ?
           <>
 
@@ -107,7 +107,14 @@ export default function() {
           </>}
         </div>
 
+
+        
+
       </div>
+
+      {/* <div className="container">
+        <div styleName="line"></div>
+        </div> */}
 
     </header>
 

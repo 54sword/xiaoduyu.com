@@ -87,7 +87,7 @@ export default function({ posts }: Props) {
                 <Link to={`/topic/${posts.topic_id._id}`} onClick={stopPropagation} className="text-secondary">{posts.topic_id.name}</Link>
               </span>
               
-              <span className="text-muted">{posts._create_at}</span>
+              <span className="text-muted"><small>{posts._create_at}</small></span>
 
             </div>
 
