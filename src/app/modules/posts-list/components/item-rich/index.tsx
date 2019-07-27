@@ -69,9 +69,10 @@ export default function({ posts }: Props) {
           : null} */}
       <div styleName="box">
 
-        {typeof posts.user_id == 'object' ?
+
           <div styleName="info" className="d-flex justify-content-between">
             
+          <div>
             <div styleName="other-info">
 
               <Link styleName="nickname" to={`/people/${posts.user_id._id}`} onClick={stopPropagation}>
@@ -91,15 +92,20 @@ export default function({ posts }: Props) {
 
             </div>
 
+            <div styleName="title">
+              <Link to={`/posts/${posts._id}`} onClick={stopPropagation}>{posts.title}</Link>
+            </div>
+
+            </div>
+
             {posts.comment_count ?
-              <div styleName="heat">
+              <div styleName="heat" className="d-flex align-items-center">
                 {posts.comment_count ? <span>{posts.comment_count}</span> : null}
                 {posts.reply_count ? <span>/{posts.reply_count}</span> : null}
               </div>
               : null}
 
           </div>
-          : null}
       
 
         {/* {posts._coverImage ?
@@ -110,9 +116,6 @@ export default function({ posts }: Props) {
           </div>
         : null} */}
 
-        <div styleName="title">
-          <Link to={`/posts/${posts._id}`} onClick={stopPropagation}>{posts.title}</Link>
-        </div>
 
         {/* {posts.content_summary ?
           <div styleName="content">{posts.content_summary}</div>
@@ -134,7 +137,7 @@ export default function({ posts }: Props) {
 
     </div>
 
-      <div styleName="line"></div>
+      <div styleName="line" className="border-bottom"></div>
 
   </div>)
 

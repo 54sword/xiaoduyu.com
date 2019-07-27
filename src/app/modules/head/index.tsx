@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import useReactRouter from 'use-react-router';
+import Cookies from 'universal-cookie';
 
 // config
 import config from '@config';
@@ -9,8 +10,9 @@ import config from '@config';
 import { useStore, useSelector } from 'react-redux';
 import { signOut } from '@actions/sign';
 import { getUserInfo } from '@reducers/user';
-import { getUnreadNotice } from '@reducers/website';
+import { getUnreadNotice, getTab } from '@reducers/website';
 import { getTipsById } from '@reducers/tips';
+import { saveTab } from '@actions/website';
 
 // style
 import './style.scss';
@@ -25,19 +27,31 @@ export default function() {
   const followTip = useSelector((state: any) => getTipsById(state, 'feed'));
   const favoriteTip = useSelector((state: any) => getTipsById(state, 'favorite'));
   const interflowTip = useSelector((state: any) => getTipsById(state, 'home'));
+  const tab = useSelector((state: any) => getTab(state)) || 'home';
 
-  const _signOut = ()=>signOut()(store.dispatch, store.getState);
+  const _signOut = ()=>{
+    setTabToCookie('home')
+    signOut()(store.dispatch, store.getState)
+  };
+  const _saveTab = (params: string)=>saveTab(params)(store.dispatch, store.getState);
 
-  // const searchRef = useRef();
+  const setTabToCookie = function(tab: string) {
+    const cookies = new Cookies();
+    cookies.set('tab',tab, {
+      path: '/',
+      expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 365)
+    })
+    _saveTab(tab)
+  }
 
-  // const { history } = useReactRouter();
+  const { history, location, match } = useReactRouter();
 
-  // const search = function(event: any) {
-  //   event.preventDefault();
-  //   let $search = searchRef.current;
-  //   if (!$search.value) return $search.focus();
-  //   history.push(`/search?q=${$search.value}`);
-  // }
+  useEffect(()=>{
+    if (me) {
+      const cookies = new Cookies();
+      _saveTab(cookies.get('tab') || 'home')
+    }
+  }, []);
 
   return (
     <>
@@ -58,14 +72,31 @@ export default function() {
             {me ?
             <>
             <nav styleName="nav-left" className="flex-wrap bd-highlight d-flex justify-content-start ml-3">
-              <>
+
+              <Link
+                to="/"
+                styleName="nav-item" className={`text-secondary ${tab == 'home' && location.pathname == '/' ? 'active': ''}`}
+                onClick={()=>{ setTabToCookie('home') }}
+                >
+                交流{interflowTip > 0 ? <span styleName="subscript"></span> : null}
+              </Link>
+              <Link
+                to="/"
+                styleName="nav-item"
+                className={`text-secondary ${tab == 'follow' && location.pathname == '/' ? 'active': ''}`}
+                onClick={()=>{ setTabToCookie('follow') }}
+                >
+                关注{followTip > 0 ? <span styleName="subscript"></span> : null}
+              </Link>
+
+              {/* <>
                 <NavLink exact to="/" styleName="nav-item" className="text-secondary">
                   交流{interflowTip > 0 ? <span styleName="subscript"></span> : null}
                 </NavLink>
                 <NavLink exact to="/follow" styleName="nav-item" className="text-secondary">
                   关注{followTip > 0 ? <span styleName="subscript"></span> : null}
                 </NavLink>
-              </>
+              </> */}
             </nav>
             </>
             :

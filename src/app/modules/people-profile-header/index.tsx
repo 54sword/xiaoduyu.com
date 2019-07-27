@@ -9,7 +9,7 @@ import './index.scss';
 
 export default ({ people }: any) => {
   return (
-    <div styleName="header" className="rounded-top card mb-0">
+    <div styleName="header" className="card mb-0">
       
       <div styleName="profile">
         <div styleName="actions">

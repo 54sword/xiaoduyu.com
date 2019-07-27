@@ -48,7 +48,7 @@ const updateData = function(list: Array<any>, { dispatch, getState }: any) {
   let unreadNotice = state.website.unreadNotice,
       comment = state.comment,
       posts = state.posts,
-      followPeople = state.followPeople,
+      followPeople = state.follow,
       me = state.user.userInfo;
 
   comment = updateCommentState(comment, list);
@@ -184,7 +184,7 @@ const updateFollowPeople = (state: any, selfId: string, notices: Array<any>) => 
     if (item.has_read) return
     if (item.type == 'follow-you') {
       count += 1
-      delete state['fans-'+selfId]
+      if (state['fans-'+selfId]) delete state['fans-'+selfId]
     }
   })
 

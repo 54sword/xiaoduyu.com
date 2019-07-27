@@ -1,10 +1,15 @@
+.container{
+  overflow: hidden;
+  height:120px;
+}
+
 .item{
-  min-height: 120px;
+  height: 120px;
   background-color: #4a505a;
-  background-size: 300%;
+  background-size: 100%;
   background-position: center;
   filter: blur(45px);
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .main{
@@ -15,9 +20,10 @@
   float:left;
   color:#fff;
   z-index: 2;
-  background-color:rgba(0,0,0,0.5);
+  background-color:rgba(255,255,255,0.05);
   padding:20px;
   padding-left:115px;
+  // overflow: hidden;
 }
 
 .avatar{

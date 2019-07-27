@@ -24,13 +24,13 @@ export default [
       loading
     })
   },
-  {
-    path: '/follow', ...base, enter: 'member',
-    body: Loadable({
-      loader: () => import('../pages/follow'),
-      loading
-    })
-  },
+  // {
+  //   path: '/follow', ...base, enter: 'member',
+  //   body: Loadable({
+  //     loader: () => import('../pages/follow'),
+  //     loading
+  //   })
+  // },
   {
     path: '/topic', ...base, enter: 'everybody', loadData: TopicLoadData,
     body: Loadable({

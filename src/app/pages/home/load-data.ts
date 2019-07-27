@@ -1,9 +1,20 @@
 import TopicsLoadData from '@modules/topics/load-data';
 
 import { loadPostsList } from '@actions/posts';
+import { saveTab } from '@actions/website';
 
 export default ({ store, match, res, req, user }: any) => {
   return new Promise(async resolve => {
+
+    
+      let tab = req.cookies['tab'] || 'home';
+
+      if (!user) {
+        tab = 'home';
+      }
+
+      saveTab(tab)(store.dispatch, store.getState);
+    
 
     Promise.all([
       new Promise(async resolve => {

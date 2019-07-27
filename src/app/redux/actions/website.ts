@@ -12,6 +12,13 @@ export function saveTopicId (topicId: string) {
   }
 }
 
+export function saveTab (tab: string) {
+  return (dispatch: any, getState: any) => {
+    if (tab != 'home' && tab != 'follow') tab = 'home';
+    dispatch({ type: 'SET_TAB', tab })
+  }
+}
+
 // 请求浏览器通知权限
 export function requestNotificationPermission () {
   return (dispatch: any, getState: any) => {

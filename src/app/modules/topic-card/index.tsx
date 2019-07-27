@@ -23,7 +23,7 @@ type Topic = {
 
 export default function({ topic }:Props) {
   return (
-    <>
+    <div styleName="container">
     <div styleName="item" style={{ backgroundImage:`url(${topic.avatar})` }}></div>
     <div styleName="main">
       <img styleName="avatar" src={topic.avatar} className="align-self-start rounded" width="80" height="80" alt={topic.name} />
@@ -48,6 +48,6 @@ export default function({ topic }:Props) {
         </div>
       </div>
     </div>
-    </>
+    </div>
   )
 }

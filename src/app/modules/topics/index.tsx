@@ -11,7 +11,7 @@ import Loading from '@components/ui/loading';
 import './index.scss';
 
 export default function({ showAll = false }: { showAll?: boolean }) {
-
+  
   const [ expand, setExpand ] = useState(false);
 
   const me = useSelector((state: object)=>getUserInfo(state));
@@ -49,15 +49,13 @@ export default function({ showAll = false }: { showAll?: boolean }) {
   }
 
   return (<div className="card border-bottom">
+    
+    <div className="card-head pb-2">
+      <span className="title">交流话题</span>
+      {!showAll ?<Link to="/topic" styleName="expand">全部话题</Link>: null}
+    </div>
 
-    {showAll ?
-      <div className="card-head">
-        <span className="title">交流话题</span>
-        <Link to="/topic" styleName="expand">全部话题</Link>
-      </div>
-      : null}
-
-    <div className="card-body" styleName="container">
+    <div className="card-body pt-0" styleName="container">
       {data.map((item: any)=>{
 
         if (item.children == 0 || !item.recommend && !showAll) return;

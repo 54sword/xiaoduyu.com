@@ -274,10 +274,10 @@ export default function(props: Props) {
       />
 
     <div className="row">
-      <div className="col-md-2">
+      <div className="col-2 pr-0">
         <a
           styleName="choose-topic-button"
-          className="card"
+          className="card border-right"
           href="javascript:void(0)"
           data-toggle="modal" 
           data-target="#topics-modal"
@@ -285,11 +285,12 @@ export default function(props: Props) {
           {topic ? topic.name : '选择话题'}
         </a>
       </div>
-      <div className="col-md-10 pl-md-0 pl-lg-0 pl-xl-0">
+      <div className="col-10 pl-0">
         <input className="card" styleName="title" ref={titleRef} type="text" onChange={onTitleChange} placeholder="请输入标题"  />
       </div>
     </div>
-    <div styleName="editor" className="card">{editor}</div>
+
+    <div styleName="editor" className="card border-top">{editor}</div>
     
     <div className="card">
       <div className="d-flex justify-content-between p-2">
@@ -303,7 +304,7 @@ export default function(props: Props) {
     </div>
     
     {preview ?
-      <div className="card">
+      <div className="card mt-2">
           <div className="card-body">
           <HTMLText content={decodeURIComponent(contentHTML)} />
           </div>

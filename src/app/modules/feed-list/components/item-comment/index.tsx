@@ -18,8 +18,6 @@ export default function({ comment, posts }:Props) {
   const stopPropagation = (e: any) => {
     e.stopPropagation();
   }
-
-  console.log(posts);
   
   return (<><div
     styleName="item"

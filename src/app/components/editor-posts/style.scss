@@ -1,4 +1,7 @@
 
+.head{
+}
+
 .node-selector{
   overflow-x: hidden;
   overflow-y: auto;
@@ -101,8 +104,12 @@
   line-height: 45px;
   text-align: center;
   background-color: #fff;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  // margin-bottom: 10px;
+  // border-radius: 5px;
+  display:block;
+  white-space:nowrap; 
+  overflow:hidden; 
+  text-overflow:ellipsis;
 }
 
 .title{
@@ -110,15 +117,16 @@
   height: 45px;
   border:none;
   text-indent: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  // margin-bottom: 10px;
+  // border-radius: 5px;
 }
 
 .editor{
   display: block;
   // background-color: #fff;
-  border-radius: 5px;
+  // border-radius: 5px;
   overflow: hidden;
+  // margin-top:10px;
 }
 
 .button{
