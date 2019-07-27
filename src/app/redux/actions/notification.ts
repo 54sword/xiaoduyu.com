@@ -48,7 +48,7 @@ const updateData = function(list: Array<any>, { dispatch, getState }: any) {
   let unreadNotice = state.website.unreadNotice,
       comment = state.comment,
       posts = state.posts,
-      followPeople = state.followPeople,
+      followPeople = state.follow,
       me = state.user.userInfo;
 
   comment = updateCommentState(comment, list);
