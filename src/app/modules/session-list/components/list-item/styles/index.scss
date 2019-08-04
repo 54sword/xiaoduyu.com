@@ -1,0 +1,70 @@
+@import './response', './dark';
+
+.item{
+  display: block;
+
+  min-height: 50px;
+  padding:15px 20px 15px 83px;
+
+  &:hover{
+    text-decoration: none;
+    background-color: #f6f8fa;
+  }
+
+  .main{
+    padding-left:0px;
+  }
+
+  .avatar{
+
+    position: absolute;
+    margin-left: -62px;
+
+    img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+    }
+  }
+  
+  .unread{
+    position: absolute;
+    margin-left:-30px;
+    background-color: red;
+    color:#fff;
+    padding:0 5px 0 5px;
+    border-radius: 12px;
+    font-size: 12px;
+    z-index: 9;
+  }
+
+  .nickname{
+    font-size: 16px;
+    // color:#484848;
+  }
+
+  .content{
+    display: block;
+    // margin-top:2px;
+    font-size: 14px;
+    // opacity: .5;
+    color:#7d7f85;
+    // display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .create-at{
+    font-size: 13px;
+    opacity: .5;
+    color:#8c93a0;
+    white-space:nowrap;
+  }
+
+}
+
+.line{
+  margin-left:83px;
+}
+

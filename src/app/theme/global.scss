@@ -1,55 +1,12 @@
 
+@import './reset';
+
 :global{
-
-body{
-  // font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
-  // font: 14px/1.5 "PingFang SC","微软雅黑","Microsoft YaHei",Helvetica,"Helvetica Neue",Tahoma,Arial,sans-serif;
-  // font: 13px/1.3 'pingfang sc',stheiti,'microsoft yahei',arial,sans-serif;
-  // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  // font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
-  // font-family: SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
-  // font-family: PingFang SC,SlateForOnePlusLight,Helvetica Neue,Helvetica,Arial,sans-serif;
-  // font-family: 'Helvetica Neue', "PingFang SC", 'STHeiti', '微软雅黑', 'Microsoft YaHei', Helvetica, Arial, sans-serif;
-  font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
-  // font-family: PingFang SC,Lantinghei SC,Helvetica Neue,Helvetica,Arial,Microsoft YaHei,"\5FAE\8F6F\96C5\9ED1",STHeitiSC-Light,simsun,"\5B8B\4F53",WenQuanYi Zen Hei,WenQuanYi Micro Hei,"sans-serif";
-  font-size: 14px;
-  // line-height: 1.43;
-}
-
-ul{
-  padding:0px;
-  margin:0px;
-}
-
-a:focus{
-  outline: none;
-}
-
-textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {   
-  // border-color: rgba(229, 103, 23, 0.8);
-  box-shadow:none;
-  //box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 8px rgba(229, 103, 23, 0.6);
-  outline: 0 none;
-}
 
 .toastify{ z-index: 9999 !important; }
 
-.container{
-  max-width: 700px;
-  // @media (min-width: 0px) and (max-width: 767px) {
-    padding-left:0px;
-    padding-right:0px;
-  // }
-}
-
-.navbar{
-  height: 50px;
-}
-
-.navbar-brand{
-  margin-right:20px;
-}
-
+//======================================================
+// https://getbootstrap.com/docs/4.3/components/dropdowns/
 .dropdown-menu{
   font-size: 15px;
   border:none;
@@ -57,29 +14,35 @@ textarea:focus, input:focus, input[type]:focus, .uneditable-input:focus {
   box-shadow: 0 0px 30px rgba(0,0,0,.15);
 }
 
-.rounded{
-  border-radius: 10px !important;
-}
-.rounded-top{
-  border-top-left-radius: 10px !important;
-  border-top-right-radius: 10px !important;
-}
-.rounded-right{
-  border-top-right-radius: 10px !important;
-  border-bottom-right-radius: 10px !important;
-}
-.rounded-bottom{
-  border-bottom-left-radius: 10px !important;
-  border-bottom-right-radius: 10px !important;
-}
-.rounded-left{
-  border-top-left-radius: 10px !important;
-  border-bottom-left-radius: 10px !important;
+//======================================================
+// https://getbootstrap.com/docs/4.0/components/card/
+
+.card{
+  border: none;
+  border-radius: 0;
+  background-color: #fff;
+  
+  .card-header{
+    padding:20px 20px 20px 20px;
+    border-bottom:0px;
+    // background-color: none;
+    .card-title{
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .card-body{
+    padding:20px 20px 20px 20px;
+    // background-color: none;
+  }
+
+  .card-footer{
+    border:none;
+  }
+
 }
 
-
-// .btn{
-//   border-radius: 20px;
-// }
-
 }
+
+@import './light/index', './dark/index', './global-response';

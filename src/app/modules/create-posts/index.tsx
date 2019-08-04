@@ -29,8 +29,9 @@ export default function() {
 
     async function fetchData() {
       setLoading(true);
-      
-      let [ err, res ] = await loadPostsList({
+
+      let err, res;
+      let result: any = await loadPostsList({
         id: 'edit_'+posts_id,
         args: {
           _id: posts_id
@@ -61,6 +62,8 @@ export default function() {
         }
         */
       })(store.dispatch, store.getState);
+
+      [ err, res ] = result;
   
       if (!res || !res.data || !res.data[0]) {
       } else {
@@ -77,7 +80,7 @@ export default function() {
   const successCallback = (posts: any) => {
     history.push(`/posts/${posts._id}`)
   }
-
+  
   if (loading) return <Loading />
 
   return (<SingleColumns>

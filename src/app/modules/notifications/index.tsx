@@ -93,7 +93,7 @@ export default () => {
 
       <div className="card">
 
-      <div className="card-header">
+      <div className="card-head">
         <div className="title">我的通知</div>
       </div>
         

@@ -6,19 +6,9 @@ export const initHasRead = () => {
   return async (dispatch: any, getState: any) => {
 
     let [ err, state = '{}' ] = await To(storage.load({ key: 'has-read-posts' }));
-
+    
     state = JSON.parse(state);
     dispatch({ type: 'INIT_HAS_READ_POSTS_STATE', state });
-
-    /*
-    try {
-      let state = reactLocalStorage.get('has-read-posts') || '{}';
-      state = JSON.parse(state);
-      dispatch({ type: 'INIT_HAS_READ_POSTS_STATE', state });
-    } catch (err) {
-      console.log(err);
-    }
-    */
 
   }
 }
@@ -44,6 +34,5 @@ export const addHasRead = ({ postsId, lastCommentAt }: Props) => {
       expires: 1000 * 60 * 60 * 3
     });
 
-    // reactLocalStorage.set('has-read-posts', JSON.stringify(getState().hasReadPosts));
   }
 }

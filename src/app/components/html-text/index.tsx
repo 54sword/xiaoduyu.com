@@ -2,7 +2,7 @@ import React, { useState, useEffect, createRef } from 'react';
 // import dynamicFile from 'dynamic-file';
 import pangu from 'pangu';
 
-import './style.scss';
+import './styles/index.scss';
 import convertHTML from './convert';
 
 import hljs from 'highlight.js/lib/highlight';
@@ -50,6 +50,8 @@ export default function({ content, maxHeight }: Props) {
     $('.markdown-body pre').each(function(i: any, block: any) {
       hljs.highlightBlock(block);
     });
+
+    // monokai-sublime
     
     pangu.spacingElementByClassName('markdown-body');
 
@@ -61,14 +63,13 @@ export default function({ content, maxHeight }: Props) {
 
   return (<div>
     
-
-      <div
-        ref={contentRef}
-        style={!expand && maxHeight && contentHeight > maxHeight ? { maxHeight: `${maxHeight}px`, overflow: 'hidden' } : null }
-        styleName="content"
-        className="markdown-body"
-        dangerouslySetInnerHTML={{__html:html}}
-        />
+    <div
+      ref={contentRef}
+      style={!expand && maxHeight && contentHeight > maxHeight ? { maxHeight: `${maxHeight}px`, overflow: 'hidden' } : null }
+      styleName="content"
+      className="markdown-body"
+      dangerouslySetInnerHTML={{__html:html}}
+      />
       
     {(()=>{
       if (!maxHeight || contentHeight < maxHeight) return null;

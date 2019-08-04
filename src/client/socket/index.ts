@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import { api } from '@config/index';
 
 // redux actions
-import { setOnlineUserCount } from '@actions/website';
+import { setOnlineUserCount, sendNotification } from '@actions/website';
 import { getAccessToken } from '@reducers/user';
 
 import { loadTips } from '@actions/tips';
@@ -22,6 +22,10 @@ export const connect = function ({ dispatch, getState }: any) {
   const handleActions = function(action: any, params: any = null) {
     action(params)(dispatch, getState);
   }
+
+  // setTimeout(()=>{
+  //   handleActions(sendNotification, '1111');
+  // }, 1000)
   
   const handleNotification = (notification: any) => {
 
@@ -35,11 +39,38 @@ export const connect = function ({ dispatch, getState }: any) {
     if (!notification || !notification.type) return;
   
     const { type, data } = notification;
+
+    console.log(notification);
   
     switch (type) {
       // 有新通知
       case 'notification':
         handleActions(loadTips);
+
+        if (data) {
+
+          if (data.comment_id) {
+            let body = data.comment_id.content_html;
+
+            body = body.replace(/<[^>]+>/g, '');
+            body = body.replace(/\r\n/g, ''); 
+            body = body.replace(/\n/g, '');
+  
+            handleActions(sendNotification, {
+              content: data.sender_id.nickname,
+              option: {
+                body,
+                icon: 'https:'+data.sender_id.avatar_url,
+                image: 'https:'+data.sender_id.avatar_url,
+                tag: 'comment',
+                data: data
+              }
+            });
+          }
+
+        }
+
+
         break;
       case 'new-feed':
         handleActions(loadTips);
@@ -48,7 +79,6 @@ export const connect = function ({ dispatch, getState }: any) {
         handleActions(loadTips);
         break;
       case 'new-session':
-        console.log(data);
         handleActions(loadTips);
         handleActions(updateSession, data.sessionId);
         handleActions(addMessagesToList, data);

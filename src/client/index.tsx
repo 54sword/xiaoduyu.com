@@ -13,8 +13,6 @@ import { GA, analysisScript } from '@config';
 import { debug } from '@config/feature.config';
 
 import '../app/theme/global.scss';
-import '../app/theme/light.scss';
-import '../app/theme/dark.scss';
 
 import { getUserInfo } from '@reducers/user';
 import { initUnlockToken } from '@actions/unlock-token';

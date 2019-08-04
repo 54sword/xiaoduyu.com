@@ -30,6 +30,7 @@
     "dynamic-file": "^0.2.1",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
+    "feather-icons": "^4.22.1",
     "github-markdown-css": "^2.10.0",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",

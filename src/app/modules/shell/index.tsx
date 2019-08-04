@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import useReactRouter from 'use-react-router';
+
+import feather from 'feather-icons';
+
+import * as GlobalData from '../../common/global-data';
 
 // redux
 import { useStore } from 'react-redux';
@@ -30,6 +35,11 @@ export default function(Component: any) {
 
   const Page = function ({ history, location, match, staticContext }: Props) {
 
+    // 添加 history 到全局变量中，用于给一些不能使用 useReactRouter 场景的页面跳转
+    if (typeof window != 'undefined') {
+      GlobalData.set('history', useReactRouter().history);
+    }
+    
     const [ notFound, setNotFound ] = useState('');
 
     const store = useStore();
@@ -39,9 +49,21 @@ export default function(Component: any) {
     location.params = search ? parseUrl(search) : {};
 
     useEffect(() => {
-      setScrollPosition(pathname + search)(store.dispatch, store.getState);
+
+      // feather.replace()
+      
+      // 客户端浏览器设置滚动条位置
+      if (typeof window != 'undefined') {
+        setScrollPosition(pathname + search)(store.dispatch, store.getState);
+      }
+      
       return () => {
-        saveScrollPosition(pathname + search)(store.dispatch, store.getState);
+        if (typeof window != 'undefined') {
+          // 客户端浏览器设置滚动条位置
+          // saveScrollPosition(pathname + search)(store.dispatch, store.getState);
+          // 删除history
+          GlobalData.remove('history');
+        }
       }
     }, []);
 
@@ -53,7 +75,7 @@ export default function(Component: any) {
 
   }
 
-  Page.init = Component.init;
+  // Page.init = Component.init;
 
   return Page;
 

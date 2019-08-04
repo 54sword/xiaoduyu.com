@@ -58,9 +58,9 @@ export default function(props: Props) {
   // redux
   const topicList = useSelector((state: object)=>getTopicListById(state, 'new-posts'));
   const store = useStore();
-  const _addPosts = (args:object)=>addPosts(args)(store.dispatch, store.getState);
-  const _loadTopicList = (args:object)=>loadTopicList(args)(store.dispatch, store.getState);
-  const _updatePosts = (args:object)=>updatePosts(args)(store.dispatch, store.getState);
+  const _addPosts = (args:any)=>addPosts(args)(store.dispatch, store.getState);
+  const _loadTopicList = (args:any)=>loadTopicList(args)(store.dispatch, store.getState);
+  const _updatePosts = (args:any)=>updatePosts(args)(store.dispatch, store.getState);
   
   // 标题发生变化
   const onTitleChange = function() {
@@ -117,9 +117,11 @@ export default function(props: Props) {
 
     setLoading(true);
 
+    let err: any, res: any;
+
     if (_id) {
       // 更新
-      let [ err, res ] = await To(_updatePosts({
+      let result: any = await To(_updatePosts({
         id: _id,
         // type: type._id,
         topicId: topic._id,
@@ -128,6 +130,8 @@ export default function(props: Props) {
         detail: contentStateJSON,
         detailHTML: contentHTML,
       }));
+
+      [ err, res ] = result;
 
       setLoading(false);
 
@@ -145,8 +149,8 @@ export default function(props: Props) {
     }
 
     // 添加
-
-    let [err, res] = await _addPosts({
+    
+    let result: any = await _addPosts({
       title: title.value,
       detail: contentStateJSON,
       detailHTML: contentHTML,
@@ -154,6 +158,8 @@ export default function(props: Props) {
       device: Device.getCurrentDeviceId(),
       type: 1
     });
+
+    [err, res] = result;
 
     if (res && res.success) {
       setTimeout(()=>{
@@ -186,42 +192,37 @@ export default function(props: Props) {
 
   }
 
-  useEffect(()=>{
-
-    
+  const componentDidMount = async() => {
 
     // 如果没有话题的话，加载话题
     if (!topicList) {
-      _loadTopicList({
+      await _loadTopicList({
         id: 'new-posts',
         args: {
           sort_by: 'sort:-1',
           parent_id: 'not-exists',
           page_size: 1000
         }
-        // filters: {
-        //   variables: {
-        //     sort_by: 'sort:-1',
-        //     parent_id: 'not-exists',
-        //     page_size: 1000
-        //   }
-        // }
-      }).then(([err, res]: any)=>{
-
-        const topicList = getTopicListById(store.getState(), 'new-posts').data;
-        const { topic_id } = location.params;
-
-        // 如果url中有topic，那么设置它为默认topic
-        if (topic_id && !topic && topicList && topicList.data && topicList.data[0]) {
-          topicList.data.map((item: any)=>{
-            item.children.map((item: any)=>{
-              if (item._id == topic_id) setTopic(item)
-            })
-          });
-        }
-
       })
     }
+
+    const list = getTopicListById(store.getState(), 'new-posts');
+    const { topic_id } = location.params;
+
+    // 如果url中有topic，那么设置它为默认topic
+    if (topic_id && !topic && list && list.data && list.data[0]) {
+      list.data.map((item: any)=>{
+        item.children.map((item: any)=>{
+          if (item._id == topic_id) setTopic(item)
+        })
+      });
+    }
+
+  }
+
+  useEffect(()=>{
+
+    componentDidMount();
 
     const _content = _id ? contentStateJSON : (reactLocalStorage.get('posts-content') || ''),
     _title = _id ? props.title : (reactLocalStorage.get('posts-title') || '');
@@ -273,8 +274,9 @@ export default function(props: Props) {
         </div>}
       />
 
+    <div style={{overflow:'hidden'}}>
     <div className="row">
-      <div className="col-2 pr-0">
+      <div className="col-md-2 col-3 pr-0">
         <a
           styleName="choose-topic-button"
           className="card border-right"
@@ -285,9 +287,10 @@ export default function(props: Props) {
           {topic ? topic.name : '选择话题'}
         </a>
       </div>
-      <div className="col-10 pl-0">
+      <div className="col-md-10 col-9 pl-0">
         <input className="card" styleName="title" ref={titleRef} type="text" onChange={onTitleChange} placeholder="请输入标题"  />
       </div>
+    </div>
     </div>
 
     <div styleName="editor" className="card border-top">{editor}</div>

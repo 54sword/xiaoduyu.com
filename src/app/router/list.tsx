@@ -188,6 +188,13 @@ export default [
     })
   },
   {
+    path: '/links', ...base, enter: 'everybody',
+    body: Loadable({
+      loader: () => import('../pages/links'),
+      loading
+    })
+  },
+  {
     path: '**', head, exact:false, enter: 'everybody', loadData: NotFoundLoadData,
     body: Loadable({
       loader: () => import('../pages/not-found'),

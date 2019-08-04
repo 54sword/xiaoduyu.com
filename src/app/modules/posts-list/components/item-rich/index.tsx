@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import useReactRouter from 'use-react-router';
 
+import { useSelector } from 'react-redux';
+import { getHasReadByPostsId } from '@app/redux/reducers/has-read-posts';
+
 // styles
-import './index.scss';
+import './styles/index.scss';
 
 type Posts = {
   _id: string,
@@ -45,99 +48,51 @@ export default function({ posts }: Props) {
 
   const { history, location, match } = useReactRouter();
 
-  return (<div
-    id={posts._id}
-    styleName="item"
-    onClick={()=>{
-      history.push(`/posts/${posts._id}`);
-    }}>
-{/* 
-{typeof posts.user_id == 'object' ?
-          <div styleName="info" className="d-flex justify-content-between">
+  const hasRead = useSelector((state: any)=>getHasReadByPostsId(state, {
+    postsId: posts._id, lastCommentAt: posts.last_comment_at
+  }))
 
-            <Link styleName="nickname" to={`/people/${posts.user_id._id}`} onClick={stopPropagation}>
-              <i
-                styleName="avatar"
-                className="load-demand"
-                data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}>
-                </i>
-              {posts.user_id.nickname}
+  const toPostsDetail = () => history.push(`/posts/${posts._id}`)
 
-            </Link>
+  return (<div onClick={toPostsDetail}>
 
-          </div>
-          : null} */}
-      <div styleName="box">
+    <div styleName="box">
 
+      <div className="d-flex justify-content-between">
+        <Link styleName="nickname" to={`/people/${posts.user_id._id}`} onClick={stopPropagation}>
+          <i styleName="avatar" className="load-demand" data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}></i>
+          {posts.user_id.nickname}
+        </Link>
+      </div>
 
-          <div styleName="info" className="d-flex justify-content-between">
-            
-          <div>
-            <div styleName="other-info">
-
-              <Link styleName="nickname" to={`/people/${posts.user_id._id}`} onClick={stopPropagation}>
-                <i
-                  styleName="avatar"
-                  className="load-demand"
-                  data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}>
-                  </i>
-                {posts.user_id.nickname}
-              </Link>
-
-              <span>
-                <Link to={`/topic/${posts.topic_id._id}`} onClick={stopPropagation} className="text-secondary">{posts.topic_id.name}</Link>
-              </span>
-              
-              <span className="text-muted"><small>{posts._create_at}</small></span>
-
-            </div>
-
-            <div styleName="title">
-              <Link to={`/posts/${posts._id}`} onClick={stopPropagation}>{posts.title}</Link>
-            </div>
-
-            </div>
-
-            {posts.comment_count ?
-              <div styleName="heat" className="d-flex align-items-center">
-                {posts.comment_count ? <span>{posts.comment_count}</span> : null}
-                {posts.reply_count ? <span>/{posts.reply_count}</span> : null}
-              </div>
-              : null}
-
-          </div>
-      
-
-        {/* {posts._coverImage ?
-          <div
-            styleName="cover-image"
-            className="load-demand"
-            data-load-demand={encodeURIComponent(`<img src="${posts._coverImage}" />`)}>
-          </div>
-        : null} */}
-
-
-        {/* {posts.content_summary ?
-          <div styleName="content">{posts.content_summary}</div>
-          :null} */}
-
-      {/* <div styleName="footer">
-        <div styleName="footer-main" className="d-flex justify-content-between">
-
-          <div styleName="actions" className="text-secondary">
-            <span><Link to={`/topic/${posts.topic_id._id}`} onClick={stopPropagation}>{posts.topic_id.name}</Link></span>
-            <span>{posts._create_at}</span>
-            {posts.view_count ? <span>{posts.view_count}次阅读</span> : null}
-            {posts.like_count ? <span>{posts.like_count}人赞</span> : null}
-            {posts.follow_count ? <span>{posts.follow_count}人收藏</span> : null}
-          </div>
-
+      <div className="d-flex justify-content-between">
+        <div styleName="title">
+          <Link to={`/posts/${posts._id}`} onClick={stopPropagation}>{posts.title}</Link>
         </div>
-      </div> */}
+        {posts.comment_count ?
+          <div>
+          <span styleName="comment" className="text-secondary" style={hasRead ? { opacity: '.3' } : {}}>
+            {posts.comment_count ? posts.comment_count : null}
+            {posts.reply_count ? '/'+posts.reply_count: null}
+          </span>
+          </div>
+          : null}
+      </div>
+
+      <div styleName="posts-info">
+        
+        <small>
+          <Link styleName="topic" to={`/topic/${posts.topic_id._id}`} onClick={stopPropagation}>{posts.topic_id.name}</Link>
+        </small>
+        <small className="text-muted">{posts._create_at}</small>
+        {posts.view_count ? <small className="text-muted">{posts.view_count}次阅读</small> : null}
+        {posts.like_count ? <small className="text-muted">{posts.like_count}人赞</small> : null}
+        {posts.follow_count ? <small className="text-muted">{posts.follow_count}人收藏</small> : null}
+      </div>
 
     </div>
 
-      <div styleName="line" className="border-bottom"></div>
+    <div className="border-bottom"></div>
 
   </div>)
 

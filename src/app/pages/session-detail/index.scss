@@ -2,5 +2,6 @@
 .message-container{
   height: 500px;
   padding: 20px;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

@@ -31,7 +31,7 @@ const initialState = {
   unreadNotice: [],
   // 首页选中的话题，空为首页、follow为关注、其他为话题 ID
   topicId:'',
-  tab: '',
+  tab: 'home',
 
   // 用户是否授权了浏览器通知权限
   notificationPermission: false

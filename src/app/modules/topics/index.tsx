@@ -48,21 +48,23 @@ export default function({ showAll = false }: { showAll?: boolean }) {
     </div>)
   }
 
-  return (<div className="card border-bottom">
+  return (
+    <div>
+  <div className="card">
     
-    <div className="card-head pb-2">
+    {/* <div className="card-head pb-2">
       <span className="title">交流话题</span>
       {!showAll ?<Link to="/topic" styleName="expand">全部话题</Link>: null}
-    </div>
+    </div> */}
 
-    <div className="card-body pt-0" styleName="container">
+    <div className="card-body" styleName="container">
       {data.map((item: any)=>{
 
         if (item.children == 0 || !item.recommend && !showAll) return;
 
         return (<div key={item._id} styleName="group">
           <div styleName="group-title">
-            <Link key={item._id} to={`/topic/${item._id}`}>{item.name}</Link>
+            <Link to={`/topic/${item._id}`}>{item.name}</Link>
           </div>
           <div>
             {item.children && item.children.map((subitem: any, index: number)=>{
@@ -78,6 +80,14 @@ export default function({ showAll = false }: { showAll?: boolean }) {
         </div>)
       })}
     </div>
+  </div>
+
+  {/* {!showAll ?
+    <Link to="/topic">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinecap="round" className="feather feather-chevron-right mr-2 text-secondary"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </Link>
+    : null} */}
+
 
   </div>)
 

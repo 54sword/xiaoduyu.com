@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   message: any
@@ -37,7 +37,7 @@ export default function({ message }: Props) {
         : null}
 
     </Link>
-    <div styleName="line"></div>
+    <div styleName="line" className="border-bottom"></div>
     </div>
   )
 }

@@ -20,7 +20,7 @@ export function removeAccessToken() {
  * 获取用户信息
  * @param  {String} accessToken 访问的token
  */
-export const loadUserInfo = ({ accessToken }: { accessToken: string }) => {
+export const loadUserInfo = ({ accessToken }: { accessToken?: string }) => {
   return (dispatch: any, getState: any) => {
     return new Promise(async (resolve, reject) => {
 

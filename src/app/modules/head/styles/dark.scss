@@ -1,0 +1,18 @@
+// dark mode
+:global(#dark-theme){
+  .header{
+    > div {
+      background-color: #303030;
+      box-shadow: 0 1px 0px rgba(0, 0, 0, .3);
+    }
+  }
+  .nav-menu{
+    background-color: #303030;
+  }
+
+  .nav{ 
+    a:hover{
+      background-color: #404040;
+    }
+  }
+}

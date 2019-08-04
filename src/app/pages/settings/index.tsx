@@ -24,16 +24,29 @@ export default Shell(function() {
 
   return (
     <SingleColumns>  
-      <Meta title='设置' />        
+      <Meta title='设置' />    
+      <div className="border-bottom"></div>
       <Avatar />
+      <div className="border-bottom"></div>
       <Nickname />
+      <div className="border-bottom"></div>
       <Brief />
+      <div className="border-bottom"></div>
+      
       <Gender />
+      <div className="border-bottom"></div>
       <Theme />
+      <div className="border-bottom"></div>
       <Password />
+      <div className="border-bottom"></div>
+      
       <Phone />
+      <div className="border-bottom"></div>
       <Email />
+      <div className="border-bottom"></div>
       <Oauth />
+
+      <div className="border-bottom"></div>
       <Block />
     </SingleColumns> 
   )

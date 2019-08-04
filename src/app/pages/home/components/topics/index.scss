@@ -1,0 +1,9 @@
+.topic-list{
+  display: inline-block;
+  line-height: 200%;
+  > a{
+    display: inline-block;
+    margin-right:10px;
+    margin-left:5px;
+  }
+}

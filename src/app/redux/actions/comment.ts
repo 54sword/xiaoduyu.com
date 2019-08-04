@@ -58,6 +58,29 @@ const processCommentList = (list: Array<object>) => {
 
       let textContent = item.posts_id.content_html;
 
+      
+
+      // let preReg = /<pre>(.*?)<\/pre>/g;
+
+      
+      // console.log(textContent.replace(/<pre>(.*?)<\/pre>/gi, ""))
+
+      // let pres = [];
+      // let pre;
+      // while (pre = preReg.exec(textContent)) {
+      //   console.log('pre');
+      //   pres.push(pre[0]);
+      // }
+
+
+      // pres.map(item=>{
+      //   textContent = textContent.replace(item, '[代码]');
+      // });
+
+      // textContent = textContent.replace(/<pre>(.*?)<\/pre>/gi, '[代码]');
+
+      // console.log(textContent);
+
       textContent = textContent.replace(/<[^>]+>/g, '');
       textContent = textContent.replace(/\r\n/g, ''); 
       textContent = textContent.replace(/\n/g, '');

@@ -9,14 +9,14 @@ export default function ({ children = [] }: Props) {
 
   useEffect(()=>{
 
-    const obj = FloatFixed({
-      referId: 'right',
-      id: 'right-float',
-      offsetTop: 60
-    });
+    // const obj = FloatFixed({
+    //   referId: 'right',
+    //   id: 'right-float',
+    //   offsetTop: 60
+    // });
 
     return ()=>{
-      obj.remove();
+      // obj.remove();
     }
 
   }, []);

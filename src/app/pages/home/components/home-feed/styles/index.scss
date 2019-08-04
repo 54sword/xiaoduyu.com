@@ -1,0 +1,18 @@
+.add{
+  display: block;
+  background-image: url(../images/add.png);
+  background-repeat: no-repeat;
+  background-size: 48px;
+  height: 48px;
+  line-height: 48px;
+  padding-left: 63px;
+  background-position: left center;
+  font-size: 16px;
+}
+
+.line{
+  margin-left: 83px;
+}
+
+@import './response';
+

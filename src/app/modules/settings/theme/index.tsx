@@ -16,8 +16,12 @@ export default function() {
   const onChange = async function(e: any) {
 
     let theme = parseInt(e.target.value);
+
+    let err, res;
     
-    let [err, res] = await _updateUser({ theme });
+    let result: any = await _updateUser({ theme });
+
+    [err, res] = result;
 
     if (err) {
 
@@ -42,8 +46,8 @@ export default function() {
 
   return (
     <div className="card">
-      <div className="card-header">主题</div>
-      <div className="card-body" style={{padding:'20px'}}>
+      <div className="card-head pb-0"><div className="title">主题</div></div>
+      <div className="card-body">
         <select onChange={onChange} defaultValue={me.theme || '1'}>
           <option value="1">浅色</option>
           <option value="2">暗色</option>

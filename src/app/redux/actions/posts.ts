@@ -33,6 +33,8 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
       // 将内容生产140的简介
       let textContent = posts.content_html;
 
+      // console.log(textContent);
+
       // let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
       let imgReg = /<img(.*?)>/gi;
 
@@ -45,6 +47,18 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
       imgs.map(item=>{
         textContent = textContent.replace(item, '[图片] ');
       });
+
+      // let preReg = /<pre>(.*?)<\/pre>/gi;
+
+      // let pres = [];
+      // let pre;
+      // while (pre = preReg.exec(textContent)) {
+      //   pres.push(pre[0]);
+      // }
+
+      // pres.map(item=>{
+      //   textContent = textContent.replace(item, '[代码] ');
+      // });
 
       // 删除所有html标签
       textContent = textContent.replace(/<[^>]+>/g, '');
@@ -257,11 +271,32 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, topicName 
       return reject(err)
     }
 
-    args.topic_id = {
-      _id: topicId,
-      name: topicName
-    }
+    loadPostsList({
+      id,
+      args: {
+        _id: id
+      },
+      restart: true
+    })(dispatch, getState)
+    .then(([err, res]: any)=>{
 
+      let posts = res && res.data && res.data[0] ? res.data[0] : null;
+
+      if (!posts) {
+        resolve(res)
+      } else {
+        dispatch({ type: 'UPDATE_POST', id: id, update: posts });
+      }
+
+      resolve(res)
+    })
+
+    // args.topic_id = {
+    //   _id: topicId,
+    //   name: topicName
+    // }
+
+    /*
     if (args.content_html) {
       args.content_html = decodeURIComponent(args.content_html);
     }
@@ -277,8 +312,9 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, topicName 
 
 
     dispatch({ type: 'UPDATE_POST', state: postsList })
+    */
 
-    resolve(res)
+    
 
   })
   }

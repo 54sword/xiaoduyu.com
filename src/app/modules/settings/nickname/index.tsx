@@ -34,9 +34,13 @@ export default function() {
 
     setLoading(true);
 
-    let [ err, result ] = await _updateUser({
+    let err;
+
+    let result: any = await _updateUser({
       nickname: $nickname.value
     });
+
+    [ err ] = result;
 
     if (err) {
       Toastify({
@@ -66,8 +70,8 @@ export default function() {
     <div>
 
     <div className="card">
-      <div className="card-header">名字</div>
-      <div className="card-body" style={{padding:'20px'}}>
+      <div className="card-head pb-0"><div className="title">名字</div></div>
+      <div className="card-body">
 
         {!show ?
           <div className="d-flex justify-content-between">

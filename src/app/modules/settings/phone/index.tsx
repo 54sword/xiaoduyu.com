@@ -40,7 +40,9 @@ export default function() {
 
     setLoading(true);
 
-    let [ err, res ] = await _addPhone({
+    let err, res;
+
+    let result: any = await _addPhone({
       args: {
         phone: $newPhone.value,
         captcha: $captcha.value,
@@ -48,6 +50,8 @@ export default function() {
         unlock_token: unlockToken || ''
       }
     });
+
+    [ err, res ] = result;
 
     setLoading(false);
 
@@ -114,8 +118,8 @@ export default function() {
 
     <div className="card">
 
-      <div className="card-header d-flex justify-content-between">
-        <span>手机号</span>
+      <div className="card-head pb-0 d-flex justify-content-between">
+        <span className="title">手机号</span>
         <span></span>
       </div>
       <div className="card-body">

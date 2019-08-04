@@ -306,6 +306,7 @@ export default class MyEditor extends React.Component {
 
             let text = encodeContent(block.getText());
 
+            // console.log(text);
         
             // If the blocks on either side are code-block blocks, just return the text.
             // if(previousBlockType === 'code-block' && nextBlockType === 'code-block') {
@@ -363,8 +364,10 @@ export default class MyEditor extends React.Component {
           html = html.replace(/\<\/p\>/g,'\n');
           html = html.replace(/<[^>]+>/g,"");
   
-          html=html.replace(/\&lt\;/g, '<');  
-          html=html.replace(/\&gt\;/g, '>');  
+          html = html.replace(/\&lt\;/g, '<');
+          html = html.replace(/\&gt\;/g, '>');
+          html = html.replace(/\&nbsp\;/g, ' ');
+          html = html.replace(/\&amp\;/g, '&');
   
           var converter = new showdown.Converter();
   
@@ -372,9 +375,6 @@ export default class MyEditor extends React.Component {
           converter.setOption('simpleLineBreaks', true);
   
           html = converter.makeHtml(html);
-
-          // console.log(html);
-
         }
 
         
@@ -619,7 +619,7 @@ export default class MyEditor extends React.Component {
               {showMarkdown ?
                 <div style={{ display:'block-inline', height:'40px', lineHeight:'40px', marginRight: '15px' }}>
                   <input ref="markdown" type="checkbox" id="markdown-input" className="form-check-input" onChange={this.setMarkdown} style={{marginTop:'14px'}} />
-                  <label className="form-check-label" htmlFor="markdown-input">MarkDown</label>
+                  <label className="form-check-label text-secondary" htmlFor="markdown-input">MarkDown</label>
                 </div>
                 : null}
 

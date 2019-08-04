@@ -30,14 +30,17 @@ declare module 'nodemon'
 declare module 'rimraf'
 declare module 'webpack-dev-middleware'
 declare module 'webpack-hot-middleware'
-declare module '@config'
-declare module '@config/*'
 declare module 'showdown'
 declare module 'helmet'
 declare module 'heapdump'
 declare module 'easy-monitor'
 declare module 'serve-favicon'
 declare module 'morgan'
+
+// 忽略别名
+declare module '@config'
+declare module '@config/*'
+declare module '@app/*'
 
 // https://www.tslang.cn/docs/handbook/jsx.html
 // 去除使用标签的警告

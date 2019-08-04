@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
 
 // tooles
 import avatarPicker from '../../../vendors/avatar-picker';
@@ -57,8 +56,8 @@ export default function() {
     <div>
 
     <div className="card">
-      <div className="card-header">头像</div>
-      <div className="card-body">
+      <div className="card-head pb-0"><div className="title">头像</div></div>
+      <div className="card-body pt-0">
 
         <div styleName="avatar">
           <img src={me.avatar_url.replace('!50', "!200")} />

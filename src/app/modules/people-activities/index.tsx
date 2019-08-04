@@ -72,6 +72,7 @@ export default ({ people }: Props)=>{
           brief
         }
       `}
+      scrollLoad={true}
     />),
     "/follow-peoples": (<FollowList
       id={'people-'+id}
@@ -94,6 +95,7 @@ export default ({ people }: Props)=>{
           brief
         }
       `}
+      scrollLoad={true}
     />),
     "/follow-topics": (<FollowList
       id={'topic-'+id}
@@ -111,6 +113,7 @@ export default ({ people }: Props)=>{
           follow
         }
       `}
+      scrollLoad={true}
     />),
     "/follow-posts": (<FollowList
       id={'posts-'+id}
@@ -127,6 +130,7 @@ export default ({ people }: Props)=>{
           follow
         }
       `}
+      scrollLoad={true}
     />),
     "/posts": (<NewPostsList
       id={id}

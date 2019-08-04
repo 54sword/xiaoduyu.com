@@ -66,9 +66,8 @@ export default function({ posts, user, topic, className }: Props) {
   if (!me) {
     return <a href="javascript:void(0)" className={className || 'text-secondary'} data-toggle="modal" data-target="#sign" onClick={stopPropagation}>{text}</a>
   } else if (target.follow) {
-    return (<a href="javascript:void(0)" className={className} styleName="hover" onClick={handleUnfollow}>
-      <span>已{text}</span>
-      <span>取消{text}</span>
+    return (<a href="javascript:void(0)" className={className} onClick={handleUnfollow}>
+      <span>正在{text}</span>
     </a>)
   } else {
     return (<a href="javascript:void(0)" className={className || 'text-secondary'} onClick={handleFollow}>

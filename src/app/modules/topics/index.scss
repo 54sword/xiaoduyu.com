@@ -9,8 +9,6 @@
 
 .container{
 
-  // margin-top:2px;
-
   // background-color: #efefef !important;
 
   // padding:20px;
@@ -32,8 +30,6 @@
     .group-title {
       position: absolute;
       margin-left:-45px;
-      // left:0;
-      // margin-left:15px;
       font-weight: bold;
     }
 
@@ -45,6 +41,16 @@
 
 }
 
+@media (min-width: 0px) and (max-width: 450px) {
+  .container{
+    .group{
+      font-size: 14px;
+    }
+
+  }
+}
+
+/*
 @media (min-width: 0px) and (max-width: 991.98px) {
   .container{
 
@@ -63,3 +69,4 @@
 
   }
 }
+*/

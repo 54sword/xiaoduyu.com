@@ -23,9 +23,13 @@ export default function() {
 
     setLoading(true);
 
-    let [ err, res ] = await updateUser({
+    let err, res;
+
+    let result: any = await updateUser({
       brief: value
     })(store.dispatch, store.getState);
+
+    [ err, res ] = result;
 
     if (err) {
 
@@ -74,8 +78,8 @@ export default function() {
 
   return (
     <div className="card">
-      <div className="card-header">个性签名</div>
-      <div className="card-body" style={{padding:'20px'}}>{dom}</div>
+      <div className="card-head pb-0"><div className="title">个性签名</div></div>
+      <div className="card-body">{dom}</div>
     </div>
   )
 

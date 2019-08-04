@@ -1,11 +1,12 @@
 import React from 'react';
 import useReactRouter from 'use-react-router';
 
-// components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
-import BlockList from '@modules/block-list';
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
+
+// modules
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
+import BlockList from '@app/modules/block-list';
 
 export default Shell(function() {
 

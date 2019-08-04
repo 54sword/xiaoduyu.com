@@ -9,7 +9,7 @@ import { dateDiff } from '@utils/date';
 import HTMLText from '@components/html-text';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   notification: any
@@ -137,7 +137,7 @@ export default ({ notification }: Props) => {
     }
   }
 
-  return <div styleName="item" className="card-body border-bottom">
+  return <div className="card-body border-bottom">
     {content}
   </div>
 

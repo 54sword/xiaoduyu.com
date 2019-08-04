@@ -17,7 +17,9 @@
 // }
 
 module.exports = {
-  '@config': 'config',
+  // '@': 'src/app',
+  '@app': 'src/app',
+  '@config': 'config/',
   // 模块
   '@modules': 'src/app/modules',
   // 组件

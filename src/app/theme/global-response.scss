@@ -1,0 +1,56 @@
+:global{
+
+@media (min-width: 0px) and (max-width: 575px) {
+
+  .container{
+    padding-left:5px;
+    padding-right:5px;
+  }
+
+  .card{
+    .card-header{
+      padding:15px;
+      .title, .card-title{
+        margin-bottom:5px;
+      }
+    }
+    .card-body{
+      padding:15px;
+    }
+  }
+
+  // .border-bottom{
+  //   border-bottom:0.5px solid red !important;
+  // }
+
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  // .container {
+  //   max-width: 700px;
+  //   padding:0px;
+  // }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .container {
+    max-width: 700px;
+    padding:0px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px)  {
+  .container {
+    max-width: 700px;
+    padding:0px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 700px;
+    padding:0px;
+  }
+}
+
+}

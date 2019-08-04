@@ -20,7 +20,8 @@
   float:left;
   color:#fff;
   z-index: 2;
-  background-color:rgba(255,255,255,0.05);
+  background-color:rgba(0,0,0,0.05);
+  // background-color:rgba(255,255,255,0.05);
   padding:20px;
   padding-left:115px;
   // overflow: hidden;
@@ -33,4 +34,12 @@
 
 .brief{
   font-size: 13px;
+}
+
+.action{
+  min-width: 100px;
+  text-align: right;
+  a{
+    color:#fff !important;
+  }
 }

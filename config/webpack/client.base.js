@@ -47,7 +47,7 @@ module.exports = {
       // ArriveFooter 监听抵达页尾的事件
       './src/app/vendors/arrive-footer.js',
       
-      './src/app/vendors/float-fixed.js',
+      // './src/app/vendors/float-fixed.js',
 
       /**
        * 懒加载图片、Dom

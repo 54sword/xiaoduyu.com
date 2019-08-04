@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import useReactRouter from 'use-react-router';
 
 // styles
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   key?: string | number,
@@ -19,9 +19,8 @@ export default function({ comment, posts }:Props) {
     e.stopPropagation();
   }
   
-  return (<><div
+  return (<div className="card"><div
     styleName="item"
-    className="card"
     onClick={()=>{
       history.push(`/comment/${comment._id}`)
     }}
@@ -94,11 +93,11 @@ export default function({ comment, posts }:Props) {
           </Link>)
         }
 
-      })()}      
-
-
+      })()}
 
     </div>
-    <div styleName="line"></div>
-    </>)
+
+    <div styleName="line" className="border-bottom"></div>
+
+    </div>)
 }

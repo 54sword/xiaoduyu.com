@@ -23,13 +23,13 @@ export default function() {
   const store = useStore();
 
   const _loadReportTypes = ()=>loadReportTypes()(store.dispatch, store.getState);
-  const _addReport = (args:object)=>addReport(args)(store.dispatch, store.getState);
+  const _addReport = (args:any)=>addReport(args)(store.dispatch, store.getState);
 
   useEffect(()=>{
 
     $(`#report`).on('show.bs.modal',  async (e: any) => {
 
-      if (!types) await _loadReportTypes();
+      if (!types || types.length == 0) await _loadReportTypes();
 
       const { posts, comment, user } = e.relatedTarget;
 
@@ -82,8 +82,12 @@ export default function() {
     }
 
     setSubmitting(true);
+    
+    let err, res;
 
-    let [ err, res ] = await _addReport({ data });
+    let result: any = await _addReport({ data });
+
+    [ err, res ] = result;
 
     setSubmitting(false);
 

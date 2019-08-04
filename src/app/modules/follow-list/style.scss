@@ -5,10 +5,12 @@
 
 
 .people-item{
-  padding-left:75px;
+  // padding-left:75px;
+  min-height: 48px;
+  padding:15px 20px 15px 83px;
   // height: 80px;
-  min-height: 80px;
-
+  // min-height: 80px;
+  
   .avatar{
     position: absolute;
     margin-left:-60px;
@@ -19,7 +21,7 @@
   }
 
   .people-status{
-    span{
+    small{
       margin-right:10px;
     }
   }

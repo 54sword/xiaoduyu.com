@@ -2,60 +2,42 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 // components
-import HTMLText from '@components/html-text';
-import Like from '@components/like';
-import MoreMenu from '@components/more-menu';
-import Follow from '@components/follow';
-import Share from '@components/share';
+import HTMLText from '@app/components/html-text';
+import Like from '@app/components/like';
+import MoreMenu from '@app/components/more-menu';
+import Follow from '@app/components/follow';
+import Share from '@app/components/share';
 
 
 export default function({ posts }: any) {
 
-    return(<div className="card">
+    return(<div className="card" styleName="box">
         
-        <div styleName="head" className="d-flex justify-content-between align-items-center border-bottom">
+        {/* <div styleName="head" className="d-flex justify-content-between">
 
-          <div>
+          <div styleName="author">
             <Link to={`/people/${posts.user_id._id}`}>
               <img styleName="author-avatar" src={posts.user_id.avatar_url} />
               <b>{posts.user_id.nickname}</b>
             </Link>
-            <span className="text-secondary ml-2">
-              {posts.user_id.brief || "这家伙很懒，什么个性签名都没有留下。"}
-            </span>
+            <div>
+                {posts.user_id.brief || ""}
+            </div>
           </div>
 
-          <div>
-            <button className="btn btn-outline-primary btn-sm">关注</button>
+          <div style={{minWidth:'60px',textAlign:'right'}}>
+            <Follow user={posts.user_id} />
           </div>
 
-        </div>
+        </div> */}
 
-        <div className="card-body border-bottom pt-3 pb-3">
-{/* 
-          <span>
-            {posts.topic_id && posts.topic_id.parent_id && posts.topic_id.parent_id._id ?
-              <>
-              <Link to={`/topic/${posts.topic_id.parent_id._id}`} className="text-secondary">
-                {posts.topic_id.parent_id.name}
-              </Link>
-              <span className="text-muted mr-2 ml-2">/</span>
-              </>
-              : null}
-            <Link to={`/topic/${posts.topic_id._id}`} className="text-secondary">
-              {posts.topic_id.name}
-            </Link>
-          </span> */}
-
-          <h1 styleName="h1">{posts.title}</h1>
+        <div className="card-body">
 
 
-            <div styleName="posts-other-info" className="text-secondary">
-
-              <span>
+        <div className="mb-2">
                 <Link to={`/topic/${posts.topic_id.parent_id._id}`} className="text-secondary">
                   {posts.topic_id.parent_id.name}
                 </Link>
@@ -63,117 +45,48 @@ export default function({ posts }: any) {
                 <Link to={`/topic/${posts.topic_id._id}`} className="text-secondary">
                   {posts.topic_id.name}
                 </Link>
-              </span>
+              </div>
 
-              <span>{posts._create_at}</span>  
-              
-              {posts._device ? <span>{posts._device}</span> : null}
+          <div styleName="header">
 
-              {posts.view_count ? <span>{posts.view_count}次阅读</span> : null}
-              {posts.like_count ? <span>{posts.like_count}人赞</span> : null}
-              {/* {posts.comment_count ? <span>{posts.comment_count}条评论</span> : null} */}
-              {/* {posts.reply_count ? <span>{posts.reply_count}条回复</span> : null} */}
-              {posts.follow_count ? <span>{posts.follow_count}人收藏</span> : null}
-
-
-          </div>
-
-
-
-
-
-          {/* <div className="d-flex justify-content-between">
-            <div styleName="actions">
-              
-              <span className="text-secondary">{posts._create_at}</span>
-              {posts.view_count ? <span className="text-secondary">{posts.view_count}次阅读</span> : null}
-              {posts.like_count ? <span className="text-secondary">{posts.like_count}人赞</span> : null}
-              {posts.comment_count ? <span className="text-secondary">{posts.comment_count}条评论</span> : null}
-              {posts.reply_count ? <span className="text-secondary">{posts.reply_count}条回复</span> : null}
-              {posts.follow_count ? <span className="text-secondary">{posts.follow_count}人收藏</span> : null}
-            </div>
-            <div styleName="actions">
-
-            </div>
-          </div> */}
-
-          {/* 
-        <div className="d-flex justify-content-start">
-
-          
-          <div>
-            <Link to={`/people/${posts.user_id._id}`}>
-              <img styleName="author-avatar" src={posts.user_id.avatar_url} />
-            </Link>
-          </div>
-
-          <div>
-            
-            <div>
-              <Link to={`/people/${posts.user_id._id}`}>
-                {posts.user_id.nickname}
-              </Link>
-
-              <span className="ml-2 text-secondary">{posts._create_at}</span>
-            </div>
+          <img styleName="author-avatar" src={posts.user_id.avatar_url} />
 
             <h1 styleName="h1">{posts.title}</h1>
-            
+
+              <div styleName="posts-other-info" className="text-secondary">
+
+                <span>
+                  {posts.user_id.nickname}
+                </span>
+
+                <span>{posts._create_at}</span>  
+                
+                {posts._device ? <span>{posts._device}</span> : null}
+
+                {posts.view_count ? <span>{posts.view_count}次阅读</span> : null}
+                {posts.like_count ? <span>{posts.like_count}人赞</span> : null}
+                {posts.follow_count ? <span>{posts.follow_count}人收藏</span> : null}
+            </div>
+
           </div>
 
         </div>
-        */}
-        </div>
-
-
-
 
         {posts.content_html ?
-          <div className="card-body border-bottom">
-          <div styleName="detail">
-            <HTMLText content={posts.content_html} />
+          <div className="card">
+            <div styleName="detail" className="card-body pt-0">
+              <div className="border-top mb-3"></div>
+              <HTMLText content={posts.content_html} />
+            </div>
           </div>
-          </div>:null}
-        
-        
+          :null}
 
-        {/* 
-        <div className="d-flex justify-content-between">
-
-          <div styleName="actions">
-            {posts.view_count ? <span className="text-secondary">{posts.view_count} 次阅读</span> : null}
-            {posts.comment_count ? <span className="text-secondary">{posts.comment_count} 条评论</span> : null}
-            {posts.reply_count ? <span className="text-secondary">{posts.reply_count} 条回复</span> : null}
-            {posts.like_count ? <span className="text-secondary">{posts.like_count} 人赞</span> : null}
-            {posts.follow_count ? <span className="text-secondary">{posts.follow_count} 人订阅</span> : null}
-          </div>
-
-          <div styleName="actions" className="d-none d-lg-block d-xl-block">
-            <Like posts={posts} displayNumber={false} />
-            <Follow posts={posts} />
-            <MoreMenu posts={posts} />
-          </div>
-          
-        </div>
-        */}
-        
-        {/* <div styleName="actions" className="d-block d-lg-none d-xl-none border-top" style={{marginTop:'10px', paddingTop:'10px'}}>
+        {/* <div className="card-footer" styleName="actions">
           <Like posts={posts} displayNumber={false} />
           <Follow posts={posts} />
+          <Share posts={posts} />
           <MoreMenu posts={posts} />
         </div> */}
-
-        
-
-
-        <div className="card-footer">
-          <div >
-            <Like posts={posts} displayNumber={false} />
-            <Follow posts={posts} />
-            <Share posts={posts} />
-            <MoreMenu posts={posts} />
-          </div>
-        </div>
 
 
     </div>)

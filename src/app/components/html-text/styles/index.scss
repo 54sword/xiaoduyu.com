@@ -1,0 +1,42 @@
+@import './response.scss', './dark.scss';
+
+.content{
+  width: 100%;
+  font-size: 15px;
+
+  p{
+    margin:0px;
+    padding:0px;
+    min-height: 15px;
+    word-wrap: break-word;
+    word-break: normal;
+  }
+
+  embed, iframe{
+    width:100%;
+    min-height: 420px;
+    border: none;
+  }
+
+  img{
+    max-height: 800px;
+  }
+
+  iframe[src^="//music.163.com"] {
+    min-height: auto;
+  }
+
+  pre{
+    line-height: 100%;
+  }
+
+}
+
+.max-height{
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.expand-button{
+  padding:10px 0 5px 0;
+}

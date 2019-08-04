@@ -51,12 +51,12 @@ export default function({ reply, comment, posts }: Props) {
 
   if (!_isMember) {
     return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={stopPropagation} className="text-secondary">
-      <span className="d-none d-lg-inline d-xl-inline">{target.comment_count ? target.comment_count+' 条'+t : t}</span>
+      <span>{target.comment_count ? target.comment_count+' 条'+t : t}</span>
     </a>)
   }
 
   return (<a styleName="button" href="javascript:void(0)" onClick={onClick} className="text-secondary">
-    <span className="d-none d-lg-inline d-xl-inline">{target.comment_count ? target.comment_count+' 条'+t : t}</span>
+    <span>{target.comment_count ? target.comment_count+' 条'+t : t}</span>
   </a>)
 
 }

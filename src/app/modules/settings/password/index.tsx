@@ -34,10 +34,14 @@ export default function() {
 
     setLoading(true);
 
-    let [err, res] = await _updatePassword({
+    let err, res;
+
+    let result: any = await _updatePassword({
       new_password: $newPassword.value,
       unlock_token: unlockToken || ''
     });
+
+    [err, res] = result;
 
     setLoading(false);
 
@@ -83,7 +87,7 @@ export default function() {
 
   return (
     <div className="card">
-    <div className="card-header">密码</div>
+    <div className="card-head pb-0"><div className="title">密码</div></div>
     <div className="card-body">
     
     {show &&

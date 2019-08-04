@@ -1,5 +1,7 @@
 import graphql from '../../common/graphql';
 
+import * as GlobalData from '../../common/global-data';
+
 export function setOnlineUserCount(online: number) {
   return (dispatch: any, getState: any) => {
     dispatch({ type: 'SET_ONLINE_STATUS', online })
@@ -23,36 +25,43 @@ export function saveTab (tab: string) {
 export function requestNotificationPermission () {
   return (dispatch: any, getState: any) => {
     if ('Notification' in window) {
-      /*
+
       Notification.requestPermission((result)=>{
         if (result == 'granted') {
           dispatch({ type: 'SET_NOTIFICATION_PERMISSION', status: true });
         }
       });
-      */
-      /*
-      Notification.requestPermission().then(function(result) {
-        if (result == 'granted') {
-          dispatch({ type: 'SET_NOTIFICATION_PERMISSION', status: true });
-          
-          let notification = new Notification("111", {
-            body: '11111',
-            icon: '',
-            data: {
-              test:'123123'
-            }
-        });
-    
-        notification.onclick = (res)=>{
-          console.log(res.target);
-          notification.close();
-        }
-        
-
-        }
-      })
-      */
+      
     }
+  }
+}
+
+export function sendNotification({ content, option }: any) {
+  return async (dispatch: any, getState: any) => {
+
+    let notification = new Notification(content, option);
+
+    let href = '';
+
+    notification.onclick = (res: any) => {
+
+      switch (res.target.tag) {
+        case 'message':
+          href = '/sessions';
+          break;
+        case 'comment':
+          href = '/comment/'+(option.data.comment_id.parent_id ? option.data.comment_id.parent_id : option.data.comment_id._id);
+          break;
+      }
+
+      if (href) {
+        const history = GlobalData.get('history')
+        if (history) history.push(href)
+      }
+
+      notification.close();
+    }
+
   }
 }
 

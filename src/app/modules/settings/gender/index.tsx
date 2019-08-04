@@ -23,9 +23,13 @@ export default function () {
       return
     }
 
-    let [err, res] = await _updateUser({
+    let err, res;
+
+    let result: any = await _updateUser({
       gender: isMale ? 1 : 0
     });
+
+    [err, res] = result;
 
     if (err) {
       Toastify({
@@ -52,8 +56,8 @@ export default function () {
   return (
     <div>
     <div className="card">
-      <div className="card-header">性别</div>
-      <div className="card-body" style={{padding:'20px'}}>
+      <div className="card-head pb-0"><div className="title">性别</div></div>
+      <div className="card-body">
 
         {!show ?
           <div className="d-flex justify-content-between">

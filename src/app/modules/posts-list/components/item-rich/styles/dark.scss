@@ -1,0 +1,8 @@
+:global(#dark-theme) {
+  .item{
+    background-color: #303030;
+    &:hover{
+      background-color: #353535;
+    }
+  }
+}

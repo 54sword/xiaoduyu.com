@@ -109,7 +109,7 @@ export default function({  user, posts, comment }: Props) {
   return (<div styleName="container">
 
     <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={stopPropagation}></a>
-    <div className="dropdown-menu dropdown-menu-right">
+    <div className="dropdown-menu dropdown-menu-left">
 
       {self && posts || self && comment ?
         <a className="dropdown-item" href="javascript:void(0)" onClick={edit}>编辑</a>

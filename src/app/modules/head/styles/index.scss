@@ -1,0 +1,225 @@
+
+.header-space{
+  height:54px;
+  max-width: 700px;
+  // transform: scale(0.5);
+  // background: #fff;
+
+  margin: 0 auto;
+}
+
+.line{
+  position: absolute;
+  height:10px !important;
+  background-color: #0073ff;
+  z-index: 100;
+  // margin:0 auto;
+}
+
+.header{
+  top:0px;
+  left:0px;
+  width:100%;
+  position: fixed;
+  height: 54px;
+  // background: #fff;
+  z-index: 99;
+
+  // border-bottom: 1px solid #eff0f2;
+
+  // -webkit-backdrop-filter: saturate(180%) blur(20px);
+  // backdrop-filter: saturate(180%) blur(20px);
+  // background-color: rgba(255,255,255,0.7);
+  // box-shadow: 0 1px 0px rgba(236, 238, 240, .7);
+
+  > div > div{
+    max-width: 700px;
+    margin: 0 auto;
+    // backdrop-filter: saturate(180%) blur(20px);
+    // background-color: rgba(255,255,255,0.7);
+    // box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    // border-bottom:1px solid #dbdee5;
+
+    border-bottom:1px solid rgba(51,51,51,0.1);
+
+    // box-shadow: 0 1px 1px rgba(0,0,0,.15);
+
+    // box-shadow: 0 1px 0px rgba(55, 62, 74, .1);
+    // box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+    background-color: #fff;
+    padding-left:15px;
+    padding-right:15px;
+    // border-bottom-left-radius: 6px;
+    // border-bottom-right-radius: 6px;
+  }
+
+  > div > div > div{
+    height: 54px;
+  }
+
+}
+
+.logo{
+  display: block;
+  width:90px;
+  height: 30px;
+  background-size: contain;
+  background-image: url(../../../../../public/logo.png);
+  margin-top:12px;
+}
+
+.slogan{
+  margin:17px 0 0 10px;
+  color:#68737d;
+  font-size: 15px;
+  &:before{
+    content:"•";
+    margin:0 10px 0 0;
+    color:rgba(0,0,0,.15);
+  }
+  &:hover{
+    text-decoration: none;
+    color:#0073ff;
+  }
+}
+
+.text-nav{
+  .nav-item{
+    height: 54px;
+    line-height: 54px;
+    margin:0 15px 0 15px;
+    text-decoration: none !important;
+    font-size: 15px;
+    // color:#868b95;
+    &:hover{
+      color:#0073ff;
+      // border-bottom: 3px solid #027cfa;
+    }
+  }
+
+  .nav-menu{
+    display: none;
+    position: absolute;
+    padding:20px;
+    background: #fff;
+    line-height: 140%;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .nav-item:hover{
+    color:#5c646e;
+    .nav-menu{
+      display: block;
+    }
+  }
+  
+  :global{
+    .active {
+      // font-weight: bold;
+      color:#027cfa !important;
+      &:after{
+        display: block;
+        content:' ';
+        width:100%;
+        height: 2px;
+        background-color: #027cfa;
+        margin-top:-1px;
+      }
+      // border-bottom: 2px solid #027cfa;
+      // &:hover{
+      //   color:#027cfa;
+      // }
+    }
+  }
+}
+
+.nav{
+
+  .favorite, .notification, .message, .search, .avatar{
+    margin-left:10px;
+    margin-top: 8px;
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: block;
+    width: 34px;
+    height: 34px;
+    border-radius:50%;
+    &:hover{
+      background-color: #eaf4fd;
+      color:#0073ff;
+    }
+  }
+
+  .favorite, .notification, .message, .search{
+    color:#6a6f79;
+    > svg {
+      margin:7px;
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    // background-image: url(../images/search.png);
+    // background-image: url(../images/search.svg);
+  }
+  
+  .avatar{
+    margin-top:15px;
+    margin-left:15px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+  }
+
+
+
+
+  // .new-posts-button{
+  //   float:left;
+  //   height: 28px !important;
+  //   line-height: 28px;
+  //   background-color: #0073ff;
+  //   color:#fff;
+  //   margin:11px 20px 0 0;
+  //   border-radius: 16px;
+  // }
+
+}
+
+
+.subscript{
+  position: absolute;
+  margin:6px 0 0 -15px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.unread-subscript{
+  position: absolute;
+  height: 16px;
+  line-height: 16px;
+  padding:0 5px;
+  margin:3px 0 0 -16px;
+  border-radius: 20px;
+  background-color: red;
+  color:#fff;
+  font-size: 12px;
+}
+
+.text-nav{
+  .subscript{
+    margin:15px 0 0 0px;
+  }
+}
+
+@import './response', './dark';

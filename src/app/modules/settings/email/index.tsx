@@ -48,13 +48,17 @@ export default function() {
 
     setLoading(true);
 
-    let [ err, res ] = await _addEmail({
+    let err, res;
+
+    let result: any = await _addEmail({
       args: {
         email: $newEmail.value,
         captcha: $captcha.value,
         unlock_token: unlockToken || ''
       }
     });
+
+    [ err, res ] = result;
 
     setLoading(false);
 
@@ -101,7 +105,7 @@ export default function() {
   return (
     <div>
     <div className="card">
-      <div className="card-header">邮箱</div>
+      <div className="card-head pb-0"><div className="title">邮箱</div></div>
       <div className="card-body">
         {(()=>{
           if (!me.email && !me.phone) {

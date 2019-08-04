@@ -1,0 +1,55 @@
+
+@media (min-width: 450px) and (max-width: 767.98px) {
+  .text-nav{
+    margin-left:0px !important;
+  }
+}
+
+@media (min-width: 350px) and (max-width: 450px) {
+  .header{
+    > div > div{
+      padding-left:10px;
+      padding-right:10px;
+    }
+  }
+  .nav{
+    .favorite, .notification, .message, .search, .avatar{
+      margin-left:5px;
+    }
+    .avatar{
+      margin-left:10px;
+    }
+  }
+  .text-nav{
+    margin-left:0px !important;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 350px) {
+  .header{
+    > div > div{
+      padding-left:5px;
+      padding-right:5px;
+    }
+  }
+  .nav{
+    .favorite, .notification, .message, .search, .avatar{
+      margin-left:0px;
+      background-size: 18px;
+    }
+    .avatar{
+      width: 18px;
+      height: 18px;
+      margin-top:19px;
+      margin-left:10px;
+    }
+  }
+  .text-nav{
+    margin-left:0px !important;
+    .nav-item{
+      margin:0px 10px;
+    }
+  }
+
+
+}

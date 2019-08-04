@@ -1,0 +1,9 @@
+@media (min-width: 0px) and (max-width: 767px) {
+  .content{
+    embed, iframe{      
+      @media (min-width: 0px) and (max-width: 767px) {
+        min-height: 220px;
+      }
+    }
+  }
+}

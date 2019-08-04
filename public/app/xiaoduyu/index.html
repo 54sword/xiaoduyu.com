@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html id="light-theme">
+
+  <head> 
+    <meta charset="utf-8" /> 
+    <title>小度鱼APP</title>
+    <meta name="description" content="小度鱼APP" /> 
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" /> 
+    <link rel="apple-touch-icon" href="/512x512.png" /> 
+    <meta content="yes" name="apple-touch-fullscreen" /> 
+    <meta content="yes" name="apple-mobile-web-app-capable" /> 
+    <link href="./css/index.css" rel="stylesheet" />
+  </head>
+
+  <body> 
+
+    <div class="container"> 
+
+      <div class="app-icon"><img src="./images/512.png" /></div>
+
+      <div class="name"><strong>小度鱼APP</strong></div>
+
+      <div class="discription">年轻人的交流社区</div>
+      
+      <div id="button-list">
+        <a href="https://itunes.apple.com/us/app/小度鱼/id1261181004?l=zh&ls=1&mt=8" class="button" target="_blank">iPhone 下载</a>
+        <a href="https://qncdn.xiaoduyu.com/xiaoduyu-20190505.apk" class="button" target="_blank">Android APK 下载</a>
+        <a href="javascript:void(0)" class="button">
+          <div class="button-menu"><img src="./images/qrcode-loading-page.png" width="120" height="120" /></div>
+          扫码下载
+        </a>
+        <a class="button" href="//www.xiaoduyu.com">进入网站</a>
+      </div>
+
+    </div>
+
+  </body>
+
+  <script>
+  
+    let device = (function() {
+
+    var Device = function() {
+      this.devices = {
+        1: 'unknow',
+        2: 'windows',
+        3: 'mac',
+        4: 'ipad',
+        5: 'iphone',
+        6: 'android',
+        7: 'ios-app',
+        8: 'android-app'
+      };
+      this.show = {
+        1: '',
+        2: '',
+        3: '',
+        4: '',
+        5: '',
+        6: '',
+        7: '通过 App iPhone 客户端',
+        8: '通过 App Android 客户端'
+      };
+    };
+
+    Device.prototype.getCurrentDeviceId = function() {
+
+      // 如果是服务器，那么就不存在 window 和 document 全局变量，因此不继续执行
+      if (typeof window == 'undefined' || typeof document == 'undefined') {
+        return 1
+      }
+
+      var dvicename = 'unknow';
+      var p = navigator.platform;
+      var sUserAgent = navigator.userAgent.toLowerCase();
+      var system = {
+        windows: p.indexOf("Win") == 0,
+        mac: p.indexOf("Mac") == 0,
+        ipad: sUserAgent.match(/ipad/i) == "ipad",
+        iphone: sUserAgent.match(/iphone os/i) == "iphone os",
+        android: sUserAgent.match(/android/i) == "android"
+      };
+
+      for (var i in system) {
+        if (system[i]) {
+          dvicename = i;
+        }
+      }
+
+      for (var i in this.devices) {
+        if (this.devices[i] == dvicename) {
+          return parseInt(i);
+        }
+      }
+
+      return 1;
+    };
+
+    Device.prototype.getNameByDeviceId = function(id) {
+      return this.show[id];
+    };
+
+    // 是否是移动设备
+    Device.prototype.isMobileDevice = function() {
+      var id = this.getCurrentDeviceId();
+      if (id == 5 || id == 6) {
+        return true;
+      }
+      return false;
+    };
+
+    var device = new Device();
+
+    return device;
+
+    }());
+
+    // 是否是微信浏览器
+    let Weixin = {}
+
+    Weixin.in = (function (){
+
+      // 如果是服务器，那么就不存在 window 和 document 全局变量，因此不继续执行
+      if (typeof window == 'undefined' || typeof document == 'undefined') {
+        return false
+      }
+
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i)=="micromessenger") {
+        return true;
+      } else {
+        return false;
+      }
+
+    }());
+
+    // ios
+    if (device.getCurrentDeviceId() == 5 || device.getCurrentDeviceId() == 4) {
+      window.location.href = 'https://itunes.apple.com/us/app/小度鱼/id1261181004?l=zh&ls=1&mt=8';
+    }
+
+    // android
+    if (device.getCurrentDeviceId() == 6) {
+      if (weixin.in) {
+        document.getElementById('button-list').innerHTML = '需要在浏览器中才能下载<br /><br />操作步骤<br />1、点击右上角"..."<br />2、点击在浏览器打开'
+      } else {
+        window.location.href = 'https://qncdn.xiaoduyu.com/xiaoduyu-20190505.apk';
+      }
+    }
+
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?b9270680f034fd05907645dcfaaf1f5e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();    
+
+  </script>
+
+</html>

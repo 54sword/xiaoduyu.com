@@ -1,7 +1,7 @@
 import React from 'react'
 
 // config
-import { api } from '@config/index';
+import { api, social } from '@config/index';
 
 // redux
 import { useSelector, useStore } from 'react-redux'
@@ -27,9 +27,13 @@ export default function() {
 
       if (confirm(`您确认解除 ${name} 的绑定吗？`)) {
 
-        let [ err, res ] = await _oAuthUnbinding({
+        let err, res;
+
+        let result: any = await _oAuthUnbinding({
           args: { name }
         });
+
+        [ err, res ] = result;
 
         await _loadUserInfo({});
 
@@ -49,25 +53,46 @@ export default function() {
 
   }
 
+  let doms = [];
+
+  if (social.weibo) {
+    doms.push(<>
+      <div>微博</div>
+      <div><a href="javascript:void(0)" onClick={()=>{ submit('weibo'); }}>{me.weibo ? '已绑定' : '未绑定' }</a></div>
+    </>)
+  }
+
+  if (social.qq) {
+    doms.push(<>
+      <div>QQ</div>
+      <div><a href="javascript:void(0)" onClick={()=>{ submit('qq'); }}>{me.qq ? '已绑定' : '未绑定' }</a></div>
+    </>)
+  }
+
+  if (social.github) {
+    doms.push(<>
+      <div>GitHub</div>
+      <div><a href="javascript:void(0)" onClick={()=>{ submit('github'); }}>{me.github ? '已绑定' : '未绑定' }</a></div>
+    </>)
+  }
+  
+  if (social.wechat) {
+    doms.push(<>
+      <div>微信</div>
+      <div><a href="javascript:void(0)" onClick={()=>{ submit('wechat'); }}>{me.wechat ? '已绑定' : '未绑定' }</a></div>
+    </>)
+  }
+  
   return (
     <div className="card">
-    <div className="card-header">第三方帐号</div>
-      <div className="card-body">
-        <div className="container">
+      <div className="card-head pb-0"><div className="title">第三方帐号</div></div>
+      <div className="card-body" style={{overflow:'hidden'}}>
         <div className="row">
-          <div className="col-4">
-            <div>QQ</div>
-            <div><a href="javascript:void(0)" onClick={()=>{ submit('qq'); }}>{me.qq ? '已绑定' : '未绑定' }</a></div>
-          </div>
-          <div className="col-4">
-            <div>微博</div>
-            <div><a href="javascript:void(0)" onClick={()=>{ submit('weibo'); }}>{me.weibo ? '已绑定' : '未绑定' }</a></div>
-          </div>
-          <div className="col-4">
-            <div>GitHub</div>
-            <div><a href="javascript:void(0)" onClick={()=>{ submit('github'); }}>{me.github ? '已绑定' : '未绑定' }</a></div>
-          </div>
-        </div>
+          {doms.map((item, index)=>{
+            return (<div key={index} className={`col-${12/doms.length}`}>
+              {item}
+            </div>)
+          })}
         </div>
       </div>
     </div>

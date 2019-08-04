@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { useSelector } from 'react-redux';
+import { getUserInfo } from '@reducers/user';
+
 // components
 import Follow from '@components/follow';
 
@@ -11,6 +14,7 @@ interface Props {
 }
 
 type Topic = {
+  _id: string,
   parent_id: any,
   name: string,
   avatar: string,
@@ -22,6 +26,9 @@ type Topic = {
 }
 
 export default function({ topic }:Props) {
+
+  const me = useSelector((state:object)=>getUserInfo(state));
+
   return (
     <div styleName="container">
     <div styleName="item" style={{ backgroundImage:`url(${topic.avatar})` }}></div>
@@ -41,9 +48,12 @@ export default function({ topic }:Props) {
           {topic.follow_count ? <span className="mr-3" styleName="brief">{topic.follow_count} 人关注</span> : null}
           {topic.comment_count ? <span className="mr-3" styleName="brief">{topic.comment_count} 条评论</span> : null}
         </div>
-        <div>
-          {topic.parent_id ?
-            <div style={{float:'right'}}><Follow topic={topic} /></div>
+        <div styleName="action">
+          {topic.parent_id && me ?
+            <>
+              <div><Follow topic={topic} /></div>
+              <div><Link to={`/new-posts?topic_id=${topic._id}`}>创建话题</Link></div>
+            </>
             : null}
         </div>
       </div>

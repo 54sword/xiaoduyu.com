@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import featureConfig from '@config/feature.config';
 
-import './style.scss';
+import './styles/index.scss';
 
 // redux
 // import { bindActionCreators } from 'redux';
@@ -71,7 +71,7 @@ export default function({ comment }: Props) {
           </Link>
           {!parent && reply_user && reply_user._id != comment.user_id._id ||
             parent && reply_user && parent.user_id._id != reply_user._id
-            ? <span> 回复 <Link to={`/people/${reply_user._id}`} onClick={stopPropagation}><b>{reply_user.nickname}</b></Link></span>
+            ? <span className="text-muted"> 回复 <Link to={`/people/${reply_user._id}`} onClick={stopPropagation}><b>{reply_user.nickname}</b></Link></span>
           : null}
           
           {!comment.parent_id ?

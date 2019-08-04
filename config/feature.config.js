@@ -21,7 +21,7 @@ let config = {
    * 设置缓存有效时间（毫秒单位），0为不缓存
    * 缓存机制：游客所有的请求、会员更新频率低的请求
    */
-  cache: 0,//1000 * 60 * 3,
+  cache: 1000 * 60 * 3,
 
   // [服务端]每秒打印一次内存占用情况，显示在控制台，用于排查内存泄漏的问题
   memoryUsage: false,
@@ -44,7 +44,7 @@ if (mainConfig.debug) {
   // config.debug = true;
   // config.logs = false;
   // config.apiLog = true;
-  config.reduxLog = true;
+  // config.reduxLog = true;
   // config.memoryUsage = true;
 }
 

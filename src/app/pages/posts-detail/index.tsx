@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import useReactRouter from 'use-react-router';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import { name, domainName } from '@config';
 
@@ -9,6 +9,7 @@ import { useSelector, useStore } from 'react-redux';
 import { loadPostsList, viewPostsById } from '@actions/posts';
 import { getPostsListById } from '@reducers/posts';
 import { getUserInfo } from '@reducers/user';
+import { addHasRead } from '@actions/has-read-posts';
 
 // components
 import Shell from '@modules/shell';
@@ -18,15 +19,15 @@ import PostsDetail from '@modules/posts-detail';
 import EditorComment from '@components/editor-comment';
 import Loading from '@components/ui/loading';
 
-import ADPC from '@modules/ads/pc';
-import ADH5 from '@modules/ads/h5';
-import ADAuthor from '@modules/ads/author';
+// import ADPC from '@modules/ads/pc';
+// import ADH5 from '@modules/ads/h5';
+// import ADAuthor from '@modules/ads/author';
 
 // layout
 import SingleColumns from '../../layout/single-columns';
 
 // styles
-import './index.scss';
+import './styles/index.scss';
 
 export default Shell(function({ setNotFound }: any) {
 
@@ -39,8 +40,12 @@ export default Shell(function({ setNotFound }: any) {
   const store = useStore();
   const _loadPostsList = (args: any)=>loadPostsList(args)(store.dispatch, store.getState);
   const _viewPostsById = (args: any)=>viewPostsById(args)(store.dispatch, store.getState);
+  const _addHasRead = (args: any)=>addHasRead(args)(store.dispatch, store.getState);
 
   useEffect(()=>{
+
+    // console.log('=====');
+    // console.log(list);
 
     // 如果已经存在 list，说明redux已经存在该帖子数据，则可以不重新请求
     if (!list || !list.data) {
@@ -53,7 +58,9 @@ export default Shell(function({ setNotFound }: any) {
         }
       }).then(([err, res]:any)=>{
         if (res && res.data && res.data[0]) {
-          _viewPostsById({ id });
+          let posts = res.data[0];
+          _viewPostsById({ id: posts._id  });
+          _addHasRead({ postsId: posts._id, lastCommentAt: posts.last_comment_at })
         } else {
           setNotFound('帖子不存在');
         }
@@ -62,7 +69,9 @@ export default Shell(function({ setNotFound }: any) {
     } else if (list && list.data && !list.data[0]) {
       setNotFound('404 帖子不存在');
     } else {
-      _viewPostsById({ id });
+      let posts = list.data[0];
+      _viewPostsById({ id: posts._id  });
+      _addHasRead({ postsId: posts._id, lastCommentAt: posts.last_comment_at })
     }
 
   },[]);
@@ -95,10 +104,10 @@ export default Shell(function({ setNotFound }: any) {
     <PostsDetail posts={posts} />
 
     {posts.comment_count > 0 ?
-      <div className="card" style={{marginTop:'10px'}}>
-        <div className="card-head pt-2 pb-2">
-          <div>{posts.comment_count}条评论 / {posts.reply_count}条回复</div>
-        </div>
+      <div className="card">
+        {/* <div className="card-head pt-2 pb-2">
+          <div>{posts.comment_count}条评论{posts.reply_count ? ` / ${posts.reply_count}条回复` : ''}</div>
+        </div> */}
         <div className="card-body p-0">
           <CommentList
             id={posts._id}
@@ -120,9 +129,9 @@ export default Shell(function({ setNotFound }: any) {
       <div styleName="editor-comment"><EditorComment posts_id={posts._id} forward={true} /></div>
       : null}
 
-      <div className="d-block d-lg-none d-xl-none">
+      {/* <div className="d-block d-lg-none d-xl-none">
         <ADH5 width='100%' height='100px' />
-      </div>
+      </div> */}
 
     </div>
 

@@ -5,30 +5,26 @@ import { name, domainName } from '@config';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { loadCommentList } from '@actions/comment';
-import { getCommentListById } from '@reducers/comment';
-import { getUserInfo } from '@reducers/user';
+import { loadCommentList } from '@app/redux/actions/comment';
+import { getCommentListById } from '@app/redux/reducers/comment';
+import { getUserInfo } from '@app/redux/reducers/user';
 
-// components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
-import CommentList from '@modules/comment-list';
-import HTMLText from '@components/html-text';
-import EditorComment from '@components/editor-comment';
-import Loading from '@components/ui/loading';
-import LikeButton from '@components/like';
-import Share from '@components/share';
-// import MoreMenu from '@components/more-menu';
-import MoreMenu from '@components/more-menu';
+import SingleColumns from '@app/layout/single-columns';
 
-import SingleColumns from '../../layout/single-columns';
-
-import ADPC from '@modules/ads/pc';
-import ADH5 from '@modules/ads/h5';
-import ADAuthor from '@modules/ads/author';
+// modules
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
+import CommentList from '@app/modules/comment-list';
+import HTMLText from '@app/components/html-text';
+import EditorComment from '@app/components/editor-comment';
+import Loading from '@app/components/ui/loading';
+import LikeButton from '@app/components/like';
+import Share from '@app/components/share';
+import MoreMenu from '@app/components/more-menu';
+import ADH5 from '@app/modules/ads/h5';
 
 // styles
-import './index.scss';
+import './styles/index.scss';
 
 export default Shell(function({ match, setNotFound }: any) {
 
@@ -128,25 +124,23 @@ export default Shell(function({ match, setNotFound }: any) {
       </div>
     </div>
 
-    <div className="card">
-      <div className="card-head">
-        {comment.reply_count || 0} 条回复
+    {comment.reply_count ?
+      <div className="card">
+        <div className="card-head">
+          {comment.reply_count} 条回复
+        </div>
+        <div className="card-body p-0">
+          <CommentList
+            id={id}
+            query={{
+              parent_id: id,
+              page_size:100
+            }}
+            nothing="还未有人回复"
+            />
+        </div>
       </div>
-      <div className="card-body p-0">
-        <CommentList
-          id={id}
-          query={{
-            parent_id: id,
-            page_size:100
-          }}
-          nothing="还未有人回复"
-          />
-      </div>
-    </div>
-
-    {/* <div styleName="comment-list">
-
-    </div> */}
+      : null}
 
     {_isMember ?
       <div styleName="editor">
@@ -160,31 +154,10 @@ export default Shell(function({ match, setNotFound }: any) {
     : null}
 
     <div className="d-block d-lg-none d-xl-none">
-      <ADH5 width='100%' height='100px' />
+      <ADH5 width='100%' height='200px' />
     </div>
 
   </div>
-
-  {/* <div></div>
-
-  <div>
-
-      <div className="card">
-        <div className="card-header">用户信息</div>
-        <div className="card-body">
-          <div styleName="author-info">
-            <Link to={`/people/${comment.user_id._id}`}>
-              <img styleName="avatar" src={comment.user_id.avatar_url} /><br />
-              {comment.user_id.nickname}
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <ADAuthor _id={comment.user_id.ad} userId={comment.user_id._id} />
-      <ADPC width='280px' height='160px' />
-
-  </div> */}
 
   </SingleColumns>)
 
