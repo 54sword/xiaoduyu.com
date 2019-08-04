@@ -111,11 +111,13 @@ module.exports = {
           'css-hot-loader',
           { loader: MiniCssExtractPlugin.loader },
           {
-            loader: `css`,
+            loader: `css-loader`,
             options: {
-              modules: true,
-              localIdentName: config.classScopedName,
-              minimize: true,
+              modules: {
+                localIdentName: config.classScopedName,
+              },
+              // localIdentName: config.classScopedName,
+              // minimize: true,
               sourceMap: true,
               importLoaders: 1
             }
@@ -139,7 +141,7 @@ module.exports = {
         use: [
           'css-hot-loader',
           { loader: MiniCssExtractPlugin.loader },
-          { loader: `css` },
+          { loader: `css-loader` },
           {
             loader: 'postcss-loader',
             options: {

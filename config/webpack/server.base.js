@@ -70,10 +70,12 @@ module.exports = {
         test: /\.scss$/,
         use: [
           {
-            loader: `css/locals`,
+            loader: `css`,
             options: {
-              modules: true,
-              localIdentName: config.classScopedName,
+              modules: {
+                localIdentName: config.classScopedName
+              }
+              // localIdentName: config.classScopedName,
               // minimize: true,
               // sourceMap: true
 
@@ -91,7 +93,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: `css/locals` }
+          { loader: `css` }
         ]
       },
       
