@@ -1,13 +1,13 @@
 {
   "name": "xiaoduyu.com",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "小度鱼 - 年轻人的交流社区",
   "scripts": {
     "start": "cross-env NODE_ENV=development node ./scripts/start.js",
     "dev": "cross-env NODE_ENV=development webpack --config config/webpack/server.dev.js && NODE_ENV=development webpack --config config/webpack/client.dev.js && node ./dist/server/server.js",
     "pro": "cross-env NODE_ENV=production webpack --config config/webpack/server.pro.js && NODE_ENV=production webpack --config config/webpack/client.pro.js && NODE_ENV=production node ./dist/server/server.js",
     "dist": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js",
-    "server": "NODE_ENV=production node ./dist/server/server.js",
+    "server": "node ./dist/server/server.js",
     "test": "jest"
   },
   "engines": {
@@ -86,7 +86,7 @@
     "copy-webpack-plugin": "^4.5.3",
     "cross-env": "^5.2.0",
     "css-hot-loader": "^1.4.2",
-    "css-loader": "^1.0.0",
+    "css-loader": "^3.1.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.13.1",
     "file-loader": "^2.0.0",
