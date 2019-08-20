@@ -3,12 +3,12 @@ import useReactRouter from 'use-react-router';
 
 // redux
 import { useStore } from 'react-redux';
-import { loadPostsList } from '@actions/posts';
+import { loadPostsList } from '@app/redux/actions/posts';
 
 // components
-import PostsEditor from '@components/editor-posts';
-import Loading from '@components/ui/loading';
-import SingleColumns from '../../layout/single-columns';
+import PostsEditor from '@app/components/editor-posts';
+import Loading from '@app/components/ui/loading';
+import SingleColumns from '@app/layout/single-columns';
 
 export default function() {
 

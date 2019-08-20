@@ -157,6 +157,7 @@ export const loadPostsList = loadList({
       posts_count
       comment_count
       fans_count
+      follow_people_count
       follow
     }
     verify

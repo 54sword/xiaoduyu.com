@@ -6,14 +6,14 @@
 // 主要
 $color_primary: #0073ff;
 // 黑色
-$color_dark: #282b2e;//#353535;//#434343;//#222;
+$color_dark: #111;//#000;//#353535;//#434343;//#222;
 // 浅灰
 $color_muted: #bcbec3;//#cfd2d8;//#eff1f4;
 // 次要
 $color_secondary: #7f8489;//#7f8591;//#888; //rgba(0,0,0,.54);//#7d7f85;//#aeaeae;
 
 // 边框颜色
-$color_border: #eceff3;//#e4e6ea;//#eff1f4;
+$color_border: #ecedf1;//#e4e6ea;//#eff1f4;
 
 :global{
 // #light-theme{
@@ -23,7 +23,8 @@ $color_border: #eceff3;//#e4e6ea;//#eff1f4;
   // }
   
   body {
-    background-color: #dbdee5; //#a8adb9; //#d0d3d9; //#d0d4db;//#d1d3d8;//#d1d3d8;
+    // background-image: url(./images/bg.png);
+    background-color: #ecedf1;//#eceef0;//#d0d4db;//#d1d3d8;//#d1d3d8;
     // background: linear-gradient(#3f4353, #94879c);
     // background-attachment:fixed;
     color: $color_dark;

@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 
 // redux
 import { useStore, useSelector } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
-import { getPostsListById } from '@reducers/posts';
-import { refreshPostsListById } from '@actions/posts';
-import { loadTips } from '@actions/tips';
-import { loadUserInfo } from '@actions/user';
-import { getTipsById } from '@reducers/tips';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { getPostsListById } from '@app/redux/reducers/posts';
+import { refreshPostsListById } from '@app/redux/actions/posts';
+import { loadTips } from '@app/redux/actions/tips';
+import { loadUserInfo } from '@app/redux/actions/user';
+import { getTipsById } from '@app/redux/reducers/tips';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   topicId: string

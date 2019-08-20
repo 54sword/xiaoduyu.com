@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Qiniu from './qiniu';
+import Qiniu from './components/qiniu';
 
 import { useStore } from 'react-redux';
-import { getQiNiuToken } from '@actions/qiniu';
+import { getQiNiuToken } from '@app/redux/actions/qiniu';
 
 interface Props {
   // displayLoading: boolean,

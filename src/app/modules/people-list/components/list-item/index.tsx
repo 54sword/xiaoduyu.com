@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import './index.scss';
+import './styles/index.scss';
 
-import Follow from '@components/follow';
+import Follow from '@app/components/follow';
 
 export default ({ people }: any)=>{
 

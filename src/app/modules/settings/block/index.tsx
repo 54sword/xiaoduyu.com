@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 export default function() {
 
@@ -10,7 +10,7 @@ export default function() {
     
     return (
         <div className="card">
-            <div className="card-head pb-0"><div className="title">屏蔽管理</div></div>
+            <div className="card-header"><div className="card-title">屏蔽管理</div></div>
             <div className="card-body">
                 <div><Link to="/block/posts">屏蔽{me.block_posts_count}个帖子</Link></div>
                 <div><Link to="/block/peoples">屏蔽{me.block_people_count}个用户</Link></div>

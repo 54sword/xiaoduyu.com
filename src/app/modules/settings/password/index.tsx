@@ -2,8 +2,8 @@ import React, { useState, createRef } from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { updatePassword } from '@actions/user';
-import { getUserInfo, getUnlockToken } from '@reducers/user';
+import { updatePassword } from '@app/redux/actions/user';
+import { getUserInfo, getUnlockToken } from '@app/redux/reducers/user';
 
 export default function() {
 
@@ -87,7 +87,7 @@ export default function() {
 
   return (
     <div className="card">
-    <div className="card-head pb-0"><div className="title">密码</div></div>
+    <div className="card-header"><div className="card-title">密码</div></div>
     <div className="card-body">
     
     {show &&
@@ -96,16 +96,16 @@ export default function() {
           <div className="form-group"><input type="password" className="form-control" placeholder="重复新密码" ref={confirmNewPassword}></input></div>
           <div>
             {loading ? 
-              <a className="btn btn-primary btn-sm" href="javascript:void(0);">提交中...</a>
+              <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);">提交中...</a>
               :
-              <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={submit}>提交</a>}
+              <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);" onClick={submit}>提交</a>}
           </div>
         </div>}
     
     {!show &&
         <div className="d-flex justify-content-between">
           <div>{me.has_password ? '已设置' : '未设置'}</div>
-          <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={handleShow}>{me.has_password ? '修改' : '设置'}</a>
+          <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);" onClick={handleShow}>{me.has_password ? '修改' : '设置'}</a>
         </div>}
         
     </div>

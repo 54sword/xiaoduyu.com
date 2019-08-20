@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 // redux
 import { useStore, useSelector } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
-import { loadUserInfo, updateUser } from '@actions/user';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { loadUserInfo, updateUser } from '@app/redux/actions/user';
 
 export default function () {
   
@@ -56,13 +56,13 @@ export default function () {
   return (
     <div>
     <div className="card">
-      <div className="card-head pb-0"><div className="title">性别</div></div>
+      <div className="card-header"><div className="card-title">性别</div></div>
       <div className="card-body">
 
         {!show ?
           <div className="d-flex justify-content-between">
             <div>{me.gender === 0 ? '女' : null}{me.gender === 1 ? '男' : null}</div>
-            <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={handleShow}>修改</a>
+            <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);" onClick={handleShow}>修改</a>
           </div>
           :
           <div className="list-group">

@@ -2,19 +2,19 @@ import React from 'react'
 import useReactRouter from 'use-react-router';
 import { Link } from 'react-router-dom';
 import { useSelector, useStore } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
-import { getUnreadNotice } from '@reducers/website';
-import { loadNewNotifications } from '@actions/notification';
-import { getNotificationListById } from '@reducers/notification';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { getUnreadNotice } from '@app/redux/reducers/website';
+import { loadNewNotifications } from '@app/redux/actions/notification';
+import { getNotificationListById } from '@app/redux/reducers/notification';
 
 // components
-import Loading from '@components/ui/loading';
+import Loading from '@app/components/ui/loading';
 
 import UserNotificationList from './components/list';
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 export default () => {
 
@@ -93,11 +93,11 @@ export default () => {
 
       <div className="card">
 
-      <div className="card-head">
-        <div className="title">我的通知</div>
+      <div className="card-header">
+        <div className="card-title">我的通知</div>
       </div>
         
-      <div className="card-body pt-0 border-bottom mb-3">
+      <div className="card-body border-bottom mb-3">
         <ul>
           {Reflect.ownKeys(typeList).map((item: any) => {
             let _type = typeList[item];

@@ -1,12 +1,12 @@
-import React, {} from 'react';
+import React from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { follow, unfollow } from '@actions/follow';
-import { getUserInfo } from '@reducers/user';
+import { follow, unfollow } from '@app/redux/actions/follow';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // style
-import './style.scss';
+import './styles/index.scss';
 
 interface Props {
   posts?: any,
@@ -64,13 +64,13 @@ export default function({ posts, user, topic, className }: Props) {
   if (posts) text = '收藏';
   
   if (!me) {
-    return <a href="javascript:void(0)" className={className || 'text-secondary'} data-toggle="modal" data-target="#sign" onClick={stopPropagation}>{text}</a>
+    return <a href="javascript:void(0)" className={!posts ? 'btn btn-outline-primary btn-sm rounded-pill' : 'text-secondary'} data-toggle="modal" data-target="#sign" onClick={stopPropagation}>{text}</a>
   } else if (target.follow) {
-    return (<a href="javascript:void(0)" className={className} onClick={handleUnfollow}>
+    return (<a href="javascript:void(0)" className={!posts ? 'btn btn-outline-secondary btn-sm rounded-pill' : 'text-secondary'} onClick={handleUnfollow}>
       <span>正在{text}</span>
     </a>)
   } else {
-    return (<a href="javascript:void(0)" className={className || 'text-secondary'} onClick={handleFollow}>
+    return (<a href="javascript:void(0)" className={!posts ? 'btn btn-outline-primary btn-sm rounded-pill' : 'text-secondary'} onClick={handleFollow}>
       {text}
     </a>)
   }

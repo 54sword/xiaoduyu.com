@@ -1,7 +1,8 @@
-import TopicsLoadData from '@modules/topics/load-data';
+// import TopicsLoadData from '@app/modules/topics/load-data';
+import TopicsLoadData from '@app/pages/home/components/topics/load-data';
 
-import { loadPostsList } from '@actions/posts';
-import { saveTab } from '@actions/website';
+import { loadPostsList } from '@app/redux/actions/posts';
+import { saveTab } from '@app/redux/actions/website';
 
 export default ({ store, match, res, req, user }: any) => {
   return new Promise(async resolve => {

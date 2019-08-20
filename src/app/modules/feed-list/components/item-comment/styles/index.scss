@@ -1,5 +1,3 @@
-@import './dark';
-
 .item{
   // padding-left:83px;
   // width: 100%;
@@ -8,7 +6,7 @@
   margin-bottom: 0px;
 
   // background-color: #fff;
-  padding:15px 20px 15px 83px;
+  padding:15px 20px 15px 90px;
 
   // border:1px solid #efefef;
 
@@ -69,15 +67,15 @@
   .avatar{  
     position: absolute;
     // position: absolute;
-    margin:0 0 0 -63px;
-    width: 48px;
-    height: 48px;
-    background-color: #efefef;
+    margin:0 0 0 -70px;
+    width: 55px;
+    height: 55px;
+    // background-color: #efefef;
     border-radius: 50%;
     overflow: hidden;
     img{
-      width: 48px;
-      height: 48px;
+      width: 55px;
+      height: 55px;
     }
     /*
     &:after {
@@ -153,7 +151,8 @@
 
 
 .title{
-  display: inline-block;
+  // display: inline-block;
+  display: inline-block !important;
   font-size: 14px;
   word-break:break-all;
   word-wrap:break-word;
@@ -193,9 +192,13 @@
 
 }
 
+.nickname{
+  font-size:13px;
+}
+
 .content{
   // padding:0 15px 0 15px;
-  font-size: 16px;
+  font-size: 15px;
   // word-break:break-all;
   // word-wrap:break-word;
   // line-height: 22px;
@@ -395,7 +398,7 @@
   background-color: #ebecee;
   padding:5px 10px 5px 30px;
   // padding:0 15px 0 25px;
-  background-image: url(../images/comment.png);
+  // background-image: url(./images/comment.png);
   background-repeat: no-repeat;
   background-position: center left 9px;
   background-size: 16px;
@@ -412,8 +415,7 @@
 
 
 .posts-item-reply{
-  margin-top:5px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 
@@ -436,9 +438,11 @@
 .reply-item{
   // background-color: #f2f5f8;
   background-color: #f2f2f2;
-  margin:0 20px 0px 15px;
+  // margin:0 20px 0px 0;
   // padding-left:15px;
-  padding:10px 10px 10px 15px;
+  padding:10px;
+  margin-top:5px;
+  // padding:10px 10px 10px 15px;
   // border-left:4px solid #e0e3e6;
   // border-radius: 4px;
 }
@@ -461,7 +465,7 @@
 
 .heat{
   color:#8f929c;
-  background-image: url('../../../../posts-list/components/item-rich/images/comment.png');
+  background-image: url('../../../../posts-list/components/item-rich/styles/images/comment.png');
   background-size: 15px;
   background-repeat: no-repeat;
   padding-left:20px;
@@ -470,27 +474,6 @@
 }
 
 
-@media (min-width: 0px) and (max-width: 450px) {
-  .item{
-    padding:10px 10px 10px 60px;
-  }
-  .head{
-    .avatar{
-      margin:0 0 0 -49px;
-      width: 35px;
-      height: 35px;
-      img{
-        width: 35px;
-        height: 35px;
-      }
-    }
-  }
-  .content{
-    font-size: 15px;
-  }
-  .title{
-    padding-top:5px;
-    padding-bottom:5px;
-    font-size: 14px;
-  }
-}
+
+
+@import './response', './dark';

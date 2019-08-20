@@ -5,12 +5,9 @@ import { api, social } from '@config/index';
 
 // redux
 import { useSelector, useStore } from 'react-redux'
-import { getUserInfo, getAccessToken } from '@reducers/user'
-import { loadUserInfo } from '@actions/user'
-import { oAuthUnbinding } from '@actions/oauth'
-
-// styles
-import './style.scss'
+import { getUserInfo, getAccessToken } from '@app/redux/reducers/user'
+import { loadUserInfo } from '@app/redux/actions/user'
+import { oAuthUnbinding } from '@app/redux/actions/oauth'
 
 export default function() {
 
@@ -85,7 +82,7 @@ export default function() {
   
   return (
     <div className="card">
-      <div className="card-head pb-0"><div className="title">第三方帐号</div></div>
+      <div className="card-header"><div className="card-title">第三方帐号</div></div>
       <div className="card-body" style={{overflow:'hidden'}}>
         <div className="row">
           {doms.map((item, index)=>{

@@ -3,17 +3,17 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { loadUserInfo } from '@actions/user';
-import { addPhone } from '@actions/phone';
-import { getUserInfo } from '@reducers/user';
+import { loadUserInfo } from '@app/redux/actions/user';
+import { addPhone } from '@app/redux/actions/phone';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // components
-import CaptchaButton from '@components/captcha-button';
-import CountriesSelect from '@components/countries-select';
-import Modal from '@components/bootstrap/modal';
+import CaptchaButton from '@app/components/captcha-button';
+import CountriesSelect from '@app/components/countries-select';
+import Modal from '@app/components/bootstrap/modal';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 export default function() {
 

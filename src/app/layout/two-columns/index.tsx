@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   children?: Array<object>
@@ -8,16 +8,17 @@ interface Props {
 export default function ({ children = [] }: Props) {
 
   useEffect(()=>{
-
-    // const obj = FloatFixed({
-    //   referId: 'right',
-    //   id: 'right-float',
-    //   offsetTop: 60
-    // });
+    /*
+    const obj = FloatFixed({
+      referId: 'right',
+      id: 'right-float',
+      offsetTop: 60
+    });
 
     return ()=>{
-      // obj.remove();
+      obj.remove();
     }
+    */
 
   }, []);
 

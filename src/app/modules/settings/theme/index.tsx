@@ -2,8 +2,8 @@ import React from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
-import { loadUserInfo, updateUser } from '@actions/user';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { loadUserInfo, updateUser } from '@app/redux/actions/user';
 
 export default function() {
 
@@ -46,7 +46,7 @@ export default function() {
 
   return (
     <div className="card">
-      <div className="card-head pb-0"><div className="title">主题</div></div>
+      <div className="card-header"><div className="card-title">主题</div></div>
       <div className="card-body">
         <select onChange={onChange} defaultValue={me.theme || '1'}>
           <option value="1">浅色</option>

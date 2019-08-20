@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 // redux
 import { useStore } from 'react-redux';
-import { addCaptcha } from '@actions/captcha';
+import { addCaptcha } from '@app/redux/actions/captcha';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 type Func = (data: object, fc: any) => void
 

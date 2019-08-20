@@ -4,17 +4,18 @@ import useReactRouter from 'use-react-router';
 import Cookies from 'universal-cookie';
 import QRCode from 'qrcode.react';
 
+
 // config
 import config from '@config';
 
 // redux
 import { useStore, useSelector } from 'react-redux';
-import { signOut } from '@actions/sign';
-import { getUserInfo } from '@reducers/user';
-import { getUnreadNotice, getTab } from '@reducers/website';
-import { getTipsById } from '@reducers/tips';
-import { saveTab } from '@actions/website';
-import { saveScrollPosition, setScrollPosition } from '@actions/scroll';
+import { signOut } from '@app/redux/actions/sign';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { getUnreadNotice, getTab } from '@app/redux/reducers/website';
+import { getTipsById } from '@app/redux/reducers/tips';
+import { saveTab } from '@app/redux/actions/website';
+import { saveScrollPosition, setScrollPosition } from '@app/redux/actions/scroll';
 
 // style
 import './styles/index.scss';
@@ -71,7 +72,6 @@ export default function() {
     <>
 
     <div styleName="header-space"></div>
-
     
     <header styleName="header">
     <div className="container">
@@ -90,7 +90,7 @@ export default function() {
             <nav styleName="text-nav" className="flex-wrap bd-highlight d-flex justify-content-start ml-3">
               <Link
                 to="/"
-                styleName="nav-item" className={`${tab == 'home' && location.pathname == '/' ? 'active': ''}`}
+                styleName="nav-item" className={`text-secondary ${tab == 'home' && location.pathname == '/' ? 'active': ''}`}
                 onClick={()=>{ setTabToCookie('home') }}
                 >
                 交流{interflowTip > 0 ? <span styleName="subscript"></span> : null}
@@ -98,15 +98,15 @@ export default function() {
               <Link
                 to="/"
                 styleName="nav-item"
-                className={`${tab == 'follow' && location.pathname == '/' ? 'active': ''}`}
+                className={`text-secondary ${tab == 'follow' && location.pathname == '/' ? 'active': ''}`}
                 onClick={()=>{ setTabToCookie('follow') }}
                 >
                 关注{followTip > 0 ? <span styleName="subscript"></span> : null}
               </Link>
-              {/* <a
+              <a
                 href="javascript:void(0)"
                 styleName="nav-item"
-                className="d-none d-md-block"
+                className="text-secondary d-none d-md-block"
                 >
                 下载App
                 <div styleName="nav-menu" className="border">
@@ -116,7 +116,7 @@ export default function() {
                     扫码直接下载
                   </div>
                 </div>
-              </a> */}
+              </a>
             </nav>
             </>
             :
@@ -128,7 +128,11 @@ export default function() {
         <div className="ml-auto d-flex justify-content-start" styleName="nav">
           {me ?
           <>
-
+            <NavLink exact to="/new-posts" styleName="edit">
+              <svg>
+                <use xlinkHref="/feather-sprite.svg#edit-3"/>
+              </svg>
+            </NavLink>
             <NavLink exact to="/search" styleName="search">
               <svg>
                 <use xlinkHref="/feather-sprite.svg#search"/>
@@ -148,7 +152,7 @@ export default function() {
             </NavLink>
             <NavLink exact to="/sessions" styleName="message">
               <svg>
-                <use xlinkHref="/feather-sprite.svg#mail"/>
+                <use xlinkHref="/feather-sprite.svg#message-circle"/>
               </svg>
               {unreadMessage > 0 ? <span styleName="unread-subscript">{unreadMessage}</span> : null}
             </NavLink>

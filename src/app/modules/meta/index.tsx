@@ -2,13 +2,11 @@ import React from 'react';
 import MetaTags, { ReactTitle } from 'react-meta-tags';
 
 // redux
-// import { bindActionCreators } from 'redux';
-import { connect, useSelector } from 'react-redux';
-import { getUnreadNotice } from '@reducers/website';
-import { getTipsById } from '@reducers/tips';
+import { useSelector } from 'react-redux';
+import { getUnreadNotice } from '@app/redux/reducers/website';
+import { getTipsById } from '@app/redux/reducers/tips';
 
-import _config from '@config/index';
-const { name } = _config;
+import { name } from '@config';
 
 interface Props {
   title?: string,

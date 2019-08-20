@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSelector, useStore } from 'react-redux';
@@ -6,13 +6,9 @@ import { loadTopicList } from '@app/redux/actions/topic';
 import { getTopicListById } from '@app/redux/reducers/topic';
 import { getUserInfo } from '@app/redux/reducers/user';
 
-// import Render from './render';
-// import Loading from '@app/components/ui/loading';
-import './index.scss';
+import './styles/index.scss';
 
-export default function({ showAll = false }: { showAll?: boolean }) {
-  
-  const [ expand, setExpand ] = useState(false);
+export default function() {
 
   const me = useSelector((state: object)=>getUserInfo(state));
   const topicList = useSelector((state: object)=>getTopicListById(state, 'home-topics'));
@@ -37,7 +33,10 @@ export default function({ showAll = false }: { showAll?: boolean }) {
 
   },[]);
 
-  return (<div className="card border-bottom">
+  return (<div className="card mb-0 border-bottom" styleName="box">
+    {/* <div className="card-header">
+      最近话题
+    </div> */}
     <div className="card-body">
       <div styleName="topic-list">
         {data.map((item: any)=>{

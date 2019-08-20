@@ -19,28 +19,52 @@
 
 .card{
   border: none;
-  border-radius: 0;
+  border-radius: 5px;
   background-color: #fff;
+  margin-bottom: 15px;
+  // overflow: hidden;
+  // border:1px solid #e4e5e9;
+  // box-shadow: 0 0 2px rgba(0,0,0,.1);
   
-  .card-header{
-    padding:20px 20px 20px 20px;
+  .card-head, .card-header{
+    padding:10px 20px 10px 20px;
     border-bottom:0px;
-    // background-color: none;
-    .card-title{
-      font-size: 18px;
+    background-color:transparent;
+    border-bottom:1px solid #f0f1f4;
+    .title, .card-title{
+      font-size: 16px;
       font-weight: bold;
+      margin:0px;
     }
   }
 
   .card-body{
-    padding:20px 20px 20px 20px;
-    // background-color: none;
+    padding:15px 20px 15px 20px;
+    background-color:transparent;
   }
 
   .card-footer{
-    border:none;
+    padding:15px;
+    border-top:1px solid #f0f1f4;
+    background-color:#fafbfe;
   }
 
+}
+
+.rounded-bottom{
+  border-radius: 0px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.list-group-item{
+  background-color:transparent;
+}
+
+// 解决modal open，导航fixed，位移的问题
+body.modal-open {
+  overflow: inherit;
+  padding-right: 0 !important;
 }
 
 }

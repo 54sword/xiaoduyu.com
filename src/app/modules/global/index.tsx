@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-import Aglobal from '@components/global';
+import Aglobal from '@app/components/global';
 
 // style
-import './style.scss';
+import './styles/index.scss';
 
 export default function() {
 
@@ -32,7 +32,7 @@ export default function() {
   }
 
   return (
-    <div styleName="main">
+    <div>
 
       <span className="d-none d-lg-block">
 
@@ -40,7 +40,21 @@ export default function() {
            href="javascript:void(0)"
            onClick={top}
            styleName="top"
-           ></a>
+           >
+
+          <svg
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <use xlinkHref="/feather-sprite.svg#arrow-up" />
+          </svg>
+
+        </a>
       </span>
 
       <Aglobal />

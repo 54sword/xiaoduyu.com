@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import './styles/index.scss';
 
 interface Props {
+  key?: any
   message: any
 }
 

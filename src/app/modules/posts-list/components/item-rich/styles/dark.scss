@@ -1,8 +1,18 @@
 :global(#dark-theme) {
-  .item{
-    background-color: #303030;
+  .box{
+    // background-color: #303030;
     &:hover{
       background-color: #353535;
     }
   }
+
+  .posts-info{
+    > small{
+      &:after{
+        color:#4b4e52;
+      }
+    }
+
+  }
+
 }

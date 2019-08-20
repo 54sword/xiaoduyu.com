@@ -2,15 +2,15 @@ import React from 'react';
 
 // redux
 import { useSelector } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
-  reply: any,
-  comment: any,
-  posts: any
+  reply?: any,
+  comment?: any,
+  posts?: any
 }
 
 export default function({ reply, comment, posts }: Props) {
@@ -43,20 +43,13 @@ export default function({ reply, comment, posts }: Props) {
 
   }
 
-  const stopPropagation = (e: any) => {
+  const toSign = (e: any) => {
+    $('#sign').modal('show');
     e.stopPropagation();
   }
 
   let t = posts ? '评论' : '回复';
 
-  if (!_isMember) {
-    return (<a styleName="button" href="javascript:void(0)" data-toggle="modal" data-target="#sign" onClick={stopPropagation} className="text-secondary">
-      <span>{target.comment_count ? target.comment_count+' 条'+t : t}</span>
-    </a>)
-  }
-
-  return (<a styleName="button" href="javascript:void(0)" onClick={onClick} className="text-secondary">
-    <span>{target.comment_count ? target.comment_count+' 条'+t : t}</span>
-  </a>)
+  return (<a href="javascript:void(0)" className='text-secondary' onClick={_isMember ? onClick : toSign}>{t}</a>)
 
 }

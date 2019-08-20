@@ -3,16 +3,16 @@ import { reactLocalStorage } from 'reactjs-localstorage';
 
 // reudx
 import { useStore } from 'react-redux';
-import { addMessage } from '@actions/message';
+import { addMessage } from '@app/redux/actions/message';
 
 // tools
-import Device from '@utils/device';
+import Device from '@app/common/device';
 
 // components
-import Editor from '@components/editor';
+import Editor from '@app/components/editor';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 interface Props {
   addressee_id: string,

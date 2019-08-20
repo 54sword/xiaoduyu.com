@@ -1,5 +1,17 @@
 :global(#dark-theme) {
   .title{
-    background-color: #353535;
+    background-color: #373737;
+    &:hover{
+      background-color: #404040;
+    }
+  }
+
+  .item{
+    &:hover{
+      background-color: #353535;
+    } 
+  }
+  .reply-item{
+    background-color: #373737;
   }
 }

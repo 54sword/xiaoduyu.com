@@ -3,10 +3,10 @@ import userReactRouter from 'use-react-router';
 
 // redux
 import { useStore } from 'react-redux';
-import { forgot } from '@actions/forgot';
+import { forgot } from '@app/redux/actions/forgot';
 
 // components
-import CaptchaButton from '@components/captcha-button';
+import CaptchaButton from '@app/components/captcha-button';
 
 export default function() {
 

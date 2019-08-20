@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // components
-import Follow from '@components/follow';
+import Follow from '@app/components/follow';
 
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   topic: Topic
@@ -51,8 +51,8 @@ export default function({ topic }:Props) {
         <div styleName="action">
           {topic.parent_id && me ?
             <>
-              <div><Follow topic={topic} /></div>
-              <div><Link to={`/new-posts?topic_id=${topic._id}`}>创建话题</Link></div>
+              <Link to={`/new-posts?topic_id=${topic._id}`} className="btn btn-outline-primary btn-sm rounded-pill">创建话题</Link>
+              <div className="mt-2"><Follow topic={topic} /></div>
             </>
             : null}
         </div>

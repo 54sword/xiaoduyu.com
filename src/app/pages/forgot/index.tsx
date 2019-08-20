@@ -1,11 +1,11 @@
 import React from 'react';
 
 // components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
-import ResetPassword from '@modules/reset-password';
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
+import ResetPassword from '@app/modules/reset-password';
 
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
 
 export default Shell(function() {
   return (

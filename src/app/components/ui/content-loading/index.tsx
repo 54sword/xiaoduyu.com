@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-import './index.scss';
+import './styles/index.scss';
 
 export default function() {
 

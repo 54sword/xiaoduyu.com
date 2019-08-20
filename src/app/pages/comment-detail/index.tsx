@@ -63,7 +63,9 @@ export default Shell(function({ match, setNotFound }: any) {
             _id
             nickname
             avatar_url
+            brief
           }
+          like
         `
       }).then(([err, res]: any)=>{
         if (res && res.data && !res.data[0]) {
@@ -74,14 +76,14 @@ export default Shell(function({ match, setNotFound }: any) {
 
   }, []);
 
-  if (loading || !data[0]) return <Loading />;
+  if (loading || !data[0]) return <div className="text-center"><Loading /></div>;
 
   const comment = data[0];
 
   return(<SingleColumns>
 
     <div>
-
+    
     <Meta title={`${comment.posts_id.title}`}>
       <meta name="description" content={`${comment.content_summary}`} />
       <link rel="canonical" href={`${domainName}/comment/${comment._id}`} />
@@ -92,41 +94,58 @@ export default Shell(function({ match, setNotFound }: any) {
       <meta property="og:description" content={`${comment.content_summary}`} />
       <meta property="og:url" content={`${domainName}/comment/${comment._id}`} />
       <meta property="og:site_name" content={name} />
-      <meta property="og:image" content={comment.user_id.avatar_url || domainName+'./icon-512x512.png'} />
+      <meta property="og:image" content={comment.user_id.avatar_url ? 'https:'+comment.user_id.avatar_url : domainName+'/512x512.png'} />
     </Meta>
+    
+    <div className="card">
+      <div className="card-body border-bottom">
+        <Link to={`/posts/${comment.posts_id._id}`}>
+          <h4>{comment.posts_id.title}</h4>
+        </Link>
+        {comment.posts_id.content_summary ? <div>{comment.posts_id.content_summary}</div> : null}
+      </div>
 
-    <div styleName="title" className="border-bottom">
-      <Link to={`/posts/${comment.posts_id._id}`}>
-        <h1>{comment.posts_id.title}</h1>
-      </Link>
-      
-      {comment.posts_id.content_summary ? <div>{comment.posts_id.content_summary}</div> : null}
-    </div>
+      <div className="card-body">
+    
+        <div styleName="commennt-container">
+          <div styleName="head">
+            <div>
+              <Link to={`/people/${comment.user_id._id}`}>
+                <img styleName="active" src={comment.user_id.avatar_url} />
+                <b>{comment.user_id.nickname}</b>
+              </Link>
+            </div>
+            <div styleName="info">
+              {comment.user_id.brief || '...'}
+            </div>
+          </div>
+          <div styleName="content">
+            <HTMLText content={comment.content_html} />
+          </div>
+      </div>
 
-    <div styleName="commennt-container">
-      <div styleName="head">
-        <img styleName="active" src={comment.user_id.avatar_url} />
-        <div>
-          <b>{comment.user_id.nickname}</b>
+      </div>
+
+      <div className="card-footer d-flex justify-content-between">
+
+        <div className="text-secondary" styleName="info">
+          {comment._create_at ? <span>{comment._create_at}</span> : null}
+          {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
+          {/* {comment._device ? <span>{comment._device}</span> : null} */}
         </div>
-        <div styleName="info">
-          <span>{comment._create_at}</span>
-          <span>{comment._device}</span>
+
+        <div styleName="actions">
+          <LikeButton comment={comment} />
+          <Share comment={comment} />
+          <MoreMenu comment={comment} />
         </div>
       </div>
-      <div styleName="content">
-        <HTMLText content={comment.content_html} />
-      </div>
-      <div styleName="footer">
-        <LikeButton comment={comment} />
-        <Share comment={comment} />
-        <MoreMenu comment={comment} />
-      </div>
+
     </div>
 
     {comment.reply_count ?
       <div className="card">
-        <div className="card-head">
+        <div className="card-header border-bottom-0">
           {comment.reply_count} 条回复
         </div>
         <div className="card-body p-0">

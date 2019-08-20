@@ -1,0 +1,14 @@
+
+.box{
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.topic-list{
+  display: inline-block;
+  line-height: 200%;
+  > a{
+    display: inline-block;
+    margin-right:10px;
+    margin-left:5px;
+  }
+}

@@ -2,9 +2,11 @@ import cache from '../cache';
 import { name, domainName, AMP, favicon, googleAdSense } from '@config';
 
 // tools
-import { abstractImagesFromHTML } from '@utils/utils';
-import graphql from '@utils/graphql';
-import { dateDiff } from '@utils/date';
+import utils from '@app/common/utils';
+import graphql from '@app/common/graphql';
+import { dateDiff } from '@app/common/date';
+
+const { abstractImagesFromHTML } = utils;
 
 export const show = async (req: any, res: any) => {
 
@@ -19,6 +21,7 @@ export const show = async (req: any, res: any) => {
         comment_count
         content_html
         create_at
+        update_at
         follow_count
         like_count
         title
@@ -50,15 +53,22 @@ export const show = async (req: any, res: any) => {
   // 获取内容中的所有图片
   posts.images = abstractImagesFromHTML(posts.content_html);
 
+  if (posts.images && posts.images.length == 0) {
+    posts.images = [domainName+"/512x512.png"]
+  }
+
   // ================
   // 生产描述
   posts.description = posts.content_html || '';
 
   // 删除所有html标签
-  posts.description = posts.description.replace(/<[^>]+>/g,"");
+  posts.description = posts.description.replace(/<[^>]+>/g, '');
+  posts.description = posts.description.replace(/\r\n/g, '');
+  posts.description = posts.description.replace(/\n/g, '');
+  posts.description = posts.description.replace(/(\\|\"|\n|\r)/g, "\\$1");
 
   if (posts.description.length > 100) posts.description = posts.description.slice(0, 100)+'...';
-  posts.description = `${posts.topic_id.name} - ${posts.user_id.nickname} - ${posts.description}`;
+  posts.description = `${posts.description}`;
 
   // ==============
   // img 转换成 amp-img
@@ -121,6 +131,8 @@ export const show = async (req: any, res: any) => {
             let arr = item.match(/src=[\'\"]?([^\'\"]*)[\'\"]?/i);
             if (arr && arr[1]) {
               comment.content_html = comment.content_html.replace(item, `<amp-img width="16" height="9" layout="responsive" src="${arr[1]}"></amp-img>`)
+            } else {
+              comment.content_html = comment.content_html.replace(item, ``)
             }
           });
         }

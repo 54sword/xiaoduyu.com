@@ -12,6 +12,7 @@ $color_muted: #4b4e52;
 // 次要
 $color_secondary: #656a70;
 
+$color_border: #383838;
 
 :global{
 
@@ -41,9 +42,10 @@ $color_secondary: #656a70;
   }
   
 
-  // img, .img{
-    // opacity: .7;
-  // }
+  img{
+    opacity: .6;
+    background-color: #000;
+  }
 
   //======================================================
   // 链接默认颜色
@@ -77,35 +79,43 @@ $color_secondary: #656a70;
   .text-muted{ color: $color_muted !important; }
   // .text-white{}
 
+  .btn-outline-primary{
+    color:#007bff;
+    &:hover{
+      color:#fff;
+    }
+  }
+
   //======================================================
   // https://getbootstrap.com/docs/4.0/components/card/
 
   .card{
-    border: none;
-    border-radius: none;
-    border-radius: 0;
     background-color: #303030;
     
     .card-head, .card-header{
-      padding:15px 20px 15px 20px;
-      border-bottom:0px;
-      background-color: #303030;
-      .title{
-        font-size: 18px;
-        font-weight: bold;
-      }
+      // padding:15px 20px 15px 20px;
+      // border-bottom:0px;
+      border-bottom:1px solid $color_border;
+      // background-color: #303030;
+      // .title{
+        // font-size: 18px;
+        // font-weight: bold;
+      // }
     }
 
     .card-body{
+      
       // padding:20px;
-      padding:15px 20px 15px 20px;
+      // padding:15px 20px 15px 20px;
       // padding-top:0px;
-      background-color: #303030;
+      // background-color: #303030;
     }
 
     .card-footer{
-      background-color: #303030;
-      border:none;
+      border-top:1px solid $color_border;
+      background-color:transparent;
+      // background-color: #303030;
+      // border:none;
       // border-top: 0.5px solid #e8eaed;
     }
 
@@ -143,18 +153,21 @@ $color_secondary: #656a70;
     // border-right:0px;
     // border-top:0px;
     // border:none;
-    border-top:1px solid $color_muted !important;
-    background-color: #282c36;
+    border-top:1px solid $color_border;
+    // background-color: #282c36;
     border-radius: 0px;
     // border: 1px solid #fff;
-    // border-top: 1px solid $color_muted;
-    // &:hover{ border-bottom:1px solid $color_muted; }
+    // border-top: 1px solid $color_border;
+    // &:hover{ border-bottom:1px solid $color_border; }
     // &:last-child{ border-bottom:none; }
+    &:first-child{
+      border-top:0px;
+    }
   }
   .list-group-flush{
     .list-group-item{
-      border-top:1px solid $color_muted;
-      border-bottom:1px solid $color_muted;
+      border-top:1px solid $color_border;
+      border-bottom:1px solid $color_border;
 
       &:first-child{ border-top:none; }
       &:last-child{ border-bottom:none; }
@@ -168,11 +181,11 @@ $color_secondary: #656a70;
   //======================================================
   // https://getbootstrap.com/docs/4.0/utilities/borders/#border-radius
 
-  .border{ border: 1px solid $color_muted !important; }
-  .border-top{ border-top: 1px solid $color_muted !important; }
-  .border-right{ border-right: 1px solid $color_muted !important; }
-  .border-bottom{ border-bottom: 1px solid $color_muted !important; }
-  .border-left{ border-left: 1px solid $color_muted !important; }
+  .border{ border: 1px solid $color_border !important; }
+  .border-top{ border-top: 1px solid $color_border !important; }
+  .border-right{ border-right: 1px solid $color_border !important; }
+  .border-bottom{ border-bottom: 1px solid $color_border !important; }
+  .border-left{ border-left: 1px solid $color_border !important; }
 
   @media (min-width: 0px) and (max-width: 767px) {
     .border{ border: 0.5px solid #ddd; }
@@ -361,4 +374,5 @@ $color_secondary: #656a70;
     text-decoration: underline;
   }
 }
+
 }

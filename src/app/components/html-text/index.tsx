@@ -23,7 +23,6 @@ export default function({ content, maxHeight }: Props) {
   const [ contentHeight, setContentHeight ] = useState(0);
   const contentRef = createRef();
 
-
   useEffect(()=>{
 
     setHtml(convertHTML(content));
@@ -72,11 +71,11 @@ export default function({ content, maxHeight }: Props) {
       />
       
     {(()=>{
-      if (!maxHeight || contentHeight < maxHeight) return null;
+      if (expand || !maxHeight || contentHeight < maxHeight) return null;
       return (<div styleName="expand-button">
         <a
           href="javascript:void(0)"
-          className="text-primary"
+          className="btn btn-outline-primary btn-block btn-sm mt-3"
           onClick={(e: any)=>{
             e.stopPropagation();
             setExpand(expand ? false : true);

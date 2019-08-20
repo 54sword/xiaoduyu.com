@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getOnline, getOperatingStatus } from '@reducers/website';
+import { getOnline, getOperatingStatus } from '@app/redux/reducers/website';
 
 export default function() {
 

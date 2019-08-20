@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 
 // components
-import ContentLoading from '@components/ui/content-loading';
-import Pagination from '@components/pagination';
+import ContentLoading from '@app/components/ui/content-loading';
+import Pagination from '@app/components/pagination';
 
 // 加载数据方法的接口
 interface Load {

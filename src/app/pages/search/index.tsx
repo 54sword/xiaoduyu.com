@@ -2,15 +2,15 @@ import React, { useState, createRef, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 
 // components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
-import PostsList from '@modules/posts-list';
-import PeopleList from '@modules/people-list';
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
+import PostsList from '@app/modules/posts-list';
+import PeopleList from '@app/modules/people-list';
 
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 export default Shell(function() {
 
@@ -69,7 +69,7 @@ export default Shell(function() {
             <div className="input-group">
               <input type="text" styleName="input" className="form-control" ref={search} placeholder="输入关键词搜索" />
               <div className="input-group-append">
-                <button type="submit" styleName="search-button">搜索</button>
+                <button type="submit" className="btn">搜索</button>
               </div>
             </div>
           </form>

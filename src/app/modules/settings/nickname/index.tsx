@@ -2,8 +2,8 @@ import React, { useState, createRef } from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
-import { updateUser, loadUserInfo } from '@actions/user';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { updateUser, loadUserInfo } from '@app/redux/actions/user';
 
 export default function() {
 
@@ -70,13 +70,13 @@ export default function() {
     <div>
 
     <div className="card">
-      <div className="card-head pb-0"><div className="title">名字</div></div>
+      <div className="card-header"><div className="card-title">名字</div></div>
       <div className="card-body">
 
         {!show ?
           <div className="d-flex justify-content-between">
             <div>{me.nickname || ''}</div>
-            <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={handleShow}>修改</a>
+            <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);" onClick={handleShow}>修改</a>
           </div>
           :
           <div>
@@ -85,9 +85,9 @@ export default function() {
             </div>
             <br />
             {loading ?
-              <a className="btn btn-primary btn-sm" href="javascript:void(0);">提交中...</a>
+              <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);">提交中...</a>
               :
-              <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={submit}>提交</a>}
+              <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);" onClick={submit}>提交</a>}
             
           </div>}
 

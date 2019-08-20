@@ -3,18 +3,18 @@ import useReactRouter from 'use-react-router';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { loadTopicList } from '@actions/topic';
-import { getTopicListById } from '@reducers/topic';
+import { loadTopicList } from '@app/redux/actions/topic';
+import { getTopicListById } from '@app/redux/reducers/topic';
 
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
 
 // components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
-import Loading from '@components/ui/loading';
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
+import Loading from '@app/components/ui/loading';
 
-import NewPostsList from '@modules/posts-list';
-import TopicCard from '@modules/topic-card';
+import NewPostsList from '@app/modules/posts-list';
+import TopicCard from '@app/modules/topic-card';
 
 /**
  * 分析url上面的参数
@@ -69,7 +69,7 @@ export default Shell(function({ setNotFound }: any) {
 
   }, [match.params.id]);
 
-  if (!topic || loading) return <Loading />;
+  if (!topic || loading) return <div className="text-center"><Loading /></div>;
 
   let topic_id: any = [];
 
@@ -90,23 +90,25 @@ export default Shell(function({ setNotFound }: any) {
 
     <TopicCard topic={topic} />
 
-    <div className="card">
-      <div className="card-head pb-1">
-        <div className="title">{topic.name}</div>
+    <div className="card mt-3">
+      <div className="card-header">
+        <div className="card-title">{topic.name}</div>
       </div>
-    </div>
+      <div className="card-body p-0">
+        <NewPostsList
+          id={topic._id}
+          query={{
+            sort_by: "sort_by_date:-1",
+            deleted: false,
+            weaken: false,
+            page_size: 30,
+            topic_id: topic_id
+          }}
+          scrollLoad={true}
+          />
+      </div>
 
-    <NewPostsList
-      id={topic._id}
-      query={{
-        sort_by: "sort_by_date:-1",
-        deleted: false,
-        weaken: false,
-        page_size: 30,
-        topic_id: topic_id
-      }}
-      scrollLoad={true}
-      />
+    </div>
 
     </SingleColumns> 
   )

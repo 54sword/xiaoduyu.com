@@ -4,15 +4,14 @@ import { Link } from 'react-router-dom';
 // config
 import { api, name, social } from '@config';
 
-
 // components
-import SignIn from './sign-in';
-import SignUp from './sign-up';
-import Modal from '../../../components/bootstrap/modal';
-import Wechat from '../../../common/weixin';
+import SignIn from './components/sign-in';
+import SignUp from './components/sign-up';
+import Modal from '@app/components/bootstrap/modal';
+import Wechat from '@app/common/weixin';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 export default function() {
 
@@ -29,8 +28,15 @@ export default function() {
   }
 
   useEffect(()=>{
-    $('#sign').on('show.bs.modal', function (e) {
-      setType(e.relatedTarget['data-type'] || e.relatedTarget.getAttribute('data-type') || 'sign-in')
+    $('#sign').on('show.bs.modal', function (e: any) {
+
+      let type = 'sign-in';
+
+      if (e.relatedTarget) {
+        type = e.relatedTarget['data-type'] || e.relatedTarget.getAttribute('data-type') || 'sign-in';
+      }
+
+      setType(type)
     });
   });
 

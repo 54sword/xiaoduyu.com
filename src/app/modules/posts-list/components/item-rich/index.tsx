@@ -82,7 +82,7 @@ export default function({ posts }: Props) {
       <div styleName="posts-info">
         
         <small>
-          <Link styleName="topic" to={`/topic/${posts.topic_id._id}`} onClick={stopPropagation}>{posts.topic_id.name}</Link>
+          <Link styleName="topic" className="text-muted" to={`/topic/${posts.topic_id._id}`} onClick={stopPropagation}>{posts.topic_id.name}</Link>
         </small>
         <small className="text-muted">{posts._create_at}</small>
         {posts.view_count ? <small className="text-muted">{posts.view_count}次阅读</small> : null}

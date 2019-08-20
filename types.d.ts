@@ -36,6 +36,8 @@ declare module 'heapdump'
 declare module 'easy-monitor'
 declare module 'serve-favicon'
 declare module 'morgan'
+declare module 'draft-js'
+declare module 'sitemap'
 
 // 忽略别名
 declare module '@config'

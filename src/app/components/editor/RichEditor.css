@@ -8,7 +8,7 @@
 .DraftEditor-root img{
   max-width: 100%;
   max-height: 600px;
-  background-image: url('../ui/loading/images/loading.gif');
+  background-image: url('../ui/loading/styles/images/loading.gif');
   min-height: 30px;
   min-width: 30px;
   background-size: 16px;

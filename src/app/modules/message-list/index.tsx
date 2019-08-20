@@ -2,17 +2,14 @@ import React from 'react';
 
 // 依赖的外部功能
 import { useSelector, useStore } from 'react-redux';
-import { loadMessageList } from '@actions/message';
-import { getMessageListById } from '@reducers/message';
+import { loadMessageList } from '@app/redux/actions/message';
+import { getMessageListById } from '@app/redux/reducers/message';
 
 // 依赖组件
 import Item from './components/list-item';
 
 // class
-import ListClass from '../../class/list';
-
-// styles
-import './index.scss';
+import ListClass from '@app/class/list';
 
 interface Props {
   // 列表id
@@ -38,7 +35,7 @@ export default function(props:Props) {
   return (<ListClass
     {...props}
     {...list}
-    load={params=>loadMessageList(params)(store.dispatch, store.getState)}
+    load={(params: any)=>loadMessageList(params)(store.dispatch, store.getState)}
     renderItem={(item: any)=>{
       return (<div key={item._id}>
         {item._create_at ? <div className="text-center text-secondary">{item._create_at}</div> : null}
@@ -48,7 +45,7 @@ export default function(props:Props) {
     renderHead={({ loadData }: any)=>{
 
       if (list && list.more) {
-        return (<div styleName="more">
+        return (<div className="text-align pt-2 pb-2">
             <a href="javascript:void(0)" onClick={()=> { loadData(); }}>加载更多</a>
           </div>)
       } else {

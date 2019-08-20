@@ -1,19 +1,15 @@
-import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import React from 'react';
 
 // redux
-import { bindActionCreators } from 'redux';
-import { connect, useSelector, useStore } from 'react-redux';
-import { getCommentListById } from '@reducers/comment';
-import { loadCommentList } from '@actions/comment';
+import { useSelector, useStore } from 'react-redux';
+import { getCommentListById } from '@app/redux/reducers/comment';
+import { loadCommentList } from '@app/redux/actions/comment';
 
 // components
 import CommentItem from './components/list-item';
-// import Pagination from '@components/pagination';
-// import Loading from '@components/ui/full-loading';
 
 // class
-import ListClass from '../../class/list';
+import ListClass from '@app/class/list';
 
 interface Props {
   // 列表id
@@ -26,6 +22,8 @@ interface Props {
   showPagination?: boolean;
   // 渲染项的类型
   // itemType?: string;
+  // 作者id
+  postsAuthorId?: string
 }
 
 export default function(props: Props) {
@@ -39,9 +37,9 @@ export default function(props: Props) {
   return (<ListClass
     {...props}
     {...list}
-    load={params=>loadCommentList(params)(store.dispatch, store.getState)}
+    load={(params: any)=>loadCommentList(params)(store.dispatch, store.getState)}
     renderItem={(item: any)=>{
-      return <CommentItem comment={item} key={item._id} />
+      return <CommentItem comment={item} key={item._id} postsAuthorId={props.postsAuthorId || ''} />
     }}
   />)
 

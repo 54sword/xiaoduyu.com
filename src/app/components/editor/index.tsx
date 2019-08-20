@@ -5,7 +5,7 @@ import showdown from 'showdown';
 import { reactLocalStorage } from 'reactjs-localstorage';
 
 // components
-import QiniuUploadImage from '@components/qiniu-upload-image';
+import QiniuUploadImage from '@app/components/qiniu-upload-image';
 
 // styles
 import 'draft-js/dist/Draft.css';

@@ -4,7 +4,7 @@ import React from 'react';
 import { googleAdSense } from '@config';
 
 // modules
-import AdsByGoogle from '@modules/adsbygoogle';
+import AdsByGoogle from '@app/modules/adsbygoogle';
 
 interface Props {
   width?: string

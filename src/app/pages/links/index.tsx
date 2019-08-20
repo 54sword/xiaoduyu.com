@@ -4,12 +4,13 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import './index.scss';
 
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
 
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
+
+// import './styles/index.scss';
 
 type item = { name: string, domain: string, description: string }
 let cache:Array<item> = [];
@@ -44,11 +45,11 @@ export default Shell(function() {
       <Meta title="友情链接" />
       <div className="card">
         <div className="card-header"><div className="title">友情链接</div></div>
-        <div className="card-body pt-0 container" styleName="box">
+        <div className="card-body container">
           <div className="row">
             {links.map((item: item)=>{
-              return (<a key={item.domain} href={item.domain} target="_blank" className="col-6">
-                <b>{item.name}</b><div>{item.description}</div>
+              return (<a key={item.domain} href={item.domain} target="_blank" className="col-6 mb-2 mt-2">
+                <b>{item.name}</b><div><small>{item.description}</small></div>
               </a>)
             })}
           </div>

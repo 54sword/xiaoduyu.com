@@ -3,11 +3,11 @@ import useReactRouter from 'use-react-router';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { addBlock } from '@actions/block';
-import { getUserInfo } from '@reducers/user';
+import { addBlock } from '@app/redux/actions/block';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // style
-import './style.scss';
+import './styles/index.scss';
 
 interface Props {
   posts: any,
@@ -108,7 +108,11 @@ export default function({  user, posts, comment }: Props) {
 
   return (<div styleName="container">
 
-    <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={stopPropagation}></a>
+    <a href="javascript:void(0)" styleName="menu" className="text-secondary" data-toggle="dropdown" onClick={stopPropagation}>
+      <svg>
+        <use xlinkHref="/feather-sprite.svg#more-horizontal"/>
+      </svg>
+    </a>
     <div className="dropdown-menu dropdown-menu-left">
 
       {self && posts || self && comment ?

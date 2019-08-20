@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import './index.scss';
+import './styles/index.scss';
 
 type item = { name: string, domain: string, description: string }
 let cache:Array<item> = [];

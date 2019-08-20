@@ -1,17 +1,17 @@
 import React from 'react';
 import { useStore, useSelector } from 'react-redux';
-import { loadFeedList } from '@actions/feed';
-import { getFeedListById } from '@reducers/feed';
+import { loadFeedList } from '@app/redux/actions/feed';
+import { getFeedListById } from '@app/redux/reducers/feed';
 
 // 依赖组件
-import PostsItem from '../posts-list/components/item-rich';
+import PostsItem from '@app/modules/posts-list/components/item-rich';
 import CommentItem from './components/item-comment';
 
 // class
-import ListClass from '../../class/list';
+import ListClass from '@app/class/list';
 
 // styles
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   // 列表id
@@ -35,7 +35,7 @@ export default function(props: Props) {
   return (<ListClass
     {...props}
     {...list}
-    load={params=>loadFeedList(params)(store.dispatch, store.getState)}
+    load={(params: any)=>loadFeedList(params)(store.dispatch, store.getState)}
     renderItem={(item: any)=>{
       if (item.comment_id) {
         return (<CommentItem key={item._id} posts={item.posts_id} comment={item.comment_id} />)

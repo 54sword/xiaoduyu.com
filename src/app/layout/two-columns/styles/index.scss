@@ -1,0 +1,50 @@
+.box{
+  position: relative;
+
+  padding-right:295px;
+
+  .right{
+    position: absolute;
+    top:0px;
+    left:100%;
+    width: 280px;
+    margin-left: -280px;
+  }
+
+}
+
+.right-float{
+  width: 280px;
+  top:58px;
+}
+
+@media (min-width: 0px) and (max-width: 767px) {
+
+  .box{
+    padding-right: 0px;
+  }
+
+  .right{
+    display: none;
+  }
+
+}
+
+
+:global{
+
+  #portamento_container {
+    float:right; 
+    position:relative;
+  }
+  
+  #portamento_container #sidebar {
+    float:none; 
+    position:absolute;
+  }
+  
+  #portamento_container #sidebar.fixed {
+    position:fixed;
+  }
+
+}

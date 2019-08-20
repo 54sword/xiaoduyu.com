@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
-import { like, unlike } from '@actions/like';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { like, unlike } from '@app/redux/actions/like';
 
-import Loading from '@components/ui/loading';
+import Loading from '@app/components/ui/loading';
 
 // style
-import './style.scss';
+import './styles/index.scss';
 
 interface Props {
   comment: any,
@@ -28,11 +28,13 @@ export default function({ comment, posts, reply }: Props) {
  
   const target = comment || reply || posts;
 
-  let text = target.like_count ? target.like_count+' 次赞' : '赞';
+  // console.log(target);
+
+  // let text = target.like_count ? target.like_count+' 次赞' : '赞';
 
   if (me && target.user_id && target.user_id._id && target.user_id._id == me._id) return null; 
 
-  if (loading) return <a href="javascript:void(0)"><div styleName="loading"><Loading /></div></a>;
+  if (loading) return <Loading />;
 
   const handleLike = async function(e: any) {
 
@@ -40,7 +42,7 @@ export default function({ comment, posts, reply }: Props) {
 
     const target = comment || reply || posts;
 
-    console.log(target);
+    // console.log(target);
 
     const status = target.like,
           count = target.like_count,
@@ -114,10 +116,10 @@ export default function({ comment, posts, reply }: Props) {
   return (<a
     href="javascript:void(0)"
     onClick={handleLike}
-    styleName={`button ${target.like ? 'active' : ''}`}
+    // styleName={`button ${target.like ? 'active' : ''}`}
     className="text-secondary"
     >
-    <span>{text}</span>
+    <span>{target.like ? '已赞' : '赞'}</span>
   </a>)
 
 }

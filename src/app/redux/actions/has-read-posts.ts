@@ -31,7 +31,7 @@ export const addHasRead = ({ postsId, lastCommentAt }: Props) => {
     storage.save({
       key: 'has-read-posts',
       data: JSON.stringify(getState().hasReadPosts),
-      expires: 1000 * 60 * 60 * 3
+      expires: 1000 * 60 * 60 * 24 * 30
     });
 
   }

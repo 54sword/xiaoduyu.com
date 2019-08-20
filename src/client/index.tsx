@@ -4,26 +4,31 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { matchPath } from 'react-router';
 import ReactGA from 'react-ga';
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+// import Cookies from 'universal-cookie';
 
-import configureStore from '../app/redux';
-import createRouter from '../app/router';
+import configureStore from '@app/redux';
+import createRouter from '@app/router';
 import * as socket from './socket';
+
 
 import { GA, analysisScript } from '@config';
 import { debug } from '@config/feature.config';
 
 import '../app/theme/global.scss';
 
-import { getUserInfo } from '@reducers/user';
-import { initUnlockToken } from '@actions/unlock-token';
-import { requestNotificationPermission } from '@actions/website';
-import { initHasRead } from '@actions/has-read-posts';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { initUnlockToken } from '@app/redux/actions/unlock-token';
+import { requestNotificationPermission } from '@app/redux/actions/website';
+import { initHasRead } from '@app/redux/actions/has-read-posts';
+import { loadOperatingStatus } from '@app/redux/actions/website';
 
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 if (process.env.NODE_ENV != 'development') {
-  
-  // 安全离线文件
-  OfflinePluginRuntime.install();
+  // 安装离线文件
+  OfflinePluginRuntime.install({
+    onUpdateReady: () => OfflinePluginRuntime.applyUpdate(),
+    onUpdated: () => location.reload(),
+  });
 }
 
 (async function(){
@@ -31,7 +36,36 @@ if (process.env.NODE_ENV != 'development') {
   // 从页面中获取服务端生产redux数据，作为客户端redux初始值
   const store = configureStore(window.__initState__);
 
-  let userinfo = getUserInfo(store.getState());
+  let userinfo = null;
+
+  let isAppShell = $('#startup-screen').length > 0 ? $('#startup-screen') : null;
+  
+  if (isAppShell) {
+    await new Promise((resolve, reject)=>{
+      $.ajax({
+        url: '/sign/check',
+        type: 'post',
+        success: (res: any) => {
+          if (res && res.signIn && !res.error) {
+            store.dispatch({ type: 'SET_USER', userinfo: res.userInfo });
+            if (res.accessToken) {
+              store.dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: res.accessToken });
+            }
+          }
+          userinfo = getUserInfo(store.getState());
+          resolve();
+        },
+        error: (err: any)=>{
+          resolve();
+        }
+      });
+    });
+    
+  } else {
+    userinfo = getUserInfo(store.getState());
+  }
+
+  loadOperatingStatus()(store.dispatch, store.getState);
 
   // 从cookie中获取unlock token，并添加到redux
   initUnlockToken()(store.dispatch, store.getState);
@@ -91,7 +125,14 @@ if (process.env.NODE_ENV != 'development') {
   document.addEventListener('touchmove', function(e) {
     e.preventDefault();
   });
-
+  
   initHasRead()(store.dispatch, store.getState);
+
+  if (isAppShell) {
+    // $('html').id = userinfo && userinfo.theme == 2 ? 'dark-theme' : 'light-theme';
+
+    $('html').attr('id', userinfo && userinfo.theme == 2 ? 'dark-theme' : 'light-theme');
+    isAppShell.css({display:'none'});
+  }
 
 }());

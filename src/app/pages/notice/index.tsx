@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 
 // config
-// import { contactEmail } from '@config';
-import _config from '@config/index';
-const { contactEmail } = _config;
+import { contactEmail } from '@config/index';
 
 // components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
 
 let titleList: any = {
   'wrong_token': '无权访问',

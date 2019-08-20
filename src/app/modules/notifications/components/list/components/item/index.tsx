@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 
 // tools
-import { dateDiff } from '@utils/date';
+import { dateDiff } from '@app/common/date';
 
 // components
-import HTMLText from '@components/html-text';
+import HTMLText from '@app/components/html-text';
 
 // style
 import './styles/index.scss';

@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useSelector, useStore } from 'react-redux';
-import { loadTopicList } from '@actions/topic';
-import { getTopicListById } from '@reducers/topic';
-import { getUserInfo } from '@reducers/user';
+import { loadTopicList } from '@app/redux/actions/topic';
+import { getTopicListById } from '@app/redux/reducers/topic';
+import { getUserInfo } from '@app/redux/reducers/user';
 
-// import Render from './render';
-import Loading from '@components/ui/loading';
-import './index.scss';
+import Loading from '@app/components/ui/loading';
+import './styles/index.scss';
 
 export default function({ showAll = false }: { showAll?: boolean }) {
   
@@ -52,17 +51,16 @@ export default function({ showAll = false }: { showAll?: boolean }) {
     <div>
   <div className="card">
     
-    {/* <div className="card-head pb-2">
-      <span className="title">交流话题</span>
-      {!showAll ?<Link to="/topic" styleName="expand">全部话题</Link>: null}
-    </div> */}
+    <div className="card-head">
+      <span className="card-title">交流话题</span>
+    </div>
 
     <div className="card-body" styleName="container">
       {data.map((item: any)=>{
 
-        if (item.children == 0 || !item.recommend && !showAll) return;
+        if (item.children == 0) return;
 
-        return (<div key={item._id} styleName="group">
+        return (<div key={item._id} styleName="group" className="border-bottom">
           <div styleName="group-title">
             <Link to={`/topic/${item._id}`}>{item.name}</Link>
           </div>

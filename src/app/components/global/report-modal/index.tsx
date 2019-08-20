@@ -1,13 +1,13 @@
 import React, { useState, useEffect, createRef } from 'react';
-import Modal from '@components/bootstrap/modal';
+import Modal from '@app/components/bootstrap/modal';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { getReportTypes } from '@reducers/report-types';
-import { loadReportTypes, addReport } from '@actions/report';
+import { getReportTypes } from '@app/redux/reducers/report-types';
+import { loadReportTypes, addReport } from '@app/redux/actions/report';
 
 // style
-import './style.scss';
+import './styles/index.scss';
 
 export default function() {
 

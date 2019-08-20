@@ -4,16 +4,16 @@ import React, { useState, useEffect } from 'react';
 // redux
 // import { bindActionCreators } from 'redux';
 import { connect, useStore, useSelector } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
-import { getFeedListById } from '@reducers/feed';
-import { refreshFeedListById } from '@actions/feed';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { getFeedListById } from '@app/redux/reducers/feed';
+import { refreshFeedListById } from '@app/redux/actions/feed';
 // import { loadPostsList, refreshPostsListById } from '@actions/posts';
-import { loadTips } from '@actions/tips';
-import { loadUserInfo } from '@actions/user';
-import { getTipsById } from '@reducers/tips';
+import { loadTips } from '@app/redux/actions/tips';
+import { loadUserInfo } from '@app/redux/actions/user';
+import { getTipsById } from '@app/redux/reducers/tips';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   topicId: string

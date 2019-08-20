@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 // 依赖的外部功能
 // import { bindActionCreators } from 'redux';
-import { useSelector, useDispatch, useStore } from 'react-redux';
-import { loadPostsList } from '@actions/posts';
-import { getPostsListById } from '@reducers/posts';
+import { useSelector, useStore } from 'react-redux';
+import { loadPostsList } from '@app/redux/actions/posts';
+import { getPostsListById } from '@app/redux/reducers/posts';
 
 import ItemRich from './components/item-rich';
 import ItemPoor from './components/item-poor';
-// import NewTips from './components/new-tips';
 
 // class
-import ListClass from '../../class/list';
+import ListClass from '@app/class/list';
 
 interface Props {
   // 列表id
@@ -41,7 +40,7 @@ export default function(props: Props) {
   return (<ListClass
     {...props}
     {...list}
-    load={params=>loadPostsList(params)(store.dispatch, store.getState)}
+    load={(params: any)=>loadPostsList(params)(store.dispatch, store.getState)}
     renderItem={(item: any)=>{
       if (itemType == 'poor') {
         return (<ItemPoor key={item._id} posts={item} />)

@@ -1,16 +1,16 @@
 import React from 'react';
 import { useSelector, useStore } from 'react-redux';
-import { loadNotifications } from '@actions/notification';
-import { getNotificationListById } from '@reducers/notification';
+import { loadNotifications } from '@app/redux/actions/notification';
+import { getNotificationListById } from '@app/redux/reducers/notification';
 
 // components
 import Item from './components/item';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 // class
-import ListClass from '../../../../class/list';
+import ListClass from '@app/class/list';
 
 interface Props {
   // 列表id

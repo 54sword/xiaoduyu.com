@@ -13,7 +13,14 @@ const config = {
       autoUpdate: 1000 * 60 * 5,
       ServiceWorker: {
         publicPath: '/sw.js'
-      }
+      },
+      externals: [
+        '/?appshell',
+        '/feather-sprite.svg',
+        '/default_avatar.jpg',
+        '/favicon.png'
+      ],
+      appShell: '/?appshell'
     })
   ],
   mode: 'production'

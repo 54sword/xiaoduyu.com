@@ -174,7 +174,7 @@ module.exports = {
       __SERVER__: 'false',
       __CLIENT__: 'true'
     }),
-
+    
     // 提取css插件
     new MiniCssExtractPlugin({
       filename: devMode ? "[name].css" : "[name].[hash].css"
@@ -193,6 +193,14 @@ module.exports = {
       head: config.head,
       analysis_script: config.analysis_script
       // inject: false
+    }),
+    
+    new HtmlwebpackPlugin({
+      filename: path.resolve(__dirname, '../../dist/client/app-shell.ejs'),
+      template: 'src/app/views/app-shell.html',
+      head: config.head,
+      name: config.name,
+      description: config.description
     })
 
   ]

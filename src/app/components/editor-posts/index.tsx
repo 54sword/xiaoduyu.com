@@ -4,19 +4,19 @@ import useReactRouter from 'use-react-router';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { addPosts, updatePosts } from '@actions/posts';
-import { loadTopicList } from '@actions/topic';
-import { getTopicListById } from '@reducers/topic';
+import { addPosts, updatePosts } from '@app/redux/actions/posts';
+import { loadTopicList } from '@app/redux/actions/topic';
+import { getTopicListById } from '@app/redux/reducers/topic';
 
 // components
-import Device from '@utils/device';
-import To from '@utils/to';
-import Editor from '@components/editor';
-import Modal from '@components/bootstrap/modal';
-import HTMLText from '@components/html-text';
+import Device from '@app/common/device';
+import To from '@app/common/to';
+import Editor from '@app/components/editor';
+import Modal from '@app/components/bootstrap/modal';
+import HTMLText from '@app/components/html-text';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 type successCallback = {
   // 返回posts _id

@@ -19,6 +19,10 @@
     }
   }
 
+  .btn{
+    font-size:12px;
+  }
+
   // .border-bottom{
   //   border-bottom:0.5px solid red !important;
   // }
@@ -34,22 +38,28 @@
 
 @media (min-width: 768px) and (max-width: 991px) {
   .container {
-    max-width: 700px;
-    padding:0px;
+    max-width: 1024px;
+    padding-left:15px;
+    padding-right:15px;
+    // padding:0px;
   }
 }
 
 @media (min-width: 992px) and (max-width: 1199px)  {
   .container {
-    max-width: 700px;
-    padding:0px;
+    max-width: 1024px;
+    padding-left:15px;
+    padding-right:15px;
+    // padding:0px;
   }
 }
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 700px;
-    padding:0px;
+    max-width: 1024px;
+    padding-left:15px;
+    padding-right:15px;
+    // padding:0px;
   }
 }
 

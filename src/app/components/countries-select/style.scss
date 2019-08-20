@@ -9,10 +9,12 @@
   -webkit-appearance:none;
   color: #484848;
   background-image: url("./images/select.png");
+  // background-image: url('/feather-sprite.svg#circle');
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 22px;
   width: 100%;
   box-sizing: border-box;
   padding-left:15px;
+  background-color: #fff;
 }

@@ -3,20 +3,20 @@ import useReactRouter from 'use-react-router';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { loadSessionList, readSession } from '@actions/session';
-import { getSessionListById } from '@reducers/session';
+import { loadSessionList, readSession } from '@app/redux/actions/session';
+import { getSessionListById } from '@app/redux/reducers/session';
 
 // modules
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
-import MessageList from '@modules/message-list';
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
+import MessageList from '@app/modules/message-list';
 
-import Editor from '../../components/editor-message';
+import Editor from '@app/components/editor-message';
 
 // layout
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
 
-import './index.scss';
+import './styles/index.scss';
 
 export default Shell(function({ setNotFound }: any) {
 
@@ -34,7 +34,7 @@ export default Shell(function({ setNotFound }: any) {
   const _loadList = (args: object)=>loadSessionList(args)(store.dispatch, store.getState);
   const _readSession = (args: object)=>readSession(args)(store.dispatch, store.getState);
 
-  let run: any = function(_session) {
+  let run: any = function(_session: any) {
 
     if (_session.unread_count > 0) {
       setTimeout(()=>{

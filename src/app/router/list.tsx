@@ -2,15 +2,15 @@ import React from 'react';
 import Loadable from 'react-loadable';
 
 // 服务端加载数据的方法
-import PostsDetailLoadData from '../pages/posts-detail/load-data';
-import CommentDetailLoadData from '../pages/comment-detail/load-data';
-import HomeLoadData from '../pages/home/load-data';
-import TopicDetailLoadData from '../pages/topic-detail/load-data';
-import PeopleDetailLoadData from '../pages/people-detail/load-data';
-import NotFoundLoadData from '../pages/not-found/load-data';
-import TopicLoadData from '../pages/topic/load-data';
+import PostsDetailLoadData from '@app/pages/posts-detail/load-data';
+import CommentDetailLoadData from '@app/pages/comment-detail/load-data';
+import HomeLoadData from '@app/pages/home/load-data';
+import TopicDetailLoadData from '@app/pages/topic-detail/load-data';
+import PeopleDetailLoadData from '@app/pages/people-detail/load-data';
+import NotFoundLoadData from '@app/pages/not-found/load-data';
+import TopicLoadData from '@app/pages/topic/load-data';
 
-import head from '@modules/head';
+import head from '@app/modules/head';
 const exact = true;
 const base = { exact, head };
 const loading = () => <div></div>;

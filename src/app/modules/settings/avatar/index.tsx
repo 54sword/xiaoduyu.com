@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react';
 
 // tooles
-import avatarPicker from '../../../vendors/avatar-picker';
+import avatarPicker from '@app/vendors/avatar-picker';
 
 // redux
-// import { bindActionCreators } from 'redux';
 import { useStore, useSelector } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
-import { loadUserInfo, updateUser } from '@actions/user';
+import { getUserInfo } from '@app/redux/reducers/user';
+import { loadUserInfo, updateUser } from '@app/redux/actions/user';
 
 // components
-import QiniuUploadImage from '@components/qiniu-upload-image';
+import QiniuUploadImage from '@app/components/qiniu-upload-image';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 export default function() {
-
+  
   const [ fileUpload, setFileUpload ] = useState(null);
-  // const [ uploadStatus, setUploadStatus ] = useState(false);
-
   const me = useSelector((state:object)=>getUserInfo(state));
-
 
   if (!me) return null;
 
@@ -56,8 +52,8 @@ export default function() {
     <div>
 
     <div className="card">
-      <div className="card-head pb-0"><div className="title">头像</div></div>
-      <div className="card-body pt-0">
+      <div className="card-header"><div className="card-title">头像</div></div>
+      <div className="card-body">
 
         <div styleName="avatar">
           <img src={me.avatar_url.replace('!50', "!200")} />

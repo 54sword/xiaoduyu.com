@@ -3,13 +3,11 @@ import { NavLink } from 'react-router-dom';
 import useReactRouter from 'use-react-router';
 
 // components
-// import CommentList from '@modules/comment-list';
-import FollowList from '@modules/follow-list';
-import NewPostsList from '@modules/posts-list';
-import FeedList from '@modules/feed-list';
+import FollowList from '@app/modules/follow-list';
+import NewPostsList from '@app/modules/posts-list';
+import FeedList from '@app/modules/feed-list';
 
-// styles
-// import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   people: {
@@ -152,19 +150,20 @@ export default ({ people }: Props)=>{
 
   return (<>
 
-    <div className="nav nav-tabs nav-justified border-bottom">
+    {/* 
+    <div className="nav nav-tabs nav-justified border-bottom justify-content-center">
 
       <NavLink className="nav-link" exact to={`/people/${people._id}`}>
         动态
       </NavLink>
 
-      {/* <NavLink className="nav-link" exact to={`/people/${people._id}/posts`}>
+      <NavLink className="nav-link" exact to={`/people/${people._id}/posts`}>
         帖子 {people.posts_count || ''}
-      </NavLink> */}
+      </NavLink>
 
-      {/* <NavLink className="nav-link" exact to={`/people/${people._id}/comments`}>
+      <NavLink className="nav-link" exact to={`/people/${people._id}/comments`}>
         评论 {people.comment_count || ''}
-      </NavLink> */}
+      </NavLink>
 
       <NavLink className="nav-link" exact to={`/people/${people._id}/fans`}>
         粉丝 {people.fans_count || ''}
@@ -174,17 +173,20 @@ export default ({ people }: Props)=>{
         关注 {people.follow_people_count || ''}
       </NavLink>
       
-      {/* <NavLink className="nav-link" exact to={`/people/${people._id}/follow-posts`}>
+      <NavLink className="nav-link" exact to={`/people/${people._id}/follow-posts`}>
         收藏 {people.follow_posts_count || ''}
       </NavLink>
       
       <NavLink className="nav-link" exact to={`/people/${people._id}/follow-topics`}>
         话题 {people.follow_topic_count || ''}
-      </NavLink> */}
+      </NavLink>
 
     </div>
+    */}
 
-    {typeList[pathname] || null}
+    <div className="card border-top" styleName="box">
+      {typeList[pathname] || null}
+    </div>
 
   </>)
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 /**
  * 异步组件（异步加载一些小组件）
@@ -9,6 +9,27 @@ import React from 'react';
  *  {Sidebar => <Sidebar />}
  * </Bundle>
  */
+
+ /*
+export default function(props: any) {
+
+  const [ mod, setMod ] = useState(null);
+
+  const load = () => {
+    // setMod(null)
+    // 注意这里，使用Promise对象; mod.default导出默认
+    props.load().then((mod: any) => {
+      setMod(mod.default ? mod.default : mod)
+    });
+  }
+
+  useEffect(()=>{
+    load();
+  }, []);
+
+  return mod ? props.children(mod) : null;
+}
+*/
 
 export default class AsyncComponent extends React.Component {
 

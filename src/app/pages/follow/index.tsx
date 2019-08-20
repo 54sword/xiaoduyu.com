@@ -1,16 +1,14 @@
 import React from 'react';
 
 // modules
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
 
-// import PostsList from '@modules/posts-list';
-import FeedList from '@modules/feed-list';
-import NewTips from '@modules/feed-list/components/new-tips';
-// import ADPC from '@modules/ads/pc';
+import FeedList from '@app/modules/feed-list';
+import NewTips from '@app/modules/feed-list/components/new-tips';
 
 // layout
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
 
 export default Shell(function() {
   return (

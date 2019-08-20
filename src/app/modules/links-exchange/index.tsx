@@ -4,9 +4,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import './index.scss';
 
-type item = { name: string, domain: string, description: string }
+type item = { name: string, domain: string, description: string, recommend?: boolean }
 let cache:Array<item> = [];
 
 export default function() {
@@ -16,7 +15,7 @@ export default function() {
   useEffect(()=>{
 
     if (cache.length == 0) {
-
+      
       $.ajax({
         url: '/links.json',
         type: 'get',
@@ -29,6 +28,10 @@ export default function() {
       });
 
     }
+
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
     
   }, []);
 
@@ -37,11 +40,14 @@ export default function() {
   return(
     <div className="card">
       <div className="card-header">友情链接</div>
-      <div className="card-body" styleName="box">
+      <div className="card-body row">
       {links.map((item: item)=>{
-        return (<a key={item.domain} href={item.domain} target="_blank">
-          <b>{item.name}</b><div>{item.description}</div>
-        </a>)
+        if (!item.recommend) return null;
+        return (<div key={item.domain} className="col-6">
+          <a href={item.domain} target="_blank" data-toggle="tooltip" data-placement="top" title={item.description || item.name}>
+            {item.name}
+          </a>
+        </div>)
       })}
       </div>
     </div>

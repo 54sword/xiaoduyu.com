@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 
-import feather from 'feather-icons';
-
-import * as GlobalData from '../../common/global-data';
+import * as GlobalData from '@app/common/global-data';
 
 // redux
 import { useStore } from 'react-redux';
-import { saveScrollPosition, setScrollPosition } from '@actions/scroll';
+import { saveScrollPosition, setScrollPosition } from '@app/redux/actions/scroll';
 
 // tools
-import parseUrl from '@utils/parse-url';
+import parseUrl from '@app/common/parse-url';
 
 type Props = {
   history: any,
@@ -49,8 +47,6 @@ export default function(Component: any) {
     location.params = search ? parseUrl(search) : {};
 
     useEffect(() => {
-
-      // feather.replace()
       
       // 客户端浏览器设置滚动条位置
       if (typeof window != 'undefined') {

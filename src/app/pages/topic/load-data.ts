@@ -1,4 +1,4 @@
-import TopicsLoadData from '@modules/topics/load-data';
+import TopicsLoadData from '@app/modules/topics/load-data';
 
 export default (params: any) => {
   return new Promise(async resolve => {

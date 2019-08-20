@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom';
 
 // redux
 import { useStore, useSelector } from 'react-redux';
-import { findFollows } from '@actions/follow';
-import { getFollowListById } from '@reducers/follow';
+import { findFollows } from '@app/redux/actions/follow';
+import { getFollowListById } from '@app/redux/reducers/follow';
 
 // components
-import Follow from '@components/follow';
+import Follow from '@app/components/follow';
 
 // class
-import ListClass from '../../class/list';
+import ListClass from '@app/class/list';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 interface Props {
   // 列表id
@@ -102,7 +102,7 @@ export default function(props:Props) {
         </div>)
       }
 
-      return <div className="card" key={key}>
+      return <div className="card mb-0" key={key}>
         <div className="card-body p-0">{content}</div>
         <div style={{ marginLeft: '83px' }} className="border-bottom"></div>
       </div>;

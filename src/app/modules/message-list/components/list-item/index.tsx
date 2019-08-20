@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
-import HTMLText from '@components/html-text';
+import { getUserInfo } from '@app/redux/reducers/user';
+import HTMLText from '@app/components/html-text';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   message: {

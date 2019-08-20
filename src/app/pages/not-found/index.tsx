@@ -1,8 +1,8 @@
 import React from 'react';
 
 // components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
 
 export default Shell(function() {
   return (

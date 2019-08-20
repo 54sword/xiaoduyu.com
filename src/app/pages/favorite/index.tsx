@@ -17,7 +17,7 @@ export default Shell(function() {
       <SingleColumns>
 
         <div className="card">
-          <div className="card-header pb-0">
+          <div className="card-header">
             <div className="card-title">我的收藏</div>
           </div>
           <div className="card-body p-0">

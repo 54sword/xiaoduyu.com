@@ -28,12 +28,12 @@ let config = {
   
   posts: {
     // 帖子在列表时候，内容最大显示高度，0为不限制
-    contentMaxHeight: 500
+    contentMaxHeight: 1024
   },
   
   comment: {
     // 评论在列表时候，内容最大显示高度，0为不限制
-    contentMaxHeight: 300
+    contentMaxHeight: 450
   },
   
   // 启动作者广告功能

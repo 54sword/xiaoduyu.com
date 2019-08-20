@@ -1,5 +1,5 @@
-import { loadTopicList } from '@actions/topic';
-import { loadPostsList } from '@actions/posts';
+import { loadTopicList } from '@app/redux/actions/topic';
+import { loadPostsList } from '@app/redux/actions/posts';
 /**
  * 分析url上面的参数
  * @param  {String} search location.search

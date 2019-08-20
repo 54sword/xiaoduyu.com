@@ -4,12 +4,12 @@ import io from 'socket.io-client';
 import { api } from '@config/index';
 
 // redux actions
-import { setOnlineUserCount, sendNotification } from '@actions/website';
-import { getAccessToken } from '@reducers/user';
+import { setOnlineUserCount, sendNotification } from '@app/redux/actions/website';
+import { getAccessToken } from '@app/redux/reducers/user';
 
-import { loadTips } from '@actions/tips';
-import { updateSession } from '@actions/session';
-import { addMessagesToList } from '@actions/message';
+import { loadTips } from '@app/redux/actions/tips';
+import { updateSession } from '@app/redux/actions/session';
+import { addMessagesToList } from '@app/redux/actions/message';
 
 let socket: any;
 
@@ -22,10 +22,6 @@ export const connect = function ({ dispatch, getState }: any) {
   const handleActions = function(action: any, params: any = null) {
     action(params)(dispatch, getState);
   }
-
-  // setTimeout(()=>{
-  //   handleActions(sendNotification, '1111');
-  // }, 1000)
   
   const handleNotification = (notification: any) => {
 
@@ -39,37 +35,32 @@ export const connect = function ({ dispatch, getState }: any) {
     if (!notification || !notification.type) return;
   
     const { type, data } = notification;
-
-    console.log(notification);
   
     switch (type) {
       // 有新通知
       case 'notification':
         handleActions(loadTips);
 
-        if (data) {
+        if (data && data.comment_id && data.type == 'comment' ||
+            data && data.comment_id && data.type == 'reply'
+        ) {
+          let body = data.comment_id.content_html;
 
-          if (data.comment_id) {
-            let body = data.comment_id.content_html;
+          body = body.replace(/<[^>]+>/g, '');
+          body = body.replace(/\r\n/g, ''); 
+          body = body.replace(/\n/g, '');
 
-            body = body.replace(/<[^>]+>/g, '');
-            body = body.replace(/\r\n/g, ''); 
-            body = body.replace(/\n/g, '');
-  
-            handleActions(sendNotification, {
-              content: data.sender_id.nickname,
-              option: {
-                body,
-                icon: 'https:'+data.sender_id.avatar_url,
-                image: 'https:'+data.sender_id.avatar_url,
-                tag: 'comment',
-                data: data
-              }
-            });
-          }
-
+          handleActions(sendNotification, {
+            content: data.sender_id.nickname,
+            option: {
+              body,
+              icon: 'https:'+data.sender_id.avatar_url,
+              image: 'https:'+data.sender_id.avatar_url,
+              tag: 'comment',
+              data: data
+            }
+          });
         }
-
 
         break;
       case 'new-feed':

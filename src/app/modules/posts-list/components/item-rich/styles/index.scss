@@ -1,5 +1,5 @@
 .box{
-  padding:15px 15px 15px 85px;
+  padding:15px 20px 15px 90px;
   &:hover{
     background-color: #f5f7fb;
     cursor:pointer;
@@ -8,27 +8,28 @@
 }
 
 .nickname{
-  font-size: 14px;
-  font-weight: bold;
-  // font-weight: 600;
+  font-size: 13px;
+  // font-weight: bold;
+  font-weight: 400;
 }
 
 .avatar, .avatar > img{
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
-  background-color: #efefef;
+  // background-color: #efefef;
 }
 
 .avatar{
   position: absolute;
-  margin-left: -65px;
+  margin-left: -70px;
   margin-top:4px;
 }
 
 .title{
   font-size: 16px;
-  // font-weight: 450;
+  // font-weight: 500;
+  
   // a {
   //   word-break:break-all;
   //   word-wrap:break-word;
@@ -36,7 +37,7 @@
 }
 
 .comment{
-  background-image: url(../images/comment.png);
+  background-image: url(./images/comment.png);
   background-position: left center;
   background-repeat: no-repeat;
   background-size: 14px;
@@ -60,10 +61,11 @@
     }
   }
   .topic{
+    // text-decoration: underline;
     // padding: 2px 8px 2px 8px;
     // border-radius: 10px;
     // background-color: #eef1f5;
-    color:#838b9c;
+    // color:#838b9c;
   }
 }
 

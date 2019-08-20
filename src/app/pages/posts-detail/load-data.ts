@@ -1,5 +1,5 @@
-import { loadPostsList } from '@actions/posts';
-import { loadCommentList } from '@actions/comment';
+import { loadPostsList } from '@app/redux/actions/posts';
+import { loadCommentList } from '@app/redux/actions/comment';
 
 export default ({ store, match, user }: any) => {
   return new Promise(async (resolve, reject) => {

@@ -2,16 +2,13 @@ import React, { useState, createRef } from 'react';
 
 // redux
 import { useStore, useSelector } from 'react-redux';
-import { getUserInfo, getUnlockToken } from '@reducers/user';
-import { loadUserInfo } from '@actions/user';
-import { addPhone } from '@actions/phone';
+import { getUserInfo, getUnlockToken } from '@app/redux/reducers/user';
+import { loadUserInfo } from '@app/redux/actions/user';
+import { addPhone } from '@app/redux/actions/phone';
 
 // components
-import CaptchaButton from '@components/captcha-button';
-import CountriesSelect from '@components/countries-select';
-
-// styles
-import './style.scss';
+import CaptchaButton from '@app/components/captcha-button';
+import CountriesSelect from '@app/components/countries-select';
 
 export default function() {
 
@@ -118,8 +115,8 @@ export default function() {
 
     <div className="card">
 
-      <div className="card-head pb-0 d-flex justify-content-between">
-        <span className="title">手机号</span>
+      <div className="card-header d-flex justify-content-between">
+        <span className="card-title">手机号</span>
         <span></span>
       </div>
       <div className="card-body">
@@ -130,7 +127,7 @@ export default function() {
           return(<div className="d-flex justify-content-between">
             <div>未绑定</div>
             <a
-              className="btn btn-primary btn-sm"
+              className="btn btn-outline-primary rounded-pill btn-sm"
               href="javascript:void(0);"
               onClick={()=>{
                 $('#binding-phone').modal({ show: true }, {});
@@ -161,8 +158,8 @@ export default function() {
 
               <div className="form-group">
                 {loading ?
-                  <a className="btn btn-primary btn-sm" href="javascript:void(0);">提交中...</a>
-                  : <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={submit}>提交</a>}
+                  <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);">提交中...</a>
+                  : <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);" onClick={submit}>提交</a>}
                 
               </div>
 
@@ -172,7 +169,7 @@ export default function() {
         } else if (!show) {
           return (<div className="d-flex justify-content-between">
             <div>{me.phone ? me.phone : null}</div>
-            <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={handleShow}>修改</a>
+            <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);" onClick={handleShow}>修改</a>
           </div>)
         }
 

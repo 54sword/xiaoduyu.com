@@ -1,5 +1,5 @@
 
-import { loadTopicList } from '@actions/topic';
+import { loadTopicList } from '@app/redux/actions/topic';
 
 export default ({ store }: { store: any }) => {
   return new Promise(async resolve => {

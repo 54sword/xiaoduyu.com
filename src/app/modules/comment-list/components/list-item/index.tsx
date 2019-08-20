@@ -1,5 +1,4 @@
-import React, { Component, useState } from 'react';
-// import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import featureConfig from '@config/feature.config';
@@ -7,24 +6,24 @@ import featureConfig from '@config/feature.config';
 import './styles/index.scss';
 
 // redux
-// import { bindActionCreators } from 'redux';
 import { useStore } from 'react-redux';
-import { loadMoreReply } from '@actions/comment';
+import { loadMoreReply } from '@app/redux/actions/comment';
 
-import LikeButton from '@components/like';
-import HTMLText from '@components/html-text';
-import MoreMenu from '@components/more-menu';
+import LikeButton from '@app/components/like';
+import HTMLText from '@app/components/html-text';
+import MoreMenu from '@app/components/more-menu';
 import CommentButton from '../button';
-import Share from '@components/share';
+import Share from '@app/components/share';
 
-import Loading from '@components/ui/loading';
+import Loading from '@app/components/ui/loading';
 
 interface Props {
   comment: any,
-  key?: any
+  key?: any,
+  postsAuthorId?: string
 }
 
-export default function({ comment }: Props) {
+export default function({ comment, postsAuthorId }: Props) {
 
   const store = useStore();
   const [ loading, setLoading ] = useState(false);
@@ -59,7 +58,7 @@ export default function({ comment }: Props) {
     ) {
       reply_user = comment.reply_id.user_id;
     }
-  
+    //  
     return (<div styleName="item" key={comment._id} className="border-top">
   
       <div styleName="item-head" className="d-flex justify-content-between">
@@ -67,26 +66,35 @@ export default function({ comment }: Props) {
         <div>
           <Link to={`/people/${comment.user_id._id}`}>
             <div styleName="avatar" className="load-demand" data-load-demand={`<img width="48" height="48" src="${comment.user_id.avatar_url}" />`}></div>
-            <b>{comment.user_id.nickname}</b>
+            <b styleName="nickname">{comment.user_id.nickname}</b>
+            {postsAuthorId && comment.user_id._id == postsAuthorId ? <small className="text-info"> <b>(楼主)</b></small> : null}
           </Link>
           {!parent && reply_user && reply_user._id != comment.user_id._id ||
             parent && reply_user && parent.user_id._id != reply_user._id
-            ? <span className="text-muted"> 回复 <Link to={`/people/${reply_user._id}`} onClick={stopPropagation}><b>{reply_user.nickname}</b></Link></span>
+            ? <span className="text-muted">
+              <svg
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="ml-1 mr-1"
+                >
+                <use xlinkHref="/feather-sprite.svg#chevron-right"/>
+              </svg>
+              <Link to={`/people/${reply_user._id}`} onClick={stopPropagation}><b styleName="nickname">{reply_user.nickname}</b></Link>
+              </span>
           : null}
           
-          {!comment.parent_id ?
-              <Link to={`/comment/${comment._id}`} className="text-muted ml-2"><span>{comment._create_at}</span></Link>
-              : <span className="text-muted ml-2">{comment._create_at}</span>}
+          {/* {!comment.parent_id ?
+              <Link to={`/comment/${comment._id}`} className="text-muted ml-2"><small>{comment._create_at}</small></Link>
+              : <small className="text-muted ml-2">{comment._create_at}</small>} */}
 
-          {comment._device ? <span className="text-muted ml-2">{comment._device}</span> : null}
+          {/* {comment._device ? <small className="text-muted ml-2">{comment._device}</small> : null} */}
         </div>
-
-        {/* <div>
-          {!comment.parent_id ?
-              <Link to={`/comment/${comment._id}`} className="text-muted"><span>{comment._create_at}</span></Link>
-              : <span className="text-muted">{comment._create_at}</span>}
-        </div>
-   */}
+  
       </div>
   
       {comment.content_html ?
@@ -94,29 +102,29 @@ export default function({ comment }: Props) {
           <HTMLText content={comment.content_html} maxHeight={featureConfig.comment.contentMaxHeight} />
         </div>
         : null}
-        
-      <div styleName="footer">
+      
+
+      <div styleName="item-footer">
   
         <div className="d-flex justify-content-between">
+
+          <div styleName="info" className="w-50 text-muted">
+            {!comment.parent_id ?
+              <Link to={`/comment/${comment._id}`} className="text-muted">{comment._create_at}</Link>
+              : <span className="text-muted">{comment._create_at}</span>}
+            {/* <span>{comment._create_at}</span> */}
+            {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
+          </div>
   
           <div styleName="actions" className="text-secondary">
-            
+
             {comment.parent_id ? 
               <LikeButton reply={comment}  /> : 
               <LikeButton comment={comment} />}
-  
             <CommentButton comment={comment} />
-            {!comment.parent_id ? 
-              <Share comment={comment} />
-              : null}
+            {/* {!comment.parent_id ? <Share comment={comment} /> : null} */}
             <MoreMenu comment={comment} />
           </div>
-
-          {/* <div>
-          {!comment.parent_id ?
-              <Link to={`/comment/${comment._id}`} className="text-muted"><span>{comment._create_at}</span></Link>
-              : <span className="text-muted">{comment._create_at}</span>}
-          </div> */}
   
         </div>
   

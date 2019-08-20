@@ -19,8 +19,9 @@ export default function({ comment, posts }:Props) {
     e.stopPropagation();
   }
   
-  return (<div className="card"><div
+  return (<div><div
     styleName="item"
+    className="border-bottom"
     onClick={()=>{
       history.push(`/comment/${comment._id}`)
     }}
@@ -35,7 +36,7 @@ export default function({ comment, posts }:Props) {
                 className="load-demand"
                 data-load-demand={`<img src="${comment.user_id.avatar_url}" />`}>
                 </i>
-              <b>{comment.user_id.nickname}</b>
+              <span styleName="nickname">{comment.user_id.nickname}</span>
             </Link>
             <span className="text-muted ml-2">{comment._create_at}</span>
           </div>
@@ -73,13 +74,13 @@ export default function({ comment, posts }:Props) {
             styleName="reply-item"
             className="rounded"
             >
-            <div>              
+            {/* <div>              
               <div>
                 <Link to={`/people/${comment.reply_id.user_id._id}`} styleName="posts-item-nickname">
                   {comment.reply_id.user_id.nickname}
                 </Link>
               </div>
-            </div>
+            </div> */}
             <div styleName="posts-item-reply">
               {comment.reply_id.content_summary}
             </div>
@@ -97,7 +98,7 @@ export default function({ comment, posts }:Props) {
 
     </div>
 
-    <div styleName="line" className="border-bottom"></div>
+    {/* <div styleName="line" className="border-bottom"></div> */}
 
     </div>)
 }

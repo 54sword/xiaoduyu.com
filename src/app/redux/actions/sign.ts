@@ -1,6 +1,9 @@
 
 import graphql from '../../common/graphql';
 import { removeUnlockToken } from './unlock-token';
+// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+
+// console.log(OfflinePluginRuntime);
 
 // cookie安全措施，在服务端使用 http only 方式储存cookie
 export const saveTokenToCookie = ({ access_token }: { access_token: string }) => {
@@ -23,6 +26,9 @@ export const saveTokenToCookie = ({ access_token }: { access_token: string }) =>
         } else {
           reject(res);
         }
+      },
+      error: (err: any) => {
+        console.log(err);
       }
     });
   
@@ -55,7 +61,25 @@ export const signIn = ({ data }: { data: any }) => {
         // 浏览器环境
         if (res && res.access_token && typeof document != 'undefined') {
           await saveTokenToCookie(res)(dispatch, getState);
-          window.location.reload();
+
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+              for (const registration of registrations) {
+                registration.unregister()
+              }
+              window.location.reload();
+            }).catch(err=>{
+              window.location.reload();
+            })
+          } else {
+            window.location.reload();
+          }
+
+          // setTimeout(()=>{
+          //   window.location.reload();
+          // }, 10000);
+
+          // window.location.reload();
         }
         
       }
@@ -76,9 +100,30 @@ export const signOut = () => {
       success: (res: any) => {
         if (res && res.success) {
 
+          // console.log('===');
+
+          // OfflinePluginRuntime.update();
+
           if (res.success && typeof window != 'undefined') {
+
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (const registration of registrations) {
+                  registration.unregister()
+                }
+                window.location.reload();
+              }).catch(err=>{
+                window.location.reload();
+              })
+            } else {
+              window.location.reload();
+            }
+
+            // OfflinePluginRuntime.update();
             // 退出成功跳转到首页
-            window.location.reload();
+            // setTimeout(()=>{
+              // window.location.reload();
+            // }, 10000);
           }
 
         } else {

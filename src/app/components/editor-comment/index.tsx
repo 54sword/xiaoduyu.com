@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { reactLocalStorage } from 'reactjs-localstorage'
+import React, { useState, useEffect, useRef } from 'react';
+import { reactLocalStorage } from 'reactjs-localstorage';
 
-import { useStore } from 'react-redux'
-import { addComment, updateComment, loadCommentList } from '@actions/comment'
+import { useStore } from 'react-redux';
+import { addComment, updateComment, loadCommentList } from '@app/redux/actions/comment';
 
 // tools
-import Device from '@utils/device'
+import Device from '@app/common/device';
 
 // components
-import Editor from '@components/editor'
+import Editor from '@app/components/editor';
 
 // styles
-import './style.scss'
+import './styles/index.scss';
 
 interface Props {
   _id: string,
@@ -210,7 +210,7 @@ export default function({
     if (forward) $('[data-toggle="tooltip"]').tooltip();
   }, []);
 
-  return (<div styleName="box" className="card">
+  return (<div styleName="box">
     <div styleName="content">{content}</div>
       <div styleName="footer" className="d-flex justify-content-between">
         <div>

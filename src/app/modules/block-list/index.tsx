@@ -1,21 +1,15 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 
 // class
-import ListClass from '../../class/list';
+import ListClass from '@app/class/list';
 
 // redux
-// import { bindActionCreators } from 'redux';
-import { connect, useStore, useSelector } from 'react-redux';
-import { loadBlockList, removeBlock } from '@actions/block';
-import { getBlockListById } from '@reducers/block';
-
-// components
-// import HTMLText from '@components/html-text';
-// import Loading from '@components/ui/loading';
+import { useStore, useSelector } from 'react-redux';
+import { loadBlockList, removeBlock } from '@app/redux/actions/block';
+import { getBlockListById } from '@app/redux/reducers/block';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   // 列表id
@@ -71,7 +65,7 @@ export default function(props: Props) {
   return (<ListClass
     {...props}
     {...list}
-    load={params=>loadBlockList(params)(store.dispatch, store.getState)}
+    load={(params: any)=>loadBlockList(params)(store.dispatch, store.getState)}
     renderItem={(item: any)=>{
       return (<div key={item._id} className="list-group-item">
 
@@ -91,10 +85,6 @@ export default function(props: Props) {
             {item.people_id.nickname}
           </div>
           : null}
-
-        {/* {item.comment_id ?
-          <HTMLText content={item.comment_id.content_html} />
-          : null} */}
 
       </div>)
     }}

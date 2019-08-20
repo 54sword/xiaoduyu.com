@@ -2,14 +2,13 @@ import React from 'react'
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { loadPeopleList } from '@actions/people'
-import { getPeopleListById } from '@reducers/people'
+import { loadPeopleList } from '@app/redux/actions/people'
+import { getPeopleListById } from '@app/redux/reducers/people'
 
 // components
 import PeopleItem from './components/list-item';
 // class
-import ListClass from '../../class/list';
-import './index.scss';
+import ListClass from '@app/class/list';
 
 interface Props {
   // 列表id
@@ -35,7 +34,7 @@ export default function(props:Props) {
   return (<ListClass
     {...props}
     {...list}
-    load={params=>loadPeopleList(params)(store.dispatch, store.getState)}
+    load={(params: any)=>loadPeopleList(params)(store.dispatch, store.getState)}
     renderItem={(item: any)=>{
       return (<div key={item._id}>
         <PeopleItem people={item} />
@@ -44,7 +43,7 @@ export default function(props:Props) {
     renderHead={({ loadData }: any)=>{
 
       if (list && list.more) {
-        return (<div styleName="more">
+        return (<div className="text-center pt-3 pb-3">
             <a href="javascript:void(0)" onClick={()=> { loadData(); }}>加载更多</a>
           </div>)
       } else {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import Modal from '@components/bootstrap/modal';
-import Editor from '@components/editor-comment';
+import Modal from '@app/components/bootstrap/modal';
+import Editor from '@app/components/editor-comment';
 
 export default function() {
   

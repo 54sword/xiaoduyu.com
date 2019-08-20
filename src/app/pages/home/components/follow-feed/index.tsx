@@ -5,8 +5,8 @@ import FeedNewTips from '@app/modules/feed-list/components/new-tips';
 
 export default () => {
   return (<div className="card">
-    <div className="card-head pb-1">
-      <div className="title">我的关注</div>
+    <div className="card-header">
+      <div className="card-title">我的关注</div>
     </div>
     <div className="card-body p-0">
       <FeedNewTips topicId="feed" />

@@ -2,12 +2,12 @@ import React, { useState, createRef } from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { getUserInfo, getUnlockToken } from '@reducers/user';
-import { loadUserInfo } from '@actions/user';
-import { addEmail } from '@actions/account';
+import { getUserInfo, getUnlockToken } from '@app/redux/reducers/user';
+import { loadUserInfo } from '@app/redux/actions/user';
+import { addEmail } from '@app/redux/actions/account';
 
 // components
-import CaptchaButton from '@components/captcha-button';
+import CaptchaButton from '@app/components/captcha-button';
 
 export default function() {
   
@@ -105,14 +105,14 @@ export default function() {
   return (
     <div>
     <div className="card">
-      <div className="card-head pb-0"><div className="title">邮箱</div></div>
+      <div className="card-header"><div className="card-title">邮箱</div></div>
       <div className="card-body">
         {(()=>{
           if (!me.email && !me.phone) {
             return(<div className="d-flex justify-content-between">
             <div>未绑定</div>
             <a
-              className="btn btn-primary btn-sm"
+              className="btn btn-outline-primary rounded-pill btn-sm"
               href="javascript:void(0);"
               onClick={()=>{
                 $('#binding-phone').modal({ show: true }, {});
@@ -130,15 +130,15 @@ export default function() {
                         <div><CaptchaButton onClick={sendCaptcha} /></div>
                       </div>
                       {loading ?
-                        <a className="btn btn-primary btn-sm" href="javascript:void(0);">提交中...</a>
+                        <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);">提交中...</a>
                         :
-                        <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={submitResetEmail}>提交</a>}
+                        <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);" onClick={submitResetEmail}>提交</a>}
                       
                     </div>)
           } else if (!show) {
             return (<div className="d-flex justify-content-between">
               <div>{me.email ? me.email : '未绑定'}</div>
-              <a className="btn btn-primary btn-sm" href="javascript:void(0);" onClick={handleShow}>{me.email ? '修改' : '绑定'}</a>
+              <a className="btn btn-outline-primary rounded-pill btn-sm" href="javascript:void(0);" onClick={handleShow}>{me.email ? '修改' : '绑定'}</a>
             </div>)
           }
 

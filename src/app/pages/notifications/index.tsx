@@ -1,11 +1,11 @@
 import React from 'react';
 
 // components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
+import Shell from '@app/modules/shell';
+import Meta from '@app/modules/meta';
 
-import Notification from '@modules/notifications';
-import SingleColumns from '../../layout/single-columns';
+import Notification from '@app/modules/notifications';
+import SingleColumns from '@app/layout/single-columns';
 
 export default Shell(function() {
   return (

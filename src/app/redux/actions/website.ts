@@ -65,6 +65,7 @@ export function sendNotification({ content, option }: any) {
   }
 }
 
+/*
 // 查询是否有新动态，用于小红点提醒
 export function getNew () {
   return async (dispatch: any, getState: any) => {
@@ -82,18 +83,18 @@ export function getNew () {
           fields: `ids`
         },
 
-        {
-          aliases: 'excellent',
-          api: 'posts',
-          args: {
-            sort_by: "create_at:-1",
-            deleted: false,
-            weaken: false,
-            recommend: true,
-            page_size:1
-          },
-          fields: `create_at`
-        },
+        // {
+        //   aliases: 'excellent',
+        //   api: 'posts',
+        //   args: {
+        //     sort_by: "create_at:-1",
+        //     deleted: false,
+        //     weaken: false,
+        //     recommend: true,
+        //     page_size:1
+        //   },
+        //   fields: `create_at`
+        // },
         // {
         //   aliases: 'posts',
         //   api: 'posts',
@@ -108,10 +109,10 @@ export function getNew () {
         //
         //
         {
-          aliases: 'subscribe',
+          aliases: 'favorite',
           api: 'posts',
           args: {
-            method: 'subscribe',
+            method: 'favorite',
             sort_by: "last_comment_at:-1",
             deleted: false,
             weaken: false,
@@ -150,9 +151,9 @@ export function getNew () {
       }
 
       // 订阅
-      if (res['subscribe'] && res['subscribe'][0] &&
-        userInfo.last_find_subscribe_at &&
-        new Date(userInfo.last_find_subscribe_at).getTime() < new Date(res['subscribe'][0].last_comment_at).getTime()
+      if (res['favorite'] && res['favorite'][0] &&
+        userInfo.last_find_favorite_at &&
+        new Date(userInfo.last_find_favorite_at).getTime() < new Date(res['favorite'][0].last_comment_at).getTime()
       ) {
         dispatch({ type: 'HAS_NEW_SUBSCRIBE', status: true });
       }
@@ -166,18 +167,18 @@ export function getNew () {
       }
 
       // 优选
-      if (res['excellent'] && res['excellent'][0] &&
-        userInfo.last_find_excellent_at &&
-        new Date(userInfo.last_find_excellent_at).getTime() < new Date(res['excellent'][0].create_at).getTime()
-      ) {
-        dispatch({ type: 'HAS_NEW_EXCELLENT', status: true });
-      }
+      // if (res['excellent'] && res['excellent'][0] &&
+      //   userInfo.last_find_excellent_at &&
+      //   new Date(userInfo.last_find_excellent_at).getTime() < new Date(res['excellent'][0].create_at).getTime()
+      // ) {
+      //   dispatch({ type: 'HAS_NEW_EXCELLENT', status: true });
+      // }
 
     }
 
   }
 }
-
+*/
 
 // 加载网站经营状态
 export function loadOperatingStatus() {
