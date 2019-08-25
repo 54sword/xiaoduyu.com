@@ -84,16 +84,19 @@ app.use('/sign', sign());
 app.use('/amp', AMP());
 app.get('*', async function (req: any, res: any) {
 
+  let { code, redirect, html, meta, reduxState, user } = await render(req, res);
+
   if (req.path == '/' &&
     req._parsedOriginalUrl &&
     req._parsedOriginalUrl.search &&
     req._parsedOriginalUrl.search.indexOf('?appshell') != -1
   ) {
-    res.render('../dist/client/app-shell.ejs');
+    // console.log(user);
+    res.render('../dist/client/app-shell.ejs', {
+      theme: user && user.theme == 2 ? 'dark-theme' : 'light-theme' 
+    });
     return;
   }
-
-  let { code, redirect, html, meta, reduxState, user } = await render(req, res);
 
   res.status(code);
 

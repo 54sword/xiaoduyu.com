@@ -1,6 +1,9 @@
 
 import graphql from '../../common/graphql';
 import { removeUnlockToken } from './unlock-token';
+import * as globalData from '../../common/global-data';
+// import * as ServiceWorker from '../../common/service-worker';
+// import * as ServiceWorker from '@app/common/service-worker';
 // import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 // console.log(OfflinePluginRuntime);
@@ -62,18 +65,22 @@ export const signIn = ({ data }: { data: any }) => {
         if (res && res.access_token && typeof document != 'undefined') {
           await saveTokenToCookie(res)(dispatch, getState);
 
-          if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(registrations => {
-              for (const registration of registrations) {
-                registration.unregister()
-              }
-              window.location.reload();
-            }).catch(err=>{
-              window.location.reload();
-            })
-          } else {
-            window.location.reload();
-          }
+          await globalData.get('service-worker').uninstall();
+          window.location.reload();
+          
+
+          // if ('serviceWorker' in navigator) {
+          //   navigator.serviceWorker.getRegistrations().then(registrations => {
+          //     for (const registration of registrations) {
+          //       registration.unregister()
+          //     }
+          //     window.location.reload();
+          //   }).catch(err=>{
+          //     window.location.reload();
+          //   })
+          // } else {
+          //   window.location.reload();
+          // }
 
           // setTimeout(()=>{
           //   window.location.reload();
@@ -97,7 +104,7 @@ export const signOut = () => {
     $.ajax({
       url: '/sign/out',
       type: 'post',
-      success: (res: any) => {
+      success: async (res: any) => {
         if (res && res.success) {
 
           // console.log('===');
@@ -106,6 +113,13 @@ export const signOut = () => {
 
           if (res.success && typeof window != 'undefined') {
 
+            await globalData.get('service-worker').uninstall();
+            window.location.reload();
+
+            // await window._serviceWorker.update();
+            // window.location.reload();
+
+            /*
             if ('serviceWorker' in navigator) {
               navigator.serviceWorker.getRegistrations().then(registrations => {
                 for (const registration of registrations) {
@@ -118,6 +132,7 @@ export const signOut = () => {
             } else {
               window.location.reload();
             }
+            */
 
             // OfflinePluginRuntime.update();
             // 退出成功跳转到首页

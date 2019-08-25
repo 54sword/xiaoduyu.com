@@ -36,7 +36,7 @@ export default function(props: Props) {
   return (<ListClass
     {...props}
     {...list}
-    load={params=>loadNotifications(params)(store.dispatch, store.getState)}
+    load={(params: any)=>loadNotifications(params)(store.dispatch, store.getState)}
     renderItem={(item: any)=>{
       return <Item notification={item} key={item._id} />
     }}

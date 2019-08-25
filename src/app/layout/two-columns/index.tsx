@@ -8,7 +8,7 @@ interface Props {
 export default function ({ children = [] }: Props) {
 
   useEffect(()=>{
-    /*
+
     const obj = FloatFixed({
       referId: 'right',
       id: 'right-float',
@@ -18,7 +18,6 @@ export default function ({ children = [] }: Props) {
     return ()=>{
       obj.remove();
     }
-    */
 
   }, []);
 

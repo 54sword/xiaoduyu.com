@@ -25,7 +25,12 @@
   }
 
   pre{
-    line-height: 100%;
+    line-height: 150%;
+    margin-top:15px;
+  }
+
+  li > p{
+    margin-top:0px;
   }
 
 }

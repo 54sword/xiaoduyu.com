@@ -1,6 +1,6 @@
 @media (min-width: 0px) and (max-width: 450px) {
   .box{
-    padding:10px 10px 10px 60px;
+    padding:10px 15px 10px 65px;
   
     .avatar, .avatar > img{
       width: 40px;
@@ -14,20 +14,9 @@
       margin-left:10px;
     }
   }
-  // .other-info{
-  //   width:100%;
-  //   display: block;
-  //   overflow: hidden;
-  //   text-overflow:ellipsis;
-  //   white-space: nowrap;
-  // }
+
   .title{
     font-size: 15px;
   }
 
-  .line{
-    // margin-left:60px;
-    // height: 1px;
-    // background-color: #ebeef3;
-  }
 }

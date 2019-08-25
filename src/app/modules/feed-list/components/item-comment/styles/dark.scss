@@ -9,8 +9,13 @@
   .item{
     &:hover{
       background-color: #353535;
-    } 
+    }
   }
+
+  .nickname{
+    color: #575b5f;
+  }
+
   .reply-item{
     background-color: #373737;
   }

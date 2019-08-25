@@ -291,7 +291,7 @@ export default class MyEditor extends React.Component {
 
       let options = {
         blockRenderers: {
-          'code-block': (block)=>{
+          'code-block': (block: any)=>{
             // let data = block.getData();
             // console.log(data);
 
@@ -302,21 +302,11 @@ export default class MyEditor extends React.Component {
             previousBlockType = previousBlock && previousBlock.getType(),
             nextBlockType = nextBlock && nextBlock.getType();
 
-            // console.log(block.getText());
+            // console.log(previousBlockType + '/' + nextBlockType);
 
             let text = encodeContent(block.getText());
 
-            // console.log(text);
         
-            // If the blocks on either side are code-block blocks, just return the text.
-            // if(previousBlockType === 'code-block' && nextBlockType === 'code-block') {
-            //   return text;
-            // }
-        
-            if(previousBlockType !== 'code-block' && nextBlockType !== 'code-block') {
-              return '<pre>' + text + '</pre>';
-            }
-
             // If the previous block wasn't a code-block and the next block is, just
             // start the code-block block.
             if(previousBlockType !== 'code-block' && nextBlockType === 'code-block') {
@@ -329,12 +319,31 @@ export default class MyEditor extends React.Component {
               return text + '</pre>';
             }
 
+            /*        
+            // If the blocks on either side are code-block blocks, just return the text.
+            if(previousBlockType === 'code-block' && nextBlockType === 'code-block') {
+              return '<code>'+text+'</code>';
+            }
+        
+            // If the previous block wasn't a code-block and the next block is, just
+            // start the code-block block.
+            if(previousBlockType !== 'code-block' && nextBlockType === 'code-block') {
+              return '<pre><code>' + text+'</code>';
+            }
+        
+            // If the previous block was a code-block and the next block isn't,
+            // complete the code-block block.
+            if(previousBlockType === 'code-block' && nextBlockType !== 'code-block') {
+              return '<code>'+text + '</code></pre>';
+            }
+            */
 
-            function encodeContent(text) {
+
+            function encodeContent(text: string) {
               return text.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('\xA0').join('&nbsp;').split('\n').join('<br>' + '\n');
             }
 
-            function encodeAttr(text) {
+            function encodeAttr(text: string) {
               return text.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;');
             }
 
@@ -356,30 +365,44 @@ export default class MyEditor extends React.Component {
         if (!_html) {
           syncContent('', '')
           return
-        }  
+        }
+
+        // console.log(html);
         
         if (markdown) {
 
-          html = html.replace(/\<\/p\>\<p\>/g,'\n');
-          html = html.replace(/\<\/p\>/g,'\n');
+          html = html.replace(/\<\/p\>\<p\>/g,'');
+          html = html.replace(/\<\/p\>/g,'');
           html = html.replace(/<[^>]+>/g,"");
   
           html = html.replace(/\&lt\;/g, '<');
           html = html.replace(/\&gt\;/g, '>');
           html = html.replace(/\&nbsp\;/g, ' ');
           html = html.replace(/\&amp\;/g, '&');
+
+          // console.log(html);
   
           var converter = new showdown.Converter();
-  
+          
           converter.setOption('tables', true);
           converter.setOption('simpleLineBreaks', true);
   
           html = converter.makeHtml(html);
+
+          // console.log(html);
         }
 
-        
-        
+        // console.log(html);
+
+        // let imgReg = /(<pre>)[\s\S]*?(<\/pre>)/gi;
+      
+        // let preList = html.match(/(<pre>)[\s\S]*?(<\/pre>)/gi);
+
+        // preList
+              
         html = encodeURIComponent(html);
+
+        
 
         syncContent(JSON.stringify(convertToRaw(content)), html);
 
@@ -387,7 +410,7 @@ export default class MyEditor extends React.Component {
 
   }
 
-  _toggleBlockType(blockType) {
+  _toggleBlockType(blockType: any) {
     this.onChange(
       RichUtils.toggleBlockType(
         this.state.editorState,
@@ -396,7 +419,7 @@ export default class MyEditor extends React.Component {
     )
   }
 
-  _toggleInlineStyle(inlineStyle) {
+  _toggleInlineStyle(inlineStyle: any) {
     this.onChange(
       RichUtils.toggleInlineStyle(
         this.state.editorState,

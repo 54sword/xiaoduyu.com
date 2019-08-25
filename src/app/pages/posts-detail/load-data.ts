@@ -22,7 +22,7 @@ export default ({ store, match, user }: any) => {
     if (data && data.data && data.data.length > 0) {
 
       let posts = data.data[0];
-
+      
       await loadCommentList({
         id: posts._id,
         args: {
@@ -30,6 +30,7 @@ export default ({ store, match, user }: any) => {
           weaken: false,
           posts_id: posts._id,
           parent_id: 'not-exists',
+          reply_page_size: posts.comment_count > 10 ? 3 : 10,
           page_size:100,
           page_number: Math.ceil(posts.comment_count/100)
         }

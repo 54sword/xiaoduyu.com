@@ -13,6 +13,7 @@ import './styles/index.scss';
 
 interface Props {
   notification: any
+  key?: any
 }
 
 export default ({ notification }: Props) => {
@@ -131,7 +132,7 @@ export default ({ notification }: Props) => {
         <del styleName="del">{content}</del>
       </div>)
     } else {
-      content = (<div key={notice._id} styleName={notice.has_read ? '' : 'unread'}>
+      content = (<div key={notice._id}>
         {content}
       </div>)
     }

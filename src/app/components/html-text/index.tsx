@@ -6,6 +6,7 @@ import './styles/index.scss';
 import convertHTML from './convert';
 
 import hljs from 'highlight.js/lib/highlight';
+import javascript from 'highlight.js/lib/languages/javascript';
 // import 'highlight.js/styles/github.css';
 
 interface Props {
@@ -46,7 +47,9 @@ export default function({ content, maxHeight }: Props) {
     }
     */
 
+    hljs.registerLanguage('javascript', javascript);
     $('.markdown-body pre').each(function(i: any, block: any) {
+      // console.log(block);
       hljs.highlightBlock(block);
     });
 
@@ -55,7 +58,11 @@ export default function({ content, maxHeight }: Props) {
     pangu.spacingElementByClassName('markdown-body');
 
     if (!contentHeight) {
-      setContentHeight(contentRef && contentRef.current ? contentRef.current.offsetHeight : 0);
+      // setTimeout(()=>{
+        // console.log('-------');
+        // console.log(contentRef.current.offsetHeight);
+        setContentHeight(contentRef && contentRef.current ? contentRef.current.offsetHeight : 0);
+      // }, 1000);
     }
     
   }, [content]);

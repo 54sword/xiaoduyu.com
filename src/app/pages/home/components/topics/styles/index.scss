@@ -4,11 +4,11 @@
   border-bottom-right-radius: 0px;
 }
 .topic-list{
-  display: inline-block;
-  line-height: 200%;
+  line-height: 180%;
   > a{
     display: inline-block;
-    margin-right:10px;
-    margin-left:5px;
+    margin-right:15px;
   }
 }
+
+@import './responce';

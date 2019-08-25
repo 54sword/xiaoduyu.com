@@ -49,7 +49,7 @@ export default Shell(function() {
           <div className="row">
             {links.map((item: item)=>{
               return (<a key={item.domain} href={item.domain} target="_blank" className="col-6 mb-2 mt-2">
-                <b>{item.name}</b><div><small>{item.description}</small></div>
+                {item.name}<div><small className="text-secondary">{item.description}</small></div>
               </a>)
             })}
           </div>

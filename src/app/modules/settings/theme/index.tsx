@@ -1,5 +1,7 @@
 import React from 'react';
 
+import * as globalData from '@app/common/global-data';
+
 // redux
 import { useSelector, useStore } from 'react-redux';
 import { getUserInfo } from '@app/redux/reducers/user';
@@ -40,6 +42,9 @@ export default function() {
       _loadUserInfo({});
 
       $('html').attr('id', theme == 1 ? 'light-theme' : 'dark-theme');
+
+      globalData.get('service-worker').uninstall();
+
     }
     
   }

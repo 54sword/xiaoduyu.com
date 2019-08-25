@@ -40,17 +40,17 @@ export default function(props:Props) {
         <PeopleItem people={item} />
       </div>)
     }}
-    renderHead={({ loadData }: any)=>{
+    // renderHead={({ loadData }: any)=>{
 
-      if (list && list.more) {
-        return (<div className="text-center pt-3 pb-3">
-            <a href="javascript:void(0)" onClick={()=> { loadData(); }}>加载更多</a>
-          </div>)
-      } else {
-        return null
-      }
+    //   if (list && list.more) {
+    //     return (<div className="text-center pt-3 pb-3">
+    //         <a href="javascript:void(0)" onClick={()=> { loadData(); }}>加载更多</a>
+    //       </div>)
+    //   } else {
+    //     return null
+    //   }
 
-    }}
+    // }}
   />)
 
 }

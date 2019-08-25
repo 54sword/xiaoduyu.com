@@ -67,7 +67,7 @@ export default function({ comment, postsAuthorId }: Props) {
           <Link to={`/people/${comment.user_id._id}`}>
             <div styleName="avatar" className="load-demand" data-load-demand={`<img width="48" height="48" src="${comment.user_id.avatar_url}" />`}></div>
             <b styleName="nickname">{comment.user_id.nickname}</b>
-            {postsAuthorId && comment.user_id._id == postsAuthorId ? <small className="text-info"> <b>(楼主)</b></small> : null}
+            {postsAuthorId && comment.user_id._id == postsAuthorId ? <small> (楼主)</small> : null}
           </Link>
           {!parent && reply_user && reply_user._id != comment.user_id._id ||
             parent && reply_user && parent.user_id._id != reply_user._id
@@ -110,10 +110,9 @@ export default function({ comment, postsAuthorId }: Props) {
 
           <div styleName="info" className="w-50 text-muted">
             {!comment.parent_id ?
-              <Link to={`/comment/${comment._id}`} className="text-muted">{comment._create_at}</Link>
-              : <span className="text-muted">{comment._create_at}</span>}
-            {/* <span>{comment._create_at}</span> */}
-            {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
+              <Link to={`/comment/${comment._id}`} className="text-muted"><small>{comment._create_at}</small></Link>
+              : <span className="text-muted"><small>{comment._create_at}</small></span>}
+            {comment.like_count ? <span><small>{comment.like_count} 人赞</small></span> : null}
           </div>
   
           <div styleName="actions" className="text-secondary">

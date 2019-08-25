@@ -77,7 +77,7 @@ export default (state = cloneObj(initialState), action: Actions) => {
         state.data.comments = action.data.countComments.count;
         state.data.replys = action.data.countReply.count;
       }
-      return state;
+      break;
 
     default:
       return state

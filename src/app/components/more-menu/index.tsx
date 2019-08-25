@@ -105,7 +105,7 @@ export default function({  user, posts, comment }: Props) {
   }
 
   if (self && user) return null;
-
+  
   return (<div styleName="container">
 
     <a href="javascript:void(0)" styleName="menu" className="text-secondary" data-toggle="dropdown" onClick={stopPropagation}>
@@ -113,7 +113,7 @@ export default function({  user, posts, comment }: Props) {
         <use xlinkHref="/feather-sprite.svg#more-horizontal"/>
       </svg>
     </a>
-    <div className="dropdown-menu dropdown-menu-left">
+    <div className="dropdown-menu dropdown-menu-right">
 
       {self && posts || self && comment ?
         <a className="dropdown-item" href="javascript:void(0)" onClick={edit}>编辑</a>

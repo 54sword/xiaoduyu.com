@@ -4,7 +4,6 @@ import useReactRouter from 'use-react-router';
 import Cookies from 'universal-cookie';
 import QRCode from 'qrcode.react';
 
-
 // config
 import config from '@config';
 
@@ -41,21 +40,29 @@ export default function() {
   };
   const _saveTab = (params: string)=>saveTab(params)(store.dispatch, store.getState);
 
-  const setTabToCookie = function(tab: string) {
+  const setTabToCookie = function(_tab: string) {
 
+    // 如果是再首页，储存滚动条位置
     if (location.pathname == '/') {
-      saveScrollPosition(tab == 'home' ? 'follow' : 'home')(store.dispatch, store.getState);
+      // saveScrollPosition(_tab == 'home' ? 'follow' : 'home')(store.dispatch, store.getState);
+      saveScrollPosition(tab)(store.dispatch, store.getState);
+
+      // 如果已再当前tab，那么出发置顶
+      if (tab == _tab) {
+        $('body,html').animate({ scrollTop: 0 }, 500);
+      }
+
     }
 
     const cookies = new Cookies();
-    cookies.set('tab',tab, {
+    cookies.set('tab',_tab, {
       path: '/',
       expires: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 365)
     })
-    _saveTab(tab)
+    _saveTab(_tab)
     
     setTimeout(()=>{
-      setScrollPosition(tab)(store.dispatch, store.getState);
+      setScrollPosition(_tab)(store.dispatch, store.getState);
     }, 100)
   }
 
@@ -70,15 +77,13 @@ export default function() {
 
   return (
     <>
-
     <div styleName="header-space"></div>
     
     <header styleName="header">
-    <div className="container">
+      <div className="container">
       <div className="d-flex">
-        
       
-        <div className={`${me ? 'd-none d-sm-block' : ''}`}>
+        <div className={`${me ? 'd-none d-md-block' : ''}`}>
           <Link to="/" styleName="logo"></Link>
         </div>
 
@@ -102,6 +107,14 @@ export default function() {
                 onClick={()=>{ setTabToCookie('follow') }}
                 >
                 关注{followTip > 0 ? <span styleName="subscript"></span> : null}
+              </Link>
+              <Link
+                to="/"
+                styleName="nav-item"
+                className={`text-secondary ${tab == 'favorite' && location.pathname == '/' ? 'active': ''}`}
+                onClick={()=>{ setTabToCookie('favorite') }}
+                >
+                收藏{favoriteTip > 0 ? <span styleName="subscript"></span> : null}
               </Link>
               <a
                 href="javascript:void(0)"
@@ -128,38 +141,23 @@ export default function() {
         <div className="ml-auto d-flex justify-content-start" styleName="nav">
           {me ?
           <>
-            <NavLink exact to="/new-posts" styleName="edit">
-              <svg>
-                <use xlinkHref="/feather-sprite.svg#edit-3"/>
-              </svg>
+            <NavLink exact to="/new-posts" styleName="svg-icon">
+              <svg><use xlinkHref="/feather-sprite.svg#edit-3"/></svg>
             </NavLink>
-            <NavLink exact to="/search" styleName="search">
-              <svg>
-                <use xlinkHref="/feather-sprite.svg#search"/>
-              </svg>
+            <NavLink exact to="/search" styleName="svg-icon">
+              <svg><use xlinkHref="/feather-sprite.svg#search"/></svg>
             </NavLink>
-            <NavLink exact to="/favorite" styleName="favorite">
-              <svg>
-                <use xlinkHref="/feather-sprite.svg#bookmark"/>
-              </svg>
-              {favoriteTip > 0 ? <span styleName="subscript"></span> : null}
-            </NavLink>
-            <NavLink exact to="/notifications" styleName="notification">
-              <svg>
-                <use xlinkHref="/feather-sprite.svg#bell"/>
-              </svg>
+            <NavLink exact to="/notifications" styleName="svg-icon">
+              <svg><use xlinkHref="/feather-sprite.svg#bell"/></svg>
               {unreadNotice.length > 0 ? <span styleName="unread-subscript">{unreadNotice.length}</span> : null}
             </NavLink>
-            <NavLink exact to="/sessions" styleName="message">
-              <svg>
-                <use xlinkHref="/feather-sprite.svg#message-circle"/>
-              </svg>
+            <NavLink exact to="/sessions" styleName="svg-icon">
+              <svg><use xlinkHref="/feather-sprite.svg#message-circle"/></svg>
               {unreadMessage > 0 ? <span styleName="unread-subscript">{unreadMessage}</span> : null}
             </NavLink>
 
-            <a href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" styleName="avatar" style={{backgroundImage:`url(${me.avatar_url})`}}>
+            <a href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" styleName="avatar" style={{backgroundImage:`url(${me.avatar_url})`}}></a>
 
-            </a>
             <div className="dropdown-menu dropdown-menu-right">
               <Link className="dropdown-item" to={`/people/${me._id}`}>我的主页</Link>
               <Link className="dropdown-item" to="/settings">设置</Link>
@@ -168,7 +166,7 @@ export default function() {
             </div>
           </>
           :
-          <div styleName="text-nav" className="d-flex flex-row" style={{marginRight:'-15px'}}>
+          <div styleName="text-nav" className="d-flex flex-row">
               <a
                 href="javascript:void(0)"
                 styleName="nav-item"
@@ -189,8 +187,8 @@ export default function() {
         </div>
 
       
-        </div>
-        </div>
+      </div>
+      </div>
     </header>
     
 

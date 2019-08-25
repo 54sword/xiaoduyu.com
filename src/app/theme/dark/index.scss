@@ -12,9 +12,11 @@ $color_muted: #4b4e52;
 // 次要
 $color_secondary: #656a70;
 
-$color_border: #383838;
+$color_border: #353535;
 
 :global{
+
+  // @media (prefers-color-scheme: dark) {
 
 #dark-theme{
 
@@ -103,13 +105,13 @@ $color_border: #383838;
       // }
     }
 
-    .card-body{
+    // .card-body{
       
       // padding:20px;
       // padding:15px 20px 15px 20px;
       // padding-top:0px;
       // background-color: #303030;
-    }
+    // }
 
     .card-footer{
       border-top:1px solid $color_border;
@@ -204,11 +206,11 @@ $color_border: #383838;
   // }
 
   .btn-primary{
-    background-color: $color_primary;
+    background-color: #424242;
     color:#fff;
-    border:1px solid $color_primary;
+    border:1px solid #424242;
     &:hover{
-      background-color: #547de8;
+      background-color: #383838;
       color:#fff;
     }
   }

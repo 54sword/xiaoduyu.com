@@ -19,7 +19,7 @@
 
 .card{
   border: none;
-  border-radius: 5px;
+  // border-radius: 5px;
   background-color: #fff;
   margin-bottom: 15px;
   // overflow: hidden;
@@ -30,7 +30,7 @@
     padding:10px 20px 10px 20px;
     border-bottom:0px;
     background-color:transparent;
-    border-bottom:1px solid #f0f1f4;
+    // border-bottom:1px solid #f0f1f4;
     .title, .card-title{
       font-size: 16px;
       font-weight: bold;
@@ -44,18 +44,55 @@
   }
 
   .card-footer{
-    padding:15px;
-    border-top:1px solid #f0f1f4;
-    background-color:#fafbfe;
+    padding:12px 20px 12px 20px;
+    // border-top:1px solid #f0f1f4;
+    background-color:transparent;
+    // background-color:#fafbfe;
   }
 
 }
 
+
+// https://getbootstrap.com/docs/4.3/utilities/borders/#sizes
+
+.rounded{
+  border-radius: .25rem;
+}
+
+.rounded-top{
+  border-radius: 0px;
+  border-top-right-radius: .25rem;
+  border-top-left-radius: .25rem;
+}
+
+.rounded-right{
+  border-radius: 0px;
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+
 .rounded-bottom{
   border-radius: 0px;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: .25rem;
+  border-bottom-left-radius: .25rem;
 }
+
+.rounded-left{
+  border-radius: 0px;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+
+.rounded-circle{
+  border-radius: 50%;
+}
+
+.rounded-0{
+  border-radius: 0px;
+}
+
+
+/////////////////////////////////////////
 
 .list-group-item{
   background-color:transparent;

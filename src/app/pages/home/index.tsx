@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 // layout
 // import SingleColumns from '@app/layout/single-columns';
@@ -10,6 +11,7 @@ import { name, description, domainName } from '@config';
 // redux
 import { useSelector, useStore } from 'react-redux';
 import { getTab } from '@app/redux/reducers/website';
+import { getUserInfo } from '@app/redux/reducers/user';
 import { saveScrollPosition, setScrollPosition } from '@app/redux/actions/scroll';
 
 // modules
@@ -20,6 +22,7 @@ import Meta from '@app/modules/meta';
 import HomeFeed from './components/home-feed';
 import FollowFeed from './components/follow-feed';
 import Topics from './components/topics';
+import Favorte from './components/favorite';
 import PostsList from '@app/modules/posts-list';
 
 // import AppDownload from '@app/modules/app-download';
@@ -32,6 +35,7 @@ import ADPC from '@app/modules/ads/pc';
 export default Shell(() => {
 
   const tab = useSelector((state: object)=>getTab(state));
+  const me = useSelector((state: object)=>getUserInfo(state));
   const store = useStore();
 
   useEffect(()=>{
@@ -40,8 +44,6 @@ export default Shell(() => {
       saveScrollPosition(tab)(store.dispatch, store.getState);
     }
   }, []);
-
-  
 
   return(<div>
     
@@ -59,15 +61,41 @@ export default Shell(() => {
     </Meta>
 
     <TwoColumns>
-      {tab == 'home' ? 
-        <div>
-          <Topics />
-          <HomeFeed />
-        </div>
-      : 
-      <FollowFeed />}
+
+      {(()=>{
+        
+        // console.log(tab);
+
+        switch (tab) {
+          case 'follow':
+            return <FollowFeed />;
+          case 'favorite':
+            return <Favorte />;
+          default:
+            return (<div>
+              <Topics />
+              <HomeFeed />
+            </div>)
+        }
+
+
+      })()}
 
       <div>
+
+        {me ?
+        <Link to="/new-posts" className="btn btn-primary btn-block" style={{marginBottom:'15px'}}>发布话题</Link>
+        : <a
+            href="javascript:void(0)"
+            className="btn btn-primary btn-block"
+            style={{marginBottom:'15px'}}
+            data-toggle="modal"
+            data-target="#sign"
+            data-type="sign-up"
+            >
+              发布话题
+            </a>}
+
         <div className="card">
         <div className="card-header">推荐</div>
         <div className="card-body p-0">
@@ -82,9 +110,9 @@ export default Shell(() => {
             }}
             />
         </div>
-        </div>        
+        </div>
 
-        <div className="card">
+        {/* <div className="card">
         <div className="card-header">最热</div>
         <div className="card-body p-0">
           <PostsList
@@ -99,18 +127,32 @@ export default Shell(() => {
             }}
             />
         </div>
-        </div>
+        </div> */}
 
+        {tab == 'home' ?
+          <>
+            <div className="card">
+              <div className="card-body" style={{padding:'15px'}}>
+                <ADPC width="250px" height="250px" />
+              </div>
+            </div>
+            <Case />
+            <LinksExchange />
+            <OperatingStatus />
+          </>
+          : null}
+
+        {/* <AppDownload /> */}
+
+        <Footer />
+      </div>
+
+      <div>
         <div className="card">
           <div className="card-body" style={{padding:'15px'}}>
             <ADPC width="250px" height="250px" />
           </div>
         </div>
-        
-        <Case />
-        <LinksExchange />
-        <OperatingStatus />
-        <Footer />
       </div>
 
     </TwoColumns>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html id="<%= htmlWebpackPlugin.options.theme %>">
 <head>
   <meta charset="utf-8" />
   <title><%= htmlWebpackPlugin.options.name %></title>
@@ -11,7 +11,7 @@
 </head>
 <body>
   <style>
-    #startup-screen {
+    /* #startup-screen {
       position: fixed;
       background-color: #fff;
       top: 0px;
@@ -23,15 +23,39 @@
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 120px 120px;
+    } */
+    .index_header {
+      top: 0px;
+      min-width: 100%;
+      position: fixed;
+      height: 50px;
+      z-index: 99;
+      border-bottom: 1px solid #ecedf1;
+      background-color: rgba(255, 255, 255, 0.95);
+      text-align: center;
+      line-height: 45px;
     }
+
+    #dark-theme .index_header{
+      background-color: rgba(48, 48, 48, 0.9);
+      border-bottom: 1px solid #2b2b2b;
+    }
+    
   </style>
-  <div id="startup-screen"></div>
+  <!-- <div id="startup-screen"></div> -->
 
   <!-- app 视图 -->
-  <div id="app"></div>
+  <div id="app">
+      <header class="index_header d-flex justify-content-center">
+        <div class="spinner-border spinner-border-sm mt-3 text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </header>
+  </div>
 
   <!-- redux -->
   <script>
+    window.inAppShell = true;
     window.__initState__ = {}
   </script>
   

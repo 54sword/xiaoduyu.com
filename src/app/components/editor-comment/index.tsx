@@ -212,17 +212,17 @@ export default function({
 
   return (<div styleName="box">
     <div styleName="content">{content}</div>
-      <div styleName="footer" className="d-flex justify-content-between">
+      <div styleName="footer" className="d-flex justify-content-between align-items-center">
         <div>
           {forward ?
-            <label className="mt-2">
+            <label className="m-0">
               <input type="checkbox" ref={forwardRef} />
               <span className="ml-1" data-toggle="tooltip" data-placement="top" title="同时转发给我的粉丝">转发</span>
             </label>
             : null}
         </div>
         <div>
-          <button onClick={submit} type="button" className="btn btn-primary">{submitting ? '提交中...' : '提交'}</button>
+          <button onClick={submit} type="button" className="btn btn-block btn-primary rounded-pill btn-sm pl-3 pr-3">{submitting ? '提交中...' : '提交'}</button>
         </div>
       </div>
   </div>)

@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 import { name, contactEmail, ICPNumber, gongWangAnBei } from '@config/index';
 
-import ServiceWorker from '@app/modules/settings/service-worker';
+// import ServiceWorker from '@app/modules/settings/service-worker';
 import './styles/index.scss';
 
 export default function() {
-
+  
   return (
     <div className="card">
 
@@ -18,7 +18,7 @@ export default function() {
             {contactEmail && <a href={`mailto:${contactEmail}`} className="mr-2 text-secondary">联系站长</a>}
             <Link to="/agreement" className="mr-2 text-secondary">用户协议</Link>
             <Link to="/privacy" className="mr-2 text-secondary">隐私政策</Link>
-            {/* <Link to="/links" className="mr-2 text-secondary">友情链接</Link> */}
+            <Link to="/links" className="mr-2 text-secondary">友情链接</Link>
           </small>
         </div>
 
@@ -30,7 +30,7 @@ export default function() {
           {/* <div className="text-muted">Powered by <a href="https://github.com/54sword/xiaoduyu.com" target="_blank" className="text-secondary">小度鱼</a></div> */}
         </small>
 
-        <div><ServiceWorker /></div>
+        {/* <div><ServiceWorker /></div> */}
         
       </div>
         

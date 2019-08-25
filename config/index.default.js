@@ -70,7 +70,7 @@ let config = {
   },
   
   // [选填] 图片文件在public/512x512.png
-  favicon: '<link rel="icon" href="/512x512.png" type="image/png" />',
+  favicon: '<link rel="icon" href="/favicon.png" type="image/png" />',
 
   // [选填] 添加内容到模版的head中
   head: `
@@ -88,7 +88,9 @@ let config = {
     uploadUrl: {
       http: 'http://upload.qiniu.com',
       https: 'https://up.qbox.me/'
-    }
+    },
+    // cdn 域名
+    domain: ''
   },
   
   // [必填] AMP 页面相关配置

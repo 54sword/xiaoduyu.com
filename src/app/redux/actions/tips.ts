@@ -19,17 +19,17 @@ export function loadTips () {
           fields: `ids`
         },
 
-        {
-          aliases: 'home',
-          api: 'posts',
-          args: {
-            sort_by: "sort_by_date",
-            deleted: false,
-            weaken: false,
-            page_size:1
-          },
-          fields: `sort_by_date`
-        },
+        // {
+        //   aliases: 'home',
+        //   api: 'posts',
+        //   args: {
+        //     sort_by: "sort_by_date",
+        //     deleted: false,
+        //     weaken: false,
+        //     page_size:1
+        //   },
+        //   fields: `sort_by_date`
+        // },
 
         // {
         //   aliases: 'excellent',
@@ -85,6 +85,7 @@ export function loadTips () {
         dispatch({ type: 'SET_UNREAD_NOTICE', unreadNotice: res['userNotification'].ids });
       }
 
+      /*
       let homePostsList = getPostsListById(getState(), 'home');
       let posts = homePostsList && homePostsList.data && homePostsList.data[0] ? homePostsList.data[0] : null;
 
@@ -96,16 +97,7 @@ export function loadTips () {
       } else {
         dispatch({ type: 'SET_TIPS_BY_ID', id:'home', status: false });
       }
-
-      // 优选
-      if (res['excellent'] && res['excellent'][0] &&
-        userInfo.last_find_excellent_at &&
-        new Date(userInfo.last_find_excellent_at).getTime() < new Date(res['excellent'][0].sort_by_date).getTime()
-      ) {
-        dispatch({ type: 'SET_TIPS_BY_ID', id:'excellent', status: true });
-      } else {
-        dispatch({ type: 'SET_TIPS_BY_ID', id:'excellent', status: false });
-      }
+      */
 
       // 关注
       if (res['feed'] && res['feed'][0] &&
@@ -117,7 +109,7 @@ export function loadTips () {
         dispatch({ type: 'SET_TIPS_BY_ID', id:'feed', status: false });
       }
 
-      // 订阅
+      // 关注
       if (res['favorite'] && res['favorite'][0] &&
         userInfo.last_find_subscribe_at &&
         new Date(userInfo.last_find_subscribe_at).getTime() < new Date(res['favorite'][0].last_comment_at).getTime()

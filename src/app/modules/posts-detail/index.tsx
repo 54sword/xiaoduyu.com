@@ -14,7 +14,6 @@ import Follow from '@app/components/follow';
 import Share from '@app/components/share';
 // import WechatShareTips from '@app/components/wechat-share-tips';
 
-
 export default function({ posts }: any) {
 
     return(<div className="card">
@@ -66,11 +65,8 @@ export default function({ posts }: any) {
         </div>
 
         {posts.content_html ?
-          <div className="card">
-            <div styleName="detail" className="card-body pt-0">
-              <div className="border-top mb-3"></div>
-              <HTMLText content={posts.content_html} maxHeight={featureConfig.posts.contentMaxHeight} />
-            </div>
+          <div styleName="detail" className="card-body border-top">
+            <HTMLText content={posts.content_html} maxHeight={featureConfig.posts.contentMaxHeight} />
           </div>
           :null}
 
@@ -78,8 +74,8 @@ export default function({ posts }: any) {
           <div className="w-50 text-muted" styleName="info">
             <span>{posts._create_at}</span>
             {posts.view_count ? <span>{posts.view_count}次阅读</span> : null}
-                {posts.like_count ? <span>{posts.like_count}人赞</span> : null}
-                {posts.follow_count ? <span>{posts.follow_count}人收藏</span> : null}
+            {posts.like_count ? <span>{posts.like_count}人赞</span> : null}
+            {posts.follow_count ? <span>{posts.follow_count}人收藏</span> : null}
           </div>
           <div styleName="actions">
             <Like posts={posts} displayNumber={false} />
@@ -89,7 +85,6 @@ export default function({ posts }: any) {
           </div>
         </div>
 
-        {/* <WechatShareTips /> */}
     </div>)
 
 }

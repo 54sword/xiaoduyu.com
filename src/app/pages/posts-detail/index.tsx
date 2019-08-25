@@ -84,6 +84,8 @@ export default Shell(function({ setNotFound }: any) {
   if (loading || !posts) {
     return (<div className="text-center"><Loading /></div>);
   }
+
+  console.log(posts.comment_count);
   
   return (
     <TwoColumns>
@@ -109,6 +111,7 @@ export default Shell(function({ setNotFound }: any) {
       <ADH5 width='100%' height="70px" />
     </div>
     
+    <div className="mb-3">
     <div className="card mb-0" styleName="comment-list">
       <div className="card-header" style={{borderBottom:'none'}}>
         {posts.comment_count > 0 ?
@@ -124,6 +127,7 @@ export default Shell(function({ setNotFound }: any) {
             weaken: false,
             posts_id: posts._id,
             parent_id: 'not-exists',
+            reply_page_size: posts.comment_count > 10 ? 3 : 10,
             page_size:100,
             page_number: Math.ceil(posts.comment_count/100)
           }}
@@ -139,6 +143,10 @@ export default Shell(function({ setNotFound }: any) {
       : null}
 
     </div>
+
+    </div>
+
+    <div></div>
 
     <div>
       <div className="card">

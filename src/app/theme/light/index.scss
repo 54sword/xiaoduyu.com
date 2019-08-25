@@ -6,14 +6,14 @@
 // 主要
 $color_primary: #0073ff;
 // 黑色
-$color_dark: #111;//#000;//#353535;//#434343;//#222;
+$color_dark: #111;
 // 浅灰
-$color_muted: #bcbec3;//#cfd2d8;//#eff1f4;
+$color_muted: #bcbec3;
 // 次要
-$color_secondary: #7f8489;//#7f8591;//#888; //rgba(0,0,0,.54);//#7d7f85;//#aeaeae;
+$color_secondary: #7f8489;
 
 // 边框颜色
-$color_border: #ecedf1;//#e4e6ea;//#eff1f4;
+$color_border: #f4f4f4;
 
 :global{
 // #light-theme{
@@ -96,13 +96,13 @@ $color_border: #ecedf1;//#e4e6ea;//#eff1f4;
   .border-bottom{ border-bottom: 1px solid $color_border !important; }
   .border-left{ border-left: 1px solid $color_border !important; }
 
-  @media (min-width: 0px) and (max-width: 767px) {
-    .border{ border: 0.7px solid #e4e6ea !important; }
-    .border-top{ border-top: 0.7px solid #e4e6ea !important; }
-    .border-right{ border-right: 0.7px solid #e4e6ea !important; }
-    .border-bottom{ border-bottom: 0.7px solid #e4e6ea !important; }
-    .border-left{ border-left: 0.7px solid #e4e6ea !important; }
-  }
+  // @media (min-width: 0px) and (max-width: 767px) {
+  //   .border{ border: 0.5px solid #e4e6ea !important; }
+  //   .border-top{ border-top: 0.5px solid #e4e6ea !important; }
+  //   .border-right{ border-right: 0.5px solid #e4e6ea !important; }
+  //   .border-bottom{ border-bottom: 0.5px solid #e4e6ea !important; }
+  //   .border-left{ border-left: 0.5px solid #e4e6ea !important; }
+  // }
 
   //======================================================
   // https://getbootstrap.com/docs/4.0/components/buttons/
@@ -227,6 +227,18 @@ $color_border: #ecedf1;//#e4e6ea;//#eff1f4;
       // border-bottom:2px solid $color_primary;
       // border-radius: 2px;
     }
+  }
+
+  .card{
+    
+    .card-head, .card-header{
+      border-bottom:1px solid $color_border;
+    }
+
+    .card-footer{
+      border-top:1px solid $color_border;
+    }
+  
   }
   
 // }

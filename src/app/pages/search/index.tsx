@@ -66,10 +66,10 @@ export default Shell(function() {
         <div className="card-body pt-0 pb-0 border-bottom">
 
           <form onSubmit={handleSearch}>
-            <div className="input-group">
+            <div className="input-group mt-2 mb-2">
               <input type="text" styleName="input" className="form-control" ref={search} placeholder="输入关键词搜索" />
               <div className="input-group-append">
-                <button type="submit" className="btn">搜索</button>
+                <button type="submit" className="btn btn-outline-primary rounded-pill btn-sm pl-3 pr-3 ml-1">搜索</button>
               </div>
             </div>
           </form>
@@ -82,10 +82,6 @@ export default Shell(function() {
         </div>
 
         <div className="card-body p-0">
-
-
-
-
 
         {(()=>{
           if (!q) return

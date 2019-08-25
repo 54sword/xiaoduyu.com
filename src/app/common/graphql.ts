@@ -8,13 +8,23 @@ import { api } from '@config';
 import featureConfig from '@config/feature.config';
 
 import To from './to';
-import Ajax from './ajax'
+import Ajax from './ajax';
 
 
 /*
 // https://www.apollographql.com/docs/react/advanced/caching.html
 let memoryCache = new InMemoryCache({
   addTypename: false
+});
+
+// https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
+const client: any = new ApolloClient({
+  ssrMode: false,//__SERVER__ ? true : false,
+  link: new HttpLink({
+    uri: __SERVER__ && api.graphql.server ? api.graphql.server : api.graphql.client,
+    fetch
+  }),
+  cache: memoryCache
 });
 
 if (featureConfig.cache && __SERVER__) {
@@ -29,7 +39,6 @@ if (featureConfig.cache && __SERVER__) {
   timer();
 }
 */
-
 
 // GraphQL 客户端请求
 interface Props {
@@ -73,6 +82,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
     }
 
   });
+
 
   return To(new Promise(async (resolve, reject)=>{
 
@@ -131,11 +141,9 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
     }
 
   }));
-  
-  
 
-    /*
 
+  /*
   const _sql = gql`${type}{
     ${sql}
   }`;
@@ -143,24 +151,20 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
   // 在服务端发起的请求的ua，传递给api
   // if (global.ua) headers['user-agent'] = global.ua;
 
+
+
+
   let options: any = {
     context: {
       headers
     },
     // fetchPolicy: 'no-cache'
     // 如果未设置缓存，判断如果是会员的话不缓存，游客缓存
-    fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache')
+    fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache'),
+    
   }
 
-  // https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
-  const client: any = new ApolloClient({
-    ssrMode: false,//__SERVER__ ? true : false,
-    link: new HttpLink({
-      uri: __SERVER__ && api.graphql.server ? api.graphql.server : api.graphql.client,
-      fetch
-    }),
-    cache: memoryCache
-  });
+
 
   let fn:any = client.query;
 

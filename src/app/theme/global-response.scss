@@ -2,12 +2,18 @@
 
 @media (min-width: 0px) and (max-width: 575px) {
 
+  body {
+    background-color: #f5f6f9;
+  }
+
   .container{
-    padding-left:5px;
-    padding-right:5px;
+    padding-left:0px;
+    padding-right:0px;
   }
 
   .card{
+    margin-bottom:5px;
+    border-radius: 0px;
     .card-header{
       padding:15px;
       .title, .card-title{
@@ -15,6 +21,9 @@
       }
     }
     .card-body{
+      padding:15px;
+    }
+    .card-footer{
       padding:15px;
     }
   }

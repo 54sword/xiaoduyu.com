@@ -61,7 +61,7 @@ export default function({ posts }: Props) {
       <div className="d-flex justify-content-between">
         <Link styleName="nickname" to={`/people/${posts.user_id._id}`} onClick={stopPropagation}>
           <i styleName="avatar" className="load-demand" data-load-demand={encodeURIComponent(`<img src="${posts.user_id.avatar_url}" />`)}></i>
-          {posts.user_id.nickname}
+          <span>{posts.user_id.nickname}</span>
         </Link>
       </div>
 
@@ -80,7 +80,6 @@ export default function({ posts }: Props) {
       </div>
 
       <div styleName="posts-info">
-        
         <small>
           <Link styleName="topic" className="text-muted" to={`/topic/${posts.topic_id._id}`} onClick={stopPropagation}>{posts.topic_id.name}</Link>
         </small>

@@ -14,6 +14,7 @@ import * as socket from './socket';
 
 import { GA, analysisScript } from '@config';
 import { debug } from '@config/feature.config';
+import * as globalData from '@app/common/global-data';
 
 import '../app/theme/global.scss';
 
@@ -23,13 +24,53 @@ import { requestNotificationPermission } from '@app/redux/actions/website';
 import { initHasRead } from '@app/redux/actions/has-read-posts';
 import { loadOperatingStatus } from '@app/redux/actions/website';
 
-if (process.env.NODE_ENV != 'development') {
-  // 安装离线文件
-  OfflinePluginRuntime.install({
-    onUpdateReady: () => OfflinePluginRuntime.applyUpdate(),
-    onUpdated: () => location.reload(),
-  });
+
+// -----------------------------------
+const ServiceWorker = {
+
+  get: function() {
+    return new Promise(resolve=>{
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          resolve(registrations);
+        })
+      } else {
+        resolve(null)
+      }
+    })
+  },
+
+  install: function(){
+    return new Promise(async resolve=>{
+      if (process.env.NODE_ENV != 'development') {
+        await OfflinePluginRuntime.install();
+      }
+      resolve();
+    })
+  },
+
+  uninstall: function(){
+    return new Promise(async resolve=>{
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (const registration of registrations) {
+            registration.unregister()
+          }
+          resolve();
+        }).catch(err=>{
+          resolve();
+        })
+      } else {
+        resolve();
+      }
+
+    })
+  }
+
 }
+
+globalData.set('service-worker', ServiceWorker);
+ServiceWorker.install();
 
 (async function(){
 
@@ -38,7 +79,7 @@ if (process.env.NODE_ENV != 'development') {
 
   let userinfo = null;
 
-  let isAppShell = $('#startup-screen').length > 0 ? $('#startup-screen') : null;
+  let isAppShell = window.inAppShell || false;
   
   if (isAppShell) {
     await new Promise((resolve, reject)=>{
@@ -102,6 +143,10 @@ if (process.env.NODE_ENV != 'development') {
 
   // 预先加载首屏的js（否则会出现，loading 一闪的情况）
   await _route.body.preload();
+  
+  if (isAppShell) {
+    document.getElementById('app').innerHTML = '';
+  }
 
   ReactDOM.hydrate(
     <Provider store={store}>
@@ -128,11 +173,11 @@ if (process.env.NODE_ENV != 'development') {
   
   initHasRead()(store.dispatch, store.getState);
 
-  if (isAppShell) {
+  // if (isAppShell) {
     // $('html').id = userinfo && userinfo.theme == 2 ? 'dark-theme' : 'light-theme';
 
-    $('html').attr('id', userinfo && userinfo.theme == 2 ? 'dark-theme' : 'light-theme');
-    isAppShell.css({display:'none'});
-  }
+    // $('html').attr('id', userinfo && userinfo.theme == 2 ? 'dark-theme' : 'light-theme');
+    // isAppShell.css({display:'none'});
+  // }
 
 }());

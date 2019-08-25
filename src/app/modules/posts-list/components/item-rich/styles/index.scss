@@ -9,15 +9,13 @@
 
 .nickname{
   font-size: 13px;
-  // font-weight: bold;
-  font-weight: 400;
+  color: #929292 !important;
 }
 
 .avatar, .avatar > img{
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  // background-color: #efefef;
 }
 
 .avatar{
@@ -28,12 +26,6 @@
 
 .title{
   font-size: 16px;
-  // font-weight: 500;
-  
-  // a {
-  //   word-break:break-all;
-  //   word-wrap:break-word;
-  // }
 }
 
 .comment{
@@ -61,11 +53,7 @@
     }
   }
   .topic{
-    // text-decoration: underline;
-    // padding: 2px 8px 2px 8px;
-    // border-radius: 10px;
-    // background-color: #eef1f5;
-    // color:#838b9c;
+    color: #929292 !important;
   }
 }
 

@@ -19,8 +19,12 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
       posts._device = Device.getNameByDeviceId(posts.device);
     }
 
-    if (posts.content_html) {
+    if (posts.content_html && posts.content_html == '<p><br></p>') {
+      posts.content_html = '';
+    }
 
+    if (posts.content_html) {
+      
       // posts.content_html = decodeURIComponent(posts.content_html);
 
       // 提取内容中所有的图片地址
@@ -68,6 +72,8 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
       if (textContent.length > 137) textContent = textContent.slice(0, 137)+'...';      
 
       posts.content_summary = textContent;
+
+
 
       // 获取内容中所有的图片
       posts.content_html = imageOptimization(posts.content_html);
@@ -331,7 +337,13 @@ const abstractImages = (str: string) => {
   while (img = imgReg.exec(str)) {
     let _img: any = img[0].match(srcReg)
     if (_img && _img[1]) {
-      _img = _img[1] + '?imageView2/2/w/800/auto-orient/format/jpg'
+
+      _img = _img[1];
+
+      if (_img[1].indexOf('xiaoduyu.com') != -1) {
+        _img = _img[1] + '?imageView2/2/w/800/auto-orient/format/jpg'
+      }
+      
       result.push(_img)
     }
   }
@@ -356,7 +368,7 @@ const imageOptimization = (str: string) => {
 
       let _img = oldImgDom.match(srcReg);
 
-      if (_img && _img[1]) {
+      if (_img && _img[1] && _img[1].indexOf('xiaoduyu.com') != -1) {
         let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/800/auto-orient/format/jpg');
         str = str.replace(oldImgDom, newImg);
       }

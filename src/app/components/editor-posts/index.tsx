@@ -259,7 +259,7 @@ export default function(props: Props) {
       body={<div styleName='topics-container'>
           {topicList && topicList.data.map((item: any)=>{
           return (<div key={item._id}>
-              <div styleName='head' className="text-secondary">{item.name}</div>
+              <div className="text-secondary">{item.name}</div>
               <div>
               {item.children && item.children.map((item: any)=>{
                 return (<div
@@ -279,7 +279,7 @@ export default function(props: Props) {
       <div className="col-md-2 col-3 pr-0">
         <a
           styleName="choose-topic-button"
-          className="card border-right"
+          className="card border-right rounded-left"
           href="javascript:void(0)"
           data-toggle="modal" 
           data-target="#topics-modal"
@@ -288,23 +288,35 @@ export default function(props: Props) {
         </a>
       </div>
       <div className="col-md-10 col-9 pl-0">
-        <input className="card" styleName="title" ref={titleRef} type="text" onChange={onTitleChange} placeholder="请输入标题"  />
+        <input className="card rounded-right" styleName="title" ref={titleRef} type="text" onChange={onTitleChange} placeholder="请输入标题"  />
       </div>
     </div>
     </div>
 
-    <div styleName="editor" className="card border-top">{editor}</div>
-    
     <div className="card">
+      {editor}
+      <div className="card-footer">
+      <div className="d-flex justify-content-between">
+        <div>
+          <button type="button" className="btn btn-link btn-sm" onClick={()=>setPreview(preview ? false : true)}>{preview ? '关闭' : ''}预览</button>
+        </div>
+        <div>
+          <button className="btn btn-block btn-primary rounded-pill btn-sm pl-3 pr-3" onClick={submit}>{loading ? '发布中...' : '发布'}</button>
+        </div>
+      </div>
+      </div>
+    </div>
+    
+    {/* <div className="card">
       <div className="d-flex justify-content-between p-2">
         <div>
           <button type="button" className="btn btn-link" onClick={()=>setPreview(preview ? false : true)}>{preview ? '关闭' : ''}预览</button>
         </div>
         <div>
-          <button className="btn btn-block btn-primary" onClick={submit}>{loading ? '发布中...' : '发布'}</button>
+          <button className="btn btn-block btn-primary rounded-pill" onClick={submit}>{loading ? '发布中...' : '发布'}</button>
         </div>
       </div>
-    </div>
+    </div> */}
     
     {preview ?
       <div className="card mt-2">

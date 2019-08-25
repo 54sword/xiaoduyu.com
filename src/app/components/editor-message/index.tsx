@@ -153,7 +153,7 @@ export default function({
       <div styleName="content">{content}</div>
       {showFooter ?
         <div styleName="footer">
-          <button onClick={submit} type="button" className="btn btn-primary">{submitting ? '提交中...' : '提交'}</button>
+          <button onClick={submit} type="button" className="btn btn-primary rounded-pill btn-sm pl-3 pr-3">{submitting ? '提交中...' : '提交'}</button>
         </div>
         : null}
     </div>)

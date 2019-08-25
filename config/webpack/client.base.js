@@ -47,7 +47,7 @@ module.exports = {
       // ArriveFooter 监听抵达页尾的事件
       './src/app/vendors/arrive-footer.js',
       
-      // './src/app/vendors/float-fixed.js',
+      './src/app/vendors/float-fixed.js',
 
       /**
        * 懒加载图片、Dom
@@ -198,6 +198,7 @@ module.exports = {
     new HtmlwebpackPlugin({
       filename: path.resolve(__dirname, '../../dist/client/app-shell.ejs'),
       template: 'src/app/views/app-shell.html',
+      theme: '<%- theme %>',
       head: config.head,
       name: config.name,
       description: config.description

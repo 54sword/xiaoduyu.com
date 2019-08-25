@@ -1,9 +1,12 @@
 :global(#dark-theme) {
   .box{
-    // background-color: #303030;
     &:hover{
       background-color: #353535;
     }
+  }
+
+  .nickname{
+    color: #575b5f !important;
   }
 
   .posts-info{
@@ -12,7 +15,9 @@
         color:#4b4e52;
       }
     }
-
+    .topic{
+      color: #575b5f !important;
+    }
   }
 
 }

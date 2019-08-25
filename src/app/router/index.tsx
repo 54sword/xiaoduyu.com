@@ -69,7 +69,6 @@ export default ({ user, enterEvent = ()=>{} }: Params): Result => {
             />)
           })}
         </Switch>
-        {/* <Footer /> */}
       </div>
       
       {/* 全局的组件 */}

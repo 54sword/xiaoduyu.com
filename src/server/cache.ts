@@ -4,11 +4,11 @@ var LRU = require("lru-cache")
   , options = { max: 100, maxAge: featureConfig.cache }
   , cache = new LRU(options);
 
-// if (!featureConfig.cache) {
+if (!featureConfig.cache) {
   cache = {
     get: () => '',
     set: () => ''
   }
-// }
+}
 
 export default cache;
