@@ -5,20 +5,16 @@ import To from '../../common/to';
 export const initHasRead = () => {
   return async (dispatch: any, getState: any) => {
 
-    let [ err, state = '{}' ] = await To(storage.load({ key: 'has-read-posts' }));
+    let err, posts, comments;
 
-    state = JSON.parse(state);
-    dispatch({ type: 'INIT_HAS_READ_POSTS_STATE', state });
+    [ err, posts = '{}' ] = await To(storage.load({ key: 'has-read-posts' }));
+    [ err, comments = '{}' ] = await To(storage.load({ key: 'has-read-comments' }));
+    
+    posts = JSON.parse(posts);
+    comments = JSON.parse(comments);
 
-    /*
-    try {
-      let state = reactLocalStorage.get('has-read-posts') || '{}';
-      state = JSON.parse(state);
-      dispatch({ type: 'INIT_HAS_READ_POSTS_STATE', state });
-    } catch (err) {
-      console.log(err);
-    }
-    */
+    dispatch({ type: 'INIT_HAS_READ_POSTS_STATE', state: { posts, comments } });
+    
 
   }
 }
@@ -30,20 +26,33 @@ export const initHasRead = () => {
 
 interface Props {
   // 帖子的id
-  postsId: string
+  postsId?: string
+  commentId?: string
   // 帖子最近一次评论的日期
-  lastCommentAt: string
+  total: number
 }
-export const addHasRead = ({ postsId, lastCommentAt }: Props) => {
+export const addHasRead = ({ postsId, commentId, total }: Props) => {
   return (dispatch: any, getState: any) => {
-    dispatch({ type: 'ADD_POSTS_HAS_READ', postsId, lastCommentAt });
 
-    storage.save({
-      key: 'has-read-posts',
-      data: JSON.stringify(getState().hasReadPosts),
-      expires: 1000 * 60 * 60 * 3
-    });
+    if (postsId) {
+      dispatch({ type: 'ADD_POSTS_HAS_READ', postsId, total });
+      
+      storage.save({
+        key: 'has-read-posts',
+        data: JSON.stringify(getState().hasReadPosts.posts),
+        expires: 1000 * 60 * 60 * 24 * 30
+      });
+    } else {
+      dispatch({ type: 'ADD_COMMENT_HAS_READ', commentId, total });
 
-    // reactLocalStorage.set('has-read-posts', JSON.stringify(getState().hasReadPosts));
+      storage.save({
+        key: 'has-read-comments',
+        data: JSON.stringify(getState().hasReadPosts.comments),
+        expires: 1000 * 60 * 60 * 24 * 30
+      });
+    }
+
+
+
   }
 }

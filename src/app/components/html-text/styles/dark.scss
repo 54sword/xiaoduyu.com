@@ -1,0 +1,12 @@
+:global(#dark-theme) {
+  .content{
+    color:#e0e0e0;
+    pre{
+      background-color: #111;
+      color:#e0e0e0;
+    }
+    h2{
+      border-bottom: 1px solid #3f3f3f;
+    }
+  }
+}

@@ -1,11 +1,15 @@
 import React from 'react';
 
+import './styles/index.scss';
+
 interface Props {
   size?: string,
   position?: string
 }
 
 export default function({ size = 'sm', position = 'center' }: Props) {
+
+  return <span styleName="loading"></span>
 
   let sizeList: any = {
     sm: 'spinner-border-sm'

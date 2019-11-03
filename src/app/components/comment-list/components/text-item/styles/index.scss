@@ -1,0 +1,9 @@
+.other-info{
+  >span{
+    font-size: 13px;
+    &:after{
+      content:'';
+      margin-right: 10px;
+    }
+  }
+}

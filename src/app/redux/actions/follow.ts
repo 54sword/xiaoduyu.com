@@ -29,12 +29,11 @@ const _follow = (status: any) => {
         if (err) return resolve([ err ? err.message : '未知错误' ]);
         
         if (args.posts_id) {
+          dispatch({ type: 'UPDATE_FOLLOW', id: args.posts_id, followStatus: status, selfId: me._id });
           dispatch({ type: 'UPDATE_POSTS_FOLLOW', id:args.posts_id, followStatus: status  });
         } else if (args.user_id) {
           dispatch({ type: 'UPDATE_FOLLOW', id: args.user_id, followStatus: status, selfId: me._id });
-
           dispatch({ type: 'UPDATE_POSTS_AUHTOR_FOLLOW', peopleId: args.user_id, followStatus: status, selfId: me._id });
-
           dispatch({ type: 'UPLOAD_PEOPLE_FOLLOW', peopleId: args.user_id, followStatus: status, selfId: me._id });
         } else if (args.topic_id) {
           dispatch({ type: 'UPDATE_FOLLOW', id: args.topic_id, followStatus: status, selfId: me._id });

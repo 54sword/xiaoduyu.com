@@ -1,0 +1,56 @@
+:global{
+
+@media (min-width: 0px) and (max-width: 575px) {
+
+  .container{
+    padding-left:0px;
+    padding-right:0px;
+  }
+
+  .card{
+    margin-bottom: 0px;
+    border-radius: 0px;
+    
+    .card-header{
+      // border-top:1px solid #333;
+      padding:8px 15px 8px 15px;
+      // padding:15px;
+    }
+    .card-body{
+      padding:15px;
+    }
+    .card-footer{
+      padding:15px;
+    }
+  }
+
+  .btn{
+    font-size:13px;
+  }
+
+  // .border,
+  // .border-top,
+  // .border-right,
+  // .border-bottom,
+  // .border-left{ border-bottom:0.5px solid #c8c8da; }
+
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+}
+
+@media (min-width: 992px) and (max-width: 1199px)  {
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1040px;
+    padding-left:15px;
+    padding-right:15px;
+  }
+}
+  
+}

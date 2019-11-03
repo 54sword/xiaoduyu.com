@@ -57,15 +57,19 @@ export default (state = cloneObj(initialState), action: Actions) => {
 
         state[i].data.map((item: any)=>{
           if (item._id == id) {
-            if (Reflect.has(item, 'like_count')) item.like_count += status ? 1 : -1
-            if (Reflect.has(item, 'like')) item.like = status
+            if (typeof item.like_count != 'undefined') item.like_count += status ? 1 : -1
+            if (typeof item.like != 'undefined') item.like = status
+            // if (Reflect.has(item, 'like_count')) item.like_count += status ? 1 : -1
+            // if (Reflect.has(item, 'like')) item.like = status
           }
 
           if (item.reply) {
             item.reply.map((item: any)=>{
               if (item._id == id) {
-                if (Reflect.has(item, 'like_count')) item.like_count += status ? 1 : -1
-                if (Reflect.has(item, 'like')) item.like = status
+                if (typeof item.like_count != 'undefined') item.like_count += status ? 1 : -1
+                if (typeof item.like != 'undefined') item.like = status
+                // if (Reflect.has(item, 'like_count')) item.like_count += status ? 1 : -1
+                // if (Reflect.has(item, 'like')) item.like = status
               }
             })
           }

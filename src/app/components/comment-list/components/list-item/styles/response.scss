@@ -1,0 +1,29 @@
+@media (min-width: 0px) and (max-width: 767px) {
+  .item{
+
+    padding-left:60px;
+  
+    .item-head{
+      .avatar{
+        img{
+          margin-left:-45px;
+          width: 35px;
+          height: 35px;
+        }
+      }
+    }
+
+  }
+
+  .reply-list{
+    > div{
+      padding-left: 45px;
+    }
+  }
+
+  .actions{
+    > span, > a, > div{
+      margin-right:15px;
+    }
+  }
+}

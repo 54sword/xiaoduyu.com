@@ -1,12 +1,14 @@
 import React from 'react';
-import './index.scss';
+import './styles/index.scss';
 
 interface Props {
   children?: Array<object> 
 }
 
 export default function({ children }: Props) {
-  return (<div styleName="box">
-    {children}
+  return (<div className="container">
+    <div styleName="box">
+      {children}
+    </div>
   </div>)
 }

@@ -1,0 +1,23 @@
+:global(#dark-theme) {
+  .box{
+    &:hover{
+      background-color: #353535;
+    }
+  }
+
+  .nickname{
+    color: #575b5f !important;
+  }
+
+  .posts-info{
+    > small{
+      &:after{
+        color:#4b4e52;
+      }
+    }
+    .topic{
+      color: #575b5f !important;
+    }
+  }
+
+}

@@ -8,7 +8,7 @@
 .DraftEditor-root img{
   max-width: 100%;
   max-height: 600px;
-  background-image: url('../ui/loading/images/loading.gif');
+  background-image: url('../ui/loading/styles/images/loading.gif');
   min-height: 30px;
   min-width: 30px;
   background-size: 16px;
@@ -82,8 +82,8 @@
   cursor: text;
   font-size: 14px;
   /* overflow: scroll; */
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* overflow-y: auto; */
+  /* overflow-x: hidden; */
   line-height: 180%;
 }
 
@@ -95,7 +95,10 @@
 .RichEditor-editor .public-DraftEditor-content {
   min-height: 300px;
   max-height: 360px;
-  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* overflow: scroll; */
+  /* overflow-x: hidden; */
 }
 
 .RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {

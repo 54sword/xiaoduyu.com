@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { loadCountries } from '@actions/countries';
-import { getCountries } from '@reducers/countries';
+import { loadCountries } from '@app/redux/actions/countries';
+import { getCountries } from '@app/redux/reducers/countries';
 
 // styles
 import './style.scss'

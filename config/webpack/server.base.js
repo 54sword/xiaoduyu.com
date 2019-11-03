@@ -74,8 +74,9 @@ module.exports = {
             options: {
               modules: {
                 localIdentName: config.classScopedName
-              }
-              
+              },
+              onlyLocals: true
+              // localIdentName: config.classScopedName,
               // minimize: true,
               // sourceMap: true
 
@@ -93,7 +94,13 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: `css` }
+          {
+            loader: `css`,
+            // loader: 'url?limit=8192',
+            options: {
+              onlyLocals: true
+            }
+          }
         ]
       },
       

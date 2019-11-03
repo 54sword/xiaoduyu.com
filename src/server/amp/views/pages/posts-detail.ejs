@@ -8,11 +8,11 @@
 
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="<%- posts.title %>" />
+    <meta property="og:title" content="<%= posts.title %>" />
     <meta property="og:description" content="<%- posts.description %>" />
     <meta property="og:url" content="<%- domainName %>/posts/<%- posts._id %>" />
     <meta property="og:site_name" content="<%- website_name %>" />
-
+    
     <script type="application/ld+json">
       {
         "@context": "http://schema.org",
@@ -20,7 +20,9 @@
         "mainEntityOfPage": "<%- domainName %>/posts/<%- posts._id %>",
         "headline": "<%- posts.title %>",
         "datePublished": "<%- new Date(new Date(posts.create_at).getTime()) %>",
-        "dateModified": "<%- new Date(posts.update_at) %>",
+        <% if (posts.update_at) { %>
+          "dateModified": "<%- new Date(new Date(posts.update_at).getTime()) %>",
+        <% } %>
         "description":"<%- posts.description %>",
         "author": {
           "@type": "Person",

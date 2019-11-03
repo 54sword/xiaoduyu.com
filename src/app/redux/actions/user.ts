@@ -20,7 +20,7 @@ export function removeAccessToken() {
  * 获取用户信息
  * @param  {String} accessToken 访问的token
  */
-export const loadUserInfo = ({ accessToken }: { accessToken: string }) => {
+export const loadUserInfo = ({ accessToken }: { accessToken?: string }) => {
   return (dispatch: any, getState: any) => {
     return new Promise(async (resolve, reject) => {
 
@@ -61,12 +61,11 @@ export const loadUserInfo = ({ accessToken }: { accessToken: string }) => {
           phone
           area_code
           find_notification_at
-          last_find_posts_at
           last_find_feed_at
-          last_find_subscribe_at
-          last_find_excellent_at
+          last_find_favorite_at
           has_password
           theme
+          user_cover
           `
         }],
         headers: {
@@ -78,9 +77,11 @@ export const loadUserInfo = ({ accessToken }: { accessToken: string }) => {
         resolve([err])
       } else {
         // res.phone = '';
-        dispatch({ type: 'SET_USER', userinfo: res });
-        if (accessToken) {
-          dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken });
+        if (dispatch) {
+          dispatch({ type: 'SET_USER', userinfo: res });
+          if (accessToken) {
+            dispatch({ type: 'ADD_ACCESS_TOKEN', access_token: accessToken });
+          }
         }
         resolve([null, res])
       }

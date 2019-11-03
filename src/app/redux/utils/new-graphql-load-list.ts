@@ -73,15 +73,22 @@ const loadList = function(dispatch: any, getState: any) {
       if (list.loading) return resolve(['loading...']);    
   
       // 已经加载所有，没有更多了
-      if (Reflect.has(list, 'more') && !list.more) return resolve([ null, list ]);
+      // if (Reflect.has(list, 'more') && !list.more) return resolve([ null, list ]);
+      if (typeof list.more != 'undefined' && !list.more) return resolve([ null, list ]);
       
       // 如果没有data属性，添加data属性
-      if (!Reflect.has(list, 'data')) list.data = [];
-  
+      // if (!Reflect.has(list, 'data')) list.data = [];
+      if (!list.data) list.data = [];
+      
       // 如果没有filters，添加filters
-      if (!Reflect.has(list, 'filters')) {
-        if (!Reflect.has(args, 'page_number')) args.page_number = 1;
-        if (!Reflect.has(args, 'page_size')) args.page_size = 25;
+      // if (!Reflect.has(list, 'filters')) {
+      if (typeof list.filters == 'undefined') {
+
+        if (typeof args.page_number == 'undefined') args.page_number = 1;
+        if (typeof args.page_size == 'undefined') args.page_size = 25;
+
+        // if (!Reflect.has(args, 'page_number')) args.page_number = 1;
+        // if (!Reflect.has(args, 'page_size')) args.page_size = 25;
         args.page_number = parseInt(args.page_number);
         args.page_size = parseInt(args.page_size);
         list.filters = args;

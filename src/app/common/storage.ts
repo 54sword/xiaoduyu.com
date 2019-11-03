@@ -26,4 +26,32 @@ if (!__SERVER__ && typeof window != 'undefined') {
   });
 }
 
-export default obj;
+export default {
+  save: (data: any)=>{
+    return new Promise (resolve=>{
+      obj.save(data)
+      .then((res: any)=>{
+        resolve(res)
+      })
+      .catch((err: any)=>{
+        // console.log(err);
+        resolve();
+      })
+    })
+  },
+  load: (data: any)=>{
+    return new Promise (resolve=>{
+      obj.load(data)
+      .then((res: any)=>{
+        resolve(res)
+      })
+      .catch((err: any)=>{
+        // console.log(err);
+        resolve();
+      })
+    })
+  },
+  remove: (data: any)=>{
+    obj.remove(data);
+  }
+};

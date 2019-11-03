@@ -2,7 +2,7 @@ import React from 'react'
 
 // redux
 import { useSelector } from 'react-redux';
-import { getUserInfo } from '@reducers/user';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // components
 import SignModal from './sign-modal';
@@ -10,7 +10,7 @@ import EditorModalComment from './editor-comment-modal';
 import ReportModal from './report-modal';
 import BindingPhone from './binding-phone-modal';
 import UnlockToken from './unlock-token-modal';
-import ADSetings from './ad-settings-modal';
+import BackToTop from './back-to-top';
 
 export default function() {
   
@@ -19,10 +19,14 @@ export default function() {
   if (!me) return <SignModal />;
 
   return (<>
-    <EditorModalComment />
-    <ReportModal />
-    <BindingPhone />
-    <UnlockToken />
-    <ADSetings />
+    <BackToTop />
+    {!me ?
+      <SignModal /> :
+      <>
+        <EditorModalComment />
+        <ReportModal />
+        <BindingPhone />
+        <UnlockToken />
+      </>}
   </>)
 }

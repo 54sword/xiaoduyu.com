@@ -5,38 +5,41 @@
 // import fetch from "node-fetch";
 
 import { api } from '@config';
-// import featureConfig from '@config/feature.config';
+import featureConfig from '@config/feature.config';
 
 import To from './to';
-import Ajax from './ajax'
+import Ajax from './ajax';
+
 
 /*
 // https://www.apollographql.com/docs/react/advanced/caching.html
-const cache = new InMemoryCache();
+let memoryCache = new InMemoryCache({
+  addTypename: false
+});
 
 // https://www.apollographql.com/docs/react/api/apollo-client.html#apollo-client
-const client = new ApolloClient({
-  ssrMode: __SERVER__ ? true : false,
+const client: any = new ApolloClient({
+  ssrMode: false,//__SERVER__ ? true : false,
   link: new HttpLink({
     uri: __SERVER__ && api.graphql.server ? api.graphql.server : api.graphql.client,
     fetch
   }),
-  cache
+  cache: memoryCache
 });
 
-// let lastCacheTime = 0;
-// let resetStore = false;
-
-if (featureConfig.cache) {
+if (featureConfig.cache && __SERVER__) {
   let timer = function(){
     setTimeout(()=>{
-      client.cache.reset();
+      // client.cache.reset();
+      memoryCache.reset();
+      // console.log(client.extract());
       timer();
     }, featureConfig.cache);
   }
   timer();
 }
 */
+
 // GraphQL 客户端请求
 interface Props {
   // 查询 or 添加、修改、删除
@@ -58,9 +61,11 @@ interface Props {
     args?: any,
     fields?: string
   }>
+  // 是否返回多个
+  multiple?: boolean
 }
 
-export default async ({ type = 'query', headers = {}, cache = false, apis }: Props) => {
+export default async ({ type = 'query', headers = {}, cache = false, apis, multiple = false }: Props) => {
 
 	let sql = '';
 
@@ -97,17 +102,27 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
       }
     });
 
+    if (featureConfig.apiLog) {
+      console.log('### request api');
+      console.log(`${type}{
+        ${sql}
+      }`);
+      console.log('### request result');
+      console.log(data);
+    }
+
     // console.log(err)
     // console.log(data);
 
     if (data && !data.errors) {
       // 如果只有一个api，那么直接返回结果
-      if (apis.length == 1) {
+      if (apis.length == 1 && !multiple) {
         resolve(data.data[apis[0].aliases || apis[0].api]);
       } else {
         resolve(data.data);
       }
     } else if (data && data.errors) {
+
       // 如果有graphql错误，返回graphql的错误
       if (data.errors.length != 0) {
         data.errors.map((item: object)=>{
@@ -129,41 +144,29 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
 
   }));
 
-  /*
 
-	const _sql = gql`${type}{
+  /*
+  const _sql = gql`${type}{
     ${sql}
   }`;
-  
+
   // 在服务端发起的请求的ua，传递给api
   // if (global.ua) headers['user-agent'] = global.ua;
 
-  // headers['Cache-Control'] = 'PRIVATE';
+
+
 
   let options: any = {
     context: {
       headers
     },
-    // fetchPolicy: 'cache'
+    // fetchPolicy: 'no-cache'
     // 如果未设置缓存，判断如果是会员的话不缓存，游客缓存
-    fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache')
+    fetchPolicy: cache ? 'cache' : (headers.accessToken ? 'no-cache' : 'cache'),
+    
   }
 
-  // console.log(options);
-  
-  // 服务端清理缓存逻辑
-  // if (__SERVER__) {
-  //   if (new Date().getTime() - lastCacheTime > featureConfig.cache && !resetStore) {
-  //     // console.log('===清理缓存');
-  //     resetStore = true;
-  //     // 超过缓存时间，清空所有缓存
-  //     // https://github.com/apollographql/apollo-client/issues/2919
-  //     await client.cache.reset();
-  //     // client.clearStore();
-  //     resetStore = false;
-  //     lastCacheTime = new Date().getTime();
-  //   }
-  // }
+
 
   let fn:any = client.query;
 

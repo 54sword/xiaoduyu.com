@@ -1,21 +1,29 @@
-import React, {} from 'react';
+import React from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { follow, unfollow } from '@actions/follow';
-import { getUserInfo } from '@reducers/user';
+import { follow, unfollow } from '@app/redux/actions/follow';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // style
-import './style.scss';
+import './styles/index.scss';
 
 interface Props {
   posts?: any,
   user?: any,
   topic?: any,
-  className?: ''
+  className?:string
+  // 活跃
+  activeClassName?:string
 }
 
-export default function({ posts, user, topic, className }: Props) {
+export default function({
+  posts,
+  user,
+  topic,
+  className = 'btn btn-outline-primary btn-sm rounded-pill',
+  activeClassName = 'btn btn-outline-secondary btn-sm rounded-pill'
+}: Props) {
 
   let target = posts || user || topic;
 
@@ -37,7 +45,7 @@ export default function({ posts, user, topic, className }: Props) {
     e.stopPropagation();
   }
 
-  const handleFollow = async function(e: any) {
+  const handleFollow = function(e: any) {
     e.stopPropagation();
 
     let args: any = {};
@@ -45,7 +53,18 @@ export default function({ posts, user, topic, className }: Props) {
     if (user) args.user_id = user._id;
     if (topic) args.topic_id = topic._id;
 
-    _follow({ args });
+    _follow({ args }).then(function([err,res]: any){
+      if (err) {
+        $.toast({
+          text: err,
+          position: 'top-center',
+          showHideTransition: 'slide',
+          icon: 'info',
+          loader: false,
+          allowToastClose: false
+        });
+      }
+    });
   }
 
   const handleUnfollow = function(e: any) {
@@ -56,24 +75,51 @@ export default function({ posts, user, topic, className }: Props) {
     if (user) args.user_id = user._id;
     if (topic) args.topic_id = topic._id;
 
-    _unfollow({ args });
+    _unfollow({ args }).then(function([err,res]: any){
+      if (err) {
+        Toastify({
+          text: err,
+          duration: 3000,
+          backgroundColor: 'linear-gradient(to right, #0988fe, #1c75fb)'
+        }).showToast();
+      }
+    });
+
   }
 
   let text = '关注';
+  let icon = (<svg
+    width="15px"
+    height="15px"
+    stroke="currentColor"
+    strokeWidth={1.8}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    fill="none"
+    className="mr-1"
+    >
+    <use xlinkHref="/feather-sprite.svg#plus" />
+  </svg>)
 
-  if (posts) text = '收藏';
-  
-  if (!me) {
-    return <a href="javascript:void(0)" className={className || 'text-secondary'} data-toggle="modal" data-target="#sign" onClick={stopPropagation}>{text}</a>
-  } else if (target.follow) {
-    return (<a href="javascript:void(0)" className={className} styleName="hover" onClick={handleUnfollow}>
-      <span>已{text}</span>
-      <span>取消{text}</span>
-    </a>)
-  } else {
-    return (<a href="javascript:void(0)" className={className || 'text-secondary'} onClick={handleFollow}>
-      {text}
-    </a>)
+  if (posts) {
+    text = '收藏';
+    icon = null;
   }
 
+  if (target.follow) {
+    icon = null;
+  }
+
+  if (!me) {
+    return <span className={className} data-toggle="modal" data-target="#sign" onClick={stopPropagation}>{icon}{text}</span>
+  } else if (target.follow) {
+    return (<span className={activeClassName} onClick={handleUnfollow}>
+      {icon}正在{text}
+    </span>)
+  } else {
+    return (<span className={className} onClick={handleFollow}>
+      {icon}{text}
+    </span>)
+  }
+  
 }

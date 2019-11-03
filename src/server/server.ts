@@ -3,11 +3,8 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import compress from 'compression';
 import logger from 'morgan';
-// import heapdump from 'heapdump';
 
-// import favicon from 'serve-favicon';
-// import easyMonitor from 'easy-monitor';
-// easyMonitor('xiaoduyu');
+import favicon from 'serve-favicon';
 
 // 抵御一些比较常见的安全web安全隐患
 // https://cnodejs.org/topic/56f3b0e8dd3dade17726fe85
@@ -18,6 +15,8 @@ import { port, authCookieName } from '@config';
 import featureConfig from '@config/feature.config';
 import sign from './sign';
 import AMP from './amp';
+import './sitemap';
+
 // 渲染页面
 import render from './render';
 
@@ -42,11 +41,9 @@ app.use(bodyParser.json({limit: '20mb'}));
 app.use(bodyParser.urlencoded({limit: '20mb', extended: true}));
 app.use(cookieParser());
 app.use(compress());
-// app.use(favicon('./public/favicon.ico'));
+app.use(favicon('./public/favicon.png'));
 app.use(express.static('./dist/client'));
 app.use(express.static('./public'));
-
-app.use('/sign', sign());
 
 app.use(function (req: any, res: any, next: any) {
 
@@ -64,7 +61,6 @@ app.use(function (req: any, res: any, next: any) {
     // global.ua = req.headers['user-agent'];
   // }
   
-  /*
   // 计算页面生成总的花费时间
   const start_at = Date.now();
   const _send = res.send;
@@ -79,16 +75,28 @@ app.use(function (req: any, res: any, next: any) {
     // 调用原始处理函数
     return _send.apply(res, arguments);
   };
-  */
 
   next();
   
 });
 
+app.use('/sign', sign());
 app.use('/amp', AMP());
 app.get('*', async function (req: any, res: any) {
 
   let { code, redirect, html, meta, reduxState, user } = await render(req, res);
+
+  if (req.path == '/' &&
+    req._parsedOriginalUrl &&
+    req._parsedOriginalUrl.search &&
+    req._parsedOriginalUrl.search.indexOf('?appshell') != -1
+  ) {
+    // console.log(user);
+    res.render('../dist/client/app-shell.ejs', {
+      theme: user && user.theme == 2 ? 'dark-theme' : 'light-theme' 
+    });
+    return;
+  }
 
   res.status(code);
 
@@ -110,10 +118,6 @@ app.get('*', async function (req: any, res: any) {
       res.send(html);
     });
   }
-
-  // heapdump.writeSnapshot('./' + Date.now() + '.heapsnapshot');
-  
-  // res.end();
 
 });
 

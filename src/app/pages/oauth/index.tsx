@@ -3,11 +3,11 @@ import useReactRouter from 'use-react-router';
 
 // redux
 import { useStore } from 'react-redux';
-import { saveTokenToCookie } from '@actions/sign';
+import { saveTokenToCookie } from '@app/redux/actions/sign';
 
 // components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
 
 export default Shell(function() {
 

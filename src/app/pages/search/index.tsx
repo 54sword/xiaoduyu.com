@@ -2,15 +2,15 @@ import React, { useState, createRef, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
 
 // components
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
-import PostsList from '@modules/posts-list';
-import PeopleList from '@modules/people-list';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
+import PostsList from '@app/components/posts-list';
+import PeopleList from '@app/components/people-list';
 
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
 
 // style
-import './index.scss';
+import './styles/index.scss';
 
 export default Shell(function() {
 
@@ -58,44 +58,60 @@ export default Shell(function() {
 
       <Meta title="搜索" />
 
-      <form onSubmit={handleSearch}>
-        <div className="input-group">
-          <input type="text" styleName="input" className="form-control" ref={search} placeholder="输入关键词搜索" />
-          <div className="input-group-append">
-            <button type="submit" styleName="search-button" className="btn btn-block btn-primary">搜索</button>
-          </div>
+      <div className="card">
+        {/* <div className="card-header">
+          <div className="card-title">搜索</div>
+        </div> */}
+
+        <div className="card-body pt-0 pb-0 border-bottom">
+
+          <form onSubmit={handleSearch}>
+            <div className="input-group mt-2 mb-2">
+              <input type="text" styleName="input" className="form-control" ref={search} placeholder="搜索" />
+              <div className="input-group-append">
+                <button type="submit" className="btn btn-outline-primary rounded-pill btn-sm pl-3 pr-3 ml-1">搜索</button>
+              </div>
+            </div>
+          </form>
+
         </div>
-      </form>
 
-      <div className="card p-2 mt-3 flex-row">
-        <a className={`btn btn-sm ${type == '' ? 'btn-primary' : 'btn-link'}`} href="javascript:void(0)" onClick={()=>{ switchType(''); }}>帖子</a>
-        <a className={`btn btn-sm ${type == 'user' ? 'btn-primary' : 'btn-link'}`}  href="javascript:void(0)" onClick={()=>{ switchType('user'); }}>用户</a>
+        <div className="card-body" style={{fontSize:'18px'}}>
+          <span className={`badge mr-3 ${type == '' ? 'badge-primary' : 'badge-light'}`} onClick={()=>{ switchType(''); }}>帖子</span>
+          <span className={`badge ${type == 'user' ? 'badge-primary' : 'badge-light'}`} onClick={()=>{ switchType('user'); }}>用户</span>
+          {/* <span className={`btn btn-sm ${type == '' ? 'btn-link text-primary' : 'btn-link text-dark'}`} onClick={()=>{ switchType(''); }}>帖子</span>
+          <span className={`btn btn-sm ${type == 'user' ? 'btn-link text-primary' : 'btn-link text-dark'}`} onClick={()=>{ switchType('user'); }}>用户</span> */}
+        </div>
+
+        <div className="card-body p-0">
+
+        {(()=>{
+          if (!q) return
+
+          if (!type) {
+            return (<PostsList
+              id={q}
+              query={{
+                title: q,
+                sort_by: "create_at",
+                deleted: false,
+                weaken: false
+              }}
+              scrollLoad={true}
+              />)
+          } else if (type == 'user') {
+            return (<PeopleList
+              id={q}
+              query={{
+                nickname: q
+              }}
+              />)
+          }
+
+        })()}
+
+        </div>
       </div>
-
-      {(()=>{
-        if (!q) return
-
-        if (!type) {
-          return (<PostsList
-            id={q}
-            query={{
-              title: q,
-              sort_by: "create_at",
-              deleted: false,
-              weaken: false
-            }}
-            scrollLoad={true}
-            />)
-        } else if (type == 'user') {
-          return (<PeopleList
-            id={q}
-            query={{
-              nickname: q
-            }}
-            />)
-        }
-
-      })()}
 
     </SingleColumns>)
 })

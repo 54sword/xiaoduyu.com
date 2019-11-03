@@ -111,8 +111,17 @@ export default (req: any, res: any) => {
     // 获取路由dom
     const Page: any = router.dom;
     
-    await route.body.preload();
+    let _p = await route.body.preload();
 
+    if (_p.default.loadDataOnServer) {
+      let { code, redirect } = await _p.default.loadDataOnServer({
+        store, match, res, req, user
+      });
+      params.code = code;
+      params.redirect = redirect;
+    }
+
+    // console.log(_p);
     // context={params.context}
     
     let metaTagsInstance = MetaTagsServer();    

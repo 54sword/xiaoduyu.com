@@ -10,6 +10,18 @@
     return
   }
 
+  var css = '.load-demand { display: block-inline; }',
+  head = document.getElementsByTagName('head')[0],
+  style = document.createElement('style');
+  style.type = 'text/css';
+  if(style.styleSheet){
+    style.styleSheet.cssText = css;
+  }else{
+    style.appendChild(document.createTextNode(css));
+  }
+  
+  head.appendChild(style);
+
   var clientHeight = document.documentElement.clientHeight
 
   window.addEventListener('resize', (e)=>{
@@ -34,6 +46,9 @@
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
         elements = document.getElementsByClassName('load-demand');
 
+
+    // console.log(elements);
+
     // console.log(scrollTop);
     //  && $('#posts-modal').className.indexOf('show') != -1
     if (document.getElementById('posts-modal') && document.getElementById('posts-modal').className.indexOf('show') != -1) {
@@ -41,6 +56,8 @@
       // console.log('123123');
       scrollTop = document.getElementById('posts-modal').scrollTop;
     }
+
+    
 
     for (var i = 0, max = elements.length; i < max; i++) {
 
@@ -53,7 +70,7 @@
       content = decodeURIComponent(content);
 
       var y1 = getElementViewTop(elements[i]);
-      var y2 = y1 + elements[i].offsetHeight;
+      var y2 = y1 + elements[i].offsetHeight - clientHeight/2; // 提前加载半屏
       
       if (scrollTop <= y1 && y1 < scrollTop + clientHeight ||
         scrollTop < y2 && y2 < scrollTop + clientHeight

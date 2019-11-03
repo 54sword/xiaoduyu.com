@@ -131,7 +131,7 @@ let updateCommentState = (comment: any, notices: Array<any>) => {
   notices.map((item: any)=>{
 
     if (item.has_read) return
-
+    
     if (item.type == 'comment' || item.type == 'like-comment' || item.type == 'new-comment') {
       let posts_id = item.comment_id.posts_id._id
       if (comment[posts_id]) delete comment[posts_id]
@@ -184,7 +184,7 @@ const updateFollowPeople = (state: any, selfId: string, notices: Array<any>) => 
     if (item.has_read) return
     if (item.type == 'follow-you') {
       count += 1
-      delete state['fans-'+selfId]
+      if (state['fans-'+selfId]) delete state['fans-'+selfId]
     }
   })
 

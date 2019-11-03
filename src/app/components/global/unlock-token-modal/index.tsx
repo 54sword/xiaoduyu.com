@@ -2,15 +2,15 @@ import React, { useEffect, createRef } from 'react';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { getUnlockToken } from '@actions/unlock-token';
-import { getUserInfo } from '@reducers/user';
+import { getUnlockToken } from '@app/redux/actions/unlock-token';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // components
-import CaptchaButton from '@components/captcha-button';
-import Modal from '@components/bootstrap/modal';
+import CaptchaButton from '@app/components/captcha-button';
+import Modal from '@app/components/bootstrap/modal';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 export default function() {
   
@@ -112,7 +112,7 @@ export default function() {
 
       </div>}
     footer={<div>
-        <a className="btn btn-primary" href="javascript:void(0);" onClick={submit}>提交</a>
+        <span className="btn btn-primary" onClick={submit}>提交</span>
       </div>}
     />)
 

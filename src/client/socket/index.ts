@@ -4,12 +4,12 @@ import io from 'socket.io-client';
 import { api } from '@config/index';
 
 // redux actions
-import { setOnlineUserCount } from '@actions/website';
-import { getAccessToken } from '@reducers/user';
+import { setOnlineUserCount, sendNotification } from '@app/redux/actions/website';
+import { getAccessToken } from '@app/redux/reducers/user';
 
-import { loadTips } from '@actions/tips';
-import { updateSession } from '@actions/session';
-import { addMessagesToList } from '@actions/message';
+import { loadTips } from '@app/redux/actions/tips';
+import { updateSession } from '@app/redux/actions/session';
+import { addMessagesToList } from '@app/redux/actions/message';
 
 let socket: any;
 
@@ -26,7 +26,9 @@ export const connect = function ({ dispatch, getState }: any) {
   const handleNotification = (notification: any) => {
 
     try {
-      notification = JSON.parse(notification);
+      if (typeof notification == 'string') {
+        notification = JSON.parse(notification);
+      }
     } catch (err) {
       notification = '';
       console.log(err);
@@ -37,19 +39,55 @@ export const connect = function ({ dispatch, getState }: any) {
     const { type, data } = notification;
   
     switch (type) {
+      case 'online-user':
+        handleActions(setOnlineUserCount, data);
+        break;
+      case 'discover':
+        if (!me) {
+          // 如果是游客，因为有缓存，所以延迟1分钟拉新
+          setTimeout(()=>{
+            handleActions(loadTips, 'discover');
+          }, 1000 * 60)
+        } else {
+          handleActions(loadTips, 'discover');
+        }
+        
+        break;
       // 有新通知
       case 'notification':
-        handleActions(loadTips);
+        handleActions(loadTips, 'notification');
+
+        // 发送浏览器通知
+        if (data && data.comment_id && data.type == 'comment' ||
+            data && data.comment_id && data.type == 'reply'
+        ) {
+          let body = data.comment_id.content_html;
+
+          body = body.replace(/<[^>]+>/g, '');
+          body = body.replace(/\r\n/g, ''); 
+          body = body.replace(/\n/g, '');
+
+          handleActions(sendNotification, {
+            content: data.sender_id.nickname,
+            option: {
+              body,
+              icon: 'https:'+data.sender_id.avatar_url,
+              image: 'https:'+data.sender_id.avatar_url,
+              tag: 'comment',
+              data: data
+            }
+          });
+        }
+
         break;
       case 'new-feed':
-        handleActions(loadTips);
+        handleActions(loadTips, 'new-feed');
         break;
       case 'recommend-posts':
         handleActions(loadTips);
         break;
       case 'new-session':
-        console.log(data);
-        handleActions(loadTips);
+        handleActions(loadTips, 'new-session');
         handleActions(updateSession, data.sessionId);
         handleActions(addMessagesToList, data);
         break;
@@ -75,9 +113,7 @@ export const connect = function ({ dispatch, getState }: any) {
     console.log('socket connect success.');
     
     // 更新在线用户
-    socket.on("online-user", function(res: any) {
-      handleActions(setOnlineUserCount, res);
-    });
+    socket.on("all", handleNotification);
     
     // 与用户自己相关的消息
     if (me) socket.on(me._id, handleNotification);
@@ -104,4 +140,19 @@ export const close = () => {
     socket.close();
     socket = null;
   }
+}
+
+// 添加监听器
+export const addListener = (target: string, callback: any) => {
+  // console.log(target);
+  socket.on(target, callback);
+}
+
+export const removeListener = (target: string) => {
+
+}
+
+export const emit = (target: string, params: any, callback: any = ()=>{}) => {
+  socket.emit(target, params, callback);
+  // socket.emit(target, JSON.stringify(params), callback);
 }

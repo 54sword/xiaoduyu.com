@@ -1,0 +1,113 @@
+// 覆盖默认的 bootstrap 的样式
+
+// 主要
+$color_primary: #0084ff;//#027cfa;
+// 黑色
+$color_dark: #16181d;//#242628; //#262a2e;
+// 浅灰
+$color_muted: #b5bac4;//#bcbec3;
+// 次要
+$color_secondary: #878b97;//#6f6f6f;//#7f8489;
+
+// 边框颜色
+$color_border: #eff2f6;
+
+:global{
+  
+  body {
+
+    // #eaedef;
+    background-color: #eceef0;//#eceff1; //#eff2f4;//#e9eaec;//#e5e5e8;//#edeff2;//#e9ebee;
+    color: $color_dark;
+  }
+
+  a, .active{
+    color: $color_primary;
+    &:hover{
+      color: $color_primary;
+    }
+  }
+
+
+  .badge-secondary{
+    // font-size: 12px;
+    font-weight: normal;
+    background-color: #bec2cd;
+  }
+
+  .badge-primary{
+    // font-size: 12px;
+    font-weight: normal;
+  }
+
+  //======================================================
+  // 文本颜色
+  // https://getbootstrap.com/docs/4.0/utilities/colors/
+  // .text-primary{ color: $color_primary !important; }
+  // .text-secondary{ color: $color_secondary !important; }
+  .text-dark{ color: $color_dark !important; }
+  .text-muted{ color: $color_muted !important; }
+  .active{
+    color: $color_primary !important;
+    &:hover{
+      color: $color_primary !important;
+    }
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/list-group/
+  .list-group-item{
+    padding:12px 15px 12px 15px;
+    border:none;
+    border-top: 1px solid $color_border;
+    border-radius: 0px;
+    &:first-child{ border-top:none; }
+  }
+  
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/utilities/borders/#border-radius
+
+  .border{ border: 1px solid $color_border !important; }
+  .border-top{ border-top: 1px solid $color_border !important; }
+  .border-right{ border-right: 1px solid $color_border !important; }
+  .border-bottom{ border-bottom: 1px solid $color_border !important; }
+  .border-left{ border-left: 1px solid $color_border !important; }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/buttons/
+  .btn-primary{
+    background-color: $color_primary;
+    color:#fff;
+    border:1px solid $color_primary;
+    &:hover{
+      background-color: #1b93ff;
+      color:#fff;
+    }
+  }
+
+  .card{
+    border: 1px solid #e4e6e9;
+    // box-shadow: 0 1px 3px rgba(0,0,0,.03);
+    // box-shadow: 0 1px 3px rgba(0,37,55,.03);
+    // border:1px solid #dddfe2;//#e4e6ea;
+
+    // background-color: #fefefe;
+    // box-shadow: 0 1px 0 #e6e6e6;
+    // box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0,0,0,.03);
+    
+    .card-header{
+      // background: linear-gradient(#fff, #f1f2f3);
+      // background-color: #fbfbfb;
+      border-bottom:1px solid $color_border;
+    }
+
+    .card-footer{
+      border-top:1px solid $color_border;
+      background: #f9f9f9;
+    }
+  
+  }
+  
+}
+
+@import './response';

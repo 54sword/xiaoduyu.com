@@ -1,0 +1,49 @@
+.content{
+  width: 100%;
+  font-size: 14px;
+
+  p{
+    margin:0px;
+    padding:0px;
+    min-height: 15px;
+    word-wrap: break-word;
+    word-break: normal;
+  }
+
+  embed, iframe{
+    width:100%;
+    min-height: 420px;
+    border: none;
+  }
+  
+  img{
+    max-height: 100%;
+    margin: 5px 0 5px 0;
+  }
+
+  iframe[src^="//music.163.com"] {
+    min-height: auto;
+  }
+
+  pre{
+    line-height: 150%;
+    margin-top:15px;
+  }
+
+  li > p{
+    margin-top:0px;
+  }
+
+}
+
+.max-height{
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.expand-button{
+  padding:10px 0 5px 0;
+  text-align: center;
+}
+
+@import './response.scss', './dark.scss';

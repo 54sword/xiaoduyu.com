@@ -1,0 +1,19 @@
+.box{
+  position: relative;
+  padding-right:300px;
+
+  .right{
+    position: absolute;
+    top:0px;
+    left:100%;
+    width: 290px;
+    margin-left: -290px;
+  }
+
+}
+
+.right-float{
+  width: 290px;
+}
+
+@import './responce';

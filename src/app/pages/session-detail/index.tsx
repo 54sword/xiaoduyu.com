@@ -3,20 +3,20 @@ import useReactRouter from 'use-react-router';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { loadSessionList, readSession } from '@actions/session';
-import { getSessionListById } from '@reducers/session';
+import { loadSessionList, readSession } from '@app/redux/actions/session';
+import { getSessionListById } from '@app/redux/reducers/session';
 
 // modules
-import Shell from '@modules/shell';
-import Meta from '@modules/meta';
-import MessageList from '@modules/message-list';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
+import MessageList from './components/message-list';
 
-import Editor from '../../components/editor-message';
+import Editor from '@app/components/editor-message';
 
 // layout
-import SingleColumns from '../../layout/single-columns';
+import SingleColumns from '@app/layout/single-columns';
 
-import './index.scss';
+import './styles/index.scss';
 
 export default Shell(function({ setNotFound }: any) {
 
@@ -27,14 +27,14 @@ export default Shell(function({ setNotFound }: any) {
   const [ session, setSession ] = useState(null);
   const [ loading, setLoading ] = useState(true);
   // const [ unread_count, setUnreadCount ] = useState(0);
-
+  
   const list = useSelector((state: object)=>getSessionListById(state, id));
 
   const store = useStore();
   const _loadList = (args: object)=>loadSessionList(args)(store.dispatch, store.getState);
   const _readSession = (args: object)=>readSession(args)(store.dispatch, store.getState);
 
-  let run: any = function(_session) {
+  let run: any = function(_session: any) {
 
     if (_session.unread_count > 0) {
       setTimeout(()=>{
@@ -79,7 +79,8 @@ export default Shell(function({ setNotFound }: any) {
       run = null;
     }
 
-  }, list && list.data && list.data[0] ? list.length : 0);
+  }, [list]);
+  // list && list.data && list.data[0] ? list.length : 0
 
   return (
     <SingleColumns>
@@ -89,28 +90,31 @@ export default Shell(function({ setNotFound }: any) {
     {loading ? <div>loading...</div> : null}
     
     {session ?
-      <div styleName="box" className="card">
-        
-        <div id="content" styleName="message-container">
-
-        <MessageList
-          id={id}
-          query={{
-            user_id: session.user_id._id+','+session.addressee_id._id,
-            addressee_id: session.user_id._id+','+session.addressee_id._id,
-            sort_by: 'create_at:-1'
-          }}
-          />
-
+      <div className="card">
+        <div className="card-header">
+          <div className="card-title">{session.user_id.nickname}</div>
         </div>
+        <div>
+          
+          <div id="content" styleName="message-container">
 
-
-        {!loading && session.user_id._id ?                
-          <div styleName="editor" className="border-top">
-            <Editor addressee_id={session.user_id._id} />
+          <MessageList
+            id={id}
+            query={{
+              user_id: session.user_id._id+','+session.addressee_id._id,
+              addressee_id: session.user_id._id+','+session.addressee_id._id,
+              sort_by: 'create_at:-1'
+            }}
+            />
           </div>
-        : null}
-        
+
+          {!loading && session.user_id._id ?                
+            <div className="border-top">
+              <Editor addressee_id={session.user_id._id} />
+            </div>
+          : null}
+          
+        </div>
       </div>
       : null}
 

@@ -1,5 +1,7 @@
 import graphql from '../../common/graphql';
 
+import * as GlobalData from '../../common/global-data';
+
 export function setOnlineUserCount(online: number) {
   return (dispatch: any, getState: any) => {
     dispatch({ type: 'SET_ONLINE_STATUS', online })
@@ -12,43 +14,58 @@ export function saveTopicId (topicId: string) {
   }
 }
 
+export function saveTab (tab: string) {
+  return (dispatch: any, getState: any) => {
+    // if (tab != 'home' && tab != 'follow' && tab != 'favorite' && tab != 'live' && tab != 'topic') tab = 'home';
+    dispatch({ type: 'SET_TAB', tab })
+  }
+}
+
 // 请求浏览器通知权限
 export function requestNotificationPermission () {
   return (dispatch: any, getState: any) => {
     if ('Notification' in window) {
-      /*
+
       Notification.requestPermission((result)=>{
         if (result == 'granted') {
           dispatch({ type: 'SET_NOTIFICATION_PERMISSION', status: true });
         }
       });
-      */
-      /*
-      Notification.requestPermission().then(function(result) {
-        if (result == 'granted') {
-          dispatch({ type: 'SET_NOTIFICATION_PERMISSION', status: true });
-          
-          let notification = new Notification("111", {
-            body: '11111',
-            icon: '',
-            data: {
-              test:'123123'
-            }
-        });
-    
-        notification.onclick = (res)=>{
-          console.log(res.target);
-          notification.close();
-        }
-        
-
-        }
-      })
-      */
+      
     }
   }
 }
 
+export function sendNotification({ content, option }: any) {
+  return async (dispatch: any, getState: any) => {
+
+    let notification = new Notification(content, option);
+
+    let href = '';
+
+    notification.onclick = (res: any) => {
+
+      switch (res.target.tag) {
+        case 'message':
+          href = '/sessions';
+          break;
+        case 'comment':
+          href = '/comment/'+(option.data.comment_id.parent_id ? option.data.comment_id.parent_id : option.data.comment_id._id);
+          break;
+      }
+
+      if (href) {
+        const history = GlobalData.get('history')
+        if (history) history.push(href)
+      }
+
+      notification.close();
+    }
+
+  }
+}
+
+/*
 // 查询是否有新动态，用于小红点提醒
 export function getNew () {
   return async (dispatch: any, getState: any) => {
@@ -66,18 +83,18 @@ export function getNew () {
           fields: `ids`
         },
 
-        {
-          aliases: 'excellent',
-          api: 'posts',
-          args: {
-            sort_by: "create_at:-1",
-            deleted: false,
-            weaken: false,
-            recommend: true,
-            page_size:1
-          },
-          fields: `create_at`
-        },
+        // {
+        //   aliases: 'excellent',
+        //   api: 'posts',
+        //   args: {
+        //     sort_by: "create_at:-1",
+        //     deleted: false,
+        //     weaken: false,
+        //     recommend: true,
+        //     page_size:1
+        //   },
+        //   fields: `create_at`
+        // },
         // {
         //   aliases: 'posts',
         //   api: 'posts',
@@ -92,10 +109,10 @@ export function getNew () {
         //
         //
         {
-          aliases: 'subscribe',
+          aliases: 'favorite',
           api: 'posts',
           args: {
-            method: 'subscribe',
+            method: 'favorite',
             sort_by: "last_comment_at:-1",
             deleted: false,
             weaken: false,
@@ -134,9 +151,9 @@ export function getNew () {
       }
 
       // 订阅
-      if (res['subscribe'] && res['subscribe'][0] &&
-        userInfo.last_find_subscribe_at &&
-        new Date(userInfo.last_find_subscribe_at).getTime() < new Date(res['subscribe'][0].last_comment_at).getTime()
+      if (res['favorite'] && res['favorite'][0] &&
+        userInfo.last_find_favorite_at &&
+        new Date(userInfo.last_find_favorite_at).getTime() < new Date(res['favorite'][0].last_comment_at).getTime()
       ) {
         dispatch({ type: 'HAS_NEW_SUBSCRIBE', status: true });
       }
@@ -150,18 +167,18 @@ export function getNew () {
       }
 
       // 优选
-      if (res['excellent'] && res['excellent'][0] &&
-        userInfo.last_find_excellent_at &&
-        new Date(userInfo.last_find_excellent_at).getTime() < new Date(res['excellent'][0].create_at).getTime()
-      ) {
-        dispatch({ type: 'HAS_NEW_EXCELLENT', status: true });
-      }
+      // if (res['excellent'] && res['excellent'][0] &&
+      //   userInfo.last_find_excellent_at &&
+      //   new Date(userInfo.last_find_excellent_at).getTime() < new Date(res['excellent'][0].create_at).getTime()
+      // ) {
+      //   dispatch({ type: 'HAS_NEW_EXCELLENT', status: true });
+      // }
 
     }
 
   }
 }
-
+*/
 
 // 加载网站经营状态
 export function loadOperatingStatus() {

@@ -1,0 +1,22 @@
+@media (min-width: 0px) and (max-width: 767px) {
+
+  .header{
+    
+    .profile{
+      min-height:70px;
+      padding-left:80px;
+    }
+    
+    .avatar{
+      width: 65px;
+      height: 65px;
+      margin-left:-80px;
+    }
+
+    .nickname{
+      font-size: 18px;
+    }
+
+  }
+
+}

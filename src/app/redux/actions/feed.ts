@@ -60,7 +60,7 @@ const processPostsList = (list: Array<any>) => {
 
       textContent = Utils.htmlToString(textContent);
 
-      if (textContent.length > 140) textContent = textContent.slice(0, 140)+'...';
+      if (textContent.length > 70) textContent = textContent.slice(0, 70)+'...';
       item.comment_id.content_summary = textContent;
 
       if (item.comment_id.create_at) item.comment_id._create_at = dateDiff(item.comment_id.create_at);

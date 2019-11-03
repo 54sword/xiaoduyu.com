@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 
 // components
-import ContentLoading from '@components/ui/content-loading';
-import Pagination from '@components/pagination';
+// import ContentLoading from '@app/components/ui/content-loading';
+import Loading from '@app/components/ui/loading';
+import Pagination from '@app/components/pagination';
 
 // 加载数据方法的接口
 interface Load {
@@ -86,11 +87,9 @@ export default function List({
 
   // 没有数据
   if (!loading && data && data.length == 0 && !more && nothing) {
-    return (<div className="card">
-      <div className="card-body text-center text-secondary">
+    return (<div className="text-center text-secondary pt-3 pb-3">
         {nothing}
-      </div>
-    </div>)
+      </div>)
   }
 
   return (<>
@@ -101,14 +100,14 @@ export default function List({
 
     {loading && showPagination ||
       more && scrollLoad ?
-      <ContentLoading /> : null}
+      <div className="text-center pt-3 pb-3"><Loading /></div> : null}
 
     {showPagination && filters ?
       <Pagination
         count={count || 0}
         pageSize={filters.page_size || 0}
         pageNumber={filters.page_number || 0}
-        onSelect={s=>{
+        onSelect={(s:number)=>{
           query.page_number = s;
           loadData(true);
         }}

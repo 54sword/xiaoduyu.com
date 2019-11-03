@@ -1,0 +1,80 @@
+.box{
+  padding:15px 20px 15px 90px;
+  &:hover{
+    background-color: #f9fafc;
+  }
+}
+
+.nickname{
+  font-size: 12px;
+  // > span{
+  //   opacity: .9;
+  // }
+}
+
+.avatar, .avatar > img{
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background-color: #e9eaec;
+}
+
+.avatar{
+  position: absolute;
+  margin-left: -70px;
+  // margin-top:px;
+}
+
+.title{
+  font-size: 15px;
+  // font-weight: bold;
+}
+
+.active{
+  min-width: 70px;
+  text-align: right;
+}
+
+
+
+.posts-info{
+  
+  > small{
+    &:after{
+      display: inline-block;
+      content: "\B7";
+      margin: 0 6px;
+      color:#cccccc;
+    }
+    &:last-child:after{
+      content: '';
+      margin:0 auto;
+    }
+  }
+
+}
+
+.has-read{
+
+  .nickname{
+    > span{
+      opacity: .5;
+    }
+  }
+
+  .active{
+    :global {
+      .badge-secondary{
+        opacity: .3;
+      }
+    }
+  }
+
+  .title{
+    a {
+      opacity: .6;
+    }
+  }
+}
+
+@import './response', './dark';

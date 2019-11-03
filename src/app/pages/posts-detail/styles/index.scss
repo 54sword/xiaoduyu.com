@@ -1,0 +1,32 @@
+.comment-list{
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.editor-comment{
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.author-info{
+  // padding-left:60px;
+  text-align: center;
+}
+
+.nickname{
+  font-size: 15px;
+  margin-top:10px;
+  font-weight: bold;
+}
+
+.brief{
+  widows: 80%;
+}
+
+.avatar{
+  // position: absolute;
+  // margin-left:-60px;
+  width:65px;
+  height:65px;
+  border-radius: 50%;
+}

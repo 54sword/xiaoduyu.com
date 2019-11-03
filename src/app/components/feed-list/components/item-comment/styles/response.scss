@@ -1,0 +1,26 @@
+@media (min-width: 0px) and (max-width: 450px) {
+  .item{
+    padding:10px 10px 10px 60px;
+  }
+  .head{
+    .avatar{
+      margin:0 0 0 -49px;
+      width: 35px;
+      height: 35px;
+      img{
+        width: 35px;
+        height: 35px;
+      }
+    }
+  }
+  .content{
+    font-size: 15px;
+  }
+  .title{
+    padding-top:5px;
+    padding-bottom:5px;
+    font-size: 14px;
+  }
+
+
+}

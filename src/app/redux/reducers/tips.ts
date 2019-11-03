@@ -15,7 +15,8 @@ type InitialState = {
   [key: string]: any
 }
 
-const initialState: InitialState = {}
+const initialState: InitialState = {
+}
 
 export default (state = cloneObj(initialState), action: Actions) => {
 

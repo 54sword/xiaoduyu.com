@@ -1,19 +1,21 @@
 import React, { useState, useEffect, createRef } from 'react';
-import { reactLocalStorage } from 'reactjs-localstorage';
+
+// common
+import storage from '@app/common/storage';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { loadUserInfo } from '@actions/user';
-import { addPhone } from '@actions/phone';
-import { getUserInfo } from '@reducers/user';
+import { loadUserInfo } from '@app/redux/actions/user';
+import { addPhone } from '@app/redux/actions/phone';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // components
-import CaptchaButton from '@components/captcha-button';
-import CountriesSelect from '@components/countries-select';
-import Modal from '@components/bootstrap/modal';
+import CaptchaButton from '@app/components/captcha-button';
+import CountriesSelect from '@app/components/countries-select';
+import Modal from '@app/components/bootstrap/modal';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 export default function() {
 
@@ -86,18 +88,17 @@ export default function() {
 
   }
 
-  useEffect(()=>{
-
+  const componentsDidMount = async function() {
     /**
      * 如果是登陆用户，没有绑定手机号，每三天提醒一次绑定手机号
      */
     if (me && me.phone) return;
 
-    let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
+    let timestamps = await storage.load({ key: 'binding-phone-tips' }) || 0;
     let nowTimestamps = new Date().getTime();
 
     $('#binding-phone').on('show.bs.modal', (e: any) => {
-      reactLocalStorage.set('binding-phone-tips', nowTimestamps);
+      storage.save({ key: 'binding-phone-tips', data: nowTimestamps })
       setShow(true);
     });
 
@@ -114,7 +115,10 @@ export default function() {
       }, {});
 
     }, 2000);
+  }
 
+  useEffect(()=>{
+    componentsDidMount();
   });
 
   return (<Modal
@@ -141,7 +145,7 @@ export default function() {
 
       </div>}
     footer={<div>
-        <a className="btn btn-primary" href="javascript:void(0);" onClick={submit}>提交</a>
+        <span className="btn btn-primary" onClick={submit}>提交</span>
       </div>}
     />)
 

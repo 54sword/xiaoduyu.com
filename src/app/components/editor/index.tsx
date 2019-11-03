@@ -2,10 +2,10 @@ import React, { useRef } from 'react';
 import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator, Modifier, getDefaultKeyBinding, genKey, ContentBlock } from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 import showdown from 'showdown';
-import { reactLocalStorage } from 'reactjs-localstorage';
+import storage from '@app/common/storage';
 
 // components
-import QiniuUploadImage from '@components/qiniu-upload-image';
+import QiniuUploadImage from '@app/components/qiniu-upload-image';
 
 // styles
 import 'draft-js/dist/Draft.css';
@@ -239,32 +239,36 @@ export default class MyEditor extends React.Component {
     // this.checkUpload = this.checkUpload.bind(this);
   }
 
-  setMarkdown(markdown) {
+  setMarkdown() {
 
     this.setState({
       markdown: this.state.markdown ? false : true
     }, ()=>{
 
-      reactLocalStorage.set('markdown', this.state.markdown);
+      storage.save({
+        key: 'markdown',
+        data: this.state.markdown
+      })
 
       this._onChange(this.state.editorState);
     })
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+
     this.onChange(this.state.editorState);
     this.props.getEditor(this.refs.editor);
-    
-    const markdown = reactLocalStorage.get('markdown');
 
-    if (this.refs.markdown && markdown == 'true') {
+    const markdown = await storage.load({
+      key: 'markdown'
+    });
+
+    if (this.refs.markdown && markdown) {
       this.refs.markdown.checked = true;
       this.setState({
         markdown: true
       });
     }
-
-    
 
     // this.props.getCheckUpload(this.checkUpload);
   }
@@ -291,7 +295,7 @@ export default class MyEditor extends React.Component {
 
       let options = {
         blockRenderers: {
-          'code-block': (block)=>{
+          'code-block': (block: any)=>{
             // let data = block.getData();
             // console.log(data);
 
@@ -302,20 +306,11 @@ export default class MyEditor extends React.Component {
             previousBlockType = previousBlock && previousBlock.getType(),
             nextBlockType = nextBlock && nextBlock.getType();
 
-            // console.log(block.getText());
+            // console.log(previousBlockType + '/' + nextBlockType);
 
             let text = encodeContent(block.getText());
 
         
-            // If the blocks on either side are code-block blocks, just return the text.
-            // if(previousBlockType === 'code-block' && nextBlockType === 'code-block') {
-            //   return text;
-            // }
-        
-            if(previousBlockType !== 'code-block' && nextBlockType !== 'code-block') {
-              return '<pre>' + text + '</pre>';
-            }
-
             // If the previous block wasn't a code-block and the next block is, just
             // start the code-block block.
             if(previousBlockType !== 'code-block' && nextBlockType === 'code-block') {
@@ -328,12 +323,31 @@ export default class MyEditor extends React.Component {
               return text + '</pre>';
             }
 
+            /*        
+            // If the blocks on either side are code-block blocks, just return the text.
+            if(previousBlockType === 'code-block' && nextBlockType === 'code-block') {
+              return '<code>'+text+'</code>';
+            }
+        
+            // If the previous block wasn't a code-block and the next block is, just
+            // start the code-block block.
+            if(previousBlockType !== 'code-block' && nextBlockType === 'code-block') {
+              return '<pre><code>' + text+'</code>';
+            }
+        
+            // If the previous block was a code-block and the next block isn't,
+            // complete the code-block block.
+            if(previousBlockType === 'code-block' && nextBlockType !== 'code-block') {
+              return '<code>'+text + '</code></pre>';
+            }
+            */
 
-            function encodeContent(text) {
+
+            function encodeContent(text: string) {
               return text.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('\xA0').join('&nbsp;').split('\n').join('<br>' + '\n');
             }
 
-            function encodeAttr(text) {
+            function encodeAttr(text: string) {
               return text.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;');
             }
 
@@ -355,31 +369,44 @@ export default class MyEditor extends React.Component {
         if (!_html) {
           syncContent('', '')
           return
-        }  
+        }
+
+        // console.log(html);
         
         if (markdown) {
 
-          html = html.replace(/\<\/p\>\<p\>/g,'\n');
-          html = html.replace(/\<\/p\>/g,'\n');
+          html = html.replace(/\<\/p\>\<p\>/g,'');
+          html = html.replace(/\<\/p\>/g,'');
           html = html.replace(/<[^>]+>/g,"");
   
-          html=html.replace(/\&lt\;/g, '<');  
-          html=html.replace(/\&gt\;/g, '>');  
+          html = html.replace(/\&lt\;/g, '<');
+          html = html.replace(/\&gt\;/g, '>');
+          html = html.replace(/\&nbsp\;/g, ' ');
+          html = html.replace(/\&amp\;/g, '&');
+
+          // console.log(html);
   
           var converter = new showdown.Converter();
-  
+          
           converter.setOption('tables', true);
           converter.setOption('simpleLineBreaks', true);
   
           html = converter.makeHtml(html);
 
           // console.log(html);
-
         }
 
-        
-        
+        // console.log(html);
+
+        // let imgReg = /(<pre>)[\s\S]*?(<\/pre>)/gi;
+      
+        // let preList = html.match(/(<pre>)[\s\S]*?(<\/pre>)/gi);
+
+        // preList
+              
         html = encodeURIComponent(html);
+
+        
 
         syncContent(JSON.stringify(convertToRaw(content)), html);
 
@@ -387,7 +414,7 @@ export default class MyEditor extends React.Component {
 
   }
 
-  _toggleBlockType(blockType) {
+  _toggleBlockType(blockType: any) {
     this.onChange(
       RichUtils.toggleBlockType(
         this.state.editorState,
@@ -396,7 +423,7 @@ export default class MyEditor extends React.Component {
     )
   }
 
-  _toggleInlineStyle(inlineStyle) {
+  _toggleInlineStyle(inlineStyle: any) {
     this.onChange(
       RichUtils.toggleInlineStyle(
         this.state.editorState,
@@ -549,13 +576,16 @@ export default class MyEditor extends React.Component {
 
     let media;
 
-    if (type === 'text-image') {
-      media = src;
-    } else if (type === 'link') {
+    // if (type === 'text-image') {
+    //   media = src;
+    // } else 
+    if (type === 'link') {
       media = <a href={src} target="_blank" rel="nofollow">{src}</a>;
     } else if (type === 'image') {
       media = <img src={src} />;
-    } else if (type === 'youtube') {
+    } 
+    /*
+    else if (type === 'youtube') {
       let url = 'https://www.youtube.com/embed/' + src;
       media = <iframe src={url}></iframe>
     } else if (type === 'youku') {
@@ -571,6 +601,7 @@ export default class MyEditor extends React.Component {
       let url = "//music.163.com/outchain/player?type=0&id="+src+"&auto=1&height=430";
       media = <iframe src={url} width="auto" height="450"></iframe>;
     }
+    */
     
     return media;
   }
@@ -619,7 +650,7 @@ export default class MyEditor extends React.Component {
               {showMarkdown ?
                 <div style={{ display:'block-inline', height:'40px', lineHeight:'40px', marginRight: '15px' }}>
                   <input ref="markdown" type="checkbox" id="markdown-input" className="form-check-input" onChange={this.setMarkdown} style={{marginTop:'14px'}} />
-                  <label className="form-check-label" htmlFor="markdown-input">MarkDown</label>
+                  <label className="form-check-label text-secondary" htmlFor="markdown-input">MarkDown</label>
                 </div>
                 : null}
 

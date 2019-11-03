@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { reactLocalStorage } from 'reactjs-localstorage';
+// import { reactLocalStorage } from 'reactjs-localstorage';
 import useReactRouter from 'use-react-router';
+
+// common
+import storage from '@app/common/storage';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { addPosts, updatePosts } from '@actions/posts';
-import { loadTopicList } from '@actions/topic';
-import { getTopicListById } from '@reducers/topic';
+import { addPosts, updatePosts } from '@app/redux/actions/posts';
+import { loadTopicList } from '@app/redux/actions/topic';
+import { getTopicListById } from '@app/redux/reducers/topic';
 
 // components
-import Device from '@utils/device';
-import To from '@utils/to';
-import Editor from '@components/editor';
-import Modal from '@components/bootstrap/modal';
-import HTMLText from '@components/html-text';
+import Device from '@app/common/device';
+import To from '@app/common/to';
+import Editor from '@app/components/editor';
+import Modal from '@app/components/bootstrap/modal';
+import HTMLText from '@app/components/html-text';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 type successCallback = {
   // 返回posts _id
@@ -58,14 +61,14 @@ export default function(props: Props) {
   // redux
   const topicList = useSelector((state: object)=>getTopicListById(state, 'new-posts'));
   const store = useStore();
-  const _addPosts = (args:object)=>addPosts(args)(store.dispatch, store.getState);
-  const _loadTopicList = (args:object)=>loadTopicList(args)(store.dispatch, store.getState);
-  const _updatePosts = (args:object)=>updatePosts(args)(store.dispatch, store.getState);
+  const _addPosts = (args:any)=>addPosts(args)(store.dispatch, store.getState);
+  const _loadTopicList = (args:any)=>loadTopicList(args)(store.dispatch, store.getState);
+  const _updatePosts = (args:any)=>updatePosts(args)(store.dispatch, store.getState);
   
   // 标题发生变化
   const onTitleChange = function() {
     if (_id) return;
-    reactLocalStorage.set('posts-title', titleRef.current.value)
+    storage.save({ key: 'posts-title', data: titleRef.current.value })
   }
 
   // 话题发生变化
@@ -82,7 +85,7 @@ export default function(props: Props) {
     setContentStateJSON(contentStateJSON);
     setContentHTML(contentHTML);
     if (_id) return;
-    reactLocalStorage.set('posts-content', contentStateJSON)
+    storage.save({ key: 'posts-content', data: contentStateJSON })
   }
 
   // 提交/创建与更新
@@ -117,9 +120,11 @@ export default function(props: Props) {
 
     setLoading(true);
 
+    let err: any, res: any;
+
     if (_id) {
       // 更新
-      let [ err, res ] = await To(_updatePosts({
+      let result: any = await To(_updatePosts({
         id: _id,
         // type: type._id,
         topicId: topic._id,
@@ -128,6 +133,8 @@ export default function(props: Props) {
         detail: contentStateJSON,
         detailHTML: contentHTML,
       }));
+
+      [ err, res ] = result;
 
       setLoading(false);
 
@@ -145,8 +152,8 @@ export default function(props: Props) {
     }
 
     // 添加
-
-    let [err, res] = await _addPosts({
+    
+    let result: any = await _addPosts({
       title: title.value,
       detail: contentStateJSON,
       detailHTML: contentHTML,
@@ -155,10 +162,12 @@ export default function(props: Props) {
       type: 1
     });
 
+    [err, res] = result;
+
     if (res && res.success) {
       setTimeout(()=>{
-        reactLocalStorage.set('posts-content', '');
-        reactLocalStorage.set('posts-title', '');
+        storage.save({ key: 'posts-title', data: '' });
+        storage.save({ key: 'posts-content', data: '' });
       }, 200);
 
       setTimeout(()=>{
@@ -186,52 +195,63 @@ export default function(props: Props) {
 
   }
 
-  useEffect(()=>{
-
-    
+  const start = async() => {
 
     // 如果没有话题的话，加载话题
     if (!topicList) {
-      _loadTopicList({
+      await _loadTopicList({
         id: 'new-posts',
         args: {
           sort_by: 'sort:-1',
           parent_id: 'not-exists',
           page_size: 1000
         }
-        // filters: {
-        //   variables: {
-        //     sort_by: 'sort:-1',
-        //     parent_id: 'not-exists',
-        //     page_size: 1000
-        //   }
-        // }
-      }).then(([err, res]: any)=>{
-
-        const topicList = getTopicListById(store.getState(), 'new-posts').data;
-        const { topic_id } = location.params;
-
-        // 如果url中有topic，那么设置它为默认topic
-        if (topic_id && !topic && topicList && topicList.data && topicList.data[0]) {
-          topicList.data.map((item: any)=>{
-            item.children.map((item: any)=>{
-              if (item._id == topic_id) setTopic(item)
-            })
-          });
-        }
-
       })
     }
 
-    const _content = _id ? contentStateJSON : (reactLocalStorage.get('posts-content') || ''),
-    _title = _id ? props.title : (reactLocalStorage.get('posts-title') || '');
+    const list = getTopicListById(store.getState(), 'new-posts');
+    const { topic_id } = location.params;
 
-    let mount = true;
+    // 如果url中有topic，那么设置它为默认topic
+    if (topic_id && !topic && list && list.data && list.data[0]) {
+      list.data.map((item: any)=>{
+        item.children.map((item: any)=>{
+          if (item._id == topic_id) setTopic(item)
+        })
+      });
+    }
 
+    let _content = '', _title = '';
+    
+    if (_id) {
+      _content = contentStateJSON;
+    } else {
+      _content = await storage.load({ key: 'posts-content' }) || ''
+    }
+
+    if (_id) {
+      _title = props.title || '';
+    } else {
+      _title = await storage.load({ key: 'posts-title' }) || ''
+    }
+
+    // _id ? contentStateJSON : await storage.load({ key: 'posts-content' }) || '';
+          // _title = _id ? props.title : await storage.load({ key: 'posts-title' }) || '';
+    
+    // const _content = _id ? contentStateJSON : (reactLocalStorage.get('posts-content') || ''),
+    // _title = _id ? props.title : (reactLocalStorage.get('posts-title') || '');
+
+
+  // console.log(await storage.load({ key: 'posts-content' }));
+  // console.log(_title)
+
+    // let mount = true;
+
+  
     setEditor(<div>
       <Editor
         syncContent={(json: string, html: string)=>{
-          if (!mount) return;
+          // if (!mount) return;
           onContentChange(json, html);
         }}
         content={_content}
@@ -243,10 +263,22 @@ export default function(props: Props) {
     </div>);
 
     titleRef.current.value = _title;
+    
 
-    return () => {
-      mount = false;
-    }
+  }
+
+  // const componentDidMount = async function() {
+
+  // }
+
+  useEffect(()=>{
+
+    start();
+
+
+    // return () => {
+      // mount = false;
+    // }
 
   }, []);
 
@@ -258,7 +290,7 @@ export default function(props: Props) {
       body={<div styleName='topics-container'>
           {topicList && topicList.data.map((item: any)=>{
           return (<div key={item._id}>
-              <div styleName='head' className="text-secondary">{item.name}</div>
+              <div className="text-secondary mt-3">{item.name}</div>
               <div>
               {item.children && item.children.map((item: any)=>{
                 return (<div
@@ -273,37 +305,51 @@ export default function(props: Props) {
         </div>}
       />
 
+    <div style={{overflow:'hidden'}}>
     <div className="row">
-      <div className="col-md-2">
-        <a
+      <div className="col-md-2 col-3 pr-0">
+        <span
           styleName="choose-topic-button"
-          className="card"
-          href="javascript:void(0)"
+          className="a card border-right rounded-left border-0"
           data-toggle="modal" 
           data-target="#topics-modal"
           >
           {topic ? topic.name : '选择话题'}
-        </a>
+        </span>
       </div>
-      <div className="col-md-10 pl-md-0 pl-lg-0 pl-xl-0">
-        <input className="card" styleName="title" ref={titleRef} type="text" onChange={onTitleChange} placeholder="请输入标题"  />
+      <div className="col-md-10 col-9 pl-0">
+        <input className="card rounded-right" styleName="title" ref={titleRef} type="text" onChange={onTitleChange} placeholder="请输入标题"  />
       </div>
     </div>
-    <div styleName="editor" className="card">{editor}</div>
-    
+    </div>
+
     <div className="card">
+      {editor}
+      <div className="card-footer">
+      <div className="d-flex justify-content-between">
+        <div>
+          <button type="button" className="btn btn-link btn-sm" onClick={()=>setPreview(preview ? false : true)}>{preview ? '关闭' : ''}预览</button>
+        </div>
+        <div>
+          <button className="btn btn-block btn-primary rounded-pill btn-sm pl-3 pr-3" onClick={submit}>{loading ? '发布中...' : '发布'}</button>
+        </div>
+      </div>
+      </div>
+    </div>
+    
+    {/* <div className="card">
       <div className="d-flex justify-content-between p-2">
         <div>
           <button type="button" className="btn btn-link" onClick={()=>setPreview(preview ? false : true)}>{preview ? '关闭' : ''}预览</button>
         </div>
         <div>
-          <button className="btn btn-block btn-primary" onClick={submit}>{loading ? '发布中...' : '发布'}</button>
+          <button className="btn btn-block btn-primary rounded-pill" onClick={submit}>{loading ? '发布中...' : '发布'}</button>
         </div>
       </div>
-    </div>
+    </div> */}
     
     {preview ?
-      <div className="card">
+      <div className="card mt-2">
           <div className="card-body">
           <HTMLText content={decodeURIComponent(contentHTML)} />
           </div>

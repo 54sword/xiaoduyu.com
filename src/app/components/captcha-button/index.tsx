@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 // redux
 import { useStore } from 'react-redux';
-import { addCaptcha } from '@actions/captcha';
+import { addCaptcha } from '@app/redux/actions/captcha';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 type Func = (data: object, fc: any) => void
 
@@ -68,8 +68,8 @@ export default function({ onClick }: Props) {
   }
 
   return (
-    <a href="javascript:void(0)" styleName="captcha-button" className="text-primary" onClick={handle}>
+    <span styleName="captcha-button" className="a text-primary" onClick={handle}>
     {countdown > 0 ? `发送成功 (${countdown})` : "获取验证码"}
-    </a>
+    </span>
   )
 }

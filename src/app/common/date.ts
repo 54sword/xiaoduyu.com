@@ -92,7 +92,9 @@ const dateDiff = function(date1: string | number, date2?: string | number) {
         time = '前天 '+dateArr[3]+':'+dateArr[4];
       } // 同年内
       else if (dateArr[0] == nowArr[0]) {
-        time = Math.floor(dateArr[1])+'月'+Math.floor(dateArr[2])+'日 '+dateArr[3]+':'+dateArr[4];
+        // time = dateArr[0]+'/'+dateArr[1]+'/'+dateArr[2];
+        time = Math.floor(dateArr[1])+'月'+Math.floor(dateArr[2])+'日';
+        // time = Math.floor(dateArr[1])+'月'+Math.floor(dateArr[2])+'日 '+dateArr[3]+':'+dateArr[4];
       } // 不同年
       else {
         time = dateArr[0]+'年'+dateArr[1]+'月'+dateArr[2]+'日';

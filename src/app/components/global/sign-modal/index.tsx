@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // config
-import { api, name, social } from '@config';
-
+import { api, name, social, description } from '@config';
 
 // components
-import SignIn from './sign-in';
-import SignUp from './sign-up';
-import Modal from '../../../components/bootstrap/modal';
-import Wechat from '../../../common/weixin';
+import SignIn from './components/sign-in';
+import SignUp from './components/sign-up';
+import Modal from '@app/components/bootstrap/modal';
+import Wechat from '@app/common/weixin';
 
 // styles
-import './style.scss';
+import './styles/index.scss';
 
 export default function() {
 
@@ -29,8 +28,15 @@ export default function() {
   }
 
   useEffect(()=>{
-    $('#sign').on('show.bs.modal', function (e) {
-      setType(e.relatedTarget['data-type'] || e.relatedTarget.getAttribute('data-type') || 'sign-in')
+    $('#sign').on('show.bs.modal', function (e: any) {
+
+      let type = 'sign-in';
+
+      if (e.relatedTarget) {
+        type = e.relatedTarget['data-type'] || e.relatedTarget.getAttribute('data-type') || 'sign-in';
+      }
+
+      setType(type)
     });
   });
 
@@ -38,7 +44,7 @@ export default function() {
 
           {type == 'sign-in' ? <div>
               <SignIn displayComponent={displayComponent} />
-              <div><Link to="/forgot" className="text-primary" onClick={()=>{ $('#sign').modal('hide'); }}>忘记密码？</Link></div>
+              <div><Link to="/forgot" className="text-primary" onClick={()=>{ $('#sign').modal('hide'); }}>忘记密码了？</Link></div>
             </div>
             : null}
           
@@ -53,29 +59,30 @@ export default function() {
 
           <div styleName="social" className="row">
 
-            {social.wechat ?           
+            {social.wechat ?
               <div className={`col-${12/socialLength}`}>
-                <a
-                  href="javascript:void(0)"
+                <span
+                  className="a"
                   onClick={()=>{ window.location.href = `${api.domain}/oauth/wechat${Wechat.in ? '' : '-pc'}`; }}
                   styleName="wechat">
                   微信
-                  </a>
-              </div> : null}
+                  </span>
+              </div>
+              : null}
             
             {social.github ?
               <div className={`col-${12/socialLength}`}>
-                <a href={`${api.domain}/oauth/github`} styleName="github">GitHub</a>
+                <a href={`${api.domain}/oauth/github`} styleName="github" className="text-dark">GitHub</a>
               </div> : null}
             
             {social.qq ?
               <div className={`col-${12/socialLength}`}>
-                <a href={`${api.domain}/oauth/qq`} styleName="qq">QQ</a>
+                <a href={`${api.domain}/oauth/qq`} styleName="qq" className="text-dark">QQ</a>
               </div> : null}
             
             {social.weibo ?
               <div className={`col-${12/socialLength}`}>
-                <a href={`${api.domain}/oauth/weibo`} styleName="weibo">微博</a>
+                <a href={`${api.domain}/oauth/weibo`} styleName="weibo" className="text-dark">微博</a>
               </div> : null}
 
           </div>
@@ -91,15 +98,16 @@ export default function() {
       id="sign"
       header={type == 'sign-in' ? 
         <div styleName="header">
-          <h4>登录{name}</h4>
+          <h4>登录</h4>
           <div>
-            没有账号？ <a href="javascript:void(0)" className="text-primary" onClick={displayComponent}>注册</a>
+            没有账号？ <span className="a text-primary" onClick={displayComponent}>注册</span>
           </div>
         </div> :
         <div styleName="header">
-          <h4>注册{name}</h4>
+          <h4>注册账号</h4>
+          <div className="mb-3">{description}🐟🐠🐡🐳🐬🐋🐙</div>
           <div>
-            已经有账号了？ <a href="javascript:void(0)" className="text-primary" onClick={displayComponent}>登录</a>
+            已经有账号了？ <span className="a text-primary" onClick={displayComponent}>登录</span>
           </div>
         </div>}
       body={body}

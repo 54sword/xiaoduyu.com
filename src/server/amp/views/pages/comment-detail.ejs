@@ -20,7 +20,9 @@
         "mainEntityOfPage": "<%- domainName %>/comment/<%- comment._id %>",
         "headline": "<%- comment.posts_id.title %>",
         "datePublished": "<%- new Date(new Date(comment.create_at).getTime()) %>",
-        "dateModified": "<%- new Date(comment.update_at) %>",
+        <% if (comment.update_at) { %>
+          "dateModified": "<%- new Date(new Date(comment.update_at).getTime()) %>",
+        <% } %>
         "description":"<%- comment.description %>",
         "author": {
           "@type": "Person",

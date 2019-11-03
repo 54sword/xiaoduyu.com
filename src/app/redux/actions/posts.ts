@@ -19,8 +19,12 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
       posts._device = Device.getNameByDeviceId(posts.device);
     }
 
-    if (posts.content_html) {
+    if (posts.content_html && posts.content_html == '<p><br></p>') {
+      posts.content_html = '';
+    }
 
+    if (posts.content_html) {
+      
       // posts.content_html = decodeURIComponent(posts.content_html);
 
       // 提取内容中所有的图片地址
@@ -32,6 +36,8 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
 
       // 将内容生产140的简介
       let textContent = posts.content_html;
+
+      // console.log(textContent);
 
       // let imgReg = /<img(?:(?:".*?")|(?:'.*?')|(?:[^>]*?))*>/gi;
       let imgReg = /<img(.*?)>/gi;
@@ -46,6 +52,18 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
         textContent = textContent.replace(item, '[图片] ');
       });
 
+      // let preReg = /<pre>(.*?)<\/pre>/gi;
+
+      // let pres = [];
+      // let pre;
+      // while (pre = preReg.exec(textContent)) {
+      //   pres.push(pre[0]);
+      // }
+
+      // pres.map(item=>{
+      //   textContent = textContent.replace(item, '[代码] ');
+      // });
+
       // 删除所有html标签
       textContent = textContent.replace(/<[^>]+>/g, '');
       textContent = textContent.replace(/\r\n/g, ''); 
@@ -54,6 +72,8 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
       if (textContent.length > 137) textContent = textContent.slice(0, 137)+'...';      
 
       posts.content_summary = textContent;
+
+
 
       // 获取内容中所有的图片
       posts.content_html = imageOptimization(posts.content_html);
@@ -64,10 +84,6 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
     if (posts.last_comment_at) posts._last_comment_at = dateDiff(posts.last_comment_at);
     if (posts.update_at) posts._update_at = dateDiff(posts.update_at);
   });
-
-  // if (id == 'favorite') {
-
-  // }
 
   return list
 
@@ -112,48 +128,54 @@ export const loadPostsList = loadList({
   processList: processPostsList,
   api: 'posts',
   fields: `
+  _id
+  comment_count
+  reply_count
+  content_html
+  create_at
+  deleted
+  device
+  follow_count
+  last_comment_at
+  like_count
+  recommend
+  sort_by_date
+  title
+  ip
+  topic_id{
     _id
-    comment_count
-    reply_count
-    content_html
-    create_at
-    deleted
-    device
-    follow_count
-    last_comment_at
-    like_count
-    recommend
-    sort_by_date
-    title
-    ip
-    topic_id{
+    name
+    parent_id {
       _id
       name
     }
-    type
-    user_id{
-      _id
-      nickname
-      brief
-      avatar_url
-      posts_count
-      comment_count
-      fans_count
-      follow
-    }
-    verify
-    view_count
-    weaken
+  }
+  type
+  user_id{
+    _id
+    nickname
+    brief
+    avatar_url
+    posts_count
+    comment_count
+    fans_count
+    follow_people_count
     follow
-    like
-    comment{
-      user_id{
-        avatar_url
-      }
-    }
-    update_at
+  }
+  verify
+  view_count
+  weaken
+  follow
+  like
+  update_at
   `
 });
+
+// comment{
+//   user_id{
+//     avatar_url
+//   }
+// }
 
 // 移除list
 export const removePostsListById = (id: string) => {
@@ -177,7 +199,34 @@ export const refreshPostsListById = (id: string) => {
       id,
       args: list.filters,
       restart: true
-    })(dispatch, getState);
+    })(dispatch, getState).then(([err, res]: any)=>{
+
+      // 如果是刷新帖子列表，可能评论/回复数等发生了变化，需要将这部分数据与其他帖子数据同步一下
+      if (res && res.data && res.data.length > 0) {
+        let postList:any = {};
+        
+        res.data.map((item: any)=>{
+          postList[item._id] = item;
+        });
+
+        let postsState = getState().posts;
+
+        Reflect.ownKeys(postsState).map(item=>{
+          getState().posts[item].data.map((item: any)=>{
+            if (postList[item._id]) {
+              if (postList[item._id].comment_count) item.comment_count = postList[item._id].comment_count;
+              if (postList[item._id].reply_count) item.reply_count = postList[item._id].reply_count;
+              if (postList[item._id].follow_count) item.follow_count = postList[item._id].follow_count;
+              if (postList[item._id].like_count) item.like_count = postList[item._id].like_count;
+            }
+          })
+        });
+
+        dispatch({ type: 'SET_POSTS', state: postsState });
+      } 
+
+
+    })
 
   }
 }
@@ -253,11 +302,32 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, topicName 
       return reject(err)
     }
 
-    args.topic_id = {
-      _id: topicId,
-      name: topicName
-    }
+    loadPostsList({
+      id,
+      args: {
+        _id: id
+      },
+      restart: true
+    })(dispatch, getState)
+    .then(([err, res]: any)=>{
 
+      let posts = res && res.data && res.data[0] ? res.data[0] : null;
+
+      if (!posts) {
+        resolve(res)
+      } else {
+        dispatch({ type: 'UPDATE_POST', id: id, update: posts });
+      }
+
+      resolve(res)
+    })
+
+    // args.topic_id = {
+    //   _id: topicId,
+    //   name: topicName
+    // }
+
+    /*
     if (args.content_html) {
       args.content_html = decodeURIComponent(args.content_html);
     }
@@ -273,8 +343,9 @@ export function updatePosts({ id, title, detail, detailHTML, topicId, topicName 
 
 
     dispatch({ type: 'UPDATE_POST', state: postsList })
+    */
 
-    resolve(res)
+    
 
   })
   }
@@ -290,7 +361,13 @@ const abstractImages = (str: string) => {
   while (img = imgReg.exec(str)) {
     let _img: any = img[0].match(srcReg)
     if (_img && _img[1]) {
-      _img = _img[1] + '?imageView2/2/w/800/auto-orient/format/jpg'
+
+      _img = _img[1];
+
+      if (_img[1].indexOf('xiaoduyu.com') != -1) {
+        _img = _img[1] + '?imageView2/2/w/800/auto-orient/format/jpg'
+      }
+      
       result.push(_img)
     }
   }
@@ -315,7 +392,7 @@ const imageOptimization = (str: string) => {
 
       let _img = oldImgDom.match(srcReg);
 
-      if (_img && _img[1]) {
+      if (_img && _img[1] && _img[1].indexOf('xiaoduyu.com') != -1) {
         let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/800/auto-orient/format/jpg');
         str = str.replace(oldImgDom, newImg);
       }

@@ -59,6 +59,9 @@ module.exports = {
       'highlight.js/styles/github.css',
       'github-markdown-css/github-markdown.css',
 
+      'jquery-toast-plugin/dist/jquery.toast.min.css',
+      'jquery-toast-plugin/dist/jquery.toast.min.js',
+
       './src/client/index'
     ]
   },
@@ -85,12 +88,12 @@ module.exports = {
           test: /(\.css|\.scss)$/,
           chunks: 'all',
           enforce: true
+        },
+        commons: {
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all'
         }
-        // commons: {
-        //   name: 'vendor',
-        //   test: /[\\/]node_modules[\\/]/,
-        //   chunks: 'all'
-        // }
       }
     }
   },
@@ -111,11 +114,13 @@ module.exports = {
           'css-hot-loader',
           { loader: MiniCssExtractPlugin.loader },
           {
-            loader: `css`,
+            loader: `css-loader`,
             options: {
               modules: {
-                localIdentName: config.classScopedName
+                localIdentName: config.classScopedName,
               },
+              // localIdentName: config.classScopedName,
+              // minimize: true,
               sourceMap: true,
               importLoaders: 1
             }
@@ -139,7 +144,7 @@ module.exports = {
         use: [
           'css-hot-loader',
           { loader: MiniCssExtractPlugin.loader },
-          { loader: `css` },
+          { loader: `css-loader` },
           {
             loader: 'postcss-loader',
             options: {
@@ -172,7 +177,7 @@ module.exports = {
       __SERVER__: 'false',
       __CLIENT__: 'true'
     }),
-
+    
     // 提取css插件
     new MiniCssExtractPlugin({
       filename: devMode ? "[name].css" : "[name].[hash].css"
@@ -191,6 +196,15 @@ module.exports = {
       head: config.head,
       analysis_script: config.analysis_script
       // inject: false
+    }),
+    
+    new HtmlwebpackPlugin({
+      filename: path.resolve(__dirname, '../../dist/client/app-shell.ejs'),
+      template: 'src/app/views/app-shell.html',
+      theme: '<%- theme %>',
+      head: config.head,
+      name: config.name,
+      description: config.description
     })
 
   ]

@@ -3,19 +3,20 @@ import useReactRouter from 'use-react-router';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
-import { addBlock } from '@actions/block';
-import { getUserInfo } from '@reducers/user';
+import { addBlock } from '@app/redux/actions/block';
+import { getUserInfo } from '@app/redux/reducers/user';
 
 // style
-import './style.scss';
+import './styles/index.scss';
 
 interface Props {
   posts: any,
   user: any,
-  comment: any
+  comment: any,
+  children?: any
 }
 
-export default function({  user, posts, comment }: Props) {
+export default function({  user, posts, comment, children }: Props) {
 
   const { history } = useReactRouter();
 
@@ -105,20 +106,27 @@ export default function({  user, posts, comment }: Props) {
   }
 
   if (self && user) return null;
-
+  
   return (<div styleName="container">
 
-    <a href="javascript:void(0)" styleName="menu" data-toggle="dropdown" onClick={stopPropagation}></a>
-    <div className="dropdown-menu dropdown-menu-right">
+    <span styleName="menu" className="a text-secondary" data-toggle="dropdown" onClick={stopPropagation}>
+      {children ? children :
+      <svg>
+        <use xlinkHref="/feather-sprite.svg#more-horizontal"/>
+      </svg>
+      }
+    </span>
+    
+    <div className="dropdown-menu dropdown-menu-left">
 
       {self && posts || self && comment ?
-        <a className="dropdown-item" href="javascript:void(0)" onClick={edit}>编辑</a>
+        <span className="a dropdown-item" onClick={edit}>编辑</span>
         : null }
 
       {!self && posts || !self && comment || !self && user ?
         <>
-          <a className="dropdown-item" href="javascript:void(0)" onClick={block}>不感兴趣</a>
-          <a className="dropdown-item" href="javascript:void(0)" onClick={report}>举报</a>
+          <span className="a dropdown-item" onClick={block}>不感兴趣</span>
+          <span className="a dropdown-item" onClick={report}>举报</span>
         </>
         : null }
     </div>

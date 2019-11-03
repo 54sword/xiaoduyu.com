@@ -30,14 +30,20 @@ declare module 'nodemon'
 declare module 'rimraf'
 declare module 'webpack-dev-middleware'
 declare module 'webpack-hot-middleware'
-declare module '@config'
-declare module '@config/*'
 declare module 'showdown'
 declare module 'helmet'
 declare module 'heapdump'
 declare module 'easy-monitor'
 declare module 'serve-favicon'
 declare module 'morgan'
+declare module 'draft-js'
+declare module 'sitemap'
+declare module 'sunrise-sunset-js'
+
+// 忽略别名
+declare module '@config'
+declare module '@config/*'
+declare module '@app/*'
 
 // https://www.tslang.cn/docs/handbook/jsx.html
 // 去除使用标签的警告
@@ -58,11 +64,14 @@ declare var __SERVER__: any;
 declare var hljs: any;
 declare var adsbygoogle: any;
 declare var FloatFixed: any;
+declare var gtag: any;
 
 interface Window {
-  __initState__: any;
-  adsbygoogle: any;
-  module: any;
+  __initState__: any
+  adsbygoogle: any
+  module: any
+  AgoraRTC: any
+  inAppShell: any
 }
 
 declare var window: Window;

@@ -1,0 +1,386 @@
+
+/**
+ * 覆盖默认的 bootstrap 的样式
+ */
+
+// 主色（链接颜色）
+$color_primary: #70757a;
+// 黑色
+$color_dark: #bfbfbf;//#e0e0e0;//#c6cad1;//#95a0ad;
+// muted
+$color_muted: #4b4e52;
+// 次要
+$color_secondary: #656a70;
+
+$color_border: #28262d;//#353535;
+
+:global{
+
+  // @media (prefers-color-scheme: dark) {
+
+#dark-theme{
+
+  body {
+    // background-color: #1c1e25;
+    background: #000;//#262626;
+    color: $color_dark;//#95a0ad;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="radio"],
+  select,
+  textarea{
+    caret-color: $color_dark;
+    color:$color_dark;
+    background-color: #19191b;
+    border:none;
+    // @extend .border;
+  }
+
+  input::-webkit-input-placeholder {
+    color:$color_dark;
+    opacity: .3;
+  }
+
+  div[contenteditable="true"]{
+    color:#9baec7;
+  }  
+
+  #app img{
+    opacity: .7;
+  }
+
+  .badge-secondary{
+    background-color: #363638;
+    color:#727280;
+  }
+
+  //======================================================
+  // 链接默认颜色
+  // a{ color: $color_dark; }
+
+  // .a{
+  //   color: $color_dark;
+  // }
+
+  .badge-light{
+    background-color: #000 !important;
+    color:$color_dark;
+  }
+
+  // 正文
+  .html-content,
+  // 编辑器
+  .RichEditor-editor{
+    a{ color: $color_primary !important; }
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/content/typography/#inline-text-elements
+  small{ font-size: 12px; }
+
+  
+
+  //======================================================
+  // 文本颜色
+  // https://getbootstrap.com/docs/4.0/utilities/colors/
+
+  // .text-primary{ color: $color_primary !important; }
+  .text-secondary{ color: $color_secondary !important; }
+  // .text-success{}
+  // .text-danger{}
+  // .text-warning{}
+  // .text-info{}
+  // .text-light{}
+  .text-dark{ color: $color_dark !important; }
+  .text-muted{ color: $color_muted !important; }
+  // .text-white{}
+  .active{
+    color: $color_primary !important;
+    &:hover{
+      color: $color_primary !important;
+    }
+  }
+
+  .btn-outline-primary{
+    color:#007bff;
+    &:hover{
+      color:#fff;
+    }
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/card/
+
+  .card{
+
+    border:none;
+    background-color: #19191b;//#1c1b20;
+    
+    .card-header{
+      background: #19191b;
+      border-bottom:1px solid $color_border;
+    }
+
+    .card-footer{
+      border-top:1px solid $color_border;
+      background-color:transparent;
+    }
+
+  }
+
+  // .card{
+  //   border: none;
+  //   border-radius: none;
+  //   margin-bottom: 10px;
+  //   // color:$color_dark;
+  //   background-color: #282c36;
+    
+  //   .card-header{
+  //     padding:8px 15px 8px 15px;
+  //     border-bottom: 1px solid $color_muted;
+  //     background-color: #282c36;
+  //     font-size: 14px;
+  //   }
+
+  //   .card-body{
+  //     padding:15px;
+  //     // background-color: #282c36;
+  //   }
+
+  // }
+
+  .dropdown-divider{
+    border-top:1px solid $color_muted;
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/list-group/
+  .list-group-item{
+    // border-left:0px;
+    // border-right:0px;
+    // border-top:0px;
+    // border:none;
+    border-top:1px solid $color_border;
+    // background-color: #282c36;
+    border-radius: 0px;
+    // border: 1px solid #fff;
+    // border-top: 1px solid $color_border;
+    // &:hover{ border-bottom:1px solid $color_border; }
+    // &:last-child{ border-bottom:none; }
+    &:first-child{
+      border-top:0px;
+    }
+  }
+  .list-group-flush{
+    .list-group-item{
+      border-top:1px solid $color_border;
+      border-bottom:1px solid $color_border;
+
+      &:first-child{ border-top:none; }
+      &:last-child{ border-bottom:none; }
+
+      &:hover{
+        background-color: #2d323d;
+      }
+    }
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/utilities/borders/#border-radius
+
+  .border{ border: 1px solid $color_border !important; }
+  .border-top{ border-top: 1px solid $color_border !important; }
+  .border-right{ border-right: 1px solid $color_border !important; }
+  .border-bottom{ border-bottom: 1px solid $color_border !important; }
+  .border-left{ border-left: 1px solid $color_border !important; }
+
+
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/buttons/
+
+  // button{
+  //   background-color: $color_primary;
+  //   color:#fff;
+  // }
+
+  // .btn-primary{
+  //   background-color: #424242;
+  //   color:#fff;
+  //   border:1px solid #424242;
+  //   &:hover{
+  //     background-color: #383838;
+  //     color:#fff;
+  //   }
+  // }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/navbar/
+  .navbar{
+    position: fixed;
+    top:0px;
+    z-index: 99;
+    width: 100%;
+    padding:0 10px 0 10px;
+    box-sizing: border-box;
+    background-color: #282c36;
+    border-bottom: 1px solid #1c1e25;
+  }
+
+  .navbar-brand{
+    min-height: 45px;
+    padding:0px;
+    margin-right:0px;
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.0/components/modal/
+  .modal-header{
+    border-bottom: 1px solid $color_muted;
+  }
+  .modal-content{
+    border:none;
+    border-radius: 12px;
+    background-color: #232325;
+  }
+  .modal-body{
+    padding:0px;
+  }
+
+  .modal-footer{
+    border-top: 1px solid $color_muted;
+  }
+
+  .modal-backdrop{
+    opacity: .6;
+  }
+
+  .close{
+    color:#fff;
+    text-shadow: none;
+  }
+
+  //======================================================
+  // https://getbootstrap.com/docs/4.2/components/navs/
+  .nav-tabs{
+    background-color: #303030;
+    padding:0 10px 0 10px;
+    border:none;
+
+    .nav-link{
+      padding-top:15px;
+      padding-bottom:13px;
+      border: none;
+      border-bottom:2px solid #282c36;
+    
+      &:hover{
+        border: none;
+        color: #4170ea;
+      }
+    }
+
+    // .active{
+    //   border: none;
+    //   border-bottom:2px solid #4170ea !important;
+    //   color:#4170ea;
+    //   background-color: #353535;
+    // }
+
+  }
+
+  .dropdown-menu{
+    background-color: #232326;
+  }
+  
+  .dropdown-item{
+    color:$color_dark;
+    &:hover{
+      background-color: #303033 !important;
+    }
+  }
+
+
+  // 代码高亮
+  .hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    color: #abb2bf;
+    background: #23272e;
+  }
+  
+  .hljs-comment,
+  .hljs-quote {
+    color: #5c6370;
+    font-style: italic;
+  }
+  
+  .hljs-doctag,
+  .hljs-keyword,
+  .hljs-formula {
+    color: #c678dd;
+  }
+  
+  .hljs-section,
+  .hljs-name,
+  .hljs-selector-tag,
+  .hljs-deletion,
+  .hljs-subst {
+    color: #e06c75;
+  }
+  
+  .hljs-literal {
+    color: #56b6c2;
+  }
+  
+  .hljs-string,
+  .hljs-regexp,
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-meta-string {
+    color: #98c379;
+  }
+  
+  .hljs-built_in,
+  .hljs-class .hljs-title {
+    color: #e6c07b;
+  }
+  
+  .hljs-attr,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-type,
+  .hljs-selector-class,
+  .hljs-selector-attr,
+  .hljs-selector-pseudo,
+  .hljs-number {
+    color: #d19a66;
+  }
+  
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-link,
+  .hljs-meta,
+  .hljs-selector-id,
+  .hljs-title {
+    color: #61aeee;
+  }
+  
+  .hljs-emphasis {
+    font-style: italic;
+  }
+  
+  .hljs-strong {
+    font-weight: bold;
+  }
+  
+  .hljs-link {
+    text-decoration: underline;
+  }
+}
+
+}
+
+@import './response';

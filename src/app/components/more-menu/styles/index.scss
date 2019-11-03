@@ -1,0 +1,20 @@
+
+.container{
+  display: inline-block;
+}
+.menu{
+
+  > svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  &:hover{
+    opacity: .7;
+  }
+}

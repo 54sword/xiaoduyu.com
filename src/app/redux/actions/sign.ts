@@ -1,6 +1,12 @@
 
 import graphql from '../../common/graphql';
 import { removeUnlockToken } from './unlock-token';
+import * as globalData from '../../common/global-data';
+// import * as ServiceWorker from '../../common/service-worker';
+// import * as ServiceWorker from '@app/common/service-worker';
+// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+
+// console.log(OfflinePluginRuntime);
 
 // cookie安全措施，在服务端使用 http only 方式储存cookie
 export const saveTokenToCookie = ({ access_token }: { access_token: string }) => {
@@ -23,6 +29,9 @@ export const saveTokenToCookie = ({ access_token }: { access_token: string }) =>
         } else {
           reject(res);
         }
+      },
+      error: (err: any) => {
+        console.log(err);
       }
     });
   
@@ -54,8 +63,33 @@ export const signIn = ({ data }: { data: any }) => {
 
         // 浏览器环境
         if (res && res.access_token && typeof document != 'undefined') {
+          
           await saveTokenToCookie(res)(dispatch, getState);
-          window.location.reload();
+          globalData.get('service-worker').uninstall();
+          
+          setTimeout(()=>{
+            window.location.reload();
+          }, 300);
+        
+
+          // if ('serviceWorker' in navigator) {
+          //   navigator.serviceWorker.getRegistrations().then(registrations => {
+          //     for (const registration of registrations) {
+          //       registration.unregister()
+          //     }
+          //     window.location.reload();
+          //   }).catch(err=>{
+          //     window.location.reload();
+          //   })
+          // } else {
+          //   window.location.reload();
+          // }
+
+          // setTimeout(()=>{
+          //   window.location.reload();
+          // }, 10000);
+
+          // window.location.reload();
         }
         
       }
@@ -73,12 +107,40 @@ export const signOut = () => {
     $.ajax({
       url: '/sign/out',
       type: 'post',
-      success: (res: any) => {
+      success: async (res: any) => {
         if (res && res.success) {
 
           if (res.success && typeof window != 'undefined') {
+
+            globalData.get('service-worker').uninstall();
+
+            setTimeout(()=>{
+              window.location.reload();
+            }, 300);
+
+            // await window._serviceWorker.update();
+            // window.location.reload();
+
+            /*
+            if ('serviceWorker' in navigator) {
+              navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (const registration of registrations) {
+                  registration.unregister()
+                }
+                window.location.reload();
+              }).catch(err=>{
+                window.location.reload();
+              })
+            } else {
+              window.location.reload();
+            }
+            */
+
+            // OfflinePluginRuntime.update();
             // 退出成功跳转到首页
-            window.location.reload();
+            // setTimeout(()=>{
+              // window.location.reload();
+            // }, 10000);
           }
 
         } else {

@@ -1,0 +1,13 @@
+
+.content{
+  :global {
+    .RichEditor-editor .public-DraftEditor-content {
+      min-height: 120px;
+    }
+  }
+}
+
+.footer{
+  padding:0 15px 15px 15px;
+  text-align: right;
+}
