@@ -58,7 +58,7 @@ export default (state = cloneObj(initialState), action: Actions) => {
         let data = state[i].data
         if (data.length > 0) {
           for (let n = 0, max = data.length; n < max; n++) {
-            if (data[n].user_id._id == action.peopleId) {
+            if (data[n].user_id && data[n].user_id._id == action.peopleId) {
               // state[i].data[n].follow_count += followStatus ? 1 : -1
               state[i].data[n].user_id.follow = action.followStatus
             }

@@ -19,7 +19,7 @@ export default function({ count = 0, pageSize = 0, pageNumber = 0, onSelect }: P
   let Next = pageNumber + 1 <= pageNumberTotal ? pageNumber+1 : 0;
 
   return (
-    <nav aria-label="Page navigation" className="border-top">
+    <nav aria-label="Page navigation" className="mt-3">
       <ul className="pagination justify-content-center mb-3">
 
         <li className={`page-item ${previous ? '' : 'disabled'}`}>

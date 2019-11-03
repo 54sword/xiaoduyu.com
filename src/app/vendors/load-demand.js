@@ -46,6 +46,9 @@
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
         elements = document.getElementsByClassName('load-demand');
 
+
+    // console.log(elements);
+
     // console.log(scrollTop);
     //  && $('#posts-modal').className.indexOf('show') != -1
     if (document.getElementById('posts-modal') && document.getElementById('posts-modal').className.indexOf('show') != -1) {
@@ -53,6 +56,8 @@
       // console.log('123123');
       scrollTop = document.getElementById('posts-modal').scrollTop;
     }
+
+    
 
     for (var i = 0, max = elements.length; i < max; i++) {
 

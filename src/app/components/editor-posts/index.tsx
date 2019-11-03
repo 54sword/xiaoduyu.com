@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { reactLocalStorage } from 'reactjs-localstorage';
+// import { reactLocalStorage } from 'reactjs-localstorage';
 import useReactRouter from 'use-react-router';
+
+// common
+import storage from '@app/common/storage';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
@@ -65,7 +68,7 @@ export default function(props: Props) {
   // 标题发生变化
   const onTitleChange = function() {
     if (_id) return;
-    reactLocalStorage.set('posts-title', titleRef.current.value)
+    storage.save({ key: 'posts-title', data: titleRef.current.value })
   }
 
   // 话题发生变化
@@ -82,7 +85,7 @@ export default function(props: Props) {
     setContentStateJSON(contentStateJSON);
     setContentHTML(contentHTML);
     if (_id) return;
-    reactLocalStorage.set('posts-content', contentStateJSON)
+    storage.save({ key: 'posts-content', data: contentStateJSON })
   }
 
   // 提交/创建与更新
@@ -163,8 +166,8 @@ export default function(props: Props) {
 
     if (res && res.success) {
       setTimeout(()=>{
-        reactLocalStorage.set('posts-content', '');
-        reactLocalStorage.set('posts-title', '');
+        storage.save({ key: 'posts-title', data: '' });
+        storage.save({ key: 'posts-content', data: '' });
       }, 200);
 
       setTimeout(()=>{
@@ -192,7 +195,7 @@ export default function(props: Props) {
 
   }
 
-  const componentDidMount = async() => {
+  const start = async() => {
 
     // 如果没有话题的话，加载话题
     if (!topicList) {
@@ -218,21 +221,37 @@ export default function(props: Props) {
       });
     }
 
-  }
+    let _content = '', _title = '';
+    
+    if (_id) {
+      _content = contentStateJSON;
+    } else {
+      _content = await storage.load({ key: 'posts-content' }) || ''
+    }
 
-  useEffect(()=>{
+    if (_id) {
+      _title = props.title || '';
+    } else {
+      _title = await storage.load({ key: 'posts-title' }) || ''
+    }
 
-    componentDidMount();
+    // _id ? contentStateJSON : await storage.load({ key: 'posts-content' }) || '';
+          // _title = _id ? props.title : await storage.load({ key: 'posts-title' }) || '';
+    
+    // const _content = _id ? contentStateJSON : (reactLocalStorage.get('posts-content') || ''),
+    // _title = _id ? props.title : (reactLocalStorage.get('posts-title') || '');
 
-    const _content = _id ? contentStateJSON : (reactLocalStorage.get('posts-content') || ''),
-    _title = _id ? props.title : (reactLocalStorage.get('posts-title') || '');
 
-    let mount = true;
+  // console.log(await storage.load({ key: 'posts-content' }));
+  // console.log(_title)
 
+    // let mount = true;
+
+  
     setEditor(<div>
       <Editor
         syncContent={(json: string, html: string)=>{
-          if (!mount) return;
+          // if (!mount) return;
           onContentChange(json, html);
         }}
         content={_content}
@@ -244,10 +263,22 @@ export default function(props: Props) {
     </div>);
 
     titleRef.current.value = _title;
+    
 
-    return () => {
-      mount = false;
-    }
+  }
+
+  // const componentDidMount = async function() {
+
+  // }
+
+  useEffect(()=>{
+
+    start();
+
+
+    // return () => {
+      // mount = false;
+    // }
 
   }, []);
 
@@ -259,7 +290,7 @@ export default function(props: Props) {
       body={<div styleName='topics-container'>
           {topicList && topicList.data.map((item: any)=>{
           return (<div key={item._id}>
-              <div className="text-secondary">{item.name}</div>
+              <div className="text-secondary mt-3">{item.name}</div>
               <div>
               {item.children && item.children.map((item: any)=>{
                 return (<div
@@ -277,15 +308,14 @@ export default function(props: Props) {
     <div style={{overflow:'hidden'}}>
     <div className="row">
       <div className="col-md-2 col-3 pr-0">
-        <a
+        <span
           styleName="choose-topic-button"
-          className="card border-right rounded-left"
-          href="javascript:void(0)"
+          className="a card border-right rounded-left border-0"
           data-toggle="modal" 
           data-target="#topics-modal"
           >
           {topic ? topic.name : '选择话题'}
-        </a>
+        </span>
       </div>
       <div className="col-md-10 col-9 pl-0">
         <input className="card rounded-right" styleName="title" ref={titleRef} type="text" onChange={onTitleChange} placeholder="请输入标题"  />

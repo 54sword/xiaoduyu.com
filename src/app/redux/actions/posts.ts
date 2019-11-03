@@ -85,10 +85,6 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
     if (posts.update_at) posts._update_at = dateDiff(posts.update_at);
   });
 
-  // if (id == 'favorite') {
-
-  // }
-
   return list
 
 }
@@ -132,53 +128,54 @@ export const loadPostsList = loadList({
   processList: processPostsList,
   api: 'posts',
   fields: `
+  _id
+  comment_count
+  reply_count
+  content_html
+  create_at
+  deleted
+  device
+  follow_count
+  last_comment_at
+  like_count
+  recommend
+  sort_by_date
+  title
+  ip
+  topic_id{
     _id
-    comment_count
-    reply_count
-    content_html
-    create_at
-    deleted
-    device
-    follow_count
-    last_comment_at
-    like_count
-    recommend
-    sort_by_date
-    title
-    ip
-    topic_id{
+    name
+    parent_id {
       _id
       name
-      parent_id {
-        _id
-        name
-      }
     }
-    type
-    user_id{
-      _id
-      nickname
-      brief
-      avatar_url
-      posts_count
-      comment_count
-      fans_count
-      follow_people_count
-      follow
-    }
-    verify
-    view_count
-    weaken
+  }
+  type
+  user_id{
+    _id
+    nickname
+    brief
+    avatar_url
+    posts_count
+    comment_count
+    fans_count
+    follow_people_count
     follow
-    like
-    comment{
-      user_id{
-        avatar_url
-      }
-    }
-    update_at
+  }
+  verify
+  view_count
+  weaken
+  follow
+  like
+  update_at
   `
 });
+
+// comment{
+//   user_id{
+//     avatar_url
+//   }
+// }
 
 // 移除list
 export const removePostsListById = (id: string) => {
@@ -202,7 +199,34 @@ export const refreshPostsListById = (id: string) => {
       id,
       args: list.filters,
       restart: true
-    })(dispatch, getState);
+    })(dispatch, getState).then(([err, res]: any)=>{
+
+      // 如果是刷新帖子列表，可能评论/回复数等发生了变化，需要将这部分数据与其他帖子数据同步一下
+      if (res && res.data && res.data.length > 0) {
+        let postList:any = {};
+        
+        res.data.map((item: any)=>{
+          postList[item._id] = item;
+        });
+
+        let postsState = getState().posts;
+
+        Reflect.ownKeys(postsState).map(item=>{
+          getState().posts[item].data.map((item: any)=>{
+            if (postList[item._id]) {
+              if (postList[item._id].comment_count) item.comment_count = postList[item._id].comment_count;
+              if (postList[item._id].reply_count) item.reply_count = postList[item._id].reply_count;
+              if (postList[item._id].follow_count) item.follow_count = postList[item._id].follow_count;
+              if (postList[item._id].like_count) item.like_count = postList[item._id].like_count;
+            }
+          })
+        });
+
+        dispatch({ type: 'SET_POSTS', state: postsState });
+      } 
+
+
+    })
 
   }
 }

@@ -112,7 +112,7 @@ export default function() {
 
       </div>}
     footer={<div>
-        <a className="btn btn-primary" href="javascript:void(0);" onClick={submit}>提交</a>
+        <span className="btn btn-primary" onClick={submit}>提交</span>
       </div>}
     />)
 

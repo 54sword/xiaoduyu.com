@@ -1,109 +1,60 @@
 
-@import './reset';
-
 :global{
 
-.toastify{ z-index: 9999 !important; }
-
-//======================================================
-// https://getbootstrap.com/docs/4.3/components/dropdowns/
-.dropdown-menu{
-  font-size: 15px;
-  border:none;
-  border:1px solid rgba(0,0,0,.03);
-  box-shadow: 0 0px 30px rgba(0,0,0,.15);
-}
-
-//======================================================
-// https://getbootstrap.com/docs/4.0/components/card/
-
-.card{
-  border: none;
-  // border-radius: 5px;
-  background-color: #fff;
-  margin-bottom: 15px;
-  // overflow: hidden;
-  // border:1px solid #e4e5e9;
-  // box-shadow: 0 0 2px rgba(0,0,0,.1);
+  body{
+    // font-family: Circular, "PingFang-SC", "Hiragino Sans GB", "微软雅黑", "Microsoft YaHei", "Heiti SC" !important;
+    // font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", "Segoe UI", "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+    // font-family: SF Pro SC,SF Pro Text,SF Pro Icons,PingFang SC,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    // text-rendering: optimizeLegibility;
+    // -webkit-font-smoothing: antialiased;
   
-  .card-head, .card-header{
-    padding:10px 20px 10px 20px;
-    border-bottom:0px;
-    background-color:transparent;
-    // border-bottom:1px solid #f0f1f4;
-    .title, .card-title{
-      font-size: 16px;
-      font-weight: bold;
-      margin:0px;
+    
+    // font-size: 13px;
+    // line-height: 1.8;
+    // color: rgba(0,0,0,.8);
+    // font-family: PingFang SC,Hiragino Sans GB,Microsoft YaHei,STHeiti,WenQuanYi Micro Hei,Helvetica,Arial,sans-serif;
+    // text-rendering: optimizeLegibility;
+    // -webkit-font-smoothing: antialiased;
+  }
+  
+  small{
+    font-size: 12px;
+  }
+  
+  ul{
+    padding:0px;
+    margin:0px;
+  }
+  
+  /*
+  a:focus{
+    outline: none;
+  }
+  
+  textarea:focus,
+  input:focus,
+  input[type]:focus,
+  .uneditable-input:focus {   
+    box-shadow:none;
+    outline: 0 none;
+  }
+  */
+  
+  // 鼠标结果光标变成手势
+  .a, .hand, .btn{
+    &:hover{
+      cursor: pointer;
+      cursor: hand;
     }
   }
-
-  .card-body{
-    padding:15px 20px 15px 20px;
-    background-color:transparent;
-  }
-
-  .card-footer{
-    padding:12px 20px 12px 20px;
-    // border-top:1px solid #f0f1f4;
-    background-color:transparent;
-    // background-color:#fafbfe;
+  
+  .toastify{
+    z-index: 9999 !important;
   }
 
 }
 
-
-// https://getbootstrap.com/docs/4.3/utilities/borders/#sizes
-
-.rounded{
-  border-radius: .25rem;
-}
-
-.rounded-top{
-  border-radius: 0px;
-  border-top-right-radius: .25rem;
-  border-top-left-radius: .25rem;
-}
-
-.rounded-right{
-  border-radius: 0px;
-  border-top-right-radius: .25rem;
-  border-bottom-right-radius: .25rem;
-}
-
-.rounded-bottom{
-  border-radius: 0px;
-  border-bottom-right-radius: .25rem;
-  border-bottom-left-radius: .25rem;
-}
-
-.rounded-left{
-  border-radius: 0px;
-  border-top-left-radius: .25rem;
-  border-bottom-left-radius: .25rem;
-}
-
-.rounded-circle{
-  border-radius: 50%;
-}
-
-.rounded-0{
-  border-radius: 0px;
-}
-
-
-/////////////////////////////////////////
-
-.list-group-item{
-  background-color:transparent;
-}
-
-// 解决modal open，导航fixed，位移的问题
-body.modal-open {
-  overflow: inherit;
-  padding-right: 0 !important;
-}
-
-}
-
-@import './light/index', './dark/index', './global-response';
+@import './custom-bootstrap/index', './light/index', './dark/index';

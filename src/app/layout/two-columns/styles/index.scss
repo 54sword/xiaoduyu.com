@@ -1,50 +1,19 @@
 .box{
   position: relative;
-
-  padding-right:295px;
+  padding-right:300px;
 
   .right{
     position: absolute;
     top:0px;
     left:100%;
-    width: 280px;
-    margin-left: -280px;
+    width: 290px;
+    margin-left: -290px;
   }
 
 }
 
 .right-float{
-  width: 280px;
-  top:58px;
+  width: 290px;
 }
 
-@media (min-width: 0px) and (max-width: 767px) {
-
-  .box{
-    padding-right: 0px;
-  }
-
-  .right{
-    display: none;
-  }
-
-}
-
-
-:global{
-
-  #portamento_container {
-    float:right; 
-    position:relative;
-  }
-  
-  #portamento_container #sidebar {
-    float:none; 
-    position:absolute;
-  }
-  
-  #portamento_container #sidebar.fixed {
-    position:fixed;
-  }
-
-}
+@import './responce';

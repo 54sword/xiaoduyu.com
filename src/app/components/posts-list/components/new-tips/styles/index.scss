@@ -1,0 +1,30 @@
+.button{
+  text-align: center;
+  height: 34px;
+  > div{
+    z-index: 999;
+  }
+  .tips{
+    height: 34px;
+    line-height: 34px;
+    display: block;
+    width: 100%;
+    background-color: rgba($color: #007bff, $alpha: .6);
+    color:#fff;
+    &:hover{
+      background-color: rgba($color: #007bff, $alpha: .75);
+    }
+  }
+}
+
+.close{
+  float:right;
+  display: block;
+  margin-top:-34px;
+  height: 34px;
+  width: 34px;
+  text-align: center;
+  line-height: 34px;
+  color:#fff;
+  font-size: 20px;
+}

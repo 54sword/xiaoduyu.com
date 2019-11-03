@@ -1,0 +1,45 @@
+:global(#dark-theme) {
+  
+  .box{
+    &:hover{
+      background-color: #212123;
+    }
+  }
+
+  .avatar, .avatar > img{
+    background-color: #111;
+  }
+
+  .posts-info{
+    > small{
+      &:after{
+        color:#4b4e52;
+      }
+    }
+  }
+
+  .has-read{
+
+    .nickname{
+      > span{
+        opacity: .5;
+      }
+    }
+  
+    .active{
+      :global {
+        .badge-secondary{
+          opacity: .3;
+        }
+      }
+    }
+  
+    .title{
+      a {
+        opacity: .5;
+      }
+    }
+  }
+  
+
+}

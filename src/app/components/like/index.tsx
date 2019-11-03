@@ -109,17 +109,10 @@ export default function({ comment, posts, reply }: Props) {
 
     setLoading(false);
 
-  }
+  }  
 
-  
-
-  return (<a
-    href="javascript:void(0)"
-    onClick={handleLike}
-    // styleName={`button ${target.like ? 'active' : ''}`}
-    className="text-secondary"
-    >
-    <span>{target.like ? '已赞' : '赞'}</span>
-  </a>)
+  return (<span onClick={handleLike} className="a text-secondary">
+    {target.like ? '已赞' : '赞'}
+  </span>)
 
 }

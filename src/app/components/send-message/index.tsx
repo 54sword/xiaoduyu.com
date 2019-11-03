@@ -37,11 +37,28 @@ export default function({ people_id, className }: Props) {
       }
     })
   }
+
+  const icon = (<svg
+    width="15px"
+    height="15px"
+    stroke="currentColor"
+    strokeWidth={1.8}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    fill="none"
+    className="mr-1"
+    >
+    <use xlinkHref="/feather-sprite.svg#message-circle"/>
+  </svg>)
   
   if (!me) {
-    return (<a href="javascript:void(0)" className={className} data-toggle="modal" data-target="#sign" onClick={stopPropagation}>私信</a>)
+    return (<span className={className} data-toggle="modal" data-target="#sign" onClick={stopPropagation}>
+      {icon}私信
+    </span>)
   } else {
-    return (<a href="javascript:void(0)" className={className} onClick={handle}>私信</a>)
+    return (<span className={className} onClick={handle}>
+      {icon}私信
+    </span>)
   }
 
 }

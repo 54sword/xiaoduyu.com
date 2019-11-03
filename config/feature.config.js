@@ -34,10 +34,7 @@ let config = {
   comment: {
     // 评论在列表时候，内容最大显示高度，0为不限制
     contentMaxHeight: 450
-  },
-  
-  // 启动作者广告功能
-  authorAD: false
+  }
 }
 
 if (mainConfig.debug) {
@@ -45,7 +42,7 @@ if (mainConfig.debug) {
   // config.debug = true;
   // config.logs = false;
   // config.apiLog = true;
-  // config.reduxLog = true;
+  config.reduxLog = true;
   // config.memoryUsage = true;
 }
 

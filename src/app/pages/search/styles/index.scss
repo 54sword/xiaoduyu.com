@@ -15,6 +15,10 @@
 
 .input{
   padding:0px;
-  outline:0px;
   border:none !important;
+  
+  &:focus{
+    box-shadow:none;
+    outline: 0 none;
+  }
 }

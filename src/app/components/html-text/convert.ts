@@ -34,21 +34,32 @@ function randomString(len:number) {
 /*
 // 单曲
 https://music.163.com/#/song?id=484849174
+https://music.163.com/song?id=484849174
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=484849174&auto=1&height=66"></iframe>
 
 // 歌单
 https://music.163.com/#/playlist?id=2284177332
+https://music.163.com/playlist?id=2284177332
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=0&id=2284177332&auto=1&height=430"></iframe>
 
 // 专辑
 https://music.163.com/#/album?id=34420299
+https://music.163.com/album?id=34420299
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=1&id=34420299&auto=1&height=430"></iframe>
+
+// 
+https://music.163.com/dj?id=2061627437&userid=579158854
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=3&id=2061627437&auto=1&height=66"></iframe>
+
+// 电台
+https://music.163.com/radio/?id=349996062&userid=579158854
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=4&id=349996062&auto=1&height=430"></iframe>
 */
 
 // 解析网页中的网易音乐地址
 function music163(html: string) {
 
-  let re = /(http:\/\/music\.163\.com|https:\/\/music\.163\.com|music\.163\.com)\/\#\/(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+  let re = /(http:\/\/music\.163\.com|https:\/\/music\.163\.com|music\.163\.com)\/(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
 
   let musics = html.match(re);
 
@@ -58,12 +69,16 @@ function music163(html: string) {
 
       let type = -1, id;
 
-      if (str.indexOf('/#/song?') != -1) {
+      if (str.indexOf('/song?') != -1) {
         type = 2;
-      } else if (str.indexOf('/#/playlist?') != -1) {
+      } else if (str.indexOf('/playlist?') != -1) {
         type = 0;
-      } else if (str.indexOf('/#/album?') != -1) {
+      } else if (str.indexOf('/album?') != -1) {
         type = 1;
+      } else if (str.indexOf('/dj?') != -1) {
+        type = 3;
+      } else if (str.indexOf('/radio/?') != -1) {
+        type = 4;
       }
 
       try {
@@ -80,6 +95,12 @@ function music163(html: string) {
         if (type == 2) {
           let url = `//music.163.com/outchain/player?type=2&id=${id}&auto=0&height=66`;
           html = html.replace(str, `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="${url}"></iframe>`)
+        } else if (type == 3) {
+          let url = `//music.163.com/outchain/player?type=3&id=${id}&auto=1&height=66`;
+          html = html.replace(str, `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="${url}"></iframe>`)
+        } else if (type == 4) {
+          let url = `//music.163.com/outchain/player?type=4&id=${id}&auto=1&height=430`;
+          html = html.replace(str, `<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="${url}"></iframe>`)
         } else {
           let url = `//music.163.com/outchain/player?type=${type}&id=${id}&height=430`;
           html = html.replace(str, `<iframe type="music" src="${url}" height="430"></iframe>`)
@@ -163,6 +184,41 @@ function bilibili(html: string) {
   return html;
 
 }
+
+/*
+https://www.acfun.cn/v/ac5005427
+<iframe style="min-width: 500px;min-height: 300px"   src="https://www.acfun.cn/player/ac5005427" id="ACFlashPlayer-re"  scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+*/
+function acfun(html: string) {
+
+  let re = /(https:\/\/www\.acfun\.cn|https:\/\/acfun\.cn|http:\/\/www.acfun\.cn|http:\/\/acfun\.cn|www\.acfun\.cn|acfun\.cn)\/v\/(.*?)(?=\s|http|https|\)|\>|\]|\}|\<|$)/gi;
+
+  let arr = html.match(re);
+
+  if (!arr || arr.length == 0) return html;
+
+    arr.map(str=>{
+
+      let id;
+
+      try{
+        id = str.split('acfun.cn/v/')[1].split('/')[0];
+        id = id.split('?')[0];
+      } catch(err) {
+        console.log(err);
+      }
+      
+      if (id) {
+        let url = `https://www.acfun.cn/player/${id}`;
+        html = html.replace(str, `<iframe src="${url}" id="ACFlashPlayer-re"  scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`)
+      }
+
+    });
+
+  return html;
+
+}
+
 /**
  * https://www.youtube.com/watch?v=c_WCKfQCQuk
  * <iframe width="560" height="315" src="https://www.youtube.com/embed/c_WCKfQCQuk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -249,12 +305,10 @@ const link = (str: any) => {
 
   str = str.replace('&nbsp;', ' ');
 
-  let imgReg = /(<a(.*?)>(.*?)<\/a>|<img(.*?)>)/gi;
+  let imgReg = /(<a(.*?)>(.*?)<\/a>|<img(.*?)>|<ifram(.*?)>)/gi;
 
   let aList:Array<any> = [];
   let arr = str.match(imgReg);
-
-  // console.log(arr);
 
   if (arr && arr.length > 0) {
     str.match(imgReg).map((item: any)=>{
@@ -369,9 +423,10 @@ const image = (html: any) => {
       // 如果url中包含“?”,需要将其转译成字符串
       _img = _img.replace(/\?/g, "\\?");
 
-      img = encodeURIComponent(img);
+      // img = encodeURIComponent(img);
 
-      html = html.replace(new RegExp(_img,"gm"), '<div onclick=\"webPictureViewer('+allImage+','+index+');\" class=\"load-demand\" data-load-demand=\''+img+'\'></div>');
+      html = html.replace(new RegExp(_img,"gm"), '<div onclick=\"webPictureViewer('+allImage+','+index+');\">'+img+'</div>');
+      // html = html.replace(new RegExp(_img,"gm"), '<div onclick=\"webPictureViewer('+allImage+','+index+');\" class=\"load-demand\" data-load-demand=\''+img+'\'></div>');
     })
   }
 
@@ -379,18 +434,75 @@ const image = (html: any) => {
 
 }
 
+// 修剪整理html
+const trimHtml = function(html:string): string {
 
+  // 取出页面中代码的部分，使其保留原始html
+  let imgReg = /\<pre>(.*?)<\/pre>/g;
+  let preArr = html.match(imgReg);
+  let aList: any = [];
+  if (preArr && preArr.length > 0) {
+    preArr.map((item: any)=>{
+      let id = '#'+randomString(18)+'#';
+      aList.push({
+        id,
+        value: item
+      });
+      html = html.replace(item, id);
+    });
+  }
+
+  // 删除所有换行符
+  html = html.replace(/([\r\n])/g,"");
+
+
+  let arr = html.split('<p><br></p>'); 
+
+  // 修剪有多行的换行符，变成一行
+  let trim = function(arr: Array<string>) {
+
+    var newArr = [];
+		for(var i = 0; i <
+			arr.length; i++) {　　
+			if(newArr.indexOf(arr[i]) == -1) {　　　　
+				newArr.push(arr[i]);　　
+			}
+    }
+    
+    if (newArr.length > 0 && !newArr[0]) {
+      newArr.splice(0, 1);
+    }
+
+    if (newArr.length > 0 && !newArr[newArr.length-1]) {
+      newArr.splice(newArr.length-1, 1);
+    }
+
+    return newArr;
+  }
+
+  arr = trim(arr);
+  
+  html = arr.join('<p><br></p>');
+
+  // 将pre代码部分还原回去
+  if (aList.length > 0) {
+    aList.map((item: any)=>{
+      html = html.replace(item.id, item.value);
+    })
+  }
+
+  return html;
+}
 
 export default (html: string) => {
 
-  // let re = /(<(.*?)>(.*?)<\/(.*?)>|<(.*?)>)/gi;
-  // html = html.match(re).join('');
-  
-  // html = pangu.spacing(html);
+  if (!html) return '';
 
+  html = trimHtml(html);
   html = music163(html);
   html = youku(html);
   html = bilibili(html);
+  html = acfun(html);
   html = youtube(html);
   html = vqq(html);
   html = link(html);

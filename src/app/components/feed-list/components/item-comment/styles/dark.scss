@@ -1,0 +1,35 @@
+:global(#dark-theme) {
+
+
+
+  // :global(#dark-theme) {
+  //   .posts-item-title{
+  //     background-color: #363b48;
+  //   }
+  // }
+
+  .item{
+    &:hover{
+      background-color: #212123;
+    }
+  }
+
+  .nickname{
+    color: #575b5f;
+  }
+
+  // .reply-item{
+  //   background-color: #373737;
+  // }
+
+  .posts-item{
+    background-color: #232326;
+    &:hover{
+      background-color: #302f36;
+    }
+  }
+
+  // .posts-item{
+  //   background-color: #1d1d1f;
+  // }
+}

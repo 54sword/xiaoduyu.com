@@ -1,0 +1,43 @@
+.box{
+  padding:15px 15px 15px 85px;
+  border-radius: 8px;
+  &:hover{
+    background-color: #f5f7fb;
+    cursor:pointer;
+    cursor:hand;
+  }
+}
+
+.nickname{
+  font-size: 13px;
+  color: #929292 !important;
+}
+
+.avatar, .avatar > img{
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+}
+
+.avatar{
+  position: absolute;
+  margin-left: -70px;
+}
+
+.title{
+  font-size: 16px;
+}
+
+.active-info{
+  margin-top:3px;
+  font-size: 13px;
+  > span{
+    margin-right: 15px;
+    > svg{
+      margin-right: 5px;
+      margin-top:-2px;
+    }
+  }
+}
+
+@import './response', './dark';

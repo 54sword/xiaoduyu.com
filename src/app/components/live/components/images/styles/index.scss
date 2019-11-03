@@ -1,0 +1,81 @@
+.box{
+
+  background-position: 50% 15%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: all .25s ease-out;
+  transform: translateZ(0);
+
+  &:hover{
+    background-color: #f5f7fb;
+    cursor:pointer;
+    cursor:hand;
+    transition: transform .25s ease-out,box-shadow .15s ease-out;
+    transform: scale(1.02);
+  }
+}
+
+.cover-image{
+  width: 100%;
+  height: 200px;
+  background: radial-gradient(#484848, #222);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.notice{
+  color:#fff;
+  text-align: center;
+  width: 100%;
+  padding:0px 40px 0 40px;
+  position: absolute;
+  top: 20%;
+}
+
+.main{
+  padding: 15px;
+}
+
+.nickname{
+  font-size: 13px;
+  // color: #929292 !important;
+  padding-left: 25px;
+}
+
+.avatar, .avatar > img{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.avatar{
+  position: absolute;
+  margin-left: -25px;
+  margin-top:-2px;
+}
+
+.title{
+  font-size: 15px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.sub-content{
+  margin-top:10px;
+}
+
+.active-info{
+  font-size: 13px;
+  > span{
+    margin-left: 15px;
+    > svg{
+      margin-right: 5px;
+      margin-top:-2px;
+    }
+  }
+}
+
+
+@import './response', './dark';

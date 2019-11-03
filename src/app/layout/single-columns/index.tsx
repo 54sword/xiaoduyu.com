@@ -6,7 +6,9 @@ interface Props {
 }
 
 export default function({ children }: Props) {
-  return (<div styleName="box">
-    {children}
+  return (<div className="container">
+    <div styleName="box">
+      {children}
+    </div>
   </div>)
 }

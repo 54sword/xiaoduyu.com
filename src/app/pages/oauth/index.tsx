@@ -6,8 +6,8 @@ import { useStore } from 'react-redux';
 import { saveTokenToCookie } from '@app/redux/actions/sign';
 
 // components
-import Shell from '@app/modules/shell';
-import Meta from '@app/modules/meta';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
 
 export default Shell(function() {
 

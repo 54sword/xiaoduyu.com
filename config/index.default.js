@@ -15,7 +15,7 @@ let config = {
   name: '小度鱼',
 
   // [必填] 网站描述
-  description: '年轻人的交流社区',
+  description: '小度鱼是一个年轻人的交流社区，我们交流分享想法、发现生活乐趣、探索有趣好玩的事情！',
 
   // [选填] 联系我们的邮箱地址
   contactEmail: 'hi@abcd.com',
@@ -32,8 +32,8 @@ let config = {
   // [必填] https://github.com/css-modules/css-modules
   classScopedName: '[hash:base64:5]',
   
-  // [必填] 客户端打包后(dist/client/*)静态资源的前缀域名
-  publicPath: '//localhost:4000',
+  // 客户端打包后(dist/client/*)静态资源的前缀域名
+  publicPath: '',
 
   api: {
     // [必填] 域名，第三方登录的时候，跳转使用
@@ -101,6 +101,10 @@ let config = {
       width: 600,
       height: 60
     }
+  },
+
+  agora: {
+    appid: ''
   }
 
 }

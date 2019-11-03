@@ -90,5 +90,5 @@ export default function({
     onUpload(arr);
   }
 
-  return (<a href="javascript:void(0)" styleName="file">{text}<input type="file" accept={accept} multiple={multiple} onChange={onChange} /></a>)
+  return (<span styleName="file">{text}<input className="a" type="file" accept={accept} multiple={multiple} onChange={onChange} /></span>)
 }

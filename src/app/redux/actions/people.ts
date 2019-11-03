@@ -30,6 +30,7 @@ export const loadPeopleList = loadList({
     banned_to_post
     avatar_url
     follow
+    user_cover
   `,
   processList: (list: Array<any>)=>{
 

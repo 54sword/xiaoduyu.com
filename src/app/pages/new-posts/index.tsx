@@ -1,9 +1,9 @@
 import React from 'react';
 
 // components
-import Shell from '@app/modules/shell';
-import Meta from '@app/modules/meta';
-import CreatePosts from '@app/modules/create-posts';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
+import CreatePosts from './components/create-posts';
 
 import SingleColumns from '@app/layout/single-columns';
 

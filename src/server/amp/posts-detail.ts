@@ -46,7 +46,7 @@ export const show = async (req: any, res: any) => {
     res.send('404 Not Found');
     return
   }
-
+  
   posts = JSON.parse(JSON.stringify(posts));
 
   // ================

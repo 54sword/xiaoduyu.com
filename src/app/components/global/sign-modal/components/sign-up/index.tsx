@@ -63,8 +63,8 @@ export default function () {
         source: parseInt(Device.getCurrentDeviceId()),
         captcha: $captcha.value
       }
-
-      if ($account.value.indexOf('@') != -1) {
+      
+      if (type == 'email') {
         data.email = $account.value
       } else {
 
@@ -99,7 +99,18 @@ export default function () {
           text: '注册成功',
           duration: 3000,
           backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-        }).showToast();
+        }).showToast();       
+
+        if (location.search == '?from=google-ads' && gtag) {
+          // google 注册转化统计
+          // Event snippet for 注册账号 conversion page
+          gtag('event', 'conversion', {
+              'send_to': 'AW-985399355/PIC-CKeirq4BELuA8NUD',
+              'value': 1.0,
+              'currency': 'CNY'
+          });
+        }
+
         if (test) resolve(err);
       }
       
@@ -110,9 +121,10 @@ export default function () {
       delete data.captcha;
       delete data.area_code;
 
-      _signIn({ data }).then(res=>{
-
-      }).catch((res)=>{
+      _signIn({ data })
+      .then((res: any)=>{
+      })
+      .catch((res: any)=>{
         $('#sign').modal('hide');
         setTimeout(()=>{
           $('#sign').modal({ show: true }, { 'data-type': 'sign-in' });
@@ -133,7 +145,7 @@ export default function () {
 
     let params: any = { type: 'sign-up' }
 
-    if ($account.value.indexOf('@') != -1) {
+    if (type == 'email') {
       params.email = $account.value;
     } else {
       params.area_code = areaCode;
@@ -155,7 +167,7 @@ export default function () {
           <div className="row">
             <div className="col-4">
               <CountriesSelect
-                onChange={res=>{
+                onChange={(res: any)=>{
                   setAreaCode(res);
                   // if (this.state.isMount) this.state.areaCode = res;
                 }}
@@ -171,7 +183,7 @@ export default function () {
 
       <div>
         <input type="text" className="form-control" placeholder="输入 6 位验证码" ref={captcha} />
-        <span styleName="captcha-button"><CaptchaButton onClick={sendCaptcha} /></span>
+        <div styleName="captcha-button"><CaptchaButton onClick={sendCaptcha} /></div>
       </div>
 
       <div><input type="password" className="form-control" ref={password} placeholder="密码" /></div>
@@ -200,9 +212,9 @@ export default function () {
       <div className="text-center">
 
       {type == 'phone' ?
-        <div><a href="javascript:void(0)" className="text-primary" onClick={()=>{ setType('email'); }}>使用邮箱注册</a></div>
+        <div><span className="a text-primary" onClick={()=>{ setType('email'); }}>使用邮箱注册</span></div>
         :
-        <div><a href="javascript:void(0)" className="text-primary" onClick={()=>{ setType('phone'); }}>使用手机注册</a></div>}
+        <div><span className="a text-primary" onClick={()=>{ setType('phone'); }}>使用手机注册</span></div>}
 
       </div>
 

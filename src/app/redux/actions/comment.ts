@@ -3,6 +3,8 @@ import graphql from '../../common/graphql';
 import loadList from '../utils/new-graphql-load-list';
 
 import Device from '../../common/device';
+// import storage from '../../common/storage';
+// import To from '../../common/to';
 
 const abstractImages = (str: string) => {
 
@@ -344,5 +346,19 @@ export function updateComment(filters: any) {
     resolve([null])
 
   })
+  }
+}
+
+export const removeCommnetListById = function({ id }: { id: string }) {
+  return (dispatch: any, getState: any) => {
+    return new Promise(async (resolve) => {
+      let comentState = getState().comment;
+
+      if (comentState[id]) {
+        delete comentState[id];
+      }
+
+      dispatch({ type: 'SET_COMMENT', state: comentState })
+    })
   }
 }

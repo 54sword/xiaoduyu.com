@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { reactLocalStorage } from 'reactjs-localstorage';
+
+// common
+import storage from '@app/common/storage';
 
 // reudx
 import { useStore } from 'react-redux';
@@ -91,7 +93,7 @@ export default function({
 
   }
 
-  const syncContent = function(contentJSON: string, contentHTML: string) {
+  const syncContent = async function(contentJSON: string, contentHTML: string) {
 
     setContentJSON(contentJSON);
     setContentHTML(contentHTML);
@@ -100,35 +102,31 @@ export default function({
       setShowFooter(true);
     }
 
-    let commentsDraft = reactLocalStorage.get('comments-draft') || '{}'
-
-    try {
-      commentsDraft = JSON.parse(commentsDraft) || {}
-    } catch (e) {
-      commentsDraft = {}
-    }
+    let commentsDraft = await storage.load({ key: 'comments-draft' });
     
     // 只保留最新的10条草稿
-    let index = []
-    for (let i in commentsDraft) index.push(i)
-    if (index.length > 10) delete commentsDraft[index[0]]
+    // let index = []
+    // for (let i in commentsDraft) index.push(i)
+    // if (index.length > 10) delete commentsDraft[index[0]]
 
-    // if (showFooter) {
-      commentsDraft[addressee_id] = contentJSON
-      reactLocalStorage.set('comments-draft', JSON.stringify(commentsDraft))
-    // }
+    commentsDraft[addressee_id] = contentJSON
 
+    storage.save({
+      key: 'comments-draft',
+      data: commentsDraft
+    });
   }
 
-  useEffect(()=>{
+  const componentsDidMount = async function() {
 
     // 从缓存中获取，评论草稿
-    let commentsDraft = reactLocalStorage.get('comments-draft') || '{}';
-
+    let commentsDraft: any = {};
+    
     try {
-      commentsDraft = JSON.parse(commentsDraft) || {}
-    } catch (e) {
+      commentsDraft = await storage.load({ key: 'comments-draft' }) || {};
+    } catch (err) {
       commentsDraft = {}
+      console.log(err);
     }
 
     let params = {
@@ -146,7 +144,10 @@ export default function({
     }
 
     setContent(<Editor {...params} />)
+  }
 
+  useEffect(()=>{
+    componentsDidMount();
   }, []);
 
   return (<div styleName="box">

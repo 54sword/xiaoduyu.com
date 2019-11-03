@@ -59,6 +59,9 @@ module.exports = {
       'highlight.js/styles/github.css',
       'github-markdown-css/github-markdown.css',
 
+      'jquery-toast-plugin/dist/jquery.toast.min.css',
+      'jquery-toast-plugin/dist/jquery.toast.min.js',
+
       './src/client/index'
     ]
   },
@@ -85,12 +88,12 @@ module.exports = {
           test: /(\.css|\.scss)$/,
           chunks: 'all',
           enforce: true
+        },
+        commons: {
+          name: 'vendor',
+          test: /[\\/]node_modules[\\/]/,
+          chunks: 'all'
         }
-        // commons: {
-        //   name: 'vendor',
-        //   test: /[\\/]node_modules[\\/]/,
-        //   chunks: 'all'
-        // }
       }
     }
   },

@@ -1,0 +1,38 @@
+.box{
+  // height: 640px;
+  height: 100%;
+  padding: 15px;
+  padding-bottom: 55px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.avatar{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.input{
+  width:100%;
+  padding: 0 60px 0 10px;
+  height: 40px;
+  border:none;
+}
+
+.submit{
+  position: absolute;
+  width: 60px;
+  height: 40px;
+  margin-left:-60px;
+}
+
+.chat-footer{
+  position: absolute;
+  width:100%;
+  bottom:0px;
+  height: 40px;
+}
+
+@import './response';

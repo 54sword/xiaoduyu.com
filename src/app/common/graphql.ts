@@ -61,9 +61,11 @@ interface Props {
     args?: any,
     fields?: string
   }>
+  // 是否返回多个
+  multiple?: boolean
 }
 
-export default async ({ type = 'query', headers = {}, cache = false, apis }: Props) => {
+export default async ({ type = 'query', headers = {}, cache = false, apis, multiple = false }: Props) => {
 
 	let sql = '';
 
@@ -114,7 +116,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis }: Pro
 
     if (data && !data.errors) {
       // 如果只有一个api，那么直接返回结果
-      if (apis.length == 1) {
+      if (apis.length == 1 && !multiple) {
         resolve(data.data[apis[0].aliases || apis[0].api]);
       } else {
         resolve(data.data);

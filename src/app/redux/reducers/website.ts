@@ -9,6 +9,7 @@ type Actions = {
   unreadNotice?: any
   online?: any
   tab?: string
+  topicTab?: string
 }
 
 const initialState = {
@@ -30,8 +31,11 @@ const initialState = {
   onlineUserCount: 0,
   unreadNotice: [],
   // 首页选中的话题，空为首页、follow为关注、其他为话题 ID
-  topicId:'',
+  // topicId:'',
   tab: 'home',
+
+  // 首页父话题id
+  topicTab: '',
 
   // 用户是否授权了浏览器通知权限
   notificationPermission: false
@@ -58,8 +62,12 @@ export default (state = cloneObj(initialState), action: Actions) => {
 
     //   break;
 
-    case 'SET_TOPIC_ID':
-      if (action.topicId) state.topicId = action.topicId;
+    // case 'SET_TOPIC_ID':
+      // if (action.topicId) state.topicId = action.topicId;
+      // break;
+
+    case 'SET_TOPIC_TAB':
+      state.topicTab = action.topicTab;
       break;
 
     case 'SET_TAB':
@@ -89,6 +97,7 @@ export default (state = cloneObj(initialState), action: Actions) => {
 export const getOnline = (state: any) => state.website.online
 export const getOnlineUserCount = (state: any) => state.website.onlineUserCount
 export const getUnreadNotice = (state: any) => state.website.unreadNotice
-export const getTopicId = (state: any) => state.website.topicId
+// export const getTopicId = (state: any) => state.website.topicId
+export const getTopicTab = (state: any) => state.website.topicTab
 export const getTab = (state: any) => state.website.tab
 export const getOperatingStatus = (state: any) => state.website.data

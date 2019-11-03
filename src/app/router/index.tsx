@@ -49,34 +49,34 @@ export default ({ user, enterEvent = ()=>{} }: Params): Result => {
 
   } 
 
-  let dom = (props: any) => (<>
+  let dom = (props: any) => (<div>
 
+      {/* header */}
       <Switch>
         {routerList.map((route, index) => (
           <Route key={index} path={route.path} exact={route.exact} component={route.head} />
         ))}
       </Switch>
 
-      <div className="container">
-        <Switch>
-          {routerList.map((route, index) => {
-            if (!route.body) return;
-            return (<Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              render={(props: any) => enter(route.enter, route.body, props, route)}
-            />)
-          })}
-        </Switch>
-      </div>
-      
+      {/* body */}
+      <Switch>
+        {routerList.map((route, index) => {
+          if (!route.body) return;
+          return (<Route
+            key={index}
+            path={route.path}
+            exact={route.exact}
+            render={(props: any) => enter(route.enter, route.body, props, route)}
+          />)
+        })}
+      </Switch>
+    
       {/* 全局的组件 */}
-      <AsyncComponent load={() => import('../modules/global')}>
+      <AsyncComponent load={() => import('../components/global')}>
         {(Component: any) => <Component />}
       </AsyncComponent>
 
-    </>)
+    </div>)
 
   return {
     list: routerList,

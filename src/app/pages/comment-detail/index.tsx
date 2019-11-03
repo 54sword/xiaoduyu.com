@@ -3,30 +3,32 @@ import { Link } from 'react-router-dom';
 
 import { name, domainName } from '@config';
 
+import SingleColumns from '@app/layout/single-columns';
+
 // redux
 import { useSelector, useStore } from 'react-redux';
 import { loadCommentList } from '@app/redux/actions/comment';
 import { getCommentListById } from '@app/redux/reducers/comment';
 import { getUserInfo } from '@app/redux/reducers/user';
-
-import SingleColumns from '@app/layout/single-columns';
+import { addHasRead } from '@app/redux/actions/has-read-posts';
+// import { loadCommentList } from '@app/redux/actions/comment';
 
 // modules
-import Shell from '@app/modules/shell';
-import Meta from '@app/modules/meta';
-import CommentList from '@app/modules/comment-list';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
+import CommentList from '@app/components/comment-list';
 import HTMLText from '@app/components/html-text';
 import EditorComment from '@app/components/editor-comment';
 import Loading from '@app/components/ui/loading';
 import LikeButton from '@app/components/like';
 import Share from '@app/components/share';
 import MoreMenu from '@app/components/more-menu';
-import ADH5 from '@app/modules/ads/h5';
+import ADH5 from '@app/components/ads/h5';
 
 // styles
 import './styles/index.scss';
 
-export default Shell(function({ match, setNotFound }: any) {
+const CommentDetail = function({ match, setNotFound }: any) {
 
   const { id } = match.params;
 
@@ -37,6 +39,7 @@ export default Shell(function({ match, setNotFound }: any) {
 
   const store = useStore();
   const _loadList = (args: any) => loadCommentList(args)(store.dispatch, store.getState);
+  const _addHasRead = (args: any)=>addHasRead(args)(store.dispatch, store.getState);
   
   useEffect(()=>{
 
@@ -70,6 +73,9 @@ export default Shell(function({ match, setNotFound }: any) {
       }).then(([err, res]: any)=>{
         if (res && res.data && !res.data[0]) {
           setNotFound('该评论不存在');
+        } else if (res && res.data && res.data[0]) {
+          let comment = res.data[0];
+          _addHasRead({ commentId: comment._id, total: comment.reply_count })
         }
       });
     }
@@ -100,19 +106,18 @@ export default Shell(function({ match, setNotFound }: any) {
     <div className="card">
       <div className="card-body border-bottom">
         <Link to={`/posts/${comment.posts_id._id}`}>
-          <h4>{comment.posts_id.title}</h4>
+          <h5 className="text-dark">{comment.posts_id.title}</h5>
         </Link>
         {comment.posts_id.content_summary ? <div>{comment.posts_id.content_summary}</div> : null}
       </div>
-
+      
       <div className="card-body">
-    
-        <div styleName="commennt-container">
+        <div>
           <div styleName="head">
             <div>
               <Link to={`/people/${comment.user_id._id}`}>
                 <img styleName="active" src={comment.user_id.avatar_url} />
-                <b>{comment.user_id.nickname}</b>
+                <b className="text-dark">{comment.user_id.nickname}</b>
               </Link>
             </div>
             <div styleName="info">
@@ -122,8 +127,7 @@ export default Shell(function({ match, setNotFound }: any) {
           <div styleName="content">
             <HTMLText content={comment.content_html} />
           </div>
-      </div>
-
+        </div>
       </div>
 
       <div className="card-footer d-flex justify-content-between">
@@ -160,9 +164,9 @@ export default Shell(function({ match, setNotFound }: any) {
         </div>
       </div>
       : null}
-
+      
     {_isMember ?
-      <div styleName="editor">
+      <div styleName="editor" className="card">
         <EditorComment
           posts_id={comment.posts_id._id}
           parent_id={comment._id}
@@ -180,4 +184,46 @@ export default Shell(function({ match, setNotFound }: any) {
 
   </SingleColumns>)
 
-});
+};
+
+CommentDetail.loadDataOnServer = async function({ store, match, res, req, user }: any) {
+
+  if (user) return { code:200 };
+
+  const { id } = match.params;
+  
+  let [ err, data ]: any = await loadCommentList({
+    id: 'single_'+id,
+    args: {
+      _id: id,
+      deleted: false,
+      weaken: false
+    },
+    fields: `
+      posts_id{
+        _id
+        title
+        content_html
+      }
+      content_html
+      create_at
+      reply_count
+      like_count
+      _id
+      user_id {
+        _id
+        nickname
+        avatar_url
+      }
+    `
+  })(store.dispatch, store.getState);
+
+  if (data && data.data && data.data.length > 0) {
+    return { code:200 }
+  } else {
+    return { code:404 }
+  }
+
+}
+
+export default Shell(CommentDetail)

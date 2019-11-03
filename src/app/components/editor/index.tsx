@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Editor, EditorState, RichUtils, Entity, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator, Modifier, getDefaultKeyBinding, genKey, ContentBlock } from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 import showdown from 'showdown';
-import { reactLocalStorage } from 'reactjs-localstorage';
+import storage from '@app/common/storage';
 
 // components
 import QiniuUploadImage from '@app/components/qiniu-upload-image';
@@ -239,32 +239,36 @@ export default class MyEditor extends React.Component {
     // this.checkUpload = this.checkUpload.bind(this);
   }
 
-  setMarkdown(markdown) {
+  setMarkdown() {
 
     this.setState({
       markdown: this.state.markdown ? false : true
     }, ()=>{
 
-      reactLocalStorage.set('markdown', this.state.markdown);
+      storage.save({
+        key: 'markdown',
+        data: this.state.markdown
+      })
 
       this._onChange(this.state.editorState);
     })
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+
     this.onChange(this.state.editorState);
     this.props.getEditor(this.refs.editor);
-    
-    const markdown = reactLocalStorage.get('markdown');
 
-    if (this.refs.markdown && markdown == 'true') {
+    const markdown = await storage.load({
+      key: 'markdown'
+    });
+
+    if (this.refs.markdown && markdown) {
       this.refs.markdown.checked = true;
       this.setState({
         markdown: true
       });
     }
-
-    
 
     // this.props.getCheckUpload(this.checkUpload);
   }
@@ -572,13 +576,16 @@ export default class MyEditor extends React.Component {
 
     let media;
 
-    if (type === 'text-image') {
-      media = src;
-    } else if (type === 'link') {
+    // if (type === 'text-image') {
+    //   media = src;
+    // } else 
+    if (type === 'link') {
       media = <a href={src} target="_blank" rel="nofollow">{src}</a>;
     } else if (type === 'image') {
       media = <img src={src} />;
-    } else if (type === 'youtube') {
+    } 
+    /*
+    else if (type === 'youtube') {
       let url = 'https://www.youtube.com/embed/' + src;
       media = <iframe src={url}></iframe>
     } else if (type === 'youku') {
@@ -594,6 +601,7 @@ export default class MyEditor extends React.Component {
       let url = "//music.163.com/outchain/player?type=0&id="+src+"&auto=1&height=430";
       media = <iframe src={url} width="auto" height="450"></iframe>;
     }
+    */
     
     return media;
   }

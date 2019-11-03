@@ -16,17 +16,19 @@ export default (state = cloneObj(initialState), action: Actions) => {
   switch (action.type) {
     
     case 'SAVE_SCROLL_POSITION':
-      let white = ['home', 'follow']
-      if (action.name && white.indexOf(action.name) != -1) {
+      if (action.name) {
         state[action.name] = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
       }
+      
       break;
 
     case 'SET_SCROLL_POSITION':
 
-      if (action.name == '/') {
-        break;
-      }
+      // if (typeof window != 'undefined' || location.pathname != '/') {
+      //   break;
+      // }
+
+      // console.log(state);
 
       // 1、先设置置顶
       // window.scrollTo(0, action.name ? state[action.name] : 0);
@@ -38,7 +40,7 @@ export default (state = cloneObj(initialState), action: Actions) => {
         // 延迟一点点，覆盖掉浏览器自带的滚动条位置记录
         // setTimeout(()=>{
           // if (action.name && state[action.name]) {
-            window.scrollTo(0, action.name ? state[action.name] : 0);
+            window.scrollTo(0, action.name && state[action.name] ? state[action.name] : 0);
           // }
         // });
       // }
@@ -46,6 +48,8 @@ export default (state = cloneObj(initialState), action: Actions) => {
 
   }
 
-  return state;
+  return cloneObj(state);
+
+  // return state;
 
 }

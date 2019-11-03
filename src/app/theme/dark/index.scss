@@ -6,13 +6,13 @@
 // 主色（链接颜色）
 $color_primary: #70757a;
 // 黑色
-$color_dark: #95a0ad;
+$color_dark: #bfbfbf;//#e0e0e0;//#c6cad1;//#95a0ad;
 // muted
 $color_muted: #4b4e52;
 // 次要
 $color_secondary: #656a70;
 
-$color_border: #353535;
+$color_border: #28262d;//#353535;
 
 :global{
 
@@ -22,36 +22,52 @@ $color_border: #353535;
 
   body {
     // background-color: #1c1e25;
-    background: #262626;
-    color: #95a0ad;
+    background: #000;//#262626;
+    color: $color_dark;//#95a0ad;
   }
 
-  input, select, textarea{
+  input[type="text"],
+  input[type="password"],
+  input[type="radio"],
+  select,
+  textarea{
     caret-color: $color_dark;
     color:$color_dark;
-    background-color: #303030;
+    background-color: #19191b;
     border:none;
     // @extend .border;
   }
 
   input::-webkit-input-placeholder {
     color:$color_dark;
-    opacity: .5;
+    opacity: .3;
   }
 
   div[contenteditable="true"]{
     color:#9baec7;
-  }
-  
+  }  
 
-  img{
-    opacity: .6;
-    background-color: #000;
+  #app img{
+    opacity: .7;
+  }
+
+  .badge-secondary{
+    background-color: #363638;
+    color:#727280;
   }
 
   //======================================================
   // 链接默认颜色
-  a{ color: $color_dark; }
+  // a{ color: $color_dark; }
+
+  // .a{
+  //   color: $color_dark;
+  // }
+
+  .badge-light{
+    background-color: #000 !important;
+    color:$color_dark;
+  }
 
   // 正文
   .html-content,
@@ -70,7 +86,7 @@ $color_border: #353535;
   // 文本颜色
   // https://getbootstrap.com/docs/4.0/utilities/colors/
 
-  .text-primary{ color: $color_primary !important; }
+  // .text-primary{ color: $color_primary !important; }
   .text-secondary{ color: $color_secondary !important; }
   // .text-success{}
   // .text-danger{}
@@ -80,6 +96,12 @@ $color_border: #353535;
   .text-dark{ color: $color_dark !important; }
   .text-muted{ color: $color_muted !important; }
   // .text-white{}
+  .active{
+    color: $color_primary !important;
+    &:hover{
+      color: $color_primary !important;
+    }
+  }
 
   .btn-outline-primary{
     color:#007bff;
@@ -92,33 +114,18 @@ $color_border: #353535;
   // https://getbootstrap.com/docs/4.0/components/card/
 
   .card{
-    background-color: #303030;
-    
-    .card-head, .card-header{
-      // padding:15px 20px 15px 20px;
-      // border-bottom:0px;
-      border-bottom:1px solid $color_border;
-      // background-color: #303030;
-      // .title{
-        // font-size: 18px;
-        // font-weight: bold;
-      // }
-    }
 
-    // .card-body{
-      
-      // padding:20px;
-      // padding:15px 20px 15px 20px;
-      // padding-top:0px;
-      // background-color: #303030;
-    // }
+    border:none;
+    background-color: #19191b;//#1c1b20;
+    
+    .card-header{
+      background: #19191b;
+      border-bottom:1px solid $color_border;
+    }
 
     .card-footer{
       border-top:1px solid $color_border;
       background-color:transparent;
-      // background-color: #303030;
-      // border:none;
-      // border-top: 0.5px solid #e8eaed;
     }
 
   }
@@ -189,13 +196,7 @@ $color_border: #353535;
   .border-bottom{ border-bottom: 1px solid $color_border !important; }
   .border-left{ border-left: 1px solid $color_border !important; }
 
-  @media (min-width: 0px) and (max-width: 767px) {
-    .border{ border: 0.5px solid #ddd; }
-    .border-top{ border-top: 0.5px solid #ddd; }
-    .border-right{ border-right: 0.5px solid #ddd; }
-    .border-bottom{ border-bottom: 0.5px solid #ddd; }
-    .border-left{ border-left: 0.5px solid #ddd; }
-  }
+
 
   //======================================================
   // https://getbootstrap.com/docs/4.0/components/buttons/
@@ -205,15 +206,15 @@ $color_border: #353535;
   //   color:#fff;
   // }
 
-  .btn-primary{
-    background-color: #424242;
-    color:#fff;
-    border:1px solid #424242;
-    &:hover{
-      background-color: #383838;
-      color:#fff;
-    }
-  }
+  // .btn-primary{
+  //   background-color: #424242;
+  //   color:#fff;
+  //   border:1px solid #424242;
+  //   &:hover{
+  //     background-color: #383838;
+  //     color:#fff;
+  //   }
+  // }
 
   //======================================================
   // https://getbootstrap.com/docs/4.0/components/navbar/
@@ -240,10 +241,9 @@ $color_border: #353535;
     border-bottom: 1px solid $color_muted;
   }
   .modal-content{
-    // @extend .border;
     border:none;
     border-radius: 12px;
-    background-color: #353535;
+    background-color: #232325;
   }
   .modal-body{
     padding:0px;
@@ -281,22 +281,26 @@ $color_border: #353535;
       }
     }
 
-    .active{
-      border: none;
-      border-bottom:2px solid #4170ea !important;
-      color:#4170ea;
-      background-color: #353535;
-    }
+    // .active{
+    //   border: none;
+    //   border-bottom:2px solid #4170ea !important;
+    //   color:#4170ea;
+    //   background-color: #353535;
+    // }
 
   }
 
   .dropdown-menu{
-    background-color: #353535;
+    background-color: #232326;
   }
   
-  .dropdown-item:hover{
-    background-color: #333845;
+  .dropdown-item{
+    color:$color_dark;
+    &:hover{
+      background-color: #303033 !important;
+    }
   }
+
 
   // 代码高亮
   .hljs {
@@ -378,3 +382,5 @@ $color_border: #353535;
 }
 
 }
+
+@import './response';

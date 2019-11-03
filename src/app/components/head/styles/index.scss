@@ -1,0 +1,175 @@
+.header-space{
+  height:60px;
+  width: 100%;
+}
+
+.header{
+  position: fixed;
+  z-index: 99;
+  top:0px;
+  left:0px;
+  width:100%;
+  height: 50px;
+
+  // background-image: linear-gradient(#fff, #fbfdff);
+  background-color: #fff;
+  border-bottom:1px solid #e4e6e9;
+
+  > div > div{
+    height: 50px;
+  }
+  
+}
+
+/*
+@supports (-webkit-backdrop-filter:blur(18px)) {
+  .header{
+    backdrop-filter: saturate(180%) blur(18px);
+    background-color: rgba(255,255,255,0.75);
+    border-bottom: none;
+    // box-shadow: none;
+    // box-shadow: 0 1px 0 rgba(0,0,0,.04);
+    // box-shadow: 0 1px 0 #e9ebee;
+  }
+}
+*/
+
+.logo{
+  display: block;
+  width: 90px;
+  height: 50px;
+  background-size: contain;
+  background-image: url(../../../../../public/logo.png);
+  margin-right: 22px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.nav-item{
+  display: inline-block;
+  height: 50px;
+  line-height: 50px;
+  margin:0 12px 0 12px;
+  text-decoration: none !important;
+  font-size: 14px;
+  &:first-child{
+    margin-left:0px;
+  }
+  &:last-child{
+    margin-right:0px;
+  }
+  &:hover{
+    opacity: .7;
+  }
+}
+
+.active {
+  &:after{
+    float:left;
+    content:' ';
+    width:100%;
+    height: 2px;
+    background-color: #0084ff;
+    margin-top:-2px;
+  }
+}
+
+.arrow{
+  display: inline-block;
+  margin-left:2px;
+  > svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+}
+
+.topic-avatar{
+  float:left;
+  margin-left:-10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background-color: #efefef;
+}
+
+.svg-icon{
+  margin-left:5px;
+  margin-top: 7px;
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  border-radius:50%;
+  &:hover{
+    background-color: #eaf4fd;
+  }
+  > svg {
+    margin:7px 6px 6px 6px;
+    width: 21px;
+    height: 21px;
+    stroke: currentColor;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+}
+
+.avatar{
+  margin-top:12px;
+  margin-left:10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
+
+.edit{
+  color:#0078ff;
+}
+
+
+// 红点角标
+.subscript{
+  top:0px;
+  position: absolute;
+  margin:12px 0 0 0px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: red;
+}
+.subscript-on-menu{
+  float:right;
+  margin-top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+// 未读数角标
+.unread-subscript{
+  top:0px;
+  position: absolute;
+  height: 16px;
+  line-height: 16px;
+  padding:0 5px;
+  margin:10px 0 0 -16px;
+  border-radius: 20px;
+  background-color: red;
+  color:#fff;
+  font-size: 12px;
+}
+
+@import './response', './dark';

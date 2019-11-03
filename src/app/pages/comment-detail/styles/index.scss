@@ -1,36 +1,6 @@
-.comment-list{
-  background-color: #fff;
-  // border-radius: 4px;
-
-  :global{
-    .pagination{
-      border-top:1px solid #efefef;
-    }
-  }
-}
-
-.title{
-  // padding: 20px;
-  // background-color: #fff;
-  // border-radius: 5px;
-  // margin-bottom:10px;
-  h1{
-    font-size: 20px;
-    padding: 0px;
-    margin:0px;
-    margin-bottom:10px;
-  }
-}
-
-.commennt-container{
-  // background-color: #fff;
-  margin-bottom:10px;
-}
-
 .head{
   padding-left:60px;
   min-height: 50px;
-  // padding-top:15px;
   .active{
     position: absolute;
     width:50px;
@@ -38,7 +8,6 @@
     margin-left:-60px;
     border-radius: 50%;
   }
-
 }
 
 .info{
@@ -63,33 +32,12 @@
 
 .content{
   padding-top:15px;
-  // padding: 20px;
-  // padding-bottom:0px;
-  margin-bottom:10px;
-}
-
-.footer{
-  // padding: 20px;
-  padding-top:0px;
-  // margin-bottom:10px;
 }
 
 .editor{
   margin-top: 10px;
 }
 
-.author-info{
-  padding-left:60px;
-  min-height: 50px;
-}
-
-.avatar{
-  position: absolute;
-  margin-left:-60px;
-  width:50px;
-  height:50px;
-  border-radius: 50%;
-}
 
 .actions{
   text-align:right;

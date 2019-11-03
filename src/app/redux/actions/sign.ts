@@ -63,11 +63,14 @@ export const signIn = ({ data }: { data: any }) => {
 
         // 浏览器环境
         if (res && res.access_token && typeof document != 'undefined') {
-          await saveTokenToCookie(res)(dispatch, getState);
-
-          await globalData.get('service-worker').uninstall();
-          window.location.reload();
           
+          await saveTokenToCookie(res)(dispatch, getState);
+          globalData.get('service-worker').uninstall();
+          
+          setTimeout(()=>{
+            window.location.reload();
+          }, 300);
+        
 
           // if ('serviceWorker' in navigator) {
           //   navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -107,14 +110,13 @@ export const signOut = () => {
       success: async (res: any) => {
         if (res && res.success) {
 
-          // console.log('===');
-
-          // OfflinePluginRuntime.update();
-
           if (res.success && typeof window != 'undefined') {
 
-            await globalData.get('service-worker').uninstall();
-            window.location.reload();
+            globalData.get('service-worker').uninstall();
+
+            setTimeout(()=>{
+              window.location.reload();
+            }, 300);
 
             // await window._serviceWorker.update();
             // window.location.reload();

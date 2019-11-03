@@ -1,16 +1,9 @@
-
-/**
- * 友情链接
- */
-
 import React, { useState, useEffect } from 'react';
 
-import Shell from '@app/modules/shell';
-import Meta from '@app/modules/meta';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
 
 import SingleColumns from '@app/layout/single-columns';
-
-// import './styles/index.scss';
 
 type item = { name: string, domain: string, description: string }
 let cache:Array<item> = [];
@@ -48,9 +41,12 @@ export default Shell(function() {
         <div className="card-body container">
           <div className="row">
             {links.map((item: item)=>{
-              return (<a key={item.domain} href={item.domain} target="_blank" className="col-6 mb-2 mt-2">
-                {item.name}<div><small className="text-secondary">{item.description}</small></div>
-              </a>)
+              return (<div key={item.domain} className="col-6 mb-2 mt-2">
+                <a href={item.domain} target="_blank" className="text-dark">
+                  {item.name}
+                </a>
+                <div><small className="text-secondary">{item.description}</small></div>
+              </div>)
             })}
           </div>
         </div>

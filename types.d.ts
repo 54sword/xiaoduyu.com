@@ -38,6 +38,7 @@ declare module 'serve-favicon'
 declare module 'morgan'
 declare module 'draft-js'
 declare module 'sitemap'
+declare module 'sunrise-sunset-js'
 
 // 忽略别名
 declare module '@config'
@@ -63,11 +64,14 @@ declare var __SERVER__: any;
 declare var hljs: any;
 declare var adsbygoogle: any;
 declare var FloatFixed: any;
+declare var gtag: any;
 
 interface Window {
-  __initState__: any;
-  adsbygoogle: any;
-  module: any;
+  __initState__: any
+  adsbygoogle: any
+  module: any
+  AgoraRTC: any
+  inAppShell: any
 }
 
 declare var window: Window;

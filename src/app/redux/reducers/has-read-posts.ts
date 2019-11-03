@@ -2,16 +2,21 @@ import cloneObj from '../clone';
 
 type Actions = {
   type: string
-  state: any
+  state?: any
   postsId?: string
-  lastCommentAt?: string
+  commentId?: string
+  total?: number
 }
 
 type InitialState = {
-  [key: string]: any
+  posts?: object
+  comments?: object
 }
 
-const initialState: InitialState = {};
+const initialState: InitialState = {
+  posts: {},
+  comments: {}
+};
 
 export default (state = cloneObj(initialState), action: Actions) => {
 
@@ -23,8 +28,13 @@ export default (state = cloneObj(initialState), action: Actions) => {
 
     // 设置已读
     case 'ADD_POSTS_HAS_READ':
-      var { postsId, lastCommentAt } = action;
-      if (postsId && lastCommentAt) state[postsId] = new Date(lastCommentAt).getTime();
+      var { postsId, total = 0 } = action;
+      if (postsId) state.posts[postsId] = total;
+      break;
+
+    case 'ADD_COMMENT_HAS_READ':
+      var { commentId, total = 0 } = action;
+      if (commentId) state.comments[commentId] = total;
       break;
 
     default:
@@ -34,10 +44,21 @@ export default (state = cloneObj(initialState), action: Actions) => {
   return cloneObj(state);
 }
 
-export function getHasReadByPostsId(state: any, { postsId, lastCommentAt }: { postsId: string, lastCommentAt: string }): boolean {
+export function getHasReadByPostsId(state: any, { postsId, total }: { postsId: string, total: number }): number {  
+  if (
+    typeof state.hasReadPosts.posts[postsId] != 'undefined'
+    ) {
+    return total - state.hasReadPosts.posts[postsId];    
+  }
+  return -1;
+}
 
-  if (state.hasReadPosts[postsId] && 
-      state.hasReadPosts[postsId] >= new Date(lastCommentAt).getTime()
+
+export function getHasReadByCommentId(state: any, { commentId, total }: { commentId: string, total: number }): boolean {
+
+  if (
+    typeof state.hasReadPosts.comments[commentId] != 'undefined' &&
+    state.hasReadPosts.comments[commentId] >= total
   ) {
     return true;
   }

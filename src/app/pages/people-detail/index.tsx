@@ -9,15 +9,16 @@ import { loadPeopleList } from '@app/redux/actions/people';
 import { getPeopleListById } from '@app/redux/reducers/people';
 
 // components
-import Shell from '@app/modules/shell';
-import Meta from '@app/modules/meta';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
 import Loading from '@app/components/ui/loading';
-import PeopleActivities from '@app/modules/people-activities';
-import PeopleProfileHeader from '@app/modules/people-profile-header';
+
+import PeopleActivities from './components/people-activities';
+import PeopleProfileHeader from './components/people-profile-header';
 
 import SingleColumns from '@app/layout/single-columns';
 
-export default Shell(function({ setNotFound }: any) {
+const PeopleDetail = function({ setNotFound }: any) {
 
   const { location, match } = useReactRouter();
   const { id } = match.params;
@@ -67,4 +68,29 @@ export default Shell(function({ setNotFound }: any) {
     <PeopleActivities people={people} />
   </SingleColumns>)
 
-})
+}
+
+PeopleDetail.loadDataOnServer = async function({ store, match, res, req, user }: any) {
+
+  if (user) return { code:200 }
+  
+  const { id } = match.params;
+
+  const [ err, data ] = await loadPeopleList({
+    id,
+    args: {
+      _id: id,
+      blocked: false
+    }
+  })(store.dispatch, store.getState);
+
+  // 没有找到帖子，设置页面 http code 为404
+  if (err || !data || data.length == 0) {
+    return { code: 404, text: '该用户不存在' }
+  } else {
+    return { code: 200 }
+  }
+
+}
+
+export default Shell(PeopleDetail)

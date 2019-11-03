@@ -1,16 +1,7 @@
 import React from 'react';
 import Loadable from 'react-loadable';
 
-// 服务端加载数据的方法
-import PostsDetailLoadData from '@app/pages/posts-detail/load-data';
-import CommentDetailLoadData from '@app/pages/comment-detail/load-data';
-import HomeLoadData from '@app/pages/home/load-data';
-import TopicDetailLoadData from '@app/pages/topic-detail/load-data';
-import PeopleDetailLoadData from '@app/pages/people-detail/load-data';
-import NotFoundLoadData from '@app/pages/not-found/load-data';
-import TopicLoadData from '@app/pages/topic/load-data';
-
-import head from '@app/modules/head';
+import head from '@app/components/head';
 const exact = true;
 const base = { exact, head };
 const loading = () => <div></div>;
@@ -18,43 +9,28 @@ const loading = () => <div></div>;
 // 路由数组
 export default [
   {
-    path: '/',  ...base, enter: 'everybody', loadData: HomeLoadData,
+    path: '/',  ...base, enter: 'everybody',
     body: Loadable({
       loader: () => import('../pages/home'),
       loading
     })
   },
-  // {
-  //   path: '/follow', ...base, enter: 'member',
-  //   body: Loadable({
-  //     loader: () => import('../pages/follow'),
-  //     loading
-  //   })
-  // },
   {
-    path: '/topic', ...base, enter: 'everybody', loadData: TopicLoadData,
+    path: '/topic', ...base, enter: 'everybody',
     body: Loadable({
       loader: () => import('../pages/topic'),
       loading
     })
   },
   {
-    path: '/favorite', ...base, enter: 'member',
-    body: Loadable({
-      loader: () => import('../pages/favorite'),
-      loading
-    })
-  },
-  {
-    path: '/topic/:id', ...base, 
-    enter: 'everybody', loadData: TopicDetailLoadData,
+    path: '/topic/:id', ...base, enter: 'everybody',
     body: Loadable({
       loader: () => import('../pages/topic-detail'),
       loading
     })
   },
   {
-    path: '/posts/:id', ...base, enter: 'everybody', loadData: PostsDetailLoadData,
+    path: '/posts/:id', ...base, enter: 'everybody',
     body: Loadable({
       loader: () => import('../pages/posts-detail'),
       loading
@@ -62,21 +38,21 @@ export default [
   },
   {
     path: '/comment/:id', ...base, 
-    enter: 'everybody', loadData: CommentDetailLoadData,
+    enter: 'everybody',
     body: Loadable({
       loader: () => import('../pages/comment-detail'),
       loading
     })
   },
   {
-    path: '/people/:id', ...base, enter: 'everybody', loadData: PeopleDetailLoadData,
+    path: '/people/:id', ...base, enter: 'everybody',
     body: Loadable({
       loader: () => import('../pages/people-detail'),
       loading
     })
   },
   {
-    path: '/people/:id/:type', ...base, enter: 'everybody', loadData: PeopleDetailLoadData,
+    path: '/people/:id/:type', ...base, enter: 'everybody',
     body: Loadable({
       loader: () => import('../pages/people-detail'),
       loading
@@ -107,6 +83,13 @@ export default [
     path: '/session/:id', ...base, enter: 'member',
     body: Loadable({
       loader: () => import('../pages/session-detail'),
+      loading
+    })
+  },
+  {
+    path: '/live/:id', ...base, enter: 'everybody',
+    body: Loadable({
+      loader: () => import('../pages/live-detail'),
       loading
     })
   },
@@ -195,7 +178,7 @@ export default [
     })
   },
   {
-    path: '**', head, exact:false, enter: 'everybody', loadData: NotFoundLoadData,
+    path: '**', head, exact:false, enter: 'everybody',
     body: Loadable({
       loader: () => import('../pages/not-found'),
       loading

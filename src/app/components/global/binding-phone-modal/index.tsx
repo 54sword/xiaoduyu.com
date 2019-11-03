@@ -1,5 +1,7 @@
 import React, { useState, useEffect, createRef } from 'react';
-import { reactLocalStorage } from 'reactjs-localstorage';
+
+// common
+import storage from '@app/common/storage';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
@@ -86,18 +88,17 @@ export default function() {
 
   }
 
-  useEffect(()=>{
-
+  const componentsDidMount = async function() {
     /**
      * 如果是登陆用户，没有绑定手机号，每三天提醒一次绑定手机号
      */
     if (me && me.phone) return;
 
-    let timestamps = parseInt(reactLocalStorage.get('binding-phone-tips') || 0);
+    let timestamps = await storage.load({ key: 'binding-phone-tips' }) || 0;
     let nowTimestamps = new Date().getTime();
 
     $('#binding-phone').on('show.bs.modal', (e: any) => {
-      reactLocalStorage.set('binding-phone-tips', nowTimestamps);
+      storage.save({ key: 'binding-phone-tips', data: nowTimestamps })
       setShow(true);
     });
 
@@ -114,7 +115,10 @@ export default function() {
       }, {});
 
     }, 2000);
+  }
 
+  useEffect(()=>{
+    componentsDidMount();
   });
 
   return (<Modal
@@ -141,7 +145,7 @@ export default function() {
 
       </div>}
     footer={<div>
-        <a className="btn btn-primary" href="javascript:void(0);" onClick={submit}>提交</a>
+        <span className="btn btn-primary" onClick={submit}>提交</span>
       </div>}
     />)
 

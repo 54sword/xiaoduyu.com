@@ -11,10 +11,11 @@ import './styles/index.scss';
 interface Props {
   posts?: any,
   comment?: any,
+  live?: any,
   styleType?: string
 }
 
-export default function({ posts, comment, styleType }:Props) {
+export default function({ posts, comment, live, styleType }:Props) {
  
   // const { location, match } = useReactRouter();
 
@@ -33,6 +34,11 @@ export default function({ posts, comment, styleType }:Props) {
     summary = comment.content_summary;
     pics = comment._coverImage || '';
     url = domainName +'/comment/'+comment._id;
+  } else if (live) {
+    title = live.user_id.nickname+'的直播间';
+    summary = live.title;
+    pics = live.cover_image || '';
+    url = domainName +'/live/'+live._id;
   }
 
   const copyLink = function() {
@@ -114,12 +120,12 @@ export default function({ posts, comment, styleType }:Props) {
     return (<div>
 
       <div styleName="icon-box">
-        <a href="javascript:void(0)" styleName="wechat" onClick={shareToWeiXin}></a>
-        <a href="javascript:void(0)" styleName="weibo" onClick={shareToWeibo}></a>
-        <a href="javascript:void(0)" styleName="qzone" onClick={shareToQzone}></a>
-        <a href="javascript:void(0)" styleName="qq" onClick={shareToQQ}></a>
-        <a href="javascript:void(0)" styleName="twitter" onClick={shareToTwitter}></a>
-        <a href="javascript:void(0)" styleName="facebook" onClick={shareToFacebook}></a>
+        <span className="a" styleName="wechat" onClick={shareToWeiXin}></span>
+        <span className="a" styleName="weibo" onClick={shareToWeibo}></span>
+        <span className="a" styleName="qzone" onClick={shareToQzone}></span>
+        <span className="a" styleName="qq" onClick={shareToQQ}></span>
+        <span className="a" styleName="twitter" onClick={shareToTwitter}></span>
+        <span className="a" styleName="facebook" onClick={shareToFacebook}></span>
       </div>
 
       <div>
@@ -149,17 +155,17 @@ export default function({ posts, comment, styleType }:Props) {
   //  onClick={this.stopPropagation}
   return (<div styleName="container">
 
-    <a href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className="text-secondary">分享</a>
+    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className="a text-secondary">分享</span>
 
     <div>
       <div className="dropdown-menu" aria-labelledby="share-dropdown">
-      <a className="dropdown-item" href="javascript:void(0);" onClick={copyLink}>复制连接</a>
-        <a className="dropdown-item" href="javascript:void(0);" onClick={shareToWeiXin}>微信</a>
-        <a className="dropdown-item" href="javascript:void(0);" onClick={shareToWeibo}>微博</a>
-        <a className="dropdown-item" href="javascript:void(0);" onClick={shareToQzone}>QQ空间</a>
-        <a className="dropdown-item" href="javascript:void(0);" onClick={shareToQQ}>QQ好友和群组</a>
-        <a className="dropdown-item" href="javascript:void(0);" onClick={shareToTwitter}>Twitter</a>
-        <a className="dropdown-item" href="javascript:void(0);" onClick={shareToFacebook}>Facebook</a>
+        <span className="a dropdown-item" styleName="link" onClick={copyLink}>复制连接</span>
+        <span className="a dropdown-item" styleName="wechat" onClick={shareToWeiXin}>微信</span>
+        <span className="a dropdown-item" styleName="weibo" onClick={shareToWeibo}>微博</span>
+        <span className="a dropdown-item" styleName="qzone" onClick={shareToQzone}>QQ空间</span>
+        <span className="a dropdown-item" styleName="qq" onClick={shareToQQ}>QQ好友和群组</span>
+        <span className="a dropdown-item" styleName="twitter" onClick={shareToTwitter}>Twitter</span>
+        <span className="a dropdown-item" styleName="facebook" onClick={shareToFacebook}>Facebook</span>
       </div>
 
       {showQrcode ? <div styleName="mark" onClick={()=>{handleShowQRcode(false)}}></div>: null}

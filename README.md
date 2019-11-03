@@ -20,7 +20,7 @@
 3. cd xiaoduyu.com  
 4. npm install  
 5. cp config/index.default.js config/index.js  
-6. npm run start  
+6. npm run dev  
 7. 访问 http://localhost:4000  
 8. 完成
 ```

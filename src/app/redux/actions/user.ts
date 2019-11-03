@@ -61,12 +61,11 @@ export const loadUserInfo = ({ accessToken }: { accessToken?: string }) => {
           phone
           area_code
           find_notification_at
-          last_find_posts_at
           last_find_feed_at
           last_find_favorite_at
-          last_find_excellent_at
           has_password
           theme
+          user_cover
           `
         }],
         headers: {

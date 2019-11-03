@@ -28,41 +28,15 @@ export default function({ content, maxHeight }: Props) {
 
     setHtml(convertHTML(content));
 
-    /*
-    if(typeof hljs == 'undefined') {
-      dynamicFile([
-        '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css',
-        '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js'
-      ]).then(()=>{
-
-        $('.markdown-body pre').each(function(i: any, block: any) {
-          hljs.highlightBlock(block);
-        });
-
-      });
-    } else {
-      $('.markdown-body pre').each(function(i: any, block: any) {
-        hljs.highlightBlock(block);
-      });
-    }
-    */
-
     hljs.registerLanguage('javascript', javascript);
     $('.markdown-body pre').each(function(i: any, block: any) {
-      // console.log(block);
       hljs.highlightBlock(block);
     });
 
-    // monokai-sublime
-    
     pangu.spacingElementByClassName('markdown-body');
 
     if (!contentHeight) {
-      // setTimeout(()=>{
-        // console.log('-------');
-        // console.log(contentRef.current.offsetHeight);
-        setContentHeight(contentRef && contentRef.current ? contentRef.current.offsetHeight : 0);
-      // }, 1000);
+      setContentHeight(contentRef && contentRef.current ? contentRef.current.offsetHeight : 0);
     }
     
   }, [content]);
@@ -80,8 +54,7 @@ export default function({ content, maxHeight }: Props) {
     {(()=>{
       if (expand || !maxHeight || contentHeight < maxHeight) return null;
       return (<div styleName="expand-button">
-        <a
-          href="javascript:void(0)"
+        <span
           className="btn btn-outline-primary btn-block btn-sm mt-3"
           onClick={(e: any)=>{
             e.stopPropagation();
@@ -89,7 +62,7 @@ export default function({ content, maxHeight }: Props) {
           }}
           >
           {!expand && maxHeight && contentHeight > maxHeight ? '展开全部' : '收起'}
-        </a>
+        </span>
         </div>)
     })()}
 

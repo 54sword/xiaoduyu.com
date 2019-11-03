@@ -12,10 +12,11 @@ import './styles/index.scss';
 interface Props {
   posts: any,
   user: any,
-  comment: any
+  comment: any,
+  children?: any
 }
 
-export default function({  user, posts, comment }: Props) {
+export default function({  user, posts, comment, children }: Props) {
 
   const { history } = useReactRouter();
 
@@ -108,21 +109,24 @@ export default function({  user, posts, comment }: Props) {
   
   return (<div styleName="container">
 
-    <a href="javascript:void(0)" styleName="menu" className="text-secondary" data-toggle="dropdown" onClick={stopPropagation}>
+    <span styleName="menu" className="a text-secondary" data-toggle="dropdown" onClick={stopPropagation}>
+      {children ? children :
       <svg>
         <use xlinkHref="/feather-sprite.svg#more-horizontal"/>
       </svg>
-    </a>
-    <div className="dropdown-menu dropdown-menu-right">
+      }
+    </span>
+    
+    <div className="dropdown-menu dropdown-menu-left">
 
       {self && posts || self && comment ?
-        <a className="dropdown-item" href="javascript:void(0)" onClick={edit}>编辑</a>
+        <span className="a dropdown-item" onClick={edit}>编辑</span>
         : null }
 
       {!self && posts || !self && comment || !self && user ?
         <>
-          <a className="dropdown-item" href="javascript:void(0)" onClick={block}>不感兴趣</a>
-          <a className="dropdown-item" href="javascript:void(0)" onClick={report}>举报</a>
+          <span className="a dropdown-item" onClick={block}>不感兴趣</span>
+          <span className="a dropdown-item" onClick={report}>举报</span>
         </>
         : null }
     </div>

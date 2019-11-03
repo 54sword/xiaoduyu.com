@@ -7,9 +7,9 @@ import { loadSessionList, readSession } from '@app/redux/actions/session';
 import { getSessionListById } from '@app/redux/reducers/session';
 
 // modules
-import Shell from '@app/modules/shell';
-import Meta from '@app/modules/meta';
-import MessageList from '@app/modules/message-list';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
+import MessageList from './components/message-list';
 
 import Editor from '@app/components/editor-message';
 
@@ -27,7 +27,7 @@ export default Shell(function({ setNotFound }: any) {
   const [ session, setSession ] = useState(null);
   const [ loading, setLoading ] = useState(true);
   // const [ unread_count, setUnreadCount ] = useState(0);
-
+  
   const list = useSelector((state: object)=>getSessionListById(state, id));
 
   const store = useStore();
@@ -79,7 +79,8 @@ export default Shell(function({ setNotFound }: any) {
       run = null;
     }
 
-  }, list && list.data && list.data[0] ? list.length : 0);
+  }, [list]);
+  // list && list.data && list.data[0] ? list.length : 0
 
   return (
     <SingleColumns>
@@ -90,8 +91,8 @@ export default Shell(function({ setNotFound }: any) {
     
     {session ?
       <div className="card">
-        <div className="card-head">
-          <div className="title">{session.user_id.nickname}</div>
+        <div className="card-header">
+          <div className="card-title">{session.user_id.nickname}</div>
         </div>
         <div>
           

@@ -1,9 +1,9 @@
 import React from 'react';
 
 // components
-import Shell from '@app/modules/shell';
-import Meta from '@app/modules/meta';
-import ResetPassword from '@app/modules/reset-password';
+import Shell from '@app/components/shell';
+import Meta from '@app/components/meta';
+import ResetPassword from './components/reset-password';
 
 import SingleColumns from '@app/layout/single-columns';
 

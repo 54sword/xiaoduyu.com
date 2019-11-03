@@ -1,90 +1,67 @@
-
-/**
- * 覆盖默认的 bootstrap 的样式
- */
+// 覆盖默认的 bootstrap 的样式
 
 // 主要
-$color_primary: #0073ff;
+$color_primary: #0084ff;//#027cfa;
 // 黑色
-$color_dark: #111;
+$color_dark: #16181d;//#242628; //#262a2e;
 // 浅灰
-$color_muted: #bcbec3;
+$color_muted: #b5bac4;//#bcbec3;
 // 次要
-$color_secondary: #7f8489;
+$color_secondary: #878b97;//#6f6f6f;//#7f8489;
 
 // 边框颜色
-$color_border: #f4f4f4;
+$color_border: #eff2f6;
 
 :global{
-// #light-theme{
-
-  // html {
-  //   background: linear-gradient(#3f4353, #9597a7);
-  // }
   
   body {
-    // background-image: url(./images/bg.png);
-    background-color: #ecedf1;//#eceef0;//#d0d4db;//#d1d3d8;//#d1d3d8;
-    // background: linear-gradient(#3f4353, #94879c);
-    // background-attachment:fixed;
+
+    // #eaedef;
+    background-color: #eceef0;//#eceff1; //#eff2f4;//#e9eaec;//#e5e5e8;//#edeff2;//#e9ebee;
     color: $color_dark;
   }
 
-  //======================================================
-  // 链接默认颜色
-  a{
-    color: $color_dark;
+  a, .active{
+    color: $color_primary;
     &:hover{
-      color: $color_dark;
+      color: $color_primary;
     }
   }
 
-  .active{  color: $color_primary !important; }
 
-  // 正文
-  .html-content,
-  // 编辑器
-  .RichEditor-editor{
-    a{ color: $color_primary !important; }
+  .badge-secondary{
+    // font-size: 12px;
+    font-weight: normal;
+    background-color: #bec2cd;
   }
 
-  //======================================================
-  // https://getbootstrap.com/docs/4.0/content/typography/#inline-text-elements
-  small{ font-size: 12px; }
+  .badge-primary{
+    // font-size: 12px;
+    font-weight: normal;
+  }
 
   //======================================================
   // 文本颜色
   // https://getbootstrap.com/docs/4.0/utilities/colors/
-
-  .text-primary{ color: $color_primary !important; }
-  .text-secondary{ color: $color_secondary !important; }
-  // .text-success{}
-  // .text-danger{}
-  // .text-warning{}
-  // .text-info{}
-  // .text-light{}
+  // .text-primary{ color: $color_primary !important; }
+  // .text-secondary{ color: $color_secondary !important; }
   .text-dark{ color: $color_dark !important; }
   .text-muted{ color: $color_muted !important; }
-  // .text-white{}
-
-
+  .active{
+    color: $color_primary !important;
+    &:hover{
+      color: $color_primary !important;
+    }
+  }
 
   //======================================================
   // https://getbootstrap.com/docs/4.0/components/list-group/
   .list-group-item{
     padding:12px 15px 12px 15px;
     border:none;
-    // border: 1px solid #fff;
     border-top: 1px solid $color_border;
-
-
     border-radius: 0px;
-    // background-color: rgba(0,0,0,0);
-    // background-color:transparent;
-
-    // &:hover{ border-bottom: 1px solid $color_border; }
     &:first-child{ border-top:none; }
-    // &:last-child{ border-bottom:none; }
   }
   
   //======================================================
@@ -95,14 +72,6 @@ $color_border: #f4f4f4;
   .border-right{ border-right: 1px solid $color_border !important; }
   .border-bottom{ border-bottom: 1px solid $color_border !important; }
   .border-left{ border-left: 1px solid $color_border !important; }
-
-  // @media (min-width: 0px) and (max-width: 767px) {
-  //   .border{ border: 0.5px solid #e4e6ea !important; }
-  //   .border-top{ border-top: 0.5px solid #e4e6ea !important; }
-  //   .border-right{ border-right: 0.5px solid #e4e6ea !important; }
-  //   .border-bottom{ border-bottom: 0.5px solid #e4e6ea !important; }
-  //   .border-left{ border-left: 0.5px solid #e4e6ea !important; }
-  // }
 
   //======================================================
   // https://getbootstrap.com/docs/4.0/components/buttons/
@@ -116,132 +85,29 @@ $color_border: #f4f4f4;
     }
   }
 
-  //======================================================
-  // https://getbootstrap.com/docs/4.0/components/navbar/
-  .navbar{
-    position: fixed;
-    top:0px;
-    z-index: 99;
-    width: 100%;
-    padding:0 10px 0 10px;
-    box-sizing: border-box;
-    background-color: #fff;
-    border-bottom: 1px solid #e9eaee;//#e5e8eb;
-    // box-shadow: 0 0px 2px rgba(0,0,0,.2);
-
-
-    // -webkit-backdrop-filter: blur(18px);
-    // background-color: rgba(255,255,255,.7);
-
-  }
-
-  .navbar-brand{
-    min-height: 45px;
-    padding:0px;
-    // margin-right:0px;
-    // position: absolute;
-    // margin-left:-150px;
-  }
-
-  //======================================================
-  // https://getbootstrap.com/docs/4.0/components/modal/
-  .modal-content{
-    border:none;
-    border-radius: 12px;
-  }
-  .modal-body{
-    padding:0px;
-  }
-
-  //======================================================
-  // https://getbootstrap.com/docs/4.2/components/navs/
-  .nav-tabs{
-    background-color: #fff;
-    padding:0 10px 0 10px;
-    border:none;
-
-    .nav-link{
-      padding-top:15px;
-      padding-bottom:13px;
-      border: none;
-      border-bottom:2px solid #fff;
-    
-      &:hover{
-        border: none;
-        color: #4170ea;
-      }
-    }
-
-    .active{
-      border: none;
-      border-bottom:2px solid #4170ea !important;
-      color:#4170ea;
-    }
-
-  }
-
-  .navbar-nav{
-    height: 50px;
-
-
-    .nav-link{
-      // margin:0 0 0 0px;
-      padding:0 15px 0 15px;
-      height: 50px;
-      line-height: 50px;
-      // border-bottom:3px solid #efefef;
-      color:#484848;
-      // transition: all .5s ease-in-out;
-      font-size: 15px;
-      &:hover{
-        // background-color: #f6f8f9;
-        // border-bottom:2px solid #222;
-        // color:#111;
-        color: $color_primary;
-        // border-bottom:2px solid #999;
-        // color:#111;
-        // border-bottom:3px solid $color_primary;
-      }
-    }
-    .active{
-      // font-size: 16px;
-      // font-weight: bold;
-      // color:#111;
-      color: $color_primary !important;
-      // text-decoration: none;
-
-      // text-decoration: underline;
-      // text-decoration-color: $color_primary;
-
-      // &:before{
-      //   content: "";
-      //   position: absolute;
-      //   top:10px;
-      //   width: 36px;
-      //   height: 30px;
-      //   margin-left:-3px;
-      //   background: $color_primary;
-      //   z-index: -1;
-      // }
-
-      // border-bottom:2px solid $color_primary;
-      // border-radius: 2px;
-    }
-  }
-
   .card{
+    border: 1px solid #e4e6e9;
+    // box-shadow: 0 1px 3px rgba(0,0,0,.03);
+    // box-shadow: 0 1px 3px rgba(0,37,55,.03);
+    // border:1px solid #dddfe2;//#e4e6ea;
+
+    // background-color: #fefefe;
+    // box-shadow: 0 1px 0 #e6e6e6;
+    // box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0,0,0,.03);
     
-    .card-head, .card-header{
+    .card-header{
+      // background: linear-gradient(#fff, #f1f2f3);
+      // background-color: #fbfbfb;
       border-bottom:1px solid $color_border;
     }
 
     .card-footer{
       border-top:1px solid $color_border;
+      background: #f9f9f9;
     }
   
   }
   
-// }
 }
 
 @import './response';

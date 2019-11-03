@@ -1,0 +1,134 @@
+.item{
+  padding:15px 0 0 85px;
+
+  .item-head{
+    // padding-top:15px;
+    padding-right:20px;
+    
+    .avatar{
+      img{
+        position: absolute;
+        margin-left:-70px;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        background-color: #efefef;
+        // margin-top:3px;
+      }
+    }
+
+    .nickname{
+      // font-size: 12px !important;
+      // color: #444 !important;
+      // font-weight: normal;
+      // opacity: .5;
+      // background-color: aqua;
+    }
+
+  }
+
+  .item-body{
+    padding:5px 15px 5px 0;
+    max-width:100%;
+    img{
+      max-height: 150px;
+      max-width: 50%;
+      border-radius: 6px;
+    }
+  }
+
+  .item-footer{
+    padding:0 15px 10px 0;
+    
+
+  }
+
+}
+
+.actions{
+      
+  // margin-top: 10px;
+
+  > span, > a, > div{
+    // opacity: .5;
+    margin-right:20px;
+    // font-size:12px;
+    // &:hover{
+    //   opacity: 1;
+    // }
+  }
+  > span:last-child, > a:last-child, > div:last-child{
+    margin-right:0;
+  }
+  
+  // > span{
+    // color:#999;
+    // font-size: 13px;
+  // }
+
+}
+
+.info{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  > span, > a{
+    &:after{
+      content: "\B7";
+      margin:0 5px 0 5px;
+    }
+    &:last-child:after{
+      display: none;
+    }
+  }
+}
+
+
+.reply-list{
+  // margin-left:85px;
+  padding-left:0px;
+  // border-top: 1px solid #e6e8eb;
+
+  > div{
+    padding-left:45px;
+  }
+
+  .item-head{
+    // padding-left:62px;
+    .avatar{
+      img{
+        width:35px;
+        height:35px;
+        margin-left:-45px;
+      }
+    }
+  }
+
+  .item-body{
+    display: inline-block;
+    
+    // margin:0 0 0 50px;
+    // padding-left:62px;
+    // color:#14171a;
+    img{
+      max-height: 150px;
+    }
+  }
+
+  .actions{
+    a:first-child{
+      margin-left: 0px;
+    }
+  }
+
+  .view-all-reply{
+    display: block;
+    padding:15px 0 15px 0;
+    // border-top: 1px solid #efefef;
+  }
+  
+}
+
+
+
+@import './response';
