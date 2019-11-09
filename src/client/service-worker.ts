@@ -16,9 +16,9 @@ const ServiceWorker = {
   },
 
   install: function(){
-    return new Promise(async resolve=>{
+    return new Promise(resolve=>{
       if (process.env.NODE_ENV != 'development') {
-        await OfflinePluginRuntime.install();
+        OfflinePluginRuntime.install();
       }
       resolve();
     })

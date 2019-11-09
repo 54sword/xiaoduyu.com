@@ -180,14 +180,17 @@ module.exports = {
     
     // 提取css插件
     new MiniCssExtractPlugin({
-      filename: devMode ? "[name].css" : "[name].[hash].css"
+      filename: devMode ? "[name].css" : "[name].[hash].css",
+      // https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250#issuecomment-550109645
+      allChunks: true,
+      ignoreOrder: true
     }),
     
 
     // 创建视图模版文件，给server使用
     // 主要是打包后的添加的css、js静态文件路径添加到模版中
     new HtmlwebpackPlugin({
-      filename: path.resolve(__dirname, '../../dist/client/index.ejs'),
+      filename: path.resolve(__dirname, '../../dist/server/index.ejs'),
       template: 'src/app/views/index.html',
       theme: '<%- theme %>',
       metaDom: '<%- meta %>',
@@ -199,7 +202,7 @@ module.exports = {
     }),
     
     new HtmlwebpackPlugin({
-      filename: path.resolve(__dirname, '../../dist/client/app-shell.ejs'),
+      filename: path.resolve(__dirname, '../../dist/server/app-shell.ejs'),
       template: 'src/app/views/app-shell.html',
       theme: '<%- theme %>',
       head: config.head,

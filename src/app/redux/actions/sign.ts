@@ -1,12 +1,6 @@
-
 import graphql from '../../common/graphql';
 import { removeUnlockToken } from './unlock-token';
 import * as globalData from '../../common/global-data';
-// import * as ServiceWorker from '../../common/service-worker';
-// import * as ServiceWorker from '@app/common/service-worker';
-// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-
-// console.log(OfflinePluginRuntime);
 
 // cookie安全措施，在服务端使用 http only 方式储存cookie
 export const saveTokenToCookie = ({ access_token }: { access_token: string }) => {

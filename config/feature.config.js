@@ -42,7 +42,7 @@ if (mainConfig.debug) {
   // config.debug = true;
   // config.logs = false;
   // config.apiLog = true;
-  config.reduxLog = true;
+  // config.reduxLog = true;
   // config.memoryUsage = true;
 }
 

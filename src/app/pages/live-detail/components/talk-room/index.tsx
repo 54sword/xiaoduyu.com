@@ -175,7 +175,7 @@ export default function({ liveId }: { liveId: string }) {
     {me ?
         <form styleName="chat-footer" className="border-top" onSubmit={onSubmit}>
           <input type='text' styleName='input' ref={inputRef} />
-          <button className="btn btn-primary" styleName='submit'>发送</button>
+          <button className="btn btn-primary rounded-0" styleName='submit'>发送</button>
         </form>
         : 
         <div styleName='chat-footer' className='d-flex align-items-center justify-content-center border-top'>

@@ -1,6 +1,4 @@
-
 import graphql from '../../common/graphql';
-// import loadList from '../../common/graphql-load-list';
 import { dateDiff } from '../../common/date';
 import { loadTips } from './tips';
 import { getSessionListById } from '../reducers/session';

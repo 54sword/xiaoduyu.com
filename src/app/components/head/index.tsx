@@ -160,7 +160,6 @@ export default function() {
               className="dropdown-item"
               onClick={onClickTopicLink(_id)}
               >
-                {avatar ? <img styleName="topic-avatar" src={avatar} alt={name} /> : <div styleName="topic-avatar"></div>}
                 {name}
                 {subscript ? <span styleName="subscript-on-menu"></span> : null}
               </a>)

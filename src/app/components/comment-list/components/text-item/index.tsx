@@ -19,7 +19,7 @@ export default function({ item }: Props) {
 
   return (<div className="card-body border-bottom" onClick={toDetail}>
     <div className="text-secondary">
-      评论了 <Link to={item.posts_id._id} className="text-primary" onClick={stopPropagation}>{item.posts_id.title}</Link>
+      评论了 <Link to={`/posts/${item.posts_id._id}`} className="text-primary" onClick={stopPropagation}>{item.posts_id.title}</Link>
     </div>
     {item.content_summary}
     <div className="text-muted" styleName="other-info">

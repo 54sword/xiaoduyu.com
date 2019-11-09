@@ -1,8 +1,6 @@
-
 import storage from '../../common/storage';
 
 import { dateDiff } from '../../common/date';
-// import loadList from '../../common/graphql-load-list';
 import Device from '../../common/device';
 import graphql from '../../common/graphql';
 import To from '../../common/to';

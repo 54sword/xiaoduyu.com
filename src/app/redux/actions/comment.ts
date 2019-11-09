@@ -3,8 +3,6 @@ import graphql from '../../common/graphql';
 import loadList from '../utils/new-graphql-load-list';
 
 import Device from '../../common/device';
-// import storage from '../../common/storage';
-// import To from '../../common/to';
 
 const abstractImages = (str: string) => {
 

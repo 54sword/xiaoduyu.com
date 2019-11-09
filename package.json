@@ -7,7 +7,7 @@
     "dev-a": "cross-env NODE_ENV=development webpack --config config/webpack/server.dev.js && cross-env NODE_ENV=development webpack --config config/webpack/client.dev.js && node ./dist/server/server.js",
     "pro": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js && node ./dist/server/server.js",
     "dist": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js",
-    "server": "cross-env NODE_ENV=production node ./dist/server/server.js",
+    "server": "cross-env node ./dist/server/server.js",
     "test": "jest"
   },
   "engines": {
