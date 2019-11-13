@@ -1,13 +1,26 @@
 #!/bin/bash
 
-# 【必须修改】登陆的服务器
-SERVER='root@服务器ip'
+# 登陆的服务器
+SERVER='root@'$1
 
-# 【必须修改】项目端口号
-PM2_NAME="PM2启动项目的名称"
+# 项目端口号
+PM2_NAME=$2
 
-# 【必须修改】项目在服务器的路径地址
-SERVER_DIR="/home/wwwroot/www.xiaoduyu.com"
+# 项目在服务器的路径地址
+SERVER_DIR=$3
+
+# 操作，install、update
+ACTION=$4
+
+if [ ! -n $ACTION ]
+then
+  echo "[Error] ACTION 不能为空"
+  exit
+elif [ $ACTION != 'install' -a $ACTION != 'update' ]
+then
+  echo "[Error] ACTION 不等于 install 或 update"
+  exit
+fi
 
 echo "正在执行安装脚本..."
 echo "打包项目中..."
@@ -26,19 +39,6 @@ LOCAL_DIR=`
 `
 
 # 服务器运行命令
-
-# 安装
-# COMMAND="
-#   cd $SERVER_DIR && unzip ./dist.zip;
-#   cd $SERVER_DIR && unzip ./public.zip;
-#   cd $SERVER_DIR && unzip ./node_modules.zip;
-#   cd $SERVER_DIR && rm -rf ./dist.zip;
-#   cd $SERVER_DIR && rm -rf ./public.zip;
-#   cd $SERVER_DIR && rm -rf ./node_modules.zip;
-#   cd $SERVER_DIR && pm2 start ./dist/server/server.js --name '$PM2_NAME' --max-memory-restart 400M;
-# "
-
-# 更新
 COMMAND="
   pm2 stop $PM2_NAME;
   cd $SERVER_DIR && rm -rf ./dist;
@@ -50,11 +50,26 @@ COMMAND="
   cd $SERVER_DIR && rm -rf ./dist.zip;
   cd $SERVER_DIR && rm -rf ./public.zip;
   cd $SERVER_DIR && rm -rf ./node_modules.zip;
-  pm2 restart $PM2_NAME;
 "
+
+if [ $ACTION == "install" ]
+then
+  # 安装
+  COMMAND="
+    $COMMAND
+    cd $SERVER_DIR && pm2 start ./dist/server/server.js --name '$PM2_NAME' --max-memory-restart 400M;
+  "
+else
+  # 更新
+  COMMAND="
+    $COMMAND
+    pm2 restart $PM2_NAME;
+  "
+fi
 
 echo "创建项目文件夹"
 ssh ${SERVER} "mkdir $SERVER_DIR"
+ssh ${SERVER} "mkdir $SERVER_DIR/logs"
 
 echo "上传项目文件中..."
 scp -r ${LOCAL_DIR} ${SERVER}:${SERVER_DIR}

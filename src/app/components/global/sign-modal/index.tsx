@@ -105,7 +105,7 @@ export default function() {
         </div> :
         <div styleName="header">
           <h4>注册账号</h4>
-          <div className="mb-3">{description}🐟🐠🐡🐳🐬🐋🐙</div>
+          <div className="mb-3">{description}</div>
           <div>
             已经有账号了？ <span className="a text-primary" onClick={displayComponent}>登录</span>
           </div>
