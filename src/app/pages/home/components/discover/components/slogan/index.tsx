@@ -5,7 +5,7 @@ export default function() {
   return (
     <div className="card">
       <div className="card-body">
-        {description}🐟🐠🐡🐳🐬🐋🐙
+        {description}
       </div>
     </div>
   )

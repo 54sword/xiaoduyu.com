@@ -25,7 +25,7 @@
 8. 完成
 ```
 
-## 线上部署
+## 手动部署到服务器
 1、安装 Node.js  
 2、打包项目
 
@@ -38,10 +38,58 @@ npm run dist
 ```
 npm install
 ```
-4、启动服务  
+4、在项目目录下创建logs文件夹  
+5、启动服务  
 
 ```
 node ./dist/server/server.js
+```
+
+## 脚本部署（将本地项目安装或更新到服务器）
+使用shell脚本一键安装或更新  
+
+1、服务器上安装nodejs与pm2，并需支持全局调用node、pm2命令  
+ 
+2、配置ssh免密码登录服务器  
+让本机支持ssh免密码登录服务器，配置方法：[https://www.cnblogs.com/bingoli/p/10567734.html](https://www.cnblogs.com/bingoli/p/10567734.html)   
+
+3、创建相关的配置文件   
+ 
+```
+cp config/server.default.config.js config/server.config.js
+```
+填写 SERVER_IP、PM2_NAME、SERVER_DIR 配置项  
+
+4、执行安装命令
+
+```
+npm run install-to-server
+```
+5、执行更新命令（本地有修改需要更新的时候执行）
+
+```
+npm run update-to-server
+```
+
+## 批上传客户端静态文件到七牛
+1、创建相关的配置文件，如果已经创建跳过此步骤   
+
+```
+cp config/server.default.config.js config/server.config.js
+```
+填写配置文件中 qiniu 的信息   
+
+2、配置打包静态资源路径   
+修改配置文件（config/index.js）中的publicPath参数（打包的文件，dist/client/*）  
+
+为空时候生产路径：/vendor.db2587d7b2ad7ef882f8.css   
+如果填写 //img.xiaoduyu.com，生产路径：//img.xiaoduyu.com/vendor.db2587d7b2ad7ef882f8.css  
+这里的//img.xiaoduyu.com，可替换成你的七牛融合 CDN 加速域名
+
+2、执行批上传
+
+```
+npm run upload-to-qiniu
 ```
 
 ## 开源协议

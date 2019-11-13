@@ -3,12 +3,15 @@
   "version": "3.1.2",
   "description": "小度鱼 - 年轻人的交流社区",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node ./scripts/start.js",
+    "dev": "cross-env NODE_ENV=development node ./scripts/develop.js",
     "dev-a": "cross-env NODE_ENV=development webpack --config config/webpack/server.dev.js && cross-env NODE_ENV=development webpack --config config/webpack/client.dev.js && node ./dist/server/server.js",
     "pro": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js && node ./dist/server/server.js",
     "dist": "webpack --config config/webpack/server.pro.js && webpack --config config/webpack/client.pro.js",
-    "server": "cross-env NODE_ENV=production node ./dist/server/server.js",
-    "test": "jest"
+    "server": "cross-env node ./dist/server/server.js",
+    "test": "jest",
+    "install-to-server": "node ./scripts/install.js",
+    "update-to-server": "node ./scripts/update.js",
+    "upload-to-qiniu": "node ./scripts/upload-to-qiniu.js"
   },
   "engines": {
     "node": ">=8.6.0"

@@ -13,7 +13,7 @@ import LikeButton from '@app/components/like';
 import HTMLText from '@app/components/html-text';
 import MoreMenu from '@app/components/more-menu';
 import CommentButton from '../button';
-import Share from '@app/components/share';
+// import Share from '@app/components/share';
 
 import Loading from '@app/components/ui/loading';
 

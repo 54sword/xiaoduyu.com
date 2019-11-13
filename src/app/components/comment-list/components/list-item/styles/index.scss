@@ -2,7 +2,6 @@
   padding:15px 0 0 85px;
 
   .item-head{
-    // padding-top:15px;
     padding-right:20px;
     
     .avatar{
@@ -13,16 +12,11 @@
         height: 55px;
         border-radius: 50%;
         background-color: #efefef;
-        // margin-top:3px;
       }
     }
-
+    
     .nickname{
-      // font-size: 12px !important;
-      // color: #444 !important;
-      // font-weight: normal;
-      // opacity: .5;
-      // background-color: aqua;
+      opacity: .7;
     }
 
   }
@@ -129,6 +123,4 @@
   
 }
 
-
-
-@import './response';
+@import './response', './dark';

@@ -35,7 +35,6 @@ export const loadLiveList = loadList({
 
 export const addAudienceCount = function(liveId: string) {
   return (dispatch: any, getState: any) => {
-    console.log('=================');
     dispatch({ type: 'ADD_AUDIENCE_BY_LIVE_ID', id: liveId })
   }
 }

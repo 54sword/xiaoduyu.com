@@ -92,7 +92,7 @@ app.get('*', async function (req: any, res: any) {
     req._parsedOriginalUrl.search.indexOf('?appshell') != -1
   ) {
     // console.log(user);
-    res.render('../dist/client/app-shell.ejs', {
+    res.render('../dist/server/app-shell.ejs', {
       theme: user && user.theme == 2 ? 'dark-theme' : 'light-theme' 
     });
     return;
@@ -103,7 +103,7 @@ app.get('*', async function (req: any, res: any) {
   if (redirect) {
     res.redirect(redirect);
   } else {
-    res.render('../dist/client/index.ejs', {
+    res.render('../dist/server/index.ejs', {
       html,
       reduxState,
       meta,

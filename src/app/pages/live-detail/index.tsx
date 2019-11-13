@@ -50,12 +50,12 @@ export default Shell(function({ setNotFound }: any) {
         var oScript= document.createElement("script");
         oScript.onload = function(){
           resolve(agoraClient(window.AgoraRTC, _id));
-
         }
         oScript.type = "text/javascript";
-        oScript.src = "/agora/AgoraRTCSDK-2.8.0.js";
+        oScript.src = "/agora/AgoraRTCSDK-2.9.0.js";
         oHead.appendChild(oScript);
       } else {
+        // console.log(window.AgoraRTC);
         resolve(agoraClient(window.AgoraRTC, _id));
       }
 
@@ -260,11 +260,12 @@ export default Shell(function({ setNotFound }: any) {
     </div>
 
     <div styleName='right'>
-      <div className="card rounded-right border-left">
+      <div className="card rounded-right border-left-0">
         <div className="card-body p-0">
-          {live.status && showRoom ?
           <TalkRoom liveId={live._id} />
-          : null}
+          {/*live.status && showRoom ?
+          <TalkRoom liveId={live._id} />
+          : null*/}
         </div>
       </div>
     </div>

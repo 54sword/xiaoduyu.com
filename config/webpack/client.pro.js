@@ -39,7 +39,10 @@ const config = {
         '/favicon.png'
       ],
       // 排除不需要缓存的文件
-      excludes: [],
+      excludes: [
+        '../server/index.ejs',
+        '../server/app-shell.ejs'
+      ],
       // 排除不需要缓存的路径
       // https://github.com/NekR/offline-plugin/issues/167
       cacheMaps: [

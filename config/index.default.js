@@ -32,7 +32,7 @@ let config = {
   // [必填] https://github.com/css-modules/css-modules
   classScopedName: '[hash:base64:5]',
   
-  // 客户端打包后(dist/client/*)静态资源的前缀域名
+  // [选填] 客户端打包后(dist/client/*)静态资源的前缀域名
   publicPath: '',
 
   api: {
@@ -63,9 +63,9 @@ let config = {
   
   // 社交账号登陆，需api支持
   social: {
-    weibo: true,
+    weibo: false,
     qq: true,
-    github: true,
+    github: false,
     wechat: false
   },
   
@@ -83,6 +83,7 @@ let config = {
   // [选填] 添加分析统计脚本
   analysisScript: ``,
 
+  // [必填] 
   qiniu: {
     // 七牛上传地址
     uploadUrl: {
@@ -102,7 +103,8 @@ let config = {
       height: 60
     }
   },
-
+  
+  // 直播功能，暂时关闭，请勿打开
   agora: {
     appid: ''
   }

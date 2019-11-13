@@ -1,15 +1,9 @@
-
 import graphql from '../../common/graphql';
 import loadList from '../utils/new-graphql-load-list';
-// import loadList from '../../common/graphql-load-list';
-
-// import { readSession } from '../session';
 
 import { dateDiff } from '../../common/date';
 import { sendNotification } from './website';
 import { getUserInfo } from '../reducers/user';
-
-// import loadList from '../../common/new-graphql-load-list';
 
 export const loadMessageList = loadList({
   reducerName: 'message',

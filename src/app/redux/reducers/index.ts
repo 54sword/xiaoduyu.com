@@ -18,7 +18,6 @@ import message from './message';
 import session from './session';
 import clientInstalled from './client-installed';
 import live from './live';
-// import ad from './ad';
 
 export default {
   scroll,
@@ -41,5 +40,4 @@ export default {
   session,
   clientInstalled,
   live
-  // ad
 }

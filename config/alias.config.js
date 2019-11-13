@@ -1,4 +1,5 @@
 module.exports = {
   '@app': 'src/app',
-  '@config': 'config/'
+  '@config': 'config/',
+  '@src': 'src/'
 }

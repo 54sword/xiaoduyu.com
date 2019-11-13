@@ -27,6 +27,5 @@ node_modules
 dist
 other
 config/index.js
+config/server.config.js
 *.DS_Store
-upload-to-qiniu.js
-update.sh

@@ -1,8 +1,7 @@
 @media (min-width: 0px) and (max-width: 767px) {
-  .item{
-
-    padding-left:60px;
   
+  .item{
+    padding-left:60px;
     .item-head{
       .avatar{
         img{
@@ -12,9 +11,8 @@
         }
       }
     }
-
   }
-
+  
   .reply-list{
     > div{
       padding-left: 45px;
@@ -26,4 +24,5 @@
       margin-right:15px;
     }
   }
+
 }
