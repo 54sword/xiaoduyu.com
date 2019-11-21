@@ -2,7 +2,7 @@ import storage from '../../common/storage';
 
 import { dateDiff } from '../../common/date';
 import Device from '../../common/device';
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 import To from '../../common/to';
 
 import loadList from '../utils/new-graphql-load-list';

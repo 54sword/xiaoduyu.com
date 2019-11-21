@@ -1,7 +1,7 @@
 import sm from 'sitemap';
 import fs from 'fs';
 
-import graphql from '@app/common/graphql';
+import graphql from '@app/redux/utils/graphql';
 import { domainName, debug } from '@config';
 
 const createSitemap = function(fileName: string, urls: Array<any>) {

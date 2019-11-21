@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 import { removeUnlockToken } from './unlock-token';
 import * as globalData from '../../common/global-data';
 

@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 import { getPostsListById } from '../reducers/posts';
 
 // 查询是否有新动态，用于小红点提醒

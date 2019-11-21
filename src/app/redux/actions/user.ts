@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 
 function setUser(userinfo: any) {
   return { type: 'SET_USER', userinfo }

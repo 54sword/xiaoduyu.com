@@ -1,5 +1,5 @@
 
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 
 /**
  * [添加] 验证码

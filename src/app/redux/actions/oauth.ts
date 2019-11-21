@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 
 export const oAuthUnbinding = ({ args }: { args: any }) => {
   return (dispatch: any, getState: any) => {

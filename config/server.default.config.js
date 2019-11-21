@@ -14,7 +14,7 @@ module.exports = {
   PM2_NAME: 'www',
   // 项目路径
   SERVER_DIR: '/root/wwwroot/www',
-  
+
   // ==================================================
   // 将静态文件批上传到七牛的配置
   qiniu: {

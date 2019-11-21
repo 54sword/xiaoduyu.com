@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 
 // 登录
 export function exchangeNewToken({ accessToken }: { accessToken: string }) {
