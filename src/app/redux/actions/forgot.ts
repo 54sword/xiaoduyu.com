@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 
 interface Props {
   args: any

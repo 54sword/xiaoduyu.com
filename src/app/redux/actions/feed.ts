@@ -1,5 +1,5 @@
 import { dateDiff } from '../../common/date';
-import Utils from '../../common/utils';
+import Utils from '../utils/html';
 import Device from '../../common/device';
 
 import loadList from '../utils/new-graphql-load-list';

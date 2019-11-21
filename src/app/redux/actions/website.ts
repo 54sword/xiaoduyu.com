@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 
 import * as GlobalData from '../../common/global-data';
 

@@ -1,7 +1,7 @@
 import storage from '../../common/storage';
 import To from '../../common/to';
 
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 
 export const getUnlockToken = ({ args }: { args: any }) => {
   return (dispatch: any, getState: any) => {

@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from './graphql';
 
 interface FnParams {
   // 储存在readucer的名称

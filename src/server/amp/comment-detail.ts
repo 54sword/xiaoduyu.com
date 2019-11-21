@@ -2,8 +2,10 @@ import cache from '../cache';
 import { name, domainName, AMP, favicon, googleAdSense } from '@config';
 
 // tools
-import utils from '@app/common/utils';
-import graphql from '@app/common/graphql';
+// import utils from '@app/common/utils';
+// import utils from '@app/common/utils';
+import utils from '@app/redux/utils/html';
+import graphql from '@app/redux/utils/graphql';
 import { dateDiff } from '@app/common/date';
 
 const { abstractImagesFromHTML } = utils;

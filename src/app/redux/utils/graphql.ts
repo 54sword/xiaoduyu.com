@@ -3,12 +3,13 @@
 // import { InMemoryCache } from 'apollo-cache-inmemory';
 // import gql from 'graphql-tag';
 // import fetch from "node-fetch";
+import axios from 'axios'
 
 import { api } from '@config';
 import featureConfig from '@config/feature.config';
 
-import To from './to';
-import Ajax from './ajax';
+import To from '@app/common/to';
+// import Ajax from './ajax';
 
 
 /*
@@ -88,8 +89,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis, multi
 
   return To(new Promise(async (resolve, reject)=>{
 
-     // 储存 cookie
-     let [ err, data ] = await Ajax({
+    let option: any = {
       url: __SERVER__ && api.graphql.server ? api.graphql.server : api.graphql.client,
       method: 'post',
       headers,
@@ -100,7 +100,35 @@ export default async ({ type = 'query', headers = {}, cache = false, apis, multi
           ${sql}
         }`
       }
-    });
+    }
+
+    let [ err, data ]: any = await new Promise(resolve=>{
+      
+      axios(option)
+      .then(resp => {
+        if (resp && resp.data) {
+          let res = resp.data
+          resolve([null, res])
+        } else {
+          resolve(['return none'])
+        }
+      })
+      .catch(function(error) {
+        
+        if (error.message) {
+          resolve([error.message])
+        } else if (error.response && error.response.data) {
+          resolve([error.response.data])
+        } else {
+          resolve(['return error'])
+        }
+        
+      })
+
+    })
+
+     // 储存 cookie
+    //  let [ err, data ] = await Ajax();
 
     if (featureConfig.apiLog) {
       console.log('### request api');

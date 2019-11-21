@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 
 const fn = (api: string) => {
   return ({ args = {}, fields = `success` }) => {

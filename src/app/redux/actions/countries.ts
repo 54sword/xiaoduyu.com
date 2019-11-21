@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 
 // 获取国家
 export function loadCountries() {

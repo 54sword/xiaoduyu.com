@@ -1,4 +1,4 @@
-import graphql from '../../common/graphql';
+import graphql from '../utils/graphql';
 import loadList from '../utils/new-graphql-load-list';
 
 export const findFollows = loadList({
