@@ -52,6 +52,7 @@ const config = {
             if (url.pathname.indexOf('/app/') === 0 ||
               url.pathname.indexOf('/sitemap/') === 0 ||
               url.pathname.indexOf('/amp/') === 0 ||
+              url.pathname.indexOf('/apple-app-site-association') === 0 ||
               /(.*)\.(.*)$/.test(url.pathname)
             ) {
               return new URL('/', location);
