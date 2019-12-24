@@ -29,6 +29,7 @@ module.exports = {
     app: [
       '@babel/polyfill',
 
+      /*
       // bootstrap
       'bootstrap/dist/css/bootstrap.min.css',
       'jquery',
@@ -37,30 +38,29 @@ module.exports = {
 
       // https://github.com/apvarun/toastify-js
       // Toastify 全局的轻消息
-      './src/app/vendors/toastify-js/toastify.js',
-      './src/app/vendors/toastify-js/toastify.css',
+      './src/client/vendors/toastify-js/toastify.js',
+      './src/client/vendors/toastify-js/toastify.css',
       
       // 网页图片浏览器
       // WebPictureViewer(['https://avatars3.githubusercontent.com/u/888115?v=3&s=40']);
-      './src/app/vendors/web-picture-viewer.js',
+      './src/client/vendors/web-picture-viewer.js',
 
       // ArriveFooter 监听抵达页尾的事件
-      './src/app/vendors/arrive-footer.js',
+      './src/client/vendors/arrive-footer.js',
       
-      './src/app/vendors/float-fixed.js',
+      './src/client/vendors/float-fixed.js',
 
-      /**
-       * 懒加载图片、Dom
-       * 使用方式
-       * 给dom添加class="load-demand"、data-load-demand="<div></div> or <img />"
-       **/
-      './src/app/vendors/load-demand',
+      // 懒加载图片、Dom
+      // 使用方式
+      // 给dom添加class="load-demand"、data-load-demand="<div></div> or <img />"
+      './src/client/vendors/load-demand',
 
       'highlight.js/styles/github.css',
       'github-markdown-css/github-markdown.css',
 
       'jquery-toast-plugin/dist/jquery.toast.min.css',
       'jquery-toast-plugin/dist/jquery.toast.min.js',
+      */
 
       './src/client/index'
     ]
@@ -91,8 +91,8 @@ module.exports = {
         },
         commons: {
           name: 'vendor',
-          test: /[\\/]node_modules[\\/]/,
-          chunks: 'all'
+          test: /[\\/]node_modules[\\/]/
+          // chunks: 'all'
         }
       }
     }

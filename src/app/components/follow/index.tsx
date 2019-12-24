@@ -77,11 +77,16 @@ export default function({
 
     _unfollow({ args }).then(function([err,res]: any){
       if (err) {
-        Toastify({
+
+        $.toast({
           text: err,
-          duration: 3000,
-          backgroundColor: 'linear-gradient(to right, #0988fe, #1c75fb)'
-        }).showToast();
+          position: 'top-center',
+          showHideTransition: 'slide',
+          icon: 'error',
+          loader: false,
+          allowToastClose: false
+        });
+
       }
     });
 

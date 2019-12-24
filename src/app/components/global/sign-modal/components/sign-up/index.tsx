@@ -48,11 +48,14 @@ export default function () {
       if (!$captcha.value) return $captcha.focus();
       if (!$password.value) return $password.focus();
       if (!$male.checked && !$female.checked) {
-        Toastify({
+        $.toast({
           text: '请选择性别',
-          duration: 3000,
-          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-        }).showToast();
+          position: 'top-center',
+          showHideTransition: 'slide',
+          icon: 'warning',
+          loader: false,
+          allowToastClose: false
+        });
         return;
       }
 
@@ -69,11 +72,14 @@ export default function () {
       } else {
 
         if (!areaCode) {
-          Toastify({
+          $.toast({
             text: '请选择手机区号',
-            duration: 3000,
-            backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-          }).showToast();
+            position: 'top-center',
+            showHideTransition: 'slide',
+            icon: 'warning',
+            loader: false,
+            allowToastClose: false
+          });
           return;
         }
 
@@ -87,19 +93,26 @@ export default function () {
       [ err, res ] = result;
 
       if (err) {
-        Toastify({
+        $.toast({
           text: err && err.message ? err.message : err,
-          duration: 3000,
-          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-        }).showToast();
+          position: 'top-center',
+          showHideTransition: 'slide',
+          icon: 'error',
+          loader: false,
+          allowToastClose: false
+        });
         if (test) reject(err);
         return;
       } else {
-        Toastify({
+        
+        $.toast({
           text: '注册成功',
-          duration: 3000,
-          backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-        }).showToast();       
+          position: 'top-center',
+          showHideTransition: 'slide',
+          icon: 'success',
+          loader: false,
+          allowToastClose: false
+        });
 
         if (location.search == '?from=google-ads' && gtag) {
           // google 注册转化统计

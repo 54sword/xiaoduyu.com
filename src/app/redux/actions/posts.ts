@@ -89,23 +89,28 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
 
 interface AddPosts {
   title: string,
-  detail: string,
-  detailHTML: string,
+  contentHTML: string,
   topicId: string,
   device: number,
   type: number
 }
 
 // 添加问题
-export function addPosts({ title, detail, detailHTML, topicId, device, type }: AddPosts) {
+export function addPosts({ title, contentHTML, topicId, device, type }: AddPosts) {
   return (dispatch: any, getState: any) => {
   return new Promise(async resolve => {
-
+    
     let [ err, res ] = await graphql({
       type: 'mutation',
       apis: [{
         api: 'addPosts',
-        args: { title, content: detail, content_html: detailHTML, topic_id: topicId, device_id: device, type },
+        args: {
+          title,
+          content_html: encodeURIComponent(contentHTML),
+          topic_id: topicId,
+          device_id: device,
+          type
+        },
         fields: `
         success
         _id
@@ -272,20 +277,18 @@ export function viewPostsById({ id }: { id: string}) {
 interface UpdatePosts {
   id: string
   title: string
-  detail: string
-  detailHTML: string
+  contentHTML: string
   topicId: string
-  topicName: string
 }
 
-export function updatePosts({ id, title, detail, detailHTML, topicId, topicName }: UpdatePosts) {
+export function updatePosts({ id, title, contentHTML, topicId }: UpdatePosts) {
   return async (dispatch: any, getState: any) => {
   return new Promise(async (resolve, reject) => {
 
     let args: any = {
-      _id: id, title, content: detail, content_html: detailHTML, topic_id: topicId
+      _id: id, title, content_html: encodeURIComponent(contentHTML), topic_id: topicId
     }
-
+    
     let [ err, res ] = await graphql({
       type: 'mutation',
       apis: [{

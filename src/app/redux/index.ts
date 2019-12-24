@@ -32,9 +32,9 @@ export default function configureStore(initialState = {}) {
     });
   }
   */
-  
-  // react native 需要订阅redux更新
-  // store.subscribe(subscribe(store));
+
+    // react native 需要订阅redux更新
+    // store.subscribe(subscribe(store));
 
   return store;
 }

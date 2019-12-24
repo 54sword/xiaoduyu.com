@@ -151,7 +151,7 @@ const loadList = function(dispatch: any, getState: any) {
         list.count = 1;
         data = res;
       }
-  
+      
       if (err) {
         list.loading = false;
         resolve([ null, list ]);

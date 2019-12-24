@@ -1,0 +1,22 @@
+@media (min-width: 0px) and (max-width: 450px) {
+  .box{
+    padding:10px 15px 10px 70px;
+  
+    .avatar, .avatar > img{
+      width: 45px;
+      height: 45px;
+    }
+    .avatar{
+      position: absolute;
+      margin-left: -55px;
+    }
+    .heat{
+      margin-left:10px;
+    }
+  }
+
+  .title{
+    font-size: 15px;
+  }
+
+}

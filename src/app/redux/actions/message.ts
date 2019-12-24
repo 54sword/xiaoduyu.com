@@ -67,8 +67,8 @@ export const addMessage = ({ addressee_id, type, content, content_html, device }
           args: {
             addressee_id,
             type,
-            content,
-            content_html,
+            // content,
+            content_html: encodeURIComponent(content_html),
             device
           },
           fields: `success`
@@ -100,10 +100,10 @@ export const addMessagesToList = ({ sessionId, messageId }: AddMessagesToList) =
         }
       })(dispatch, getState).then(([err, res]: any)=>{
         
-        let message = res.data[0];
+        let message = res && res.data ? res.data[0] : null;
         const me = getUserInfo(getState());
 
-        if (me._id == message.addressee_id._id) {
+        if (message && me._id == message.addressee_id._id) {
           
           let body = message.content_html;
 

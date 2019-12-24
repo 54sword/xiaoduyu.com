@@ -54,11 +54,14 @@ export default function() {
 
     if (res && res.success) {
 
-      Toastify({
+      $.toast({
         text: '手机号绑定成功',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'success',
+        loader: false,
+        allowToastClose: false
+      });
 
       _loadUserInfo({});
 
@@ -66,11 +69,14 @@ export default function() {
 
     } else {
 
-      Toastify({
+      $.toast({
         text: err && err.message ? err.message : err,
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
 
     }
 

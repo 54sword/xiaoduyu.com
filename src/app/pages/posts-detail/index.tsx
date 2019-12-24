@@ -149,6 +149,8 @@ const PostsDetail = function({ setNotFound }: any) {
       </div>
 
     </div>
+    
+    <div></div>
 
     <div>
 

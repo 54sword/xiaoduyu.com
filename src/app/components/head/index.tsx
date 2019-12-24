@@ -174,7 +174,7 @@ export default function() {
               key={_id}
               href={topic_id ? `/topic/${topic_id}` : '/'}
               styleName={`nav-item ${tab === _id && location.pathname == '/' ? 'active': ''}`}
-              className={tab === _id && location.pathname == '/' ? 'text-primary': 'text-dark'}
+              className={tab === _id && location.pathname == '/' ? 'text-primary': 'text-secondary'}
               onClick={onClickTopicLink(_id)}
               >
                 {name}

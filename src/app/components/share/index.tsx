@@ -49,12 +49,15 @@ export default function({ posts, comment, live, styleType }:Props) {
     element[0].select();
     document.execCommand("Copy");
     element.remove();
-
-    Toastify({
+    
+    $.toast({
       text: '复制成功',
-      duration: 3000,
-      backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-    }).showToast();
+      position: 'top-center',
+      showHideTransition: 'slide',
+      icon: 'success',
+      loader: false,
+      allowToastClose: false
+    });
   }
 
   const shareToWeibo = function() {

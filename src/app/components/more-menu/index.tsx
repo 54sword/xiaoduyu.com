@@ -59,28 +59,37 @@ export default function({  user, posts, comment, children }: Props) {
     } else if (comment) {
       args.comment_id = comment._id;
     } else {
-      Toastify({
+      $.toast({
         text: '缺少资源',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
       return
     }
 
     let [ err, res ] = await _addBlock({ args });
 
     if (res && res.success) {
-      Toastify({
+      $.toast({
         text: '屏蔽成功',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'success',
+        loader: false,
+        allowToastClose: false
+      });
     } else if (err && err.message) {
-      Toastify({
+      $.toast({
         text: err.message,
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
     }
 
   }

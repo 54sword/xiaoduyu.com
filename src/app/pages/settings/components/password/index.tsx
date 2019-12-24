@@ -46,11 +46,15 @@ export default function() {
     setLoading(false);
 
     if (res && res.success) {
-      Toastify({
+
+      $.toast({
         text: '密码修改成功',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #18c31a, #14a22f)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'success',
+        loader: false,
+        allowToastClose: false
+      });
 
       $newPassword.value = '';
       $confirmNewPassword.value = '';
@@ -58,11 +62,15 @@ export default function() {
       setShow(false);
 
     } else {
-      Toastify({
+
+      $.toast({
         text: err,
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
     }
 
   }

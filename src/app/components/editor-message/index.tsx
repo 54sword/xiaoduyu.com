@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // common
 import storage from '@app/common/storage';
 
-// reudx
+// redux
 import { useStore } from 'react-redux';
 import { addMessage } from '@app/redux/actions/message';
 
@@ -18,145 +18,132 @@ import './styles/index.scss';
 
 interface Props {
   addressee_id: string,
-  placeholder: string,
-  successCallback: ()=>void
-  getEditor: (s: object)=>void
+  placeholder: string
 }
 
 export default function({
-  addressee_id,
-  placeholder = '请输入...',
-  successCallback = ()=>{},
-  getEditor = (s)=>{}
+  addressee_id = '',
+  placeholder = '写评论...'
 }: Props) {
 
-  const [ contentJSON, setContentJSON ] = useState('');
+  const [ controller, setController ] = useState(null);
   const [ contentHTML, setContentHTML ] = useState('');
-  const [ content, setContent ] = useState(<div></div>,);
-  const [ editor, setEditor ] = useState(null);
-  const [ showFooter, setShowFooter ] = useState(false);
-  const [ submitting, setSubmitting ] = useState(false);
 
   const store = useStore();
   const _addMessage = (args: object) => addMessage(args)(store.dispatch, store.getState);
 
   const submit = async function() {
+    return new Promise(async (resolve)=>{
 
-    if (submitting) return
-    if (!contentJSON) return editor.focus()
+    let html = decodeURIComponent(contentHTML);
+    
+    html = html.replace(/<img(.*)>/g,"1");
+    html = html.replace(/<[^>]+>/g,"");
+    html = html.replace(/(^\s*)|(\s*$)/g, "");
 
-    if (contentHTML.indexOf('<img src="">') != -1) {
-      Toastify({
-        text: '有图片上传中，请等待上传完成后再提交',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #0988fe, #1c75fb)'
-      }).showToast();
+    if (!html) {
+      controller.focus();
+      resolve();
       return;
     }
 
-    setSubmitting(true);
+    /*
+    // 判断是否为空
+    let str = html.replace(/\s/ig,'');
+        html = html.replace(/<[^>]+>/g, '');
+        html = html.replace(/\r\n/g, ''); 
+        html = html.replace(/\n/g, '');
+        str = html.replace(/\&nbsp\;/ig,'');
 
+    if (!str) {
+      controller.focus();
+      resolve();
+      return;
+    }
+
+    if (html.indexOf('<img src="">') != -1) {
+      $.toast({
+        text: '有图片上传中，请等待上传完成后再提交',
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'warning',
+        loader: false,
+        allowToastClose: false
+      });
+      return;
+    }
+    */
+
+      
     let [ err, res ] = await _addMessage({
-      addressee_id: addressee_id,
-      type: 1,
-      content: contentJSON,
-      content_html: contentHTML,
-      device: Device.getCurrentDeviceId()
-    });
-
-    setSubmitting(false);
+        addressee_id: addressee_id,
+        type: 1,
+        content_html: contentHTML,
+        device: Device.getCurrentDeviceId()
+      });
 
     if (!err) {
-
-      setContent(<div key={new Date().getTime()}>
-      <Editor
-        syncContent={syncContent}
-        content={''}
-        getEditor={(editor: any)=>{
-          setEditor(editor);
-          // self.setState({ editor })
-          getEditor(editor)
-        }}
-        displayControls={true}
-        />
-      </div>);
-
-      syncContent('', '');
-      successCallback();
+      syncContent('');
+      controller.clearContent();
     } else if (err) {
-      Toastify({
+
+      $.toast({
         text: err.message,
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
+      
     }
 
+    resolve()
+
+    })
   }
 
-  const syncContent = async function(contentJSON: string, contentHTML: string) {
+  const syncContent = async function(contentHTML: string) {
 
-    setContentJSON(contentJSON);
     setContentHTML(contentHTML);
 
-    if (!showFooter && contentJSON) {
-      setShowFooter(true);
-    }
-
-    let commentsDraft = await storage.load({ key: 'comments-draft' });
+    let commentsDraft = await storage.load({ key: 'comment-draft' }) || {};
     
-    // 只保留最新的10条草稿
-    // let index = []
-    // for (let i in commentsDraft) index.push(i)
-    // if (index.length > 10) delete commentsDraft[index[0]]
-
-    commentsDraft[addressee_id] = contentJSON
-
-    storage.save({
-      key: 'comments-draft',
-      data: commentsDraft
-    });
+    if (!commentsDraft || typeof commentsDraft != 'object') commentsDraft = {};
+    
+    commentsDraft[addressee_id] = contentHTML;
+    
+    storage.save({ key: 'comment-draft', data: commentsDraft });
   }
 
-  const componentsDidMount = async function() {
+  let onEditorLoad = async function(controller: any) {
+    let editComment =  '';
 
     // 从缓存中获取，评论草稿
     let commentsDraft: any = {};
     
     try {
-      commentsDraft = await storage.load({ key: 'comments-draft' }) || {};
+      commentsDraft = await storage.load({ key: 'comment-draft' }) || {};
     } catch (err) {
       commentsDraft = {}
-      console.log(err);
     }
 
-    let params = {
-      content: commentsDraft[addressee_id] || '',
-      syncContent: syncContent,
-      getEditor:(editor: object)=>{
-        setEditor(editor);
-        getEditor(editor);
-      },
-      displayControls: true,
-      placeholder
-      // getCheckUpload: (checkUpload) =>{
-      //   self.checkUpload = checkUpload;
-      // }
-    }
+    controller.innterHTML(editComment || commentsDraft[addressee_id] || '')
 
-    setContent(<Editor {...params} />)
+    setContentHTML(editComment || commentsDraft[addressee_id] || '');
+
+    setController(controller);
   }
 
-  useEffect(()=>{
-    componentsDidMount();
-  }, []);
-
-  return (<div styleName="box">
-      <div styleName="content">{content}</div>
-      {showFooter ?
-        <div styleName="footer">
-          <button onClick={submit} type="button" className="btn btn-primary rounded-pill btn-sm pl-3 pr-3">{submitting ? '提交中...' : '提交'}</button>
-        </div>
-        : null}
-    </div>)
-
+  return (
+    <div styleName="content">
+      <Editor
+        onChange={syncContent}
+        onSubmit={submit}
+        placeholder={placeholder}
+        onLoad={onEditorLoad}
+        />
+    </div>
+  )
+  
 }

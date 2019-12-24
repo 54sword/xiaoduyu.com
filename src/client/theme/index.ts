@@ -1,5 +1,7 @@
-import { getSunrise, getSunset } from 'sunrise-sunset-js';
-import { getLocation } from '@app/common/location';
+// import { getSunrise, getSunset } from 'sunrise-sunset-js';
+// import { getLocation } from '@app/common/location';
+
+import './global.scss';
 
 export default async function(userinfo: any) {
 
@@ -8,6 +10,7 @@ export default async function(userinfo: any) {
   if (!userinfo || userinfo && userinfo.theme == 0) {
 
     let res: any;
+
     /*
     try {
       res = await getLocation();
@@ -15,7 +18,7 @@ export default async function(userinfo: any) {
       console.log(err);
     }
     */
-
+    /*
     if (res && res.latitude && res.longitude) {
       // 日落后的2.5个小时，启动夜间主题
       const darkTime = new Date(getSunset(res.latitude, res.longitude)).getTime() + 1000 * 60 * 2.5;
@@ -23,12 +26,13 @@ export default async function(userinfo: any) {
         night = true;
       }
     } else {
+    */
       let hours = new Date().getHours();
       // console.log(hours);
       if (hours >= 21 || hours <= 6) {
         night = true;
       }
-    }
+    // }
 
   }
 

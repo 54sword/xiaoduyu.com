@@ -37,7 +37,11 @@ export const loadSessionList = loadList({
         item.last_message._create_at = dateDiff(item.last_message.create_at);
 
         if (item.last_message.content_html) {
-          let text = item.last_message.content_html.replace(/<[^>]+>/g,"");
+          let text = item.last_message.content_html;
+          
+          text = text.replace(/<img(.*?)>/g,"[图片]");
+          
+          text = text.replace(/<[^>]+>/g,"");
           if (text.length > 200) text = text.slice(0, 200)+'...';
           item.last_message.content_summary = text;
         } else {

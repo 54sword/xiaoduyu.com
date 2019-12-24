@@ -425,7 +425,7 @@ const image = (html: any) => {
 
       // img = encodeURIComponent(img);
 
-      html = html.replace(new RegExp(_img,"gm"), '<div onclick=\"webPictureViewer('+allImage+','+index+');\">'+img+'</div>');
+      html = html.replace(new RegExp(_img,"gm"), '<span onclick=\"webPictureViewer('+allImage+','+index+');\">'+img+'</span>');
       // html = html.replace(new RegExp(_img,"gm"), '<div onclick=\"webPictureViewer('+allImage+','+index+');\" class=\"load-demand\" data-load-demand=\''+img+'\'></div>');
     })
   }

@@ -34,11 +34,14 @@ export default function() {
 
         await _loadUserInfo({});
 
-        Toastify({
+        $.toast({
           text: '解除成功',
-          duration: 3000,
-          backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-        }).showToast();
+          position: 'top-center',
+          showHideTransition: 'slide',
+          icon: 'success',
+          loader: false,
+          allowToastClose: false
+        });
 
       }
 

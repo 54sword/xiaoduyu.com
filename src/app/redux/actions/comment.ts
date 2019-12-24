@@ -108,7 +108,7 @@ interface AddComment {
   forward: boolean
 }
 
-export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, forward }: AddComment) {
+export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, forward = false }: AddComment) {
   return (dispatch: any, getState: any) => {
 
     let accessToken = getState().user.accessToken;
@@ -127,8 +127,8 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
             posts_id,
             parent_id,
             reply_id,
-            content: contentJSON,
-            content_html: contentHTML,
+            // content: contentJSON,
+            content_html: encodeURIComponent(contentHTML),
             device: deviceId,
             forward
           },
@@ -319,6 +319,8 @@ export function loadMoreReply({ postsId, commentId }: { postsId: string, comment
 export function updateComment(filters: any) {
   return (dispatch: any, getState: any) => {
   return new Promise(async (resolve) => {
+    
+    if (filters.content_html) filters.content_html = encodeURIComponent(filters.content_html)
     
     let [ err, res ] = await graphql({
       type: 'mutation',

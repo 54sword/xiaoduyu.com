@@ -51,11 +51,15 @@ export default function() {
 
     if (!type) {
 
-      Toastify({
+      $.toast({
         text: '请选择举报类型',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
+
       return
 
     }
@@ -73,11 +77,16 @@ export default function() {
     } else if (user) {
       data.people_id = user._id;
     } else {
-      Toastify({
+
+      $.toast({
         text: '举报目标不存在',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
+
       return
     }
 
@@ -93,19 +102,25 @@ export default function() {
 
     if (err) {
 
-      Toastify({
+      $.toast({
         text: err.message,
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
 
     } else {
 
-      Toastify({
+      $.toast({
         text: '提交成功',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'success',
+        loader: false,
+        allowToastClose: false
+      });
 
       $(`#report`).modal('hide');
 
