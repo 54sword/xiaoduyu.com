@@ -37,6 +37,13 @@ export default (state = cloneObj(initialState), action: Actions) => {
         })
       }
       break;
+      
+    case 'CLEAN_MESSAGE':
+      return {};
+
+    case 'CLEAN':
+      state = {};
+      break;
 
     default:
       return state;

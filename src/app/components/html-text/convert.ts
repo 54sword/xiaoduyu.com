@@ -453,7 +453,7 @@ const trimHtml = function(html:string): string {
   }
 
   // 删除所有换行符
-  html = html.replace(/([\r\n])/g,"");
+  // html = html.replace(/([\r\n])/g,"");
 
 
   let arr = html.split('<p><br></p>'); 
@@ -498,7 +498,9 @@ export default (html: string) => {
 
   if (!html) return '';
 
-  html = trimHtml(html);
+  html = html.replace(/([\r\n])/g,"<br>");
+
+  // html = trimHtml(html);
   html = music163(html);
   html = youku(html);
   html = bilibili(html);

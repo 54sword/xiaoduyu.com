@@ -22,6 +22,9 @@ export default function(AgoraRTC: any, channel: string) {
   // 创建客户端
   client.init(agora.appid, function () {
 
+    // console.log(channel_key);
+    // console.log(channel);
+
     // 加入频道
     client.join(channel_key, channel, null, function(uid: string) {
       

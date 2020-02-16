@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { getUserInfo } from '@app/redux/reducers/user';
 
 // components
-import Follow from '@app/components/follow';
+import Follow from '@app/components/follow/button';
 
 import './styles/index.scss';
 

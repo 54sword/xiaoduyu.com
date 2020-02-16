@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './styles/index.scss';
 
-import Follow from '@app/components/follow';
+import Follow from '@app/components/follow/button';
 
 interface Props {
   people: {

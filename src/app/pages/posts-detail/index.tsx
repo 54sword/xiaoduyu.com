@@ -27,6 +27,7 @@ import EditorComment from '@app/components/editor-comment';
 import Loading from '@app/components/ui/loading';
 import Follow from '@app/components/follow';
 import SendMessage from '@app/components/send-message';
+import FollowPeople from '@app/components/follow/button';
 
 // layout
 import TwoColumns from '@app/layout/two-columns';
@@ -89,7 +90,7 @@ const PostsDetail = function({ setNotFound }: any) {
   if (loading || !posts) {
     return (<div className="text-center"><Loading /></div>);
   }
-  
+
   return (
     <TwoColumns>
       
@@ -155,8 +156,11 @@ const PostsDetail = function({ setNotFound }: any) {
     <div>
 
       <div className="card">
+        <div styleName="user-cover" style={posts.user_id.user_cover ? {
+          backgroundImage: `url(${posts.user_id.user_cover}?imageView2/2/w/400/auto-orient/format/jpg)`
+          } : null}></div>
         <div className="card-body">
-
+          
           <div styleName="author-info">
             <Link to={`/people/${posts.user_id._id}`} className="text-dark">
               <img styleName="avatar" src={posts.user_id.avatar_url} />
@@ -164,7 +168,8 @@ const PostsDetail = function({ setNotFound }: any) {
             </Link>
             <div styleName="brief"><small>{posts.user_id.brief || ""}</small></div>
             <div className="mt-2">
-              <Follow user={posts.user_id} />
+              {/* <Follow user={posts.user_id} /> */}
+              <FollowPeople user={posts.user_id} />
               <SendMessage people_id={posts.user_id._id} className="btn btn-outline-primary btn-sm rounded-pill ml-3" />
             </div>
           </div>

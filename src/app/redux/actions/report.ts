@@ -30,6 +30,10 @@ export function addReport({ data }: { data: any }) {
   return (dispatch: any, getState: any) => {
     return new Promise(async (resolve, reject) => {
 
+      if (data.detail) {
+        data.detail = encodeURIComponent(data.detail)
+      }
+
       let [ err, res ] = await graphql({
         type: 'mutation',
         headers: { accessToken: getState().user.accessToken },

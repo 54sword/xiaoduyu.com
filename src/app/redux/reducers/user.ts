@@ -36,6 +36,16 @@ export default (state = cloneObj(initialState), action: Actions) => {
       if (action.unlockToken) state.unlockToken = action.unlockToken
       break;
 
+    case 'CLEAN':
+      state = {
+        userInfo: null,
+        accessToken: '',
+        expires: 0,
+        // 身份验证后，获取的解锁token
+        unlockToken: ''
+      }
+      break;
+
     default:
       return state
   }

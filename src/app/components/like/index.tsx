@@ -13,11 +13,12 @@ import './styles/index.scss';
 interface Props {
   comment: any,
   posts: any,
-  reply: any
+  reply: any,
+  styleType: string
   // displayNumber: boolean
 }
 
-export default function({ comment, posts, reply }: Props) {
+export default function({ comment, posts, reply, styleType = 'text' }: Props) {
 
   const [ loading, setLoading ] = useState(false);
 
@@ -117,8 +118,28 @@ export default function({ comment, posts, reply }: Props) {
 
   }  
 
-  return (<span onClick={handleLike} className="a text-secondary">
-    {target.like ? '已赞' : '赞'}
-  </span>)
+  if (styleType == 'text') {
+    return (<span onClick={handleLike} className="a text-secondary">
+      {target.like ? '已赞' : '赞'}
+    </span>)
+  }
 
+  if (styleType == 'icon') {
+    return (<span styleName="icon-button">
+      <svg
+        width="20px"
+        height="20px"
+        stroke="currentColor"
+        strokeWidth={1.8}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+        >
+        <use xlinkHref="/feather-sprite.svg#thumbs-up" />
+      </svg>
+      {target.like_count || ''}
+    </span>)
+  }
+
+  return null;
 }

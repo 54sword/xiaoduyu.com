@@ -6,23 +6,20 @@ import { follow, unfollow } from '@app/redux/actions/follow';
 import { getUserInfo } from '@app/redux/reducers/user';
 
 // style
-import './styles/index.scss';
+// import './styles/index.scss';
 
 interface Props {
   posts?: any,
   user?: any,
   topic?: any,
-  className?:string
-  // 活跃
-  activeClassName?:string
+  children?: any
 }
 
 export default function({
   posts,
   user,
   topic,
-  className = 'btn btn-outline-primary btn-sm rounded-pill',
-  activeClassName = 'btn btn-outline-secondary btn-sm rounded-pill'
+  children
 }: Props) {
 
   let target = posts || user || topic;
@@ -92,38 +89,18 @@ export default function({
 
   }
 
-  let text = '关注';
-  let icon = (<svg
-    width="15px"
-    height="15px"
-    stroke="currentColor"
-    strokeWidth={1.8}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    fill="none"
-    className="mr-1"
-    >
-    <use xlinkHref="/feather-sprite.svg#plus" />
-  </svg>)
-
-  if (posts) {
-    text = '收藏';
-    icon = null;
-  }
-
-  if (target.follow) {
-    icon = null;
-  }
 
   if (!me) {
-    return <span className={className} data-toggle="modal" data-target="#sign" onClick={stopPropagation}>{icon}{text}</span>
+    return (<span data-toggle="modal" data-target="#sign" onClick={stopPropagation}>
+      {children}
+      </span>)
   } else if (target.follow) {
-    return (<span className={activeClassName} onClick={handleUnfollow}>
-      {icon}正在{text}
+    return (<span onClick={handleUnfollow}>
+      {children}
     </span>)
   } else {
-    return (<span className={className} onClick={handleFollow}>
-      {icon}{text}
+    return (<span onClick={handleFollow}>
+      {children}
     </span>)
   }
   

@@ -22,10 +22,10 @@ var device: any = (function() {
         2: '',
         3: '',
         4: '',
-        5: '',
-        6: '',
-        7: '通过 App iPhone 客户端',
-        8: '通过 App Android 客户端'
+        5: '来自 iPhone',
+        6: '来自 Android',
+        7: `来自 <a href="https://www.xiaoduyu.com/app/xiaoduyu/" target="_blank" class="text-muted" >iPhone客户端</a>`,
+        8: `来自 <a href="https://www.xiaoduyu.com/app/xiaoduyu/" target="_blank" class="text-muted" >Android客户端</a>`
       }
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "xiaoduyu.com",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "小度鱼 - 年轻人的交流社区",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./scripts/develop.js",

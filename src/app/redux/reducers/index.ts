@@ -18,6 +18,8 @@ import message from './message';
 import session from './session';
 import clientInstalled from './client-installed';
 import live from './live';
+import links from './links';
+import like from './like';
 
 export default {
   scroll,
@@ -39,5 +41,7 @@ export default {
   message,
   session,
   clientInstalled,
-  live
+  live,
+  links,
+  like
 }

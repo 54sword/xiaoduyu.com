@@ -177,5 +177,44 @@
   overflow: hidden;
 }
 
+.like-bar{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:50%;
+
+  display:tabel;
+
+  > span{
+    margin-left:13px;
+    display:tabel-cell; vertical-align:middle;
+  }
+  
+}
+
+.control-bar{
+  // display: inline;
+  height: 25px;
+  line-height: 25px;
+  > * {
+    margin-left:13px;
+  }
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+  // margin-bottom:10px;
+  // svg {
+  //   margin:0 0 0 15px;
+  //   width: 18px;
+  //   height: 18px;
+  //   stroke: currentColor;
+  //   stroke-width: 1.5;
+  //   stroke-linecap: round;
+  //   stroke-linejoin: round;
+  //   fill: none;
+  // }
+}
+
 @import './response', './dark';
 

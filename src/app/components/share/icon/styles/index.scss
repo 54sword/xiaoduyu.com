@@ -1,0 +1,28 @@
+.inactive{
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  &:hover{
+    stroke: #0084ff;
+  }
+  &:active{
+    opacity:.5;
+  }
+}
+
+.active{
+  width: 20px;
+  height: 20px;
+  stroke: #0084ff;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: #0084ff;
+  &:active{
+    opacity:.5;
+  }
+}

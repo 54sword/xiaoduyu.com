@@ -13,9 +13,10 @@ interface Props {
   comment?: any,
   live?: any,
   styleType?: string
+  children?: any
 }
 
-export default function({ posts, comment, live, styleType }:Props) {
+export default function({ posts, comment, live, styleType, children }:Props) {
  
   // const { location, match } = useReactRouter();
 
@@ -158,7 +159,11 @@ export default function({ posts, comment, live, styleType }:Props) {
   //  onClick={this.stopPropagation}
   return (<div styleName="container">
 
-    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className="a text-secondary">分享</span>
+    {/* <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className="a text-secondary">分享</span> */}
+
+    <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className="a text-secondary">
+      {children ? children : '分享'}
+    </span>
 
     <div>
       <div className="dropdown-menu" aria-labelledby="share-dropdown">

@@ -1,42 +1,34 @@
-
-/**
- * 友情链接
- */
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useStore, useSelector } from 'react-redux';
+import { loadLinkListById } from '@app/redux/actions/links';
+import { getLinkListById } from '@app/redux/reducers/links';
+
 type item = { name: string, domain: string, description: string, recommend?: boolean }
-let cache:Array<item> = [];
 
-export default function() {
+const Links = function() {
 
-  const [ links, setLinks ] = useState(cache);
+  const store = useStore();
+  const links = useSelector((state: any)=>getLinkListById(state, 'recommend'));
 
-  useEffect(()=>{
+  const componentsDidMount = async () => {
 
-    if (cache.length == 0) {
-      
-      $.ajax({
-        url: '/links.json',
-        type: 'get',
-        dataType:"json",
-        async:false,
-        success: (res: Array<item>) => {
-          setLinks(res);
-          cache = res;
-        }
-      });
-
+    if (!links) {
+      await loadLinkListById('recommend')(store.dispatch, store.getState);
     }
 
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
     })
-    
+
+  }
+
+  useEffect(()=>{
+    componentsDidMount();
   }, []);
 
-  if (!links.length) return null;
+  if (!links || !links.length) return null;
   
   return(
     <div className="card">
@@ -44,7 +36,7 @@ export default function() {
       <div className="card-body row">
         {links.map((item: item)=>{
           if (!item.recommend) return null;
-          return (<div key={item.domain} className="col-6">
+          return (<div key={item.domain} className="col-6 mb-1">
             <a href={item.domain} className="text-dark" target="_blank" data-toggle="tooltip" data-placement="top" title={item.description || item.name}>
               {item.name}
             </a>
@@ -59,3 +51,12 @@ export default function() {
   )
 
 }
+
+Links.loadDataOnServer = async ({ store, match, res, req, user }: any) => {
+
+  if (user) return;
+
+  await loadLinkListById('recommend')(store.dispatch, store.getState);
+}
+
+export default Links;

@@ -37,6 +37,13 @@ export default (state = cloneObj(initialState), action: Actions) => {
       if (commentId) state.comments[commentId] = total;
       break;
 
+    case 'CLEAN':
+      state = {
+        posts: {},
+        comments: {}
+      };
+      break;
+
     default:
       return state;
   }

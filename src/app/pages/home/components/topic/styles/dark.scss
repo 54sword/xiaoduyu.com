@@ -1,0 +1,14 @@
+:global(#dark-theme) {
+
+  .child-topic{
+    a{
+      background-color:#272829;
+      color:#656a70;
+      &:hover{
+        background-color:#343536;
+        color:#71767d;
+      }
+    }
+  }
+
+}

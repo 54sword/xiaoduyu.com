@@ -91,7 +91,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis, multi
 
     let url = config.api.graphql.client;
 
-    // if (typeof __SERVER__ != 'undefined' && config.api.graphql.server) {
+    // if (typeof __SERVER__ != undefined && config.api.graphql.server) {
     //   url = config.api.graphql.server;
     // }
 
@@ -119,6 +119,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis, multi
         }
       })
       .catch(function(error) {        
+        console.log(error);
         if (error.response && error.response.data) {
           resolve(error.response.data)
         } else if (error.message) {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Follow from '@app/components/follow';
+import Follow from '@app/components/follow/button';
 import SendMessage from '@app/components/send-message';
 import MoreMenu from '@app/components/more-menu';
 

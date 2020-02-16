@@ -10,6 +10,7 @@ const check = (url: string, callback: any) => {
 export function checkClientInstalled() {
   return (dispatch: any, getState: any) => {
     
+    /*
     check('weibo://', (result: any)=>{
       if (result) dispatch({ type: 'HAS_CLIENT_INSTALLED', name: 'weibo' })
     })
@@ -21,6 +22,7 @@ export function checkClientInstalled() {
     check('weixin://', (result: any)=>{
       if (result) dispatch({ type: 'HAS_CLIENT_INSTALLED', name: 'weixin' })
     })
+    */
 
   }
 }

@@ -31,7 +31,7 @@ export default ({ topic }: any) => {
         {topic.children && topic.children.length > 0 ?
           <div styleName="child-topic">
             {topic.children.map(({ _id, name }: { _id: string, name: string })=>{
-              return <Link key={_id} to={`/topic/${_id}`} className="text-dark">{name}</Link>
+              return <Link key={_id} to={`/topic/${_id}`}>{name}</Link>
             })}
           </div>
           : null}

@@ -127,58 +127,43 @@ const Editor = ({ onChange = ()=>{}, onSubmit, content, placeholder, editorStyle
       })
     }
 
+    // editorRef.current.addEventListener("copy", function (e: any){
+    //   // console.log(e);
+
+    //   var content = window.getSelection();
+    //   console.log(content)
+    // })
+
+
     editorRef.current.addEventListener("paste", function (e: any){
 
       var content;
       e.preventDefault();
 
-      if ( e.clipboardData ) {
-        content = e.clipboardData.getData('text/plain');
-
-        // console.log(encodeURIComponent(content).split('%0A'));
-        /*
-        encodeURIComponent(content).split('%0A').map(item=>{
-          // innterHTML(decodeURIComponent(item));
-          document.execCommand('insertText', false, decodeURIComponent(item));
-          
-          if (!item) {
-            // document.execCommand('insertHTML', false, '<br>');
-            // innterHTML('<br>');
-          } else {
-            document.execCommand('insertText', false, decodeURIComponent(item));
-            document.execCommand('insertHTML', false, '<br>');
-          }
-          
-          // document.execCommand('insertHTML', false, '<br>');
-          // innterHTML('<br>');
-        });
-        */
-
-        // console.log('----');
-        // console.log(content);
-        // console.log(encodeURIComponent(content));
-        // 删除换行符
-        // content = content.replace(/\r\n/g, '<br>'); 
-        // content = content.replace(/\n/g, '<br>');
-
-        // innterHTML(content);
-
-        // https://developer.mozilla.org/en-US/docs/Web/API/document/execCommand#Commands
-        document.execCommand('insertText', false, content);
+      var clipboardData = window.clipboardData; //for IE   
+      if (!clipboardData) { // for chrome   
+        clipboardData = e.clipboardData;  
       }
-      /*
-      else if( window.clipboardData ) {
-        content = window.clipboardData.getData('Text');
-        // 删除换行符
-        // content = content.replace(/\r\n/g, ''); 
-        // content = content.replace(/\n/g, '');
 
-        // innterHTML(content);
-        if (window.getSelection) {
-          window.getSelection().getRangeAt(0).insertNode( document.createTextNode(content) );
-        }
+      //兼容写法，优先取 files
+      if(clipboardData.files && clipboardData.files.length > 0){
+        // mapFile(clipboardData.files);
+        // return ;
       }
-      */
+
+      if (clipboardData.items && clipboardData.items.length > 0) {
+        // mapFile(clipboardData.items);
+        // return ;
+      }
+
+      content = clipboardData.getData('text/plain');
+
+      // https://developer.mozilla.org/en-US/docs/Web/API/document/execCommand#Commands
+      document.execCommand('insertText', false, content);
+
+      // content = content.replace(/<[^>]+>/g,"");
+      // content = clipboardData.getData('text/html');
+      // document.execCommand('insertHTML', false, content);
 
     });
 

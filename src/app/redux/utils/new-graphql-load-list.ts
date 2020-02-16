@@ -67,6 +67,7 @@ const loadList = function(dispatch: any, getState: any) {
           accessToken = state.user.accessToken || '';
   
       // 让列表重新开始
+      // if (restart) list = { data: list ? list.data : [] };
       if (restart) list = {};
       
       // 正在加载中
@@ -157,6 +158,9 @@ const loadList = function(dispatch: any, getState: any) {
         resolve([ null, list ]);
         return
       }
+
+      // 清空旧数据
+      // if (restart) list.data = [];
 
       data = JSON.parse(JSON.stringify(data));
       let _data = processList(data, { dispatch, getState }, id);

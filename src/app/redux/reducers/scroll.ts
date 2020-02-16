@@ -44,7 +44,11 @@ export default (state = cloneObj(initialState), action: Actions) => {
           // }
         // });
       // }
-      break
+      break;
+
+    case 'CLEAN':
+      state = {};
+      break;
 
   }
 

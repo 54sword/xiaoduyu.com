@@ -133,6 +133,7 @@ export default function({ comment, postsAuthorId }: Props) {
               <Link to={`/comment/${comment._id}`} className="text-muted">{comment._create_at}</Link>
               : <span className="text-muted">{comment._create_at}</span>}
             {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
+            {comment._device ? <span dangerouslySetInnerHTML={{__html:comment._device}}></span> : null}
           </div>
   
           <div styleName="actions" className="text-secondary">

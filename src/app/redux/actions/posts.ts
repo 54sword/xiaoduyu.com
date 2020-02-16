@@ -105,7 +105,7 @@ export function addPosts({ title, contentHTML, topicId, device, type }: AddPosts
       apis: [{
         api: 'addPosts',
         args: {
-          title,
+          title: encodeURIComponent(title),
           content_html: encodeURIComponent(contentHTML),
           topic_id: topicId,
           device_id: device,
@@ -164,6 +164,7 @@ export const loadPostsList = loadList({
     fans_count
     follow_people_count
     follow
+    user_cover
   }
   verify
   view_count
@@ -392,9 +393,9 @@ const imageOptimization = (str: string) => {
     if (oldImgDom) {
 
       let _img = oldImgDom.match(srcReg);
-
+      
       if (_img && _img[1] && _img[1].indexOf('xiaoduyu.com') != -1) {
-        let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/800/auto-orient/format/jpg');
+        let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/680/auto-orient/format/jpg');
         str = str.replace(oldImgDom, newImg);
       }
 
