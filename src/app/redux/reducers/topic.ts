@@ -24,7 +24,7 @@ export default (state = cloneObj(initialState), action: Actions) => {
     case 'SET_TOPICS':
       state = action.state;
       break;
-
+      
     case 'SET_TOPIC_LIST_BY_ID':
       var { name, data } = action;
       if (name && data) state[name] = data;
@@ -68,6 +68,10 @@ export default (state = cloneObj(initialState), action: Actions) => {
 
       }
 
+      break;
+
+    case 'CLEAN':
+      state = {};
       break;
 
     default:

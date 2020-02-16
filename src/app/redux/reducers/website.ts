@@ -87,6 +87,12 @@ export default (state = cloneObj(initialState), action: Actions) => {
       }
       break;
 
+    case 'CLEAN':
+      state.unreadNotice = [];
+      state.tab = 'home';
+      state.topicTab = '';
+      break;
+
     default:
       return state
   }

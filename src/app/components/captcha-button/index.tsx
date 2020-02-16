@@ -50,14 +50,18 @@ export default function({ onClick }: Props) {
     })
     .catch(async (err: any)=>{
       callback(false);
-      if (Toastify) {
-        Toastify({
-          text: err.message,
-          duration: 3000,
-          backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-        }).showToast();
-        loading = false;
-      }
+
+      $.toast({
+        text: err.message,
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
+
+      loading = false;
+
     })
   }
 

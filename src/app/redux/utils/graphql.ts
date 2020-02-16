@@ -5,7 +5,7 @@
 // import fetch from "node-fetch";
 import axios from 'axios'
 
-import { api } from '@config';
+import config from '@config';
 import featureConfig from '@config/feature.config';
 
 import To from '@app/common/to';
@@ -89,8 +89,14 @@ export default async ({ type = 'query', headers = {}, cache = false, apis, multi
 
   return To(new Promise(async (resolve, reject)=>{
 
+    let url = config.api.graphql.client;
+
+    // if (typeof __SERVER__ != undefined && config.api.graphql.server) {
+    //   url = config.api.graphql.server;
+    // }
+
     let option: any = {
-      url: __SERVER__ && api.graphql.server ? api.graphql.server : api.graphql.client,
+      url,
       method: 'post',
       headers,
       data: {
@@ -102,6 +108,83 @@ export default async ({ type = 'query', headers = {}, cache = false, apis, multi
       }
     }
 
+    let result: { data?: any, errors?: Array<{ message: string }> } = await new Promise(resolve=>{
+      
+      axios(option)
+      .then(resp => {
+        if (resp && resp.data) {
+          resolve(resp.data)
+        } else {
+          resolve({ errors: [{ message: 'return none' }] })
+        }
+      })
+      .catch(function(error) {        
+        console.log(error);
+        if (error.response && error.response.data) {
+          resolve(error.response.data)
+        } else if (error.message) {
+          resolve({ errors: [{ message: error.message }] })
+        } else {
+          resolve({ errors: [{ message: 'return none' }] })
+        }
+      });
+      
+    });
+    
+    // 打印出graphql的请求日志
+    if (featureConfig.apiLog) {
+      console.log(`${type}{
+        ${sql}
+      }`);
+      console.log(result);
+    }
+
+    // 正确结果
+    if (result && !result.errors) {
+      // 如果只有一个api，那么直接返回结果
+      if (apis.length == 1 && !multiple) {
+        resolve(result.data[apis[0].aliases || apis[0].api]);
+      } else {
+        resolve(result.data);
+      }
+    } 
+    // 错误结果
+    else if (result && result.errors) {
+
+      // 如果有graphql错误，返回graphql的错误
+      if (result.errors.length != 0) {
+        result.errors.map((item: object)=>{
+          item = converterErrorInfo(item);
+        });
+        reject(result.errors[0]);
+      } else {
+
+        if (console.error) {
+          console.error('GraphQL request error');
+          console.error(`${type}{
+            ${sql}
+          }`);
+          console.error(result.errors);
+        }
+
+        // 其他错误
+        reject({
+          'message': JSON.stringify(result.errors)
+        });
+      }
+    }
+    // 未知结果
+    else {
+      if (console.error) {
+        console.error('GraphQL API 请求发生未知的错误');
+        console.error(`${type}{
+          ${sql}
+        }`);
+        console.error(result);
+      }
+    }
+
+    /*
     let [ err, data ]: any = await new Promise(resolve=>{
       
       axios(option)
@@ -113,22 +196,17 @@ export default async ({ type = 'query', headers = {}, cache = false, apis, multi
           resolve(['return none'])
         }
       })
-      .catch(function(error) {
-        
-        if (error.message) {
-          resolve([error.message])
-        } else if (error.response && error.response.data) {
-          resolve([error.response.data])
+      .catch(function(error) {        
+        if (error.response && error.response.data) {
+          resolve([null, error.response.data])
+        } else if (error.message) {
+          resolve([error.message])  
         } else {
           resolve(['return error'])
         }
-        
-      })
+      });
 
-    })
-
-     // 储存 cookie
-    //  let [ err, data ] = await Ajax();
+    });
 
     if (featureConfig.apiLog) {
       console.log('### request api');
@@ -139,8 +217,7 @@ export default async ({ type = 'query', headers = {}, cache = false, apis, multi
       console.log(data);
     }
 
-    // console.log(err)
-    // console.log(data);
+
 
     if (data && !data.errors) {
       // 如果只有一个api，那么直接返回结果
@@ -158,17 +235,35 @@ export default async ({ type = 'query', headers = {}, cache = false, apis, multi
         });
         reject(data.errors[0]);
       } else {
+
+        if (console.error) {
+          console.error('GraphQL request error');
+          console.error(`${type}{
+            ${sql}
+          }`);
+          console.error(data.errors);
+        }
+
         // 其他错误
         reject({
           'message':data.errors || '未知错误'
         });
       }
     } else {
-      console.log(err);
+
+      if (console.error) {
+        console.error('GraphQL request error');
+        console.error(`${type}{
+          ${sql}
+        }`);
+        console.error(err);
+      }
+
       reject({
-        'message': '未知错误'
+        'message': err || '未知错误'
       });
     }
+    */
 
   }));
 

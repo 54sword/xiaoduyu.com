@@ -10,6 +10,7 @@ interface Props {
   multiple?: boolean,
   beforeUpload?: (s:object)=>void,
   upload?: (url: string, s:object)=>void,
+  accept?: string
   // onDrop: (files:object)=>void,
   // onUpload: (file:object)=>void
 }
@@ -20,6 +21,7 @@ export default function({
   multiple = true,
   beforeUpload = ()=>{},
   upload = ()=>{},
+  accept = "image/gif, image/jpeg, image/png"
   // onDrop = (files)=>{},
   // onUpload = (file)=>{}
 }: Props) {
@@ -65,7 +67,7 @@ export default function({
       // onDrop={this.onDrop}
       // size={100}
       multiple={multiple}
-      accept="image/*"
+      accept={accept}
       token={token}
       // uploadKey={this.state.uploadKey}
       // maxSize="1Mb"

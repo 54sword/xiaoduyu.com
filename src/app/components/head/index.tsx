@@ -174,7 +174,7 @@ export default function() {
               key={_id}
               href={topic_id ? `/topic/${topic_id}` : '/'}
               styleName={`nav-item ${tab === _id && location.pathname == '/' ? 'active': ''}`}
-              className={tab === _id && location.pathname == '/' ? 'text-primary': 'text-dark'}
+              className={tab === _id && location.pathname == '/' ? 'text-primary': 'text-secondary'}
               onClick={onClickTopicLink(_id)}
               >
                 {name}
@@ -216,7 +216,7 @@ export default function() {
           </>
           :
           <div className="d-flex flex-row">
-            <a href="https://www.xiaoduyu.com/app/xiaoduyu/" target="_blank" styleName="nav-item" className="a text-dark d-block d-lg-none">下载</a>
+            {/* <a href="https://www.xiaoduyu.com/app/xiaoduyu/" target="_blank" styleName="nav-item" className="a text-dark d-block d-lg-none">下载</a> */}
             <span data-toggle="modal" data-target="#sign" data-type="sign-up" styleName="nav-item" className="a text-dark">注册账号</span>
             <span data-toggle="modal" data-target="#sign" data-type="sign-in" styleName="nav-item" className="a text-dark">登录</span>
           </div>}

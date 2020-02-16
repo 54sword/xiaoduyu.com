@@ -89,23 +89,28 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
 
 interface AddPosts {
   title: string,
-  detail: string,
-  detailHTML: string,
+  contentHTML: string,
   topicId: string,
   device: number,
   type: number
 }
 
 // 添加问题
-export function addPosts({ title, detail, detailHTML, topicId, device, type }: AddPosts) {
+export function addPosts({ title, contentHTML, topicId, device, type }: AddPosts) {
   return (dispatch: any, getState: any) => {
   return new Promise(async resolve => {
-
+    
     let [ err, res ] = await graphql({
       type: 'mutation',
       apis: [{
         api: 'addPosts',
-        args: { title, content: detail, content_html: detailHTML, topic_id: topicId, device_id: device, type },
+        args: {
+          title: encodeURIComponent(title),
+          content_html: encodeURIComponent(contentHTML),
+          topic_id: topicId,
+          device_id: device,
+          type
+        },
         fields: `
         success
         _id
@@ -159,6 +164,7 @@ export const loadPostsList = loadList({
     fans_count
     follow_people_count
     follow
+    user_cover
   }
   verify
   view_count
@@ -272,20 +278,18 @@ export function viewPostsById({ id }: { id: string}) {
 interface UpdatePosts {
   id: string
   title: string
-  detail: string
-  detailHTML: string
+  contentHTML: string
   topicId: string
-  topicName: string
 }
 
-export function updatePosts({ id, title, detail, detailHTML, topicId, topicName }: UpdatePosts) {
+export function updatePosts({ id, title, contentHTML, topicId }: UpdatePosts) {
   return async (dispatch: any, getState: any) => {
   return new Promise(async (resolve, reject) => {
 
     let args: any = {
-      _id: id, title, content: detail, content_html: detailHTML, topic_id: topicId
+      _id: id, title, content_html: encodeURIComponent(contentHTML), topic_id: topicId
     }
-
+    
     let [ err, res ] = await graphql({
       type: 'mutation',
       apis: [{
@@ -389,9 +393,9 @@ const imageOptimization = (str: string) => {
     if (oldImgDom) {
 
       let _img = oldImgDom.match(srcReg);
-
+      
       if (_img && _img[1] && _img[1].indexOf('xiaoduyu.com') != -1) {
-        let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/800/auto-orient/format/jpg');
+        let newImg = oldImgDom.replace(_img[1], _img[1]+'?imageView2/2/w/680/auto-orient/format/jpg');
         str = str.replace(oldImgDom, newImg);
       }
 

@@ -69,7 +69,27 @@ export default function({ comment, postsAuthorId }: Props) {
             <b styleName="nickname">{comment.user_id.nickname}</b>
             {postsAuthorId && comment.user_id._id == postsAuthorId ? <small> (楼主)</small> : null}
           </Link>
-          {!parent && reply_user && reply_user._id != comment.user_id._id ||
+
+          {reply_user && comment.user_id._id != reply_user._id
+            ? <span className="text-muted">
+              <span className="ml-1 mr-1">回复了</span>
+              {/* <svg
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="ml-1 mr-1"
+                >
+                <use xlinkHref="/feather-sprite.svg#chevron-right"/>
+              </svg> */}
+              <Link to={`/people/${reply_user._id}`} onClick={stopPropagation} className="text-dark"><b styleName="nickname">{reply_user.nickname}</b></Link>
+              </span>
+          : null}
+
+          {/* {!parent && reply_user && reply_user._id != comment.user_id._id ||
             parent && reply_user && parent.user_id._id != reply_user._id
             ? <span className="text-muted">
               <svg
@@ -86,7 +106,7 @@ export default function({ comment, postsAuthorId }: Props) {
               </svg>
               <Link to={`/people/${reply_user._id}`} onClick={stopPropagation} className="text-dark"><b styleName="nickname">{reply_user.nickname}</b></Link>
               </span>
-          : null}
+          : null} */}
           
           {/* {!comment.parent_id ?
               <Link to={`/comment/${comment._id}`} className="text-muted ml-2"><small>{comment._create_at}</small></Link>
@@ -113,6 +133,7 @@ export default function({ comment, postsAuthorId }: Props) {
               <Link to={`/comment/${comment._id}`} className="text-muted">{comment._create_at}</Link>
               : <span className="text-muted">{comment._create_at}</span>}
             {comment.like_count ? <span>{comment.like_count} 人赞</span> : null}
+            {comment._device ? <span dangerouslySetInnerHTML={{__html:comment._device}}></span> : null}
           </div>
   
           <div styleName="actions" className="text-secondary">

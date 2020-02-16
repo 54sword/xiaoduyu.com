@@ -1,83 +1,66 @@
+// 载入客户端全局的依赖包
+
+// https://getbootstrap.com
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+import 'jquery';
+import 'popper.js';
+
+// 轻消息
+// https://github.com/kamranahmedse/jquery-toast-plugin
+import 'jquery-toast-plugin/dist/jquery.toast.min.css';
+import 'jquery-toast-plugin/dist/jquery.toast.min.js';
+
+// 网页图片浏览器
+// WebPictureViewer(['https://avatars3.githubusercontent.com/u/888115?v=3&s=40']);
+import '@src/client/vendors/web-picture-viewer.js';
+
+// ArriveFooter 监听抵达页尾的事件
+import '@src/client/vendors/arrive-footer.js';
+
+// 滚动条超过dom的时候，让它浮动
+// import FloatFixed from 'float-fixed.js'
+// FloatFixed.create({ id, bottomEdgeId, offsetTop })
+import '@src/client/vendors/float-fixed.js';
+
+// 懒加载图片、Dom
+// 使用方式
+// 给dom添加class="load-demand"、data-load-demand="<div></div> or <img />"
+import '@src/client/vendors/load-demand';
+
+import 'highlight.js/styles/github.css';
+import 'github-markdown-css/github-markdown.css';
+
+// =========================================================================
+// =========================================================================
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { matchPath } from 'react-router';
 import ReactGA from 'react-ga';
-// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-import serviceWorker from './service-worker';
+import './service-worker';
+// import serviceWorker from './service-worker';
 
 import configureStore from '@app/redux';
 import createRouter from '@app/router';
 import * as socket from './socket';
 import * as browser from '@app/common/browser';
 
-
 import { GA, analysisScript } from '@config';
 import { debug } from '@config/feature.config';
-// import * as globalData from '@app/common/global-data';
-
-import '../app/theme/global.scss';
 
 import { getUserInfo } from '@app/redux/reducers/user';
 import { initUnlockToken } from '@app/redux/actions/unlock-token';
 import { requestNotificationPermission } from '@app/redux/actions/website';
 import { initHasRead } from '@app/redux/actions/has-read-posts';
 
-import theme from '@app/theme';
+import theme from './theme';
 
 import initData from '@app/init-data';
 
-/*
-// -----------------------------------
-const ServiceWorker = {
-
-  get: function() {
-    return new Promise(resolve=>{
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          resolve(registrations);
-        })
-      } else {
-        resolve(null)
-      }
-    })
-  },
-
-  install: function(){
-    return new Promise(async resolve=>{
-      if (process.env.NODE_ENV != 'development') {
-        await OfflinePluginRuntime.install();
-      }
-      resolve();
-    })
-  },
-
-  uninstall: function(){
-    return new Promise(async resolve=>{
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          for (const registration of registrations) {
-            registration.unregister()
-          }
-          resolve();
-        }).catch(err=>{
-          resolve();
-        })
-      } else {
-        resolve();
-      }
-
-    })
-  }
-
-}
-
-globalData.set('service-worker', ServiceWorker);
-ServiceWorker.install();
-*/
-
-serviceWorker.install();
+// serviceWorker.install();
 
 (async function(){
 

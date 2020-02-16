@@ -70,12 +70,15 @@ export default function() {
 
       if (err) {
 
-        if (typeof Toastify != 'undefined') {
-          Toastify({
+        if (typeof $.toast != 'undefined') {
+          $.toast({
             text: err,
-            duration: 3000,
-            backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-          }).showToast();
+            position: 'top-center',
+            showHideTransition: 'slide',
+            icon: 'error',
+            loader: false,
+            allowToastClose: false
+          });
         }
 
         await getCaptcha();

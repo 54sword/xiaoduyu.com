@@ -67,8 +67,8 @@ export const addMessage = ({ addressee_id, type, content, content_html, device }
           args: {
             addressee_id,
             type,
-            content,
-            content_html,
+            // content,
+            content_html: encodeURIComponent(content_html),
             device
           },
           fields: `success`
@@ -100,10 +100,10 @@ export const addMessagesToList = ({ sessionId, messageId }: AddMessagesToList) =
         }
       })(dispatch, getState).then(([err, res]: any)=>{
         
-        let message = res.data[0];
+        let message = res && res.data ? res.data[0] : null;
         const me = getUserInfo(getState());
 
-        if (me._id == message.addressee_id._id) {
+        if (message && me._id == message.addressee_id._id) {
           
           let body = message.content_html;
 
@@ -130,29 +130,20 @@ export const addMessagesToList = ({ sessionId, messageId }: AddMessagesToList) =
 
         let list = getState().message[sessionId];
 
-        if (list && list.data) {
+        // console.log(list);
+        // console.log('====5');
+        // console.log(message);
+
+        if (list && list.data && message) {
           
-          list.data.push(res.data[0]);
+
+          list.data.push(message);
 
           dispatch({
             type: 'SET_MESSAGE_LIST_BY_ID',
             name: sessionId,
             data: list
           });
-
-          /*
-          // 如果当前页面是对话消息页面，并且会话相同，则设置session已读状态
-          let router = navigatorService.getCurrentRoute();
-
-          if (router && router.routeName == "sessionsDetail" &&
-              router.params.id == sessionId
-          ) {
-            readSession({
-              _id: router.params.id
-            })(dispatch, getState);
-          }
-          */
-             
 
         }
 

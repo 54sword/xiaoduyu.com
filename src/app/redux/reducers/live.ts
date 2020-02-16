@@ -32,6 +32,10 @@ export default (state = cloneObj(initialState), action: Actions) => {
       if (action.id) state[action.id].data[0].audience_count += -1;
       break;
 
+    case 'CLEAN':
+      state = {};
+      break;
+
     default:
       return state;
   }

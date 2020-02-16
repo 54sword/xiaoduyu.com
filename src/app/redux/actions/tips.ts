@@ -3,7 +3,8 @@ import { getPostsListById } from '../reducers/posts';
 
 // 查询是否有新动态，用于小红点提醒
 export function loadTips (type?: 'discover' | 'notification' | 'favorite' | 'new-feed' | 'new-session') {
-  return async (dispatch: any, getState: any) => {
+  return (dispatch: any, getState: any) => {
+  return new Promise (async (resolve) => {
 
     let user = getState().user;
     let userInfo = user.userInfo;
@@ -20,7 +21,11 @@ export function loadTips (type?: 'discover' | 'notification' | 'favorite' | 'new
           weaken: false,
           page_size:1
         },
-        fields: `sort_by_date`
+        // 为了获取最新的数据，这里增加like让其不从缓存读取数据
+        fields: `
+          like
+          sort_by_date
+        `
       })
     }
 
@@ -91,7 +96,7 @@ export function loadTips (type?: 'discover' | 'notification' | 'favorite' | 'new
       if (res['home']) {
         let homePostsList = getPostsListById(getState(), 'home');
         let posts = homePostsList && homePostsList.data && homePostsList.data[0] ? homePostsList.data[0] : null;
-        
+
         if (posts && res['home'][0] &&
           posts.sort_by_date &&
           new Date(posts.sort_by_date).getTime() < new Date(res['home'][0].sort_by_date).getTime()
@@ -137,5 +142,8 @@ export function loadTips (type?: 'discover' | 'notification' | 'favorite' | 'new
 
     }
 
+    resolve();
+  
+  })
   }
 }

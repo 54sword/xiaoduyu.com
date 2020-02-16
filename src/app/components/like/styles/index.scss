@@ -27,3 +27,20 @@
   margin-top:-16px;
   margin-left:-16px;
 }
+
+.icon-button{
+  border: 1px solid #efefef;
+  width: 77px;
+  height: 45px;
+  padding:0 15px 0 40px;
+  line-height: 45px;
+  display: inline-block;
+  border-radius: 25px;
+  background-color: #efefef;
+  font-size:16px;
+  > svg{
+    position: absolute;
+    margin-left:-25px;
+    margin-top:12px;
+  }
+}

@@ -47,4 +47,4 @@ const ServiceWorker = {
 export default ServiceWorker;
 
 globalData.set('service-worker', ServiceWorker);
-// ServiceWorker.install();
+ServiceWorker.install();

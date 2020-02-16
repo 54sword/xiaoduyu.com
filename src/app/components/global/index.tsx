@@ -11,15 +11,17 @@ import ReportModal from './report-modal';
 import BindingPhone from './binding-phone-modal';
 import UnlockToken from './unlock-token-modal';
 import BackToTop from './back-to-top';
+import AppDownload from './app-download';
 
 export default function() {
   
   const me = useSelector((state: object)=>getUserInfo(state));
 
-  if (!me) return <SignModal />;
+  // if (!me) return <SignModal />;
 
   return (<>
     <BackToTop />
+    <AppDownload />
     {!me ?
       <SignModal /> :
       <>

@@ -52,7 +52,7 @@ module.exports = {
   },
 
   optimization: {
-    minimize: false,//devMode ? false : true
+    minimize: true,//devMode ? false : true
   },
 
   module: {

@@ -43,17 +43,26 @@ export default function() {
     [ err ] = result;
 
     if (err) {
-      Toastify({
+
+      $.toast({
         text: err.message,
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
+
     } else {
-      Toastify({
+
+      $.toast({
         text: '修改成功',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #50c64a, #40aa33)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'success',
+        loader: false,
+        allowToastClose: false
+      });
 
       _loadUserInfo({});
       

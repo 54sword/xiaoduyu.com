@@ -21,6 +21,10 @@ export default (state = cloneObj(initialState), action: Actions) => {
       if (id && data) state[id] = data;
       break;
 
+    case 'CLEAN':
+      state = {};
+      break;
+
     default:
       return state;
   }

@@ -1,0 +1,22 @@
+.container{
+  position: fixed;
+  bottom:0px;
+  left:0px;
+  width:100%;
+  padding:10px;
+  background-color: rgba(0,0,0,.8);
+  z-index: 999;
+}
+
+@supports (-webkit-backdrop-filter:blur(18px)) {
+  .container{
+    backdrop-filter: saturate(180%) blur(18px);
+    background-color: rgba(0,0,0,0.55);
+    border-bottom: none;
+  }
+}
+
+.x{
+  color:#fff;
+  padding:10px 10px 10px 15px;
+}

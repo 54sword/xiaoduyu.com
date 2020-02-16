@@ -26,6 +26,10 @@ export default (state = cloneObj(initialState), action: Actions) => {
       if (action.id) state[action.id] = action.status;
       break;
 
+    case 'CLEAN':
+      state = {};
+      break;
+
     default:
       return state
   }
@@ -35,3 +39,4 @@ export default (state = cloneObj(initialState), action: Actions) => {
 }
 
 export const getTipsById = (state: any, id: string) => state.tips[id] || false
+export const getAllTips = (state: any) => state.tips

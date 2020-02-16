@@ -44,6 +44,7 @@ declare module 'sunrise-sunset-js'
 declare module '@config'
 declare module '@config/*'
 declare module '@app/*'
+declare module '@src/*'
 
 // https://www.tslang.cn/docs/handbook/jsx.html
 // 去除使用标签的警告
@@ -61,6 +62,7 @@ declare const Toastify: any;
 declare var module: any;
 declare var global: any;
 declare var __SERVER__: any;
+declare var __CLIENT__: any;
 declare var hljs: any;
 declare var adsbygoogle: any;
 declare var FloatFixed: any;
@@ -72,6 +74,8 @@ interface Window {
   module: any
   AgoraRTC: any
   inAppShell: any
+  clipboardData: any
+  getSelection?: any
 }
 
 declare var window: Window;

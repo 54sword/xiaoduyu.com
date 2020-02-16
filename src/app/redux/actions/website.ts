@@ -8,11 +8,13 @@ export function setOnlineUserCount(online: number) {
   }
 }
 
+/*
 export function saveTopicId (topicId: string) {
   return (dispatch: any, getState: any) => {
     dispatch({ type: 'SET_TOPIC_ID', topicId })
   }
 }
+*/
 
 export function saveTab (tab: string) {
   return (dispatch: any, getState: any) => {
@@ -38,6 +40,10 @@ export function requestNotificationPermission () {
 
 export function sendNotification({ content, option }: any) {
   return async (dispatch: any, getState: any) => {
+
+    if (typeof Notification == 'undefined') {
+      return;
+    }
 
     let notification = new Notification(content, option);
 

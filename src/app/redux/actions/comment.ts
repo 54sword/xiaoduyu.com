@@ -100,15 +100,15 @@ const processCommentList = (list: Array<object>) => {
 
 interface AddComment {
   posts_id: string
-  parent_id: string
-  reply_id: string
-  contentJSON: string
+  parent_id?: string
+  reply_id?: string
+  // contentJSON: string
   contentHTML: string
-  deviceId: number
-  forward: boolean
+  deviceId?: number
+  forward?: boolean
 }
 
-export function addComment({ posts_id, parent_id, reply_id, contentJSON, contentHTML, deviceId, forward }: AddComment) {
+export function addComment({ posts_id, parent_id = '', reply_id = '', contentHTML, deviceId, forward = false }: AddComment) {
   return (dispatch: any, getState: any) => {
 
     let accessToken = getState().user.accessToken;
@@ -127,8 +127,8 @@ export function addComment({ posts_id, parent_id, reply_id, contentJSON, content
             posts_id,
             parent_id,
             reply_id,
-            content: contentJSON,
-            content_html: contentHTML,
+            // content: contentJSON,
+            content_html: encodeURIComponent(contentHTML),
             device: deviceId,
             forward
           },
@@ -219,6 +219,7 @@ export const loadCommentList = loadList({
       _id
       nickname
       brief
+      avatar
       avatar_url
     }
     posts_id{
@@ -320,6 +321,8 @@ export function updateComment(filters: any) {
   return (dispatch: any, getState: any) => {
   return new Promise(async (resolve) => {
     
+    if (filters.content_html) filters.content_html = encodeURIComponent(filters.content_html)
+    
     let [ err, res ] = await graphql({
       type: 'mutation',
       apis: [{
@@ -341,7 +344,8 @@ export function updateComment(filters: any) {
 
     dispatch({ type: 'UPDATE_COMMENT', id: _id, update: processCommentList([filters])[0] });
 
-    resolve([null])
+    // resolve([null])
+    resolve([ err, res ])
 
   })
   }

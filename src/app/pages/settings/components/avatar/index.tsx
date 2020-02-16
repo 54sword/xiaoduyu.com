@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // tooles
-import avatarPicker from '@app/vendors/avatar-picker';
+import avatarPicker from '@src/client/vendors/avatar-picker';
 
 // redux
 import { useStore, useSelector } from 'react-redux';
@@ -45,7 +45,12 @@ export default function() {
   }
 
   useEffect(()=>{
-    setFileUpload(<QiniuUploadImage upload={upload} text={'上传头像'} />);
+    setFileUpload(<QiniuUploadImage
+      upload={upload}
+      text={'上传头像'}
+      multiple={false}
+      accept="image/jpeg, image/png"
+      />);
   }, []);
 
   return (

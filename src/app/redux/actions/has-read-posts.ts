@@ -36,7 +36,7 @@ export const addHasRead = ({ postsId, commentId, total }: Props) => {
 
     if (postsId) {
       dispatch({ type: 'ADD_POSTS_HAS_READ', postsId, total });
-      
+
       storage.save({
         key: 'has-read-posts',
         data: JSON.stringify(getState().hasReadPosts.posts),
@@ -51,8 +51,6 @@ export const addHasRead = ({ postsId, commentId, total }: Props) => {
         expires: 1000 * 60 * 60 * 24 * 30
       });
     }
-
-
 
   }
 }

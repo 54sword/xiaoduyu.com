@@ -3,31 +3,25 @@ import graphql from '../utils/graphql';
 // 登录
 export function exchangeNewToken({ accessToken }: { accessToken: string }) {
   return (dispatch: any, getState: any) => {
-  return new Promise(async resolve => {
+  return new Promise(async (resolve, reject) => {
 
-      let [ err, res ] = await graphql({
-        type: 'mutation',
-        apis: [{
-          api: 'exchangeNewToken',
-          args: { token: accessToken },
-          fields: `
-          access_token
-          expires  
-          `
-        }]
-        // headers: { accessToken: getState().user.accessToken }
-      });
+    let [ err, res ] = await graphql({
+      type: 'mutation',
+      apis: [{
+        api: 'exchangeNewToken',
+        args: { token: accessToken },
+        fields: `
+        access_token
+        expires  
+        `
+      }]
+    });
 
-      resolve([err, res])
-  
-      /*
-      return Ajax({
-        url: '/exchange-new-token',
-        type: 'post',
-        headers: { AccessToken: accessToken },
-        callback
-      })
-      */
+    if (err) {
+      reject(err)
+    } else {
+      resolve(res)
+    }
 
   })
   }

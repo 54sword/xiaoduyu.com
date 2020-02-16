@@ -96,7 +96,7 @@ export default function List({
 
     {renderHead ? renderHead({ loadData }) : null}
 
-    {data.map(item=>renderItem(item))}
+    {data.map(renderItem)}
 
     {loading && showPagination ||
       more && scrollLoad ?

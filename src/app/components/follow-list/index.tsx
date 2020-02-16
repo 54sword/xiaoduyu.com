@@ -7,7 +7,7 @@ import { findFollows } from '@app/redux/actions/follow';
 import { getFollowListById } from '@app/redux/reducers/follow';
 
 // components
-import Follow from '@app/components/follow';
+import Follow from '@app/components/follow/button';
 
 // class
 import ListClass from '@app/class/list';

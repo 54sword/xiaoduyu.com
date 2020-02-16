@@ -1,5 +1,7 @@
 import React from 'react';
 
+
+
 import * as globalData from '@app/common/global-data';
 
 // redux
@@ -7,7 +9,7 @@ import { useSelector, useStore } from 'react-redux';
 import { getUserInfo } from '@app/redux/reducers/user';
 import { loadUserInfo, updateUser } from '@app/redux/actions/user';
 
-import switchTheme from '@app/theme';
+import switchTheme from '@src/client/theme';
 
 import lightImage from './styles/images/light.png';
 import darkImage from './styles/images/dark.png';

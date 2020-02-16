@@ -39,14 +39,9 @@ export default function({
   forward = false
 }: Props) {
 
-  const forwardRef = useRef();
-
-  const [ contentJSON, setContentJSON ] = useState('');
+  const [ controller, setController ] = useState(null);
   const [ contentHTML, setContentHTML ] = useState('');
-  const [ content, setContent ] = useState(<div></div>);
-  const [ editor, setEditor ] = useState(null);
-  // const [ showFooter, setShowFooter ] = useState(false);
-  const [ submitting, setSubmitting ] = useState(false);
+  // const [ submitting, setSubmitting ] = useState(false);
 
   const store = useStore();
   const _addComment = (args: object)=>addComment(args)(store.dispatch, store.getState);
@@ -54,12 +49,21 @@ export default function({
   const _loadCommentList = (args: object)=>loadCommentList(args)(store.dispatch, store.getState);
 
   const submit = async function() {
+    return new Promise(async (resolve)=>{
 
-    if (submitting) return;
-    if (!contentJSON) return editor.focus();
+    let html = contentHTML;
 
-    let html = decodeURIComponent(contentHTML);
+    html = html.replace(/<img(.*)>/g,"1");
+    html = html.replace(/<[^>]+>/g,"");
+    html = html.replace(/(^\s*)|(\s*$)/g, "");
 
+    if (!html) {
+      controller.focus();
+      resolve();
+      return;
+    }
+
+    /*
     // 判断是否为空
     let str = html.replace(/\s/ig,'');
         html = html.replace(/<[^>]+>/g, '');
@@ -68,26 +72,31 @@ export default function({
         str = html.replace(/\&nbsp\;/ig,'');
 
     if (!str) {
-      return editor.focus();
-    }
-
-    if (html.indexOf('<img src="">') != -1) {
-      Toastify({
-        text: '有图片上传中，请等待上传完成后再提交',
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #0988fe, #1c75fb)'
-      }).showToast();
+      controller.focus();
+      resolve();
       return;
     }
 
-    setSubmitting(true);
+    if (html.indexOf('<img src="">') != -1) {
+
+      $.toast({
+        text: '有图片上传中，请等待上传完成后再提交',
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'warning',
+        loader: false,
+        allowToastClose: false
+      });
+
+      return;
+    }
+    */
 
     let err, res;
 
     if (_id) {
       [ err, res ] = await _updateComment({
         _id: _id,
-        content: contentJSON,
         content_html: contentHTML
       });
     } else {
@@ -96,64 +105,62 @@ export default function({
         posts_id: posts_id,
         parent_id: parent_id,
         reply_id: reply_id,
-        contentJSON: contentJSON,
         contentHTML: contentHTML,
-        deviceId: Device.getCurrentDeviceId(),
-        forward: forwardRef && forwardRef.current ? forwardRef.current.checked : false
+        deviceId: Device.getCurrentDeviceId()
       });
     }
 
-    setSubmitting(false);
-
     if (!err) {
-
-      setContent(<div key={new Date().getTime()}>
-      <Editor
-        syncContent={syncContent}
-        content={''}
-        getEditor={(editor: object)=>{
-          setEditor(editor);
-          getEditor(editor)
-        }}
-        displayControls={parent_id ? false : true}
-        />
-      </div>);
-
-      syncContent('', '');
+      syncContent('');
       successCallback();
+      controller.clearContent();
     } else if (err) {
-      Toastify({
+
+      $.toast({
         text: err.message,
-        duration: 3000,
-        backgroundColor: 'linear-gradient(to right, #ff6c6c, #f66262)'
-      }).showToast();
+        position: 'top-center',
+        showHideTransition: 'slide',
+        icon: 'error',
+        loader: false,
+        allowToastClose: false
+      });
+
+      if (err &&
+         err.extensions &&
+         err.extensions.code &&
+         err.extensions.code == "BIND_PHONE"
+      ) {
+        setTimeout(()=>{
+          $('#binding-phone').modal({
+            show: true
+          }, {});
+        }, 3000);
+      }
+
     }
 
+    resolve()
+
+    })
   }
 
-  const syncContent = async function(contentJSON: string, contentHTML: string) {
+  const syncContent = async function(contentHTML: string) {
 
-    setContentJSON(contentJSON);
     setContentHTML(contentHTML);
 
-    let commentsDraft = await storage.load({ key: 'comments-draft' }) || {};
-
-    // 只保留最新的10条草稿
-    // let index = []
-    // for (let i in commentsDraft) index.push(i)
-    // if (index.length > 10) delete commentsDraft[index[0]]
-
-    commentsDraft[reply_id || posts_id] = contentJSON;
-
-    storage.save({
-      key: 'comments-draft',
-      data: commentsDraft
-    });
-
+    let commentsDraft = await storage.load({ key: 'comment-draft' }) || {};
+    
+    if (!commentsDraft || typeof commentsDraft != 'object') commentsDraft = {};
+    
+    commentsDraft[reply_id || posts_id] = contentHTML;
+    
+    storage.save({ key: 'comment-draft', data: commentsDraft });
   }
 
-  let run = async function() {
+  let onEditorLoad = async function(controller: any) {
     let editComment =  '';
+
+    // console.log(_id);
 
     // 编辑评论
     if (_id) {
@@ -161,14 +168,15 @@ export default function({
         name: 'edit_'+_id,
         args: { _id },
         fields: `
-          content
+          content_html
           _id
+          blocked
         `,
         restart: true
       });
 
       if (res && res.data && res.data[0]) {
-        editComment = res.data[0].content;
+        editComment = res.data[0].content_html;
       }
 
     }
@@ -177,37 +185,28 @@ export default function({
     let commentsDraft: any = {};
     
     try {
-      commentsDraft = await storage.load({ key: 'comments-draft' }) || {};
+      commentsDraft = await storage.load({ key: 'comment-draft' }) || {};
     } catch (err) {
       commentsDraft = {}
-      console.log(err);
     }
 
-    let params = {
-      content: editComment || commentsDraft[reply_id || posts_id] || '',
-      syncContent: syncContent,
-      getEditor:(editor: object)=>{
-        setEditor(editor)
-        getEditor(editor);
-      },
-      displayControls: true,
-      placeholder
-      // getCheckUpload: (checkUpload) =>{
-      //   self.checkUpload = checkUpload;
-      // }
-    }
+    controller.innterHTML(editComment || commentsDraft[reply_id || posts_id] || '')
 
-    setContent(<Editor {...params} />);
+    setContentHTML(editComment || commentsDraft[reply_id || posts_id] || '');
+
+    setController(controller);
   }
 
-  useEffect(()=>{
-    run();
-    if (forward) $('[data-toggle="tooltip"]').tooltip();
-  }, []);
-
   return (<div>
-    <div styleName="content">{content}</div>
-    <div styleName="footer" className="d-flex justify-content-between align-items-center">
+    <div styleName="content">
+        <Editor
+          onChange={syncContent}
+          onSubmit={submit}
+          placeholder={placeholder}
+          onLoad={onEditorLoad}
+          />
+    </div>
+    {/* <div styleName="footer" className="d-flex justify-content-between align-items-center">
       <div>
         {forward ?
           <label className="m-0">
@@ -219,7 +218,7 @@ export default function({
       <div>
         <button onClick={submit} type="button" className="btn btn-block btn-primary rounded-pill btn-sm pl-3 pr-3">{submitting ? '提交中...' : '提交'}</button>
       </div>
-    </div>
+    </div> */}
   </div>)
   
 }

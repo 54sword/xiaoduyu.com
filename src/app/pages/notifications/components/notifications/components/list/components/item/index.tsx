@@ -64,9 +64,11 @@ export default ({ notification }: Props) => {
         <div styleName="header">
           <Link to={`/people/${notice.sender_id._id}`} className="text-dark">{avatar}{notice.sender_id.nickname}</Link>
           {dateDiff(notice.create_at)} 回复了你的
-          <Link to={`/comment/${notice.comment_id.parent_id._id}`} className="text-dark">
-            {notice.comment_id.reply_id ? notice.comment_id.reply_id.content_trim : notice.comment_id.parent_id.content_trim}
-          </Link>
+          {notice.comment_id.parent_id ?
+            <Link to={`/comment/${notice.comment_id.parent_id._id}`} className="text-dark">
+              {notice.comment_id.reply_id ? notice.comment_id.reply_id.content_trim : notice.comment_id.parent_id.content_trim}
+            </Link>
+            : null}
           {notice.comment_id.reply_id ? '回复' : '评论'}
         </div>
         <div styleName="content">
@@ -87,7 +89,7 @@ export default ({ notification }: Props) => {
         </div>
       </div>)
       break
-
+      
     case 'like-reply':
       let commentId = notice.comment_id.parent_id ? notice.comment_id.parent_id._id : notice.comment_id._id;
       content = (<div>

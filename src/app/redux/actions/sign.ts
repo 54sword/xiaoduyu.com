@@ -95,7 +95,7 @@ export const signIn = ({ data }: { data: any }) => {
 export const signOut = () => {
   return (dispatch: any, getState: any) => {
   // return new Promise(async (resolve, reject) => {
-
+    
     removeUnlockToken()(dispatch, getState);
     
     $.ajax({
