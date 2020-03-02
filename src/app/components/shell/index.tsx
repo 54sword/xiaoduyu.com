@@ -29,7 +29,7 @@ type Props = {
   }
 }
 
-export default function(Component: any) {
+export default function (Component: any) {
 
   const Page = function ({ history, location, match, staticContext }: Props) {
 
@@ -37,8 +37,8 @@ export default function(Component: any) {
     if (typeof window != 'undefined') {
       GlobalData.set('history', useReactRouter().history);
     }
-    
-    const [ notFound, setNotFound ] = useState('');
+
+    const [notFound, setNotFound] = useState('');
 
     const store = useStore();
 
@@ -47,31 +47,31 @@ export default function(Component: any) {
     location.params = search ? parseUrl(search) : {};
 
     useEffect(() => {
-      
+
       // 客户端浏览器设置滚动条位置
-      if (typeof window != 'undefined' && window.location.pathname != '/') {
+      if (pathname != '/') {
         setScrollPosition(pathname + search)(store.dispatch, store.getState);
       }
       
       return () => {
-        if (typeof window != 'undefined') {
-          // 客户端浏览器设置滚动条位置
-          // saveScrollPosition(pathname + search)(store.dispatch, store.getState);
-          // 删除history
-          GlobalData.remove('history');
+        // 客户端浏览器设置滚动条位置
+        if (pathname == '/sessions' || pathname == '/favorite') {
+          saveScrollPosition(pathname)(store.dispatch, store.getState);
         }
+        // 删除history
+        GlobalData.remove('history');
       }
     }, []);
 
     if (notFound) {
       return (<div className="container text-center">{notFound}</div>)
     }
-    
+
     return (<Component match={match} setNotFound={setNotFound} />)
 
   }
 
-  Page.loadDataOnServer = Component.loadDataOnServer || function(){
+  Page.loadDataOnServer = Component.loadDataOnServer || function () {
     return { code: 200 }
   };
 

@@ -120,6 +120,7 @@ const localhost = 'localhost';
 if (process.env.NODE_ENV == 'development' || process.env.NODE_ENV == 'test') {
   config.debug = process.env.NODE_ENV == 'development' ? true : false;
   config.port = 4000;
+  config.domainName = `http://${localhost}:${config.port}`;
   config.classScopedName = '[name]_[local]__[hash:base64:5]';
   config.publicPath = `http://${localhost}:4000`;
   config.api.domain = `http://${localhost}:4000`;

@@ -1,6 +1,7 @@
 .message-container{
-  height: 550px;
+  max-height: 500px;
   padding: 20px;
   overflow-y: auto;
   overflow-x: hidden;
+  box-sizing: border-box;
 }

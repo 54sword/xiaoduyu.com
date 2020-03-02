@@ -39,6 +39,7 @@ export default function() {
         fields: `
           _id
           title
+          markdown
           content
           content_html
           topic_id{
@@ -46,21 +47,6 @@ export default function() {
             name
           }
         `
-        /*
-        filters: {
-          variables: { _id: posts_id },
-          select: `
-          _id
-          title
-          content
-          content_html
-          topic_id{
-            _id
-            name
-          }
-          `
-        }
-        */
       })(store.dispatch, store.getState);
 
       [ err, res ] = result;
@@ -81,11 +67,11 @@ export default function() {
     history.push(`/posts/${posts._id}`)
   }
   
-  if (loading) return <Loading />
+  if (loading) return <div className="text-center"><Loading /></div>
 
   return (<SingleColumns>
     {posts ?
-      <PostsEditor successCallback={successCallback} {...posts} /> :
+      <PostsEditor successCallback={successCallback} posts={posts} /> :
       <PostsEditor successCallback={successCallback} />}
   </SingleColumns>)
   

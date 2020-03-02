@@ -23,9 +23,10 @@ interface Props {
   reply_id: string,
   placeholder: string,
   successCallback: ()=>void,
-  getEditor: (editor: object)=>void,
+  getEditorController: (editor: object)=>void,
   // 转发
-  forward: boolean
+  forward: boolean,
+  displayController?: boolean
 }
 
 export default function({
@@ -35,13 +36,13 @@ export default function({
   reply_id = '',
   placeholder = '写评论...',
   successCallback = ()=>{},
-  getEditor = (editor)=>{},
-  forward = false
+  getEditorController = (editor)=>{},
+  forward = false,
+  displayController = true
 }: Props) {
 
   const [ controller, setController ] = useState(null);
   const [ contentHTML, setContentHTML ] = useState('');
-  // const [ submitting, setSubmitting ] = useState(false);
 
   const store = useStore();
   const _addComment = (args: object)=>addComment(args)(store.dispatch, store.getState);
@@ -63,35 +64,6 @@ export default function({
       return;
     }
 
-    /*
-    // 判断是否为空
-    let str = html.replace(/\s/ig,'');
-        html = html.replace(/<[^>]+>/g, '');
-        html = html.replace(/\r\n/g, ''); 
-        html = html.replace(/\n/g, '');
-        str = html.replace(/\&nbsp\;/ig,'');
-
-    if (!str) {
-      controller.focus();
-      resolve();
-      return;
-    }
-
-    if (html.indexOf('<img src="">') != -1) {
-
-      $.toast({
-        text: '有图片上传中，请等待上传完成后再提交',
-        position: 'top-center',
-        showHideTransition: 'slide',
-        icon: 'warning',
-        loader: false,
-        allowToastClose: false
-      });
-
-      return;
-    }
-    */
-
     let err, res;
 
     if (_id) {
@@ -100,7 +72,6 @@ export default function({
         content_html: contentHTML
       });
     } else {
-      
       [ err, res ] = await _addComment({
         posts_id: posts_id,
         parent_id: parent_id,
@@ -111,9 +82,9 @@ export default function({
     }
 
     if (!err) {
-      syncContent('');
+      onChange('');
       successCallback();
-      controller.clearContent();
+      controller.clear();
     } else if (err) {
 
       $.toast({
@@ -144,7 +115,7 @@ export default function({
     })
   }
 
-  const syncContent = async function(contentHTML: string) {
+  const onChange = async function(contentHTML: string) {
 
     setContentHTML(contentHTML);
 
@@ -157,10 +128,11 @@ export default function({
     storage.save({ key: 'comment-draft', data: commentsDraft });
   }
 
-  let onEditorLoad = async function(controller: any) {
-    let editComment =  '';
+  let _getEditorController = async function(controller: any) {
 
-    // console.log(_id);
+    getEditorController(controller);
+
+    let editComment =  '';
 
     // 编辑评论
     if (_id) {
@@ -189,9 +161,9 @@ export default function({
     } catch (err) {
       commentsDraft = {}
     }
-
-    controller.innterHTML(editComment || commentsDraft[reply_id || posts_id] || '')
-
+    
+    controller.insert(editComment || commentsDraft[reply_id || posts_id] || '');
+    
     setContentHTML(editComment || commentsDraft[reply_id || posts_id] || '');
 
     setController(controller);
@@ -199,26 +171,14 @@ export default function({
 
   return (<div>
     <div styleName="content">
-        <Editor
-          onChange={syncContent}
-          onSubmit={submit}
-          placeholder={placeholder}
-          onLoad={onEditorLoad}
-          />
+      <Editor
+        onChange={onChange}
+        onSubmit={submit}
+        placeholder={placeholder}
+        getEditorController={_getEditorController}
+        displayController={displayController}
+        />
     </div>
-    {/* <div styleName="footer" className="d-flex justify-content-between align-items-center">
-      <div>
-        {forward ?
-          <label className="m-0">
-            <input type="checkbox" ref={forwardRef} />
-            <span className="ml-1" data-toggle="tooltip" data-placement="top" title="同时转发给我的粉丝">转发</span>
-          </label>
-          : null}
-      </div>
-      <div>
-        <button onClick={submit} type="button" className="btn btn-block btn-primary rounded-pill btn-sm pl-3 pr-3">{submitting ? '提交中...' : '提交'}</button>
-      </div>
-    </div> */}
   </div>)
   
 }

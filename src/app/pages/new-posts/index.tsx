@@ -9,7 +9,7 @@ import SingleColumns from '@app/layout/single-columns';
 
 export default Shell(function() {
   return (<>
-    <Meta title={'创建话题'} />
+    <Meta title={'发帖'} />
     <SingleColumns>
       <CreatePosts />
     </SingleColumns>

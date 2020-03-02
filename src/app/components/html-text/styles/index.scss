@@ -3,9 +3,9 @@
   font-size: 14px;
 
   p{
-    margin:0px;
-    padding:0px;
-    min-height: 15px;
+    // margin:0px;
+    // padding:0px;
+    // min-height: 15px;
     word-wrap: break-word;
     word-break: normal;
   }
@@ -18,22 +18,25 @@
   
   img{
     max-height: 100%;
-    margin: 5px 0 5px 0;
+    // margin: 5px 0 5px 0;
     vertical-align: bottom;
+    background-color: transparent;
   }
 
   iframe[src^="//music.163.com"] {
     min-height: auto;
   }
 
-  pre{
-    line-height: 150%;
-    margin-top:15px;
-  }
+  // pre{
+    // line-height: 150%;
+    // margin-top:15px;
+    // margin:5px 0 5px 0;
+    // padding:0px;
+  // }
 
-  li > p{
-    margin-top:0px;
-  }
+  // li > p{
+  //   margin-top:0px;
+  // }
 
 }
 

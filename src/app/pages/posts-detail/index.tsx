@@ -48,6 +48,7 @@ const PostsDetail = function({ setNotFound }: any) {
   const _viewPostsById = (args: any)=>viewPostsById(args)(store.dispatch, store.getState);
   const _addHasRead = (args: any)=>addHasRead(args)(store.dispatch, store.getState);
 
+
   const componentDidMount = function() {
     // 如果已经存在 list，说明redux已经存在该帖子数据，则可以不重新请求
     if (!list || !list.data) {
@@ -64,7 +65,8 @@ const PostsDetail = function({ setNotFound }: any) {
           let total = posts.comment_count;
 
           _viewPostsById({ id: posts._id  });
-          _addHasRead({ postsId: posts._id, total })
+          _addHasRead({ postsId: posts._id, total });
+          
         } else {
           setNotFound('帖子不存在');
         }
@@ -82,7 +84,9 @@ const PostsDetail = function({ setNotFound }: any) {
     }
   }
 
-  useEffect(componentDidMount, [id]);
+  useEffect(()=>{
+    componentDidMount();
+  }, [id]);
 
   const { loading, data }: any = list || {};
   const posts = data && data[0] ? data[0] : null;
@@ -90,6 +94,7 @@ const PostsDetail = function({ setNotFound }: any) {
   if (loading || !posts) {
     return (<div className="text-center"><Loading /></div>);
   }
+
 
   return (
     <TwoColumns>

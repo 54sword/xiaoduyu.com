@@ -79,3 +79,10 @@ interface Window {
 }
 
 declare var window: Window;
+
+
+interface Document {
+  selection: any
+}
+
+declare var document: Document;

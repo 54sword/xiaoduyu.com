@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import useReactRouter from 'use-react-router';
 import Cookies from 'universal-cookie';
@@ -29,7 +29,7 @@ export default function() {
   const favoriteTip = useSelector((state: any) => getTipsById(state, 'favorite'));
   const interflowTip = useSelector((state: any) => getTipsById(state, 'home'));
   const tab = useSelector((state: any) => getTab(state)) || 'home';
-
+  const searchRef = useRef(null);
 
   const _saveTab = (params: string)=>saveTab(params)(store.dispatch, store.getState);
   const switchTab = function(_tab: string) {
@@ -68,6 +68,18 @@ export default function() {
     switchTab('home');
     signOut()(store.dispatch, store.getState);
   };
+
+  const onSubmitSearch = (e: any) => {
+
+    e.preventDefault();
+
+    let key = searchRef.current.value;
+
+    if (key) {
+      history.push(`/search?q=${key}`)
+    }
+
+  }
   
   type NavList = Array<{
     _id:string,
@@ -84,7 +96,7 @@ export default function() {
 
   if (me) {
     navList.push({ _id:'follow', name: '关注', subscript: followTip });
-    navList.push({ _id:'favorite', name: '收藏', subscript: favoriteTip });
+    // navList.push({ _id:'favorite', name: '收藏', subscript: favoriteTip });
   }
 
   const parentTopicList = useSelector((state: object)=>getTopicListById(state, 'parent-topics'));
@@ -94,10 +106,11 @@ export default function() {
       navList.push({ _id: item._id, topic_id: item._id, name: item.name, avatar: item.avatar })
     });
   }
-
+  
   navList.push({ _id:'live', name: '直播' });
   
   useEffect(()=>{
+
     const cookies = new Cookies();
     const _tab = cookies.get('tab') || 'home';
     _saveTab(_tab);
@@ -130,14 +143,15 @@ export default function() {
         <Link to="/" styleName="logo"></Link>
 
         {/* 当前话题 */}
-        <nav className="d-block d-lg-none" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {location.pathname == '/' ?
+        <nav className="d-block  d-md-none d-lg-none" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {navList.map(({ _id, topic_id, name, subscript })=>{
             if (tab === _id) {
               return (<a
                 key={_id}
                 href={topic_id ? `/topic/${topic_id}` : '/'}
                 styleName="nav-item"
-                className="text-dark"
+                className="text-secondary"
                 onClick={onClickTopicLink(_id)}
                 >
                   {name}
@@ -150,8 +164,10 @@ export default function() {
           })}
           
         </nav>
+        : null}
         
         {/* 话题菜单 */}
+        {location.pathname == '/' ?
         <div className="dropdown-menu dropdown-menu-left">
           {navList.map(({ _id, topic_id, name, subscript, avatar })=>{
             return (<a
@@ -165,9 +181,11 @@ export default function() {
               </a>)
           })}
         </div>
+        : null}
         
         {/* 话题导航 */}
-        <nav className="d-none d-lg-block">
+        {location.pathname == '/' ?
+        <nav className="d-none d-md-block d-lg-block">
           
           {navList.map(({ _id, topic_id, name, subscript })=>{
             return (<a
@@ -183,26 +201,52 @@ export default function() {
           })}
 
         </nav>
+        : null}
+
+        {/* {location.pathname != '/' &&
+        location.pathname != '/new-posts' &&
+        location.pathname != '/search' &&
+        location.pathname != '/notifications' &&
+        location.pathname != '/sessions' &&
+        location.pathname != '/favorite' ?
+        <div>
+          <span styleName="svg-icon" onClick={()=>{ window.history.back(); }}>
+            <svg><use xlinkHref="/feather-sprite.svg#chevron-left"/></svg>
+          </span>
+        </div>
+        : null} */}
+        
+        {location.pathname != '/' && location.pathname != '/search' ?
+          <form onSubmit={onSubmitSearch} className="d-none d-sm-done d-md-block d-lg-block" styleName="search">
+            <svg><use xlinkHref="/feather-sprite.svg#search"/></svg>
+            <input ref={searchRef} type="text" placeholder="搜索帖子、用户" />
+          </form>
+          : null}
         
         <div className="ml-auto d-flex justify-content-start">
           {me ?
           <>
-            <NavLink exact to="/new-posts" styleName="svg-icon" className="text-primary">
+            <NavLink exact to="/new-posts" styleName="svg-icon" className="text-secondary" title="发帖">
               <svg><use xlinkHref="/feather-sprite.svg#edit-3"/></svg>
             </NavLink>
 
-            <NavLink exact to="/search" styleName="svg-icon" className="text-secondary">
+            <NavLink exact to="/search" styleName="svg-icon" className="text-secondary" title="搜索">
               <svg><use xlinkHref="/feather-sprite.svg#search"/></svg>
             </NavLink>
 
-            <NavLink exact to="/notifications" styleName="svg-icon" className="text-secondary">
-              <svg><use xlinkHref="/feather-sprite.svg#bell"/></svg>
+            <NavLink exact to="/notifications" styleName="svg-icon" className="text-secondary" title="通知">
               {unreadNotice.length > 0 ? <span styleName="unread-subscript">{unreadNotice.length}</span> : null}
+              <svg><use xlinkHref="/feather-sprite.svg#bell"/></svg>
+            </NavLink>
+            
+            <NavLink exact to="/sessions" styleName="svg-icon" className="text-secondary" title="私信">
+              {unreadMessage > 0 ? <span styleName="unread-subscript">{unreadMessage}</span> : null}
+              <svg><use xlinkHref="/feather-sprite.svg#message-circle"/></svg>
             </NavLink>
 
-            <NavLink exact to="/sessions" styleName="svg-icon" className="text-secondary">
-              <svg><use xlinkHref="/feather-sprite.svg#message-circle"/></svg>
-              {unreadMessage > 0 ? <span styleName="unread-subscript">{unreadMessage}</span> : null}
+            <NavLink exact to="/favorite" styleName="svg-icon" className="text-secondary" title="收藏">
+              {favoriteTip ? <span styleName="red-point"></span> : null}
+              <svg><use xlinkHref="/feather-sprite.svg#bookmark"/></svg>
             </NavLink>
 
             <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" styleName="avatar" className="a" style={{backgroundImage:`url(${me.avatar_url})`}}></span>

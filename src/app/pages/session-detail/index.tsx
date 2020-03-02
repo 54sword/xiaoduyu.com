@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useReactRouter from 'use-react-router';
+import { Link } from 'react-router-dom';
 
 // redux
 import { useSelector, useStore } from 'react-redux';
@@ -46,13 +47,22 @@ export default Shell(function({ setNotFound }: any) {
     setLoading(false);
 
     setTimeout(()=>{
+      let containerHeight = $(window).height() - 70 - 250 - 36;
+      $('#content').css('height', containerHeight+'px');
+    }, 100);
+
+    setTimeout(()=>{
       var scrollHeight = $('#content').prop("scrollHeight");
-      $('#content').scrollTop(scrollHeight,200);
+      $('#content').scrollTop(scrollHeight,0);
     }, 500);   
 
   }
 
   useEffect(()=>{
+
+
+
+    // console.log($(window).height() - 70);
 
     if (list && list.data && list.data[0]) {
 
@@ -71,6 +81,8 @@ export default Shell(function({ setNotFound }: any) {
         if (res && res.data && res.data[0]) {
           if (run) run(res.data[0])
         }
+
+        
       })
 
     }
@@ -92,27 +104,34 @@ export default Shell(function({ setNotFound }: any) {
     {session ?
       <div className="card">
         <div className="card-header">
-          <div className="card-title">{session.user_id.nickname}</div>
+          <div className="row">
+            <div className="col-4">
+              <Link to="/sessions">返回</Link>
+            </div>
+            <div className="col-4 text-center">
+              {session.user_id.nickname}
+            </div>
+            <div className="col-4">
+            </div>
+          </div>
         </div>
         <div>
           
           <div id="content" styleName="message-container">
-
-          <MessageList
-            id={id}
-            query={{
-              user_id: session.user_id._id+','+session.addressee_id._id,
-              addressee_id: session.user_id._id+','+session.addressee_id._id,
-              sort_by: 'create_at:-1'
-            }}
-            />
+            <MessageList
+              id={id}
+              query={{
+                user_id: session.user_id._id+','+session.addressee_id._id,
+                addressee_id: session.user_id._id+','+session.addressee_id._id,
+                sort_by: 'create_at:-1'
+              }}
+              />
           </div>
 
-          {!loading && session.user_id._id ?                
-            <div className="border-top">
-              <Editor addressee_id={session.user_id._id} />
-            </div>
-          : null}
+          <div className="border-top">
+            <Editor addressee_id={session.user_id._id} />
+          </div>
+
           
         </div>
       </div>

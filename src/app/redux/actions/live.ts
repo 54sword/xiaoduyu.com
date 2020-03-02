@@ -44,3 +44,9 @@ export const removeAudienceCount = function(liveId: string) {
     dispatch({ type: 'REMOVE_AUDIENCE_BY_LIVE_ID', id: liveId })
   }
 }
+
+export const updateLiveState = function(liveId: string, audience_count: number, view_count: number) {
+  return (dispatch: any, getState: any) => {
+    dispatch({ type: 'UPDATE_LIVE_STATE_BY_LIVE_ID', id: liveId, audience_count, view_count })
+  }
+}

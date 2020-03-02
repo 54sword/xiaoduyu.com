@@ -5,6 +5,8 @@ type Actions = {
   name?: string
   data?: any
   id?: string
+  view_count?: string
+  audience_count?: string
 }
 
 type InitialState = {
@@ -23,13 +25,18 @@ export default (state = cloneObj(initialState), action: Actions) => {
       break;
 
     case 'ADD_AUDIENCE_BY_LIVE_ID':
-      console.log('+1');
       if (action.id) state[action.id].data[0].audience_count += 1;
       break;
 
     case 'REMOVE_AUDIENCE_BY_LIVE_ID':
-      console.log('-1');
       if (action.id) state[action.id].data[0].audience_count += -1;
+      break;
+
+    case 'UPDATE_LIVE_STATE_BY_LIVE_ID':
+      if (action.id) {
+        state[action.id].data[0].audience_count = action.audience_count;
+        state[action.id].data[0].view_count = action.view_count;
+      }
       break;
 
     case 'CLEAN':

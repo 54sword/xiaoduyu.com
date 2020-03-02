@@ -15,6 +15,7 @@ export default function() {
 
     $('#'+modalId).on('show.bs.modal', function (e: any) {
       setShow(true);
+      // console.log(e.relatedTarget);
       setComment(e.relatedTarget.comment || null);
       setPosts(e.relatedTarget.posts || null);
       setType(e.relatedTarget.type);
@@ -36,11 +37,11 @@ export default function() {
   let title = '回复';
 
   let params: any = {
-    displayControls: false,
+    // displayControls: false,
     successCallback: ()=>{
       $('#'+modalId).modal('hide');
     },
-    getEditor: (editor: any) => {
+    getEditorController: (editor: any) => {
       setTimeout(()=>editor.focus(), 500)
     }
   }
@@ -57,6 +58,8 @@ export default function() {
 
     } else {
 
+      title += ' '+comment.user_id.nickname;
+
       params = {
         ...params,
         id: comment._id,
@@ -70,6 +73,10 @@ export default function() {
   } else if (type == 'edit') {
     title = '编辑';
     params = { ...params, ...comment };
+  }
+
+  if (type == 'reply' || comment && comment.reply_id) {
+    params.displayController = false;
   }
 
   return (<Modal id={modalId} title={title} body={<Editor {...params} />} />)

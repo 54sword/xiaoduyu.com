@@ -89,14 +89,15 @@ const processPostsList = (list: Array<any>, store?: any, id?: string) => {
 
 interface AddPosts {
   title: string,
-  contentHTML: string,
+  content: string,
   topicId: string,
   device: number,
-  type: number
+  type: number,
+  markdown: boolean
 }
 
 // 添加问题
-export function addPosts({ title, contentHTML, topicId, device, type }: AddPosts) {
+export function addPosts({ title, content, topicId, device, type, markdown }: AddPosts) {
   return (dispatch: any, getState: any) => {
   return new Promise(async resolve => {
     
@@ -106,10 +107,12 @@ export function addPosts({ title, contentHTML, topicId, device, type }: AddPosts
         api: 'addPosts',
         args: {
           title: encodeURIComponent(title),
-          content_html: encodeURIComponent(contentHTML),
+          content: encodeURIComponent(content),
+          // content_html: encodeURIComponent(contentHTML),
           topic_id: topicId,
           device_id: device,
-          type
+          type,
+          markdown
         },
         fields: `
         success
@@ -278,16 +281,16 @@ export function viewPostsById({ id }: { id: string}) {
 interface UpdatePosts {
   id: string
   title: string
-  contentHTML: string
+  content: string
   topicId: string
 }
 
-export function updatePosts({ id, title, contentHTML, topicId }: UpdatePosts) {
+export function updatePosts({ id, title, content, topicId }: UpdatePosts) {
   return async (dispatch: any, getState: any) => {
   return new Promise(async (resolve, reject) => {
 
     let args: any = {
-      _id: id, title, content_html: encodeURIComponent(contentHTML), topic_id: topicId
+      _id: id, title, content: encodeURIComponent(content), topic_id: topicId
     }
     
     let [ err, res ] = await graphql({
@@ -312,12 +315,13 @@ export function updatePosts({ id, title, contentHTML, topicId }: UpdatePosts) {
       restart: true
     })(dispatch, getState)
     .then(([err, res]: any)=>{
-
+      
       let posts = res && res.data && res.data[0] ? res.data[0] : null;
 
       if (!posts) {
         resolve(res)
       } else {
+        posts.content = content;
         dispatch({ type: 'UPDATE_POST', id: id, update: posts });
       }
 

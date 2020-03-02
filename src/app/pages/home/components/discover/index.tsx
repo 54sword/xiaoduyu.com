@@ -81,7 +81,7 @@ const Discover = () => {
 
       <div>
 
-        {me ? <Link to="/new-posts" className="btn btn-primary btn-block" style={{marginBottom:'10px'}}>发布话题</Link> : <Slogan />}
+        {me ? <Link to="/new-posts" className="btn btn-primary btn-block" style={{marginBottom:'10px'}}>发帖</Link> : <Slogan />}
 
         <div className="card">
         <div className="card-header"><span className="card-title">推荐</span></div>

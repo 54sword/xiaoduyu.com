@@ -80,6 +80,13 @@ export default [
     })
   },
   {
+    path: '/favorite', ...base, enter: 'member',
+    body: Loadable({
+      loader: () => import('../pages/favorite'),
+      loading
+    })
+  },
+  {
     path: '/session/:id', ...base, enter: 'member',
     body: Loadable({
       loader: () => import('../pages/session-detail'),

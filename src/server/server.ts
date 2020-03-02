@@ -15,7 +15,9 @@ import { port, authCookieName } from '@config';
 import featureConfig from '@config/feature.config';
 import sign from './sign';
 import AMP from './amp';
+import manifest from './manifest';
 import './sitemap';
+
 
 // 渲染页面
 import render from './render';
@@ -80,6 +82,7 @@ app.use(function (req: any, res: any, next: any) {
   
 });
 
+app.use('/manifest.json', manifest);
 app.use('/sign', sign());
 app.use('/amp', AMP());
 app.get('*', async function (req: any, res: any) {

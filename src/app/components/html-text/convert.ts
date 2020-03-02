@@ -498,7 +498,7 @@ export default (html: string) => {
 
   if (!html) return '';
 
-  html = html.replace(/([\r\n])/g,"<br>");
+  // html = html.replace(/([\r\n])/g,"<br>");
 
   // html = trimHtml(html);
   html = music163(html);

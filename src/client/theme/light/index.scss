@@ -86,10 +86,10 @@ $color_border: #eff2f6;
   }
 
   .card{
-    border: 1px solid #e4e6e9;
+    // border: 1px solid #e4e6e9;
     // box-shadow: 0 1px 3px rgba(0,0,0,.03);
     // box-shadow: 0 1px 3px rgba(0,37,55,.03);
-    // border:1px solid #dddfe2;//#e4e6ea;
+    border:1px solid rgba(0,0,0,.1);//#e4e6ea;
 
     // background-color: #fefefe;
     // box-shadow: 0 1px 0 #e6e6e6;

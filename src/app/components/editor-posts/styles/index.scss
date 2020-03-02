@@ -100,6 +100,7 @@
 .choose-topic-button{
   display: block;
   width: 100%;
+  padding:0 5px 0 5px;
   height: 45px;
   line-height: 45px;
   text-align: center;
@@ -141,3 +142,11 @@
   height: 45px;
   border-radius: 5px;
 }
+
+.title-bar{
+  overflow:hidden;
+  width: 100%;
+}
+
+
+@import './response.scss';

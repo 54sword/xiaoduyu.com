@@ -1,12 +1,20 @@
 :global(#dark-theme) {
   .content{
     color:#e0e0e0;
+
     pre{
-      background-color: #111;
+      background-color: #222;
       color:#e0e0e0;
     }
-    h2{
-      border-bottom: 1px solid #3f3f3f;
+    h1, h2{
+      border-bottom: 1px solid #28262d;
+    }
+    table tr{
+      background-color: #222;
+      border-top:1px solid #333;
+    }
+    table td, table th{
+      border:1px solid #333;
     }
   }
 }

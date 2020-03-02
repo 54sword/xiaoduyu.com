@@ -22,6 +22,15 @@
   box-sizing: border-box;
 }
 
+.markdown-editor{
+  padding: 15px;
+  margin:0px;
+  outline:0px;
+  min-height:300px;
+  width:100%;
+  border:none;
+}
+
 .editor img{
   /*如果开启 display: block，会出现换行输入文字后，无法删除图片的问题*/
   /* display: block; */
@@ -69,4 +78,32 @@
     stroke-linejoin: round;
     fill: none;
   }
+}
+
+.eye{
+  line-height: 16px;
+  font-size: 14px;
+  > svg{
+    margin-top:-2px;
+    // float:left;
+    margin-right:5px;
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+}
+
+.repeat-icon{
+  margin-right:6px;
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }

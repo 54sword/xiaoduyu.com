@@ -21,10 +21,7 @@ interface Props {
   placeholder: string
 }
 
-export default function({
-  addressee_id = '',
-  placeholder = '写评论...'
-}: Props) {
+export default function({ addressee_id = '', placeholder = '写消息...'}: Props) {
 
   const [ controller, setController ] = useState(null);
   const [ contentHTML, setContentHTML ] = useState('');
@@ -35,75 +32,48 @@ export default function({
   const submit = async function() {
     return new Promise(async (resolve)=>{
 
-    let html = decodeURIComponent(contentHTML);
-    
-    html = html.replace(/<img(.*)>/g,"1");
-    html = html.replace(/<[^>]+>/g,"");
-    html = html.replace(/(^\s*)|(\s*$)/g, "");
-
-    if (!html) {
-      controller.focus();
-      resolve();
-      return;
-    }
-
-    /*
-    // 判断是否为空
-    let str = html.replace(/\s/ig,'');
-        html = html.replace(/<[^>]+>/g, '');
-        html = html.replace(/\r\n/g, ''); 
-        html = html.replace(/\n/g, '');
-        str = html.replace(/\&nbsp\;/ig,'');
-
-    if (!str) {
-      controller.focus();
-      resolve();
-      return;
-    }
-
-    if (html.indexOf('<img src="">') != -1) {
-      $.toast({
-        text: '有图片上传中，请等待上传完成后再提交',
-        position: 'top-center',
-        showHideTransition: 'slide',
-        icon: 'warning',
-        loader: false,
-        allowToastClose: false
-      });
-      return;
-    }
-    */
-
+      let html = decodeURIComponent(contentHTML);
       
-    let [ err, res ] = await _addMessage({
-        addressee_id: addressee_id,
-        type: 1,
-        content_html: contentHTML,
-        device: Device.getCurrentDeviceId()
-      });
+      html = html.replace(/<img(.*)>/g,"1");
+      html = html.replace(/<[^>]+>/g,"");
+      html = html.replace(/(^\s*)|(\s*$)/g, "");
 
-    if (!err) {
-      syncContent('');
-      controller.clearContent();
-    } else if (err) {
+      if (!html) {
+        controller.focus();
+        resolve();
+        return;
+      }
+        
+      let [ err, res ] = await _addMessage({
+          addressee_id: addressee_id,
+          type: 1,
+          content_html: contentHTML,
+          device: Device.getCurrentDeviceId()
+        });
 
-      $.toast({
-        text: err.message,
-        position: 'top-center',
-        showHideTransition: 'slide',
-        icon: 'error',
-        loader: false,
-        allowToastClose: false
-      });
-      
-    }
+      if (!err) {
+        console.log(controller);
+        onChange('');
+        controller.clear();
+      } else if (err) {
 
-    resolve()
+        $.toast({
+          text: err.message,
+          position: 'top-center',
+          showHideTransition: 'slide',
+          icon: 'error',
+          loader: false,
+          allowToastClose: false
+        });
+        
+      }
+
+      resolve()
 
     })
   }
 
-  const syncContent = async function(contentHTML: string) {
+  const onChange = async function(contentHTML: string) {
 
     setContentHTML(contentHTML);
 
@@ -116,7 +86,7 @@ export default function({
     storage.save({ key: 'comment-draft', data: commentsDraft });
   }
 
-  let onEditorLoad = async function(controller: any) {
+  let getEditorController = async function(controller: any) {
     let editComment =  '';
 
     // 从缓存中获取，评论草稿
@@ -128,22 +98,22 @@ export default function({
       commentsDraft = {}
     }
 
-    controller.innterHTML(editComment || commentsDraft[addressee_id] || '')
+    controller.insert(editComment || commentsDraft[addressee_id] || '')
 
     setContentHTML(editComment || commentsDraft[addressee_id] || '');
 
     setController(controller);
   }
 
-  return (
+  return (<div>
     <div styleName="content">
       <Editor
-        onChange={syncContent}
+        onChange={onChange}
         onSubmit={submit}
         placeholder={placeholder}
-        onLoad={onEditorLoad}
+        getEditorController={getEditorController}
         />
     </div>
-  )
+  </div>)
   
 }

@@ -7,10 +7,26 @@
     border-bottom:1px solid rgba(0,0,0,.5);
   }
 
-  .svg-icon{
-    &:hover{
-      background-color: #303030;
+  .search{
+    > svg{
+      stroke: #777;
+    }
+    > input{
+      background-color: #242424 !important;
     }
   }
+
+  // @supports (-webkit-backdrop-filter:blur(18px)) {
+  //   .header{
+  //     backdrop-filter: saturate(180%) blur(18px);
+  //     background-color: rgba(25,25,27,0.75);
+  //   }
+  // }
+  
+  // .svg-icon{
+  //   &:hover{
+  //     background-color: #303030;
+  //   }
+  // }
 
 }

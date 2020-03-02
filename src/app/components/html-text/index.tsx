@@ -7,7 +7,6 @@ import convertHTML from './convert';
 
 import hljs from 'highlight.js/lib/highlight';
 import javascript from 'highlight.js/lib/languages/javascript';
-// import 'highlight.js/styles/github.css';
 
 interface Props {
   content: string,
@@ -17,6 +16,7 @@ interface Props {
 
 export default function({ content, maxHeight }: Props) {
 
+  // console.log(content);
   if (!content) return null;
 
   const [ html, setHtml ] = useState(content);
@@ -26,6 +26,8 @@ export default function({ content, maxHeight }: Props) {
 
   useEffect(()=>{
 
+
+    // setHtml(content);
     setHtml(convertHTML(content));
 
     hljs.registerLanguage('javascript', javascript);

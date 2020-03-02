@@ -4,7 +4,7 @@ import { useSelector, useStore } from 'react-redux';
 import * as socket from '../../../../../client/socket';
 
 import { getUserInfo } from '@app/redux/reducers/user';
-import { addAudienceCount, removeAudienceCount } from '@app/redux/actions/live';
+import { addAudienceCount, removeAudienceCount, updateLiveState } from '@app/redux/actions/live';
 
 
 import './styles/index.scss';
@@ -84,11 +84,8 @@ export default function({ liveId }: { liveId: string }) {
     // 添加live监听
     socket.addListener(liveId, function(res: any){
 
-      if (res && res.type == 'add-audience') {
-        addAudienceCount(liveId)(store.dispatch, store.getState);
-        return;
-      } else if (res && res.type == 'remove-audience') {
-        removeAudienceCount(liveId)(store.dispatch, store.getState);
+      if (res && res.type == 'live-info') {
+        updateLiveState(liveId, res.audience_count, res.view_count)(store.dispatch, store.getState);
         return;
       }
 
