@@ -96,7 +96,6 @@ export default function() {
 
   if (me) {
     navList.push({ _id:'follow', name: '关注', subscript: followTip });
-    // navList.push({ _id:'favorite', name: '收藏', subscript: favoriteTip });
   }
 
   const parentTopicList = useSelector((state: object)=>getTopicListById(state, 'parent-topics'));
@@ -132,6 +131,13 @@ export default function() {
     
   }, []);
 
+  // 导航话题是否存在角标
+  let haveNavSubscript = false;
+
+  navList.map(({ subscript })=>{
+    if (subscript) haveNavSubscript = subscript;
+  });
+
   return (
     <>
     <div styleName="header-space"></div>
@@ -145,7 +151,7 @@ export default function() {
         {/* 当前话题 */}
         {location.pathname == '/' ?
         <nav className="d-block  d-md-none d-lg-none" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {navList.map(({ _id, topic_id, name, subscript })=>{
+          {navList.map(({ _id, topic_id, name })=>{
             if (tab === _id) {
               return (<a
                 key={_id}
@@ -155,10 +161,12 @@ export default function() {
                 onClick={onClickTopicLink(_id)}
                 >
                   {name}
-                  {subscript ? <span styleName="subscript"></span> : null}
-                  <div styleName="arrow">
-                    <svg><use xlinkHref="/feather-sprite.svg#chevron-down"/></svg>
-                  </div>
+                  {haveNavSubscript ?
+                    <span styleName="subscript"></span>
+                    :
+                    <div styleName="arrow">
+                      <svg><use xlinkHref="/feather-sprite.svg#chevron-down"/></svg>
+                    </div>}
                 </a>)
             }
           })}
