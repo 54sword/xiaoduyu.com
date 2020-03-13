@@ -83,7 +83,7 @@
     "@babel/preset-typescript": "^7.6.0",
     "@testing-library/react": "^8.0.9",
     "@types/jest": "^24.0.20",
-    "acorn": "^6.3.0",
+    "acorn": "^6.4.1",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.6",
