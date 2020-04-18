@@ -76,6 +76,7 @@ interface Window {
   inAppShell: any
   clipboardData: any
   getSelection?: any
+  slotbydup: any
 }
 
 declare var window: Window;

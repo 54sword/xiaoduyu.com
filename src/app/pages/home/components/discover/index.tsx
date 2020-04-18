@@ -23,10 +23,12 @@ import ADPC from '@app/components/ads/pc';
 import PostsList from '@app/components/posts-list';
 import NewTips from '@app/components/posts-list/components/new-tips';
 
+import LiveNow from '@app/components/live/now';
+
 import '../topic/styles/index.scss';
 
 const Discover = () => {
-
+  
   const store = useStore();
   const me = useSelector((state: object)=>getUserInfo(state));
   const topicList = useSelector((state: object)=>getTopicListById(state, 'discover-topics'));
@@ -52,6 +54,9 @@ const Discover = () => {
 
       <div>
         <NewTips topicId="home" />
+
+        <LiveNow />
+
         <div className="card">
         <div className="card-header">
           {/* <span className="card-title">发现</span> */}

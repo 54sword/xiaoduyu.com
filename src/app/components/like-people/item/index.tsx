@@ -7,10 +7,12 @@ export default function({ data, index }: any) {
 
   useEffect(()=>{
 
-    $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
+    $('[data-toggle="tooltip"]').tooltip()
 
+    return () => {
+      $('[data-toggle="tooltip"]').tooltip('hide');
+    }
+    
   }, []);
 
   let _index = 30 - index;

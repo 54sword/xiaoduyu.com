@@ -2,7 +2,7 @@ var exec = require('child_process').exec;
 var config = require('../config/server.config.js');
 
 function execute(cmd) {
-  console.log('正在执行安装操作，请勿关闭（安装需花费一些时间，请耐心代码）...');
+  console.log('正在执行安装操作，请勿关闭（安装需花费一些时间，请耐心等待）...');
   console.log(cmd);
   exec(cmd, {maxBuffer: 1024 * 1024 * 500}, function(error, stdout, stderr) {    
     if (error) {

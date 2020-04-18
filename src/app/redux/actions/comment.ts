@@ -155,8 +155,8 @@ export function addComment({ posts_id, parent_id = '', reply_id = '', contentHTM
       let newComment = res.data[0];
 
       for (let i in commentState) {
-        // 添加评论
-        if (i == posts_id ) {
+        // 评论中添加新评论与新回复
+        if (i == posts_id) {
           if (!newComment.parent_id) {
             // 评论
             commentState[i].data.push(newComment);
@@ -164,31 +164,55 @@ export function addComment({ posts_id, parent_id = '', reply_id = '', contentHTM
             // 回复
             commentState[i].data.map((item: any)=>{
               if (item._id == newComment.parent_id) {
+                item.reply_count += 1;
                 item.reply.push(newComment);
               }
             })
           }
-        } else if (i == parent_id) {
+        }
+        
+        // 回复中添加新回复
+        if (parent_id && i == parent_id) {
+          
           commentState[i].data.push(newComment);
+
+          // 如果存在单挑
+          if (commentState['detail_'+parent_id]) {
+            commentState['detail_'+parent_id].data[0].reply_count += 1;
+          }
+
+          if (commentState[posts_id]) {
+            commentState[posts_id].data.map((item: any)=>{
+              if (item._id == parent_id) {
+                item.reply_count += 1;
+                item.reply.push(newComment);
+              }
+            })
+          }
+
         }
       }
 
-      dispatch({ type: 'SET_COMMENT', state: commentState });
-
-
       // 如果是评论，那么对该评论的帖子，评论累计数+1
-      if (!parent_id) {
+      // if (!parent_id) {
 
+      // 更新posts
         for (let i in postsState) {
           postsState[i].data.map((posts: any)=>{
-            if (posts._id == posts_id) {
+            // 如果是评论，那么对该评论的帖子，评论累计数+1
+            if (posts._id == posts_id && parent_id) {
               posts.comment_count = posts.comment_count ? posts.comment_count + 1 : 1;
+            } else {
+              posts.reply_count = posts.reply_count ? posts.reply_count + 1 : 1;
             }
           });
         }
 
-        dispatch({ type: 'SET_POSTS', state: postsState });
-      }
+        
+      // }
+
+      dispatch({ type: 'SET_POSTS', state: postsState });
+      dispatch({ type: 'SET_COMMENT', state: commentState });
 
     });
 

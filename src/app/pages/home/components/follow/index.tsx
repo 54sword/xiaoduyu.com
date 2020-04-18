@@ -9,9 +9,13 @@ import FeedNewTips from '@app/components/feed-list/components/new-tips';
 import PostsList from '@app/components/posts-list';
 import ADPC from '@app/components/ads/pc';
 
+import LiveNow from '@app/components/live/now';
+
 export default () => {
   return (<TwoColumns>
     <div>
+
+      <LiveNow />
       
       <div className="card">
         <div className="card-header">

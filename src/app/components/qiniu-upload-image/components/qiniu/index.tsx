@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import fetch from "node-fetch";
+import UUID from 'uuidjs';
+
+
+
+// console.log(UUID.toString());
+// console.log(UUID.generate());
+
+
+// ce0b57f9dcd84f11bfeb3cc5f2782984
 
 import config from '@config/index'
 
@@ -13,6 +22,58 @@ interface Props {
   accept?: string,
   multiple?: boolean,
   onUpload?: (file: any)=>any
+}
+
+
+const upload = function(file: any, token: string) {
+
+  console.log(file);
+
+  if (!file || file.size === 0) return null;
+
+  var uuid = UUID.parse(UUID.generate());
+  // console.log(uuid.hexNoDelim);
+
+  let key = uuid.hexNoDelim;
+
+  if (file.name && file.name.split('.').pop()) {
+    key += '.' + file.name.split('.').pop();
+  }
+
+  // console.log(key);
+
+  // const key = file.preview.split('/').pop() + '.' + file.name.split('.').pop();
+
+  return new Promise(resolve=>{
+
+    // const input = document.querySelector('input[type="file"]');
+    const data = new FormData();
+    data.append('file', file);
+    data.append('token', token);
+    data.append('key', key);
+    data.append('x:filename', file.name);
+    data.append('x:size', file.size);
+
+    let uploadUrl = config.qiniu.uploadUrl.http;
+
+    if (window.location.protocol === 'https:') {
+      uploadUrl = config.qiniu.uploadUrl.https;
+    }
+    
+    // console.log(uploadUrl);
+    fetch(uploadUrl, {
+      method: 'POST',
+      body: data
+    })
+    .then((data: any)=>{
+      resolve(data)
+    })
+    .catch((error: any)=>{
+      resolve(error)
+    });
+
+  });
+
 }
 
 export default function({
@@ -32,6 +93,7 @@ export default function({
     }
   }, []);
 
+  /*
   const upload = function(file: any) {
 
     if (!file || file.size === 0) return null;
@@ -62,6 +124,7 @@ export default function({
     });
 
   }
+  */
 
   const onChange = function(e: any) {
 
@@ -81,7 +144,7 @@ export default function({
     for (var i = 0; i < maxFiles; i++) {
       files[i].preview = URL.createObjectURL(files[i]);
       files[i].upload = ((file)=>{
-        return () => upload(file)
+        return () => upload(file, token)
       })(files[i]);
 
       arr.push(files[i]);
@@ -92,3 +155,5 @@ export default function({
 
   return (<span styleName="file">{text}<input className="a" type="file" accept={accept} multiple={multiple} onChange={onChange} /></span>)
 }
+
+export const uploadFile = upload;

@@ -6,6 +6,10 @@ import Modal from '@app/components/bootstrap/modal';
 import HTMlText from '@app/components/html-text';
 import showdown from 'showdown';
 
+import { useStore } from 'react-redux';
+import { getQiNiuToken } from '@app/redux/actions/qiniu';
+import { uploadFile } from '@app/components/qiniu-upload-image/components/qiniu';
+
 import './styles/index.scss';
 
 // 光标插入text和html的一些方法
@@ -33,6 +37,8 @@ interface Props {
   displayController?: boolean
 }
 
+let token: string, url: string;
+
 export default ({
   onChange = () => { },
   onSubmit,
@@ -52,6 +58,12 @@ export default ({
   const [submitting, setSubmitting] = useState(false);
   const [ isMarkdown, setMarkdown ] = useState(markdown);
   const [ preview, setPreview ] = useState('');
+
+  // const [ url, setUrl ] = useState('');
+  // const [ token, setToken ] = useState('');
+
+  const store = useStore();
+  const _getQiNiuToken = () => getQiNiuToken()(store.dispatch, store.getState);
 
   const getEditorContent = () => {
     return editorRef.current[isMarkdown ? 'value' : 'innerHTML'];
@@ -116,7 +128,7 @@ export default ({
     //   console.log(content)
     // })
 
-    editorRef.current.addEventListener("paste", function (e: any) {
+    editorRef.current.addEventListener("paste",  (e: any) => {
 
       var content;
       e.preventDefault();
@@ -127,14 +139,76 @@ export default ({
       }
 
       //兼容写法，优先取 files
+      /*
       if (clipboardData.files && clipboardData.files.length > 0) {
         // mapFile(clipboardData.files);
-        // return ;
+        // console.log(clipboardData.files);
+
+        console.log(clipboardData.files[0].getAsFile());
+        // uploadFile(clipboardData.files[0], token)
+        // .then(res=>{
+        //   console.log(res);
+        // })
+        // .catch(err=>{
+        //   console.log(err);
+        // })
+        return;
       }
+      */
 
       if (clipboardData.items && clipboardData.items.length > 0) {
-        // mapFile(clipboardData.items);
-        // return ;
+
+        const upload = (file: any) => {
+
+          var myToast = $.toast({
+            text: '图片上传中...',
+            position: 'top-center',
+            showHideTransition: 'slide',
+            loader: false,
+            allowToastClose: false,
+            hideAfter: false
+          });
+
+          uploadFile(file, token)
+          .then((res: any)=>{
+            res.text().then((res: any)=>{
+              res = JSON.parse(res);
+              insertImage(url+'/'+res.key);
+            });
+            myToast.reset();
+          })
+          .catch((err: any)=>{
+
+            myToast.reset();
+
+            $.toast({
+              text: '图片上传失败',
+              position: 'top-center',
+              showHideTransition: 'slide',
+              icon: 'error',
+              loader: false,
+              allowToastClose: false
+            });
+          });
+
+        }
+
+        const items = clipboardData.items;
+        var file = null;
+        if (items && items.length) {
+            // 检索剪切板items
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    file = items[i].getAsFile();
+                    if (file) upload(file);
+                    break;
+                }
+            }
+        }
+
+        if (file) return;
+
+        // return;
       }
 
       content = clipboardData.getData('text/plain');
@@ -180,7 +254,7 @@ export default ({
   const previewMarkdown = () => {
     
     const converter = new showdown.Converter();
-    // converter.setOption('tables', true);
+    converter.setOption('tables', true);
     converter.setOption("simpleLineBreaks", true);
 
     setPreview(converter.makeHtml(getEditorContent()));
@@ -191,6 +265,19 @@ export default ({
   useEffect(() => {
     onMount();
     onInit();
+
+    if (token) return;
+
+    _getQiNiuToken().then(([err, res]: any)=>{
+      if (res) {
+
+        token = res.token;
+        url = res.url;
+        // setToken(res.token);
+        // setUrl(res.url);
+      }
+    });
+    
   }, []);
 
   return (<>

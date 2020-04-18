@@ -4,7 +4,8 @@ import React from 'react';
 import { googleAdSense } from '@config';
 
 // modules
-import AdsByGoogle from '../adsbygoogle';
+import Google from '../adsbygoogle';
+import Baidu from '../baidu';
 
 interface Props {
   width?: string
@@ -13,7 +14,7 @@ interface Props {
 
 export default function({ width, height }: Props) {
 
-  if (!googleAdSense || !googleAdSense.client || !googleAdSense.slot || !googleAdSense.slot.pc) return null;
+  // if (!googleAdSense || !googleAdSense.client || !googleAdSense.slot || !googleAdSense.slot.pc) return null;
 
   let style = {
     display:'inline-block',
@@ -23,14 +24,15 @@ export default function({ width, height }: Props) {
   
   let props = {
     style,
-    'data-ad-client': googleAdSense.client,
-    'data-ad-slot': googleAdSense.slot.pc
+    // 'data-ad-client': googleAdSense.client,
+    // 'data-ad-slot': googleAdSense.slot.pc
   }
   
   return (<div>
     <div className="card">
       <div className="card-body" style={{padding:'19px'}}>
-      <AdsByGoogle {...props} />
+        {/* <Google {...props} /> */}
+        <Baidu {...props} />
       </div>
     </div>
   </div>)

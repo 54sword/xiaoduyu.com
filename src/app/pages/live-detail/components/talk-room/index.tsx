@@ -123,8 +123,8 @@ export default function({ liveId }: { liveId: string }) {
     
     if (value) {
 
-      if (value.length > 60) {
-        alert('发言内容，最多30个字符');
+      if (value.length > 90) {
+        alert('发言内容，最多90个字符');
         return;
       }
 
@@ -148,16 +148,17 @@ export default function({ liveId }: { liveId: string }) {
 
         switch (item.type) {
           case 'text':
-            content = (<>
-              {item.user ? <span>
+            content = (<div styleName="message">
+              {item.user ? <>
                 <img styleName="avatar" src={item.user.avatar_url} />
-                <Link to={`/people/${item.user._id}`} className="text-primary">{item.user.nickname}</Link>: </span>
+                <Link to={`/people/${item.user._id}`} className="text-primary">{item.user.nickname}</Link>
+                </>
                 : null}
-              {item.text}
-            </>);
+              <div>{item.text}</div>
+            </div>);
             break;
           case 'welcome':
-            content = `欢迎 ${item.user ? item.user.nickname : '未知'} 加入直播间！`;
+            content = `欢迎 ${item.user ? item.user.nickname : '未知'} 进入直播间！`;
             break;
           case 'notice':
             content = <div className="text-danger">{item.text}</div>
@@ -168,10 +169,10 @@ export default function({ liveId }: { liveId: string }) {
       })}
 
     </div>
-
+      
     {me ?
         <form styleName="chat-footer" className="border-top" onSubmit={onSubmit}>
-          <input type='text' styleName='input' ref={inputRef} />
+          <input type='text' styleName='input' ref={inputRef} maxLength={90} />
           <button className="btn btn-primary rounded-0" styleName='submit'>发送</button>
         </form>
         : 

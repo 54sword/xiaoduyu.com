@@ -1,0 +1,55 @@
+.container{
+  width: auto;
+}
+
+.green-point{
+  padding-left:15px;
+  &:before{
+    content: '';
+    position: absolute;
+    margin:6px 0 0 -15px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #18d621;
+  }
+}
+
+.item{
+  display: block;
+  padding: 13px 20px 13px 90px;
+
+  &:hover{
+    background-color: #f9fafc;
+    text-decoration: none;
+  }
+
+  .avatar{
+    float:left;
+    margin-left: -70px;
+    width:50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  .nickname{
+    font-size: 12px;
+  }
+  .title{
+    font-size: 15px;
+  }
+  .info{
+    font-size:12px;
+
+    small:after {
+      display: inline-block;
+      content: "\B7";
+      margin: 0 6px;
+      color: #cccccc;
+    }
+    small:last-child:after{
+      display: none;
+    }
+  }
+}
+
+@import 'response', 'dark';

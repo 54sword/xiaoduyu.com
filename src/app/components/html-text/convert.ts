@@ -173,7 +173,7 @@ function bilibili(html: string) {
       } catch(err) {
         console.log(err);
       }
-      
+
       if (id) {
         let url = `//player.bilibili.com/player.html?aid=${id}`;
         html = html.replace(str, `<iframe src="${url}" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>`)
@@ -304,7 +304,7 @@ const link = (str: any) => {
   if (!str) return '';
 
   str = str.replace('&nbsp;', ' ');
-
+  
   let imgReg = /(<a(.*?)>(.*?)<\/a>|<img(.*?)>|<ifram(.*?)>)/gi;
 
   let aList:Array<any> = [];
@@ -392,29 +392,29 @@ const link = (str: any) => {
 
 const image = (html: any) => {
 
-
   let imgReg = /\<img(.*?)>/g;
-  // let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-  // let result:Array<string> = [];
-
   let imgs = html.match(imgReg);
-
-  // // 图片处理
-  // let re = /\<img src\=\"(.*?)\"\>/g;
-
-  // let imgs = html.match(re);
-
-  // console.log(imgs);
-
-  // 获取页面中所有的图片
   let allImage: any = abstractImagesFromHTML(html);
 
   allImage.map((item: any,index: number)=>{
     allImage[index] = item.split('?')[0];
   });
+
   allImage = "['"+allImage.join("','")+"']";
 
   if (imgs && imgs.length > 0) {
+
+    let aList: Array<{id:string,value:string}> = [];
+
+    imgs.map((item: any)=>{
+      let id = '#'+randomString(18)+'#';
+      aList.push({
+        id,
+        value: item
+      });
+
+      html = html.replace(item, id);
+    });
 
     imgs.map((img: string, index: number)=>{
 
@@ -422,16 +422,12 @@ const image = (html: any) => {
 
       // 如果url中包含“?”,需要将其转译成字符串
       _img = _img.replace(/\?/g, "\\?");
-
-      // img = encodeURIComponent(img);
-
-      html = html.replace(new RegExp(_img,"gm"), '<span onclick=\"webPictureViewer('+allImage+','+index+');\">'+img+'</span>');
-      // html = html.replace(new RegExp(_img,"gm"), '<div onclick=\"webPictureViewer('+allImage+','+index+');\" class=\"load-demand\" data-load-demand=\''+img+'\'></div>');
+      
+      html = html.replace(aList[index].id, '<span onclick=\"webPictureViewer('+allImage+','+index+');\">'+img+'</span>');
     })
   }
 
   return html;
-
 }
 
 // 修剪整理html

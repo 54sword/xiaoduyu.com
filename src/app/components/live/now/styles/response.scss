@@ -1,0 +1,18 @@
+
+@media (min-width: 0px) and (max-width: 576px) {
+  .container{
+    margin:10px 0 10px 0;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 450px) {
+  .item{
+    padding:10px 15px 10px 70px;
+  
+    .avatar{
+      margin-left: -55px;
+      width: 45px;
+      height: 45px;
+    }
+  }
+}

@@ -124,7 +124,7 @@ const PostsDetail = function({ setNotFound }: any) {
           <div>{posts.comment_count}条评论{posts.reply_count ? ` / ${posts.reply_count}条回复` : ''}</div>
           : <div className="text-center">暂无评论</div>}
         </div>
-        {posts.comment_count > 0 ?
+        {/* {posts.comment_count > 0 ? */}
           <div className="card-body p-0">
             <CommentList
               id={posts._id}
@@ -141,7 +141,7 @@ const PostsDetail = function({ setNotFound }: any) {
               postsAuthorId={posts.user_id._id}
               />
           </div>
-          : null}
+          {/* : null} */}
       </div>
 
       {_isMember ?

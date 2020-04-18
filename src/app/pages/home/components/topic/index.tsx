@@ -8,6 +8,8 @@ import TwoColumns from '@app/layout/two-columns';
 import ADPC from '@app/components/ads/pc';
 import PostsList from '@app/components/posts-list';
 
+import LiveNow from '@app/components/live/now';
+
 // styles
 import './styles/index.scss';
 
@@ -24,6 +26,8 @@ export default ({ topic }: any) => {
 
   return (<TwoColumns>
     <div>
+
+      <LiveNow />
       
       <div className="card">
         <div className="card-header">

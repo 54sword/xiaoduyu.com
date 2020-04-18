@@ -7,9 +7,16 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.message{
+  margin-top:10px;
+  padding-left:40px;
+}
+
 .avatar{
+  float:left;
   width: 30px;
   height: 30px;
+  margin-left:-40px;
   border-radius: 50%;
   margin-right: 5px;
 }
@@ -19,6 +26,7 @@
   padding: 0 60px 0 10px;
   height: 40px;
   border:none;
+  outline: none;
 }
 
 .submit{
