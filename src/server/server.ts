@@ -14,6 +14,7 @@ import helmet from 'helmet';
 import { port, authCookieName } from '@config';
 import featureConfig from '@config/feature.config';
 import sign from './sign';
+import feed from './feed';
 import AMP from './amp';
 import manifest from './manifest';
 import './sitemap';
@@ -52,7 +53,14 @@ app.use(function (req: any, res: any, next: any) {
   // 如果是游客，则优先使用缓存中的数据
   if (!req.cookies[authCookieName]) {
     let _cache = cache.get(req.originalUrl);
+
     if (_cache) {
+
+      // 如果是rss订阅，设置content type
+      if (req.originalUrl.indexOf('/feed/') == 0) {
+        res.set('Content-Type', 'application/rss+xml');
+      }
+
       res.send(_cache);
       return;
     }
@@ -84,6 +92,7 @@ app.use(function (req: any, res: any, next: any) {
 
 app.use('/manifest.json', manifest);
 app.use('/sign', sign());
+app.use('/feed', feed());
 app.use('/amp', AMP());
 app.get('*', async function (req: any, res: any) {
 

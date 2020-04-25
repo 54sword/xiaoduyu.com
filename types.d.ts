@@ -39,6 +39,7 @@ declare module 'morgan'
 declare module 'draft-js'
 declare module 'sitemap'
 declare module 'sunrise-sunset-js'
+declare module 'rss'
 
 // 忽略别名
 declare module '@config'

@@ -41,7 +41,6 @@ import { Provider } from 'react-redux';
 import { matchPath } from 'react-router';
 import ReactGA from 'react-ga';
 import './service-worker';
-// import serviceWorker from './service-worker';
 
 import configureStore from '@app/redux';
 import createRouter from '@app/router';
@@ -59,8 +58,6 @@ import { initHasRead } from '@app/redux/actions/has-read-posts';
 import theme from './theme';
 
 import initData from '@app/init-data';
-
-// serviceWorker.install();
 
 (async function(){
 

@@ -86,7 +86,6 @@ const run = async function() {
   createSitemap(`index.xml`, urls);
 
   loadData(1);
-
 }
 
 let start = function(){

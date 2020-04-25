@@ -47,6 +47,8 @@ const Home = () => {
       <meta property="og:image" content={domainName+'/512x512.png'} />
       <meta property="og:image:width" content="512" />
       <meta property="og:image:height" content="512" />
+      <link rel="alternate" type="application/rss+xml" title={`${name} RSS 2.0`} href={`${domainName}/feed/`} />
+      <link rel="alternate" type="application/atom+xml" title={`${name} Atom 1.0`} href={`${domainName}/feed/atom/`} />
     </Meta>
 
     {(()=>{

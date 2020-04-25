@@ -38,7 +38,7 @@ let config = {
 }
 
 if (mainConfig.debug) {
-  config.cache = 0;
+  // config.cache = 0;
   // config.debug = true;
   // config.logs = false;
   // config.apiLog = true;
