@@ -92,5 +92,11 @@ cp config/server.default.config.js config/server.config.js
 npm run upload-to-qiniu
 ```
 
+## eslint prettier 自动修改 错误和格式
+```
+npm run lint
+
+```
+```
 ## 开源协议
 MIT
