@@ -31,7 +31,7 @@
     "draft-js": "^0.11.1",
     "draft-js-export-html": "^1.4.1",
     "ejs": "^2.7.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "github-markdown-css": "^2.10.0",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
